@@ -1,0 +1,10 @@
+import 'package:flutter/material.dart';
+
+class AppTheme {
+  //цвета с макета
+  static const turquoiseBlue = Color(0xFF60D7E2);
+  static const sulu = Color(0xFFC5F663);
+  static const mineShaft = Color(0xFF2D2D2D);
+  static const mystic = Color(0xFFECF1F3);
+  static const grey = Color(0xFF797B7C);
+}
