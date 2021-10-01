@@ -8,14 +8,15 @@ class OfferWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppTheme.sulu, borderRadius: BorderRadius.circular(5)),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.close)),
-          Padding(
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AppTheme.sulu,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
             padding: const EdgeInsets.only(
                 top: 16,
                 right: StaticData.sidePadding,
@@ -50,16 +51,34 @@ class OfferWidget extends StatelessWidget {
                     const SizedBox(
                       width: 45,
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Image.asset('assets/banner-icon.png'))
+                    InkWell(
+                      onTap: () {},
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/banner-icon.png',
+                            height: 60,
+                          ),
+                          const Positioned(
+                            child: Icon(Icons.arrow_forward_sharp),
+                            right: 10,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 )
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.close),
+          splashRadius: 5,
+        ),
+      ],
     );
   }
 }

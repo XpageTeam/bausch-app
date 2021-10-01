@@ -1,3 +1,4 @@
+import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/models/story_model.dart';
 
 class Models {
@@ -9,5 +10,18 @@ class Models {
         img: 'assets/pic2.png'),
     StoryModel(number: 6, title: 'С заботой о себе', img: 'assets/pic3.png'),
     StoryModel(number: 6, title: 'С заботой о себе', img: 'assets/pic3.png'),
+  ];
+
+  static List<CatalogItemModel> items = [
+    CatalogItemModel(
+        name: 'Раствор Biotrue универсальный(300 мл)',
+        price: '1300',
+        img: 'assets/items/item1.png'),
+    CatalogItemModel(
+        name: 'Biotrue one day (30 линз в упаковке)',
+        price: '600',
+        img: 'assets/items/item2.png'),
+    CatalogItemModel(
+        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
   ];
 }

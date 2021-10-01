@@ -1,5 +1,6 @@
-import 'package:bausch/sections/home/interesting_item.dart';
+import 'package:bausch/sections/home/catalog_item.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,16 @@ class MayBeInteresting extends StatelessWidget {
           clipBehavior: Clip.none,
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [InterestingItem(), InterestingItem(), InterestingItem()],
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                CatalogItem(
+                  model: Models.items[0],
+                ),
+                CatalogItem(model: Models.items[1]),
+                CatalogItem(model: Models.items[2])
+              ],
+            ),
           ),
         )
       ],
