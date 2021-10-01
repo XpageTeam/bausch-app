@@ -1,5 +1,5 @@
-import 'package:bausch/sections/home/small_container.dart';
-import 'package:bausch/sections/home/wide_container.dart';
+import 'package:bausch/sections/home/widgets/small_container.dart';
+import 'package:bausch/sections/home/widgets/wide_container.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
