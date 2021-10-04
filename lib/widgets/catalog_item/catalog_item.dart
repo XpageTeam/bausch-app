@@ -4,6 +4,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 
 class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
@@ -12,7 +13,7 @@ class CatalogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 4),
+      padding: const EdgeInsets.only(bottom: 2),
       child: Container(
         padding: const EdgeInsets.all(12),
         width:
@@ -38,10 +39,11 @@ class CatalogItem extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                Text(
+                AutoSizeText(
                   model.name,
                   style: AppStyles.p1,
                   textAlign: TextAlign.center,
+                  maxLines: 3,
                 ),
                 const SizedBox(
                   height: 16,

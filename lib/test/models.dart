@@ -23,5 +23,9 @@ class Models {
         img: 'assets/items/item2.png'),
     CatalogItemModel(
         name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+    CatalogItemModel(
+        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+    CatalogItemModel(
+        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
   ];
 }
