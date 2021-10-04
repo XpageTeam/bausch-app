@@ -15,6 +15,13 @@ class AppStyles {
     height: 20 / 17,
   );
 
+  static const h3White = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w500,
+    fontSize: 17,
+    height: 20 / 17,
+  );
+
   static const h4 = TextStyle(
     color: Color(0xFF2D2D2D),
     fontWeight: FontWeight.normal,

@@ -1,104 +1,244 @@
-import 'package:bausch/sections/stories/story_items/story_item_image.dart';
+import 'package:bausch/sections/stories/stories_buttons.dart';
+import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:story_view/story_view.dart';
+import '../../models/story_model.dart';
+
+//тут ничего почти не менял,добавил методы _onLongPressStart , _onLongPressEnd
+//откуда всё взял: https://github.com/MarcusNg/flutter_instagram_stories
 
 class StoriesScreen extends StatefulWidget {
-  const StoriesScreen({Key? key}) : super(key: key);
+  final List<Story> stories;
+  const StoriesScreen({required this.stories, Key? key}) : super(key: key);
 
   @override
   State<StoriesScreen> createState() => _StoriesScreenState();
 }
 
-class _StoriesScreenState extends State<StoriesScreen> {
-  final controller = StoryController();
+class _StoriesScreenState extends State<StoriesScreen>
+    with SingleTickerProviderStateMixin {
+  late PageController _pageController;
+  late AnimationController _animController;
+  late VideoPlayerController _videoPlayerController;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _animController = AnimationController(vsync: this);
+    _videoPlayerController = VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+
+    final Story firstStory = widget.stories.first;
+    _loadStory(story: firstStory, animateToPage: false);
+
+    _animController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animController.stop();
+        _animController.reset();
+        setState(() {
+          if (_currentIndex + 1 < widget.stories.length) {
+            _currentIndex += 1;
+            _loadStory(story: widget.stories[_currentIndex]);
+          } else {
+            // Out of bounds - loop story
+            // You can also Navigator.of(context).pop() here
+            _currentIndex = 0;
+            _loadStory(story: widget.stories[_currentIndex]);
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _animController.dispose();
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final Story story = widget.stories[_currentIndex];
     return Scaffold(
-      body: Stack(
-        children: [
-          StoryView(
-              inline: true,
-              storyItems: [
-                StoryItem(
-                  ImageStoryItemView(),
-                  duration: Duration(seconds: 5),
-                ),
-                StoryItem(
-                  ImageStoryItemView(),
-                  duration: Duration(seconds: 5),
-                ),
-              ],
-              controller: controller),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 22,
-                right: 12,
-              ),
-              child: Align(
-                  child: CircleAvatar(
-                    radius: 22,
-                    backgroundColor: Colors.white,
-                    child: IconButton(
-                        onPressed: () {
-                          debugPrint('Выход из сторис');
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          color: Color(0xFF2D2D2D),
-                        )),
-                  ),
-                  alignment: Alignment.topRight),
+      backgroundColor: Colors.black,
+      body: GestureDetector(
+        onTapUp: (details) => _onTapUp(details, story),
+        onLongPressStart: (details) => _onLongPressStart(details, story),
+        onLongPressEnd: (details) => _onLongPressEnd(details, story),
+        child: Stack(
+          children: <Widget>[
+            PageView.builder(
+              controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: widget.stories.length,
+              itemBuilder: (context, i) {
+                final Story story = widget.stories[i];
+                switch (story.media) {
+                  case MediaType.image:
+                    return Image.asset(
+                      story.url,
+                      fit: BoxFit.cover,
+                    );
+                  case MediaType.video:
+                    if (_videoPlayerController != null &&
+                        _videoPlayerController.value.isInitialized) {
+                      return FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: _videoPlayerController.value.size.width,
+                          height: _videoPlayerController.value.size.height,
+                          child: VideoPlayer(_videoPlayerController),
+                        ),
+                      );
+                    }
+                }
+                return const SizedBox.shrink();
+              },
             ),
-          )
-        ],
-      ),
-      floatingActionButton: SizedBox(
-        width: MediaQuery.of(context).size.width - 24,
-        height: 60,
-        child: TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.white,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Участвовать в акции',
-                style: AppStyles.h3,
+            Positioned(
+              top: 40.0,
+              left: 10.0,
+              right: 10.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: List.generate(
+                      widget.stories.length,
+                      (index) => AnimatedBar(
+                          animController: _animController,
+                          position: index,
+                          currentIndex: _currentIndex),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        radius: 22,
+                        backgroundColor: Colors.white,
+                        child: IconButton(
+                            onPressed: () {
+                              debugPrint('exit');
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              color: Color(0xFF2D2D2D),
+                            )),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    widget.stories[_currentIndex].mainText ?? '',
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 41,
+                        height: 42 / 41,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    widget.stories[_currentIndex].secondText ?? '',
+                    style: AppStyles.h3White,
+                  )
+                ],
               ),
-              SizedBox(width: 8),
-              Icon(
-                Icons.add,
-                color: Color(0xFF2D2D2D),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+      floatingActionButton: StoriesBottomButtons(
+        buttonTitle: widget.stories[_currentIndex].buttonTitle,
+        upperTitle: 'Раствор Biotrue универсальный(300 мл)',
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-}
 
-/*//Кнопка выхода из сторис
-                      Padding(
-                        padding: EdgeInsets.only(top: 12),
-                        child: Align(
-                            child: CircleAvatar(
-                              radius: 22,
-                              backgroundColor: Colors.white,
-                              child: IconButton(
-                                  onPressed: () {
-                                    debugPrint('Выход из сторис');
-                                  },
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: Color(0xFF2D2D2D),
-                                  )),
-                            ),
-                            alignment: Alignment.topRight),
-                      ) */
+  void _onTapUp(TapUpDetails details, Story story) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double dx = details.globalPosition.dx;
+    if (dx < screenWidth / 3) {
+      setState(() {
+        if (_currentIndex - 1 >= 0) {
+          _currentIndex -= 1;
+          _loadStory(story: widget.stories[_currentIndex]);
+        }
+      });
+    } else if (dx > 2 * screenWidth / 3) {
+      setState(
+        () {
+          if (_currentIndex + 1 < widget.stories.length) {
+            _currentIndex += 1;
+            _loadStory(story: widget.stories[_currentIndex]);
+          } else {
+            // Out of bounds - loop story
+            // You can also Navigator.of(context).pop() here
+            _currentIndex = 0;
+            _loadStory(story: widget.stories[_currentIndex]);
+          }
+        },
+      );
+    }
+  }
+
+  void _onLongPressStart(LongPressStartDetails details, Story story) {
+    _animController.stop();
+    if (story.media == MediaType.video) {
+      if (_videoPlayerController.value.isPlaying) {
+        _videoPlayerController.pause();
+      }
+    }
+  }
+
+  void _onLongPressEnd(LongPressEndDetails details, Story story) {
+    _animController.forward();
+    if (story.media == MediaType.video) {
+      _videoPlayerController.play();
+    }
+  }
+
+  void _loadStory({required Story story, bool animateToPage = true}) {
+    _animController.stop();
+    _animController.reset();
+    switch (story.media) {
+      case MediaType.image:
+        _animController.duration = story.duration;
+        _animController.forward();
+        break;
+      case MediaType.video:
+        //_videoPlayerController = null;
+        _videoPlayerController.dispose();
+        _videoPlayerController = VideoPlayerController.network(story.url)
+          ..initialize().then((_) {
+            setState(() {});
+            if (_videoPlayerController.value.isInitialized) {
+              _animController.duration = _videoPlayerController.value.duration;
+              _videoPlayerController.play();
+              _animController.forward();
+            }
+          });
+        break;
+    }
+    if (animateToPage) {
+      _pageController.animateToPage(
+        _currentIndex,
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+}
