@@ -1,6 +1,7 @@
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 
 class SmallContainer extends StatelessWidget {
   final String title;
@@ -31,9 +32,11 @@ class SmallContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            AutoSizeText(
               title,
               style: AppStyles.h2,
+              maxLines: 2,
+              overflow: TextOverflow.visible,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
