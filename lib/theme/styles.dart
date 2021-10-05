@@ -1,3 +1,5 @@
+import 'package:bausch/theme/app_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppStyles {
@@ -24,6 +26,23 @@ class AppStyles {
 
   static const p1 = TextStyle(
     color: Color(0xFF2D2D2D),
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+    height: 20 / 14,
+  );
+
+  static const p1Underlined = TextStyle(
+    color: Color(0xFF2D2D2D),
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+    height: 20 / 14,
+    decoration: TextDecoration.underline,
+    decorationColor: AppTheme.turquoiseBlue,
+    decorationThickness: 2,
+  );
+
+  static const p1Grey = TextStyle(
+    color: AppTheme.grey,
     fontWeight: FontWeight.normal,
     fontSize: 14,
     height: 20 / 14,

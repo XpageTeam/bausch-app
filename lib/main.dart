@@ -1,3 +1,5 @@
+import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
@@ -40,24 +42,33 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton(
-            onPressed: () {
-              showFlexibleBottomSheet(
-                  minHeight: 0,
-                  initHeight: 0.8,
-                  maxHeight: 1,
-                  //anchors: [0, 0.5, 1],
-                  context: context,
-                  builder: (context, ScrollController controller, double d) {
-                    return Sheet(
-                      controller: controller,
-                      title: 'Бесплатная упаковка',
-                    );
-                  });
-            },
-            child: Text('data')),
-      ),
+      body: ListView.separated(
+          itemBuilder: (context, i) {
+            return TextButton(
+                onPressed: () {
+                  showSheet(context, Models.sheets[i]);
+                },
+                child: Text(Models.sheets[i].title));
+          },
+          separatorBuilder: (context, i) {
+            return const SizedBox(
+              height: 4,
+            );
+          },
+          itemCount: Models.sheets.length),
     );
+  }
+
+  void showSheet(BuildContext context, SheetModel model) {
+    showFlexibleBottomSheet(
+        useRootNavigator: true,
+        minHeight: 0,
+        initHeight: 0.8,
+        maxHeight: 1,
+        //anchors: [0, 0.5, 1],
+        context: context,
+        builder: (context, ScrollController controller, double d) {
+          return ProductSheet(controller: controller);
+        });
   }
 }

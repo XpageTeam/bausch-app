@@ -1,13 +1,15 @@
+import 'package:bausch/models/sheet_model.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
+import 'product_sheet/product_sheet_screen.dart';
 
 class Sheet extends StatelessWidget {
   final ScrollController controller;
-  final String title;
-  const Sheet({required this.title, required this.controller, Key? key})
+  final SheetModel model;
+  const Sheet({required this.model, required this.controller, Key? key})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class Sheet extends StatelessWidget {
           controller: controller,
           slivers: [
             SliverPadding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 12,
                 vertical: 20,
               ),
@@ -32,15 +34,17 @@ class Sheet extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          'assets/free-packaging.png',
+                          model.img ?? 'assets/free-packaging.png',
                           height: 60,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          title,
-                          style: AppStyles.h2,
+                        Flexible(
+                          child: Text(
+                            model.title,
+                            style: AppStyles.h2,
+                          ),
                         ),
                       ],
                     )
@@ -62,6 +66,16 @@ class Sheet extends StatelessWidget {
                       children: [
                         CatalogItem(
                           model: Models.items[i * 2],
+                          onTap: () {
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ProductSheet(controller: controller);
+                                },
+                              ),
+                            );
+                          },
                         ),
                         if (Models.items.asMap().containsKey(i * 2 + 1))
                           CatalogItem(model: Models.items[i * 2 + 1])

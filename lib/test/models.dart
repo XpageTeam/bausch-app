@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/sheet_model.dart';
 
 class Models {
   static List<CatalogItemModel> items = [
@@ -21,6 +22,25 @@ class Models {
     CatalogItemModel(
       name: 'Раствор',
       price: '1300',
+    ),
+  ];
+
+  static List<SheetModel> sheets = [
+    SheetModel(
+      title: 'Бесплатная упаковка',
+      img: 'assets/free-packaging.png',
+    ),
+    SheetModel(
+      title: 'Предложения от партнеров',
+      img: 'assets/offers-from-partners.png',
+    ),
+    SheetModel(
+      title: 'Скидки в онлайн-магазинах',
+      img: 'assets/discount-in-online-store.png',
+    ),
+    SheetModel(
+      title: 'Записи вебинаров',
+      img: 'assets/webinar-rec.png',
     ),
   ];
 }
