@@ -1,3 +1,4 @@
+import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -8,9 +9,19 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
 
-class ProductSheet extends StatelessWidget {
+class ProductSheetArguments {
+  final CatalogItemModel model;
+
+  ProductSheetArguments(this.model);
+}
+
+class ProductSheet extends StatelessWidget implements ProductSheetArguments {
   final ScrollController controller;
-  const ProductSheet({required this.controller, Key? key}) : super(key: key);
+  @override
+  final CatalogItemModel model;
+
+  const ProductSheet({required this.controller, required this.model, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +41,7 @@ class ProductSheet extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    const TopSection(),
+                    TopSection(model: model),
                     const SizedBox(
                       height: 4,
                     ),
@@ -38,6 +49,7 @@ class ProductSheet extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
+                    const LegalInfo(),
                     const SizedBox(
                       height: 120,
                     ),
@@ -57,7 +69,7 @@ class ProductSheet extends StatelessWidget {
               sliver: SelectShopSection(),
             ),
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
@@ -66,8 +78,27 @@ class ProductSheet extends StatelessWidget {
                         color: AppTheme.sulu,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: Text(
-                        'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              'assets/substract.png',
+                              height: 16,
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            const Flexible(
+                              child: Text(
+                                'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
+                                style: AppStyles.h3,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],

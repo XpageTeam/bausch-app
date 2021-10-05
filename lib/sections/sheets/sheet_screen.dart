@@ -1,10 +1,11 @@
 import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
-import 'product_sheet/product_sheet_screen.dart';
+import 'package:bausch/static/static_data.dart';
 
 class Sheet extends StatelessWidget {
   final ScrollController controller;
@@ -65,26 +66,16 @@ class Sheet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CatalogItem(
-                          model: Models.items[i * 2],
-                          onTap: () {
-                            Navigator.push<void>(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ProductSheet(controller: controller);
-                                },
-                              ),
-                            );
-                          },
+                          model: model.models[i * 2],
                         ),
-                        if (Models.items.asMap().containsKey(i * 2 + 1))
-                          CatalogItem(model: Models.items[i * 2 + 1])
+                        if (model.models.asMap().containsKey(i * 2 + 1))
+                          CatalogItem(model: model.models[i * 2 + 1])
                       ],
                     ),
                   ),
-                  childCount: (Models.items.length % 2) == 0
-                      ? Models.items.length ~/ 2
-                      : Models.items.length ~/ 2 + 1,
+                  childCount: (model.models.length % 2) == 0
+                      ? model.models.length ~/ 2
+                      : model.models.length ~/ 2 + 1,
                 ),
               ),
             ),

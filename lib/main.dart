@@ -1,9 +1,12 @@
+import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/sections/sheets/product_sheet/overlay_navigation.dart';
 import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
+import '/static/static_data.dart';
 
 import 'test/models.dart';
 
@@ -18,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: Utils.mainAppNav,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -38,7 +42,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +71,10 @@ class MyHomePage extends StatelessWidget {
         //anchors: [0, 0.5, 1],
         context: context,
         builder: (context, ScrollController controller, double d) {
-          return ProductSheet(controller: controller);
+          return OverlayNavigation(
+            controller: controller,
+            sheetModel: model,
+          );
         });
   }
 }

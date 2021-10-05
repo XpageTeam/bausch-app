@@ -1,11 +1,15 @@
+import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 
 class TopSection extends StatelessWidget {
-  const TopSection({Key? key}) : super(key: key);
+  final CatalogItemModel model;
+  const TopSection({required this.model, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +34,15 @@ class TopSection extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                const Text(
-                  'Раствор Biotrue универсальный (300 мл)',
+                Text(
+                  model.name,
                   style: AppStyles.h2,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                const ButtonContent(price: '1300'),
+                ButtonContent(price: model.price),
                 const SizedBox(
                   height: 30,
                 ),
@@ -52,8 +56,10 @@ class TopSection extends StatelessWidget {
                   backgroundColor: AppTheme.mystic,
                   radius: 22,
                   child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
+                      onPressed: () {
+                        Utils.bottomSheetNav.currentState!.pop();
+                      },
+                      icon: const Icon(
                         Icons.close,
                         color: AppTheme.mineShaft,
                       )),

@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
@@ -7,14 +8,15 @@ import 'package:flutter/material.dart';
 
 class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
-  final VoidCallback? onTap;
-  const CatalogItem({required this.model, this.onTap, Key? key})
-      : super(key: key);
+  const CatalogItem({required this.model, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        Utils.bottomSheetNav.currentState!
+            .pushNamed('/product', arguments: ProductSheetArguments(model));
+      },
       child: Padding(
         padding: const EdgeInsets.only(
           //right: 4,
