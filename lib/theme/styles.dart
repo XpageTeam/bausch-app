@@ -23,13 +23,6 @@ class AppStyles {
     height: 20 / 17,
   );
 
-  static const h3White = TextStyle(
-    color: Colors.white,
-    fontWeight: FontWeight.w500,
-    fontSize: 17,
-    height: 20 / 17,
-  );
-
   static const h4 = TextStyle(
     color: AppTheme.mineShaft,
     fontWeight: FontWeight.normal,
