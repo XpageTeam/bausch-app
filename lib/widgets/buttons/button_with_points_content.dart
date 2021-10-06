@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 
 class ButtonContent extends StatelessWidget {
   final String price;
-  const ButtonContent({required this.price, Key? key}) : super(key: key);
+  final MainAxisAlignment? alignment;
+  const ButtonContent({required this.price, this.alignment, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: alignment ?? MainAxisAlignment.center,
       children: [
         Text(
           price,
-          style: AppStyles.h3,
+          style: AppStyles.h2,
         ),
         const SizedBox(
           width: 4,

@@ -18,48 +18,56 @@ class _SelectShopSectionState extends State<SelectShopSection> {
       delegate: SliverChildBuilderDelegate(
         (context, i) => Padding(
           padding: const EdgeInsets.only(bottom: 4),
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                _selectedIndex = i;
-              });
-            },
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5))),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: SizedBox(
+            height: 74,
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = i;
+                });
+              },
+              style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Линз Сервис',
-                      style: AppStyles.h3,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Линз Сервис',
+                          style: AppStyles.h3,
+                        ),
+                        Text(
+                          'lensservice.ru',
+                          style: AppStyles.p1Underlined,
+                        ),
+                      ],
                     ),
-                    Text(
-                      'lensservice.ru',
-                      style: AppStyles.p1Underlined,
+                    const SizedBox(
+                      width: 20,
                     ),
+                    Image.asset(
+                      'assets/ochkov-net.png',
+                      width: MediaQuery.of(context).size.width / 5,
+                    ),
+                    Radio(
+                        value: i,
+                        groupValue: _selectedIndex,
+                        onChanged: (v) {
+                          setState(() {
+                            _selectedIndex = v as int;
+                          });
+                        })
                   ],
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Image.asset(
-                  'assets/ochkov-net.png',
-                  width: MediaQuery.of(context).size.width / 5,
-                ),
-                Radio(
-                    value: i,
-                    groupValue: _selectedIndex,
-                    onChanged: (v) {
-                      setState(() {
-                        _selectedIndex = v as int;
-                      });
-                    })
-              ],
+              ),
             ),
           ),
         ),

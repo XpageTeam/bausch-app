@@ -65,11 +65,14 @@ class Sheet extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CatalogItem(
+                        CatalogItem.product(
+                          context,
                           model: model.models[i * 2],
+                          type: SheetType.discountOptics,
                         ),
                         if (model.models.asMap().containsKey(i * 2 + 1))
-                          CatalogItem(model: model.models[i * 2 + 1])
+                          CatalogItem.webinar(context,
+                              model: model.models[i * 2 + 1])
                       ],
                     ),
                   ),

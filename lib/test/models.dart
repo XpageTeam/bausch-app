@@ -6,6 +6,7 @@ class Models {
     CatalogItemModel(
       name: 'Раствор Biotrue универсальный(300 мл)',
       price: '1300',
+      img: 'assets/free-packaging.png',
     ),
     CatalogItemModel(
       name: 'Biotrue one day (30 линз в упаковке)',

@@ -8,14 +8,18 @@ class DiscountInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-      decoration: BoxDecoration(
-          color: AppTheme.sulu, borderRadius: BorderRadius.circular(5)),
-      child: Text(
-        text,
-        style: AppStyles.h3,
-      ),
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          decoration: BoxDecoration(
+              color: AppTheme.sulu, borderRadius: BorderRadius.circular(5)),
+          child: Text(
+            text,
+            style: AppStyles.h3,
+          ),
+        ),
+      ],
     );
   }
 }

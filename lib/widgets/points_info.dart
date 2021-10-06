@@ -19,29 +19,33 @@ class PointsInfo extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding:
-                        EdgeInsets.only(left: 10, right: 20, top: 4, bottom: 4),
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 20, top: 4, bottom: 4),
                     height: 28,
                     decoration: BoxDecoration(
-                        color: backgoundColor ?? AppTheme.sulu,
-                        borderRadius: BorderRadius.circular(5)),
+                      color: backgoundColor ?? AppTheme.sulu,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                      ),
+                    ),
                     child: Text(
                       text,
                       style: AppStyles.h3,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 14,
                   ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                children: const [
                   SizedBox(
                     width: 20,
                   ),
-                  const CircleAvatar(
+                  CircleAvatar(
                     child: Text(
                       'б',
                       style: TextStyle(

@@ -1,26 +1,37 @@
 import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductSheetArguments {
   final CatalogItemModel model;
+  final SheetType type;
 
-  ProductSheetArguments(this.model);
+  ProductSheetArguments(this.model, this.type);
 }
 
 class ProductSheet extends StatelessWidget implements ProductSheetArguments {
   final ScrollController controller;
   @override
   final CatalogItemModel model;
+  @override
+  final SheetType type;
 
-  const ProductSheet({required this.controller, required this.model, Key? key})
+  const ProductSheet(
+      {required this.controller,
+      required this.model,
+      required this.type,
+      Key? key})
       : super(key: key);
 
   @override
@@ -41,7 +52,10 @@ class ProductSheet extends StatelessWidget implements ProductSheetArguments {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection(model: model),
+                    TopSection(
+                      model: model,
+                      type: type,
+                    ),
                     const SizedBox(
                       height: 4,
                     ),
@@ -49,14 +63,27 @@ class ProductSheet extends StatelessWidget implements ProductSheetArguments {
                     const SizedBox(
                       height: 12,
                     ),
-                    const LegalInfo(),
+                    if (type == SheetType.packaging) const LegalInfo(),
                     const SizedBox(
                       height: 120,
                     ),
-                    const Text(
-                      'Выбрать интернет-магазин',
-                      style: AppStyles.h2,
-                    ),
+                    if (type == SheetType.discountOptics)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Выбрать сеть оптик',
+                            style: AppStyles.h2,
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text(
+                            'Скидкой можно воспользоваться в любой из оптик сети.',
+                            style: AppStyles.p1,
+                          ),
+                        ],
+                      ),
                     SizedBox(
                       height: 20,
                     )
@@ -64,43 +91,24 @@ class ProductSheet extends StatelessWidget implements ProductSheetArguments {
                 ),
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              sliver: SelectShopSection(),
-            ),
+            if (type == SheetType.discountOptics)
+              const SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                sliver: SelectShopSection(),
+              ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.sulu,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 20),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              'assets/substract.png',
-                              height: 16,
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            const Flexible(
-                              child: Text(
-                                'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
-                                style: AppStyles.h3,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                    if (type == SheetType.discountOptics) Warning(),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    if (type == SheetType.discountOptics) HowToUsePromocode(),
+                    const SizedBox(
+                      height: 40,
+                    ),
                   ],
                 ),
               ),
@@ -118,8 +126,17 @@ class ProductSheet extends StatelessWidget implements ProductSheetArguments {
         ),
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
-            BlueButtonWithText(text: 'Перейти к заказу'),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding),
+              child: BlueButtonWithText(
+                text: 'Перейти к заказу',
+                onPressed: () {
+                  Utils.bottomSheetNav.currentState!.pushNamed('/verification');
+                },
+              ),
+            ),
             InfoBlock(),
           ],
         ),

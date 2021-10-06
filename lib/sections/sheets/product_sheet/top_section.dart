@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 
 class TopSection extends StatelessWidget {
   final CatalogItemModel model;
-  const TopSection({required this.model, Key? key}) : super(key: key);
+  final SheetType type;
+  const TopSection({required this.model, required this.type, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,41 +20,65 @@ class TopSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Stack(
-          children: [
-            Column(
-              children: [
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              if (type != SheetType.webinar)
                 const SizedBox(
                   height: 64,
                 ),
-                Image.asset(
-                  'assets/free-packaging.png',
-                  height: MediaQuery.of(context).size.height / 5,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Text(
+              Image.asset(
+                model.img ?? 'assets/woman.png',
+                height: type != SheetType.webinar
+                    ? MediaQuery.of(context).size.height / 5
+                    : null,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding),
+                child: Text(
                   model.name,
                   style: AppStyles.h2,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(
-                  height: 30,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              if (type != SheetType.webinar) ButtonContent(price: model.price),
+              const SizedBox(
+                height: 30,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (type == SheetType.discountOptics)
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: PointsInfo(text: 'Не хватает 2000'),
+                )
+              else if (type == SheetType.webinar)
+                Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Image.asset(
+                    'assets/play-video.png',
+                    height: 28,
+                  ),
+                )
+              else
+                SizedBox(
+                  width: 10,
                 ),
-                ButtonContent(price: model.price),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const PointsInfo(text: 'Не хватает 2000'),
-                CircleAvatar(
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: CircleAvatar(
                   backgroundColor: AppTheme.mystic,
                   radius: 22,
                   child: IconButton(
@@ -63,11 +89,11 @@ class TopSection extends StatelessWidget {
                         Icons.close,
                         color: AppTheme.mineShaft,
                       )),
-                )
-              ],
-            ),
-          ],
-        ),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

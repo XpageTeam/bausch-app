@@ -1,9 +1,7 @@
-import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/sections/sheets/product_sheet/overlay_navigation.dart';
-import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
-import 'package:bausch/sections/sheets/sheet_screen.dart';
-import 'package:bausch/widgets/catalog_item/catalog_item.dart';
+import 'package:bausch/sections/sheets/overlay_navigation.dart';
+import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import '/static/static_data.dart';
@@ -64,17 +62,41 @@ class MyHomePage extends StatelessWidget {
 
   void showSheet(BuildContext context, SheetModel model) {
     showFlexibleBottomSheet(
-        useRootNavigator: true,
-        minHeight: 0,
-        initHeight: 0.8,
-        maxHeight: 1,
-        //anchors: [0, 0.5, 1],
-        context: context,
-        builder: (context, ScrollController controller, double d) {
-          return OverlayNavigation(
-            controller: controller,
-            sheetModel: model,
-          );
-        });
+      //useRootNavigator: true,
+      minHeight: 0,
+      initHeight: 0.8,
+      maxHeight: 1,
+      //anchors: [0, 0.5, 1],
+      context: context,
+      builder: (context, ScrollController controller, double d) {
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: PointsInfo(
+                        text: '500',
+                        backgoundColor: AppTheme.mystic,
+                      ),
+                    )
+                  ],
+                ),
+                Flexible(
+                  child: OverlayNavigation(
+                    controller: controller,
+                    sheetModel: model,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
