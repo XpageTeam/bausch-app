@@ -11,7 +11,8 @@ import '../../models/story_model.dart';
 class StoriesScreen extends StatefulWidget {
   final List<StoryModel> stories;
   final int currentIndex;
-  const StoriesScreen({required this.stories, this.currentIndex = 0, Key? key})
+  const StoriesScreen(
+      {required this.stories, required this.currentIndex, Key? key})
       : super(key: key);
 
   @override
@@ -27,7 +28,6 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   @override
   void initState() {
-    super.initState();
     _currentIndex = widget.currentIndex;
     _pageController = PageController();
     _animController = AnimationController(vsync: this);
@@ -48,12 +48,14 @@ class _StoriesScreenState extends State<StoriesScreen>
           } else {
             // Out of bounds - loop story
             // You can also Navigator.of(context).pop() here
-            _currentIndex = 0;
+            //_currentIndex = 0;
             _loadStory(story: widget.stories[_currentIndex]);
           }
         });
       }
     });
+
+    super.initState();
   }
 
   @override
@@ -77,10 +79,10 @@ class _StoriesScreenState extends State<StoriesScreen>
           children: <Widget>[
             PageView.builder(
               controller: _pageController,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: widget.stories.length,
               itemBuilder: (context, i) {
-                final StoryModel story = widget.stories[i];
+                //final StoryModel story = widget.stories[i];
                 switch (story.media) {
                   case MediaType.image:
                     return Image.asset(

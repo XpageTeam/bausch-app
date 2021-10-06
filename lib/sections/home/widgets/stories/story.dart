@@ -34,9 +34,7 @@ class Story extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: model.url == null
-                      ? Image.asset('assets/pic1.png')
-                      : Image.asset(model.url),
+                  child: Image.asset(model.url),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
