@@ -1,4 +1,5 @@
 import 'package:bausch/theme/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StoriesBottomButtons extends StatelessWidget {
@@ -87,6 +88,24 @@ class StoriesBottomButtons extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          const SizedBox(
+            height: 60,
+            child: Center(
+              child: Text(
+                'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 16 / 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
         ],
       ),
     );

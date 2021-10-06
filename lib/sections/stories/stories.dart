@@ -21,7 +21,7 @@ final List<Story> stories = [
     url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
     media: MediaType.video,
     duration: Duration(seconds: 3),
-    mainText: 'Ахахаха пчела',
+    mainText: 'Ахахаха пчола',
     buttonTitle: 'name',
   ),
   const Story(
