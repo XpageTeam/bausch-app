@@ -1,6 +1,8 @@
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'models/story_model.dart';
+
 void main() {
   runApp(const MyApp());
 }
