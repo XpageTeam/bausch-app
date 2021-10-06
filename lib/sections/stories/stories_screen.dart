@@ -9,8 +9,10 @@ import '../../models/story_model.dart';
 //откуда всё взял: https://github.com/MarcusNg/flutter_instagram_stories
 
 class StoriesScreen extends StatefulWidget {
-  final List<Story> stories;
-  const StoriesScreen({required this.stories, Key? key}) : super(key: key);
+  final List<StoryModel> stories;
+  final int currentIndex;
+  const StoriesScreen({required this.stories, this.currentIndex = 0, Key? key})
+      : super(key: key);
 
   @override
   State<StoriesScreen> createState() => _StoriesScreenState();
@@ -21,17 +23,18 @@ class _StoriesScreenState extends State<StoriesScreen>
   late PageController _pageController;
   late AnimationController _animController;
   late VideoPlayerController _videoPlayerController;
-  int _currentIndex = 0;
+  late int _currentIndex;
 
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.currentIndex;
     _pageController = PageController();
     _animController = AnimationController(vsync: this);
     _videoPlayerController = VideoPlayerController.network(
         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
 
-    final Story firstStory = widget.stories.first;
+    final StoryModel firstStory = widget.stories.first;
     _loadStory(story: firstStory, animateToPage: false);
 
     _animController.addStatusListener((status) {
@@ -63,7 +66,7 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   @override
   Widget build(BuildContext context) {
-    final Story story = widget.stories[_currentIndex];
+    final StoryModel story = widget.stories[_currentIndex];
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
@@ -77,7 +80,7 @@ class _StoriesScreenState extends State<StoriesScreen>
               physics: NeverScrollableScrollPhysics(),
               itemCount: widget.stories.length,
               itemBuilder: (context, i) {
-                final Story story = widget.stories[i];
+                final StoryModel story = widget.stories[i];
                 switch (story.media) {
                   case MediaType.image:
                     return Image.asset(
@@ -127,7 +130,7 @@ class _StoriesScreenState extends State<StoriesScreen>
                         backgroundColor: Colors.white,
                         child: IconButton(
                             onPressed: () {
-                              debugPrint('exit');
+                              Navigator.pop(context);
                             },
                             icon: const Icon(
                               Icons.close,
@@ -168,7 +171,7 @@ class _StoriesScreenState extends State<StoriesScreen>
     );
   }
 
-  void _onTapUp(TapUpDetails details, Story story) {
+  void _onTapUp(TapUpDetails details, StoryModel story) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double dx = details.globalPosition.dx;
     if (dx < screenWidth / 3) {
@@ -195,7 +198,7 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void _onLongPressStart(LongPressStartDetails details, Story story) {
+  void _onLongPressStart(LongPressStartDetails details, StoryModel story) {
     _animController.stop();
     if (story.media == MediaType.video) {
       if (_videoPlayerController.value.isPlaying) {
@@ -204,14 +207,14 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void _onLongPressEnd(LongPressEndDetails details, Story story) {
+  void _onLongPressEnd(LongPressEndDetails details, StoryModel story) {
     _animController.forward();
     if (story.media == MediaType.video) {
       _videoPlayerController.play();
     }
   }
 
-  void _loadStory({required Story story, bool animateToPage = true}) {
+  void _loadStory({required StoryModel story, bool animateToPage = true}) {
     _animController.stop();
     _animController.reset();
     switch (story.media) {

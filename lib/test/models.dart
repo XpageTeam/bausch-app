@@ -2,14 +2,31 @@ import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/models/story_model.dart';
 
 class Models {
-  static List<Story> stories = [
-    Story(number: 3, title: 'Новинка месяца', img: 'assets/pic1.png'),
-    Story(
-        number: 8,
-        title: 'При трате баллов доставка день в день!',
-        img: 'assets/pic2.png'),
-    Story(number: 6, title: 'С заботой о себе', img: 'assets/pic3.png'),
-    Story(number: 6, title: 'С заботой о себе', img: 'assets/pic3.png'),
+  static List<StoryModel> stories = [
+    const StoryModel(
+        index: 0,
+        duration: Duration(seconds: 5),
+        media: MediaType.image,
+        url: 'assets/pic1.png',
+        mainText: 'Миллион впечатлений с ReNu',
+        secondText:
+            'Зарегистрируйте чек и выиграйте путешествия мечты от ReNu. Всем участникам гарантированные призы!'),
+    const StoryModel(
+        index: 1,
+        duration: Duration(seconds: 5),
+        media: MediaType.image,
+        url: 'assets/pic1.png',
+        mainText: 'Прояви к глазам уважение',
+        secondText:
+            'Выбирай Biotrue ONEday и выигрывай один из главных призов:!'),
+    const StoryModel(
+        index: 2,
+        duration: Duration(seconds: 5),
+        media: MediaType.image,
+        url: 'assets/pic3.png',
+        mainText: 'Прояви к глазам уважение',
+        secondText:
+            'Выбирай Biotrue ONEday и выигрывай один из главных призов:!'),
   ];
 
   static List<CatalogItemModel> items = [

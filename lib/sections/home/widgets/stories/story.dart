@@ -1,11 +1,15 @@
 import 'package:bausch/models/story_model.dart';
+import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class Story extends StatelessWidget {
   final StoryModel model;
-  const Story({required this.model, Key? key}) : super(key: key);
+  final int index;
+  const Story({required this.model, required this.index, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,12 @@ class Story extends StatelessWidget {
               2.5,
       child: GestureDetector(
         onTap: () {
-          debugPrint(model.title);
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return StoriesScreen(
+              stories: Models.stories,
+              currentIndex: index,
+            );
+          }));
         },
         child: AspectRatio(
           aspectRatio: 114 / 180,
@@ -25,9 +34,9 @@ class Story extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: model.img == null
+                  child: model.url == null
                       ? Image.asset('assets/pic1.png')
-                      : Image.asset(model.img!),
+                      : Image.asset(model.url),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -39,11 +48,11 @@ class Story extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        model.title,
+                        model.mainText ?? 'kek',
                         style: AppStyles.h3White,
                       ),
                       Text(
-                        model.number.toString(),
+                        '2',
                         style: AppStyles.p1White,
                       ),
                     ],

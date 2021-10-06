@@ -3,18 +3,20 @@ enum MediaType {
   video,
 }
 
-class Story {
+class StoryModel {
   final String url;
   final MediaType media;
   final Duration duration;
+  final int index;
   final String? buttonTitle;
   final String? mainText;
   final String? secondText;
 
-  const Story({
+  const StoryModel({
     required this.url,
     required this.media,
     required this.duration,
+    required this.index,
     this.buttonTitle,
     this.mainText,
     this.secondText,
