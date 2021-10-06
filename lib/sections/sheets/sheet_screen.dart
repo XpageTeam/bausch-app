@@ -68,7 +68,7 @@ class Sheet extends StatelessWidget {
                         CatalogItem.product(
                           context,
                           model: model.models[i * 2],
-                          type: SheetType.discountOptics,
+                          type: model.type,
                         ),
                         if (model.models.asMap().containsKey(i * 2 + 1))
                           CatalogItem.webinar(context,

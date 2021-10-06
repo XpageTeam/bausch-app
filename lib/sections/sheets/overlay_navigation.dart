@@ -1,6 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/sections/sheets/final_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/verification_screen.dart';

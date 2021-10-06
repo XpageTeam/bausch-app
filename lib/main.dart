@@ -43,20 +43,47 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.separated(
-          itemBuilder: (context, i) {
-            return TextButton(
-                onPressed: () {
-                  showSheet(context, Models.sheets[i]);
-                },
-                child: Text(Models.sheets[i].title));
-          },
-          separatorBuilder: (context, i) {
-            return const SizedBox(
-              height: 4,
-            );
-          },
-          itemCount: Models.sheets.length),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: () {
+              showSheet(context, Models.sheets[0]);
+            },
+            child: Text('Скидка 500р в оптике'),
+          ),
+          TextButton(
+            onPressed: () {
+              showSheet(context, Models.sheets[2]);
+            },
+            child: Text('Предложения от партнеров'),
+          ),
+          TextButton(
+            onPressed: () {
+              showSheet(context, Models.sheets[1]);
+            },
+            child: Text('Бесплатная упаковка'),
+          ),
+          TextButton(
+            onPressed: () {
+              showSheet(context, Models.sheets[3]);
+            },
+            child: Text('Скидка 500р в интернет магазине'),
+          ),
+          TextButton(
+            onPressed: () {
+              showSheet(context, Models.sheets[4]);
+            },
+            child: Text('Записи вебинаров'),
+          ),
+          TextButton(
+            onPressed: () {
+              showSheet(context, Models.sheets[5]);
+            },
+            child: Text('Онлайн-консультация'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -69,31 +96,29 @@ class MyHomePage extends StatelessWidget {
       //anchors: [0, 0.5, 1],
       context: context,
       builder: (context, ScrollController controller, double d) {
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: PointsInfo(
-                        text: '500',
-                        backgoundColor: AppTheme.mystic,
-                      ),
-                    )
-                  ],
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: PointsInfo(
+                      text: '500',
+                      backgoundColor: AppTheme.mystic,
+                    ),
+                  )
+                ],
+              ),
+              Flexible(
+                child: OverlayNavigation(
+                  controller: controller,
+                  sheetModel: model,
                 ),
-                Flexible(
-                  child: OverlayNavigation(
-                    controller: controller,
-                    sheetModel: model,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
