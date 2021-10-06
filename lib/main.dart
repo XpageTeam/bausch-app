@@ -1,5 +1,4 @@
-import 'package:bausch/sections/stories/stories.dart';
-import 'package:bausch/sections/stories/stories_screen.dart';
+import 'package:bausch/sections/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'models/story_model.dart';
@@ -28,9 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: StoriesScreen(
-        stories: stories,
-      ),
+      home: const HomeScreen(),
     );
   }
 }
