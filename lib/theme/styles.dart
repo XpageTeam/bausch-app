@@ -51,6 +51,13 @@ class AppStyles {
     height: 20 / 14,
   );
 
+  static const p1Grey = TextStyle(
+    color: AppTheme.grey,
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+    height: 20 / 14,
+  );
+
   static const p1White = TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.normal,

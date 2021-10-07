@@ -12,36 +12,46 @@ class DeliveryAddressSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
+      children: [
+        const Text(
           'Адрес доставки',
           style: AppStyles.h1,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
 
         OrderButton(
-          title: 'Москва, Александра Чавчавадзе, 9 ',
+          onPressed: () {},
+          title: const Flexible(
+            child: Text(
+              'Москва, Александра Чавчавадзе, 9',
+              style: AppStyles.h2Bold,
+            ),
+          ),
           icon: Icons.check_circle_sharp,
           textColor: AppTheme.mineShaft,
-          margin: EdgeInsets.only(bottom: 4),
+          margin: const EdgeInsets.only(bottom: 4),
         ),
         OrderButton(
-          title: 'Добавить новый адрес',
+          onPressed: () {},
+          title: const Text(
+            'Добавить новый адрес',
+            style: AppStyles.h2Bold,
+          ),
           icon: Icons.add_circle_outline,
           textColor: AppTheme.mineShaft,
-          margin: EdgeInsets.only(bottom: 4),
+          margin: const EdgeInsets.only(bottom: 4),
         ),
 
         //* "Доставка может занять 60 рабочих дней"
-        DeliveryInfoContainer(),
-        SizedBox(
+        const DeliveryInfoContainer(),
+        const SizedBox(
           height: 4,
         ),
 
         //* Информация о условиях доставки мелким шрифтом
-        DeliveryInfoWidget(),
+        const DeliveryInfoWidget(),
       ],
     );
   }
