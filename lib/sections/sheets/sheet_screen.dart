@@ -46,7 +46,7 @@ class Sheet extends StatelessWidget {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -63,25 +63,27 @@ class Sheet extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (model.type != SheetType.webinar)
-                          CatalogItem.product(
-                            context,
-                            model: model.models[i * 2],
-                            type: model.type,
-                          )
-                        else
-                          CatalogItem.webinar(context,
-                              model: model.models[i * 2]),
+                        CatalogItem(
+                          context,
+                          model: model.models[i * 2],
+                          isProduct:
+                              model.type != SheetType.webinar ? true : false,
+                          onTap: () {
+                            Utils.bottomSheetNav.currentState!
+                                .pushNamed(path(model.type));
+                          },
+                        ),
                         if (model.models.asMap().containsKey(i * 2 + 1))
-                          if (model.type != SheetType.webinar)
-                            CatalogItem.product(
-                              context,
-                              model: model.models[i * 2 + 1],
-                              type: model.type,
-                            )
-                          else
-                            CatalogItem.webinar(context,
-                                model: model.models[i * 2 + 1])
+                          CatalogItem(
+                            context,
+                            model: model.models[i * 2 + 1],
+                            isProduct:
+                                model.type != SheetType.webinar ? true : false,
+                            onTap: () {
+                              Utils.bottomSheetNav.currentState!
+                                  .pushNamed(path(model.type));
+                            },
+                          ),
                       ],
                     ),
                   ),
@@ -92,24 +94,45 @@ class Sheet extends StatelessWidget {
               ),
             ),
             SliverList(
-                delegate: SliverChildListDelegate([
-              const SizedBox(
-                height: 60,
-                child: Text(
-                  'Имеются противопоказания, необходимо проконсультироваться со специалистом',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    height: 16 / 14,
-                    color: AppTheme.grey,
+              delegate: SliverChildListDelegate(
+                [
+                  const SizedBox(
+                    height: 60,
+                    child: Text(
+                      'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        height: 16 / 14,
+                        color: AppTheme.grey,
+                      ),
+                    ),
                   ),
-                ),
-              )
-            ])),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  String path(SheetType type) {
+    switch (type) {
+      case SheetType.discountOptics:
+        return '/discount_optics';
+      case SheetType.webinar:
+        return '/webinar';
+      case SheetType.packaging:
+        return '/free_packaging';
+      case SheetType.discountOnline:
+        return '/discount_online';
+
+      case SheetType.partners:
+        return '/partners';
+      case SheetType.consultations:
+        return '/consultation';
+    }
   }
 }

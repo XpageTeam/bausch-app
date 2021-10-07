@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 class FreePackagingScreen extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const FreePackagingScreen(
-      {required this.controller, required this.model, Key? key})
-      : super(key: key);
+  const FreePackagingScreen({
+    required this.controller,
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,11 @@ class FreePackagingScreen extends StatelessWidget {
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.only(
-                  top: 12, left: 12, right: 12, bottom: 4),
+                top: 12,
+                left: 12,
+                right: 12,
+                bottom: 4,
+              ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
@@ -56,7 +62,8 @@ class FreePackagingScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding),
+                horizontal: StaticData.sidePadding,
+              ),
               child: BlueButtonWithText(
                 text: 'Перейти к заказу',
                 onPressed: () {},

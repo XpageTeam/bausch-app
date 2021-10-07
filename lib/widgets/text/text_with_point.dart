@@ -24,7 +24,7 @@ class TextWithPoint extends StatelessWidget {
             text,
             style: style ?? AppStyles.p1Grey,
           ),
-        )
+        ),
       ],
     );
   }

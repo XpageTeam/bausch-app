@@ -6,15 +6,16 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
-import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 class WebinarVerification extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const WebinarVerification(
-      {required this.controller, required this.model, Key? key})
-      : super(key: key);
+  const WebinarVerification({
+    required this.controller,
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,41 +37,42 @@ class WebinarVerification extends StatelessWidget {
                       horizontal: StaticData.sidePadding,
                     ),
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const CustomSliverAppbar(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text(
-                            'Подтвердите покупку',
-                            style: AppStyles.h2,
-                          ),
-                          Column(
-                            children: const [
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Text(
-                                'После подтверждения мы спишем баллы, и вы получите промокод',
-                                style: AppStyles.p1,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          BigCatalogItem(
-                            model: model,
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          const Text(
-                            'После покупки у вас останется 100 баллов',
-                            style: AppStyles.p1,
-                          ),
-                        ]),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const CustomSliverAppbar(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                          'Подтвердите покупку',
+                          style: AppStyles.h2,
+                        ),
+                        Column(
+                          children: const [
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              'После подтверждения мы спишем баллы, и вы получите промокод',
+                              style: AppStyles.p1,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        BigCatalogItem(
+                          model: model,
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const Text(
+                          'После покупки у вас останется 100 баллов',
+                          style: AppStyles.p1,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -85,7 +87,8 @@ class WebinarVerification extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding),
+                  horizontal: StaticData.sidePadding,
+                ),
                 child: BlueButtonWithText(
                   text: 'Потратить баллы',
                   onPressed: () {
@@ -94,7 +97,7 @@ class WebinarVerification extends StatelessWidget {
                   },
                 ),
               ),
-              InfoBlock(),
+              const InfoBlock(),
             ],
           ),
         ),

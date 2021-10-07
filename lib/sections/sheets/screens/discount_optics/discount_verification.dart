@@ -12,9 +12,11 @@ import 'package:flutter/material.dart';
 class DiscountVerification extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const DiscountVerification(
-      {required this.controller, required this.model, Key? key})
-      : super(key: key);
+  const DiscountVerification({
+    required this.controller,
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,59 +35,61 @@ class DiscountVerification extends StatelessWidget {
                 [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: StaticData.sidePadding),
+                      horizontal: StaticData.sidePadding,
+                    ),
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const CustomSliverAppbar(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text(
-                            'Подтвердите покупку',
-                            style: AppStyles.h2,
-                          ),
-                          Column(
-                            children: const [
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Text(
-                                'После подтверждения мы спишем баллы, и вы получите промокод',
-                                style: AppStyles.p1,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              DiscountInfo(text: 'Скидка 500 ₽'),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                'в оптике ЛинзСервис',
-                                style: AppStyles.h2,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          BigCatalogItem(
-                            model: model,
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          const Text(
-                            'После покупки у вас останется 100 баллов',
-                            style: AppStyles.p1,
-                          ),
-                        ]),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const CustomSliverAppbar(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                          'Подтвердите покупку',
+                          style: AppStyles.h2,
+                        ),
+                        Column(
+                          children: const [
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              'После подтверждения мы спишем баллы, и вы получите промокод',
+                              style: AppStyles.p1,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            DiscountInfo(text: 'Скидка 500 ₽'),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              'в оптике ЛинзСервис',
+                              style: AppStyles.h2,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        BigCatalogItem(
+                          model: model,
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const Text(
+                          'После покупки у вас останется 100 баллов',
+                          style: AppStyles.p1,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -100,7 +104,8 @@ class DiscountVerification extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding),
+                  horizontal: StaticData.sidePadding,
+                ),
                 child: BlueButtonWithText(
                   text: 'Потратить баллы',
                   onPressed: () {

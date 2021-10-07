@@ -24,10 +24,11 @@ class ButtonContent extends StatelessWidget {
           child: Text(
             'б',
             style: TextStyle(
-                color: AppTheme.mineShaft,
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-                height: 20 / 17),
+              color: AppTheme.mineShaft,
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              height: 20 / 17,
+            ),
           ),
           radius: 14,
           backgroundColor: AppTheme.turquoiseBlue,

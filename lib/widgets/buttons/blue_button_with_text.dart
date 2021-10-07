@@ -26,7 +26,7 @@ class BlueButtonWithText extends StatelessWidget {
             Text(
               text,
               style: AppStyles.h3,
-            )
+            ),
           ],
         ),
       ),

@@ -1,27 +1,27 @@
 import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/sections/sheets/final_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
-import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinars_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
-import 'package:bausch/static/static_data.dart';
 
 class OverlayNavigation extends StatelessWidget {
   final ScrollController controller;
   final SheetModel sheetModel;
-  const OverlayNavigation(
-      {required this.sheetModel, required this.controller, Key? key})
-      : super(key: key);
+  const OverlayNavigation({
+    required this.sheetModel,
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class OverlayNavigation extends StatelessWidget {
             break;
 
           case '/partners':
-            page = ParnersScreen(
+            page = PartnersScreen(
               controller: controller,
               model: Models.items[2],
             );
@@ -117,7 +117,7 @@ class OverlayNavigation extends StatelessWidget {
           default:
             page = Sheet(model: Models.sheets.first, controller: controller);
         }
-        return PageRouteBuilder(
+        return PageRouteBuilder<dynamic>(
           pageBuilder: (_, __, ___) => page,
           transitionsBuilder: (context, animation, anotherAnimation, child) {
             animation =
@@ -125,7 +125,7 @@ class OverlayNavigation extends StatelessWidget {
             return SlideTransition(
               position: Tween(
                 begin: const Offset(1.0, 0.0),
-                end: const Offset(0.0, 0.0),
+                end: Offset.zero,
               ).animate(animation),
               child: page,
             );

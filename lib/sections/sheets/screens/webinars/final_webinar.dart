@@ -11,8 +11,11 @@ import 'package:flutter/material.dart';
 class FinalWebinar extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const FinalWebinar({required this.controller, required this.model, Key? key})
-      : super(key: key);
+  const FinalWebinar({
+    required this.controller,
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,8 @@ class FinalWebinar extends StatelessWidget {
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding),
+                horizontal: StaticData.sidePadding,
+              ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
@@ -62,7 +66,8 @@ class FinalWebinar extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding),
+                horizontal: StaticData.sidePadding,
+              ),
               child: BlueButtonWithText(
                 text: 'На главную',
                 onPressed: () {

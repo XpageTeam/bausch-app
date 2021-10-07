@@ -8,11 +8,12 @@ class SheetModel implements MappableInterface<SheetModel> {
   final List<CatalogItemModel> models;
   final SheetType type;
 
-  SheetModel(
-      {required this.title,
-      required this.models,
-      required this.type,
-      this.img});
+  SheetModel({
+    required this.title,
+    required this.models,
+    required this.type,
+    this.img,
+  });
 
   @override
   Map<String, dynamic> toMap() {

@@ -13,9 +13,11 @@ import 'package:flutter/material.dart';
 class FinalFreePackaging extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const FinalFreePackaging(
-      {required this.controller, required this.model, Key? key})
-      : super(key: key);
+  const FinalFreePackaging({
+    required this.controller,
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +32,22 @@ class FinalFreePackaging extends StatelessWidget {
           controller: controller,
           slivers: [
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
                     const CustomSliverAppbar(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 20),
                       child: Text(
                         'Заказ оформлен',
                         style: AppStyles.h2,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
+                    const Padding(
+                      padding: EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),
@@ -54,16 +58,16 @@ class FinalFreePackaging extends StatelessWidget {
                     ),
                     BigCatalogItem(model: model),
                     Padding(
-                      padding: EdgeInsets.only(top: 12, bottom: 120),
+                      padding: const EdgeInsets.only(top: 12, bottom: 120),
                       child: Column(
-                        children: [
+                        children: const [
                           TextWithPoint(
                             text:
                                 'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -74,7 +78,9 @@ class FinalFreePackaging extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
               child: BlueButtonWithText(
                 text: 'На главную',
                 onPressed: () {
@@ -83,7 +89,7 @@ class FinalFreePackaging extends StatelessWidget {
                 },
               ),
             ),
-            InfoBlock(),
+            const InfoBlock(),
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

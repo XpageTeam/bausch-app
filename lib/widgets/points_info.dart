@@ -20,7 +20,11 @@ class PointsInfo extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(
-                        left: 10, right: 20, top: 4, bottom: 4),
+                      left: 10,
+                      right: 20,
+                      top: 4,
+                      bottom: 4,
+                    ),
                     height: 28,
                     decoration: BoxDecoration(
                       color: backgoundColor ?? AppTheme.sulu,
@@ -49,18 +53,19 @@ class PointsInfo extends StatelessWidget {
                     child: Text(
                       'б',
                       style: TextStyle(
-                          color: AppTheme.mineShaft,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          height: 20 / 17),
+                        color: AppTheme.mineShaft,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        height: 20 / 17,
+                      ),
                     ),
                     radius: 14,
                     backgroundColor: AppTheme.turquoiseBlue,
                   ),
                 ],
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

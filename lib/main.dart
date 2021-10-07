@@ -1,12 +1,12 @@
 import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/sections/sheets/main_navigation.dart';
 import 'package:bausch/sections/sheets/overlay_navigation.dart';
+import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
-import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
-import '/static/static_data.dart';
-
-import 'test/models.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      key: Utils.mainAppNav,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -33,7 +32,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const MainNavigation(),
     );
   }
 }
@@ -88,14 +87,14 @@ class MyHomePage extends StatelessWidget {
   }
 
   void showSheet(BuildContext context, SheetModel model) {
-    showFlexibleBottomSheet(
+    showFlexibleBottomSheet<void>(
       //useRootNavigator: true,
       minHeight: 0,
       initHeight: 0.8,
       maxHeight: 1,
       //anchors: [0, 0.5, 1],
       context: context,
-      builder: (context, ScrollController controller, double d) {
+      builder: (context, controller, d) {
         return Scaffold(
           backgroundColor: Colors.transparent,
           body: Column(
@@ -109,7 +108,7 @@ class MyHomePage extends StatelessWidget {
                       text: '500',
                       backgoundColor: AppTheme.mystic,
                     ),
-                  )
+                  ),
                 ],
               ),
               Flexible(

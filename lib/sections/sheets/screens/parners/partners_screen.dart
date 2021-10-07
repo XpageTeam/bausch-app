@@ -8,11 +8,14 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
 
-class ParnersScreen extends StatelessWidget {
+class PartnersScreen extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const ParnersScreen({required this.controller, required this.model, Key? key})
-      : super(key: key);
+  const PartnersScreen({
+    required this.controller,
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +31,15 @@ class ParnersScreen extends StatelessWidget {
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.only(
-                  top: 12, left: 12, right: 12, bottom: 4),
+                top: 12,
+                left: 12,
+                right: 12,
+                bottom: 4,
+              ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.parners(model, context),
+                    TopSection.partners(model, context),
                     const SizedBox(
                       height: 4,
                     ),
@@ -55,7 +62,8 @@ class ParnersScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding),
+                horizontal: StaticData.sidePadding,
+              ),
               child: BlueButtonWithText(
                 text: 'Получить поощрение',
                 onPressed: () {

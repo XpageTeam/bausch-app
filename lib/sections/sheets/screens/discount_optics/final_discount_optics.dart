@@ -12,9 +12,11 @@ import 'package:flutter/material.dart';
 class FinalDiscountOptics extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const FinalDiscountOptics(
-      {required this.controller, required this.model, Key? key})
-      : super(key: key);
+  const FinalDiscountOptics({
+    required this.controller,
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +32,14 @@ class FinalDiscountOptics extends StatelessWidget {
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding),
+                horizontal: StaticData.sidePadding,
+              ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
                     const CustomSliverAppbar(),
                     const Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 40),
+                      padding: EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
                         'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
                         style: AppStyles.h2,
@@ -75,7 +78,8 @@ class FinalDiscountOptics extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding),
+                horizontal: StaticData.sidePadding,
+              ),
               child: BlueButtonWithText(
                 text: 'На главную',
                 onPressed: () {

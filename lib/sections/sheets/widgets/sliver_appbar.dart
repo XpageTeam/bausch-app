@@ -31,13 +31,14 @@ class CustomSliverAppbar extends StatelessWidget {
             radius: 22,
             backgroundColor: Colors.white,
             child: IconButton(
-                onPressed: () {
-                  debugPrint('closed');
-                },
-                icon: const Icon(
-                  Icons.close,
-                  color: AppTheme.mineShaft,
-                )),
+              onPressed: () {
+                Utils.mainAppNav.currentState!.pop();
+              },
+              icon: const Icon(
+                Icons.close,
+                color: AppTheme.mineShaft,
+              ),
+            ),
           ),
         ],
       ),

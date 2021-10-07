@@ -13,7 +13,9 @@ class DiscountInfo extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
           decoration: BoxDecoration(
-              color: AppTheme.sulu, borderRadius: BorderRadius.circular(5)),
+            color: AppTheme.sulu,
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Text(
             text,
             style: AppStyles.h3,

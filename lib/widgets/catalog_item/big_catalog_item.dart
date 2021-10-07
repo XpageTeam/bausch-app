@@ -47,7 +47,7 @@ class BigCatalogItem extends StatelessWidget {
           Image.asset(
             model.img ?? 'assets/free-packaging.png',
             height: 100,
-          )
+          ),
         ],
       ),
     );

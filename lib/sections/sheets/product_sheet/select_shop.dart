@@ -27,9 +27,11 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                 });
               },
               style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5))),
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
@@ -58,13 +60,14 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                       width: MediaQuery.of(context).size.width / 5,
                     ),
                     Radio(
-                        value: i,
-                        groupValue: _selectedIndex,
-                        onChanged: (v) {
-                          setState(() {
-                            _selectedIndex = v as int;
-                          });
-                        })
+                      value: i,
+                      groupValue: _selectedIndex,
+                      onChanged: (v) {
+                        setState(() {
+                          _selectedIndex = v as int;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),

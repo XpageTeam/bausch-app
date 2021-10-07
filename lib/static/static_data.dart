@@ -10,7 +10,7 @@ enum SheetType {
   discountOptics,
   discountOnline,
   partners,
-  consultations
+  consultations,
 }
 
 class Utils {
