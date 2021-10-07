@@ -1,4 +1,4 @@
-import 'package:bausch/sections/home/home_screen.dart';
+import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: const OrderRegistrationScreen(),
     );
   }
 }

@@ -18,7 +18,7 @@ class CustomTextButton extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppStyles.h2,
+            style: AppStyles.h1,
           ),
           const SizedBox(
             width: 4,

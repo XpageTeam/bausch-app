@@ -22,7 +22,7 @@ class SmallContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 20,
           bottom: 14,
           left: StaticData.sidePadding,
@@ -34,7 +34,7 @@ class SmallContainer extends StatelessWidget {
           children: [
             AutoSizeText(
               title,
-              style: AppStyles.h2,
+              style: AppStyles.h1,
               maxLines: 2,
               overflow: TextOverflow.visible,
             ),

@@ -13,7 +13,7 @@ class SpendScores extends StatelessWidget {
       children: [
         const Text(
           'Потратить баллы',
-          style: AppStyles.h2,
+          style: AppStyles.h1,
         ),
         const SizedBox(
           height: 20,
@@ -68,7 +68,7 @@ class SpendScores extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
-        WideContainer(
+        const WideContainer(
           title: 'Онлайн-консультация',
           subtitle: 'Любые вопросы офтальмологу из клиники Медси',
           img: 'assets/online-consultations.png',

@@ -32,7 +32,7 @@ class CustomFloatingActionButton extends StatelessWidget {
                 ),
                 Text(
                   'Добавить баллы',
-                  style: AppStyles.h3,
+                  style: AppStyles.h2Bold,
                 ),
               ],
             ),
@@ -53,7 +53,7 @@ class CustomFloatingActionButton extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 
 class OrderItemWidget extends StatelessWidget {
@@ -34,35 +35,33 @@ class OrderItemWidget extends StatelessWidget {
                   Flexible(
                     child: Text(
                       title,
-                      style: AppStyles.h3,
+                      style: AppStyles.h2Bold,
                     ),
                   ),
                   const SizedBox(
                     height: 4,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          points,
-                          style: AppStyles.h3,
+                  if (points != '')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            points,
+                            style: AppStyles.h2Bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Image.asset(
-                        'assets/images/points.png',
-                        scale: 3,
-                      ),
-                    ],
-                  ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        const PointWidget(),
+                      ],
+                    ),
                 ],
               ),
             ),
             Image.asset(
-              'assets/images/pic_3.png',
+              'assets/items/item1.png',
               scale: 3,
             )
           ],

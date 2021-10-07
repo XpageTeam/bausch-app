@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  [OfferWidget()],
+                 const  [OfferWidget()],
                 ),
               ),
             ),
@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  [
+                const   [
                     SpendScores(),
                   ],
                 ),
@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                           showModalBottomSheet<void>(
                               context: context,
                               builder: (context) {
-                                return WideContainer();
+                                return const  WideContainer();
                               });
                         }),
                     const CustomTextButton(title: 'Частые вопросы'),
@@ -117,7 +117,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: CustomFloatingActionButton(),
+      floatingActionButton: const  CustomFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

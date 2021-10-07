@@ -34,7 +34,7 @@ class OrderTextInput extends StatelessWidget {
             ),
             const Text(
               'Саша',
-              style: AppStyles.h3,
+              style: AppStyles.h2Bold,
             )
           ],
         ),

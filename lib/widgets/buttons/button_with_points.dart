@@ -19,7 +19,7 @@ class ButtonWithPoints extends StatelessWidget {
           children: [
             Text(
               price,
-              style: AppStyles.h3,
+              style: AppStyles.h2Bold,
             ),
             const SizedBox(
               width: 4,

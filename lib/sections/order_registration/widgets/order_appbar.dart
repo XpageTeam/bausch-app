@@ -39,7 +39,7 @@ class OrderAppBar extends StatelessWidget with PreferredSizeWidget {
               child: Center(
                 child: Text(
                   title,
-                  style: AppStyles.h3,
+                  style: AppStyles.h2Bold,
                 ),
               ),
             ),

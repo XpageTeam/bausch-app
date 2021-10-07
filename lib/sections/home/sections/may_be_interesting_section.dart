@@ -1,10 +1,8 @@
 import 'package:bausch/custom_slideshow.dart';
-import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/catalog_item/catalog_item.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
 
 class MayBeInteresting extends StatelessWidget {
@@ -15,11 +13,11 @@ class MayBeInteresting extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Вам может быть интересно',
-          style: AppStyles.h2,
+          style: AppStyles.h1,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         CustomImageSlideshow(

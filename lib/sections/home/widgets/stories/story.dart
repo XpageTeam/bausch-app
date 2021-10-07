@@ -40,7 +40,7 @@ class Story extends StatelessWidget {
                     children: [
                       Text(
                         model.title,
-                        style: AppStyles.h3White,
+                        style: AppStyles.h2WhiteBold,
                       ),
                       Text(
                         model.number.toString(),

@@ -97,7 +97,7 @@ class _CustomImageSlideshowState extends State<CustomImageSlideshow> {
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           ValueListenableBuilder<int>(
