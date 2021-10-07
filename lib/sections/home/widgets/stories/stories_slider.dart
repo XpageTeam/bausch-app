@@ -23,6 +23,7 @@ class StoriesSlider extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4),
                   child: Story(
                     model: item,
+                    index: item.index,
                   ),
                 ))
             .toList(),

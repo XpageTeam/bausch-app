@@ -17,7 +17,7 @@ class CatalogItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         width:
-            MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2,
+            MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 4,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),

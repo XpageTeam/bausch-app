@@ -1,15 +1,24 @@
-import 'package:bausch/models/mappable_object.dart';
+enum MediaType {
+  image,
+  video,
+}
 
-class StoryModel implements MappableInterface<StoryModel> {
-  final int number;
-  final String title;
-  final String? img;
+class StoryModel {
+  final String url;
+  final MediaType media;
+  final Duration duration;
+  final int index;
+  final String? buttonTitle;
+  final String? mainText;
+  final String? secondText;
 
-  StoryModel({required this.number, required this.title, this.img});
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
-  }
+  const StoryModel({
+    required this.url,
+    required this.media,
+    required this.duration,
+    required this.index,
+    this.buttonTitle,
+    this.mainText,
+    this.secondText,
+  });
 }

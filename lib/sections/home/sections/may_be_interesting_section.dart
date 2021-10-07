@@ -30,17 +30,20 @@ class MayBeInteresting extends StatelessWidget {
               (Models.items.length % 2) == 0
                   ? Models.items.length ~/ 2
                   : Models.items.length ~/ 2 + 1,
-              (i) => Row(
-                    children: [
-                      CatalogItem(
-                        model: Models.items[i * 2],
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      if (Models.items.asMap().containsKey(i * 2 + 1))
-                        CatalogItem(model: Models.items[i * 2 + 1])
-                    ],
+              (i) => Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: Row(
+                      children: [
+                        CatalogItem(
+                          model: Models.items[i * 2],
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        if (Models.items.asMap().containsKey(i * 2 + 1))
+                          CatalogItem(model: Models.items[i * 2 + 1])
+                      ],
+                    ),
                   )),
         ),
       ],
