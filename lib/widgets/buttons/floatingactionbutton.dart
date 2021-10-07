@@ -4,32 +4,26 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
-  const CustomFloatingActionButton({Key? key}) : super(key: key);
+  final Widget? icon;
+  const CustomFloatingActionButton({this.icon, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        SizedBox(
-          height: 60,
-          width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
-          child: TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-                backgroundColor: AppTheme.turquoiseBlue,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding)),
+        TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+              backgroundColor: AppTheme.turquoiseBlue,
+              padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
-                  Icons.add,
-                  color: AppTheme.mineShaft,
-                ),
-                SizedBox(
-                  width: 9,
-                ),
+              children: [
+                icon ?? Container(),
                 Text(
                   'Добавить баллы',
                   style: AppStyles.h3,
@@ -39,7 +33,9 @@ class CustomFloatingActionButton extends StatelessWidget {
           ),
         ),
         Container(
-          height: 60,
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+          ),
           color: AppTheme.mystic,
           child: const Center(
             child: Text(
