@@ -1,6 +1,4 @@
 import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
@@ -65,14 +63,25 @@ class Sheet extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CatalogItem.product(
-                          context,
-                          model: model.models[i * 2],
-                          type: model.type,
-                        ),
-                        if (model.models.asMap().containsKey(i * 2 + 1))
+                        if (model.type != SheetType.webinar)
+                          CatalogItem.product(
+                            context,
+                            model: model.models[i * 2],
+                            type: model.type,
+                          )
+                        else
                           CatalogItem.webinar(context,
-                              model: model.models[i * 2 + 1])
+                              model: model.models[i * 2]),
+                        if (model.models.asMap().containsKey(i * 2 + 1))
+                          if (model.type != SheetType.webinar)
+                            CatalogItem.product(
+                              context,
+                              model: model.models[i * 2 + 1],
+                              type: model.type,
+                            )
+                          else
+                            CatalogItem.webinar(context,
+                                model: model.models[i * 2 + 1])
                       ],
                     ),
                   ),

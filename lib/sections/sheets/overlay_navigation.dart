@@ -1,7 +1,17 @@
 import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
+import 'package:bausch/sections/sheets/final_screen.dart';
+import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_verification.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
+import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
+import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
+import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
+import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
+import 'package:bausch/sections/sheets/screens/webinars/webinars_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
-import 'package:bausch/sections/sheets/verification_screen.dart';
 import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
 import 'package:bausch/static/static_data.dart';
@@ -25,32 +35,84 @@ class OverlayNavigation extends StatelessWidget {
           case '/':
             page = Sheet(model: sheetModel, controller: controller);
             break;
-          case '/product':
-            page = ProductSheet(
+
+          case '/consultation':
+            page = ConsultationScreen(
               controller: controller,
-              model: (settings.arguments as ProductSheetArguments).model,
-              type: (settings.arguments as ProductSheetArguments).type,
+              model: Models.items[2],
             );
             break;
-          case '/verification':
-            page = VerificationScreen(
-              model: Models.items.first,
+
+          case '/free_packaging':
+            page = FreePackagingScreen(
               controller: controller,
-              title: 'Подтвердите покупку',
-              subtitle:
-                  'После подтверждения мы спишем баллы, и вы получите промокод',
-              isFinal: false,
+              model: Models.items[2],
             );
             break;
-          case '/final':
-            page = VerificationScreen(
-              model: Models.items.first,
+
+          case '/discount_optics':
+            page = DiscountOpticsScreen(
               controller: controller,
-              title:
-                  'Вот ваш промокод на скидку 500 ₽ в интернет-магазине ЛинзСервис',
-              isFinal: true,
+              model: Models.items[2],
             );
             break;
+
+          case '/discount_online':
+            page = DiscountOnlineScreen(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
+          case '/partners':
+            page = ParnersScreen(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
+          case '/webinars':
+            page = WebinarsScreen(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
+          case '/verification_discount':
+            page = DiscountVerification(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
+          case '/verification_webinar':
+            page = WebinarVerification(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
+          case '/final_webinar':
+            page = FinalWebinar(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
+          case '/final_discount':
+            page = FinalDiscountOptics(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
+          case '/final_free_packaging':
+            page = FinalWebinar(
+              controller: controller,
+              model: Models.items[2],
+            );
+            break;
+
           default:
             page = Sheet(model: Models.sheets.first, controller: controller);
         }

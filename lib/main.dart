@@ -50,37 +50,37 @@ class MyHomePage extends StatelessWidget {
             onPressed: () {
               showSheet(context, Models.sheets[0]);
             },
-            child: Text('Скидка 500р в оптике'),
-          ),
-          TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[2]);
-            },
-            child: Text('Предложения от партнеров'),
+            child: Text(Models.sheets[0].title),
           ),
           TextButton(
             onPressed: () {
               showSheet(context, Models.sheets[1]);
             },
-            child: Text('Бесплатная упаковка'),
+            child: Text(Models.sheets[1].title),
+          ),
+          TextButton(
+            onPressed: () {
+              showSheet(context, Models.sheets[2]);
+            },
+            child: Text(Models.sheets[2].title),
           ),
           TextButton(
             onPressed: () {
               showSheet(context, Models.sheets[3]);
             },
-            child: Text('Скидка 500р в интернет магазине'),
+            child: Text(Models.sheets[3].title),
           ),
           TextButton(
             onPressed: () {
               showSheet(context, Models.sheets[4]);
             },
-            child: Text('Записи вебинаров'),
+            child: Text(Models.sheets[4].title),
           ),
           TextButton(
             onPressed: () {
               showSheet(context, Models.sheets[5]);
             },
-            child: Text('Онлайн-консультация'),
+            child: Text(Models.sheets[5].title),
           ),
         ],
       ),

@@ -1,13 +1,20 @@
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class Warning extends StatelessWidget {
-  const Warning({Key? key}) : super(key: key);
+  final Widget view;
+  const Warning({required this.view, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return view;
+  }
+
+  static Warning warning() {
+    return Warning(
+        view: Container(
       decoration: BoxDecoration(
         color: AppTheme.sulu,
         borderRadius: BorderRadius.circular(5),
@@ -33,6 +40,47 @@ class Warning extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
+  }
+
+  static Warning advertisment() {
+    return Warning(
+        view: Container(
+      decoration: BoxDecoration(
+        color: AppTheme.sulu,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 17,
+          bottom: 30,
+          right: StaticData.sidePadding,
+          left: StaticData.sidePadding,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              'Онлайн-кинотеатр',
+              style: AppStyles.h2,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'data',
+              style: AppStyles.p1Underlined,
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Text(
+              'Скачайте приложение и смотрите любимые фильмы в любое время',
+              style: AppStyles.p1,
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }

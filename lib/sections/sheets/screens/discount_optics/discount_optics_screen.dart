@@ -1,37 +1,23 @@
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
 
-class ProductSheetArguments {
-  final CatalogItemModel model;
-  final SheetType type;
-
-  ProductSheetArguments(this.model, this.type);
-}
-
-class ProductSheet extends StatelessWidget implements ProductSheetArguments {
+class DiscountOpticsScreen extends StatelessWidget {
   final ScrollController controller;
-  @override
   final CatalogItemModel model;
-  @override
-  final SheetType type;
-
-  const ProductSheet(
-      {required this.controller,
-      required this.model,
-      required this.type,
-      Key? key})
+  const DiscountOpticsScreen(
+      {required this.controller, required this.model, Key? key})
       : super(key: key);
 
   @override
@@ -52,74 +38,61 @@ class ProductSheet extends StatelessWidget implements ProductSheetArguments {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection(
-                      model: model,
-                      type: type,
-                    ),
+                    TopSection.product(model, context),
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                    InfoSection.product(),
                     const SizedBox(
                       height: 12,
                     ),
-                    if (type == SheetType.packaging) const LegalInfo(),
+                    const LegalInfo(),
                     const SizedBox(
-                      height: 120,
+                      height: 40,
                     ),
-                    if (type == SheetType.discountOptics)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Выбрать сеть оптик',
-                            style: AppStyles.h2,
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(
-                            'Скидкой можно воспользоваться в любой из оптик сети.',
-                            style: AppStyles.p1,
-                          ),
-                        ],
-                      ),
-                    SizedBox(
+                    const Text(
+                      'Выбрать сеть оптик',
+                      style: AppStyles.h2,
+                    ),
+                    const Text(
+                      'Скидкой можно воспользоваться в любой из оптик сети.',
+                      style: AppStyles.p1,
+                    ),
+                    const SizedBox(
                       height: 20,
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
-            if (type == SheetType.discountOptics)
-              const SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                sliver: SelectShopSection(),
-              ),
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+              sliver: SelectShopSection(),
+            ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    if (type == SheetType.discountOptics) Warning(),
-                    const SizedBox(
-                      height: 40,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 30,
+                        bottom: 10,
+                      ),
+                      child: WhiteButton(
+                        text: 'Адреса оптик',
+                        onPressed: () {},
+                      ),
                     ),
-                    if (type == SheetType.discountOptics) HowToUsePromocode(),
-                    const SizedBox(
-                      height: 40,
+                    Warning.warning(),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 40, bottom: 160),
+                      child: HowToUsePromocode(),
                     ),
                   ],
                 ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const SizedBox(
-                    height: 120,
-                  ),
-                ],
               ),
             ),
           ],
@@ -131,13 +104,13 @@ class ProductSheet extends StatelessWidget implements ProductSheetArguments {
               padding: const EdgeInsets.symmetric(
                   horizontal: StaticData.sidePadding),
               child: BlueButtonWithText(
-                text: 'Перейти к заказу',
+                text: 'Получить скидку',
                 onPressed: () {
                   Utils.bottomSheetNav.currentState!.pushNamed('/verification');
                 },
               ),
             ),
-            InfoBlock(),
+            const InfoBlock(),
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -1,5 +1,4 @@
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/sections/sheets/product_sheet/product_sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
@@ -10,7 +9,8 @@ class CatalogItem extends StatelessWidget {
   final Widget view;
   final CatalogItemModel model;
   final BuildContext context;
-  const CatalogItem(this.view, this.context, {required this.model});
+  const CatalogItem(this.view, this.context, {required this.model, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,6 @@ class CatalogItem extends StatelessWidget {
           onTap: () {
             Utils.bottomSheetNav.currentState!.pushNamed(
               '/product',
-              arguments: ProductSheetArguments(model, type),
             );
           },
           child: Padding(
@@ -95,8 +94,7 @@ class CatalogItem extends StatelessWidget {
     return CatalogItem(
         InkWell(
           onTap: () {
-            Utils.bottomSheetNav.currentState!.pushNamed('/product',
-                arguments: ProductSheetArguments(model, SheetType.webinar));
+            Utils.bottomSheetNav.currentState!.pushNamed('/product');
           },
           child: Padding(
             padding: const EdgeInsets.only(

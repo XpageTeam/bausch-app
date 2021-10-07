@@ -9,92 +9,207 @@ import 'package:flutter/material.dart';
 
 class TopSection extends StatelessWidget {
   final CatalogItemModel model;
-  final SheetType type;
-  const TopSection({required this.model, required this.type, Key? key})
+  final Widget view;
+  const TopSection({required this.model, required this.view, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Colors.white,
-      ),
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              if (type != SheetType.webinar)
+    return view;
+  }
+
+  static TopSection product(CatalogItemModel model, BuildContext context) {
+    return TopSection(
+      model: model,
+      view: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+        ),
+        child: Stack(
+          children: [
+            Column(
+              children: [
                 const SizedBox(
                   height: 64,
                 ),
-              Image.asset(
-                model.img ?? 'assets/woman.png',
-                height: type != SheetType.webinar
-                    ? MediaQuery.of(context).size.height / 5
-                    : null,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding),
-                child: Text(
-                  model.name,
-                  style: AppStyles.h2,
-                  textAlign: TextAlign.center,
+                Image.asset(
+                  model.img ?? 'assets/woman.png',
+                  height: MediaQuery.of(context).size.height / 5,
+                  fit: BoxFit.cover,
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              if (type != SheetType.webinar) ButtonContent(price: model.price),
-              const SizedBox(
-                height: 30,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (type == SheetType.discountOptics)
+                const SizedBox(
+                  height: 30,
+                ),
                 Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding),
+                  child: Text(
+                    model.name,
+                    style: AppStyles.h2,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 30,
+                  ),
+                  child: ButtonContent(price: model.price),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: PointsInfo(text: 'Не хватает 2000'),
-                )
-              else if (type == SheetType.webinar)
+                ),
                 Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Image.asset(
-                    'assets/play-video.png',
-                    height: 28,
+                  padding: const EdgeInsets.all(6.0),
+                  child: CircleAvatar(
+                    backgroundColor: AppTheme.mystic,
+                    radius: 22,
+                    child: IconButton(
+                        onPressed: () {
+                          Utils.bottomSheetNav.currentState!.pop();
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: AppTheme.mineShaft,
+                        )),
                   ),
                 )
-              else
-                SizedBox(
-                  width: 10,
-                ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: CircleAvatar(
-                  backgroundColor: AppTheme.mystic,
-                  radius: 22,
-                  child: IconButton(
-                      onPressed: () {
-                        Utils.bottomSheetNav.currentState!.pop();
-                      },
-                      icon: const Icon(
-                        Icons.close,
-                        color: AppTheme.mineShaft,
-                      )),
-                ),
-              )
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  static TopSection webinar(CatalogItemModel model, BuildContext context) {
+    return TopSection(
+        model: model,
+        view: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Image.asset(
+                    model.img ?? 'assets/woman.png',
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                      vertical: 30,
+                    ),
+                    child: Text(
+                      model.name,
+                      style: AppStyles.h2,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Image.asset(
+                      'assets/play-video.png',
+                      height: 28,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: CircleAvatar(
+                      backgroundColor: AppTheme.mystic,
+                      radius: 22,
+                      child: IconButton(
+                          onPressed: () {
+                            Utils.bottomSheetNav.currentState!.pop();
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: AppTheme.mineShaft,
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ));
+  }
+
+  static TopSection parners(CatalogItemModel model, BuildContext context) {
+    return TopSection(
+        model: model,
+        view: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Image.asset(
+                    model.img ?? 'assets/woman.png',
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                      vertical: 30,
+                    ),
+                    child: Text(
+                      model.name,
+                      style: AppStyles.h2,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const ButtonContent(price: '50'),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: CircleAvatar(
+                      backgroundColor: AppTheme.mystic,
+                      radius: 22,
+                      child: IconButton(
+                          onPressed: () {
+                            Utils.bottomSheetNav.currentState!.pop();
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: AppTheme.mineShaft,
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
