@@ -1,4 +1,3 @@
-import 'package:bausch/sections/order_registration/widgets/margin.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -9,14 +8,14 @@ class LensParametersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Margin(
+    return Container(
       margin: const EdgeInsets.only(bottom: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Margin(
-            margin: EdgeInsets.only(bottom: 20),
-            child: Text(
+          Container(
+            margin: const EdgeInsets.only(bottom: 20),
+            child: const Text(
               'Параметры линз',
               style: AppStyles.h1,
             ),

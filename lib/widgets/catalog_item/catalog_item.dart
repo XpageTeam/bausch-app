@@ -30,10 +30,11 @@ class CatalogItem extends StatelessWidget {
                 SizedBox(
                   height: 100,
                   child: AspectRatio(
-                      aspectRatio: 37 / 12,
-                      child: Image.asset(
-                        model.img ?? 'assets/pic2.png',
-                      )),
+                    aspectRatio: 37 / 12,
+                    child: Image.asset(
+                      model.img ?? 'assets/pic2.png',
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 8,

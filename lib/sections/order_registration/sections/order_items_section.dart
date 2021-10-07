@@ -1,6 +1,5 @@
 import 'package:bausch/models/order_registration/order_item.dart';
-import 'package:bausch/sections/order_registration/widgets/margin.dart';
-import 'package:bausch/sections/order_registration/widgets/order_item_list_widget.dart';
+import 'package:bausch/sections/order_registration/widgets/order_catalog_widget.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +14,14 @@ class OrderItemsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Margin(
+    return Container(
       margin: const EdgeInsets.only(bottom: 40.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //* Список заказанных продуктов
-          OrderItemListWidget(orderItemList: orderItemList),
+          OrderCatalogWidget(orderItemList: orderItemList),
           const SizedBox(
             height: 12,
           ),

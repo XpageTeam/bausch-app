@@ -1,5 +1,5 @@
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
-import 'package:bausch/sections/order_registration/widgets/order_textinput.dart';
+import 'package:bausch/widgets/default_text_input.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
@@ -55,23 +55,35 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        OrderTextInput(
-          labelText: 'Имя',
-          controller: firstNameController,
+        Container(
+          margin: const EdgeInsets.only(bottom: 4),
+          child: DefaultTextInput(
+            labelText: 'Имя',
+            controller: firstNameController,
+          ),
         ),
-        OrderTextInput(
-          labelText: 'Фамилия',
-          controller: lastNameController,
+        Container(
+          margin: const EdgeInsets.only(bottom: 4),
+          child: DefaultTextInput(
+            labelText: 'Фамилия',
+            controller: lastNameController,
+          ),
         ),
-        OrderTextInput(
-          labelText: 'E-mail',
-          controller: emailController,
-          inputType: TextInputType.emailAddress,
+        Container(
+          margin: const EdgeInsets.only(bottom: 4),
+          child: DefaultTextInput(
+            labelText: 'E-mail',
+            controller: emailController,
+            inputType: TextInputType.emailAddress,
+          ),
         ),
-        OrderTextInput(
-          labelText: 'Мобильный телефон',
-          controller: phoneController,
-          inputType: TextInputType.phone,
+        Container(
+          margin: const EdgeInsets.only(bottom: 4),
+          child: DefaultTextInput(
+            labelText: 'Мобильный телефон',
+            controller: phoneController,
+            inputType: TextInputType.phone,
+          ),
         ),
         BlueButton(
           onPressed: widget.onPressed,

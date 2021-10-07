@@ -1,15 +1,12 @@
+import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 
-class OrderItemWidget extends StatelessWidget {
-  final String title;
-  final String points;
-  final String? imgLink;
-  const OrderItemWidget({
-    required this.title,
-    this.points = '',
-    this.imgLink,
+class CatalogItemWidget extends StatelessWidget {
+  final CatalogItemModel model;
+  const CatalogItemWidget({
+    required this.model,
     Key? key,
   }) : super(key: key);
 
@@ -34,34 +31,33 @@ class OrderItemWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      title,
+                      model.name,
                       style: AppStyles.h2Bold,
                     ),
                   ),
                   const SizedBox(
                     height: 4,
                   ),
-                  if (points != '')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            points,
-                            style: AppStyles.h2Bold,
-                          ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          model.price,
+                          style: AppStyles.h2Bold,
                         ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        const PointWidget(),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      const PointWidget(),
+                    ],
+                  ),
                 ],
               ),
             ),
             Image.asset(
-              'assets/items/item1.png',
+              'assets/items/item1.png', //! model.img
               scale: 3,
             )
           ],

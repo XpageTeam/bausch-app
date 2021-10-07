@@ -1,4 +1,3 @@
-import 'package:bausch/sections/order_registration/widgets/margin.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ class DeliveryInfoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Margin(
+    return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: Container(
         decoration: BoxDecoration(

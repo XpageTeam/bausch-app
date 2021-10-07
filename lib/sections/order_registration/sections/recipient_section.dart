@@ -1,4 +1,3 @@
-import 'package:bausch/sections/order_registration/widgets/margin.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/order_registration/widgets/order_form_fields.dart';
 import 'package:bausch/theme/styles.dart';
@@ -12,11 +11,11 @@ class RecipientSection extends StatefulWidget {
 }
 
 class _RecipientSectionState extends State<RecipientSection> {
-  bool _flag = false;
+  bool _flag = true;
 
   @override
   Widget build(BuildContext context) {
-    return Margin(
+    return Container(
       margin: const EdgeInsets.only(bottom: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

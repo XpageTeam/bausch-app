@@ -4,10 +4,11 @@ import 'package:bausch/sections/order_registration/sections/lens_parameters_sect
 import 'package:bausch/sections/order_registration/sections/order_items_section.dart';
 import 'package:bausch/sections/order_registration/sections/recipient_section.dart';
 import 'package:bausch/sections/order_registration/widgets/bottom_bar.dart';
-import 'package:bausch/sections/order_registration/widgets/order_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
+import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
 class OrderRegistrationScreen extends StatelessWidget {
@@ -17,7 +18,50 @@ class OrderRegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      appBar: const OrderAppBar(title: 'Оформление заказа'),
+      appBar: DefaultAppBar(
+        backgroundColor: AppTheme.mystic,
+        title: 'Оформление заказа',
+
+        //* Кнопка "Настройки"
+        topRightWidget: NormalIconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.settings,
+            color: AppTheme.mineShaft,
+          ),
+        ),
+
+        //* Кнопка "Готово"
+        // topRightWidget: TextButton(
+        //   style: ButtonStyle(
+        //     overlayColor: MaterialStateColor.resolveWith(
+        //       (states) => AppTheme.turquoiseBlue,
+        //     ),
+        //     padding: MaterialStateProperty.resolveWith<EdgeInsets>(
+        //       (states) => const EdgeInsets.symmetric(horizontal: 5),
+        //     ),
+        //     minimumSize: MaterialStateProperty.resolveWith<Size>(
+        //       (states) => Size.zero,
+        //     ),
+        //   ),
+        //   onPressed: () {},
+        //   child: const Text(
+        //     'Готово',
+        //     style: AppStyles.p1,
+        //   ),
+        // ),
+
+        //* Кнопка "Готово" (другая)
+        // topRightWidget: GestureDetector(
+        //   onTap: () {
+        //     debugPrint('statement');
+        //   },
+        //   child: Container(
+        //     padding: EdgeInsets.all(5),
+        //     child: Text('Готово'),
+        //   ),
+        // ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

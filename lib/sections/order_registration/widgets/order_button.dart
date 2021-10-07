@@ -1,4 +1,3 @@
-import 'package:bausch/sections/order_registration/widgets/margin.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,7 @@ class OrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Margin(
+    return Container(
       margin: margin,
       child: Material(
         borderRadius: BorderRadius.circular(5),
@@ -91,7 +90,7 @@ class DefaultButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Margin(
+    return Container(
       margin: margin,
       child: Material(
         borderRadius: BorderRadius.circular(5),
