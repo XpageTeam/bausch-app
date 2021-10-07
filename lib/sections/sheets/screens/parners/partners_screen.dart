@@ -36,7 +36,7 @@ class ParnersScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.parners(),
+                    InfoSection.partners(),
                     const SizedBox(
                       height: 4,
                     ),

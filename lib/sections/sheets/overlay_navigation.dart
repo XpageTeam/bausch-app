@@ -27,7 +27,8 @@ class OverlayNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: Utils.bottomSheetNav,
-      initialRoute: '/',
+      initialRoute:
+          sheetModel.type == SheetType.consultations ? '/consultation' : '/',
       onGenerateRoute: (settings) {
         Widget page;
 

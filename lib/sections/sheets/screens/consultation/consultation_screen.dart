@@ -37,10 +37,7 @@ class ConsultationScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.webinar(),
-                    const SizedBox(
-                      height: 12,
-                    ),
+                    InfoSection.partners(),
                   ],
                 ),
               ),

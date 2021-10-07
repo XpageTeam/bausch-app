@@ -25,9 +25,34 @@ class CatalogItem extends StatelessWidget {
     return CatalogItem(
         InkWell(
           onTap: () {
-            Utils.bottomSheetNav.currentState!.pushNamed(
-              '/discount_optics',
-            );
+            switch (type) {
+              case SheetType.discountOptics:
+                Utils.bottomSheetNav.currentState!.pushNamed(
+                  '/discount_optics',
+                );
+                break;
+              case SheetType.webinar:
+                // TODO: Handle this case.
+                break;
+              case SheetType.packaging:
+                Utils.bottomSheetNav.currentState!.pushNamed(
+                  '/free_packaging',
+                );
+                break;
+              case SheetType.discountOnline:
+                Utils.bottomSheetNav.currentState!.pushNamed(
+                  '/discount_online',
+                );
+                break;
+              case SheetType.partners:
+                Utils.bottomSheetNav.currentState!.pushNamed(
+                  '/partners',
+                );
+                break;
+              case SheetType.consultations:
+                // TODO: Handle this case.
+                break;
+            }
           },
           child: Padding(
             padding: const EdgeInsets.only(

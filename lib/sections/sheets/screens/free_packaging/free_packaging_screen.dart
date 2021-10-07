@@ -59,9 +59,7 @@ class FreePackagingScreen extends StatelessWidget {
                   horizontal: StaticData.sidePadding),
               child: BlueButtonWithText(
                 text: 'Перейти к заказу',
-                onPressed: () {
-                  Utils.bottomSheetNav.currentState!.pushNamed('/verification');
-                },
+                onPressed: () {},
               ),
             ),
             const InfoBlock(),

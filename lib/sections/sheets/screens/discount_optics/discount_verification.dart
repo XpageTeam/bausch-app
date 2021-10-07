@@ -102,9 +102,10 @@ class DiscountVerification extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                     horizontal: StaticData.sidePadding),
                 child: BlueButtonWithText(
-                  text: 'На главную',
+                  text: 'Потратить баллы',
                   onPressed: () {
-                    Utils.bottomSheetNav.currentState!.pushNamed('/final');
+                    Utils.bottomSheetNav.currentState!
+                        .pushNamed('/final_discount');
                   },
                 ),
               ),

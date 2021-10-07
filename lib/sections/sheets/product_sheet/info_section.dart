@@ -88,7 +88,7 @@ class InfoSection extends StatelessWidget {
     );
   }
 
-  static InfoSection parners() {
+  static InfoSection partners() {
     return InfoSection(
       view: Container(
         decoration: BoxDecoration(
