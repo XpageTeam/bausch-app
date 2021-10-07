@@ -71,7 +71,7 @@ class OverlayNavigation extends StatelessWidget {
             );
             break;
 
-          case '/webinars':
+          case '/webinar':
             page = WebinarsScreen(
               controller: controller,
               model: Models.items[2],

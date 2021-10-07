@@ -26,7 +26,7 @@ class CatalogItem extends StatelessWidget {
         InkWell(
           onTap: () {
             Utils.bottomSheetNav.currentState!.pushNamed(
-              '/product',
+              '/discount_optics',
             );
           },
           child: Padding(
@@ -94,7 +94,7 @@ class CatalogItem extends StatelessWidget {
     return CatalogItem(
         InkWell(
           onTap: () {
-            Utils.bottomSheetNav.currentState!.pushNamed('/product');
+            Utils.bottomSheetNav.currentState!.pushNamed('/webinar');
           },
           child: Padding(
             padding: const EdgeInsets.only(

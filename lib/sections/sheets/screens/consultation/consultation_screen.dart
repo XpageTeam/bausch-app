@@ -68,9 +68,10 @@ class ConsultationScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: StaticData.sidePadding),
               child: BlueButtonWithText(
-                text: 'Получить промокод',
+                text: 'Потратить баллы',
                 onPressed: () {
-                  Utils.bottomSheetNav.currentState!.pushNamed('/verification');
+                  Utils.bottomSheetNav.currentState!
+                      .pushNamed('/verification_webinar');
                 },
               ),
             ),

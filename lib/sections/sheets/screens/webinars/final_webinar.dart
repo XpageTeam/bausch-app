@@ -64,8 +64,11 @@ class FinalWebinar extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: StaticData.sidePadding),
               child: BlueButtonWithText(
-                text: 'Перейти к просмотру',
-                onPressed: () {},
+                text: 'На главную',
+                onPressed: () {
+                  Utils.bottomSheetNav.currentState!
+                      .pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
+                },
               ),
             ),
             const InfoBlock(),

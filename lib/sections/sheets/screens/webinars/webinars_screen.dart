@@ -50,9 +50,10 @@ class WebinarsScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: StaticData.sidePadding),
               child: BlueButtonWithText(
-                text: 'Перети к просмотру',
+                text: 'Перейти к просмотру',
                 onPressed: () {
-                  Utils.bottomSheetNav.currentState!.pushNamed('/verification');
+                  Utils.bottomSheetNav.currentState!
+                      .pushNamed('/verification_webinar');
                 },
               ),
             ),
