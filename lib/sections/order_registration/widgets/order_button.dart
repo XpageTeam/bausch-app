@@ -1,20 +1,20 @@
 import 'package:bausch/sections/order_registration/widgets/margin.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
-/// Пока что решил не использовать этот вариант
 class OrderButton extends StatelessWidget {
-  final String title;
+  final Widget title;
   final Color textColor;
-  final IconData? icon;
   final EdgeInsets margin;
+  final IconData? icon;
+  final String? subtitle;
   final VoidCallback? onPressed;
   const OrderButton({
     required this.title,
     this.textColor = AppTheme.mineShaft,
     this.margin = EdgeInsets.zero,
     this.icon,
+    this.subtitle,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -31,9 +31,7 @@ class OrderButton extends StatelessWidget {
           splashColor: AppTheme.mystic,
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          onTap: () {
-            debugPrint('statement');
-          },
+          onTap: onPressed,
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
@@ -53,12 +51,11 @@ class OrderButton extends StatelessWidget {
                             color: textColor,
                           ),
                         ),
-                      Flexible(
-                        child: Text(
-                          title,
-                          style: AppStyles.h2Bold.copyWith(color: textColor),
-                        ),
-                      ),
+                      title
+                      // Text(
+                      //   title,
+                      //   style: AppStyles.h2Bold.copyWith(color: textColor),
+                      // ),
                     ],
                   ),
                 ),
