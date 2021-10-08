@@ -12,6 +12,7 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
 
+//catalog_discount_online_store
 class DiscountOnlineScreen extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;

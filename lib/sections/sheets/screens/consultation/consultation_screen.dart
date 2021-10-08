@@ -9,6 +9,7 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
 
+//catalog_online_consultation
 class ConsultationScreen extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;

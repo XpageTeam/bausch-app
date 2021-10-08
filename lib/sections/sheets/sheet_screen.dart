@@ -122,15 +122,19 @@ class Sheet extends StatelessWidget {
     switch (type) {
       case SheetType.discountOptics:
         return '/discount_optics';
+
       case SheetType.webinar:
         return '/webinar';
+
       case SheetType.packaging:
         return '/free_packaging';
+
       case SheetType.discountOnline:
         return '/discount_online';
 
       case SheetType.partners:
         return '/partners';
+
       case SheetType.consultations:
         return '/consultation';
     }

@@ -13,6 +13,7 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
 
+//catalog_discount_optics
 class DiscountOpticsScreen extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
