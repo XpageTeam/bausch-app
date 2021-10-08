@@ -1,5 +1,6 @@
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 /// Дефолтный TextInput для данного проекта
@@ -7,10 +8,14 @@ class DefaultTextInput extends StatefulWidget {
   final String labelText;
   final TextEditingController controller;
   final TextInputType inputType;
+  final InputDecoration? decoration;
+  final TextStyle? textStyle;
   const DefaultTextInput({
     required this.labelText,
     required this.controller,
     this.inputType = TextInputType.text,
+    this.decoration,
+    this.textStyle,
     Key? key,
   }) : super(key: key);
 
@@ -75,7 +80,8 @@ class _DefaultTextInputState extends State<DefaultTextInput>
               controller: widget.controller,
               focusNode: _focusNode,
               keyboardType: widget.inputType,
-              style: AppStyles.h2Bold,
+              style: widget.textStyle ?? AppStyles.h2Bold,
+              decoration: widget.decoration ?? const InputDecoration(),
             ),
           ),
 
