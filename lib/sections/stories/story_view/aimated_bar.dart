@@ -6,10 +6,10 @@ class AnimatedBar extends StatelessWidget {
   final int currentIndex;
 
   const AnimatedBar({
-    Key? key,
     required this.animController,
     required this.position,
     required this.currentIndex,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -27,17 +27,18 @@ class AnimatedBar extends StatelessWidget {
                       ? Colors.white
                       : Colors.white.withOpacity(0.5),
                 ),
-                position == currentIndex
-                    ? AnimatedBuilder(
-                        animation: animController,
-                        builder: (context, child) {
-                          return _buildContainer(
-                            constraints.maxWidth * animController.value,
-                            Colors.white,
-                          );
-                        },
-                      )
-                    : const SizedBox.shrink(),
+                if (position == currentIndex)
+                  AnimatedBuilder(
+                    animation: animController,
+                    builder: (context, child) {
+                      return _buildContainer(
+                        constraints.maxWidth * animController.value,
+                        Colors.white,
+                      );
+                    },
+                  )
+                else
+                  const SizedBox.shrink(),
               ],
             );
           },

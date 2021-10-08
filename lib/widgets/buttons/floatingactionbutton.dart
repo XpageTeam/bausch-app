@@ -15,16 +15,18 @@ class CustomFloatingActionButton extends StatelessWidget {
         TextButton(
           onPressed: () {},
           style: TextButton.styleFrom(
-              backgroundColor: AppTheme.turquoiseBlue,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding)),
+            backgroundColor: AppTheme.turquoiseBlue,
+            padding: const EdgeInsets.symmetric(
+              horizontal: StaticData.sidePadding,
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 icon ?? Container(),
-                Text(
+                const Text(
                   'Добавить баллы',
                   style: AppStyles.h2Bold,
                 ),

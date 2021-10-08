@@ -2,8 +2,6 @@ import 'package:bausch/sections/order_registration/order_registration_screen.dar
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'models/story_model.dart';
-
 void main() {
   runApp(const MyApp());
 }

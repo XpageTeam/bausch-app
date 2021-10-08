@@ -20,12 +20,17 @@ class Story extends StatelessWidget {
               2.5,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return StoriesScreen(
-              stories: Models.stories,
-              currentIndex: index,
-            );
-          }));
+          Navigator.push<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (context) {
+                return StoriesScreen(
+                  stories: Models.stories,
+                  currentIndex: index,
+                );
+              },
+            ),
+          );
         },
         child: AspectRatio(
           aspectRatio: 114 / 180,
@@ -34,9 +39,7 @@ class Story extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: model.img == null
-                      ? Image.asset('assets/pic1.png')
-                      : Image.asset(model.img!),
+                  child: Image.asset(model.url),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -48,10 +51,10 @@ class Story extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        model.title,
+                        model.mainText ?? '',
                         style: AppStyles.h2WhiteBold,
                       ),
-                      Text(
+                      const Text(
                         '2',
                         style: AppStyles.p1White,
                       ),

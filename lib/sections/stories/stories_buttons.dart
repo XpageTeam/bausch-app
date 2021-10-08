@@ -77,13 +77,13 @@ class StoriesBottomButtons extends StatelessWidget {
                     buttonTitle ?? 'Участвовать в акции',
                     style: AppStyles.h3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
-                  Icon(
+                  const Icon(
                     Icons.add,
                     color: Color(0xFF2D2D2D),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -105,7 +105,7 @@ class StoriesBottomButtons extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

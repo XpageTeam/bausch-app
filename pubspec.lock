@@ -92,8 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
-<<<<<<< HEAD
-=======
   convert:
     dependency: transitive
     description:
@@ -108,18 +106,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
->>>>>>> feature/order_registration_screen
   csslib:
     dependency: transitive
     description:
       name: csslib
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.17.0"
-=======
     version: "0.17.1"
->>>>>>> feature/order_registration_screen
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -205,8 +198,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD
-=======
   glob:
     dependency: transitive
     description:
@@ -214,7 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
->>>>>>> feature/order_registration_screen
   html:
     dependency: transitive
     description:
@@ -353,9 +343,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-<<<<<<< HEAD
   video_player:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: video_player
       url: "https://pub.dartlang.org"
@@ -375,10 +364,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
-sdks:
-  dart: ">=2.14.0 <3.0.0"
-  flutter: ">=2.5.0"
-=======
   watcher:
     dependency: transitive
     description:
@@ -395,5 +380,4 @@ sdks:
     version: "3.1.0"
 sdks:
   dart: ">=2.14.0 <3.0.0"
-  flutter: ">=2.0.0"
->>>>>>> feature/order_registration_screen
+  flutter: ">=2.5.0"

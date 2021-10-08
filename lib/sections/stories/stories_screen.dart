@@ -1,9 +1,9 @@
+import 'package:bausch/models/story_model.dart';
 import 'package:bausch/sections/stories/stories_buttons.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
-import '../../models/story_model.dart';
+import 'package:video_player/video_player.dart';
 
 //тут ничего почти не менял,добавил методы _onLongPressStart , _onLongPressEnd
 //откуда всё взял: https://github.com/MarcusNg/flutter_instagram_stories
@@ -11,9 +11,11 @@ import '../../models/story_model.dart';
 class StoriesScreen extends StatefulWidget {
   final List<StoryModel> stories;
   final int currentIndex;
-  const StoriesScreen(
-      {required this.stories, required this.currentIndex, Key? key})
-      : super(key: key);
+  const StoriesScreen({
+    required this.stories,
+    required this.currentIndex,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<StoriesScreen> createState() => _StoriesScreenState();
@@ -32,28 +34,34 @@ class _StoriesScreenState extends State<StoriesScreen>
     _pageController = PageController();
     _animController = AnimationController(vsync: this);
     _videoPlayerController = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    );
 
-    final StoryModel firstStory = widget.stories.first;
+    final firstStory = widget.stories.first;
     _loadStory(story: firstStory, animateToPage: false);
 
-    _animController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animController.stop();
-        _animController.reset();
-        setState(() {
-          if (_currentIndex + 1 < widget.stories.length) {
-            _currentIndex += 1;
-            _loadStory(story: widget.stories[_currentIndex]);
-          } else {
-            // Out of bounds - loop story
-            // You can also Navigator.of(context).pop() here
-            //_currentIndex = 0;
-            _loadStory(story: widget.stories[_currentIndex]);
-          }
-        });
-      }
-    });
+    _animController.addStatusListener(
+      (status) {
+        if (status == AnimationStatus.completed) {
+          _animController.stop();
+          _animController.reset();
+
+          setState(
+            () {
+              if (_currentIndex + 1 < widget.stories.length) {
+                _currentIndex += 1;
+                _loadStory(story: widget.stories[_currentIndex]);
+              } else {
+                // Out of bounds - loop story
+                // You can also Navigator.of(context).pop() here
+                //_currentIndex = 0;
+                _loadStory(story: widget.stories[_currentIndex]);
+              }
+            },
+          );
+        }
+      },
+    );
 
     super.initState();
   }
@@ -68,7 +76,8 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   @override
   Widget build(BuildContext context) {
-    final StoryModel story = widget.stories[_currentIndex];
+    final story = widget.stories[_currentIndex];
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
@@ -90,8 +99,7 @@ class _StoriesScreenState extends State<StoriesScreen>
                       fit: BoxFit.cover,
                     );
                   case MediaType.video:
-                    if (_videoPlayerController != null &&
-                        _videoPlayerController.value.isInitialized) {
+                    if (_videoPlayerController.value.isInitialized) {
                       return FittedBox(
                         fit: BoxFit.cover,
                         child: SizedBox(
@@ -116,9 +124,10 @@ class _StoriesScreenState extends State<StoriesScreen>
                     children: List.generate(
                       widget.stories.length,
                       (index) => AnimatedBar(
-                          animController: _animController,
-                          position: index,
-                          currentIndex: _currentIndex),
+                        animController: _animController,
+                        position: index,
+                        currentIndex: _currentIndex,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -131,13 +140,14 @@ class _StoriesScreenState extends State<StoriesScreen>
                         radius: 22,
                         backgroundColor: Colors.white,
                         child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              Icons.close,
-                              color: Color(0xFF2D2D2D),
-                            )),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Color(0xFF2D2D2D),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -147,18 +157,19 @@ class _StoriesScreenState extends State<StoriesScreen>
                   Text(
                     widget.stories[_currentIndex].mainText ?? '',
                     style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 41,
-                        height: 42 / 41,
-                        fontWeight: FontWeight.w500),
+                      color: Colors.white,
+                      fontSize: 41,
+                      height: 42 / 41,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Text(
                     widget.stories[_currentIndex].secondText ?? '',
-                    style: AppStyles.h3White,
-                  )
+                    style: AppStyles.h2WhiteBold,
+                  ),
                 ],
               ),
             ),
@@ -174,16 +185,19 @@ class _StoriesScreenState extends State<StoriesScreen>
   }
 
   void _onTapUp(TapUpDetails details, StoryModel story) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double dx = details.globalPosition.dx;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final dx = details.globalPosition.dx;
+
     if (dx < screenWidth / 3) {
-      setState(() {
-        if (_currentIndex - 1 >= 0) {
-          _currentIndex -= 1;
-          _loadStory(story: widget.stories[_currentIndex]);
-        }
-      });
-    } else if (dx > 2 * screenWidth / 3) {
+      setState(
+        () {
+          if (_currentIndex - 1 >= 0) {
+            _currentIndex -= 1;
+            _loadStory(story: widget.stories[_currentIndex]);
+          }
+        },
+      );
+    } else if (dx > screenWidth * 2 / 3) {
       setState(
         () {
           if (_currentIndex + 1 < widget.stories.length) {
@@ -219,6 +233,7 @@ class _StoriesScreenState extends State<StoriesScreen>
   void _loadStory({required StoryModel story, bool animateToPage = true}) {
     _animController.stop();
     _animController.reset();
+
     switch (story.media) {
       case MediaType.image:
         _animController.duration = story.duration;
@@ -228,14 +243,17 @@ class _StoriesScreenState extends State<StoriesScreen>
         //_videoPlayerController = null;
         _videoPlayerController.dispose();
         _videoPlayerController = VideoPlayerController.network(story.url)
-          ..initialize().then((_) {
-            setState(() {});
-            if (_videoPlayerController.value.isInitialized) {
-              _animController.duration = _videoPlayerController.value.duration;
-              _videoPlayerController.play();
-              _animController.forward();
-            }
-          });
+          ..initialize().then(
+            (_) {
+              setState(() {});
+              if (_videoPlayerController.value.isInitialized) {
+                _animController.duration =
+                    _videoPlayerController.value.duration;
+                _videoPlayerController.play();
+                _animController.forward();
+              }
+            },
+          );
         break;
     }
     if (animateToPage) {
