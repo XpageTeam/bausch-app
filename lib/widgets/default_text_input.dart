@@ -1,5 +1,6 @@
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 /// Дефолтный TextInput для данного проекта
 class DefaultTextInput extends StatefulWidget {
@@ -32,6 +33,16 @@ class _DefaultTextInputState extends State<DefaultTextInput>
   void initState() {
     super.initState();
     _focusNode.addListener(_labelStyleHandler);
+
+    final keyboardVisibilityController = KeyboardVisibilityController();
+
+    // Subscribe
+    keyboardVisibilityController.onChange.listen(
+      (visible) {
+        //* Когда клавиатура скрыта, то убирается фокус с textInput
+        if (!visible) unFocus();
+      },
+    );
   }
 
   @override
@@ -101,6 +112,10 @@ class _DefaultTextInputState extends State<DefaultTextInput>
 
   void setFocus() {
     FocusScope.of(context).requestFocus(_focusNode);
+  }
+
+  void unFocus() {
+    FocusScope.of(context).unfocus();
   }
 
   void _labelStyleHandler() {

@@ -30,7 +30,9 @@ dependencies:
   flutter:
     sdk: flutter
   auto_size_text_pk: ^3.0.0
+  flutter_keyboard_visibility: ^5.0.3
   extended_masked_text: ^2.3.1
+  
 
 
   # The following adds the Cupertino Icons font to your application.
