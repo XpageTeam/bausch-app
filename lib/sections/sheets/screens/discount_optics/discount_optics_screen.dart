@@ -44,7 +44,7 @@ class DiscountOpticsScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.product(model, context),
+                    TopSection.product(model, Container(), key),
                     const SizedBox(
                       height: 4,
                     ),

@@ -38,7 +38,7 @@ class WebinarsScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.webinar(model, context),
+                    TopSection.webinar(model, key),
                     const SizedBox(
                       height: 4,
                     ),

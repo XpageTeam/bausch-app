@@ -39,7 +39,7 @@ class PartnersScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.partners(model, context),
+                    TopSection.partners(model, Container(), key),
                     const SizedBox(
                       height: 4,
                     ),

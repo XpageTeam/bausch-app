@@ -39,7 +39,7 @@ class FreePackagingScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.product(model, context),
+                    TopSection.packaging(model, key),
                     const SizedBox(
                       height: 4,
                     ),

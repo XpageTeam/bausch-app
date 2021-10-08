@@ -5,6 +5,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,9 @@ class FinalWebinar extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    const CustomSliverAppbar(),
+                    const CustomSliverAppbar(
+                      padding: EdgeInsets.only(top: StaticData.sidePadding),
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
@@ -61,24 +64,7 @@ class FinalWebinar extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'На главную',
-                onPressed: () {
-                  Utils.bottomSheetNav.currentState!
-                      .pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
-                },
-              ),
-            ),
-            const InfoBlock(),
-          ],
-        ),
+        floatingActionButton: BottomButtonWithRoundedCorners(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

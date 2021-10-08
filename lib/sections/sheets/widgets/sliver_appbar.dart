@@ -3,33 +3,41 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomSliverAppbar extends StatelessWidget {
-  const CustomSliverAppbar({Key? key}) : super(key: key);
+  final Widget? icon;
+  final Color? iconColor;
+  final EdgeInsets? padding;
+  const CustomSliverAppbar({this.icon, this.iconColor, this.padding, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 14,
-      ),
+      padding: padding ??
+          const EdgeInsets.only(
+            top: 6,
+            right: 6,
+            left: 6,
+          ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CircleAvatar(
-            radius: 22,
-            backgroundColor: Colors.white,
-            child: IconButton(
-              onPressed: () {
-                Utils.bottomSheetNav.currentState!.pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                color: AppTheme.mineShaft,
+          icon ??
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: iconColor ?? Colors.white,
+                child: IconButton(
+                  onPressed: () {
+                    Utils.bottomSheetNav.currentState!.pop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: AppTheme.mineShaft,
+                  ),
+                ),
               ),
-            ),
-          ),
           CircleAvatar(
             radius: 22,
-            backgroundColor: Colors.white,
+            backgroundColor: iconColor ?? Colors.white,
             child: IconButton(
               onPressed: () {
                 Utils.mainAppNav.currentState!.pop();
