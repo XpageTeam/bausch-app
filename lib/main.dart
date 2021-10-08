@@ -88,11 +88,9 @@ class MyHomePage extends StatelessWidget {
 
   void showSheet(BuildContext context, SheetModel model) {
     showFlexibleBottomSheet<void>(
-      //useRootNavigator: true,
       minHeight: 0,
       initHeight: 0.8,
-      maxHeight: 1,
-      //anchors: [0, 0.5, 1],
+      maxHeight: 0.95,
       context: context,
       builder: (context, controller, d) {
         return Scaffold(
