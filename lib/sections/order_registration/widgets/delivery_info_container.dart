@@ -17,7 +17,6 @@ class DeliveryInfoContainer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 12),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               Icon(

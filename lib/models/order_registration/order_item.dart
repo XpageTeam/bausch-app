@@ -15,7 +15,7 @@ class OrderItem {
     return OrderItem(
       title: 'Раствор Biotrue универсальный ($i мл)',
       points: '13 000',
-      imgLink: 'wasd',
+      // imgLink: 'wasd',
     );
   }
 

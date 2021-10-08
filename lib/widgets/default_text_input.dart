@@ -23,7 +23,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
   final _focusNode = FocusNode();
 
   //* Продолжительность анимации изменения стиля и положения [label]
-  int labelAnimationDuration = 50;
+  int labelAnimationDuration = 150;
 
   //* Флаг, по которому меняются стиль и положение
   bool _isTextInputFocusedOrFilled = false;
