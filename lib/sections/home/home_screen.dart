@@ -119,7 +119,9 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: const CustomFloatingActionButton(),
+      floatingActionButton: const CustomFloatingActionButton(
+        text: 'Добавить баллы',
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
