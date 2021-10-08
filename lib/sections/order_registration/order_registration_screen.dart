@@ -95,7 +95,7 @@ class OrderRegistrationScreen extends StatelessWidget {
         onPressed: () {},
         children: const [
           Text(
-            'Добавить баллы',
+            'Потратить 1 250 б',
             style: AppStyles.h2Bold,
           ),
         ],
