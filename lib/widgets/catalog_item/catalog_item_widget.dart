@@ -38,17 +38,16 @@ class CatalogItemWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       //* Название заказа
-                      Flexible(
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 2),
-                          child: orderTitle != null
-                              ? Text(
-                                  orderTitle!,
-                                  style: AppStyles.p1Grey,
-                                )
-                              : null,
+                      if (orderTitle != null)
+                        Flexible(
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 2),
+                            child: Text(
+                              orderTitle!,
+                              style: AppStyles.p1Grey,
+                            ),
+                          ),
                         ),
-                      ),
 
                       //* Название товара
                       Flexible(
@@ -78,17 +77,16 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
 
                       //* Адрес
-                      Flexible(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 2),
-                          child: address != null
-                              ? Text(
-                                  address!,
-                                  style: AppStyles.p1Grey,
-                                )
-                              : null,
+                      if (address != null)
+                        Flexible(
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 2),
+                            child: Text(
+                              address!,
+                              style: AppStyles.p1Grey,
+                            ),
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -104,37 +102,36 @@ class CatalogItemWidget extends StatelessWidget {
             ),
 
             //* Информация о доставке
-            Container(
-              margin: const EdgeInsets.only(top: 32),
-              child: deliveryInfo != null
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.battery_charging_full,
-                          color: AppTheme.mineShaft,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Flexible(
-                          child: Text.rich(
+            if (deliveryInfo != null)
+              Container(
+                margin: const EdgeInsets.only(top: 32),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.battery_charging_full,
+                      color: AppTheme.mineShaft,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Flexible(
+                      child: Text.rich(
+                        TextSpan(
+                          text: 'Ещё пару дней. ',
+                          style: AppStyles.p1,
+                          children: [
                             TextSpan(
-                              text: 'Ещё пару дней. ',
-                              style: AppStyles.p1,
-                              children: [
-                                TextSpan(
-                                  text: deliveryInfo,
-                                  style: AppStyles.p1Grey,
-                                ),
-                              ],
+                              text: deliveryInfo,
+                              style: AppStyles.p1Grey,
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    )
-                  : null,
-            ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

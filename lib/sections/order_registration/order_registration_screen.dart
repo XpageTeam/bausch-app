@@ -11,6 +11,9 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
+//* Макет
+//* Catalog_free packaging:
+//* order
 class OrderRegistrationScreen extends StatelessWidget {
   const OrderRegistrationScreen({Key? key}) : super(key: key);
 
