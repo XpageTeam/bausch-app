@@ -33,6 +33,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.0.3
   extended_masked_text: ^2.3.1
   video_player: ^2.2.5
+  pin_code_text_field: ^1.8.0
 
 
   # The following adds the Cupertino Icons font to your application.
