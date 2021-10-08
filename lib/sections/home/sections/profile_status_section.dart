@@ -24,7 +24,7 @@ class ProfileStatus extends StatelessWidget {
               children: const [
                 Text(
                   'Саша',
-                  style: AppStyles.h2,
+                  style: AppStyles.h1,
                 ),
                 CircleAvatar(
                   radius: 5,

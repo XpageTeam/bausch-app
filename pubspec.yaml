@@ -29,6 +29,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  auto_size_text_pk: ^3.0.0
+  flutter_keyboard_visibility: ^5.0.3
+  extended_masked_text: ^2.3.1
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -39,13 +43,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  auto_size_text_pk: ^3.0.0
 
+  surf_lint_rules: ^1.4.0
  
-  flutter_lints: ^1.0.0
-  video_player: ^2.2.5
-
-  
+  # flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,15 +1,18 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 
 class SmallContainer extends StatelessWidget {
   final String title;
   final String number;
   final String img;
-  const SmallContainer(
-      {required this.title, required this.number, required this.img, Key? key})
-      : super(key: key);
+  const SmallContainer({
+    required this.title,
+    required this.number,
+    required this.img,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class SmallContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 20,
           bottom: 14,
           left: StaticData.sidePadding,
@@ -34,7 +37,7 @@ class SmallContainer extends StatelessWidget {
           children: [
             AutoSizeText(
               title,
-              style: AppStyles.h2,
+              style: AppStyles.h1,
               maxLines: 2,
               overflow: TextOverflow.visible,
             ),
@@ -52,9 +55,9 @@ class SmallContainer extends StatelessWidget {
                     img,
                     height: 50,
                   ),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

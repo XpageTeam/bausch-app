@@ -1,4 +1,3 @@
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +28,7 @@ class WideContainer extends StatelessWidget {
           children: [
             Text(
               title ?? 'Скидка в оптике',
-              style: AppStyles.h3,
+              style: AppStyles.h2Bold,
             ),
             Row(
               children: [
@@ -46,7 +45,7 @@ class WideContainer extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             if (children != null)
@@ -54,20 +53,21 @@ class WideContainer extends StatelessWidget {
                 child: SizedBox(
                   height: 32,
                   child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i) {
-                        return Image.asset(
-                          children![i],
-                          width: 100,
-                        );
-                      },
-                      separatorBuilder: (context, i) {
-                        return VerticalDivider();
-                      },
-                      itemCount: children!.length),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, i) {
+                      return Image.asset(
+                        children![i],
+                        width: 100,
+                      );
+                    },
+                    separatorBuilder: (context, i) {
+                      return const VerticalDivider();
+                    },
+                    itemCount: children!.length,
+                  ),
                 ),
-              )
+              ),
           ],
         ),
       ),

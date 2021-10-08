@@ -35,18 +35,29 @@ class Models {
 
   static List<CatalogItemModel> items = [
     CatalogItemModel(
-        name: 'Раствор Biotrue универсальный(300 мл)',
-        price: '1300',
-        img: 'assets/items/item1.png'),
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
     CatalogItemModel(
-        name: 'Biotrue one day (30 линз в упаковке)',
-        price: '600',
-        img: 'assets/items/item2.png'),
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
+    ),
     CatalogItemModel(
-        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+      name: 'Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
     CatalogItemModel(
-        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+      name: 'Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
     CatalogItemModel(
-        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+      name: 'Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
   ];
 }

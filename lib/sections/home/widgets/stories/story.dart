@@ -34,7 +34,9 @@ class Story extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: Image.asset(model.url),
+                  child: model.img == null
+                      ? Image.asset('assets/pic1.png')
+                      : Image.asset(model.img!),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -46,8 +48,8 @@ class Story extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        model.mainText ?? 'kek',
-                        style: AppStyles.h3White,
+                        model.title,
+                        style: AppStyles.h2WhiteBold,
                       ),
                       Text(
                         '2',
@@ -55,7 +57,7 @@ class Story extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

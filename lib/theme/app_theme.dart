@@ -7,4 +7,17 @@ class AppTheme {
   static const mineShaft = Color(0xFF2D2D2D);
   static const mystic = Color(0xFFECF1F3);
   static const grey = Color(0xFF797B7C);
+
+  static ThemeData get currentAppTheme => ThemeData(
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: turquoiseBlue,
+          selectionColor: turquoiseBlue,
+          selectionHandleColor: turquoiseBlue,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          contentPadding: EdgeInsets.zero,
+          isDense: true,
+          border: InputBorder.none,
+        ),
+      );
 }

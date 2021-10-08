@@ -18,10 +18,11 @@ class OfferWidget extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.only(
-                top: 16,
-                right: StaticData.sidePadding,
-                left: StaticData.sidePadding,
-                bottom: 30),
+              top: 16,
+              right: StaticData.sidePadding,
+              left: StaticData.sidePadding,
+              bottom: 30,
+            ),
             child: Column(
               children: [
                 Row(
@@ -29,12 +30,12 @@ class OfferWidget extends StatelessWidget {
                     Flexible(
                       child: Text(
                         'Бесплатно подберем вам первые линзы в оптике',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     SizedBox(
                       width: 70,
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -68,7 +69,7 @@ class OfferWidget extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

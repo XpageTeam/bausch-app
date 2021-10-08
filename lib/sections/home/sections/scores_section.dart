@@ -1,6 +1,5 @@
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class ScoresSection extends StatelessWidget {
@@ -35,7 +34,7 @@ class ScoresSection extends StatelessWidget {
                   height: 25 / 27,
                 ),
               ),
-            )
+            ),
           ],
         ),
         const SizedBox(

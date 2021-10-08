@@ -17,9 +17,11 @@ class CustomFloatingActionButton extends StatelessWidget {
           child: TextButton(
             onPressed: () {},
             style: TextButton.styleFrom(
-                backgroundColor: AppTheme.turquoiseBlue,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding)),
+              backgroundColor: AppTheme.turquoiseBlue,
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -32,7 +34,7 @@ class CustomFloatingActionButton extends StatelessWidget {
                 ),
                 Text(
                   'Добавить баллы',
-                  style: AppStyles.h3,
+                  style: AppStyles.h2Bold,
                 ),
               ],
             ),
@@ -53,7 +55,7 @@ class CustomFloatingActionButton extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
