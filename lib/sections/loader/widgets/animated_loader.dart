@@ -1,4 +1,4 @@
-import 'package:bausch/sections/loader/widgets/default_moving_circle.dart';
+import 'package:bausch/sections/loader/widgets/default_circle.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -28,13 +28,7 @@ class _AnimatedLoaderState extends State<AnimatedLoader>
       duration: Duration(
         milliseconds: widget.duration,
       ),
-    )..addStatusListener(
-        (status) {
-          if (status == AnimationStatus.completed) {
-            _controller.repeat().orCancel;
-          }
-        },
-      );
+    )..repeat();
 
     _moveAnimation = TweenSequence<double>(
       [
@@ -91,8 +85,6 @@ class _AnimatedLoaderState extends State<AnimatedLoader>
         ),
       ],
     ).animate(_controller);
-
-    _controller.forward();
   }
 
   @override
@@ -105,14 +97,21 @@ class _AnimatedLoaderState extends State<AnimatedLoader>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        MovingDefaultCircle(
-          controller: _controller,
-          xOffsetValue: _moveAnimation.value,
-          color: AppTheme.sulu,
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, _) => Transform.translate(
+            offset: Offset(-_moveAnimation.value, 0),
+            child: const DefaultCircle(
+              color: AppTheme.sulu,
+            ),
+          ),
         ),
-        MovingDefaultCircle(
-          controller: _controller,
-          xOffsetValue: _moveAnimation.value,
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, _) => Transform.translate(
+            offset: Offset(_moveAnimation.value, 0),
+            child: const DefaultCircle(),
+          ),
         ),
       ],
     );

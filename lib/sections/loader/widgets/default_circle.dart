@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DefaultCircle extends StatelessWidget {
-  final Color? color;
-  final double? diameter;
+  final Color color;
+  final double diameter;
   const DefaultCircle({
     this.color = Colors.white,
     this.diameter = 33,
