@@ -53,20 +53,21 @@ class WideContainer extends StatelessWidget {
                 child: SizedBox(
                   height: 32,
                   child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i) {
-                        return Image.asset(
-                          children![i],
-                          width: 100,
-                        );
-                      },
-                      separatorBuilder: (context, i) {
-                        return const VerticalDivider();
-                      },
-                      itemCount: children!.length),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, i) {
+                      return Image.asset(
+                        children![i],
+                        width: 100,
+                      );
+                    },
+                    separatorBuilder: (context, i) {
+                      return const VerticalDivider();
+                    },
+                    itemCount: children!.length,
+                  ),
                 ),
-              )
+              ),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
-import 'package:bausch/widgets/default_text_input.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/default_text_input.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 

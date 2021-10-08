@@ -1,7 +1,6 @@
 import 'package:bausch/sections/order_registration/widgets/delivery_info_container.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_widget.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +29,6 @@ class DeliveryAddressSection extends StatelessWidget {
             ),
           ),
           icon: Icons.check_circle_sharp,
-          textColor: AppTheme.mineShaft,
           margin: const EdgeInsets.only(bottom: 4),
         ),
         OrderButton(
@@ -40,7 +38,6 @@ class DeliveryAddressSection extends StatelessWidget {
             style: AppStyles.h2Bold,
           ),
           icon: Icons.add_circle_outline,
-          textColor: AppTheme.mineShaft,
           margin: const EdgeInsets.only(bottom: 4),
         ),
 

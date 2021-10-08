@@ -72,7 +72,6 @@ class OrderRegistrationScreen extends StatelessWidget {
             40,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //* Область со списком заказанных продуктов

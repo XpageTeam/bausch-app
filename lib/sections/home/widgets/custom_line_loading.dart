@@ -26,7 +26,6 @@ class CustomLineLoadingIndicator extends StatelessWidget {
           ),
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(

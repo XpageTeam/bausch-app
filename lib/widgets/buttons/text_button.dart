@@ -27,7 +27,7 @@ class CustomTextButton extends StatelessWidget {
             Icons.arrow_forward_ios_sharp,
             color: AppTheme.mineShaft,
             size: 20,
-          )
+          ),
         ],
       ),
     );

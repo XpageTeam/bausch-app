@@ -50,7 +50,7 @@ class OrderButton extends StatelessWidget {
                             color: textColor,
                           ),
                         ),
-                      title
+                      title,
                       // Text(
                       //   title,
                       //   style: AppStyles.h2Bold.copyWith(color: textColor),

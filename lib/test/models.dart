@@ -5,27 +5,39 @@ class Models {
   static List<StoryModel> stories = [
     StoryModel(number: 3, title: 'Новинка месяца', img: 'assets/pic1.png'),
     StoryModel(
-        number: 8,
-        title: 'При трате баллов доставка день в день!',
-        img: 'assets/pic2.png'),
+      number: 8,
+      title: 'При трате баллов доставка день в день!',
+      img: 'assets/pic2.png',
+    ),
     StoryModel(number: 6, title: 'С заботой о себе', img: 'assets/pic3.png'),
     StoryModel(number: 6, title: 'С заботой о себе', img: 'assets/pic3.png'),
   ];
 
   static List<CatalogItemModel> items = [
     CatalogItemModel(
-        name: 'Раствор Biotrue универсальный(300 мл)',
-        price: '1300',
-        img: 'assets/items/item1.png'),
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
     CatalogItemModel(
-        name: 'Biotrue one day (30 линз в упаковке)',
-        price: '600',
-        img: 'assets/items/item2.png'),
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
+    ),
     CatalogItemModel(
-        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+      name: 'Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
     CatalogItemModel(
-        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+      name: 'Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
     CatalogItemModel(
-        name: 'Раствор', price: '1300', img: 'assets/items/item1.png'),
+      name: 'Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
   ];
 }

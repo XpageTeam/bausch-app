@@ -17,7 +17,6 @@ class OrderItemsSection extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 40.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //* Список заказанных продуктов

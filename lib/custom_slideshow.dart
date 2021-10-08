@@ -37,8 +37,8 @@ class CustomImageSlideshow extends StatefulWidget {
 
   final double indicatorBottomPadding;
   const CustomImageSlideshow({
-    Key? key,
     required this.children,
+    Key? key,
     this.width = double.infinity,
     this.height = 200,
     this.initialPage = 0,

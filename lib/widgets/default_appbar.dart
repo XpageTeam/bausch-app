@@ -7,6 +7,10 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Widget? topRightWidget;
   final Color backgroundColor;
+
+  @override
+  Size get preferredSize => const Size(double.infinity, 48);
+
   const DefaultAppBar({
     required this.title,
     this.topRightWidget,
@@ -26,7 +30,6 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                flex: 1,
                 child: Navigator.of(context).canPop() == false //!
                     ? Align(
                         alignment: Alignment.centerLeft,
@@ -51,7 +54,6 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
               ),
               Expanded(
-                flex: 1,
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: topRightWidget != null ? topRightWidget! : Container(),
@@ -63,7 +65,4 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size(double.infinity, 48);
 }

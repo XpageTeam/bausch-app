@@ -1,8 +1,8 @@
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
-import 'package:bausch/sections/home/sections/spend_scores_section.dart';
-import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
+import 'package:bausch/sections/home/sections/spend_scores_section.dart';
+import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/widgets/wide_container.dart';
 import 'package:bausch/static/static_data.dart';
@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                 const  [OfferWidget()],
+                  const [OfferWidget()],
                 ),
               ),
             ),
@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                const   [
+                  const [
                     SpendScores(),
                   ],
                 ),
@@ -93,14 +93,16 @@ class HomeScreen extends StatelessWidget {
                   [
                     const MayBeInteresting(),
                     CustomTextButton(
-                        title: 'Правила программы',
-                        onPressed: () {
-                          showModalBottomSheet<void>(
-                              context: context,
-                              builder: (context) {
-                                return const  WideContainer();
-                              });
-                        }),
+                      title: 'Правила программы',
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (context) {
+                            return const WideContainer();
+                          },
+                        );
+                      },
+                    ),
                     const CustomTextButton(title: 'Частые вопросы'),
                     const CustomTextButton(title: 'Библиотека ссылок'),
                     const SizedBox(
@@ -117,7 +119,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: const  CustomFloatingActionButton(),
+      floatingActionButton: const CustomFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

@@ -22,11 +22,11 @@ class _DefaultTextInputState extends State<DefaultTextInput>
   //* Используется для того, чтобы прослушивать фокус и менять стиль и положение [label]
   final _focusNode = FocusNode();
 
-  //* Флаг, по которому меняются стиль и положение
-  bool _isTextInputFocusedOrFilled = false;
-
   //* Продолжительность анимации изменения стиля и положения [label]
   int labelAnimationDuration = 50;
+
+  //* Флаг, по которому меняются стиль и положение
+  bool _isTextInputFocusedOrFilled = false;
 
   @override
   void initState() {
@@ -34,26 +34,10 @@ class _DefaultTextInputState extends State<DefaultTextInput>
     _focusNode.addListener(_labelStyleHandler);
   }
 
-  void _labelStyleHandler() {
-    setState(
-      () {
-        //* Если textField с фокусом или textField не пустой, тогда будет
-        //* показываться один стиль (маленькая серая [label] слева сверху),
-        //* иначе - другой (большая серая [label] в центре).
-        _isTextInputFocusedOrFilled =
-            _focusNode.hasFocus || widget.controller.text.isNotEmpty;
-      },
-    );
-  }
-
   @override
   void dispose() {
     _focusNode.dispose();
     super.dispose();
-  }
-
-  void setFocus() {
-    FocusScope.of(context).requestFocus(_focusNode);
   }
 
   @override
@@ -112,6 +96,22 @@ class _DefaultTextInputState extends State<DefaultTextInput>
           ),
         ],
       ),
+    );
+  }
+
+  void setFocus() {
+    FocusScope.of(context).requestFocus(_focusNode);
+  }
+
+  void _labelStyleHandler() {
+    setState(
+      () {
+        //* Если textField с фокусом или textField не пустой, тогда будет
+        //* показываться один стиль (маленькая серая [label] слева сверху),
+        //* иначе - другой (большая серая [label] в центре).
+        _isTextInputFocusedOrFilled =
+            _focusNode.hasFocus || widget.controller.text.isNotEmpty;
+      },
     );
   }
 }

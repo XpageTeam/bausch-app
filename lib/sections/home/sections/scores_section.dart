@@ -34,7 +34,7 @@ class ScoresSection extends StatelessWidget {
                   height: 25 / 27,
                 ),
               ),
-            )
+            ),
           ],
         ),
         const SizedBox(

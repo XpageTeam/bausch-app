@@ -8,7 +8,7 @@ class AppTheme {
   static const mystic = Color(0xFFECF1F3);
   static const grey = Color(0xFF797B7C);
 
-  static get currentAppTheme => ThemeData(
+  static ThemeData get currentAppTheme => ThemeData(
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: turquoiseBlue,
           selectionColor: turquoiseBlue,

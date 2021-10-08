@@ -25,21 +25,24 @@ class MayBeInteresting extends StatelessWidget {
           indicatorBackgroundColor: Colors.white,
           indicatorColor: AppTheme.turquoiseBlue,
           children: List.generate(
-              (Models.items.length % 2) == 0
-                  ? Models.items.length ~/ 2
-                  : Models.items.length ~/ 2 + 1,
-              (i) => Row(
-                    children: [
-                      CatalogItem(
-                        model: Models.items[i * 2],
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      if (Models.items.asMap().containsKey(i * 2 + 1))
-                        CatalogItem(model: Models.items[i * 2 + 1])
-                    ],
-                  )),
+            (Models.items.length % 2) == 0
+                ? Models.items.length ~/ 2
+                : Models.items.length ~/ 2 + 1,
+            (i) => Row(
+              children: [
+                CatalogItem(
+                  model: Models.items[i * 2],
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                if (Models.items.asMap().containsKey(i * 2 + 1))
+                  CatalogItem(
+                    model: Models.items[i * 2 + 1],
+                  ),
+              ],
+            ),
+          ),
         ),
       ],
     );

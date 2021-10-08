@@ -9,8 +9,6 @@ class ContraindicationsInfoWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(36, 8, 36, 19),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: const [
           Flexible(

@@ -21,7 +21,6 @@ class CatalogItemWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
               flex: 2,
@@ -39,7 +38,6 @@ class CatalogItemWidget extends StatelessWidget {
                     height: 4,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Flexible(
                         child: Text(
@@ -59,7 +57,7 @@ class CatalogItemWidget extends StatelessWidget {
             Image.asset(
               'assets/items/item1.png', //! model.img
               scale: 3,
-            )
+            ),
           ],
         ),
       ),
