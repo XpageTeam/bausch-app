@@ -1,3 +1,4 @@
+import 'package:bausch/sections/loading/loading_screen.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.currentAppTheme,
-      home: const RegistrationScreen(),
+      home: const LoadingScreen(),
     );
   }
 }
