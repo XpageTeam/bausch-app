@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 class NormalIconButton extends StatelessWidget {
   final Icon icon;
+  final Color backgroundColor;
   final VoidCallback? onPressed;
   const NormalIconButton({
     required this.icon,
+    this.backgroundColor = Colors.white,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -15,9 +17,9 @@ class NormalIconButton extends StatelessWidget {
     return Container(
       height: 44,
       width: 44,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.white,
+        color: backgroundColor,
       ),
       child: Material(
         clipBehavior: Clip.hardEdge,

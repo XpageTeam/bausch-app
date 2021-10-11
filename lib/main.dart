@@ -1,4 +1,5 @@
-import 'package:bausch/sections/loader/loader_scren.dart';
+import 'package:bausch/sections/addresses/addresses_screen.dart';
+import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.currentAppTheme,
-      home: const LoaderScreen(),
+      home: const AddressesScreen(),
     );
   }
 }
