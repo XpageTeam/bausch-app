@@ -5,32 +5,43 @@ import 'package:flutter/material.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final Widget? icon;
-  const CustomFloatingActionButton({this.icon, Key? key}) : super(key: key);
+  final String text;
+  const CustomFloatingActionButton({
+    required this.text,
+    this.icon,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+      // mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            backgroundColor: AppTheme.turquoiseBlue,
-            padding: const EdgeInsets.symmetric(
-              horizontal: StaticData.sidePadding,
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                icon ?? Container(),
-                const Text(
-                  'Добавить баллы',
-                  style: AppStyles.h2Bold,
-                ),
-              ],
+          child: TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              backgroundColor: AppTheme.turquoiseBlue,
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  icon ?? Container(),
+                  Text(
+                    text,
+                    style: AppStyles.h2Bold,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
