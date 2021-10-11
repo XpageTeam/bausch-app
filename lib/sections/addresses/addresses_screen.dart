@@ -119,6 +119,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
           child: ShopInfoBottomBar(
             error: true,
             shopModel: ShopModel.test(),
+            onPressed: () {},
             closePressed: () {
               setState(
                 () {

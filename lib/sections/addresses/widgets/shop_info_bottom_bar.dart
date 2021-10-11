@@ -9,10 +9,12 @@ import 'package:flutter/material.dart';
 class ShopInfoBottomBar extends StatelessWidget {
   final ShopModel shopModel;
   final VoidCallback? closePressed;
+  final VoidCallback? onPressed;
   final bool error;
   const ShopInfoBottomBar({
     required this.shopModel,
     this.closePressed,
+    this.onPressed,
     this.error = false,
     Key? key,
   }) : super(key: key);
@@ -108,7 +110,7 @@ class ShopInfoBottomBar extends StatelessWidget {
           if (!error)
             Flexible(
               child: Container(
-                margin: EdgeInsets.only(bottom: 0),
+                margin: const EdgeInsets.only(bottom: 30),
                 child: Text(
                   'Скидка работает в любой из оптик сети',
                   style: AppStyles.p1.copyWith(color: Colors.black),
@@ -120,7 +122,7 @@ class ShopInfoBottomBar extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 24),
             child: BlueButton(
-              onPressed: () {},
+              onPressed: onPressed,
               children: [
                 Text(
                   error ? 'Хорошо' : 'Выбрать оптику',
