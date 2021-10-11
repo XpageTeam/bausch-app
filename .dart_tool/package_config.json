@@ -116,6 +116,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "equatable",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/equatable-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "extended_masked_text",
       "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/extended_masked_text-2.3.1",
       "packageUri": "lib/",
@@ -332,13 +338,19 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "yandex_mapkit",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/yandex_mapkit-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "bausch",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-10-08T06:32:25.246809Z",
+  "generated": "2021-10-11T10:56:15.247342Z",
   "generator": "pub",
   "generatorVersion": "2.14.3"
 }
