@@ -182,8 +182,26 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "graphs",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/graphs-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "html",
       "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/html-0.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -244,6 +262,12 @@
     {
       "name": "pub_semver",
       "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/pub_semver-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "rive",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/rive-0.7.30",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -344,7 +368,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-10-11T08:58:13.816942Z",
+  "generated": "2021-10-12T06:36:24.865323Z",
   "generator": "pub",
   "generatorVersion": "2.14.2"
 }
