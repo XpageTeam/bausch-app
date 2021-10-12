@@ -13,8 +13,6 @@ class CodeForm extends StatefulWidget {
 class _CodeFormState extends State<CodeForm> {
   TextEditingController codeFieldController = TextEditingController();
   FocusNode focusNode = FocusNode();
-  double borderRadius = 180;
-  double heightOfBox = 100;
 
   @override
   void dispose() {
@@ -46,11 +44,13 @@ class _CodeFormState extends State<CodeForm> {
         keyboardType: TextInputType.phone,
         onCompleted: (str) {
           focusNode.unfocus();
+
+          // TODO(Nikita): Заменить на pushNamed
           Navigator.push<void>(
             context,
             MaterialPageRoute(
               builder: (context) {
-                return CityAndEmailScreen();
+                return const CityAndEmailScreen();
               },
             ),
           );

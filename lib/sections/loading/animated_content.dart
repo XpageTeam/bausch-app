@@ -54,7 +54,7 @@ class AnimatedContent extends AnimatedWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return RegistrationScreen();
+                        return const RegistrationScreen();
                       },
                     ),
                   );

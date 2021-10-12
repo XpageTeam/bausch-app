@@ -62,7 +62,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return CodeScreen();
+                      return const CodeScreen();
                     },
                   ),
                 );

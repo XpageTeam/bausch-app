@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_renaming_method_parameters
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,7 +10,7 @@ class CursorPainter extends CustomPainter {
   CursorPainter({this.cursorColor = Colors.black, this.cursorWidth = 2});
   @override
   void paint(Canvas canvas, Size size) {
-    final p1 = Offset(0, 0);
+    const p1 = Offset.zero;
     final p2 = Offset(0, size.height);
     final paint = Paint()
       ..color = cursorColor

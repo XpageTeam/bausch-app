@@ -1,6 +1,4 @@
 import 'package:bausch/sections/loading/loading_screen.dart';
-import 'package:bausch/sections/order_registration/order_registration_screen.dart';
-import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 

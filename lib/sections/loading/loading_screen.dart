@@ -1,9 +1,9 @@
+// ignore_for_file: cascade_invocations
+
 import 'package:bausch/sections/loading/animated_blur.dart';
 import 'package:bausch/sections/loading/animated_content.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

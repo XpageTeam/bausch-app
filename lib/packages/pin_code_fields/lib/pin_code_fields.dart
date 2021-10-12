@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 library pin_code_fields;
 
 import 'dart:async';

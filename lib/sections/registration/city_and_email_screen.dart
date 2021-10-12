@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -16,10 +18,16 @@ class CityAndEmailScreen extends StatefulWidget {
 
 class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
   final _formKey = GlobalKey<FormState>();
-  final focusNode = FocusNode();
   bool isValidated = false;
   TextEditingController cityController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    cityController.dispose();
+    emailController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
                 inputType: TextInputType.name,
                 validator: (dynamic value) {
                   if (value == null || value.toString().isEmpty) {
-                    return '123';
+                    return 'Не введён номер телефона';
                   }
                   return null;
                 },
@@ -59,7 +67,7 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
                 inputType: TextInputType.emailAddress,
                 validator: (dynamic value) {
                   if (value == null || value.toString().isEmpty) {
-                    return '123';
+                    return 'Не введён e-mail';
                   }
                   return null;
                 },
@@ -83,6 +91,7 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
                     ),
                   ],
                 ),
+              //* Когда кнопка нажата и письмо отправлено
               if (isValidated)
                 Column(
                   children: const [
@@ -104,13 +113,13 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
         ),
       ),
       floatingActionButton: isValidated
-          ? Padding(
-              padding: const EdgeInsets.symmetric(
+          ? const Padding(
+              padding: EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
               ),
               child: BlueButtonWithText(text: 'Готово'),
             )
-          : Container(),
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
