@@ -1,3 +1,4 @@
+import 'package:bausch/sections/loading/animated_blur.dart';
 import 'package:bausch/sections/loading/animated_content.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -5,6 +6,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:rive/rive.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -17,6 +19,7 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen>
     with TickerProviderStateMixin {
   late Animation positionAnimation;
+  late Animation blurHeightAnimation;
   late AnimationController controller;
 
   //* Анимация начнется примерно через 2 секунды после initState
@@ -27,10 +30,14 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 3));
-    positionAnimation = Tween<double>(begin: 250.0, end: 0.0)
-        .animate(CurvedAnimation(parent: controller, curve: interval));
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    );
+
+    positionAnimation = Tween<double>(begin: 250.0, end: 0.0).animate(
+      CurvedAnimation(parent: controller, curve: interval),
+    );
 
     controller.addListener(() {
       setState(() {
@@ -53,11 +60,22 @@ class _LoadingScreenState extends State<LoadingScreen>
       backgroundColor: AppTheme.turquoiseBlue,
       body: SafeArea(
         child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
             //* Анимация, запускается при инициализации экрана
             const RiveAnimation.asset(
               'assets/loading.riv',
               fit: BoxFit.cover,
+            ),
+            //* В Rive пока не завезли эффекты, в том числе размытие
+            //* Поэтому делаю Blur с помощью BackdropFilter
+            AnimatedBlur(
+              animation: Tween<double>(
+                begin: 0.0,
+                end: MediaQuery.of(context).size.height * 0.7,
+              ).animate(
+                CurvedAnimation(parent: controller, curve: interval),
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
