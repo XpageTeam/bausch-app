@@ -11,13 +11,11 @@ class DefaultTextFormField extends StatefulWidget {
   final InputDecoration? decoration;
   final TextStyle? textStyle;
   final FormFieldValidator? validator;
-  final FocusNode? focusNode;
 
   const DefaultTextFormField({
     required this.labelText,
     required this.controller,
     this.validator,
-    this.focusNode,
     this.inputType = TextInputType.text,
     this.decoration,
     this.textStyle,

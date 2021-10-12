@@ -16,6 +16,7 @@ class CityAndEmailScreen extends StatefulWidget {
 
 class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
   final _formKey = GlobalKey<FormState>();
+  final focusNode = FocusNode();
   bool isValidated = false;
   TextEditingController cityController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -75,6 +76,7 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
                         if (_formKey.currentState!.validate()) {
                           setState(() {
                             isValidated = true;
+                            FocusScope.of(context).unfocus();
                           });
                         }
                       },
