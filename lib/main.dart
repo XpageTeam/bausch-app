@@ -89,7 +89,7 @@ class MyHomePage extends StatelessWidget {
   void showSheet(BuildContext context, SheetModel model) {
     showFlexibleBottomSheet<void>(
       minHeight: 0,
-      initHeight: 0.8,
+      initHeight: calculatePercentage(model.models.length),
       maxHeight: 0.95,
       context: context,
       builder: (context, controller, d) {
@@ -120,5 +120,16 @@ class MyHomePage extends StatelessWidget {
         );
       },
     );
+  }
+
+  double calculatePercentage(int lenght) {
+    switch (lenght ~/ 2) {
+      case 1:
+        return 0.5;
+      case 2:
+        return 0.8;
+      default:
+        return 0.9;
+    }
   }
 }

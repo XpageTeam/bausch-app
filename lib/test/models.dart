@@ -27,6 +27,14 @@ class Models {
       name: 'Раствор',
       price: '1300',
     ),
+    CatalogItemModel(
+      name: 'b;ab;abab;aknn',
+      price: '600',
+    ),
+    CatalogItemModel(
+      name: 'Раствор',
+      price: '1300',
+    ),
   ];
 
   static List<SheetModel> sheets = [
