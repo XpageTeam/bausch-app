@@ -78,11 +78,13 @@ class DefaultButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? chevronColor;
   final EdgeInsets margin;
+  final EdgeInsets padding;
 
   const DefaultButton({
     required this.children,
     this.backgroundColor = Colors.white,
     this.margin = EdgeInsets.zero,
+    this.padding = const EdgeInsets.fromLTRB(12, 26, 12, 28),
     this.onPressed,
     this.chevronColor,
     Key? key,
@@ -106,7 +108,7 @@ class DefaultButton extends StatelessWidget {
           ),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 26, 12, 28),
+              padding: padding,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

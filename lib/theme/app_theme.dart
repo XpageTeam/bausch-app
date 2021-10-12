@@ -19,5 +19,11 @@ class AppTheme {
           isDense: true,
           border: InputBorder.none,
         ),
+        // appBarTheme: const AppBarTheme(
+        //   systemOverlayStyle: SystemUiOverlayStyle(
+        //     statusBarColor: mystic,
+        //     statusBarIconBrightness: Brightness.dark,
+        //   ),
+        // ),
       );
 }
