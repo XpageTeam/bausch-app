@@ -3,7 +3,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
 class AnimatedContent extends AnimatedWidget {
   const AnimatedContent({required Animation<double> animation, Key? key})
