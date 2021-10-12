@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_mixin
+
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: cascade_invocations
+
 import 'package:bausch/models/story_model.dart';
 import 'package:bausch/sections/stories/stories_buttons.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';

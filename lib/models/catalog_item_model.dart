@@ -13,7 +13,6 @@ class CatalogItemModel implements MappableInterface<CatalogItemModel> {
 
   @override
   Map<String, dynamic> toMap() {
-    // TODO: implement toMap
     throw UnimplementedError();
   }
 }
