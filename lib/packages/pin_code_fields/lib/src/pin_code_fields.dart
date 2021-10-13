@@ -1,4 +1,4 @@
-// ignore_for_file: type_annotate_public_apis, always_declare_return_types, always_put_required_named_parameters_first, omit_local_variable_types, prefer_const_declarations, deprecated_member_use, unnecessary_parenthesis
+// ignore_for_file: type_annotate_public_apis, always_declare_return_types, always_put_required_named_parameters_first, omit_local_variable_types, prefer_const_declarations, deprecated_member_use, unnecessary_parenthesis, avoid_void_async
 // ignore_for_file: member-ordering-extended
 // ignore_for_file: avoid-returning-widgets
 // ignore_for_file: avoid-unnecessary-setstate

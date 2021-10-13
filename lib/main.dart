@@ -1,4 +1,4 @@
-import 'package:bausch/sections/loading/loading_screen.dart';
+import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.currentAppTheme,
-      home: const LoadingScreen(),
+      home: const ProfileScreen(),
     );
   }
 }
