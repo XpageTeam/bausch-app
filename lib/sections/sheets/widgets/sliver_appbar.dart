@@ -27,7 +27,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 backgroundColor: iconColor ?? Colors.white,
                 child: IconButton(
                   onPressed: () {
-                    Utils.bottomSheetNav.currentState!.pop();
+                    Keys.bottomSheetNav.currentState!.pop();
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios_new,
@@ -40,7 +40,11 @@ class CustomSliverAppbar extends StatelessWidget {
             backgroundColor: iconColor ?? Colors.white,
             child: IconButton(
               onPressed: () {
-                Navigator.of(Utils.mainNav.currentContext!).pop();
+                if (icon == null) {
+                  Navigator.of(Keys.mainNav.currentContext!).pop();
+                } else {
+                  Navigator.of(Keys.bottomSheetNav.currentContext!).pop();
+                }
               },
               icon: const Icon(
                 Icons.close,

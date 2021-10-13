@@ -94,7 +94,7 @@ class WebinarVerification extends StatelessWidget {
                 child: BlueButtonWithText(
                   text: 'Потратить баллы',
                   onPressed: () {
-                    Utils.bottomSheetNav.currentState!
+                    Keys.bottomSheetNav.currentState!
                         .pushNamed('/final_webinar');
                   },
                 ),

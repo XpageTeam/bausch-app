@@ -60,7 +60,7 @@ class WebinarsScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Перейти к просмотру',
                 onPressed: () {
-                  Utils.bottomSheetNav.currentState!
+                  Keys.bottomSheetNav.currentState!
                       .pushNamed('/verification_webinar');
                 },
               ),

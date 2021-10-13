@@ -10,7 +10,7 @@ class MainNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      key: Utils.mainAppNav,
+      key: Keys.mainContentNav,
       initialRoute: '/',
       onGenerateRoute: (settings) {
         Widget page;

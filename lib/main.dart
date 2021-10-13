@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: Utils.mainNav,
+      navigatorKey: Keys.mainNav,
       title: 'Flutter Demo',
       home: MainNavigation(),
     );
@@ -81,6 +81,7 @@ class MyHomePage extends StatelessWidget {
       minHeight: 0,
       initHeight: calculatePercentage(model.models.length),
       maxHeight: 0.95,
+      anchors: [0, 0.6, 0.95],
       context: context,
       builder: (context, controller, d) {
         return Scaffold(
@@ -100,9 +101,27 @@ class MyHomePage extends StatelessWidget {
                 ],
               ),
               Flexible(
-                child: OverlayNavigation(
-                  controller: controller,
-                  sheetModel: model,
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    //* Сама страница
+                    OverlayNavigation(
+                      controller: controller,
+                      sheetModel: model,
+                    ),
+                    //* Штука, говорящая о том, что за нее можно потянуть
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Container(
+                        height: 4,
+                        width: 38,
+                        decoration: BoxDecoration(
+                          color: AppTheme.mineShaft,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -69,7 +69,7 @@ class Sheet extends StatelessWidget {
                           isProduct:
                               model.type != SheetType.webinar ? true : false,
                           onTap: () {
-                            Utils.bottomSheetNav.currentState!
+                            Keys.bottomSheetNav.currentState!
                                 .pushNamed(path(model.type));
                           },
                         ),
@@ -80,7 +80,7 @@ class Sheet extends StatelessWidget {
                             isProduct:
                                 model.type != SheetType.webinar ? true : false,
                             onTap: () {
-                              Utils.bottomSheetNav.currentState!
+                              Keys.bottomSheetNav.currentState!
                                   .pushNamed(path(model.type));
                             },
                           ),

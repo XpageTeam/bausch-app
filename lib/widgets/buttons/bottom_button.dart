@@ -27,7 +27,7 @@ class BottomButtonWithRoundedCorners extends StatelessWidget {
                 child: BlueButtonWithText(
                   text: 'На главную',
                   onPressed: () {
-                    Utils.bottomSheetNav.currentState!
+                    Keys.bottomSheetNav.currentState!
                         .pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
                   },
                 ),

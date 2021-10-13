@@ -114,7 +114,7 @@ class DiscountOpticsScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Получить скидку',
                 onPressed: () {
-                  Utils.bottomSheetNav.currentState!
+                  Keys.bottomSheetNav.currentState!
                       .pushNamed('/verification_discount');
                 },
               ),

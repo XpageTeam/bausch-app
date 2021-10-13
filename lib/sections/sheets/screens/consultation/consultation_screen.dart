@@ -28,57 +28,61 @@ class ConsultationScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: AppTheme.mystic,
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                top: 12,
-                left: 12,
-                right: 12,
-                bottom: 4,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    TopSection.consultation(
-                      model,
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: Row(
-                          children: const [
-                            Icon(Icons.lock_clock_sharp),
-                            SizedBox(
-                              width: 4,
+        body: Row(
+          children: [
+            CustomScrollView(
+              controller: controller,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    left: 12,
+                    right: 12,
+                    bottom: 4,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        TopSection.consultation(
+                          model,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Row(
+                              children: const [
+                                Icon(Icons.lock_clock_sharp),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text('20 минут', style: AppStyles.p1),
+                              ],
                             ),
-                            Text('20 минут', style: AppStyles.p1),
-                          ],
+                          ),
+                          key,
                         ),
-                      ),
-                      key,
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        InfoSection.partners(),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    InfoSection.partners(),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Warning.advertisment(),
-                    const SizedBox(
-                      height: 160,
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Warning.advertisment(),
+                        const SizedBox(
+                          height: 160,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
@@ -92,7 +96,7 @@ class ConsultationScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Потратить баллы',
                 onPressed: () {
-                  Utils.bottomSheetNav.currentState!
+                  Keys.bottomSheetNav.currentState!
                       .pushNamed('/verification_webinar');
                 },
               ),

@@ -84,6 +84,7 @@ class TopSection extends StatelessWidget {
         children: [
           Column(
             children: [
+              //* Проверка, растягивать ли изображение на всё доступное пространство
               if (!isFull)
                 const SizedBox(
                   height: 64,
