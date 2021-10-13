@@ -16,4 +16,5 @@ enum SheetType {
 class Utils {
   static GlobalKey<NavigatorState> mainAppNav = GlobalKey();
   static GlobalKey<NavigatorState> bottomSheetNav = GlobalKey();
+  static GlobalKey<NavigatorState> mainNav = GlobalKey();
 }

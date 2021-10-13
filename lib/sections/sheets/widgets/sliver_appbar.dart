@@ -40,7 +40,7 @@ class CustomSliverAppbar extends StatelessWidget {
             backgroundColor: iconColor ?? Colors.white,
             child: IconButton(
               onPressed: () {
-                Utils.mainAppNav.currentState!.pop();
+                Navigator.of(Utils.mainNav.currentContext!).pop();
               },
               icon: const Icon(
                 Icons.close,
