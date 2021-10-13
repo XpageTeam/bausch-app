@@ -27,6 +27,7 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
     super.dispose();
     cityController.dispose();
     emailController.dispose();
+    FocusScope.of(context).unfocus();
   }
 
   @override
@@ -53,7 +54,7 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
                 inputType: TextInputType.name,
                 validator: (dynamic value) {
                   if (value == null || value.toString().isEmpty) {
-                    return 'Не введён номер телефона';
+                    return 'Не введёно название города';
                   }
                   return null;
                 },

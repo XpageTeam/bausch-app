@@ -16,7 +16,7 @@ class _CodeFormState extends State<CodeForm> {
 
   @override
   void dispose() {
-    focusNode.dispose();
+    //focusNode.dispose();
     codeFieldController.dispose();
     super.dispose();
   }
