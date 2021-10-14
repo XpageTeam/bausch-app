@@ -44,7 +44,6 @@ class _RecipientSectionState extends State<RecipientSection> {
               onPressed: () => setState(
                 () {
                   _flag = true;
-                  debugPrint('statement');
                 },
               ),
               title: const Text.rich(

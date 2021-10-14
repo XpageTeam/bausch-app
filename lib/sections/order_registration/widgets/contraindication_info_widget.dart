@@ -1,3 +1,4 @@
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class ContraindicationsInfoWidget extends StatelessWidget {
         children: const [
           Flexible(
             child: Text(
-              'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+              StaticData.contraindications,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.grey,
