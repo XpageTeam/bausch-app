@@ -1,4 +1,5 @@
 import 'package:bausch/sections/profile/profile_background.dart';
+import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
 import 'package:bausch/sections/profile/scrollable_profile_content.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -21,26 +22,38 @@ class ProfileScreen extends StatelessWidget {
                 right: StaticData.sidePadding,
                 top: 2,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  NormalIconButton(
-                    onPressed: () {}, //Navigator.of(context).pop,
-                    icon: const Icon(
-                      Icons.chevron_left_rounded,
-                      size: 20,
-                      color: AppTheme.mineShaft,
+              child: SizedBox(
+                height: 56,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    NormalIconButton(
+                      onPressed: () {}, //Navigator.of(context).pop,
+                      icon: const Icon(
+                        Icons.chevron_left_rounded,
+                        size: 20,
+                        color: AppTheme.mineShaft,
+                      ),
                     ),
-                  ),
-                  NormalIconButton(
-                    onPressed: () {}, //Navigator.of(context).pop,
-                    icon: const Icon(
-                      Icons.settings,
-                      size: 20,
-                      color: AppTheme.mineShaft,
+                    NormalIconButton(
+                      onPressed: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ProfileSettingsScreen();
+                            },
+                          ),
+                        );
+                      }, //Navigator.of(context).pop,
+                      icon: const Icon(
+                        Icons.settings,
+                        size: 20,
+                        color: AppTheme.mineShaft,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const ProfileBackground(),

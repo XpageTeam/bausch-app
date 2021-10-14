@@ -8,6 +8,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "after_layout",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/after_layout-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "analyzer",
       "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/analyzer-2.3.0",
       "packageUri": "lib/",
@@ -368,7 +374,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-10-12T06:36:24.865323Z",
+  "generated": "2021-10-14T10:01:59.654937Z",
   "generator": "pub",
   "generatorVersion": "2.14.2"
 }

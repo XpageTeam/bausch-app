@@ -17,7 +17,9 @@ class BlueButtonWithText extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: AppTheme.turquoiseBlue,
+          backgroundColor: onPressed == null
+              ? AppTheme.turquoiseBlue.withOpacity(0.5)
+              : AppTheme.turquoiseBlue,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

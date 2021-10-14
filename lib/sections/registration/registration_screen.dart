@@ -3,8 +3,8 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/custom_checkbox.dart';
-import 'package:bausch/widgets/default_text_input.dart';
+import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
+import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/material.dart';
 
 //Registration / phone_number

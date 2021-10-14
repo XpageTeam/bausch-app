@@ -32,11 +32,13 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Navigator.of(context).canPop() == false //!
+                child: Navigator.of(context).canPop() != false //!
                     ? Align(
                         alignment: Alignment.centerLeft,
                         child: NormalIconButton(
-                          onPressed: () {}, //Navigator.of(context).pop,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }, //Navigator.of(context).pop,
                           icon: const Icon(
                             Icons.chevron_left_rounded,
                             size: 20,
