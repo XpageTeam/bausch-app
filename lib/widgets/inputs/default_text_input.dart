@@ -43,11 +43,14 @@ class _DefaultTextInputState extends State<DefaultTextInput>
 
     final keyboardVisibilityController = KeyboardVisibilityController();
 
+    //* На случай, если значение контроллера задано изначально
+    _labelStyleHandler();
+
     // Subscribe
     keyboardVisibilityController.onChange.listen(
       (visible) {
         //* Когда клавиатура скрыта, то убирается фокус с textInput
-        if (!visible) unFocus();
+        if (!visible && mounted) unFocus();
       },
     );
   }
@@ -124,7 +127,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
   }
 
   void unFocus() {
-    FocusScope.of(context).unfocus();
+    if (mounted) FocusScope.of(context).unfocus();
   }
 
   void _labelStyleHandler() {

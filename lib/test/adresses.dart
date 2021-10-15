@@ -38,6 +38,6 @@ class Adresses {
   ];
 
   static List<AdressModel> adresses = [
-    AdressModel(street: 'shbdhb', office: 5, floor: 3, lobby: 5)
+    AdressModel(street: 'shbdhb', office: 5, floor: 3, lobby: 5),
   ];
 }

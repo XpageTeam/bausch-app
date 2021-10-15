@@ -11,10 +11,12 @@ class DefaultTextFormField extends StatefulWidget {
   final InputDecoration? decoration;
   final TextStyle? textStyle;
   final FormFieldValidator? validator;
+  final String? initialValue;
 
   const DefaultTextFormField({
     required this.labelText,
     required this.controller,
+    this.initialValue,
     this.validator,
     this.inputType = TextInputType.text,
     this.decoration,
@@ -86,6 +88,7 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField>
               style: widget.textStyle ?? AppStyles.h2Bold,
               decoration: widget.decoration ?? const InputDecoration(),
               validator: widget.validator,
+              initialValue: widget.initialValue,
             ),
           ),
 

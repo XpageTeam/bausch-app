@@ -4,18 +4,18 @@ class AdressModel implements MappableInterface<AdressModel> {
   final String street;
 
   //* Номер квартиры
-  final int office;
+  final int? office;
 
-  final int floor;
+  final int? floor;
 
   //* Номер подъезда
-  final int lobby;
+  final int? lobby;
 
   AdressModel({
     required this.street,
-    required this.office,
-    required this.floor,
-    required this.lobby,
+    this.office,
+    this.floor,
+    this.lobby,
   });
 
   @override

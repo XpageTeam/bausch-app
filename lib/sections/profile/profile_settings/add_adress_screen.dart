@@ -1,3 +1,4 @@
+import 'package:bausch/models/adress_model.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
 import 'package:bausch/static/static_data.dart';
@@ -77,10 +78,15 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context)
-                              .push<void>(MaterialPageRoute(builder: (context) {
-                            return AddDetailsScreen(adress: str);
-                          }));
+                          Navigator.of(context).push<void>(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return AddDetailsScreen(
+                                  adress: AdressModel(street: str),
+                                );
+                              },
+                            ),
+                          );
                         },
                         child: Text(
                           str,

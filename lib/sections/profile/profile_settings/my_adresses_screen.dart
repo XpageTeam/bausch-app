@@ -1,3 +1,5 @@
+import 'package:bausch/models/adress_model.dart';
+import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/adresses.dart';
@@ -30,7 +32,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
           top: 30,
         ),
         child: Adresses.adresses.isEmpty
-            ? Text(
+            ? const Text(
                 'Пока нет ни одного адреса для доставки ',
                 style: AppStyles.h1,
               )
@@ -43,6 +45,18 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                       labelText: Adresses.adresses[i].street,
                       selectedText:
                           'Кв.${Adresses.adresses[i].office},подъезд ${Adresses.adresses[i].lobby},этаж ${Adresses.adresses[i].floor}',
+                      onPressed: () {
+                        Navigator.of(context).push<void>(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return AddDetailsScreen(
+                                adress: Adresses.adresses[i],
+                                isFirstLaunch: false,
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
                   );
                 },
