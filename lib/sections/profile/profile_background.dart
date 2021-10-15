@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileBackground extends StatelessWidget {
@@ -32,10 +35,29 @@ class ProfileBackground extends StatelessWidget {
                 style: AppStyles.h1,
               ),
             ),
+            SizedBox(
+              height: 17,
+            ),
             Center(
-              child: Image.asset(
-                'assets/offers-from-partners.png',
-                height: 300,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    'assets/status.png',
+                    width: 200,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: ClipRRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                        child: Container(
+                          color: AppTheme.turquoiseBlue.withOpacity(0.3),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
