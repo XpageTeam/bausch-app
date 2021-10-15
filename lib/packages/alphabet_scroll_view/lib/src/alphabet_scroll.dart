@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_if_elements_to_conditional_expressions
+// ignore_for_file: prefer_if_elements_to_conditional_expressions, always_put_required_named_parameters_first
 // ignore_for_file: avoid_unnecessary_setstate
 
 import 'package:bausch/packages/alphabet_scroll_view/lib/src/meta.dart';

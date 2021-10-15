@@ -4,7 +4,15 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class OfferWidget extends StatelessWidget {
-  const OfferWidget({Key? key}) : super(key: key);
+  final String? title;
+  final String? subtitle;
+  final Widget? topRightIcon;
+  const OfferWidget({
+    this.title,
+    this.subtitle,
+    this.topRightIcon,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +34,14 @@ class OfferWidget extends StatelessWidget {
             child: Column(
               children: [
                 Row(
-                  children: const [
+                  children: [
                     Flexible(
                       child: Text(
-                        'Бесплатно подберем вам первые линзы в оптике',
+                        title ?? 'Бесплатно подберем вам первые линзы в оптике',
                         style: AppStyles.h1,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 70,
                     ),
                   ],
@@ -43,9 +51,10 @@ class OfferWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Flexible(
+                    Flexible(
                       child: Text(
-                        'После подбора линз вы сможете получить в два раза больше баллов',
+                        subtitle ??
+                            'После подбора линз вы сможете получить в два раза больше баллов',
                         style: AppStyles.p1,
                       ),
                     ),
@@ -74,11 +83,12 @@ class OfferWidget extends StatelessWidget {
             ),
           ),
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.close),
-          splashRadius: 5,
-        ),
+        topRightIcon ??
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.close),
+              splashRadius: 5,
+            ),
       ],
     );
   }

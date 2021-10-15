@@ -77,6 +77,7 @@ class HomeScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   const [
+                    //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                     SpendScores(),
                   ],
                 ),
@@ -91,6 +92,7 @@ class HomeScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
+                    //* Вам может быть интересно
                     const MayBeInteresting(),
                     CustomTextButton(
                       title: 'Правила программы',

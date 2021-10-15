@@ -135,7 +135,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       builder: (context) {
                         return CustomAlertDialog(
                           yesCallback: () {
-                            int index =
+                            final index =
                                 Adresses.adresses.indexOf(widget.adress);
                             Adresses.adresses.removeAt(index);
                             _navigateBack();
@@ -157,6 +157,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 
+  //TODO(Nikita): Заменить на popUntil.withName
   void _navigateBack() {
     if (widget.isFirstLaunch) {
       Navigator.of(context).pop();
@@ -177,7 +178,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
         ),
       );
     } else {
-      int index = Adresses.adresses.indexOf(widget.adress);
+      final int index = Adresses.adresses.indexOf(widget.adress);
       Adresses.adresses[index] = AdressModel(
         street: widget.adress.street,
         office: int.parse(officeController.value.text),

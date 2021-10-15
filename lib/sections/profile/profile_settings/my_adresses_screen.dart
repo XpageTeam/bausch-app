@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:bausch/models/adress_model.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_screen.dart';
