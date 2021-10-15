@@ -22,6 +22,9 @@ class _LoadingScreenState extends State<LoadingScreen>
   late Animation blurHeightAnimation;
   late AnimationController controller;
 
+  late RiveAnimationController loadingController;
+  late RiveAnimationController afterController;
+
   //* Анимация начнется примерно через 2 секунды после initState
   Interval interval = const Interval(0.7, 1.0, curve: Curves.easeInOut);
 
@@ -30,6 +33,12 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   void initState() {
     super.initState();
+
+    loadingController = OneShotAnimation('loading', onStop: () {
+      afterController.isActive = true;
+    });
+    afterController = OneShotAnimation('afterLoading', autoplay: false);
+
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
@@ -63,20 +72,22 @@ class _LoadingScreenState extends State<LoadingScreen>
           alignment: Alignment.bottomCenter,
           children: [
             //* Анимация, запускается при инициализации экрана
-            const RiveAnimation.asset(
-              'assets/loading.riv',
+            RiveAnimation.asset(
+              'assets/new_loading.riv',
               fit: BoxFit.cover,
+              //animations: ['loading', 'afterLoading'],
+              controllers: [loadingController, afterController],
             ),
             //* В Rive пока не завезли эффекты, в том числе размытие
             //* Поэтому делаю Blur с помощью BackdropFilter
-            AnimatedBlur(
-              animation: Tween<double>(
-                begin: 0.0,
-                end: MediaQuery.of(context).size.height * 0.7,
-              ).animate(
-                CurvedAnimation(parent: controller, curve: interval),
-              ),
-            ),
+            // AnimatedBlur(
+            //   animation: Tween<double>(
+            //     begin: 0.0,
+            //     end: MediaQuery.of(context).size.height * 0.7,
+            //   ).animate(
+            //     CurvedAnimation(parent: controller, curve: interval),
+            //   ),
+            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
