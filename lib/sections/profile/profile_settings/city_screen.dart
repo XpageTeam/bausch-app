@@ -59,6 +59,8 @@ class _CityScreenState extends State<CityScreen> {
                 );
               },
             ),
+
+            //TODO(Nikita): Добавить сверху избранные города и выбранный
             Flexible(
               child: AlphabetScrollView(
                 itemExtent: 60,

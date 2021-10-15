@@ -71,7 +71,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                     : filteredList.map((e) => AlphaModel(e)).toList(),
                 selectedTextStyle: AppStyles.h1,
                 unselectedTextStyle: AppStyles.h2,
-                itemExtent: 80,
+                itemExtent: 60,
                 itemBuilder: (context, i, str) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

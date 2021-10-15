@@ -306,6 +306,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                             scrolltoIndex(x, positionNotifer.value);
                           },
                           child: Container(
+                            constraints: const BoxConstraints(
+                              maxWidth: 40,
+                            ),
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
                               vertical: 2,
