@@ -7,37 +7,39 @@ class ProfileBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10,
-      ),
-      child: Column(
-        children: [
-          const Text(
-            'Саша',
-            style: AppStyles.h1,
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 6,
-              vertical: 4,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppTheme.sulu,
-            ),
-            child: const Text(
-              'Классный друг',
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 10,
+        ),
+        child: Column(
+          children: [
+            const Text(
+              'Саша',
               style: AppStyles.h1,
             ),
-          ),
-          Center(
-            child: Image.asset(
-              'assets/offers-from-partners.png',
-              height: 300,
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 6,
+                vertical: 4,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: AppTheme.sulu,
+              ),
+              child: const Text(
+                'Классный друг',
+                style: AppStyles.h1,
+              ),
             ),
-          ),
-        ],
+            Center(
+              child: Image.asset(
+                'assets/offers-from-partners.png',
+                height: 300,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

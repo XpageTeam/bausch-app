@@ -35,6 +35,7 @@ class LensesParametersScreen extends StatelessWidget {
                     builder: (context) {
                       return PickerScreen();
                     },
+                    barrierColor: Colors.black.withOpacity(0.8),
                   );
                 },
               ),

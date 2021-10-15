@@ -46,8 +46,9 @@ class _CityScreenState extends State<CityScreen> {
               onChanged: (s) {
                 setState(
                   () {
-                    //* Фильтрация
                     filteredList.clear();
+
+                    //* Фильтрация по поисковому запросу
                     for (var i = 0; i < Adresses.cities.length; i++) {
                       final str = Adresses.cities[i].toLowerCase();
                       if (str.contains(s.toLowerCase())) {
@@ -60,7 +61,7 @@ class _CityScreenState extends State<CityScreen> {
             ),
             Flexible(
               child: AlphabetScrollView(
-                itemExtent: 80,
+                itemExtent: 60,
                 list: controller.value.text.isEmpty
                     ? Adresses.cities.map((e) => AlphaModel(e)).toList()
                     : filteredList.map((e) => AlphaModel(e)).toList(),

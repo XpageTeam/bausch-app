@@ -199,15 +199,19 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
   void scrolltoIndex(int x, Offset offset) {
     var index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
-    final scrollToPostion = widget.itemExtent * index;
+
+    //* Сложные математические расчеты - не трогать!
+    final scrollToPostion = widget.itemExtent * index + x * 74;
     if (index != null) {
       listController.animateTo(
-        (scrollToPostion),
+        scrollToPostion,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
     }
     positionNotifer.value = offset;
+
+    debugPrint('$index');
   }
 
   void onVerticalDrag(Offset offset) {

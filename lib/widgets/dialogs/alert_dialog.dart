@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 class CustomAlertDialog extends StatelessWidget {
   final VoidCallback yesCallback;
   final VoidCallback noCallback;
-  const CustomAlertDialog(
-      {required this.yesCallback, required this.noCallback, Key? key})
-      : super(key: key);
+  const CustomAlertDialog({
+    required this.yesCallback,
+    required this.noCallback,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class CustomAlertDialog extends StatelessWidget {
               text: 'Да',
               onPressed: yesCallback,
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             SizedBox(

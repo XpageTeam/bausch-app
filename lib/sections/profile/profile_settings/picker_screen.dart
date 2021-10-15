@@ -44,6 +44,7 @@ class _PickerScreenState extends State<PickerScreen> {
                 'Диоптрий',
                 style: AppStyles.h1,
               ),
+              //TODO(Nikita): Придумать что-то с оверлеем, чтобы не выглядело так стремно при переходе
               SizedBox(
                 height: 300,
                 child: CupertinoPicker.builder(

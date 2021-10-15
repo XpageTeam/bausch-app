@@ -23,21 +23,26 @@ class CustomRadio extends StatefulWidget {
 class _CustomRadioState extends State<CustomRadio> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CustomCheckbox(
-          value: widget.value == widget.groupValue ? true : false,
-          onChanged: widget.onChanged,
-          borderRadius: 180,
-        ),
-        const SizedBox(
-          width: 12,
-        ),
-        Text(
-          widget.text ?? '',
-          style: AppStyles.h2,
-        ),
-      ],
+    return InkWell(
+      onTap: () {
+        widget.onChanged!.call(true);
+      },
+      child: Row(
+        children: [
+          CustomCheckbox(
+            value: widget.value == widget.groupValue ? true : false,
+            onChanged: widget.onChanged,
+            borderRadius: 180,
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          Text(
+            widget.text ?? '',
+            style: AppStyles.h2,
+          ),
+        ],
+      ),
     );
   }
 }
