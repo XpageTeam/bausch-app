@@ -1,18 +1,21 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bausch/models/shop/shop_model.dart';
-import 'package:bausch/sections/shops/blocs/map_bloc/map_bloc.dart';
-import 'package:bausch/sections/shops/listeners/map_bloc_listener.dart';
-import 'package:bausch/sections/shops/providers/map_bloc_provider.dart';
+import 'package:bausch/sections/shops/cubits/map_cubit/map_cubit.dart';
+import 'package:bausch/sections/shops/listeners/map_cubit_listener.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
+import 'package:bausch/sections/shops/widgets/shop_info_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 @immutable
 class MapWithButtons extends StatefulWidget {
   final List<ShopModel> shopList;
-  const MapWithButtons({
+  late List<Placemark> placemarkList;
+  MapWithButtons({
     required this.shopList,
     Key? key,
   }) : super(key: key);
@@ -21,22 +24,27 @@ class MapWithButtons extends StatefulWidget {
   State<MapWithButtons> createState() => _MapWithButtonsState();
 }
 
-class _MapWithButtonsState extends State<MapWithButtons>
-    with AutomaticKeepAliveClientMixin<MapWithButtons> {
+class _MapWithButtonsState extends State<MapWithButtons> {
   final Completer<YandexMapController> _mapCompleter = Completer();
 
-  //* wantKeepAlive нужен, чтобы сохранялось состояние этой страницы,
-  //* т.к. иначе перестает работать YandexMapController
+  late MapCubit _mapCubit;
+
   @override
-  bool get wantKeepAlive => true;
+  void initState() {
+    super.initState();
+    _mapCubit = MapCubit(
+      shopList: widget.shopList,
+    );
+
+    // TODO(Nikolay): Инициализация меток должна быть в другом месте.
+    _initPlacemarks();
+  }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
-    return MapBlocProvider(
-      shopList: widget.shopList,
-      builder: (context) => Container(
+    return BlocProvider(
+      create: (_) => _mapCubit,
+      child: Container(
         decoration: const BoxDecoration(
           color: Color(0xffcacecf),
           borderRadius: BorderRadius.vertical(
@@ -46,20 +54,26 @@ class _MapWithButtonsState extends State<MapWithButtons>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            MapBlocListener(
-              mapBloc: BlocProvider.of<MapBloc>(context),
-              mapCompleterFuture: _mapCompleter.future,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(5),
-                ),
-                child: YandexMap(
-                  onMapRendered: () => BlocProvider.of<MapBloc>(context).add(
-                    MapShowPlacemarksEvent(),
+            FutureBuilder(
+              future: _mapCompleter.future,
+              builder: (_, snapshot) {
+                if (snapshot.hasData) {
+                  for (final shop in widget.shopList) {
+                    if (shop.defaultPlacemark != null) {
+                      (snapshot.data as YandexMapController)
+                          .addPlacemark(shop.defaultPlacemark!);
+                    }
+                  }
+
+                  _mapCubit.setCenterOnShops();
+                }
+                return MapCubitListener(
+                  child: YandexMap(
+                    onMapCreated: _mapCompleter.complete,
                   ),
-                  onMapCreated: _onMapCreated,
-                ),
-              ),
+                  mapCompleterFuture: _mapCompleter.future,
+                );
+              },
             ),
             Positioned.fill(
               child: Align(
@@ -70,18 +84,9 @@ class _MapWithButtonsState extends State<MapWithButtons>
                     bottom: 60,
                   ),
                   child: MapButtons(
-                    onZoomIn: () async {
-                      BlocProvider.of<MapBloc>(context).add(
-                        MapZoomInEvent(),
-                      );
-                    },
-                    onZoomOut: () => BlocProvider.of<MapBloc>(context).add(
-                      MapZoomOutEvent(),
-                    ),
-                    onCurrentLocation: () =>
-                        BlocProvider.of<MapBloc>(context).add(
-                      MapGetCurrentLocationEvent(),
-                    ),
+                    onZoomIn: _mapCubit.zoomIn,
+                    onZoomOut: _mapCubit.zoomOut,
+                    onCurrentLocation: _mapCubit.showCurrentLocation,
                   ),
                 ),
               ),
@@ -92,8 +97,51 @@ class _MapWithButtonsState extends State<MapWithButtons>
     );
   }
 
-  ///* Перехватывает [YandexMapController] и запускает в mapBloc событие [MapShowPlacemarksEvent]
-  void _onMapCreated(YandexMapController controller) {
-    _mapCompleter.complete(controller);
+  Future<Uint8List> getRawImageData(String imageAsset) async {
+    final data = await rootBundle.load(imageAsset);
+    return data.buffer.asUint8List();
+  }
+
+  Future<void> _initPlacemarks() async {
+    final shopRawImageData =
+        await getRawImageData('assets/icons/map-marker.png');
+
+    var isBottomSheetOpenned = false;
+
+    for (final shop in widget.shopList) {
+      if (shop.coords != null) {
+        shop.defaultPlacemark = Placemark(
+          point: shop.coords!,
+          onTap: (currentPlacemark, point) async {
+            if (!isBottomSheetOpenned) {
+              isBottomSheetOpenned = true;
+
+              _mapCubit.changePlacemark(
+                placemark: currentPlacemark,
+                isOpenning: true,
+              );
+
+              await showModalBottomSheet<dynamic>(
+                barrierColor: Colors.transparent,
+                context: context,
+                builder: (context) => ShopInfoBottomSheet(shopModel: shop),
+              );
+
+              _mapCubit.changePlacemark(
+                placemark: currentPlacemark,
+                isOpenning: false,
+              );
+
+              isBottomSheetOpenned = false;
+            }
+          },
+          style: PlacemarkStyle(
+            zIndex: 1,
+            opacity: 1,
+            rawImageData: shopRawImageData,
+          ),
+        );
+      }
+    }
   }
 }

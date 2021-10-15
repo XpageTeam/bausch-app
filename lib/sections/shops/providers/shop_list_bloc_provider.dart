@@ -1,36 +1,36 @@
-import 'package:bausch/sections/shops/blocs/shop_list_bloc/shop_list_bloc.dart';
+import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShopListBlocProvider extends StatefulWidget {
+class ShopListCubitProvider extends StatefulWidget {
   final Widget child;
-  const ShopListBlocProvider({
+  const ShopListCubitProvider({
     required this.child,
     Key? key,
   }) : super(key: key);
 
   @override
-  _ShopListBlocProviderState createState() => _ShopListBlocProviderState();
+  _ShopListCubitProviderState createState() => _ShopListCubitProviderState();
 }
 
-class _ShopListBlocProviderState extends State<ShopListBlocProvider> {
-  final shopListBloc = ShopListBloc();
+class _ShopListCubitProviderState extends State<ShopListCubitProvider> {
+  final shopListCubit = ShopListCubit();
   @override
   void initState() {
     super.initState();
-    shopListBloc.add(ShopsListLoad());
+    shopListCubit.loadShopList();
   }
 
   @override
   void dispose() {
-    shopListBloc.close();
+    shopListCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => shopListBloc,
+      create: (context) => shopListCubit,
       child: widget.child,
     );
   }

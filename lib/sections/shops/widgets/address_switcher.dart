@@ -2,19 +2,10 @@ import 'package:bausch/sections/shops/widgets/default_toggle_button.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-typedef SwitcherCallback = void Function(Pages newPage);
-
-enum Pages {
-  map,
-  list,
-}
-
 class ShopPageSwitcher extends StatefulWidget {
-  final SwitcherCallback? switcherCallback;
-  final EdgeInsets margin;
+  final Function(int) onChange;
   const ShopPageSwitcher({
-    this.switcherCallback,
-    this.margin = EdgeInsets.zero,
+    required this.onChange,
     Key? key,
   }) : super(key: key);
 
@@ -23,8 +14,9 @@ class ShopPageSwitcher extends StatefulWidget {
 }
 
 class _ShopPageSwitcherState extends State<ShopPageSwitcher> {
-  bool isList = false;
-  Pages currentPage = Pages.map;
+  final btnTexts = ['На карте', 'Список'];
+  int currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -33,52 +25,32 @@ class _ShopPageSwitcherState extends State<ShopPageSwitcher> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: widget.margin,
-      padding: EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: AppTheme.grey, //!  const Color(0xffcacecf)
+        color: AppTheme.grey.withOpacity(0.3),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: DefaultToggleButton(
-              text: 'На карте',
-              color: isList ? Colors.transparent : Colors.white,
-              onPressed: () {
-                setState(
-                  () {
-                    currentPage = Pages.map;
-                    isList = false;
-
-                    if (widget.switcherCallback != null) {
-                      widget.switcherCallback!(currentPage);
-                    }
+        children: btnTexts
+            .map(
+              (text) => Expanded(
+                child: DefaultToggleButton(
+                  text: text,
+                  color: currentIndex == btnTexts.indexOf(text)
+                      ? Colors.white
+                      : Colors.transparent,
+                  onPressed: () {
+                    setState(
+                      () {
+                        currentIndex = btnTexts.indexOf(text);
+                        widget.onChange(currentIndex);
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          ),
-          Expanded(
-            child: DefaultToggleButton(
-              text: 'Список',
-              color: isList ? Colors.white : Colors.transparent,
-              onPressed: () {
-                setState(
-                  () {
-                    currentPage = Pages.list;
-                    isList = true;
-
-                    if (widget.switcherCallback != null) {
-                      widget.switcherCallback!(currentPage);
-                    }
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ShopWidget extends StatelessWidget {
   final ShopModel shopModel;
@@ -36,32 +37,43 @@ class ShopWidget extends StatelessWidget {
             ),
           ),
 
-          //* Адрес и номер
+          //* Адрес
           Flexible(
-            child: Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(bottom: 20),
-              child: Text.rich(
-                TextSpan(
-                  text: '${shopModel.address}\n',
-                  style: AppStyles.p1,
-                  children: [
-                    TextSpan(
-                      text: shopModel.phone,
-                      style: AppStyles.p1.copyWith(
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppTheme.turquoiseBlue,
-                        decorationThickness: 2,
-                      ),
-                    ),
-                  ],
+            child: Text(
+              shopModel.address,
+              style: AppStyles.p1,
+            ),
+          ),
+
+          //* Номер
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: GestureDetector(
+              onTap: () async {
+                final url = 'tel:${shopModel.phone}';
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  await Future<dynamic>.error('Could not launch $url');
+                }
+              },
+              child: Flexible(
+                child: Text(
+                  shopModel.phone,
+                  style: AppStyles.p1.copyWith(
+                    decoration: TextDecoration.underline,
+                    decorationColor: AppTheme.turquoiseBlue,
+                    decorationThickness: 2,
+                  ),
                 ),
               ),
             ),
           ),
 
           BlueButton(
-            onPressed: () {},
+            onPressed: () {
+              // TODO(Nikolay): Реализовать кнопку в контейнере с магазином.
+            },
             children: const [
               Text(
                 'Выбрать оптику',

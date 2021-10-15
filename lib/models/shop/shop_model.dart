@@ -24,18 +24,16 @@ class ShopModel {
   ///* Координаты магазина
   final Point? coords;
 
-  // TODO(Nikolay): ↑ Координаты хранятся и здесь, дублирование получается.↓
-
   ///* Метка для отображения на карте
-  Placemark? placemark;
+  Placemark? defaultPlacemark;
 
   ShopModel({
     required this.id,
     required this.name,
     required this.address,
     required this.phone,
-    this.placemark,
     this.coords,
+    this.defaultPlacemark,
   });
 
   factory ShopModel.test([int idx = 0]) {

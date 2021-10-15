@@ -12,22 +12,33 @@ class ShopListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return Container(
       padding: const EdgeInsets.fromLTRB(
         StaticData.sidePadding,
         0,
         StaticData.sidePadding,
-        20,
+        0,
       ),
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, i) => ShopWidget(
-        shopModel: shopList[i],
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              List.generate(
+                shopList.length,
+                (i) => Container(
+                  margin: i == shopList.length - 1
+                      ? const EdgeInsets.only(bottom: 20)
+                      : const EdgeInsets.only(bottom: 4),
+                  child: ShopWidget(
+                    shopModel: shopList[i],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 4,
-      ),
-      itemCount: shopList.length,
     );
   }
 }

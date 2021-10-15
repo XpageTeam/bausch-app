@@ -1,4 +1,4 @@
-part of 'shop_list_bloc.dart';
+part of 'shoplist_cubit.dart';
 
 @immutable
 abstract class ShopListState {

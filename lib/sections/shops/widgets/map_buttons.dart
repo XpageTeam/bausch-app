@@ -1,29 +1,27 @@
 import 'package:bausch/sections/shops/widgets/current_location_button.dart';
-import 'package:bausch/sections/shops/widgets/zoom_button.dart';
+import 'package:bausch/sections/shops/widgets/zoom_buttons.dart';
 import 'package:flutter/material.dart';
 
 class MapButtons extends StatelessWidget {
-  final VoidCallback? onZoomIn;
-  final VoidCallback? onZoomOut;
-  final VoidCallback? onCurrentLocation;
+  final VoidCallback onZoomIn;
+  final VoidCallback onZoomOut;
+  final VoidCallback onCurrentLocation;
   const MapButtons({
-    this.onZoomIn,
-    this.onZoomOut,
-    this.onCurrentLocation,
+    required this.onZoomIn,
+    required this.onZoomOut,
+    required this.onCurrentLocation,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ZoomButton(
+        const SizedBox(),
+        ZoomButtons(
           zoomIn: onZoomIn,
           zoomOut: onZoomOut,
-        ),
-        const SizedBox(
-          height: 152,
         ),
         CurrentLocationButton(
           onPressed: onCurrentLocation,

@@ -5,13 +5,14 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ShopInfoBottomBar extends StatelessWidget {
+class ShopInfoBottomSheet extends StatelessWidget {
   final ShopModel shopModel;
   final VoidCallback? closePressed;
   final VoidCallback? onPressed;
   final bool error;
-  const ShopInfoBottomBar({
+  const ShopInfoBottomSheet({
     required this.shopModel,
     this.closePressed,
     this.onPressed,
@@ -65,71 +66,67 @@ class ShopInfoBottomBar extends StatelessWidget {
             ),
           ),
 
-          //* Наименование магазина
-          Flexible(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              child: Text(
-                error //! Пока что просто
-                    ? 'Поблизости нет оптик'
-                    : shopModel.name,
-                style: AppStyles.h2Bold,
-              ),
-            ),
-          ),
-
-          //* Адрес и телефонный номер
-          Flexible(
-            child: Container(
-              margin:
-                  EdgeInsets.only(bottom: error ? 30 : 20), //! Пока что просто
-              child: Text.rich(
-                TextSpan(
-                  text: error //! Пока что просто
-                      ? 'К сожалению в вашем городе нет подходящих оптик, но вы можете выбрать другой город'
-                      : '${shopModel.address}\n',
-                  style: AppStyles.p1,
-                  children: error //! Пока что просто
-                      ? null
-                      : [
-                          TextSpan(
-                            text: shopModel.phone,
-                            style: AppStyles.p1.copyWith(
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppTheme.turquoiseBlue,
-                              decorationThickness: 2,
-                            ),
-                          ),
-                        ],
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              //* Название магазина
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(bottom: 16),
+                child: Flexible(
+                  child: Text(
+                    shopModel.name,
+                    style: AppStyles.h2Bold,
+                  ),
                 ),
               ),
-            ),
-          ),
 
-          //* Информация
-          if (!error)
-            Flexible(
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 30),
+              //* Адрес
+              Flexible(
                 child: Text(
-                  'Скидка работает в любой из оптик сети',
-                  style: AppStyles.p1.copyWith(color: Colors.black),
+                  shopModel.address,
+                  style: AppStyles.p1,
                 ),
               ),
-            ),
 
-          //* Кнопка
-          Container(
-            margin: const EdgeInsets.only(bottom: 24),
-            child: BlueButton(
-              onPressed: onPressed,
-              children: [
-                Text(
-                  error ? 'Хорошо' : 'Выбрать оптику',
-                  style: AppStyles.h2Bold,
+              //* Номер
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: GestureDetector(
+                  onTap: () async {
+                    final url = 'tel:${shopModel.phone}';
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      await Future<dynamic>.error('Could not launch $url');
+                    }
+                  },
+                  child: Flexible(
+                    child: Text(
+                      shopModel.phone,
+                      style: AppStyles.p1.copyWith(
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppTheme.turquoiseBlue,
+                        decorationThickness: 2,
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            ),
+              ),
+
+              BlueButton(
+                onPressed: () {
+                  // TODO(Nikolay): Реализовать кнопку в контейнере с магазином.
+                },
+                children: const [
+                  Text(
+                    'Выбрать оптику',
+                    style: AppStyles.h2Bold,
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

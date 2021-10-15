@@ -2,10 +2,10 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
-class ZoomButton extends StatelessWidget {
+class ZoomButtons extends StatelessWidget {
   final VoidCallback? zoomIn;
   final VoidCallback? zoomOut;
-  const ZoomButton({
+  const ZoomButtons({
     this.zoomIn,
     this.zoomOut,
     Key? key,
