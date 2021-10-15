@@ -5,6 +5,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 /// Дефолтный TextInput для данного проекта
 class DefaultTextInput extends StatefulWidget {
+  final ValueChanged<String>? onChanged;
   final String labelText;
   final TextEditingController controller;
   final TextInputType inputType;
@@ -13,6 +14,7 @@ class DefaultTextInput extends StatefulWidget {
   const DefaultTextInput({
     required this.labelText,
     required this.controller,
+    this.onChanged,
     this.inputType = TextInputType.text,
     this.decoration,
     this.textStyle,
@@ -41,11 +43,14 @@ class _DefaultTextInputState extends State<DefaultTextInput>
 
     final keyboardVisibilityController = KeyboardVisibilityController();
 
+    //* На случай, если значение контроллера задано изначально
+    _labelStyleHandler();
+
     // Subscribe
     keyboardVisibilityController.onChange.listen(
       (visible) {
         //* Когда клавиатура скрыта, то убирается фокус с textInput
-        if (!visible) unFocus();
+        if (!visible && mounted) unFocus();
       },
     );
   }
@@ -77,6 +82,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
 
             //* Само текстовое поле (декорации вынес в AppTheme)
             child: TextField(
+              onChanged: widget.onChanged,
               controller: widget.controller,
               focusNode: _focusNode,
               keyboardType: widget.inputType,
@@ -121,7 +127,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
   }
 
   void unFocus() {
-    FocusScope.of(context).unfocus();
+    if (mounted) FocusScope.of(context).unfocus();
   }
 
   void _labelStyleHandler() {

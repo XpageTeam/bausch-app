@@ -1,5 +1,5 @@
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:flutter/material.dart';
 
 class ButtonWithPoints extends StatelessWidget {
@@ -14,31 +14,7 @@ class ButtonWithPoints extends StatelessWidget {
         primary: AppTheme.grey,
         backgroundColor: AppTheme.mystic,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            price,
-            style: AppStyles.h2Bold,
-          ),
-          const SizedBox(
-            width: 4,
-          ),
-          const CircleAvatar(
-            child: Text(
-              'б',
-              style: TextStyle(
-                color: AppTheme.mineShaft,
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-                height: 20 / 17,
-              ),
-            ),
-            radius: 14,
-            backgroundColor: AppTheme.turquoiseBlue,
-          ),
-        ],
-      ),
+      child: ButtonContent(price: price),
     );
   }
 }

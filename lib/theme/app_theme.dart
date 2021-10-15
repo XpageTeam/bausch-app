@@ -19,6 +19,9 @@ class AppTheme {
           isDense: true,
           border: InputBorder.none,
         ),
+
+        scaffoldBackgroundColor: mystic,
+
         // appBarTheme: const AppBarTheme(
         //   systemOverlayStyle: SystemUiOverlayStyle(
         //     statusBarColor: mystic,

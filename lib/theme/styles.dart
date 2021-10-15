@@ -32,7 +32,7 @@ class AppStyles {
 
   static const h2 = TextStyle(
     color: AppTheme.mineShaft,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w500,
     fontSize: 17,
     height: 20 / 17,
   );
