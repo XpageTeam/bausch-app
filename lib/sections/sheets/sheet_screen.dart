@@ -5,10 +5,12 @@ import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bausch/static/static_data.dart';
 
-class Sheet extends StatelessWidget {
+//* Главный экран с элементами каталога
+//* С него происходит переход в нужные секции
+class SheetScreen extends StatelessWidget {
   final ScrollController controller;
   final SheetModel model;
-  const Sheet({required this.model, required this.controller, Key? key})
+  const SheetScreen({required this.model, required this.controller, Key? key})
       : super(key: key);
 
   @override

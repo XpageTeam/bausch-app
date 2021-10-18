@@ -1,6 +1,7 @@
 import 'package:bausch/models/sheet_model.dart';
 import 'package:bausch/sections/sheets/main_navigation.dart';
 import 'package:bausch/sections/sheets/overlay_navigation.dart';
+import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -35,10 +36,13 @@ class MyHomePage extends StatelessWidget {
         itemCount: Models.sheets.length,
         itemBuilder: (context, i) {
           return TextButton(
-              onPressed: () {
-                showSheet(context, Models.sheets[i]);
-              },
-              child: Text(Models.sheets[i].title));
+            onPressed: () {
+              showSheet(context, Models.sheets[i]);
+            },
+            child: Text(
+              Models.sheets[i].title,
+            ),
+          );
         },
       ),
     );
@@ -53,47 +57,10 @@ class MyHomePage extends StatelessWidget {
       anchors: [0, 0.6, 0.95],
       context: context,
       builder: (context, controller, d) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: PointsInfo(
-                      text: '500',
-                      backgoundColor: AppTheme.mystic,
-                    ),
-                  ),
-                ],
-              ),
-              Flexible(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    //* Сама страница
-                    OverlayNavigation(
-                      controller: controller,
-                      sheetModel: model,
-                    ),
-                    //* Штука, говорящая о том, что за нее можно потянуть
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Container(
-                        height: 4,
-                        width: 38,
-                        decoration: BoxDecoration(
-                          color: AppTheme.mineShaft,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+        return SheetWidget(
+          child: OverlayNavigation(
+            sheetModel: model,
+            controller: controller,
           ),
         );
       },

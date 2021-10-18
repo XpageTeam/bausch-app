@@ -106,32 +106,3 @@ class CatalogItem extends StatelessWidget {
     );
   }
 }
-
-/*switch (type) {
-            case SheetType.discountOptics:
-              Utils.bottomSheetNav.currentState!.pushNamed(
-                '/discount_optics',
-              );
-              break;
-            case SheetType.webinar:
-              // TODO: Handle this case.
-              break;
-            case SheetType.packaging:
-              Utils.bottomSheetNav.currentState!.pushNamed(
-                '/free_packaging',
-              );
-              break;
-            case SheetType.discountOnline:
-              Utils.bottomSheetNav.currentState!.pushNamed(
-                '/discount_online',
-              );
-              break;
-            case SheetType.partners:
-              Utils.bottomSheetNav.currentState!.pushNamed(
-                '/partners',
-              );
-              break;
-            case SheetType.consultations:
-              // TODO: Handle this case.
-              break;
-          } */

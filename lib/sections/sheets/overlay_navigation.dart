@@ -34,7 +34,7 @@ class OverlayNavigation extends StatelessWidget {
 
         switch (settings.name) {
           case '/':
-            page = Sheet(model: sheetModel, controller: controller);
+            page = SheetScreen(model: sheetModel, controller: controller);
             break;
 
           case '/consultation':
@@ -115,7 +115,8 @@ class OverlayNavigation extends StatelessWidget {
             break;
 
           default:
-            page = Sheet(model: Models.sheets.first, controller: controller);
+            page =
+                SheetScreen(model: Models.sheets.first, controller: controller);
         }
         return PageRouteBuilder<dynamic>(
           pageBuilder: (_, __, ___) => page,
