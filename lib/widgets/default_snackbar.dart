@@ -58,6 +58,8 @@ class SnackBarContent extends StatefulWidget {
 
 class _SnackBarContentState extends State<SnackBarContent>
     with SingleTickerProviderStateMixin {
+  final _myKey = GlobalKey();
+
   late final AnimationController _controller;
   late Animation<double> _moveAnimation;
 
@@ -69,11 +71,15 @@ class _SnackBarContentState extends State<SnackBarContent>
       duration: widget.duration,
     );
 
+    // WidgetsBinding.instance!.addPostFrameCallback((_) {
+    //   snackbarSize = getSize(_myKey);
+    // });
+
     _moveAnimation = TweenSequence<double>(
       [
         //* Появление
         TweenSequenceItem(
-          tween: Tween<double>(begin: -100.0, end: 0),
+          tween: Tween<double>(begin: -100, end: 0),
           weight: 1,
         ),
         // Подождать
@@ -93,6 +99,12 @@ class _SnackBarContentState extends State<SnackBarContent>
     _controller.forward();
   }
 
+  // Size getSize(GlobalKey key) {
+  //   final box = key.currentContext?.findRenderObject() as RenderBox;
+  //   final size = box.size;
+  //   return size;
+  // }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -109,6 +121,7 @@ class _SnackBarContentState extends State<SnackBarContent>
         top: _moveAnimation.value,
         child: Material(
           child: Container(
+            key: _myKey,
             decoration: const BoxDecoration(
               color: AppTheme.mineShaft,
               borderRadius: BorderRadius.vertical(
