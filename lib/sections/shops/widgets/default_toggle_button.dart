@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class DefaultToggleButton extends StatelessWidget {
   final Color color;
   final String text;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
   const DefaultToggleButton({
     required this.color,
     required this.text,
-    this.onPressed,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 

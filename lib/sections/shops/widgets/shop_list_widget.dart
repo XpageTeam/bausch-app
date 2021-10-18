@@ -1,6 +1,7 @@
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/shops/widgets/shop_widget.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class ShopListWidget extends StatelessWidget {
@@ -19,26 +20,31 @@ class ShopListWidget extends StatelessWidget {
         StaticData.sidePadding,
         0,
       ),
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(
-              List.generate(
-                shopList.length,
-                (i) => Container(
-                  margin: i == shopList.length - 1
-                      ? const EdgeInsets.only(bottom: 20)
-                      : const EdgeInsets.only(bottom: 4),
-                  child: ShopWidget(
-                    shopModel: shopList[i],
+      child: shopList.isEmpty
+          ? const Align(
+              child: Text(
+                'Поблизости нет оптик',
+                style: AppStyles.h2Bold,
+              ),
+            )
+          : CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) => Container(
+                      margin: i == shopList.length - 1
+                          ? const EdgeInsets.only(bottom: 20)
+                          : const EdgeInsets.only(bottom: 4),
+                      child: ShopWidget(
+                        shopModel: shopList[i],
+                      ),
+                    ),
+                    childCount: shopList.length,
                   ),
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

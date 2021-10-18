@@ -16,7 +16,7 @@ class ShopListCubit extends Cubit<ShopListState> {
   Future<ShopListState> _loadShopList() async {
     await Future<dynamic>.delayed(const Duration(seconds: 2));
     return ShopListSuccess(
-      shopList: ShopModel.generate(4),
+      shopList: ShopModel.generate(0),
     ); 
   }
 }

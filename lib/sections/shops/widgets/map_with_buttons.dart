@@ -97,14 +97,14 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     );
   }
 
-  Future<Uint8List> getRawImageData(String imageAsset) async {
+  Future<Uint8List> _getRawImageData(String imageAsset) async {
     final data = await rootBundle.load(imageAsset);
     return data.buffer.asUint8List();
   }
 
   Future<void> _initPlacemarks() async {
     final shopRawImageData =
-        await getRawImageData('assets/icons/map-marker.png');
+        await _getRawImageData('assets/icons/map-marker.png');
 
     var isBottomSheetOpenned = false;
 

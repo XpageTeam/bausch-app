@@ -18,14 +18,16 @@ class MapCubitListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<MapCubit, MapState>(
       listener: (context, state) async {
+        final controller = await mapCompleterFuture;
+
         //* Приближение карты
         if (state is MapZoomIn) {
-          await (await mapCompleterFuture).zoomIn();
+         await controller.zoomIn();
         }
 
         //* Отдаление карты
         if (state is MapZoomOut) {
-          await (await mapCompleterFuture).zoomOut();
+          await controller.zoomOut();
         }
 
         //* Ошибка
@@ -44,17 +46,17 @@ class MapCubitListener extends StatelessWidget {
 
         //* Удаление метки
         if (state is MapRemovePlacemark && state.placemark != null) {
-          await (await mapCompleterFuture).removePlacemark(state.placemark!);
+          await controller.removePlacemark(state.placemark!);
         }
 
         //* Добавление метки
         if (state is MapAddPlacemark) {
-          await (await mapCompleterFuture).addPlacemark(state.placemark);
+          await controller.addPlacemark(state.placemark);
         }
 
         //* Центрирование по всем меткам
         if (state is MapSetCenter) {
-          await (await mapCompleterFuture).move(
+          await controller.move(
             zoom: state.zoom,
             animation: state.mapAnimation,
             point: Point(

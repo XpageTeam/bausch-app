@@ -79,9 +79,6 @@ class MapCubit extends Cubit<MapState> {
         .map((shop) => shop.defaultPlacemark!)
         .toList();
 
-    // добавляю позицию пользователя на карту
-    _setNewUserPlacemark();
-
     //* Если меток нет, тогда просто центрируюсь на текущей координате пользователя
     if (placemarkList.isEmpty) {
       _setCenterOnUser();
@@ -114,9 +111,7 @@ class MapCubit extends Cubit<MapState> {
       MapRemovePlacemark(placemark: userPlacemark),
     );
 
-    final state = await _addNewPosition();
-
-    emit(state);
+    emit(await _addNewPosition());
   }
 
   Future<Uint8List> _getRawImageData(String imageAsset) async {
@@ -174,7 +169,6 @@ class MapCubit extends Cubit<MapState> {
       longitude: position.longitude,
     );
 
-    // TODO(Nikolay): Скорее всего это надо будет убрать в другое место.
     userPlacemark = Placemark(
       point: userPoint!,
       style: PlacemarkStyle(

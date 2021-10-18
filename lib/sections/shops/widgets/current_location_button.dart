@@ -3,10 +3,10 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class CurrentLocationButton extends StatelessWidget {
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
 
   const CurrentLocationButton({
-    this.onPressed,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 

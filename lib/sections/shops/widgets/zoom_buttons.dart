@@ -3,11 +3,11 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class ZoomButtons extends StatelessWidget {
-  final VoidCallback? zoomIn;
-  final VoidCallback? zoomOut;
+  final VoidCallback zoomIn;
+  final VoidCallback zoomOut;
   const ZoomButtons({
-    this.zoomIn,
-    this.zoomOut,
+    required this.zoomIn,
+    required this.zoomOut,
     Key? key,
   }) : super(key: key);
 
