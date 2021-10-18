@@ -35,7 +35,7 @@ class PointsInfo extends StatelessWidget {
                     ),
                     child: Text(
                       text,
-                      style: AppStyles.h3,
+                      style: AppStyles.h2,
                     ),
                   ),
                   const SizedBox(

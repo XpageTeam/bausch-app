@@ -1,5 +1,6 @@
 import 'package:bausch/sections/home/widgets/small_container.dart';
 import 'package:bausch/sections/home/widgets/wide_container.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,9 @@ class SpendScores extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        const WideContainer(
-          children: [
+        WideContainer(
+          sheetModel: Models.sheets[0],
+          children: const [
             'assets/logos/logo1.png',
             'assets/logos/logo2.png',
             'assets/logos/logo3.png',
@@ -29,19 +31,15 @@ class SpendScores extends StatelessWidget {
           height: 4,
         ),
         Row(
-          children: const [
+          children: [
             SmallContainer(
-              title: 'Предложения от партнеров',
-              number: '2',
-              img: 'assets/offers-from-partners.png',
+              sheetModel: Models.sheets[1],
             ),
-            SizedBox(
+            const SizedBox(
               width: 4,
             ),
             SmallContainer(
-              title: 'Бесплатная упаковка',
-              number: '2',
-              img: 'assets/free-packaging.png',
+              sheetModel: Models.sheets[2],
             ),
           ],
         ),
@@ -49,29 +47,23 @@ class SpendScores extends StatelessWidget {
           height: 4,
         ),
         Row(
-          children: const [
+          children: [
             SmallContainer(
-              title: 'Скидка в интернет-магазине',
-              number: '2',
-              img: 'assets/discount-in-online-store.png',
+              sheetModel: Models.sheets[3],
             ),
-            SizedBox(
+            const SizedBox(
               width: 4,
             ),
             SmallContainer(
-              title: 'Записи вебинаров',
-              number: '2',
-              img: 'assets/webinar-recordings.png',
+              sheetModel: Models.sheets[4],
             ),
           ],
         ),
         const SizedBox(
           height: 4,
         ),
-        const WideContainer(
-          title: 'Онлайн-консультация',
-          subtitle: 'Любые вопросы офтальмологу из клиники Медси',
-          img: 'assets/online-consultations.png',
+        WideContainer(
+          sheetModel: Models.sheets[5],
         ),
       ],
     );
