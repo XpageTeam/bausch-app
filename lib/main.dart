@@ -1,6 +1,6 @@
 import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/sections/sheets/main_navigation.dart';
-import 'package:bausch/sections/sheets/overlay_navigation.dart';
+import 'package:bausch/navigation/main_navigation.dart';
+import 'package:bausch/navigation/overlay_navigation.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';

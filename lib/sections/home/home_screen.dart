@@ -96,14 +96,7 @@ class HomeScreen extends StatelessWidget {
                     const MayBeInteresting(),
                     CustomTextButton(
                       title: 'Правила программы',
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (context) {
-                            return const WideContainer();
-                          },
-                        );
-                      },
+                      onPressed: () {},
                     ),
                     const CustomTextButton(title: 'Частые вопросы'),
                     const CustomTextButton(title: 'Библиотека ссылок'),
