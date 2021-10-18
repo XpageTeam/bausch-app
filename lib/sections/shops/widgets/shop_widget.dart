@@ -46,18 +46,18 @@ class ShopWidget extends StatelessWidget {
           ),
 
           //* Номер
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: GestureDetector(
-              onTap: () async {
-                final url = 'tel:${shopModel.phone}';
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  await Future<dynamic>.error('Could not launch $url');
-                }
-              },
-              child: Flexible(
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: GestureDetector(
+                onTap: () async {
+                  final url = 'tel:${shopModel.phone}';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    await Future<dynamic>.error('Could not launch $url');
+                  }
+                },
                 child: Text(
                   shopModel.phone,
                   style: AppStyles.p1.copyWith(

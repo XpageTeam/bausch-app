@@ -35,23 +35,9 @@ class MapCubit extends Cubit<MapState> {
 
   /// Показ текущего местоположения
   Future<void> showCurrentLocation() async {
-    emit(
-      MapRemovePlacemark(placemark: userPlacemark),
-    );
+    await _setNewUserPlacemark();
 
-    final state = await _addNewPosition();
-
-    emit(state);
-
-    if (state is! MapFailed) {
-      emit(
-        MapSetCenter(
-          zoom: 14,
-          point: userPoint!,
-          mapAnimation: const MapAnimation(),
-        ),
-      );
-    }
+    _setCenterOnUser();
   }
 
   /// Изменение метки при ее выборе
@@ -93,11 +79,14 @@ class MapCubit extends Cubit<MapState> {
         .map((shop) => shop.defaultPlacemark!)
         .toList();
 
-    //* Если меток нет, тогда просто показываю пользователю его текущее местоположение
+    // добавляю позицию пользователя на карту
+    _setNewUserPlacemark();
+
+    //* Если меток нет, тогда просто центрируюсь на текущей координате пользователя
     if (placemarkList.isEmpty) {
-      showCurrentLocation();
+      _setCenterOnUser();
     } else {
-      //* Иначе - вычисляю среднюю координату и
+      //* Иначе - вычисляю среднюю координату и центрируюсь на ней
       final middlePoint = _calcMiddlePoint(
         placemarkList,
       );
@@ -108,7 +97,29 @@ class MapCubit extends Cubit<MapState> {
     }
   }
 
-  Future<Uint8List> getRawImageData(String imageAsset) async {
+  void _setCenterOnUser() {
+    if (userPoint != null) {
+      emit(
+        MapSetCenter(
+          zoom: 14,
+          point: userPoint!,
+          mapAnimation: const MapAnimation(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _setNewUserPlacemark() async {
+    emit(
+      MapRemovePlacemark(placemark: userPlacemark),
+    );
+
+    final state = await _addNewPosition();
+
+    emit(state);
+  }
+
+  Future<Uint8List> _getRawImageData(String imageAsset) async {
     final data = await rootBundle.load(imageAsset);
     return data.buffer.asUint8List();
   }
@@ -167,7 +178,9 @@ class MapCubit extends Cubit<MapState> {
     userPlacemark = Placemark(
       point: userPoint!,
       style: PlacemarkStyle(
-        rawImageData: await getRawImageData('assets/icons/user-marker.png'),
+        zIndex: 1,
+        opacity: 1,
+        rawImageData: await _getRawImageData('assets/icons/user-marker.png'),
       ),
     );
 

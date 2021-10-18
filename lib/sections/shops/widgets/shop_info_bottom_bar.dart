@@ -71,10 +71,10 @@ class ShopInfoBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               //* Название магазина
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Flexible(
+              Flexible(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(bottom: 16),
                   child: Text(
                     shopModel.name,
                     style: AppStyles.h2Bold,
@@ -91,18 +91,18 @@ class ShopInfoBottomSheet extends StatelessWidget {
               ),
 
               //* Номер
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40),
-                child: GestureDetector(
-                  onTap: () async {
-                    final url = 'tel:${shopModel.phone}';
-                    if (await canLaunch(url)) {
-                      await launch(url);
-                    } else {
-                      await Future<dynamic>.error('Could not launch $url');
-                    }
-                  },
-                  child: Flexible(
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: GestureDetector(
+                    onTap: () async {
+                      final url = 'tel:${shopModel.phone}';
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        await Future<dynamic>.error('Could not launch $url');
+                      }
+                    },
                     child: Text(
                       shopModel.phone,
                       style: AppStyles.p1.copyWith(
