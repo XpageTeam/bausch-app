@@ -66,7 +66,7 @@ class SheetScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CatalogItem(
-                          context,
+                          //context,
                           model: model.models[i * 2],
                           isProduct:
                               model.type != SheetType.webinar ? true : false,
@@ -77,7 +77,7 @@ class SheetScreen extends StatelessWidget {
                         ),
                         if (model.models.asMap().containsKey(i * 2 + 1))
                           CatalogItem(
-                            context,
+                            //context,
                             model: model.models[i * 2 + 1],
                             isProduct:
                                 model.type != SheetType.webinar ? true : false,

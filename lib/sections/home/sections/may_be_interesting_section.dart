@@ -32,6 +32,7 @@ class MayBeInteresting extends StatelessWidget {
               children: [
                 CatalogItem(
                   model: Models.items[i * 2],
+                  isProduct: true,
                 ),
                 const SizedBox(
                   width: 4,
@@ -39,6 +40,7 @@ class MayBeInteresting extends StatelessWidget {
                 if (Models.items.asMap().containsKey(i * 2 + 1))
                   CatalogItem(
                     model: Models.items[i * 2 + 1],
+                    isProduct: true,
                   ),
               ],
             ),

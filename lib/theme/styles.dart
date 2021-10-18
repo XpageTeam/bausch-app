@@ -76,13 +76,6 @@ class AppStyles {
     decorationThickness: 2,
   );
 
-  static const p1Grey = TextStyle(
-    color: AppTheme.grey,
-    fontWeight: FontWeight.normal,
-    fontSize: 14,
-    height: 20 / 14,
-  );
-
   static const p2 = TextStyle(
     color: AppTheme.mineShaft,
     fontWeight: FontWeight.normal,

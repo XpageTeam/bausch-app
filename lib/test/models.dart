@@ -1,5 +1,7 @@
 import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/sheet_model.dart';
 import 'package:bausch/models/story_model.dart';
+import 'package:bausch/static/static_data.dart';
 
 class Models {
   static List<StoryModel> stories = [
