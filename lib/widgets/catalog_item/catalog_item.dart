@@ -3,7 +3,6 @@ import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
-import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 class CatalogItem extends StatelessWidget {
