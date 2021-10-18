@@ -57,7 +57,44 @@ class Models {
     CatalogItemModel(
       name: 'Раствор',
       price: '1300',
-      img: 'assets/items/item1.png',
+    ),
+  ];
+
+  static List<SheetModel> sheets = [
+    SheetModel(
+      title: 'Скидка 500р в оптике',
+      img: 'assets/discount-in-optics.png',
+      models: items,
+      type: SheetType.discountOptics,
+    ),
+    SheetModel(
+      title: 'Бесплатная упаковка',
+      img: 'assets/free-packaging.png',
+      models: items,
+      type: SheetType.packaging,
+    ),
+    SheetModel(
+      title: 'Предложения от партнеров',
+      img: 'assets/offers-from-partners.png',
+      models: items,
+      type: SheetType.partners,
+    ),
+    SheetModel(
+      title: 'Скидки в онлайн-магазинах',
+      img: 'assets/discount-in-online-store.png',
+      models: items,
+      type: SheetType.discountOnline,
+    ),
+    SheetModel(
+      title: 'Записи вебинаров',
+      img: 'assets/webinar-rec.png',
+      models: items,
+      type: SheetType.webinar,
+    ),
+    SheetModel(
+      title: 'Онлайн консультации',
+      models: items,
+      type: SheetType.consultations,
     ),
   ];
 }

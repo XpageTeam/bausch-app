@@ -7,52 +7,98 @@ import 'package:flutter/material.dart';
 
 class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
-  const CatalogItem({required this.model, Key? key}) : super(key: key);
+  final VoidCallback? onTap;
+  final bool isProduct;
+  const CatalogItem(
+     {
+    required this.model,
+    required this.isProduct,
+    this.onTap,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        width:
-            MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 4,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          //right: 4,
+          bottom: 4,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 100,
-                  child: AspectRatio(
-                    aspectRatio: 37 / 12,
-                    child: Image.asset(
-                      model.img ?? 'assets/pic2.png',
+        child: Container(
+          //padding: const EdgeInsets.all(12),
+          width: MediaQuery.of(context).size.width / 2 -
+              StaticData.sidePadding -
+              2,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      if (isProduct)
+                        SizedBox(
+                          height: 100,
+                          child: AspectRatio(
+                            aspectRatio: 37 / 12,
+                            child: Image.asset(
+                              model.img ?? 'assets/free-packaging.png',
+                            ),
+                          ),
+                        )
+                      else
+                        AspectRatio(
+                          aspectRatio: 174 / 112,
+                          child: Image.asset('assets/woman.png'),
+                        ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: StaticData.sidePadding,
+                        ),
+                        child: Text(
+                          model.name,
+                          style: AppStyles.p1,
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: StaticData.sidePadding,
+                      right: StaticData.sidePadding,
+                      left: StaticData.sidePadding,
+                    ),
+                    child: ButtonWithPoints(
+                      price: model.price,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                AutoSizeText(
-                  model.name,
-                  style: AppStyles.p1,
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-              ],
-            ),
-            ButtonWithPoints(
-              price: model.price,
-            ),
-          ],
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: isProduct
+                    ? const DiscountInfo(text: '–500 ₽')
+                    : Image.asset(
+                        'assets/play-video.png',
+                        height: 28,
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
