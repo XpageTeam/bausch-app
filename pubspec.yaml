@@ -29,6 +29,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  after_layout: ^1.1.0
+  auto_size_text_pk: ^3.0.0
+  flutter_keyboard_visibility: ^5.0.3
+  extended_masked_text: ^2.3.1
+  video_player: ^2.2.5
+  pin_code_fields: ^7.3.0
+  rive: ^0.7.30
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -42,12 +49,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+
   surf_lint_rules: ^1.4.0
+ 
+  # flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,6 +68,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/logos/
+    - assets/items/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

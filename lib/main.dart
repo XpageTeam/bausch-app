@@ -1,13 +1,13 @@
-import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/sections/loading/loading_screen.dart';
+import 'package:bausch/sections/profile/profile_screen.dart';
+import 'package:bausch/theme/app_theme.dart';
+import 'package:flutter/material.dart';
+
 import 'package:bausch/sections/sheets/main_navigation.dart';
 import 'package:bausch/sections/sheets/overlay_navigation.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
-import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/points_info.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
-import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,31 +22,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: Keys.mainNav,
       title: 'Flutter Demo',
-      home: MainNavigation(),
+      theme: AppTheme.currentAppTheme,
+      home: const ProfileScreen(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: Models.sheets.length,
-        itemBuilder: (context, i) {
-          return TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[i]);
-            },
-            child: Text(
-              Models.sheets[i].title,
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   void showSheet(BuildContext context, SheetModel model) {
     showFlexibleBottomSheet<void>(

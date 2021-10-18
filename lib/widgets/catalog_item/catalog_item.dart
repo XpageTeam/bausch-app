@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 
 class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
-  final BuildContext context;
   final VoidCallback? onTap;
   final bool isProduct;
   const CatalogItem(
-    this.context, {
+     {
     required this.model,
     required this.isProduct,
     this.onTap,

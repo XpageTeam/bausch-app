@@ -1,7 +1,7 @@
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class BlueButtonWithText extends StatelessWidget {
   final String text;
@@ -17,15 +17,16 @@ class BlueButtonWithText extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          //primary: AppTheme.turquoiseBlue,
-          backgroundColor: AppTheme.turquoiseBlue,
+          backgroundColor: onPressed == null
+              ? AppTheme.turquoiseBlue.withOpacity(0.5)
+              : AppTheme.turquoiseBlue,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               text,
-              style: AppStyles.h3,
+              style: AppStyles.h2,
             ),
           ],
         ),
