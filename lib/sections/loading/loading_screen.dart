@@ -34,10 +34,19 @@ class _LoadingScreenState extends State<LoadingScreen>
   void initState() {
     super.initState();
 
-    loadingController = OneShotAnimation('loading', onStop: () {
-      afterController.isActive = true;
-    });
-    afterController = OneShotAnimation('afterLoading', autoplay: false);
+    loadingController = OneShotAnimation(
+      'loading',
+      onStop: () {
+        afterController.isActive = true;
+      },
+      onStart: () {
+        setState(() {
+          afterController.isActive = false;
+        });
+      },
+    );
+
+    afterController = OneShotAnimation('afterLoading');
 
     controller = AnimationController(
       vsync: this,
@@ -75,8 +84,8 @@ class _LoadingScreenState extends State<LoadingScreen>
             RiveAnimation.asset(
               'assets/new_loading.riv',
               fit: BoxFit.cover,
-              //animations: ['loading', 'afterLoading'],
-              controllers: [loadingController, afterController],
+              //animations: const ['loading', 'afterLoading'],
+              controllers: [afterController, loadingController],
             ),
             //* В Rive пока не завезли эффекты, в том числе размытие
             //* Поэтому делаю Blur с помощью BackdropFilter
