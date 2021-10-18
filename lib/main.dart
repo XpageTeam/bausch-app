@@ -1,6 +1,8 @@
 import 'package:bausch/models/sheet_model.dart';
 import 'package:bausch/navigation/main_navigation.dart';
 import 'package:bausch/navigation/overlay_navigation.dart';
+import 'package:bausch/sections/home/home_screen.dart';
+import 'package:bausch/sections/loading/loading_screen.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: Keys.mainNav,
       title: 'Flutter Demo',
       theme: AppTheme.currentAppTheme,
-      home: const MainNavigation(),
+      home: const HomeScreen(),
     );
   }
 }

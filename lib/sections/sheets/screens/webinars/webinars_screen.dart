@@ -28,6 +28,7 @@ class WebinarsScreen extends StatelessWidget {
         backgroundColor: AppTheme.mystic,
         body: CustomScrollView(
           controller: controller,
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.only(
@@ -44,6 +45,9 @@ class WebinarsScreen extends StatelessWidget {
                       height: 4,
                     ),
                     InfoSection.webinar(),
+                    const SizedBox(
+                      height: 132,
+                    ),
                   ],
                 ),
               ),

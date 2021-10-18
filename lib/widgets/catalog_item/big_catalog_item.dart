@@ -22,10 +22,11 @@ class BigCatalogItem extends StatelessWidget {
         right: StaticData.sidePadding,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   model.name,
