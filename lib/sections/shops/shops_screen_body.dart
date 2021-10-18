@@ -76,19 +76,39 @@ class ShopsScreenBody extends StatelessWidget {
           ),
 
           //* Карта -> Список Магазинов
+          // Expanded(
+          //   child: BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
+          //     builder: (context, state) {
+          //       // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
+          //       if (state is PageSwitcherShowList) {
+          //         return ShopListWidget(
+          //           shopList: shopList,
+          //         );
+          //       } else {
+          //         return MapWithButtons(
+          //           shopList: shopList,
+          //         );
+          //       }
+          //     },
+          //   ),
+          // ),
+
           Expanded(
             child: BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
               builder: (context, state) {
                 // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
-                if (state is PageSwitcherShowList) {
-                  return ShopListWidget(
-                    shopList: shopList,
-                  );
-                } else {
-                  return MapWithButtons(
-                    shopList: shopList,
-                  );
-                }
+
+                return IndexedStack(
+                  index: state is PageSwitcherShowList ? 1 : 0,
+                  children: [
+                    MapWithButtons(
+                      shopList: shopList,
+                    ),
+                    ShopListWidget(
+                      shopList: shopList,
+                    ),
+                  ],
+                );
               },
             ),
           ),
