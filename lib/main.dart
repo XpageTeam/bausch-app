@@ -31,46 +31,15 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[0]);
-            },
-            child: Text(Models.sheets[0].title),
-          ),
-          TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[1]);
-            },
-            child: Text(Models.sheets[1].title),
-          ),
-          TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[2]);
-            },
-            child: Text(Models.sheets[2].title),
-          ),
-          TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[3]);
-            },
-            child: Text(Models.sheets[3].title),
-          ),
-          TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[4]);
-            },
-            child: Text(Models.sheets[4].title),
-          ),
-          TextButton(
-            onPressed: () {
-              showSheet(context, Models.sheets[5]);
-            },
-            child: Text(Models.sheets[5].title),
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: Models.sheets.length,
+        itemBuilder: (context, i) {
+          return TextButton(
+              onPressed: () {
+                showSheet(context, Models.sheets[i]);
+              },
+              child: Text(Models.sheets[i].title));
+        },
       ),
     );
   }
