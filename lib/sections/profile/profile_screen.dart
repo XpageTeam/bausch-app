@@ -40,8 +40,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: const InfoBlock(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomSheet: const InfoBlock(),
     );
   }
 }
