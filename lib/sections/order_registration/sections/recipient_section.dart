@@ -11,7 +11,7 @@ class RecipientSection extends StatefulWidget {
 }
 
 class _RecipientSectionState extends State<RecipientSection> {
-  bool _flag = true;
+  bool isFormShowing = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +29,21 @@ class _RecipientSectionState extends State<RecipientSection> {
           ),
 
           //* Набор полей для ввода информации о получателе
-          if (_flag)
+          if (isFormShowing)
             OrderFormFields(
               onPressed: () => setState(
                 () {
-                  _flag = false;
+                  isFormShowing = false;
                 },
               ),
             ),
 
           //* Кнопка
-          if (!_flag)
+          if (!isFormShowing)
             OrderButton(
               onPressed: () => setState(
                 () {
-                  _flag = true;
+                  isFormShowing = true;
                 },
               ),
               title: const Text.rich(

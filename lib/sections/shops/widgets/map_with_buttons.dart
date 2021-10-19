@@ -4,18 +4,16 @@ import 'dart:typed_data';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/shops/cubits/map_cubit/map_cubit.dart';
 import 'package:bausch/sections/shops/listeners/map_cubit_listener.dart';
+import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
-import 'package:bausch/sections/shops/widgets/shop_info_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-@immutable
 class MapWithButtons extends StatefulWidget {
   final List<ShopModel> shopList;
-  late List<Placemark> placemarkList;
-  MapWithButtons({
+  const MapWithButtons({
     required this.shopList,
     Key? key,
   }) : super(key: key);
@@ -25,14 +23,14 @@ class MapWithButtons extends StatefulWidget {
 }
 
 class _MapWithButtonsState extends State<MapWithButtons> {
-  final Completer<YandexMapController> _mapCompleter = Completer();
+  final Completer<YandexMapController> mapCompleter = Completer();
 
-  late MapCubit _mapCubit;
+  late MapCubit mapCubit;
 
   @override
   void initState() {
     super.initState();
-    _mapCubit = MapCubit(
+    mapCubit = MapCubit(
       shopList: widget.shopList,
     );
 
@@ -43,7 +41,7 @@ class _MapWithButtonsState extends State<MapWithButtons> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => _mapCubit,
+      create: (_) => mapCubit,
       child: Container(
         decoration: const BoxDecoration(
           color: Color(0xffcacecf),
@@ -55,7 +53,7 @@ class _MapWithButtonsState extends State<MapWithButtons> {
           fit: StackFit.expand,
           children: [
             FutureBuilder(
-              future: _mapCompleter.future,
+              future: mapCompleter.future,
               builder: (_, snapshot) {
                 if (snapshot.hasData) {
                   for (final shop in widget.shopList) {
@@ -65,13 +63,13 @@ class _MapWithButtonsState extends State<MapWithButtons> {
                     }
                   }
 
-                  _mapCubit.setCenterOnShops();
+                  mapCubit.setCenterOnShops();
                 }
                 return MapCubitListener(
                   child: YandexMap(
-                    onMapCreated: _mapCompleter.complete,
+                    onMapCreated: mapCompleter.complete,
                   ),
-                  mapCompleterFuture: _mapCompleter.future,
+                  mapCompleterFuture: mapCompleter.future,
                 );
               },
             ),
@@ -84,9 +82,9 @@ class _MapWithButtonsState extends State<MapWithButtons> {
                     bottom: 60,
                   ),
                   child: MapButtons(
-                    onZoomIn: _mapCubit.zoomIn,
-                    onZoomOut: _mapCubit.zoomOut,
-                    onCurrentLocation: _mapCubit.showCurrentLocation,
+                    onZoomIn: mapCubit.zoomIn,
+                    onZoomOut: mapCubit.zoomOut,
+                    onCurrentLocation: mapCubit.showCurrentLocation,
                   ),
                 ),
               ),
@@ -116,7 +114,7 @@ class _MapWithButtonsState extends State<MapWithButtons> {
             if (!isBottomSheetOpenned) {
               isBottomSheetOpenned = true;
 
-              _mapCubit.changePlacemark(
+              mapCubit.changePlacemark(
                 placemark: currentPlacemark,
                 isOpenning: true,
               );
@@ -124,10 +122,18 @@ class _MapWithButtonsState extends State<MapWithButtons> {
               await showModalBottomSheet<dynamic>(
                 barrierColor: Colors.transparent,
                 context: context,
-                builder: (context) => ShopInfoBottomSheet(shopModel: shop),
+                builder: (context) => BottomSheetContent(
+                  title: shop.name,
+                  subtitle: shop.address,
+                  phone: shop.phone,
+                  btnText: 'Выбрать оптику',
+                  onPressed: () {
+                    // TODO(Nikolay): Кнопка.
+                  },
+                ),
               );
 
-              _mapCubit.changePlacemark(
+              mapCubit.changePlacemark(
                 placemark: currentPlacemark,
                 isOpenning: false,
               );

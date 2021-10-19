@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/providers/shop_list_bloc_provider.dart';
 import 'package:bausch/sections/shops/shops_screen_body.dart';
-import 'package:bausch/sections/shops/widgets/shop_list_empty_widget.dart';
+import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/default_info_widget.dart';
@@ -38,8 +38,15 @@ class ShopsScreen extends StatelessWidget {
                 showModalBottomSheet<dynamic>(
                   barrierColor: Colors.transparent,
                   context: context,
-                  // TODO(Nikolay): Как-то вынести в универсальный виджет.
-                  builder: (context) => const ShopListEmptyBottomSheet(),
+                  builder: (context) => BottomSheetContent(
+                    title: 'Поблизости нет оптик',
+                    subtitle:
+                        'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                    btnText: 'Хорошо',
+                    onPressed: () {
+                      // TODO(Nikolay): Кнопка.
+                    },
+                  ),
                 );
               }
             },

@@ -22,7 +22,7 @@ class MapCubitListener extends StatelessWidget {
 
         //* Приближение карты
         if (state is MapZoomIn) {
-         await controller.zoomIn();
+          await controller.zoomIn();
         }
 
         //* Отдаление карты
@@ -32,8 +32,6 @@ class MapCubitListener extends StatelessWidget {
 
         //* Ошибка
         if (state is MapFailed) {
-          debugPrint('mapCubitError: ${state.title}; (${state.text}');
-
           // TODO(Nikolay): Найти решение получше.
           await Future<dynamic>.delayed(Duration.zero).then(
             (dynamic value) => DefaultSnackBar.show(

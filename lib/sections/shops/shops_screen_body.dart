@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ShopsScreenBody extends StatefulWidget {
   final List<ShopModel> shopList;
 
-  ShopsScreenBody({
+  const ShopsScreenBody({
     required this.shopList,
     Key? key,
   }) : super(key: key);
@@ -23,11 +23,11 @@ class ShopsScreenBody extends StatefulWidget {
 }
 
 class _ShopsScreenBodyState extends State<ShopsScreenBody> {
-  final _pageSwitcherCubit = PageSwitcherCubit();
-  int _currentIndex = 0;
+  final pageSwitcherCubit = PageSwitcherCubit();
+  int currentIndex = 0;
   @override
   void dispose() {
-    _pageSwitcherCubit.close();
+    pageSwitcherCubit.close();
     super.dispose();
   }
 
@@ -46,9 +46,9 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
           ),
           child: ShopPageSwitcher(
             onChange: (index) {
-              if (_currentIndex != index) {
-                _currentIndex = index;
-                _pageSwitcherCubit.changePage(index);
+              if (currentIndex != index) {
+                currentIndex = index;
+                pageSwitcherCubit.changePage(index);
               }
             },
           ),
@@ -93,7 +93,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
         //* Карта -> Список Магазинов
         Expanded(
           child: BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
-            bloc: _pageSwitcherCubit,
+            bloc: pageSwitcherCubit,
             builder: (context, state) {
               // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
               if (state is PageSwitcherShowList) {

@@ -4,9 +4,22 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ShopListEmptyBottomSheet extends StatelessWidget {
-  const ShopListEmptyBottomSheet({Key? key}) : super(key: key);
+class BottomSheetContent extends StatelessWidget {
+  final String title;
+  final String btnText;
+  final String? subtitle;
+  final String? phone;
+  final VoidCallback? onPressed;
+  const BottomSheetContent({
+    required this.title,
+    required this.btnText,
+    this.subtitle,
+    this.phone,
+    this.onPressed,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,36 +67,58 @@ class ShopListEmptyBottomSheet extends StatelessWidget {
             ),
           ),
 
-          const Flexible(
+          Flexible(
             child: Padding(
-              padding: EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(bottom: 16),
               child: Text(
-                'Поблизости нет оптик',
+                title,
                 style: AppStyles.h2Bold,
               ),
             ),
           ),
 
-          const Flexible(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 30),
+          if (subtitle != null)
+            Flexible(
               child: Text(
-                'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                subtitle!,
                 style: AppStyles.p1,
               ),
             ),
-          ),
 
-          BlueButton(
-            onPressed: () {
-              // TODO(Nikolay): Реализовать кнопку в контейнере с магазином.
-            },
-            children: const [
-              Text(
-                'Хорошо',
-                style: AppStyles.h2Bold,
+          if (phone != null)
+            Flexible(
+              child: GestureDetector(
+                onTap: () async {
+                  final url = 'tel:$phone';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    await Future<dynamic>.error('Could not launch $url');
+                  }
+                },
+                child: Text(
+                  phone!,
+                  style: AppStyles.p1.copyWith(
+                    decoration: TextDecoration.underline,
+                    decorationColor: AppTheme.turquoiseBlue,
+                    decorationThickness: 2,
+                  ),
+                ),
               ),
-            ],
+            ),
+
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: BlueButton(
+              onPressed: onPressed,
+              children: [
+                Text(
+                  btnText,
+                  //'Хорошо',
+                  style: AppStyles.h2Bold,
+                ),
+              ],
+            ),
           ),
         ],
       ),
