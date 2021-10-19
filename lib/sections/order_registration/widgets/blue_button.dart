@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 class BlueButton extends StatelessWidget {
   final List<Widget> children;
   final VoidCallback? onPressed;
+  final EdgeInsets padding;
   const BlueButton({
     required this.children,
+    this.padding = const EdgeInsets.symmetric(vertical: 20),
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -22,7 +24,7 @@ class BlueButton extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: padding,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
