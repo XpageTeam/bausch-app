@@ -1,5 +1,6 @@
 import 'package:bausch/main.dart';
 import 'package:bausch/sections/home/home_screen.dart';
+import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_screen.dart';
@@ -53,6 +54,10 @@ class MainNavigation extends StatelessWidget {
 
           case '/add_adress':
             page = const AddAdressScreen();
+            break;
+
+          case '/order_registration':
+            page = const OrderRegistrationScreen();
             break;
 
           default:
