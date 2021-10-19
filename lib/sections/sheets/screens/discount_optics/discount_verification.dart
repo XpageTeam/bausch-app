@@ -40,8 +40,9 @@ class DiscountVerification extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CustomSliverAppbar(
+                        CustomSliverAppbar(
                           padding: EdgeInsets.only(top: StaticData.sidePadding),
+                          navKey: Keys.bottomSheetItemsNav,
                         ),
                         const SizedBox(
                           height: 20,
@@ -111,7 +112,7 @@ class DiscountVerification extends StatelessWidget {
                 child: BlueButtonWithText(
                   text: 'Потратить баллы',
                   onPressed: () {
-                    Keys.bottomSheetNav.currentState!
+                    Keys.bottomSheetItemsNav.currentState!
                         .pushNamed('/final_discount');
                   },
                 ),

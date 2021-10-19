@@ -6,7 +6,9 @@ class CustomSliverAppbar extends StatelessWidget {
   final Widget? icon;
   final Color? iconColor;
   final EdgeInsets? padding;
-  const CustomSliverAppbar({this.icon, this.iconColor, this.padding, Key? key})
+  final GlobalKey<NavigatorState> navKey;
+  const CustomSliverAppbar(
+      {required this.navKey, this.icon, this.iconColor, this.padding, Key? key})
       : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 backgroundColor: iconColor ?? Colors.white,
                 child: IconButton(
                   onPressed: () {
-                    Keys.bottomSheetNav.currentState!.pop();
+                    navKey.currentState!.pop();
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios_new,
@@ -40,11 +42,7 @@ class CustomSliverAppbar extends StatelessWidget {
             backgroundColor: iconColor ?? Colors.white,
             child: IconButton(
               onPressed: () {
-                if (icon == null) {
-                  Navigator.of(Keys.mainNav.currentContext!).pop();
-                } else {
-                  Navigator.of(Keys.bottomSheetNav.currentContext!).pop();
-                }
+                Navigator.of(Keys.mainNav.currentContext!).pop();
               },
               icon: const Icon(
                 Icons.close,

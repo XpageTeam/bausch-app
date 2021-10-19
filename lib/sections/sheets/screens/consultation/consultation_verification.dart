@@ -8,10 +8,10 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
-class WebinarVerification extends StatelessWidget {
+class ConsultationVerification extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const WebinarVerification({
+  const ConsultationVerification({
     required this.controller,
     required this.model,
     Key? key,
@@ -41,7 +41,7 @@ class WebinarVerification extends StatelessWidget {
                       children: [
                         CustomSliverAppbar(
                           padding: EdgeInsets.only(top: StaticData.sidePadding),
-                          navKey: Keys.bottomSheetItemsNav,
+                          navKey: Keys.bottomSheetNav,
                         ),
                         const SizedBox(
                           height: 20,
@@ -95,8 +95,8 @@ class WebinarVerification extends StatelessWidget {
                 child: BlueButtonWithText(
                   text: 'Потратить баллы',
                   onPressed: () {
-                    Keys.bottomSheetItemsNav.currentState!
-                        .pushNamed('/final_webinar');
+                    Keys.bottomSheetNav.currentState!
+                        .pushNamed('/final_consultation');
                   },
                 ),
               ),

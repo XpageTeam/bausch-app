@@ -1,10 +1,12 @@
+import 'package:bausch/main.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
-import 'package:bausch/sections/home/widgets/wide_container.dart';
+import 'package:bausch/sections/home/widgets/wide_container_with_items.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -30,7 +32,14 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  const [ProfileStatus()],
+                  //* Статус пользователя
+                  [
+                    ProfileStatus(
+                      onPressed: () {
+                        Keys.mainContentNav.currentState!.pushNamed('/profile');
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -42,6 +51,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
+                  //* Количество баллов
                   const [ScoresSection()],
                 ),
               ),
@@ -52,6 +62,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
+                  //* Сторисы
                   [StoriesSlider(items: Models.stories)],
                 ),
               ),
@@ -64,6 +75,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
+                  //* Баннер для перехода на экран программы подбора
                   const [OfferWidget()],
                 ),
               ),
@@ -114,8 +126,11 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: const CustomFloatingActionButton(
+      floatingActionButton: CustomFloatingActionButton(
         text: 'Добавить баллы',
+        onPressed: () {
+          showSheet(context, Models.sheets[2]);
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

@@ -1,5 +1,11 @@
 import 'package:bausch/main.dart';
 import 'package:bausch/sections/home/home_screen.dart';
+import 'package:bausch/sections/profile/profile_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/add_adress_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/lenses_parameters.dart';
+import 'package:bausch/sections/profile/profile_settings/my_adresses_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +26,35 @@ class MainNavigation extends StatelessWidget {
           case '/':
             page = const HomeScreen();
             break;
+
+          case '/profile':
+            page = const ProfileScreen();
+            break;
+
+          case '/profile_settings':
+            page = const ProfileSettingsScreen();
+            break;
+
+          case '/my_adresses':
+            page = const MyAdressesScreen();
+            break;
+
+          case '/lenses_parameters':
+            page = const LensesParametersScreen();
+            break;
+
+          case '/add_details':
+            page = AddDetailsScreen(
+              adress: (settings.arguments as AddDetailsArguments).adress,
+              isFirstLaunch:
+                  (settings.arguments as AddDetailsArguments).isFirstLaunch,
+            );
+            break;
+
+          case '/add_adress':
+            page = const AddAdressScreen();
+            break;
+
           default:
             page = const HomeScreen();
         }

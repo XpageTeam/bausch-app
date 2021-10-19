@@ -129,10 +129,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               child: FocusButton(
                 labelText: 'Мои адреса',
                 onPressed: () {
-                  Navigator.of(context)
-                      .push<void>(MaterialPageRoute(builder: (context) {
-                    return MyAdressesScreen();
-                  }));
+                  Keys.mainContentNav.currentState!.pushNamed('/my_adresses');
                 },
               ),
             ),
@@ -141,10 +138,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               child: FocusButton(
                 labelText: 'Параметры контактных линз',
                 onPressed: () {
-                  Navigator.of(context)
-                      .push<void>(MaterialPageRoute(builder: (context) {
-                    return LensesParametersScreen();
-                  }));
+                  Keys.mainContentNav.currentState!
+                      .pushNamed('/lenses_parameters');
                 },
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_with_items_model.dart';
 import 'package:bausch/models/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 
@@ -62,41 +63,54 @@ class Models {
     ),
   ];
 
-  static List<SheetModel> sheets = [
-    SheetModel(
+  static List<SheetModelWithItems> sheetsWithItems = [
+    SheetModelWithItems(
       title: 'Скидка 500р в оптике',
       img: 'assets/discount-in-optics.png',
       models: items,
-      type: SheetType.discountOptics,
+      type: SheetWithItemsType.discountOptics,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Бесплатная упаковка',
       img: 'assets/free-packaging.png',
       models: items,
-      type: SheetType.packaging,
+      type: SheetWithItemsType.packaging,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Предложения от партнеров',
       img: 'assets/offers-from-partners.png',
       models: items,
-      type: SheetType.partners,
+      type: SheetWithItemsType.partners,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Скидки в онлайн-магазинах',
       img: 'assets/discount-in-online-store.png',
       models: items,
-      type: SheetType.discountOnline,
+      type: SheetWithItemsType.discountOnline,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Записи вебинаров',
       img: 'assets/webinar-rec.png',
       models: items,
-      type: SheetType.webinar,
+      type: SheetWithItemsType.webinar,
+    ),
+  ];
+
+  static List<SheetModel> sheets = [
+    SheetModel(
+      title: 'Онлайн-консультация',
+      img: 'assets/online-consultations.png',
+      type: SheetType.consultation,
     ),
     SheetModel(
-      title: 'Онлайн консультации',
-      models: items,
-      type: SheetType.consultations,
+      title: 'Бесплатно подберем вам первые линзы в оптике',
+      img: 'assets/online-consultations.png',
+      type: SheetType.program,
+    ),
+    SheetModel(
+      title: 'Добавить баллы',
+      img: 'assets/online-consultations.png',
+      type: SheetType.addpoints,
     ),
   ];
 }

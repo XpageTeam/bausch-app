@@ -1,13 +1,16 @@
-import 'package:bausch/models/sheets/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+import 'package:bausch/navigation/overlay_navigation_with_items.dart';
+import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-class WideContainerWithoutItems extends StatelessWidget {
+class WideContainerWithItems extends StatelessWidget {
   final List<String>? children;
   final String? subtitle;
-  final SheetModel sheetModel;
-  const WideContainerWithoutItems({
+  final SheetModelWithItems sheetModel;
+  const WideContainerWithItems({
     required this.sheetModel,
     this.children,
     this.subtitle,
@@ -18,7 +21,7 @@ class WideContainerWithoutItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showSheet(context, sheetModel);
+        showSheetWithItems(context, sheetModel);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -44,7 +47,7 @@ class WideContainerWithoutItems extends StatelessWidget {
                     ),
                   ),
                   Image.asset(
-                    sheetModel.img,
+                    sheetModel.img ?? 'assets/webinar-rec.png',
                     height: 40,
                   ),
                 ],

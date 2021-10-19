@@ -1,3 +1,4 @@
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,9 +12,11 @@ class DefaultTextInput extends StatefulWidget {
   final TextInputType inputType;
   final InputDecoration? decoration;
   final TextStyle? textStyle;
+  final Color? backgroundColor;
   const DefaultTextInput({
     required this.labelText,
     required this.controller,
+    this.backgroundColor,
     this.onChanged,
     this.inputType = TextInputType.text,
     this.decoration,
@@ -71,7 +74,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: widget.backgroundColor ?? Colors.white,
               borderRadius: BorderRadius.circular(5),
             ),
             padding: const EdgeInsets.only(

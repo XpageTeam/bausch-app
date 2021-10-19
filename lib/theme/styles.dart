@@ -40,9 +40,9 @@ class AppStyles {
 
   static const h3 = TextStyle(
     color: AppTheme.mineShaft,
-    fontWeight: FontWeight.normal,
-    fontSize: 12,
-    height: 10 / 12,
+    fontWeight: FontWeight.w400,
+    fontSize: 17,
+    height: 20 / 17,
   );
 
   static const p1 = TextStyle(

@@ -68,7 +68,7 @@ class PartnersScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Получить поощрение',
                 onPressed: () {
-                  Keys.bottomSheetNav.currentState!
+                  Keys.bottomSheetItemsNav.currentState!
                       .pushNamed('/verification_webinar');
                 },
               ),

@@ -1,6 +1,7 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/navigation/overlay_navigation.dart';
+import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+import 'package:bausch/navigation/overlay_navigation_with_items.dart';
+import 'package:bausch/navigation/overlay_navigation_with_items.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -8,7 +9,7 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class SmallContainer extends StatelessWidget {
-  final SheetModel sheetModel;
+  final SheetModelWithItems sheetModel;
   const SmallContainer({
     required this.sheetModel,
     Key? key,
@@ -70,17 +71,17 @@ class SmallContainer extends StatelessWidget {
     );
   }
 
-  void showSheet(BuildContext context, SheetModel model) {
+  void showSheet(BuildContext context, SheetModelWithItems model) {
     showFlexibleBottomSheet<void>(
       useRootNavigator: true,
       minHeight: 0,
-      initHeight: calculatePercentage(model.models.length),
+      initHeight: calculatePercentage(model.models!.length),
       maxHeight: 0.95,
       anchors: [0, 0.6, 0.95],
       context: context,
       builder: (context, controller, d) {
         return SheetWidget(
-          child: OverlayNavigation(
+          child: OverlayNavigationWithItems(
             sheetModel: model,
             controller: controller,
           ),

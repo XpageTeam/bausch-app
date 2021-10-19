@@ -35,7 +35,7 @@ class ProfileBackground extends StatelessWidget {
                 style: AppStyles.h1,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 17,
             ),
             Center(

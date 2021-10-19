@@ -22,7 +22,9 @@ class ProfileAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               NormalIconButton(
-                onPressed: () {}, //Navigator.of(context).pop,
+                onPressed: () {
+                  Keys.mainContentNav.currentState!.pop();
+                }, //Navigator.of(context).pop,
                 icon: const Icon(
                   Icons.chevron_left_rounded,
                   size: 20,
@@ -31,14 +33,8 @@ class ProfileAppBar extends StatelessWidget {
               ),
               NormalIconButton(
                 onPressed: () {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ProfileSettingsScreen();
-                      },
-                    ),
-                  );
+                  Keys.mainContentNav.currentState!
+                      .pushNamed('/profile_settings');
                 }, //Navigator.of(context).pop,
                 icon: const Icon(
                   Icons.settings,

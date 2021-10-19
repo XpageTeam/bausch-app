@@ -4,20 +4,29 @@ class StaticData {
   static const sidePadding = 12.0;
 }
 
-enum SheetType {
+enum SheetWithItemsType {
   webinar,
   packaging,
   discountOptics,
   discountOnline,
   partners,
-  consultations,
+}
+
+enum SheetType {
+  consultation,
+  addpoints,
+  program,
 }
 
 class Keys {
   //* Ключ для навигации между страницами приложения
   static GlobalKey<NavigatorState> mainContentNav = GlobalKey();
 
-  //* Ключ для навигации между страницами bottomSheet'а
+  //* Ключ для навигации между страницами bottomSheet'а, на которых есть элементы каталога(CatalogItem)
+  static GlobalKey<NavigatorState> bottomSheetItemsNav = GlobalKey();
+
+  //* Ключ для навигации между страницами bottomSheet'а, на которых нет элементов каталога
+  //* Т.е. сразу открывается нужная страница
   static GlobalKey<NavigatorState> bottomSheetNav = GlobalKey();
 
   //* Ключ для контроля всяких всплывающих виджетов

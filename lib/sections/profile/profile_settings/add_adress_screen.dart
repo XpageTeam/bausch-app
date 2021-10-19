@@ -10,7 +10,7 @@ import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/material.dart';
 
 class AddAdressScreen extends StatefulWidget {
-  AddAdressScreen({Key? key}) : super(key: key);
+  const AddAdressScreen({Key? key}) : super(key: key);
 
   @override
   _AddAdressScreenState createState() => _AddAdressScreenState();
@@ -78,13 +78,11 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push<void>(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return AddDetailsScreen(
-                                  adress: AdressModel(street: str),
-                                );
-                              },
+                          Keys.mainContentNav.currentState!.pushNamed(
+                            '/add_details',
+                            arguments: AddDetailsArguments(
+                              adress: AdressModel(street: str),
+                              isFirstLaunch: true,
                             ),
                           );
                         },

@@ -1,17 +1,26 @@
-import 'package:bausch/models/sheet_model.dart';
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions
+
+import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
-import 'package:bausch/static/static_data.dart';
 
 //* Главный экран с элементами каталога
 //* С него происходит переход в нужные секции
 class SheetScreen extends StatelessWidget {
   final ScrollController controller;
-  final SheetModel model;
-  const SheetScreen({required this.model, required this.controller, Key? key})
-      : super(key: key);
+
+  final SheetModelWithItems sheetModel;
+
+  final String path;
+  const SheetScreen({
+    required this.sheetModel,
+    required this.controller,
+    required this.path,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +44,7 @@ class SheetScreen extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          model.img ?? 'assets/free-packaging.png',
+                          sheetModel.img ?? 'assets/free-packaging.png',
                           height: 60,
                         ),
                         const SizedBox(
@@ -43,7 +52,7 @@ class SheetScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            model.title,
+                            sheetModel.title,
                             style: AppStyles.h2,
                           ),
                         ),
@@ -67,31 +76,35 @@ class SheetScreen extends StatelessWidget {
                       children: [
                         CatalogItem(
                           //context,
-                          model: model.models[i * 2],
+                          model: sheetModel.models![i * 2],
                           isProduct:
-                              model.type != SheetType.webinar ? true : false,
+                              sheetModel.type != SheetWithItemsType.webinar
+                                  ? true
+                                  : false,
                           onTap: () {
-                            Keys.bottomSheetNav.currentState!
-                                .pushNamed(path(model.type));
+                            Keys.bottomSheetItemsNav.currentState!
+                                .pushNamed(path);
                           },
                         ),
-                        if (model.models.asMap().containsKey(i * 2 + 1))
+                        if (sheetModel.models!.asMap().containsKey(i * 2 + 1))
                           CatalogItem(
                             //context,
-                            model: model.models[i * 2 + 1],
+                            model: sheetModel.models![i * 2 + 1],
                             isProduct:
-                                model.type != SheetType.webinar ? true : false,
+                                sheetModel.type != SheetWithItemsType.webinar
+                                    ? true
+                                    : false,
                             onTap: () {
-                              Keys.bottomSheetNav.currentState!
-                                  .pushNamed(path(model.type));
+                              Keys.bottomSheetItemsNav.currentState!
+                                  .pushNamed(path);
                             },
                           ),
                       ],
                     ),
                   ),
-                  childCount: (model.models.length % 2) == 0
-                      ? model.models.length ~/ 2
-                      : model.models.length ~/ 2 + 1,
+                  childCount: (sheetModel.models!.length % 2) == 0
+                      ? sheetModel.models!.length ~/ 2
+                      : sheetModel.models!.length ~/ 2 + 1,
                 ),
               ),
             ),
@@ -118,27 +131,5 @@ class SheetScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String path(SheetType type) {
-    switch (type) {
-      case SheetType.discountOptics:
-        return '/discount_optics';
-
-      case SheetType.webinar:
-        return '/webinar';
-
-      case SheetType.packaging:
-        return '/free_packaging';
-
-      case SheetType.discountOnline:
-        return '/discount_online';
-
-      case SheetType.partners:
-        return '/partners';
-
-      case SheetType.consultations:
-        return '/consultation';
-    }
   }
 }

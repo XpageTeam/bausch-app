@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final Widget? icon;
+  final VoidCallback? onPressed;
   final String text;
   const CustomFloatingActionButton({
     required this.text,
+    this.onPressed,
     this.icon,
     Key? key,
   }) : super(key: key);
@@ -23,7 +25,7 @@ class CustomFloatingActionButton extends StatelessWidget {
             horizontal: StaticData.sidePadding,
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: onPressed,
             style: TextButton.styleFrom(
               backgroundColor: AppTheme.turquoiseBlue,
               padding: const EdgeInsets.symmetric(

@@ -1,5 +1,4 @@
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -8,13 +7,12 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
-import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 
-class FinalFreePackaging extends StatelessWidget {
+class FinalConsultation extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  const FinalFreePackaging({
+  const FinalConsultation({
     required this.controller,
     required this.model,
     Key? key,
@@ -40,12 +38,13 @@ class FinalFreePackaging extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     CustomSliverAppbar(
-                      navKey: Keys.bottomSheetItemsNav,
+                      padding: EdgeInsets.only(top: StaticData.sidePadding),
+                      navKey: Keys.bottomSheetNav,
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
-                        'Заказ оформлен',
+                        'Ваш доступ к записи вебинара',
                         style: AppStyles.h2,
                       ),
                     ),
@@ -55,22 +54,11 @@ class FinalFreePackaging extends StatelessWidget {
                         bottom: 40,
                       ),
                       child: Text(
-                        'За статусом заказа можно будет следить в Профиле.',
+                        'Доступ видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
                         style: AppStyles.p1,
                       ),
                     ),
                     BigCatalogItem(model: model),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12, bottom: 120),
-                      child: Column(
-                        children: const [
-                          TextWithPoint(
-                            text:
-                                'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),

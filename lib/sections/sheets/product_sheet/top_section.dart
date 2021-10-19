@@ -122,6 +122,7 @@ class TopSection extends StatelessWidget {
           CustomSliverAppbar(
             iconColor: AppTheme.mystic,
             icon: leftIcon,
+            navKey: Keys.bottomSheetItemsNav,
           ),
         ],
       ),

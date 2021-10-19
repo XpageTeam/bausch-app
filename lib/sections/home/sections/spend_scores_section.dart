@@ -1,5 +1,6 @@
 import 'package:bausch/sections/home/widgets/small_container.dart';
 import 'package:bausch/sections/home/widgets/wide_container.dart';
+import 'package:bausch/sections/home/widgets/wide_container_with_items.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class SpendScores extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        WideContainer(
-          sheetModel: Models.sheets[0],
+        WideContainerWithItems(
+          sheetModel: Models.sheetsWithItems[0],
           children: const [
             'assets/logos/logo1.png',
             'assets/logos/logo2.png',
@@ -33,13 +34,13 @@ class SpendScores extends StatelessWidget {
         Row(
           children: [
             SmallContainer(
-              sheetModel: Models.sheets[1],
+              sheetModel: Models.sheetsWithItems[1],
             ),
             const SizedBox(
               width: 4,
             ),
             SmallContainer(
-              sheetModel: Models.sheets[2],
+              sheetModel: Models.sheetsWithItems[2],
             ),
           ],
         ),
@@ -49,21 +50,21 @@ class SpendScores extends StatelessWidget {
         Row(
           children: [
             SmallContainer(
-              sheetModel: Models.sheets[3],
+              sheetModel: Models.sheetsWithItems[3],
             ),
             const SizedBox(
               width: 4,
             ),
             SmallContainer(
-              sheetModel: Models.sheets[4],
+              sheetModel: Models.sheetsWithItems[4],
             ),
           ],
         ),
         const SizedBox(
           height: 4,
         ),
-        WideContainer(
-          sheetModel: Models.sheets[5],
+        WideContainerWithoutItems(
+          sheetModel: Models.sheets[0],
         ),
       ],
     );
