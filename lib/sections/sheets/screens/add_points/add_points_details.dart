@@ -108,7 +108,10 @@ class AddPointsDetails extends StatelessWidget {
               ),
               child: BlueButtonWithText(
                 text: 'Подписаться на группу',
-                onPressed: () {},
+                onPressed: () {
+                  Keys.bottomSheetNav.currentState!
+                      .pushNamed('/final_addpoints');
+                },
               ),
             ),
             const InfoBlock(),
