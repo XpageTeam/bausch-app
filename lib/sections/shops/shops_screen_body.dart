@@ -108,26 +108,6 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
             },
           ),
         ),
-
-        // Expanded(
-        //   child: BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
-        //     bloc: _pageSwitcherCubit,
-        //     builder: (context, state) {
-        //       // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
-        //       return IndexedStack(
-        //         index: state is PageSwitcherShowList ? 1 : 0,
-        //         children: [
-        //           MapWithButtons(
-        //             shopList: widget.shopList,
-        //           ),
-        //           ShopListWidget(
-        //             shopList: widget.shopList,
-        //           ),
-        //         ],
-        //       );
-        //     },
-        //   ),
-        // ),
       ],
     );
   }

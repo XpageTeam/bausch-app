@@ -1,14 +1,10 @@
 import 'dart:ui';
 
-import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/providers/shop_list_bloc_provider.dart';
 import 'package:bausch/sections/shops/shops_screen_body.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_empty_widget.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/default_info_widget.dart';
 import 'package:flutter/material.dart';
