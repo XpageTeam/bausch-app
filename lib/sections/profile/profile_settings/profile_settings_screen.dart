@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/profile/profile_settings/city_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/lenses_parameters.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses_screen.dart';

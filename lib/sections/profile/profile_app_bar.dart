@@ -35,7 +35,7 @@ class ProfileAppBar extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return ProfileSettingsScreen();
+                        return const ProfileSettingsScreen();
                       },
                     ),
                   );

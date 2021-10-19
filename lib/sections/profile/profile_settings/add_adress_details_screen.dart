@@ -180,7 +180,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
         ),
       );
     } else {
-      final int index = Adresses.adresses.indexOf(widget.adress);
+      final index = Adresses.adresses.indexOf(widget.adress);
       Adresses.adresses[index] = AdressModel(
         street: widget.adress.street,
         office: int.parse(officeController.value.text),

@@ -30,7 +30,7 @@ class _CustomRadioState extends State<CustomRadio> {
       child: Row(
         children: [
           CustomCheckbox(
-            value: widget.value == widget.groupValue ? true : false,
+            value: widget.value == widget.groupValue, // ? true : false,
             onChanged: widget.onChanged,
             borderRadius: 180,
           ),

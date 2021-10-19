@@ -1,9 +1,9 @@
 import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
-import 'package:bausch/static/static_data.dart';
 
 //* Главный экран с элементами каталога
 //* С него происходит переход в нужные секции
@@ -69,7 +69,7 @@ class SheetScreen extends StatelessWidget {
                           //context,
                           model: model.models[i * 2],
                           isProduct:
-                              model.type != SheetType.webinar ? true : false,
+                              model.type != SheetType.webinar, //? true : false,
                           onTap: () {
                             Keys.bottomSheetNav.currentState!
                                 .pushNamed(path(model.type));
@@ -80,7 +80,7 @@ class SheetScreen extends StatelessWidget {
                             //context,
                             model: model.models[i * 2 + 1],
                             isProduct:
-                                model.type != SheetType.webinar ? true : false,
+                                model.type != SheetType.webinar, //? true : false,
                             onTap: () {
                               Keys.bottomSheetNav.currentState!
                                   .pushNamed(path(model.type));
