@@ -95,11 +95,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                             ],
                           ),
                         ),
-                        CustomSliverAppbar(
-                          iconColor: AppTheme.mystic,
-                          icon: Container(),
-                          navKey: Keys.bottomSheetNav,
-                        ),
+                        CustomSliverAppbar.toClose(Container(), widget.key),
                       ],
                     ),
                     InfoSection.product(),

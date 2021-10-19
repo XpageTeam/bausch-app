@@ -36,10 +36,7 @@ class FinalDiscountOptics extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar(
-                      padding: EdgeInsets.only(top: StaticData.sidePadding),
-                      navKey: Keys.bottomSheetItemsNav,
-                    ),
+                    CustomSliverAppbar.toPop(Container(), key),
                     const Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(

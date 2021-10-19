@@ -39,10 +39,7 @@ class WebinarVerification extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomSliverAppbar(
-                          padding: EdgeInsets.only(top: StaticData.sidePadding),
-                          navKey: Keys.bottomSheetItemsNav,
-                        ),
+                        CustomSliverAppbar.toPop(Container(), key),
                         const SizedBox(
                           height: 20,
                         ),

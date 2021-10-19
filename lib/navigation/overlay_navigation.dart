@@ -1,4 +1,5 @@
 import 'package:bausch/models/sheets/sheet_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
@@ -56,6 +57,13 @@ class OverlayNavigation extends StatelessWidget {
             page = ConsultationScreen(
               controller: controller,
               model: Models.items[2],
+            );
+            break;
+
+          case '/addpoints_details':
+            page = AddPointsDetails(
+              model: Models.addItems[0],
+              controller: controller,
             );
             break;
 

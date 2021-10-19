@@ -68,6 +68,8 @@ class FreePackagingScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Перейти к заказу',
                 onPressed: () {
+                  Keys.mainNav.currentState!.pop();
+
                   Keys.mainContentNav.currentState!
                       .pushNamed('/order_registration');
                 },

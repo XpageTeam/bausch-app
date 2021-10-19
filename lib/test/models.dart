@@ -1,3 +1,4 @@
+import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/models/sheets/sheet_model.dart';
 import 'package:bausch/models/sheets/sheet_with_items_model.dart';
@@ -111,6 +112,16 @@ class Models {
       title: 'Добавить баллы',
       img: 'assets/online-consultations.png',
       type: SheetType.addpoints,
+    ),
+  ];
+
+  static List<AddItemModel> addItems = [
+    AddItemModel(
+      title: 'Подпишитесь на группу ВКонтакте',
+      subtitle:
+          'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
+      price: '100',
+      img: 'assets/add_points_vk.png',
     ),
   ];
 }

@@ -3,7 +3,9 @@ import 'package:bausch/sections/order_registration/sections/delivery_address_sec
 import 'package:bausch/sections/order_registration/sections/lens_parameters_section.dart';
 import 'package:bausch/sections/order_registration/sections/order_items_section.dart';
 import 'package:bausch/sections/order_registration/sections/recipient_section.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
@@ -93,8 +95,9 @@ class OrderRegistrationScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const CustomFloatingActionButton(
+      bottomNavigationBar: CustomFloatingActionButton(
         text: 'Потратить 1250 б',
+        onPressed: () {},
       ),
     );
   }

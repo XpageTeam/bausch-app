@@ -6,10 +6,45 @@ class CustomSliverAppbar extends StatelessWidget {
   final Widget? icon;
   final Color? iconColor;
   final EdgeInsets? padding;
-  final GlobalKey<NavigatorState> navKey;
-  const CustomSliverAppbar(
-      {required this.navKey, this.icon, this.iconColor, this.padding, Key? key})
-      : super(key: key);
+  final GlobalKey<NavigatorState> rightKey;
+  final GlobalKey<NavigatorState> leftKey;
+  const CustomSliverAppbar({
+    required this.rightKey,
+    required this.leftKey,
+    this.icon,
+    this.iconColor,
+    this.padding,
+    Key? key,
+  }) : super(key: key);
+
+  CustomSliverAppbar.toPop(
+    Widget icon,
+    Key? key, [
+    GlobalKey<NavigatorState>? rightKey,
+  ]) : this(
+          rightKey: rightKey ?? Keys.bottomSheetItemsNav,
+          leftKey: Keys.bottomSheetNav,
+          icon: icon,
+          iconColor: AppTheme.mystic,
+          key: key,
+        );
+
+  CustomSliverAppbar.toClose(Widget icon, Key? key)
+      : this(
+          rightKey: Keys.mainNav,
+          leftKey: Keys.bottomSheetNav,
+          icon: icon,
+          iconColor: AppTheme.mystic,
+          key: key,
+        );
+
+  CustomSliverAppbar.toCloseAndPop(Key? key)
+      : this(
+          rightKey: Keys.mainNav,
+          leftKey: Keys.bottomSheetNav,
+          iconColor: AppTheme.mystic,
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +64,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 backgroundColor: iconColor ?? Colors.white,
                 child: IconButton(
                   onPressed: () {
-                    navKey.currentState!.pop();
+                    leftKey.currentState!.pop();
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios_new,
@@ -42,7 +77,7 @@ class CustomSliverAppbar extends StatelessWidget {
             backgroundColor: iconColor ?? Colors.white,
             child: IconButton(
               onPressed: () {
-                Navigator.of(Keys.mainNav.currentContext!).pop();
+                rightKey.currentState!.pop();
               },
               icon: const Icon(
                 Icons.close,

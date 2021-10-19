@@ -40,7 +40,7 @@ class AppStyles {
 
   static const h3 = TextStyle(
     color: AppTheme.mineShaft,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     fontSize: 17,
     height: 20 / 17,
   );

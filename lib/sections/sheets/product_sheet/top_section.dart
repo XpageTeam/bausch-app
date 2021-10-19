@@ -8,69 +8,72 @@ import 'package:flutter/material.dart';
 
 class TopSection extends StatelessWidget {
   final CatalogItemModel model;
-  final Widget leftIcon;
   final bool isFull;
   final bool withPrice;
+  final Widget appBar;
   const TopSection({
     required this.model,
-    required this.leftIcon,
     required this.isFull,
     required this.withPrice,
+    required this.appBar,
     Key? key,
   }) : super(key: key);
 
-  const TopSection.product(CatalogItemModel model, Widget leftIcon, Key? key)
+  TopSection.product(CatalogItemModel model, Widget leftIcon, Key? key)
       : this(
           model: model,
-          leftIcon: leftIcon,
           isFull: false,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toPop(leftIcon, key),
         );
 
   TopSection.packaging(CatalogItemModel model, Key? key)
       : this(
           model: model,
-          leftIcon: Container(),
           isFull: false,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toPop(Container(), key),
         );
 
   TopSection.webinar(CatalogItemModel model, Key? key)
       : this(
           model: model,
-          leftIcon: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Image.asset(
-              'assets/play-video.png',
-              height: 28,
-            ),
-          ),
           isFull: true,
           withPrice: false,
           key: key,
+          appBar: CustomSliverAppbar.toPop(
+            Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Image.asset(
+                'assets/play-video.png',
+                height: 28,
+              ),
+            ),
+            key,
+          ),
         );
 
-  const TopSection.consultation(
+  TopSection.consultation(
     CatalogItemModel model,
     Widget leftIcon,
     Key? key,
   ) : this(
           model: model,
-          leftIcon: leftIcon,
           isFull: false,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toClose(leftIcon, key),
         );
 
-  const TopSection.partners(CatalogItemModel model, Widget leftIcon, Key? key)
+  TopSection.partners(CatalogItemModel model, Widget leftIcon, Key? key)
       : this(
           model: model,
-          leftIcon: leftIcon,
           isFull: true,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toPop(Container(), key),
         );
 
   @override
@@ -119,11 +122,7 @@ class TopSection extends StatelessWidget {
                 ),
             ],
           ),
-          CustomSliverAppbar(
-            iconColor: AppTheme.mystic,
-            icon: leftIcon,
-            navKey: Keys.bottomSheetItemsNav,
-          ),
+          appBar,
         ],
       ),
     );

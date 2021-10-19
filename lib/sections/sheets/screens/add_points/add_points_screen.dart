@@ -1,6 +1,8 @@
 import 'package:bausch/sections/profile/notification_item.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/code_section.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,7 @@ class AddPointsScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CodeSection(),
+                    const CodeSection(),
                   ],
                 ),
               ),
@@ -72,9 +74,9 @@ class AddPointsScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (context, i) => const Padding(
-                    padding: EdgeInsets.only(bottom: 4),
-                    child: NotificationItem(),
+                  (context, i) => Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: AddItem(model: Models.addItems[0]),
                   ),
                   childCount: 5,
                 ),

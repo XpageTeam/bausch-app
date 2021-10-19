@@ -93,7 +93,7 @@ class ConsultationScreen extends StatelessWidget {
                 text: 'Потратить баллы',
                 onPressed: () {
                   Keys.bottomSheetNav.currentState!
-                      .pushNamed('/verification_webinar');
+                      .pushNamed('/verification_consultation');
                 },
               ),
             ),
