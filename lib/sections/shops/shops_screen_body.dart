@@ -291,7 +291,7 @@ class ShopListContent extends StatelessWidget {
                   'Пусто',
                   style: AppStyles.p1,
                 ),
-              )
+              ),
             ]
           : filteredShopList
               .map(
@@ -372,7 +372,7 @@ class ShopContainer extends StatelessWidget {
                 ),
               ),
             ),
-          ]
+          ],
         ],
       ),
     );

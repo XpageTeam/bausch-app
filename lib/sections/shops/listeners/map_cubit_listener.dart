@@ -1,10 +1,11 @@
 import 'package:bausch/sections/shops/cubits/map_cubit/map_cubit.dart';
+import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/widgets/default_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-class MapCubitListener extends StatelessWidget {
+class MapCubitListener extends StatefulWidget {
   final Widget child;
   final Future<YandexMapController> mapCompleterFuture;
 
@@ -15,10 +16,17 @@ class MapCubitListener extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<MapCubitListener> createState() => _MapCubitListenerState();
+}
+
+class _MapCubitListenerState extends State<MapCubitListener> {
+  bool isBottomSheetOpenned = false;
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<MapCubit, MapState>(
       listener: (context, state) async {
-        final controller = await mapCompleterFuture;
+        final controller = await widget.mapCompleterFuture;
 
         //* Приближение карты
         if (state is MapZoomIn) {
@@ -52,6 +60,42 @@ class MapCubitListener extends StatelessWidget {
           await controller.addPlacemark(state.placemark);
         }
 
+        if (state is MapShowModalBottomSheet) {
+          if (!isBottomSheetOpenned) {
+            isBottomSheetOpenned = true;
+            if (!mounted) {
+              return;
+            }
+            BlocProvider.of<MapCubit>(context).changePlacemark(
+              placemark: state.shopModel.placemark!,
+              isOpenning: true,
+            );
+
+            await showModalBottomSheet<dynamic>(
+              barrierColor: Colors.transparent,
+              context: context,
+              builder: (context) => BottomSheetContent(
+                title: state.shopModel.name,
+                subtitle: state.shopModel.address,
+                phone: state.shopModel.phone,
+                btnText: 'Выбрать оптику',
+                onPressed: () {
+                  // TODO(Nikolay): Кнопка.
+                },
+              ),
+            );
+
+            if (!mounted) {
+              return;
+            }
+            BlocProvider.of<MapCubit>(context).changePlacemark(
+              placemark: state.shopModel.placemark!,
+              isOpenning: false,
+            );
+            isBottomSheetOpenned = false;
+          }
+        }
+
         //* Центрирование по всем меткам
         if (state is MapSetCenter) {
           await controller.move(
@@ -66,7 +110,7 @@ class MapCubitListener extends StatelessWidget {
       },
 
       //* Карта
-      child: child,
+      child: widget.child,
     );
   }
 }

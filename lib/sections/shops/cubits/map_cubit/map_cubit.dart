@@ -69,6 +69,13 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
+  /// Показ всплывающего окна
+  void showModalBottomSheet({required ShopModel shopModel}) {
+    emit(
+      MapShowModalBottomSheet(shopModel: shopModel),
+    );
+  }
+
   // Центрирование на магазинах
   void setCenterOnShops() {
     // Получение списка меток

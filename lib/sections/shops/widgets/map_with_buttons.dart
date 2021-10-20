@@ -124,35 +124,7 @@ class _MapWithButtonsState extends State<MapWithButtons> {
         shop.placemark = Placemark(
           point: shop.coords!,
           onTap: (currentPlacemark, point) async {
-            if (!isBottomSheetOpenned) {
-              isBottomSheetOpenned = true;
-
-              mapCubit.changePlacemark(
-                placemark: currentPlacemark,
-                isOpenning: true,
-              );
-
-              await showModalBottomSheet<dynamic>(
-                barrierColor: Colors.transparent,
-                context: context,
-                builder: (context) => BottomSheetContent(
-                  title: shop.name,
-                  subtitle: shop.address,
-                  phone: shop.phone,
-                  btnText: 'Выбрать оптику',
-                  onPressed: () {
-                    // TODO(Nikolay): Кнопка.
-                  },
-                ),
-              );
-
-              mapCubit.changePlacemark(
-                placemark: currentPlacemark,
-                isOpenning: false,
-              );
-
-              isBottomSheetOpenned = false;
-            }
+            mapCubit.showModalBottomSheet(shopModel: shop);
           },
           style: PlacemarkStyle(
             zIndex: 1,
