@@ -100,11 +100,11 @@ class _MapWithButtonsState extends State<MapWithButtons> {
       controller.removePlacemark(controller.placemarks[i]);
     }
 
-    shopList.forEach(
-      (shopModel) => shopModel.placemark == null
-          ? null
-          : controller.addPlacemark(shopModel.placemark!),
-    );
+    for (final shopModel in shopList) {
+      if (shopModel.placemark != null) {
+        controller.addPlacemark(shopModel.placemark!);
+      }
+    }
   }
 
   Future<Uint8List> _getRawImageData(String imageAsset) async {
