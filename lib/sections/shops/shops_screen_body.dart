@@ -4,6 +4,7 @@ import 'package:bausch/sections/shops/cubits/page_switcher_cubit/page_switcher_c
 import 'package:bausch/sections/shops/widgets/address_switcher.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_with_buttons.dart';
+import 'package:bausch/sections/shops/widgets/shop_list_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -142,6 +143,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
             ),
           ),
 
+          // С фильтром
           Expanded(
             child: BlocBuilder<ShopFilterBloc, ShopFilterState>(
               bloc: filterBloc,
@@ -151,7 +153,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                   builder: (context, switherState) {
                     // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
                     if (switherState is PageSwitcherShowList) {
-                      return ShopListWidgetOther(
+                      return ShopListAdapter(
                         shopList: widget.shopList,
                         state: filterState,
                       );
@@ -166,8 +168,51 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
               },
             ),
           ),
+
+          // Без фильтра
+          // Expanded(
+          //   child: BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
+          //     bloc: pageSwitcherCubit,
+          //     builder: (context, switherState) {
+          //       // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
+          //       if (switherState is PageSwitcherShowList) {
+          //         return ShopListWidget(
+          //           shopList: widget.shopList,
+          //         );
+          //       } else {
+          //         return MapWithButtons(
+          //           shopList: widget.shopList,
+          //         );
+          //       }
+          //     },
+          //   ),
+          // ),
         ],
       ),
+    );
+  }
+}
+
+class ShopListAdapter extends StatelessWidget {
+  final ShopFilterState state;
+  final List<ShopModel> shopList;
+  const ShopListAdapter({
+    required this.state,
+    required this.shopList,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO(Nikolay): Переделать: в этом списке виджеты немного оличаются.
+    return ShopListWidget(
+      shopList: shopList
+          .where(
+            (shop) =>
+                state is! ShopFilterChange ||
+                state.selectedFilters.contains(shop.name),
+          )
+          .toList(),
     );
   }
 }
