@@ -40,13 +40,11 @@ class _MapCubitListenerState extends State<MapCubitListener> {
 
         //* Ошибка
         if (state is MapFailed) {
-          // TODO(Nikolay): Найти решение получше.
-          await Future<dynamic>.delayed(Duration.zero).then(
-            (dynamic value) => DefaultSnackBar.show(
-              context,
-              title: state.title,
-              text: state.text,
-            ),
+          if (!mounted) return;
+          DefaultSnackBar.show(
+            context,
+            title: state.title,
+            text: state.text,
           );
         }
 
