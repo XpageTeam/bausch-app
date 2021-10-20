@@ -2,7 +2,7 @@ part of 'shop_filter_bloc.dart';
 
 @immutable
 abstract class ShopFilterState {
-  final List<String> selectedFilters;
+  final List<Filter> selectedFilters;
   const ShopFilterState({
     required this.selectedFilters,
   });
@@ -10,7 +10,7 @@ abstract class ShopFilterState {
 
 class ShopFilterInitial extends ShopFilterState {
   ShopFilterInitial({
-    required String defaultFilter,
+    required Filter defaultFilter,
   }) : super(
           selectedFilters: [defaultFilter],
         );
@@ -18,7 +18,7 @@ class ShopFilterInitial extends ShopFilterState {
 
 class ShopFilterChange extends ShopFilterState {
   const ShopFilterChange({
-    required List<String> selectedFilters,
+    required List<Filter> selectedFilters,
   }) : super(
           selectedFilters: selectedFilters,
         );
@@ -26,7 +26,7 @@ class ShopFilterChange extends ShopFilterState {
 
 class ShopFilterClear extends ShopFilterState {
   const ShopFilterClear({
-    required List<String> selectedFilters,
+    required List<Filter> selectedFilters,
   }) : super(
           selectedFilters: selectedFilters,
         );

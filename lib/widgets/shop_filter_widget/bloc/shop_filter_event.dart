@@ -6,13 +6,13 @@ abstract class ShopFilterEvent {
 }
 
 class ShopFilterChangeEvent extends ShopFilterEvent {
-  final String filter;
+  final Filter filter;
   const ShopFilterChangeEvent({
     required this.filter,
   });
 }
 
 class ShopFilterClearEvent extends ShopFilterEvent {
-  final String? defaultFilter;
+  final Filter? defaultFilter;
   const ShopFilterClearEvent({this.defaultFilter});
 }

@@ -7,6 +7,73 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 part 'shoplist_state.dart';
 
 class ShopListCubit extends Cubit<ShopListState> {
+  final shopList = [
+    ShopModel(
+      id: 0,
+      coords: const Point(
+        latitude: 55.158682,
+        longitude: 61.410983,
+      ),
+      name: 'ЛинзСервис',
+      address: 'address',
+      phone: '+79191210670',
+      site: 'hello.ru',
+    ),
+    ShopModel(
+      id: 0,
+      coords: const Point(
+        latitude: 55.160574,
+        longitude: 61.362429,
+      ),
+      name: 'ЛинзСервис',
+      address: 'address',
+      phone: '+79191210670',
+      site: 'wa.ru',
+    ),
+    ShopModel(
+      id: 0,
+      coords: const Point(
+        latitude: 55.180295,
+        longitude: 61.386114,
+      ),
+      name: 'ЛинзСервис',
+      address: 'address',
+      phone: '+79191210670',
+    ),
+    ShopModel(
+      id: 1,
+      coords: const Point(
+        latitude: 55.173414,
+        longitude: 61.412624,
+      ),
+      name: 'Оптика-А',
+      address: 'address',
+      phone: '+79191210670',
+      site: 'ds.ru',
+    ),
+    ShopModel(
+      id: 1,
+      coords: const Point(
+        latitude: 55.147753,
+        longitude: 61.40847,
+      ),
+      name: 'Оптика-А',
+      address: 'address',
+      phone: '+79191210670',
+    ),
+    ShopModel(
+      id: 2,
+      coords: const Point(
+        latitude: 55.147343,
+        longitude: 61.394574,
+      ),
+      name: 'Оптика-Б',
+      address: 'address',
+      phone: '+79191210670',
+      site: 'gg.ru',
+    ),
+  ];
+
   ShopListCubit() : super(ShopListInitial());
 
   Future<void> loadShopList() async {
@@ -20,70 +87,4 @@ class ShopListCubit extends Cubit<ShopListState> {
       shopList: shopList, //ShopModel.generate(0),
     );
   }
-
-  final shopList = [
-    ShopModel(
-        id: 0,
-        coords: const Point(
-          latitude: 55.158682,
-          longitude: 61.410983,
-        ),
-        name: 'ЛинзСервис',
-        address: 'address',
-        phone: 'phone',
-        site: 'hello.ru'),
-    ShopModel(
-      id: 0,
-      coords: const Point(
-        latitude: 55.160574,
-        longitude: 61.362429,
-      ),
-      name: 'ЛинзСервис',
-      address: 'address',
-      phone: 'phone',
-      site: 'wa.ru',
-    ),
-    ShopModel(
-      id: 0,
-      coords: const Point(
-        latitude: 55.180295,
-        longitude: 61.386114,
-      ),
-      name: 'ЛинзСервис',
-      address: 'address',
-      phone: 'phone',
-    ),
-    ShopModel(
-      id: 0,
-      coords: const Point(
-        latitude: 55.173414,
-        longitude: 61.412624,
-      ),
-      name: 'Оптика-А',
-      address: 'address',
-      phone: 'phone',
-      site: 'ds.ru',
-    ),
-    ShopModel(
-      id: 0,
-      coords: const Point(
-        latitude: 55.147753,
-        longitude: 61.40847,
-      ),
-      name: 'Оптика-А',
-      address: 'address',
-      phone: 'phone',
-    ),
-    ShopModel(
-      id: 0,
-      coords: const Point(
-        latitude: 55.147343,
-        longitude: 61.394574,
-      ),
-      name: 'Оптика-Б',
-      address: 'address',
-      phone: 'phone',
-      site: 'gg.ru',
-    ),
-  ];
 }

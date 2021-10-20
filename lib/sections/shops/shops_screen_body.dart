@@ -1,3 +1,4 @@
+import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/shops/cubits/page_switcher_cubit/page_switcher_cubit_cubit.dart';
@@ -31,16 +32,27 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
 
   late final ShopFilterBloc filterBloc;
 
-  final btnTexts = [
-    'Все оптики',
-    'ЛинзСервис',
-    'Оптика-А',
-    'Оптика-Б',
-    'Оптика-В',
-    'Оптика-Г',
-    'Оптика-Д',
-    'Оптика-Е',
-    'Оптика-Ж',
+  final filterList = const [
+    Filter(
+      id: -1,
+      title: 'Все оптики',
+    ),
+    Filter(
+      id: 0,
+      title: 'ЛинзСервис',
+    ),
+    Filter(
+      id: 1,
+      title: 'Оптика-А',
+    ),
+    Filter(
+      id: 2,
+      title: 'Оптика-Б',
+    ),
+    Filter(
+      id: 3,
+      title: 'Оптика-В',
+    ),
   ];
 
   int currentIndex = 0;
@@ -48,7 +60,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
   @override
   void initState() {
     super.initState();
-    filterBloc = ShopFilterBloc(defaultFilter: btnTexts[0]);
+    filterBloc = ShopFilterBloc(defaultFilter: filterList[0]);
   }
 
   @override
@@ -141,7 +153,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
               bottom: 20.0,
             ),
             child: ShopFilterWidget(
-              btnTexts: btnTexts,
+              filterList: filterList,
             ),
           ),
 

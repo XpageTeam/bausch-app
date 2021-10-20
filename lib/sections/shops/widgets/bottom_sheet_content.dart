@@ -1,5 +1,4 @@
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
-import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -97,15 +96,6 @@ class BottomSheetContent extends StatelessWidget {
             Flexible(
               child: GestureDetector(
                 onTap: () => Utils.tryLaunchUrl(rawUrl: phone!, isPhone: true),
-
-                // async {
-                //   final url = 'tel:$phone';
-                //   if (await canLaunch(url)) {
-                //     await launch(url);
-                //   } else {
-                //     await Future<dynamic>.error('Could not launch $url');
-                //   }
-                // },
                 child: Text(
                   phone!,
                   style: AppStyles.p1.copyWith(
@@ -125,16 +115,6 @@ class BottomSheetContent extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () =>
                       Utils.tryLaunchUrl(rawUrl: site!, isPhone: false),
-
-                  // async {
-
-                  //   // final url = 'tel:$site';
-                  //   // if (await canLaunch(url)) {
-                  //   //   await launch(url);
-                  //   // } else {
-                  //   //   await Future<dynamic>.error('Could not launch $url');
-                  //   // }
-                  // },
                   child: Text(
                     site!,
                     style: AppStyles.p1.copyWith(

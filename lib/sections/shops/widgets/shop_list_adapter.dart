@@ -4,7 +4,7 @@ import 'package:bausch/widgets/shop_filter_widget/bloc/shop_filter_bloc.dart';
 import 'package:flutter/material.dart';
 
 class ShopListAdapter extends StatelessWidget {
-  final ShopFilterState state;
+  final ShopFilterState? state;
   final Type containerType;
   final List<ShopModel> shopList;
   const ShopListAdapter({
@@ -19,13 +19,17 @@ class ShopListAdapter extends StatelessWidget {
     return ShopListWidget(
       containerType: containerType,
       state: state,
-      shopList: shopList
-          .where(
-            (shop) =>
-                state is! ShopFilterChange ||
-                state.selectedFilters.contains(shop.name),
-          )
-          .toList(),
+      shopList: state != null
+          ? shopList
+              .where(
+                (shop) =>
+                    state is! ShopFilterChange ||
+                    state!.selectedFilters.any(
+                      (filter) => filter.id == shop.id,
+                    ),
+              )
+              .toList()
+          : shopList,
     );
   }
 }

@@ -19,7 +19,9 @@ class MapAdapter extends StatelessWidget {
           .where(
             (shop) =>
                 state is! ShopFilterChange ||
-                state.selectedFilters.contains(shop.name),
+                state.selectedFilters.any(
+                  (filter) => filter.id == shop.id,
+                ),
           )
           .toList(),
     );

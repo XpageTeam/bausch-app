@@ -97,11 +97,14 @@ class _MapWithButtonsState extends State<MapWithButtons> {
   }) {
     // Иначе не удаляются, либо удаляются криво
     for (var i = controller.placemarks.length - 1; i >= 0; i--) {
-      controller.removePlacemark(controller.placemarks[i]);
+      if (!shopList.any((shop) => shop.placemark == controller.placemarks[i])) {
+        controller.removePlacemark(controller.placemarks[i]);
+      }
     }
 
     for (final shopModel in shopList) {
-      if (shopModel.placemark != null) {
+      if (shopModel.placemark != null &&
+          !controller.placemarks.contains(shopModel.placemark)) {
         controller.addPlacemark(shopModel.placemark!);
       }
     }

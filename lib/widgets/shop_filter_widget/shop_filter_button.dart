@@ -1,3 +1,4 @@
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -14,20 +15,23 @@ class ShopFilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: isSelected ? Colors.white : Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        minimumSize: Size.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        padding: const EdgeInsets.all(10),
+    return Material(
+      color: isSelected ? Colors.white : AppTheme.mystic,
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
       ),
-      child: Text(
-        title,
-        style: AppStyles.h2Bold,
+      child: InkWell(
+        splashColor: AppTheme.turquoiseBlue,
+        hoverColor: AppTheme.grey,
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            title,
+            style: AppStyles.h2Bold,
+          ),
+        ),
       ),
     );
   }
