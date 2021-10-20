@@ -1,11 +1,14 @@
 import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/screens/webinars/dialog_with_players.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
+import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 //catalog_webinar
 class WebinarsScreen extends StatelessWidget {
@@ -64,8 +67,15 @@ class WebinarsScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Перейти к просмотру',
                 onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_webinar');
+                  // Keys.bottomSheetItemsNav.currentState!
+                  //     .pushNamed('/verification_webinar');
+
+                  showDialog<void>(
+                    context: Keys.bottomSheetItemsNav.currentContext!,
+                    builder: (context) {
+                      return DialogWithPlayers();
+                    },
+                  );
                 },
               ),
             ),

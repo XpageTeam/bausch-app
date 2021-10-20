@@ -126,7 +126,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: CustomFloatingActionButton(
+      bottomNavigationBar: CustomFloatingActionButton(
         text: 'Добавить баллы',
         onPressed: () {
           showSheet(context, Models.sheets[2]);

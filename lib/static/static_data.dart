@@ -4,6 +4,7 @@ class StaticData {
   static const sidePadding = 12.0;
 }
 
+//* Типы экранов с элементами каталога
 enum SheetWithItemsType {
   webinar,
   packaging,
@@ -12,6 +13,7 @@ enum SheetWithItemsType {
   partners,
 }
 
+//* Типы экранов без элементов каталога
 enum SheetType {
   consultation,
   addpoints,

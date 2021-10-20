@@ -10,6 +10,7 @@ import 'package:bausch/sections/profile/profile_settings/profile_settings_screen
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 
+//* Навигатор для страниц приложения
 class MainNavigation extends StatelessWidget {
   const MainNavigation({
     Key? key,

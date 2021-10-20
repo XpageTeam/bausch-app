@@ -58,43 +58,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                   [
                     Stack(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: StaticData.sidePadding,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppTheme.sulu,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Column(
-                            children: [
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/banner-icon.png',
-                                    height: 155,
-                                  ),
-                                  const Text(
-                                    'X2',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 25,
-                                      height: 25 / 25,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Text(
-                                'Бесплатно подберем вам первые линзы в оптике',
-                                style: AppStyles.h1,
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                            ],
-                          ),
-                        ),
+                        Image.asset('assets/program.png'),
                         CustomSliverAppbar.toClose(Container(), widget.key),
                       ],
                     ),
@@ -190,9 +154,12 @@ class _ProgramScreenState extends State<ProgramScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Контактные линзы Bousch+Lomb ',
-                              style: AppStyles.h3,
+                            const Flexible(
+                              child: Text(
+                                'Контактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+Lomb ',
+                                style: AppStyles.h3,
+                                maxLines: 3,
+                              ),
                             ),
                             CustomRadio(
                               value: index,
