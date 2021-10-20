@@ -24,15 +24,6 @@ class ShopFilterChange extends ShopFilterState {
         );
 }
 
-// TODO(Nikolay): по-сути костыль.
-class ShopFilterAccept extends ShopFilterState {
-  const ShopFilterAccept({
-    required List<String> selectedFilters,
-  }) : super(
-          selectedFilters: selectedFilters,
-        );
-}
-
 class ShopFilterClear extends ShopFilterState {
   const ShopFilterClear({
     required List<String> selectedFilters,
