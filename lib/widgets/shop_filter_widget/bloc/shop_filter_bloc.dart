@@ -6,8 +6,8 @@ part 'shop_filter_event.dart';
 part 'shop_filter_state.dart';
 
 class ShopFilterBloc extends Bloc<ShopFilterEvent, ShopFilterState> {
-  List<String> selectedFilters = [];
   final String defaultFilter;
+  List<String> selectedFilters = [];
   ShopFilterBloc({
     required this.defaultFilter,
   }) : super(

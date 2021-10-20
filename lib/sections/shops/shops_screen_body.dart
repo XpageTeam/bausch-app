@@ -27,7 +27,6 @@ class ShopsScreenBody extends StatefulWidget {
 
 class _ShopsScreenBodyState extends State<ShopsScreenBody> {
   final pageSwitcherCubit = PageSwitcherCubit();
-  int currentIndex = 0;
 
   late final ShopFilterBloc filterBloc;
 
@@ -40,8 +39,10 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
     'Оптика-Г',
     'Оптика-Д',
     'Оптика-Е',
-    'Оптика-Ж'
+    'Оптика-Ж',
   ];
+
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -206,6 +207,7 @@ class ShopListAdapter extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO(Nikolay): Переделать: в этом списке виджеты немного оличаются.
     return ShopListWidget(
+      state: state,
       shopList: shopList
           .where(
             (shop) =>
@@ -236,145 +238,6 @@ class MapAdapter extends StatelessWidget {
                 state.selectedFilters.contains(shop.name),
           )
           .toList(),
-    );
-  }
-}
-
-class ShopListWidgetOther extends StatelessWidget {
-  final List<ShopModel> shopList;
-  final ShopFilterState state;
-  const ShopListWidgetOther({
-    required this.shopList,
-    required this.state,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.only(
-        right: StaticData.sidePadding,
-        left: StaticData.sidePadding,
-        bottom: 20,
-      ),
-      child: ShopListContent(
-        filteredShopList: shopList
-            .where(
-              (shop) =>
-                  state is! ShopFilterChange ||
-                  state.selectedFilters.contains(shop.name),
-            )
-            .toList(),
-        state: state,
-      ),
-    );
-  }
-}
-
-class ShopListContent extends StatelessWidget {
-  final List<ShopModel> filteredShopList;
-  final ShopFilterState state;
-  const ShopListContent({
-    required this.filteredShopList,
-    required this.state,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: filteredShopList.isEmpty
-          ? [
-              const Center(
-                child: Text(
-                  'Пусто',
-                  style: AppStyles.p1,
-                ),
-              ),
-            ]
-          : filteredShopList
-              .map(
-                (shop) => Container(
-                  margin: filteredShopList.last == shop
-                      ? null
-                      : const EdgeInsets.only(bottom: 4),
-                  child: ShopContainer(shop: shop),
-                ),
-              )
-              .toList(),
-    );
-  }
-}
-
-class ShopContainer extends StatelessWidget {
-  final ShopModel shop;
-  const ShopContainer({
-    required this.shop,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(StaticData.sidePadding),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(
-          5,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            shop.name,
-            style: AppStyles.h2Bold,
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            shop.address,
-            style: AppStyles.p1,
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          GestureDetector(
-            onTap: () {
-              // TODO(Nikolay): Реализовать нажатие по номеру телефона.
-            },
-            child: Text(
-              shop.phone,
-              style: AppStyles.p1.copyWith(
-                decoration: TextDecoration.underline,
-                decorationColor: AppTheme.turquoiseBlue,
-                decorationThickness: 2,
-              ),
-            ),
-          ),
-          if (shop.site != null) ...[
-            const SizedBox(
-              height: 4,
-            ),
-            GestureDetector(
-              onTap: () {
-                // TODO(Nikolay): Реализовать переход по ссылке.
-              },
-              child: Text(
-                shop.site!,
-                style: AppStyles.p1.copyWith(
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppTheme.turquoiseBlue,
-                  decorationThickness: 2,
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
     );
   }
 }

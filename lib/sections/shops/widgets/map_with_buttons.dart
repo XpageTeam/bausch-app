@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/shops/cubits/map_cubit/map_cubit.dart';
 import 'package:bausch/sections/shops/listeners/map_cubit_listener.dart';
-import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -116,8 +115,6 @@ class _MapWithButtonsState extends State<MapWithButtons> {
   Future<void> _initPlacemarks() async {
     final shopRawImageData =
         await _getRawImageData('assets/icons/map-marker.png');
-
-    var isBottomSheetOpenned = false;
 
     for (final shop in widget.shopList) {
       if (shop.coords != null) {
