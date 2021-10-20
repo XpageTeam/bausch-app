@@ -6,14 +6,16 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ShopWidget extends StatelessWidget {
-  final ShopModel shopModel;
+class ShopContainerWithButton extends StatelessWidget {
+  final ShopModel shop;
   final VoidCallback? onPressed;
-  const ShopWidget({
-    required this.shopModel,
+  const ShopContainerWithButton({
+    required this.shop,
     this.onPressed,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class ShopWidget extends StatelessWidget {
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(bottom: 4),
               child: Text(
-                shopModel.name,
+                shop.name,
                 style: AppStyles.h2Bold,
               ),
             ),
@@ -42,7 +44,7 @@ class ShopWidget extends StatelessWidget {
           //* Адрес
           Flexible(
             child: Text(
-              shopModel.address,
+              shop.address,
               style: AppStyles.p1,
             ),
           ),
@@ -53,7 +55,7 @@ class ShopWidget extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20),
               child: GestureDetector(
                 onTap: () async {
-                  final url = 'tel:${shopModel.phone}';
+                  final url = 'tel:${shop.phone}';
                   if (await canLaunch(url)) {
                     await launch(url);
                   } else {
@@ -61,7 +63,7 @@ class ShopWidget extends StatelessWidget {
                   }
                 },
                 child: Text(
-                  shopModel.phone,
+                  shop.phone,
                   style: AppStyles.p1.copyWith(
                     decoration: TextDecoration.underline,
                     decorationColor: AppTheme.turquoiseBlue,

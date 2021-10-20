@@ -19,21 +19,26 @@ class ShopModel {
   ///* Адрес магазина
   final String address;
 
+  ///* Телефон
   final String phone;
+
+  ///* Сайт
+  final String? site;
 
   ///* Координаты магазина
   final Point? coords;
 
   ///* Метка для отображения на карте
-  Placemark? defaultPlacemark;
+  Placemark? placemark;
 
   ShopModel({
     required this.id,
     required this.name,
     required this.address,
     required this.phone,
+    this.site,
     this.coords,
-    this.defaultPlacemark,
+    this.placemark,
   });
 
   factory ShopModel.test([int idx = 0]) {

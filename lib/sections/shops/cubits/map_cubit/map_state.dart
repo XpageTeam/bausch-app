@@ -43,3 +43,9 @@ class MapAddPlacemark extends MapState {
 
   MapAddPlacemark({required this.placemark});
 }
+
+class MapShowModalBottomSheet extends MapState {
+  final ShopModel shopModel;
+
+  MapShowModalBottomSheet({required this.shopModel});
+}

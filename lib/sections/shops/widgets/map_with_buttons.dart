@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/shops/cubits/map_cubit/map_cubit.dart';
 import 'package:bausch/sections/shops/listeners/map_cubit_listener.dart';
-import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +32,6 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     mapCubit = MapCubit(
       shopList: widget.shopList,
     );
-
     // TODO(Nikolay): Инициализация меток должна быть в другом месте.
     _initPlacemarks();
   }
@@ -56,12 +54,10 @@ class _MapWithButtonsState extends State<MapWithButtons> {
               future: mapCompleter.future,
               builder: (_, snapshot) {
                 if (snapshot.hasData) {
-                  for (final shop in widget.shopList) {
-                    if (shop.defaultPlacemark != null) {
-                      (snapshot.data as YandexMapController)
-                          .addPlacemark(shop.defaultPlacemark!);
-                    }
-                  }
+                  _generatePlacemarks(
+                    shopList: widget.shopList,
+                    controller: snapshot.data as YandexMapController,
+                  );
 
                   mapCubit.setCenterOnShops();
                 }
@@ -95,6 +91,25 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     );
   }
 
+  void _generatePlacemarks({
+    required List<ShopModel> shopList,
+    required YandexMapController controller,
+  }) {
+    // Иначе не удаляются, либо удаляются криво
+    for (var i = controller.placemarks.length - 1; i >= 0; i--) {
+      if (!shopList.any((shop) => shop.placemark == controller.placemarks[i])) {
+        controller.removePlacemark(controller.placemarks[i]);
+      }
+    }
+
+    for (final shopModel in shopList) {
+      if (shopModel.placemark != null &&
+          !controller.placemarks.contains(shopModel.placemark)) {
+        controller.addPlacemark(shopModel.placemark!);
+      }
+    }
+  }
+
   Future<Uint8List> _getRawImageData(String imageAsset) async {
     final data = await rootBundle.load(imageAsset);
     return data.buffer.asUint8List();
@@ -104,42 +119,12 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     final shopRawImageData =
         await _getRawImageData('assets/icons/map-marker.png');
 
-    var isBottomSheetOpenned = false;
-
     for (final shop in widget.shopList) {
       if (shop.coords != null) {
-        shop.defaultPlacemark = Placemark(
+        shop.placemark = Placemark(
           point: shop.coords!,
           onTap: (currentPlacemark, point) async {
-            if (!isBottomSheetOpenned) {
-              isBottomSheetOpenned = true;
-
-              mapCubit.changePlacemark(
-                placemark: currentPlacemark,
-                isOpenning: true,
-              );
-
-              await showModalBottomSheet<dynamic>(
-                barrierColor: Colors.transparent,
-                context: context,
-                builder: (context) => BottomSheetContent(
-                  title: shop.name,
-                  subtitle: shop.address,
-                  phone: shop.phone,
-                  btnText: 'Выбрать оптику',
-                  onPressed: () {
-                    // TODO(Nikolay): Кнопка.
-                  },
-                ),
-              );
-
-              mapCubit.changePlacemark(
-                placemark: currentPlacemark,
-                isOpenning: false,
-              );
-
-              isBottomSheetOpenned = false;
-            }
+            mapCubit.showModalBottomSheet(shopModel: shop);
           },
           style: PlacemarkStyle(
             zIndex: 1,

@@ -69,14 +69,21 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
+  /// Показ всплывающего окна
+  void showModalBottomSheet({required ShopModel shopModel}) {
+    emit(
+      MapShowModalBottomSheet(shopModel: shopModel),
+    );
+  }
+
   // Центрирование на магазинах
   void setCenterOnShops() {
     // Получение списка меток
     final placemarkList = shopList
         .where(
-          (shop) => shop.defaultPlacemark != null,
+          (shop) => shop.placemark != null,
         )
-        .map((shop) => shop.defaultPlacemark!)
+        .map((shop) => shop.placemark!)
         .toList();
 
     //* Если меток нет, тогда просто центрируюсь на текущей координате пользователя
