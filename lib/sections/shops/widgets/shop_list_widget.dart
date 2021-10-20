@@ -74,6 +74,9 @@ class ShopListWidget extends StatelessWidget {
 //                           : const EdgeInsets.only(bottom: 4),
 //                       child: ShopWidget(
 //                         shopModel: shopList[i],
+//                         onPressed: () {
+//                           // TODO(Nikolay): Кнопка
+//                        }
 //                       ),
 //                     ),
 //                     childCount: shopList.length,

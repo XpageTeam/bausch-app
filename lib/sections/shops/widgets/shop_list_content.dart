@@ -33,7 +33,12 @@ class ShopListWidgetContent extends StatelessWidget {
                       ? null
                       : const EdgeInsets.only(bottom: 4),
                   child: containerType == ShopContainerWithButton
-                      ? ShopContainerWithButton(shop: shop)
+                      ? ShopContainerWithButton(
+                          shop: shop,
+                          onPressed: () {
+                            // TODO(Nikolay): Кнопка.
+                          },
+                        )
                       : ShopContainer(shop: shop),
                 ),
               )

@@ -177,7 +177,6 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
           //   child: BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
           //     bloc: pageSwitcherCubit,
           //     builder: (context, switherState) {
-          //       // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
           //       if (switherState is PageSwitcherShowList) {
           //         return ShopListWidget(
           //           containerType: ShopContainer,

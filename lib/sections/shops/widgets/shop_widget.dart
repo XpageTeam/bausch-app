@@ -8,8 +8,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ShopWidget extends StatelessWidget {
   final ShopModel shopModel;
+  final VoidCallback? onPressed;
   const ShopWidget({
     required this.shopModel,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -71,9 +73,7 @@ class ShopWidget extends StatelessWidget {
           ),
 
           BlueButton(
-            onPressed: () {
-              // TODO(Nikolay): Реализовать кнопку в контейнере с магазином.
-            },
+            onPressed: onPressed,
             children: const [
               Text(
                 'Выбрать оптику',

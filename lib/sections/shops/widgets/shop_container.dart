@@ -1,5 +1,6 @@
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +43,7 @@ class ShopContainer extends StatelessWidget {
             height: 4,
           ),
           GestureDetector(
-            onTap: () {
-              // TODO(Nikolay): Реализовать нажатие по номеру телефона.
-            },
+            onTap: () => Utils.tryLaunchUrl(rawUrl: shop.phone, isPhone: true),
             child: Text(
               shop.phone,
               style: AppStyles.p1.copyWith(
@@ -59,9 +58,8 @@ class ShopContainer extends StatelessWidget {
               height: 4,
             ),
             GestureDetector(
-              onTap: () {
-                // TODO(Nikolay): Реализовать переход по ссылке.
-              },
+              onTap: () =>
+                  Utils.tryLaunchUrl(rawUrl: shop.site!, isPhone: false),
               child: Text(
                 shop.site!,
                 style: AppStyles.p1.copyWith(

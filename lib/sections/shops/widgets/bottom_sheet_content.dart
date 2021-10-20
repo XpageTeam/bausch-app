@@ -1,10 +1,11 @@
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
+import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BottomSheetContent extends StatelessWidget {
   final String title;
@@ -95,14 +96,16 @@ class BottomSheetContent extends StatelessWidget {
           if (phone != null)
             Flexible(
               child: GestureDetector(
-                onTap: () async {
-                  final url = 'tel:$phone';
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    await Future<dynamic>.error('Could not launch $url');
-                  }
-                },
+                onTap: () => Utils.tryLaunchUrl(rawUrl: phone!, isPhone: true),
+
+                // async {
+                //   final url = 'tel:$phone';
+                //   if (await canLaunch(url)) {
+                //     await launch(url);
+                //   } else {
+                //     await Future<dynamic>.error('Could not launch $url');
+                //   }
+                // },
                 child: Text(
                   phone!,
                   style: AppStyles.p1.copyWith(
@@ -120,15 +123,18 @@ class BottomSheetContent extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: GestureDetector(
-                  onTap: () async {
-                    // TODO(Nikolay): Реализовать переход на сайт.
-                    // final url = 'tel:$site';
-                    // if (await canLaunch(url)) {
-                    //   await launch(url);
-                    // } else {
-                    //   await Future<dynamic>.error('Could not launch $url');
-                    // }
-                  },
+                  onTap: () =>
+                      Utils.tryLaunchUrl(rawUrl: site!, isPhone: false),
+
+                  // async {
+
+                  //   // final url = 'tel:$site';
+                  //   // if (await canLaunch(url)) {
+                  //   //   await launch(url);
+                  //   // } else {
+                  //   //   await Future<dynamic>.error('Could not launch $url');
+                  //   // }
+                  // },
                   child: Text(
                     site!,
                     style: AppStyles.p1.copyWith(

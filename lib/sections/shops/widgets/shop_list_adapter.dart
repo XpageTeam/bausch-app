@@ -16,7 +16,6 @@ class ShopListAdapter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(Nikolay): Переделать: в этом списке виджеты немного оличаются.
     return ShopListWidget(
       containerType: containerType,
       state: state,
