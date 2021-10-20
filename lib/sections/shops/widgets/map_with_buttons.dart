@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/shops/cubits/map_cubit/map_cubit.dart';
 import 'package:bausch/sections/shops/listeners/map_cubit_listener.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
+import 'package:bausch/static/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -110,14 +109,9 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     }
   }
 
-  Future<Uint8List> _getRawImageData(String imageAsset) async {
-    final data = await rootBundle.load(imageAsset);
-    return data.buffer.asUint8List();
-  }
-
   Future<void> _initPlacemarks() async {
     final shopRawImageData =
-        await _getRawImageData('assets/icons/map-marker.png');
+        await Utils.getRawImageData('assets/icons/map-marker.png');
 
     for (final shop in widget.shopList) {
       if (shop.coords != null) {

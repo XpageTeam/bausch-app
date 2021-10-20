@@ -1,9 +1,8 @@
-import 'dart:typed_data';
 
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/static/utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -121,11 +120,6 @@ class MapCubit extends Cubit<MapState> {
     emit(await _addNewPosition());
   }
 
-  Future<Uint8List> _getRawImageData(String imageAsset) async {
-    final data = await rootBundle.load(imageAsset);
-    return data.buffer.asUint8List();
-  }
-
   /// Метод вычисления средней координаты
   Point _calcMiddlePoint(List<Placemark> placemarkList) {
     var middlePoint = const Point(latitude: 0, longitude: 0);
@@ -181,7 +175,8 @@ class MapCubit extends Cubit<MapState> {
       style: PlacemarkStyle(
         zIndex: 1,
         opacity: 1,
-        rawImageData: await _getRawImageData('assets/icons/user-marker.png'),
+        rawImageData:
+            await Utils.getRawImageData('assets/icons/user-marker.png'),
       ),
     );
 

@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
@@ -16,5 +19,10 @@ class Utils {
         'Could not launch $url',
       );
     }
+  }
+
+  static Future<Uint8List> getRawImageData(String imageAsset) async {
+    final data = await rootBundle.load(imageAsset);
+    return data.buffer.asUint8List();
   }
 }
