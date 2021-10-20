@@ -33,7 +33,6 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     mapCubit = MapCubit(
       shopList: widget.shopList,
     );
-
     // TODO(Nikolay): Инициализация меток должна быть в другом месте.
     _initPlacemarks();
   }
@@ -56,12 +55,10 @@ class _MapWithButtonsState extends State<MapWithButtons> {
               future: mapCompleter.future,
               builder: (_, snapshot) {
                 if (snapshot.hasData) {
-                  for (final shop in widget.shopList) {
-                    if (shop.defaultPlacemark != null) {
-                      (snapshot.data as YandexMapController)
-                          .addPlacemark(shop.defaultPlacemark!);
-                    }
-                  }
+                  _generatePlacemarks(
+                    shopList: widget.shopList,
+                    controller: snapshot.data as YandexMapController,
+                  );
 
                   mapCubit.setCenterOnShops();
                 }
@@ -95,6 +92,22 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     );
   }
 
+  void _generatePlacemarks({
+    required List<ShopModel> shopList,
+    required YandexMapController controller,
+  }) {
+    // Иначе не удаляются, либо удаляются криво
+    for (var i = controller.placemarks.length - 1; i >= 0; i--) {
+      controller.removePlacemark(controller.placemarks[i]);
+    }
+
+    shopList.forEach(
+      (shopModel) => shopModel.placemark == null
+          ? null
+          : controller.addPlacemark(shopModel.placemark!),
+    );
+  }
+
   Future<Uint8List> _getRawImageData(String imageAsset) async {
     final data = await rootBundle.load(imageAsset);
     return data.buffer.asUint8List();
@@ -108,7 +121,7 @@ class _MapWithButtonsState extends State<MapWithButtons> {
 
     for (final shop in widget.shopList) {
       if (shop.coords != null) {
-        shop.defaultPlacemark = Placemark(
+        shop.placemark = Placemark(
           point: shop.coords!,
           onTap: (currentPlacemark, point) async {
             if (!isBottomSheetOpenned) {

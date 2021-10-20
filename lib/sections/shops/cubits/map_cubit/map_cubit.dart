@@ -74,9 +74,9 @@ class MapCubit extends Cubit<MapState> {
     // Получение списка меток
     final placemarkList = shopList
         .where(
-          (shop) => shop.defaultPlacemark != null,
+          (shop) => shop.placemark != null,
         )
-        .map((shop) => shop.defaultPlacemark!)
+        .map((shop) => shop.placemark!)
         .toList();
 
     //* Если меток нет, тогда просто центрируюсь на текущей координате пользователя
