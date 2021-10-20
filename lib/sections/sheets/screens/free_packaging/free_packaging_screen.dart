@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -68,10 +69,18 @@ class FreePackagingScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Перейти к заказу',
                 onPressed: () {
-                  Keys.mainNav.currentState!.pop();
+                  // Keys.mainNav.currentState!.pop();
 
-                  Keys.mainContentNav.currentState!
-                      .pushNamed('/order_registration');
+                  // Keys.mainContentNav.currentState!
+                  //     .pushNamed('/order_registration');
+
+                  Keys.mainNav.currentState!.push<void>(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return OrderRegistrationScreen();
+                      },
+                    ),
+                  );
                 },
               ),
             ),

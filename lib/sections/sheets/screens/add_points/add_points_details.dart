@@ -6,7 +6,12 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/focus_button.dart';
+import 'package:bausch/widgets/buttons/text_button.dart';
+import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
 
 class AddPointsDetails extends StatelessWidget {
@@ -90,7 +95,25 @@ class AddPointsDetails extends StatelessWidget {
                     ),
                     InfoSection.partners(),
                     const SizedBox(
-                      height: 120,
+                      height: 4,
+                    ),
+                    Column(
+                      children: [
+                        const FocusButton(labelText: 'Привязать аккаунт'),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        BlueButtonWithText(
+                          text: 'Привязать аккаунт',
+                          onPressed: () {
+                            Keys.bottomSheetNav.currentState!
+                                .pushNamed('/final_addpoints');
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),
@@ -98,24 +121,19 @@ class AddPointsDetails extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Подписаться на группу',
-                onPressed: () {
-                  Keys.bottomSheetNav.currentState!
-                      .pushNamed('/final_addpoints');
-                },
-              ),
-            ),
-            const InfoBlock(),
-          ],
-        ),
+        // floatingActionButton: Padding(
+        //   padding: const EdgeInsets.only(
+        //     right: StaticData.sidePadding,
+        //     left: StaticData.sidePadding,
+        //     bottom: 4,
+        //   ),
+        //   child: Column(
+        //     children: [
+        //       FocusButton(labelText: 'Привязать аккаунт'),
+        //       BlueButtonWithText(text: 'text'),
+        //     ],
+        //   ),
+        // ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

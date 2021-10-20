@@ -98,6 +98,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
                         CustomSliverAppbar.toClose(Container(), widget.key),
                       ],
                     ),
+                    const SizedBox(
+                      height: 4,
+                    ),
                     InfoSection.product(),
                     const Padding(
                       padding: EdgeInsets.symmetric(

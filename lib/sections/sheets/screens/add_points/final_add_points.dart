@@ -5,6 +5,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,71 +23,67 @@ class FinalAddPointsScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: AppTheme.sulu,
-        body: CustomScrollView(
+        body: SingleChildScrollView(
           controller: controller,
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  CustomSliverAppbar.toPop(
-                    Container(),
-                    key,
-                    Keys.bottomSheetNav,
+          child: Column(
+            children: [
+              CustomSliverAppbar.toPop(
+                Container(),
+                key,
+                Keys.bottomSheetNav,
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  const CircleAvatar(
+                    radius: 165,
+                    backgroundColor: Colors.white,
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 6,
-                  ),
-                  Stack(
-                    alignment: Alignment.center,
+                  Column(
                     children: [
-                      const CircleAvatar(
-                        radius: 165,
-                        backgroundColor: Colors.white,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 3,
                       ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 5,
+                      ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                          child: Container(
+                            color: Colors.white.withOpacity(0.16),
+                            height: MediaQuery.of(context).size.height / 3,
                           ),
-                          ClipRRect(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-                              child: Container(
-                                color: Colors.white.withOpacity(0.16),
-                                height: MediaQuery.of(context).size.height / 4,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      Column(
-                        children: const [
-                          Text(
-                            '+500',
-                            style: TextStyle(
-                              color: AppTheme.mineShaft,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 85,
-                              height: 80 / 85,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Спасибо, что вы с нами!',
-                            style: AppStyles.h1,
-                          ),
-                        ],
+                    ],
+                  ),
+                  Column(
+                    children: const [
+                      Text(
+                        '+500',
+                        style: TextStyle(
+                          color: AppTheme.mineShaft,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 85,
+                          height: 80 / 85,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Спасибо, что вы с нами!',
+                        style: AppStyles.h1,
                       ),
                     ],
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        floatingActionButton: BottomButtonWithRoundedCorners(),
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Потратить баллы',
+          topPadding: 12,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

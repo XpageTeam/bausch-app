@@ -90,7 +90,12 @@ class DiscountOpticsScreen extends StatelessWidget {
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
-                        onPressed: () {},
+                        onPressed: () {
+                          Keys.mainNav.currentState!
+                              .push<void>(MaterialPageRoute(builder: (context) {
+                            return Container();
+                          }));
+                        },
                       ),
                     ),
                     Warning.warning(),
