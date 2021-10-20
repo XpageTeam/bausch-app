@@ -13,7 +13,8 @@ class AddItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Keys.bottomSheetNav.currentState!.pushNamed('/addpoints_details');
+        Keys.bottomSheetWithoutItemsNav.currentState!
+            .pushNamed('/addpoints_details');
       },
       child: Container(
         padding: const EdgeInsets.symmetric(

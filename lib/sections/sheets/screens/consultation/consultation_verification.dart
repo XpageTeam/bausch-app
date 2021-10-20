@@ -95,7 +95,7 @@ class ConsultationVerification extends StatelessWidget {
                 child: BlueButtonWithText(
                   text: 'Потратить баллы',
                   onPressed: () {
-                    Keys.bottomSheetNav.currentState!
+                    Keys.bottomSheetWithoutItemsNav.currentState!
                         .pushNamed('/final_consultation');
                   },
                 ),

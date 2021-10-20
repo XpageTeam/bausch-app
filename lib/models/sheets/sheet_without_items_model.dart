@@ -1,12 +1,17 @@
 import 'package:bausch/models/mappable_object.dart';
 import 'package:bausch/static/static_data.dart';
 
-class SheetModel implements MappableInterface<SheetModel> {
+class SheetModelWithoutItems
+    implements MappableInterface<SheetModelWithoutItems> {
   final String title;
   final String img;
-  final SheetType type;
+  final SheetWithoutItemsType type;
 
-  SheetModel({required this.title, required this.img, required this.type});
+  SheetModelWithoutItems({
+    required this.title,
+    required this.img,
+    required this.type,
+  });
 
   @override
   Map<String, dynamic> toMap() {

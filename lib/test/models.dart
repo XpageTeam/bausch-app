@@ -1,6 +1,6 @@
 import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/models/sheets/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_without_items_model.dart';
 import 'package:bausch/models/sheets/sheet_with_items_model.dart';
 import 'package:bausch/models/story_model.dart';
 import 'package:bausch/static/static_data.dart';
@@ -97,21 +97,21 @@ class Models {
     ),
   ];
 
-  static List<SheetModel> sheets = [
-    SheetModel(
+  static List<SheetModelWithoutItems> sheets = [
+    SheetModelWithoutItems(
       title: 'Онлайн-консультация',
       img: 'assets/online-consultations.png',
-      type: SheetType.consultation,
+      type: SheetWithoutItemsType.consultation,
     ),
-    SheetModel(
+    SheetModelWithoutItems(
       title: 'Бесплатно подберем вам первые линзы в оптике',
       img: 'assets/online-consultations.png',
-      type: SheetType.program,
+      type: SheetWithoutItemsType.program,
     ),
-    SheetModel(
+    SheetModelWithoutItems(
       title: 'Добавить баллы',
       img: 'assets/online-consultations.png',
-      type: SheetType.addpoints,
+      type: SheetWithoutItemsType.addpoints,
     ),
   ];
 

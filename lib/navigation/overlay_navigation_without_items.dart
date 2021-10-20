@@ -1,4 +1,4 @@
-import 'package:bausch/models/sheets/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_without_items_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
@@ -11,10 +11,10 @@ import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для bottomSheet'а без элементов каталога
-class OverlayNavigation extends StatelessWidget {
+class OverlayNavigationWithoutItems extends StatelessWidget {
   final ScrollController controller;
-  final SheetModel sheetModel;
-  const OverlayNavigation({
+  final SheetModelWithoutItems sheetModel;
+  const OverlayNavigationWithoutItems({
     required this.controller,
     required this.sheetModel,
     Key? key,
@@ -23,19 +23,19 @@ class OverlayNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      key: Keys.bottomSheetNav,
+      key: Keys.bottomSheetWithoutItemsNav,
       initialRoute: '/',
       onGenerateRoute: (settings) {
         Widget page;
 
         switch (settings.name) {
           case '/':
-            if (sheetModel.type == SheetType.consultation) {
+            if (sheetModel.type == SheetWithoutItemsType.consultation) {
               page = ConsultationScreen(
                 controller: controller,
                 model: Models.items[2],
               );
-            } else if (sheetModel.type == SheetType.program) {
+            } else if (sheetModel.type == SheetWithoutItemsType.program) {
               page = ProgramScreen(controller: controller);
             } else {
               page = AddPointsScreen(

@@ -1,7 +1,9 @@
-import 'package:bausch/models/sheets/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_without_items_model.dart';
 import 'package:bausch/models/sheets/sheet_with_items_model.dart';
-import 'package:bausch/navigation/overlay_navigation.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/navigation/overlay_navigation_without_items.dart';
 import 'package:bausch/navigation/overlay_navigation_with_items.dart';
+import 'package:bausch/navigation/simple_overlay_navigation.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +28,27 @@ void showSheetWithItems(BuildContext context, SheetModelWithItems model) {
   );
 }
 
+void showSimpleSheet(BuildContext context, SimpleSheetModel model) {
+  showFlexibleBottomSheet<void>(
+    useRootNavigator: true,
+    minHeight: 0,
+    initHeight: 0.95,
+    maxHeight: 0.95,
+    anchors: [0, 0.6, 0.95],
+    context: context,
+    builder: (context, controller, d) {
+      return SheetWidget(
+        child: SimpleOverlayNavigation(
+          controller: controller,
+          sheetModel: model,
+        ),
+      );
+    },
+  );
+}
+
 //* Функция вывода bottomSheet без элементов каталога
-void showSheet(BuildContext context, SheetModel model) {
+void showSheetWithoutItems(BuildContext context, SheetModelWithoutItems model) {
   showFlexibleBottomSheet<void>(
     useRootNavigator: true,
     minHeight: 0,
@@ -38,7 +59,7 @@ void showSheet(BuildContext context, SheetModel model) {
     context: context,
     builder: (context, controller, d) {
       return SheetWidget(
-        child: OverlayNavigation(
+        child: OverlayNavigationWithoutItems(
           sheetModel: model,
           controller: controller,
         ),

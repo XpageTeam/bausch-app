@@ -1,4 +1,4 @@
-import 'package:bausch/models/sheets/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_without_items_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class WideContainerWithoutItems extends StatelessWidget {
   final List<String>? children;
   final String? subtitle;
-  final SheetModel sheetModel;
+  final SheetModelWithoutItems sheetModel;
   const WideContainerWithoutItems({
     required this.sheetModel,
     this.children,
@@ -18,7 +18,7 @@ class WideContainerWithoutItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showSheet(context, sheetModel);
+        showSheetWithoutItems(context, sheetModel);
       },
       child: Container(
         decoration: BoxDecoration(

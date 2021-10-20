@@ -7,8 +7,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 //catalog_webinar
 class WebinarsScreen extends StatelessWidget {

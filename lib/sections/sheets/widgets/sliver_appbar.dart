@@ -24,7 +24,7 @@ class CustomSliverAppbar extends StatelessWidget {
     Color? backgroundColor,
   }) : this(
           rightKey: rightKey ?? Keys.bottomSheetItemsNav,
-          leftKey: Keys.bottomSheetNav,
+          leftKey: Keys.bottomSheetWithoutItemsNav,
           icon: icon,
           iconColor: backgroundColor ?? AppTheme.mystic,
           key: key,
@@ -33,7 +33,7 @@ class CustomSliverAppbar extends StatelessWidget {
   CustomSliverAppbar.toClose(Widget icon, Key? key)
       : this(
           rightKey: Keys.mainNav,
-          leftKey: Keys.bottomSheetNav,
+          leftKey: Keys.bottomSheetWithoutItemsNav,
           icon: icon,
           iconColor: AppTheme.mystic,
           key: key,
@@ -42,7 +42,7 @@ class CustomSliverAppbar extends StatelessWidget {
   CustomSliverAppbar.toCloseAndPop(Key? key)
       : this(
           rightKey: Keys.mainNav,
-          leftKey: Keys.bottomSheetNav,
+          leftKey: Keys.bottomSheetWithoutItemsNav,
           iconColor: AppTheme.mystic,
           key: key,
         );

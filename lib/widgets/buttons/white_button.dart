@@ -5,32 +5,43 @@ import 'package:flutter/material.dart';
 class WhiteButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
-  const WhiteButton({required this.text, Key? key, this.onPressed})
-      : super(key: key);
+  final Widget? icon;
+  const WhiteButton({
+    required this.text,
+    this.icon,
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 74,
+      //height: 74,
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: Colors.white,
+          padding: EdgeInsets.zero,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  const Icon(
-                    Icons.pin_drop,
-                    color: AppTheme.mineShaft,
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
+                  icon ??
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.pin_drop,
+                            color: AppTheme.mineShaft,
+                          ),
+                          SizedBox(
+                            width: 12,
+                          ),
+                        ],
+                      ),
                   Text(
                     text,
                     style: AppStyles.h2,

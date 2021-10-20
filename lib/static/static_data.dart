@@ -14,10 +14,17 @@ enum SheetWithItemsType {
 }
 
 //* Типы экранов без элементов каталога
-enum SheetType {
+enum SheetWithoutItemsType {
   consultation,
   addpoints,
   program,
+}
+
+//* Типы экранов, где элементы каталога никак не участвуют вообще
+enum SimpleSheetType {
+  faq,
+  links,
+  rules,
 }
 
 class Keys {
@@ -29,7 +36,9 @@ class Keys {
 
   //* Ключ для навигации между страницами bottomSheet'а, на которых нет элементов каталога
   //* Т.е. сразу открывается нужная страница
-  static GlobalKey<NavigatorState> bottomSheetNav = GlobalKey();
+  static GlobalKey<NavigatorState> bottomSheetWithoutItemsNav = GlobalKey();
+
+  static GlobalKey<NavigatorState> simpleBottomSheetNav = GlobalKey();
 
   //* Ключ для контроля всяких всплывающих виджетов
   static GlobalKey<NavigatorState> mainNav = GlobalKey();
