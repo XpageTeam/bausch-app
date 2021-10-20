@@ -25,7 +25,7 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(leftIcon, key),
+          appBar: CustomSliverAppbar.toPop(icon: leftIcon, key: key),
         );
 
   TopSection.packaging(CatalogItemModel model, Key? key)
@@ -34,7 +34,7 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(Container(), key),
+          appBar: CustomSliverAppbar.toPop(icon: Container(), key: key),
         );
 
   TopSection.webinar(CatalogItemModel model, Key? key)
@@ -44,14 +44,14 @@ class TopSection extends StatelessWidget {
           withPrice: false,
           key: key,
           appBar: CustomSliverAppbar.toPop(
-            Padding(
+            icon: Padding(
               padding: const EdgeInsets.all(6.0),
               child: Image.asset(
                 'assets/play-video.png',
                 height: 28,
               ),
             ),
-            key,
+            key: key,
           ),
         );
 
@@ -73,7 +73,7 @@ class TopSection extends StatelessWidget {
           isFull: true,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(Container(), key),
+          appBar: CustomSliverAppbar.toPop(icon: Container(), key: key),
         );
 
   @override

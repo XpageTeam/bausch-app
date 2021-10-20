@@ -28,9 +28,9 @@ class FinalAddPointsScreen extends StatelessWidget {
           child: Column(
             children: [
               CustomSliverAppbar.toPop(
-                Container(),
-                key,
-                Keys.bottomSheetNav,
+                icon: Container(),
+                key: key,
+                rightKey: Keys.bottomSheetNav,
               ),
               Stack(
                 alignment: Alignment.center,

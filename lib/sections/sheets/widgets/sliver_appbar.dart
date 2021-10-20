@@ -17,15 +17,16 @@ class CustomSliverAppbar extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  CustomSliverAppbar.toPop(
-    Widget icon,
-    Key? key, [
+  CustomSliverAppbar.toPop({
+    required Widget icon,
+    Key? key,
     GlobalKey<NavigatorState>? rightKey,
-  ]) : this(
+    Color? backgroundColor,
+  }) : this(
           rightKey: rightKey ?? Keys.bottomSheetItemsNav,
           leftKey: Keys.bottomSheetNav,
           icon: icon,
-          iconColor: AppTheme.mystic,
+          iconColor: backgroundColor ?? AppTheme.mystic,
           key: key,
         );
 

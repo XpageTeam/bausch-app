@@ -243,10 +243,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
               ),
               child: BlueButtonWithText(
                 text: 'Получить сертификат',
-                onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_webinar');
-                },
+                onPressed: () {},
               ),
             ),
             const InfoBlock(),

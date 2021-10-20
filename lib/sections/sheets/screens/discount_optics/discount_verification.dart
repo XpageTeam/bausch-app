@@ -40,7 +40,11 @@ class DiscountVerification extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomSliverAppbar.toPop(Container(), key),
+                        CustomSliverAppbar.toPop(
+                          icon: Container(),
+                          key: key,
+                          backgroundColor: Colors.white,
+                        ),
                         const SizedBox(
                           height: 20,
                         ),

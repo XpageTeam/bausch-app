@@ -39,7 +39,7 @@ class FinalFreePackaging extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(Container(), key),
+                    CustomSliverAppbar.toPop(icon: Container(), key: key),
                     const Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
