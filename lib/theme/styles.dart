@@ -47,7 +47,7 @@ class AppStyles {
 
   static const p1 = TextStyle(
     color: AppTheme.mineShaft,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w400,
     fontSize: 14,
     height: 20 / 14,
   );

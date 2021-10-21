@@ -45,7 +45,7 @@ class WebinarsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.webinar(),
+                    InfoSection(),
                     const SizedBox(
                       height: 132,
                     ),

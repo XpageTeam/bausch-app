@@ -8,6 +8,7 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class FinalFreePackaging extends StatelessWidget {
         topRight: Radius.circular(5),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppTheme.sulu,
         body: CustomScrollView(
           controller: controller,

@@ -19,6 +19,7 @@ class AddPointsScreen extends StatelessWidget {
         topRight: Radius.circular(5),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: CustomScrollView(
           controller: controller,
           slivers: [

@@ -1,14 +1,16 @@
 import 'dart:core';
 
-import 'package:awesome_dropdown/awesome_dropdown.dart';
+import 'package:bausch/sections/sheets/screens/add_points/widgets/dropdown_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
-import 'package:bausch/widgets/select_widgets/dropdown_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:menu_button/menu_button.dart';
 
 class CodeSection extends StatefulWidget {
   const CodeSection({Key? key}) : super(key: key);
@@ -19,9 +21,8 @@ class CodeSection extends StatefulWidget {
 
 class _CodeSectionState extends State<CodeSection> {
   TextEditingController codeController = TextEditingController();
-  TextEditingController productController = TextEditingController();
-  List<String> items = ['saads', 'aasd', 'sdasdasd'];
-  String? _value;
+  List<String> items = ['Раствор', 'Линзы', 'Еще что-то'];
+  String _selectedKey = 'Продукт';
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class _CodeSectionState extends State<CodeSection> {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Ввести код с упаковки',
@@ -54,13 +56,13 @@ class _CodeSectionState extends State<CodeSection> {
             height: 4,
           ),
           DropdownWidget(
-            list: ['123', '123334'],
-            value: _value,
-            onChanged: (value) {
+            items: items,
+            onItemSelected: (value) {
               setState(() {
-                _value = value;
+                _selectedKey = value;
               });
             },
+            selectedKey: _selectedKey,
           ),
           const SizedBox(
             height: 4,

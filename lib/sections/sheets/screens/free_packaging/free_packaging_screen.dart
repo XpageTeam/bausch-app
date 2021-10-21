@@ -45,7 +45,7 @@ class FreePackagingScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.product(),
+                    InfoSection(),
                     const SizedBox(
                       height: 12,
                     ),

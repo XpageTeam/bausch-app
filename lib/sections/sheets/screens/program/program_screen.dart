@@ -65,7 +65,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.product(),
+                    InfoSection(),
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 40,
@@ -76,7 +76,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                       padding: const EdgeInsets.only(
                         bottom: 40,
                       ),
-                      child: InfoSection.webinar(),
+                      child: InfoSection(),
                     ),
                   ],
                 ),

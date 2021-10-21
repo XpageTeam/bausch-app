@@ -114,6 +114,16 @@ class OrderRegistrationScreen extends StatelessWidget {
               );
             },
           );
+          // showModalBottomSheet<void>(
+          //   context: Keys.mainNav.currentContext!,
+          //   isScrollControlled: true,
+          //   builder: (context) {
+          //     return FinalFreePackaging(
+          //       controller: ScrollController(),
+          //       model: Models.items[0],
+          //     );
+          //   },
+          // );
         },
       ),
     );

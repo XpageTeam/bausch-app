@@ -93,7 +93,7 @@ class AddPointsDetails extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.partners(),
+                    InfoSection(),
                     const SizedBox(
                       height: 4,
                     ),
