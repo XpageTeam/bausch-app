@@ -9,6 +9,8 @@ import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:flutter/material.dart';
 
+//* Add_points
+//* add
 class AddPointsDetails extends StatelessWidget {
   final AddItemModel model;
   final ScrollController controller;

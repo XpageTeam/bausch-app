@@ -9,6 +9,8 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//* Add_points
+//* final
 class FinalAddPointsScreen extends StatelessWidget {
   final ScrollController controller;
   const FinalAddPointsScreen({required this.controller, Key? key})

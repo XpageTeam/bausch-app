@@ -5,6 +5,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:flutter/material.dart';
 
+//* Элемент, после нажатия на который, происходит переход на страницу добавления баллов
 class AddItem extends StatelessWidget {
   final AddItemModel model;
   const AddItem({required this.model, Key? key}) : super(key: key);

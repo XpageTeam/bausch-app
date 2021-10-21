@@ -1,12 +1,12 @@
-import 'package:bausch/sections/profile/notification_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/material.dart';
 
+//* Add_points
+//* list
 class AddPointsScreen extends StatelessWidget {
   final ScrollController controller;
   const AddPointsScreen({required this.controller, Key? key}) : super(key: key);

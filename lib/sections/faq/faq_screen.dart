@@ -7,6 +7,8 @@ import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
+//* FAQ
+//* topics / topic
 class FaqScreen extends StatelessWidget {
   final ScrollController controller;
   const FaqScreen({required this.controller, Key? key}) : super(key: key);
@@ -38,7 +40,7 @@ class FaqScreen extends StatelessWidget {
                           title: 'Частые вопросы',
                           backgroundColor: AppTheme.mystic,
                           topRightWidget: NormalIconButton(
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                             onPressed: () {
                               Keys.mainNav.currentState!.pop();
                             },
