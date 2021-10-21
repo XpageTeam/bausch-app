@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   const [
                     DelayedAnimatedTranslateOpacity(
-                      offsetX: 20,
+                      offsetY: 20,
                       child: ProfileStatus(),
                     ),
                   ],
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   const [
                     DelayedAnimatedTranslateOpacity(
-                      offsetX: 30,
+                      offsetY: 30,
                       child: ScoresSection(
                         loadingAnimationDuration: Duration(
                           milliseconds: 2500,
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     DelayedAnimatedTranslateOpacity(
-                      offsetX: 40,
+                      offsetY: 40,
                       child: StoriesSlider(items: Models.stories),
                     ),
                   ],
@@ -88,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   const [
                     DelayedAnimatedTranslateOpacity(
-                      offsetX: 50,
+                      offsetY: 50,
                       child: OfferWidget(),
                     ),
                   ],
@@ -106,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                   const [
                     //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                     DelayedAnimatedTranslateOpacity(
-                      offsetX: 60,
+                      offsetY: 60,
                       child: SpendScores(),
                     ),
                   ],
@@ -145,7 +145,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: DelayedAnimatedTranslateOpacity(
-        offsetX: 10,
+        offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
           onPressed: () {},

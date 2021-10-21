@@ -4,12 +4,12 @@ class DelayedAnimatedTranslateOpacity extends StatelessWidget {
   final Widget child;
   final Duration delay;
   final Duration animationDuration;
-  final double offsetX;
+  final double offsetY;
   final VoidCallback? onEnd;
 
   const DelayedAnimatedTranslateOpacity({
     required this.child,
-    required this.offsetX,
+    required this.offsetY,
     this.animationDuration = const Duration(milliseconds: 800),
     this.delay = const Duration(milliseconds: 200),
     this.onEnd,
@@ -28,7 +28,7 @@ class DelayedAnimatedTranslateOpacity extends StatelessWidget {
           curve: Curves.easeOutSine,
           duration: animationDuration,
           transform: Transform.translate(
-            offset: snapshot.hasData ? Offset.zero : Offset(0, offsetX),
+            offset: snapshot.hasData ? Offset.zero : Offset(0, offsetY),
           ).transform,
           child: AnimatedOpacity(
             curve: Curves.easeOutSine,
