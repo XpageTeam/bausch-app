@@ -4,14 +4,9 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
-import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
-import 'package:bausch/widgets/buttons/text_button.dart';
-import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
 
 class AddPointsDetails extends StatelessWidget {

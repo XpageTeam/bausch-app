@@ -1,9 +1,7 @@
-import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:bausch/static/static_data.dart';
 
 class DialogWithPlayers extends StatefulWidget {
   const DialogWithPlayers({Key? key}) : super(key: key);

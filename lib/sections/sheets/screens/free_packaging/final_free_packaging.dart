@@ -49,6 +49,9 @@ class FinalFreePackaging extends StatelessWidget {
                         style: AppStyles.h2,
                       ),
                     ),
+                    // DefaultTextInput(
+                    //     labelText: 'labelText',
+                    //     controller: TextEditingController()),
                     const Padding(
                       padding: EdgeInsets.only(
                         top: 12,

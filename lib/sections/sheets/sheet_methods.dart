@@ -47,6 +47,24 @@ void showSimpleSheet(BuildContext context, SimpleSheetModel model) {
   );
 }
 
+// void showSimpleSheet(BuildContext context, SimpleSheetModel model) {
+//   showModalBottomSheet<void>(
+//     elevation: 0,
+//     useRootNavigator: true,
+//     context: context,
+//     backgroundColor: Colors.transparent,
+//     isScrollControlled: true,
+//     builder: (context) {
+//       return SheetWidget(
+//         child: SimpleOverlayNavigation(
+//           controller: ScrollController(),
+//           sheetModel: model,
+//         ),
+//       );
+//     },
+//   );
+// }
+
 //* Функция вывода bottomSheet без элементов каталога
 void showSheetWithoutItems(BuildContext context, SheetModelWithoutItems model) {
   showFlexibleBottomSheet<void>(

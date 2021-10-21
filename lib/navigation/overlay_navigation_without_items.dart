@@ -55,13 +55,6 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
             page = ProgramScreen(controller: controller);
             break;
 
-          case '/addpoints':
-            page = ConsultationScreen(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
-
           case '/addpoints_details':
             page = AddPointsDetails(
               model: Models.addItems[0],

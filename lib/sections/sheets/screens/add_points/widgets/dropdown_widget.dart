@@ -7,10 +7,16 @@ class DropdownWidget extends StatefulWidget {
   final List<String> items;
   final ValueChanged<String> onItemSelected;
   final String selectedKey;
+  final String labeltext;
+  final Color? backgroundColor;
+  final Color? cornersColor;
   const DropdownWidget({
     required this.items,
     required this.onItemSelected,
     required this.selectedKey,
+    this.labeltext = 'Категория',
+    this.backgroundColor,
+    this.cornersColor,
     Key? key,
   }) : super(key: key);
 
@@ -22,13 +28,16 @@ class _DropdownWidgetState extends State<DropdownWidget> {
   @override
   Widget build(BuildContext context) {
     return MenuButton(
-      child: SelectButton(value: widget.selectedKey),
-      itemBackgroundColor: AppTheme.mystic,
-      menuButtonBackgroundColor: AppTheme.mystic,
+      child: SelectButton(
+        value: widget.selectedKey == '' ? widget.labeltext : widget.selectedKey,
+        color: widget.backgroundColor ?? AppTheme.mystic,
+        labeltext: widget.selectedKey != '' ? widget.labeltext : null,
+      ),
+      itemBackgroundColor: widget.cornersColor ?? Colors.white,
+      menuButtonBackgroundColor: widget.cornersColor ?? Colors.white,
+      //showSelectedItemOnList: false,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2),
-        border: Border.all(width: 0, color: AppTheme.mystic),
-        color: AppTheme.mystic,
       ),
       divider: const Divider(
         height: 0,
@@ -36,9 +45,16 @@ class _DropdownWidgetState extends State<DropdownWidget> {
       ),
       items: widget.items,
       itemBuilder: (String value) {
-        return SelectItem(value: value);
+        return SelectItem(
+          value: value,
+          color: widget.backgroundColor ?? AppTheme.mystic,
+        );
       },
-      toggledChild: SelectButton(value: widget.selectedKey),
+      toggledChild: SelectButton(
+        value: widget.selectedKey == '' ? widget.labeltext : widget.selectedKey,
+        color: widget.backgroundColor ?? AppTheme.mystic,
+        labeltext: widget.selectedKey != '' ? widget.labeltext : null,
+      ),
       onItemSelected: widget.onItemSelected,
     );
   }
@@ -46,29 +62,53 @@ class _DropdownWidgetState extends State<DropdownWidget> {
 
 class SelectButton extends StatelessWidget {
   final String value;
-  const SelectButton({required this.value, Key? key}) : super(key: key);
+  final Color color;
+  final String? labeltext;
+  const SelectButton({
+    required this.value,
+    required this.color,
+    this.labeltext,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 12,
-        right: 12,
-        bottom: 26,
-        top: 26,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: color,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            value,
-            style: AppStyles.h2GreyBold,
-          ),
-          const Icon(
-            Icons.arrow_downward_sharp,
-            size: 20,
-          ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 12,
+          right: 12,
+          bottom: labeltext == null ? 26 : 18,
+          top: labeltext == null ? 26 : 10,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (labeltext != null)
+                  Text(
+                    labeltext!,
+                    style: AppStyles.p1Grey,
+                  ),
+                Text(
+                  value,
+                  style:
+                      labeltext == null ? AppStyles.h2GreyBold : AppStyles.h2,
+                ),
+              ],
+            ),
+            const Icon(
+              Icons.arrow_downward_sharp,
+              size: 20,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -76,20 +116,28 @@ class SelectButton extends StatelessWidget {
 
 class SelectItem extends StatelessWidget {
   final String value;
-  const SelectItem({required this.value, Key? key}) : super(key: key);
+  final Color color;
+  const SelectItem({required this.value, required this.color, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 12,
-        right: 12,
-        bottom: 26,
-        top: 26,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: color,
       ),
-      child: Text(
-        value,
-        style: AppStyles.h2GreyBold,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 12,
+          right: 12,
+          bottom: 26,
+          top: 26,
+        ),
+        child: Text(
+          value,
+          style: AppStyles.h2GreyBold,
+        ),
       ),
     );
   }

@@ -22,7 +22,13 @@ class CodeSection extends StatefulWidget {
 class _CodeSectionState extends State<CodeSection> {
   TextEditingController codeController = TextEditingController();
   List<String> items = ['Раствор', 'Линзы', 'Еще что-то'];
-  String _selectedKey = 'Продукт';
+  String _selectedKey = '';
+
+  @override
+  void dispose() {
+    super.dispose();
+    codeController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +69,7 @@ class _CodeSectionState extends State<CodeSection> {
               });
             },
             selectedKey: _selectedKey,
+            labeltext: 'Продукт',
           ),
           const SizedBox(
             height: 4,

@@ -1,11 +1,7 @@
-import 'package:bausch/sections/faq/social_buttons.dart';
 import 'package:bausch/sections/faq/support_section.dart';
-import 'package:bausch/sections/sheets/screens/webinars/dialog_with_players.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/bottom_info_block.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
@@ -24,6 +20,7 @@ class FaqScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: AppTheme.mystic,
+        resizeToAvoidBottomInset: false,
         body: CustomScrollView(
           controller: controller,
           slivers: [
