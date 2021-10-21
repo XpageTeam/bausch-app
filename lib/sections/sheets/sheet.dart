@@ -11,6 +11,7 @@ class SheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           //* Виджет с количеством баллов

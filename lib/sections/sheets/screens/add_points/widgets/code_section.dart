@@ -1,16 +1,13 @@
 import 'dart:core';
 
-import 'package:bausch/sections/sheets/screens/add_points/widgets/dropdown_widget.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/select_widgets/dropdown_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:menu_button/menu_button.dart';
 
 class CodeSection extends StatefulWidget {
   const CodeSection({Key? key}) : super(key: key);
