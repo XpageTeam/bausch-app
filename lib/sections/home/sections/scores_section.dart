@@ -45,15 +45,18 @@ class ScoresSection extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        FutureBuilder<double>(
-          future: Future<double>.delayed(
+        FutureBuilder<int>(
+          future: Future<int>.delayed(
             delay,
-            () => 200.0,
+            () => 10,
           ),
           builder: (context, snapshot) {
             return CustomLineLoadingIndicator(
+              maxDays: 30,
+              remainDays: snapshot.hasData
+                  ? snapshot.data!
+                  : 20, // 20 = maxDays - future.value
               animationDuration: loadingAnimationDuration,
-              snapshot: snapshot,
             );
           },
         ),
