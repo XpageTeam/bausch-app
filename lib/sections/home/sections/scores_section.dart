@@ -1,9 +1,18 @@
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/animated_translate_opacity.dart';
+import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 
 class ScoresSection extends StatelessWidget {
-  const ScoresSection({Key? key}) : super(key: key);
+  final Duration loadingAnimationDuration;
+  final Duration delay;
+
+  const ScoresSection({
+    required this.loadingAnimationDuration,
+    required this.delay,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +31,13 @@ class ScoresSection extends StatelessWidget {
                 height: 80 / 85,
               ),
             ),
-            CircleAvatar(
-              backgroundColor: AppTheme.turquoiseBlue,
+            PointWidget(
               radius: 18,
-              child: Text(
-                'б',
-                style: TextStyle(
-                  color: AppTheme.mineShaft,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 27,
-                  height: 25 / 27,
-                ),
+              textStyle: TextStyle(
+                color: AppTheme.mineShaft,
+                fontWeight: FontWeight.w500,
+                fontSize: 27,
+                height: 25 / 27,
               ),
             ),
           ],
@@ -40,7 +45,18 @@ class ScoresSection extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        const CustomLineLoadingIndicator(),
+        FutureBuilder<double>(
+          future: Future<double>.delayed(
+            delay,
+            () => 200.0,
+          ),
+          builder: (context, snapshot) {
+            return CustomLineLoadingIndicator(
+              animationDuration: loadingAnimationDuration,
+              snapshot: snapshot,
+            );
+          },
+        ),
       ],
     );
   }

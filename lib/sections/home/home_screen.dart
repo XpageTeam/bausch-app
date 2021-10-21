@@ -7,6 +7,7 @@ import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,12 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  const [ProfileStatus()],
+                  const [
+                    DelayedAnimatedTranslateOpacity(
+                      offsetX: 20,
+                      child: ProfileStatus(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -41,7 +47,19 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  const [ScoresSection()],
+                  const [
+                    DelayedAnimatedTranslateOpacity(
+                      offsetX: 30,
+                      child: ScoresSection(
+                        loadingAnimationDuration: Duration(
+                          milliseconds: 2500,
+                        ),
+                        delay: Duration(
+                          milliseconds: 1000,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -51,7 +69,12 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  [StoriesSlider(items: Models.stories)],
+                  [
+                    DelayedAnimatedTranslateOpacity(
+                      offsetX: 40,
+                      child: StoriesSlider(items: Models.stories),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -63,7 +86,12 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  const [OfferWidget()],
+                  const [
+                    DelayedAnimatedTranslateOpacity(
+                      offsetX: 50,
+                      child: OfferWidget(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -77,7 +105,10 @@ class HomeScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   const [
                     //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
-                    SpendScores(),
+                    DelayedAnimatedTranslateOpacity(
+                      offsetX: 60,
+                      child: SpendScores(),
+                    ),
                   ],
                 ),
               ),
@@ -113,8 +144,13 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: const CustomFloatingActionButton(
-        text: 'Добавить баллы',
+      floatingActionButton: DelayedAnimatedTranslateOpacity(
+        offsetX: 10,
+        child: CustomFloatingActionButton(
+          text: 'Добавить баллы',
+          onPressed: () {},
+        ),
+        animationDuration: Duration.zero,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

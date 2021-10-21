@@ -3,7 +3,13 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomLineLoadingIndicator extends StatelessWidget {
-  const CustomLineLoadingIndicator({Key? key}) : super(key: key);
+  final Duration animationDuration;
+  final AsyncSnapshot<double> snapshot;
+  const CustomLineLoadingIndicator({
+    required this.animationDuration,
+    required this.snapshot,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +23,11 @@ class CustomLineLoadingIndicator extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        Container(
+        AnimatedContainer(
+          curve: Curves.easeInOutCubic,
+          duration: animationDuration,
           height: 26,
-          width: 100,
+          width: snapshot.hasData ? snapshot.data! : 100,
           decoration: BoxDecoration(
             color: AppTheme.sulu,
             borderRadius: BorderRadius.circular(5),
