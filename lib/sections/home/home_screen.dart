@@ -14,7 +14,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -128,6 +128,9 @@ class HomeScreen extends StatefulWidget {
                   [
                     //* Вам может быть интересно
                     const MayBeInteresting(),
+                    const SizedBox(
+                      height: 24,
+                    ),
                     CustomTextButton(
                       title: 'Правила программы',
                       onPressed: () {},
@@ -163,7 +166,9 @@ class HomeScreen extends StatefulWidget {
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
-          onPressed: () { showSheetWithoutItems(context, Models.sheets[2]);},
+          onPressed: () {
+            showSheetWithoutItems(context, Models.sheets[2]);
+          },
         ),
         animationDuration: Duration.zero,
       ),
