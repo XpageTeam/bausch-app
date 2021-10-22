@@ -83,7 +83,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Container(), //TODO(Nikita): Вывести статус
+                    child: Container(), // TODO(Nikita): Вывести статус
                   ),
                 ],
               ),

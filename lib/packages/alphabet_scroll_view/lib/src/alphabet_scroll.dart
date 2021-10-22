@@ -156,7 +156,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   ScrollController listController = ScrollController();
   // ignore: member-ordering-extended
   final _selectedIndexNotifier = ValueNotifier<int>(0);
-  final positionNotifer = ValueNotifier<Offset>(const Offset(0, 0));
+  final positionNotifer = ValueNotifier<Offset>(Offset.zero);
   final Map<String, int> firstIndexPosition = {};
   List<String> _filteredAlphabets = [];
   final letterKey = GlobalKey();
@@ -178,7 +178,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
   int getCurrentIndex(double vPosition) {
     final kAlphabetHeight = letterKey.currentContext!.size!.height;
-    return (vPosition ~/ kAlphabetHeight);
+    return vPosition ~/ kAlphabetHeight;
   }
 
   /// calculates and Maintains a map of
@@ -187,7 +187,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   /// This helps to avoid recomputing the position to scroll to
   /// on each Scroll.
   void calculateFirstIndex() {
-    for (final letter in _filteredAlphabets) {
+    _filteredAlphabets.forEach((letter) {
       final firstElement = _list.firstWhereOrNull(
         (item) => item.key.toLowerCase().startsWith(letter),
       );
@@ -248,7 +248,6 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         // ),
         ListView.separated(
           controller: listController,
-          scrollDirection: Axis.vertical,
           itemCount: _list.length + 1,
           physics: const BouncingScrollPhysics(),
           separatorBuilder: (_, x) {

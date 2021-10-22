@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: Keys.mainNav,
       title: 'Flutter Demo',
       theme: AppTheme.currentAppTheme,
       home: MainNavigation(),

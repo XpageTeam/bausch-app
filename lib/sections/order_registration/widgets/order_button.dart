@@ -26,7 +26,6 @@ class OrderButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
         child: InkWell(
-          splashFactory: InkRipple.splashFactory,
           splashColor: AppTheme.mystic,
           hoverColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -51,10 +50,6 @@ class OrderButton extends StatelessWidget {
                           ),
                         ),
                       title,
-                      // Text(
-                      //   title,
-                      //   style: AppStyles.h2Bold.copyWith(color: textColor),
-                      // ),
                     ],
                   ),
                 ),
