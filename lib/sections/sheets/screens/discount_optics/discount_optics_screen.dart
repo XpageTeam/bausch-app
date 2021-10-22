@@ -5,6 +5,7 @@ import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
+import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -49,7 +50,7 @@ class DiscountOpticsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.product(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 12,
                     ),
@@ -90,7 +91,12 @@ class DiscountOpticsScreen extends StatelessWidget {
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
-                        onPressed: () {},
+                        onPressed: () {
+                          Keys.mainNav.currentState!
+                              .push<void>(MaterialPageRoute(builder: (context) {
+                            return const ShopsScreen();
+                          }));
+                        },
                       ),
                     ),
                     Warning.warning(),
@@ -114,7 +120,7 @@ class DiscountOpticsScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Получить скидку',
                 onPressed: () {
-                  Keys.bottomSheetNav.currentState!
+                  Keys.bottomSheetItemsNav.currentState!
                       .pushNamed('/verification_discount');
                 },
               ),

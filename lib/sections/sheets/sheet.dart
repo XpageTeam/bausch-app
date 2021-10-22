@@ -2,6 +2,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 
+//* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
   final Widget child;
   const SheetWidget({required this.child, Key? key}) : super(key: key);
@@ -10,9 +11,10 @@ class SheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          //* Контейнер с количеством баллов
+          //* Виджет с количеством баллов
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: const [

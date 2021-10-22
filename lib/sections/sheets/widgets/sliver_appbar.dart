@@ -6,8 +6,46 @@ class CustomSliverAppbar extends StatelessWidget {
   final Widget? icon;
   final Color? iconColor;
   final EdgeInsets? padding;
-  const CustomSliverAppbar({this.icon, this.iconColor, this.padding, Key? key})
-      : super(key: key);
+  final GlobalKey<NavigatorState> rightKey;
+  final GlobalKey<NavigatorState> leftKey;
+  const CustomSliverAppbar({
+    required this.rightKey,
+    required this.leftKey,
+    this.icon,
+    this.iconColor,
+    this.padding,
+    Key? key,
+  }) : super(key: key);
+
+  CustomSliverAppbar.toPop({
+    required Widget icon,
+    Key? key,
+    GlobalKey<NavigatorState>? rightKey,
+    Color? backgroundColor,
+  }) : this(
+          rightKey: rightKey ?? Keys.bottomSheetItemsNav,
+          leftKey: Keys.bottomSheetWithoutItemsNav,
+          icon: icon,
+          iconColor: backgroundColor ?? AppTheme.mystic,
+          key: key,
+        );
+
+  CustomSliverAppbar.toClose(Widget icon, Key? key)
+      : this(
+          rightKey: Keys.mainNav,
+          leftKey: Keys.bottomSheetWithoutItemsNav,
+          icon: icon,
+          iconColor: AppTheme.mystic,
+          key: key,
+        );
+
+  CustomSliverAppbar.toCloseAndPop(Key? key)
+      : this(
+          rightKey: Keys.mainNav,
+          leftKey: Keys.bottomSheetWithoutItemsNav,
+          iconColor: AppTheme.mystic,
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +65,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 backgroundColor: iconColor ?? Colors.white,
                 child: IconButton(
                   onPressed: () {
-                    Keys.bottomSheetNav.currentState!.pop();
+                    leftKey.currentState!.pop();
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios_new,
@@ -40,11 +78,7 @@ class CustomSliverAppbar extends StatelessWidget {
             backgroundColor: iconColor ?? Colors.white,
             child: IconButton(
               onPressed: () {
-                if (icon == null) {
-                  Navigator.of(Keys.mainNav.currentContext!).pop();
-                } else {
-                  Navigator.of(Keys.bottomSheetNav.currentContext!).pop();
-                }
+                rightKey.currentState!.pop();
               },
               icon: const Icon(
                 Icons.close,

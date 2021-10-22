@@ -6,8 +6,13 @@ import 'package:flutter/rendering.dart';
 class BlueButtonWithText extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
-  const BlueButtonWithText({required this.text, this.onPressed, Key? key})
-      : super(key: key);
+  final Widget? icon;
+  const BlueButtonWithText({
+    required this.text,
+    this.onPressed,
+    this.icon,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +29,7 @@ class BlueButtonWithText extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            icon ?? Container(),
             Text(
               text,
               style: AppStyles.h2,

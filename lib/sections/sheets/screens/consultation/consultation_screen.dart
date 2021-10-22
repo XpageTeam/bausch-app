@@ -60,7 +60,7 @@ class ConsultationScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.partners(),
+                    const InfoSection(),
                   ],
                 ),
               ),
@@ -92,8 +92,8 @@ class ConsultationScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Потратить баллы',
                 onPressed: () {
-                  Keys.bottomSheetNav.currentState!
-                      .pushNamed('/verification_webinar');
+                  Keys.bottomSheetWithoutItemsNav.currentState!
+                      .pushNamed('/verification_consultation');
                 },
               ),
             ),

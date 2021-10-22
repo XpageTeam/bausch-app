@@ -15,12 +15,21 @@ import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddDetailsScreen extends StatefulWidget {
+class AddDetailsArguments {
+  final AdressModel adress;
   final bool isFirstLaunch;
+
+  AddDetailsArguments({required this.adress, required this.isFirstLaunch});
+}
+
+class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
+  @override
+  final bool isFirstLaunch;
+  @override
   final AdressModel adress;
   const AddDetailsScreen({
     required this.adress,
-    this.isFirstLaunch = true,
+    required this.isFirstLaunch,
     Key? key,
   }) : super(key: key);
 
@@ -164,6 +173,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     if (widget.isFirstLaunch) {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
+
+      //* popUntil не работает
+      // Navigator.of(context)
+      //     .popUntil((route) => route.settings.name == '/my_adresses');
     } else {
       Navigator.of(context).pop();
     }

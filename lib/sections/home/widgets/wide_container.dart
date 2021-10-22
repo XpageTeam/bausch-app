@@ -1,15 +1,13 @@
-import 'package:bausch/models/sheet_model.dart';
-import 'package:bausch/navigation/overlay_navigation.dart';
-import 'package:bausch/sections/sheets/sheet.dart';
+import 'package:bausch/models/sheets/sheet_without_items_model.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-class WideContainer extends StatelessWidget {
+class WideContainerWithoutItems extends StatelessWidget {
   final List<String>? children;
   final String? subtitle;
-  final SheetModel sheetModel;
-  const WideContainer({
+  final SheetModelWithoutItems sheetModel;
+  const WideContainerWithoutItems({
     required this.sheetModel,
     this.children,
     this.subtitle,
@@ -20,7 +18,7 @@ class WideContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showSheet(context, sheetModel);
+        showSheetWithoutItems(context, sheetModel);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -46,7 +44,7 @@ class WideContainer extends StatelessWidget {
                     ),
                   ),
                   Image.asset(
-                    sheetModel.img ?? 'assets/webinar-rec.png',
+                    sheetModel.img,
                     height: 40,
                   ),
                 ],
@@ -79,35 +77,5 @@ class WideContainer extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void showSheet(BuildContext context, SheetModel model) {
-    showFlexibleBottomSheet<void>(
-      useRootNavigator: true,
-      minHeight: 0,
-      initHeight: calculatePercentage(model.models.length),
-      maxHeight: 0.95,
-      anchors: [0, 0.6, 0.95],
-      context: context,
-      builder: (context, controller, d) {
-        return SheetWidget(
-          child: OverlayNavigation(
-            sheetModel: model,
-            controller: controller,
-          ),
-        );
-      },
-    );
-  }
-
-  double calculatePercentage(int lenght) {
-    switch (lenght ~/ 2) {
-      case 1:
-        return 0.5;
-      case 2:
-        return 0.8;
-      default:
-        return 0.9;
-    }
   }
 }

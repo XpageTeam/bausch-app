@@ -16,21 +16,41 @@ class StaticData {
 
 }
 
-enum SheetType {
+//* Типы экранов с элементами каталога
+enum SheetWithItemsType {
   webinar,
   packaging,
   discountOptics,
   discountOnline,
   partners,
-  consultations,
+}
+
+//* Типы экранов без элементов каталога
+enum SheetWithoutItemsType {
+  consultation,
+  addpoints,
+  program,
+}
+
+//* Типы экранов, где элементы каталога никак не участвуют вообще
+enum SimpleSheetType {
+  faq,
+  links,
+  rules,
 }
 
 class Keys {
   //* Ключ для навигации между страницами приложения
   static GlobalKey<NavigatorState> mainContentNav = GlobalKey();
 
-  //* Ключ для навигации между страницами bottomSheet'а
-  static GlobalKey<NavigatorState> bottomSheetNav = GlobalKey();
+  //* Ключ для навигации между страницами bottomSheet'а, на которых есть элементы каталога(CatalogItem)
+  static GlobalKey<NavigatorState> bottomSheetItemsNav = GlobalKey();
+
+  //* Ключ для навигации между страницами bottomSheet'а, на которых нет элементов каталога
+  //* Т.е. сразу открывается нужная страница
+  static GlobalKey<NavigatorState> bottomSheetWithoutItemsNav = GlobalKey();
+
+  static GlobalKey<NavigatorState> simpleBottomSheetNav = GlobalKey();
 
   //* Ключ для контроля всяких всплывающих виджетов
   static GlobalKey<NavigatorState> mainNav = GlobalKey();

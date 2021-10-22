@@ -25,6 +25,7 @@ class FinalFreePackaging extends StatelessWidget {
         topRight: Radius.circular(5),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppTheme.sulu,
         body: CustomScrollView(
           controller: controller,
@@ -36,7 +37,7 @@ class FinalFreePackaging extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    const CustomSliverAppbar(),
+                    CustomSliverAppbar.toPop(icon: Container(), key: key),
                     const Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
@@ -44,6 +45,9 @@ class FinalFreePackaging extends StatelessWidget {
                         style: AppStyles.h2,
                       ),
                     ),
+                    // DefaultTextInput(
+                    //     labelText: 'labelText',
+                    //     controller: TextEditingController()),
                     const Padding(
                       padding: EdgeInsets.only(
                         top: 12,

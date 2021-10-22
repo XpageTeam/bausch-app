@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 enum LetterAlignment { left, right }
 
+// ignore: must_be_immutable
 class AlphabetScrollView extends StatefulWidget {
   AlphabetScrollView({
     Key? key,
@@ -123,7 +124,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     /// filter Out AlphabetList
     if (widget.isAlphabetsFiltered) {
       final temp = <String>[];
-      alphabets.forEach((letter) {
+      for (final letter in alphabets) {
         final firstAlphabetElement = _list.firstWhereOrNull(
           (item) => item.key.toLowerCase().startsWith(
                 letter.toLowerCase(),
@@ -132,7 +133,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         if (firstAlphabetElement != null) {
           temp.add(letter);
         }
-      });
+      }
       _filteredAlphabets = temp;
     } else {
       _filteredAlphabets = alphabets;
@@ -151,7 +152,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     super.initState();
   }
 
+  // ignore: member-ordering-extended
   ScrollController listController = ScrollController();
+  // ignore: member-ordering-extended
   final _selectedIndexNotifier = ValueNotifier<int>(0);
   final positionNotifer = ValueNotifier<Offset>(Offset.zero);
   final Map<String, int> firstIndexPosition = {};
@@ -184,7 +187,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   /// This helps to avoid recomputing the position to scroll to
   /// on each Scroll.
   void calculateFirstIndex() {
-    _filteredAlphabets.forEach((letter) {
+    for (var letter in _filteredAlphabets) {
       final firstElement = _list.firstWhereOrNull(
         (item) => item.key.toLowerCase().startsWith(letter),
       );
@@ -192,7 +195,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         final index = _list.indexOf(firstElement);
         firstIndexPosition[letter] = index;
       }
-    });
+    }
   }
 
   //var index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;

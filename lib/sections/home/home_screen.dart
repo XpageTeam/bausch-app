@@ -1,9 +1,11 @@
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -12,13 +14,15 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
+      resizeToAvoidBottomInset: false,
+      primary: false,
       body: SafeArea(
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -128,7 +132,18 @@ class HomeScreen extends StatelessWidget {
                       title: 'Правила программы',
                       onPressed: () {},
                     ),
-                    const CustomTextButton(title: 'Частые вопросы'),
+                    CustomTextButton(
+                      title: 'Частые вопросы',
+                      onPressed: () {
+                        showSimpleSheet(
+                          context,
+                          SimpleSheetModel(
+                            title: 'Частые вопросы',
+                            type: SimpleSheetType.faq,
+                          ),
+                        );
+                      },
+                    ),
                     const CustomTextButton(title: 'Библиотека ссылок'),
                     const SizedBox(
                       height: 100,
@@ -148,7 +163,7 @@ class HomeScreen extends StatelessWidget {
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
-          onPressed: () {},
+          onPressed: () { showSheetWithoutItems(context, Models.sheets[2]);},
         ),
         animationDuration: Duration.zero,
       ),
