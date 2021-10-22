@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import 'dart:ui';
 
 import 'package:bausch/sections/profile/profile_screen.dart';
+=======
+import 'package:bausch/sections/home/home_screen.dart';
+>>>>>>> feature/home_page_animation
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -18,20 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.currentAppTheme,
-      home: const ProfileScreen(),
-    );
-  }
-}
-
-class TestScreen extends StatelessWidget {
-  const TestScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: BluredImage(),
-      ),
+      home: const HomeScreen(),
     );
   }
 }
