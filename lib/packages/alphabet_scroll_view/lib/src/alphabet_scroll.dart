@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 enum LetterAlignment { left, right }
 
+// ignore: must_be_immutable
 class AlphabetScrollView extends StatefulWidget {
   AlphabetScrollView({
     Key? key,
@@ -122,9 +123,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
     /// filter Out AlphabetList
     if (widget.isAlphabetsFiltered) {
-      var temp = <String>[];
-      alphabets.forEach((letter) {
-        var firstAlphabetElement = _list.firstWhereOrNull(
+      final temp = <String>[];
+      for (final letter in alphabets) {
+        final firstAlphabetElement = _list.firstWhereOrNull(
           (item) => item.key.toLowerCase().startsWith(
                 letter.toLowerCase(),
               ),
@@ -132,7 +133,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         if (firstAlphabetElement != null) {
           temp.add(letter);
         }
-      });
+      }
       _filteredAlphabets = temp;
     } else {
       _filteredAlphabets = alphabets;
@@ -151,9 +152,11 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     super.initState();
   }
 
+  // ignore: member-ordering-extended
   ScrollController listController = ScrollController();
+  // ignore: member-ordering-extended
   final _selectedIndexNotifier = ValueNotifier<int>(0);
-  final positionNotifer = ValueNotifier<Offset>(Offset(0, 0));
+  final positionNotifer = ValueNotifier<Offset>(const Offset(0, 0));
   final Map<String, int> firstIndexPosition = {};
   List<String> _filteredAlphabets = [];
   final letterKey = GlobalKey();
@@ -174,7 +177,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   }
 
   int getCurrentIndex(double vPosition) {
-    var kAlphabetHeight = letterKey.currentContext!.size!.height;
+    final kAlphabetHeight = letterKey.currentContext!.size!.height;
     return (vPosition ~/ kAlphabetHeight);
   }
 
@@ -184,21 +187,21 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   /// This helps to avoid recomputing the position to scroll to
   /// on each Scroll.
   void calculateFirstIndex() {
-    _filteredAlphabets.forEach((letter) {
-      var firstElement = _list.firstWhereOrNull(
+    for (final letter in _filteredAlphabets) {
+      final firstElement = _list.firstWhereOrNull(
         (item) => item.key.toLowerCase().startsWith(letter),
       );
       if (firstElement != null) {
-        var index = _list.indexOf(firstElement);
+        final index = _list.indexOf(firstElement);
         firstIndexPosition[letter] = index;
       }
-    });
+    }
   }
 
   //var index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
 
   void scrolltoIndex(int x, Offset offset) {
-    var index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
+    final index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
 
     //* Сложные математические расчеты - не трогать!
     final scrollToPostion = widget.itemExtent * index + x * 74;
@@ -215,7 +218,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   }
 
   void onVerticalDrag(Offset offset) {
-    var index = getCurrentIndex(offset.dy);
+    final index = getCurrentIndex(offset.dy);
 
     if (index < 0 || index >= _filteredAlphabets.length) return;
     _selectedIndexNotifier.value = index;
@@ -255,7 +258,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
             );
           },
           itemBuilder: (context, i) {
-            for (var element in _filteredAlphabets) {
+            for (final element in _filteredAlphabets) {
               if (i == firstIndexPosition[element.toLowerCase()]!) {
                 return Align(
                   alignment: Alignment.centerLeft,
@@ -347,7 +350,8 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                     child: widget.overlayWidget == null
                         ? Container()
                         : widget.overlayWidget!(
-                            _filteredAlphabets[_selectedIndexNotifier.value]),
+                            _filteredAlphabets[_selectedIndexNotifier.value],
+                          ),
                   );
                 },
               ),

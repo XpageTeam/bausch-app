@@ -29,7 +29,7 @@ class QuestionScreen extends StatelessWidget {
                     title: 'Частые вопросы',
                     backgroundColor: AppTheme.mystic,
                     topRightWidget: NormalIconButton(
-                      icon: Icon(Icons.close),
+                      icon: const Icon(Icons.close),
                       onPressed: () {
                         Keys.mainNav.currentState!.pop();
                       },

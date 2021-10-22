@@ -14,7 +14,7 @@ class DropdownWidget extends StatefulWidget {
     required this.items,
     required this.onItemSelected,
     required this.selectedKey,
-    this.labeltext = 'Категория',
+    this.labeltext = 'Label',
     this.backgroundColor,
     this.cornersColor,
     Key? key,

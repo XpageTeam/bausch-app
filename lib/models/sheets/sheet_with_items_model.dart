@@ -10,8 +10,8 @@ class SheetModelWithItems implements MappableInterface<SheetModelWithItems> {
 
   SheetModelWithItems({
     required this.title,
-    this.models,
     required this.type,
+    this.models,
     this.img,
   });
 

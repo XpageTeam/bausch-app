@@ -7,9 +7,12 @@ class BlueButtonWithText extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final Widget? icon;
-  const BlueButtonWithText(
-      {required this.text, this.onPressed, this.icon, Key? key})
-      : super(key: key);
+  const BlueButtonWithText({
+    required this.text,
+    this.onPressed,
+    this.icon,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

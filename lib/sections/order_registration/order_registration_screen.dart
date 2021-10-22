@@ -4,7 +4,6 @@ import 'package:bausch/sections/order_registration/sections/lens_parameters_sect
 import 'package:bausch/sections/order_registration/sections/order_items_section.dart';
 import 'package:bausch/sections/order_registration/sections/recipient_section.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';

@@ -1,4 +1,3 @@
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class SocialButtons extends StatelessWidget {
@@ -22,7 +21,7 @@ class SocialButtons extends StatelessWidget {
           );
         },
         separatorBuilder: (context, i) {
-          return SizedBox(
+          return const SizedBox(
             width: 30,
           );
         },

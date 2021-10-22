@@ -81,7 +81,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                       height: 4,
                     ),
                     DropdownWidget(
-                      items: ['as', 'adsd'],
+                      items: const ['as', 'adsd'],
                       onItemSelected: (s) {
                         setState(() {
                           selectedCategory = s;
@@ -96,7 +96,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                       height: 4,
                     ),
                     DropdownWidget(
-                      items: ['as', 'adsd'],
+                      items: const ['as', 'adsd'],
                       onItemSelected: (s) {
                         setState(() {
                           selectedTheme = s;

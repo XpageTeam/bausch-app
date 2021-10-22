@@ -66,6 +66,7 @@ class TopSection extends StatelessWidget {
           appBar: CustomSliverAppbar.toClose(leftIcon, key),
         );
 
+  // ignore: avoid_unused_constructor_parameters
   TopSection.partners(CatalogItemModel model, Widget leftIcon, Key? key)
       : this(
           model: model,

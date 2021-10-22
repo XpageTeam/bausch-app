@@ -33,7 +33,7 @@ class LensesParametersScreen extends StatelessWidget {
                   showModalBottomSheet<void>(
                     context: context,
                     builder: (context) {
-                      return PickerScreen();
+                      return const PickerScreen();
                     },
                     barrierColor: Colors.black.withOpacity(0.8),
                   );
