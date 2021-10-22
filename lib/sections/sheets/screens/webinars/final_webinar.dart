@@ -60,7 +60,7 @@ class FinalWebinar extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: BottomButtonWithRoundedCorners(),
+        floatingActionButton: const BottomButtonWithRoundedCorners(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

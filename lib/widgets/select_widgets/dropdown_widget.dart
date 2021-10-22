@@ -44,6 +44,7 @@ class _DropdownWidgetState extends State<DropdownWidget> {
         color: AppTheme.grey,
       ),
       items: widget.items,
+      // ignore: avoid_types_on_closure_parameters
       itemBuilder: (String value) {
         return SelectItem(
           value: value,

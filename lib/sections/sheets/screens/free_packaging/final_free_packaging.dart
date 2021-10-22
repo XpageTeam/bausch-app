@@ -1,14 +1,10 @@
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/bottom_info_block.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 

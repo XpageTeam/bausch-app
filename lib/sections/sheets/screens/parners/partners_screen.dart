@@ -44,7 +44,7 @@ class PartnersScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 4,
                     ),

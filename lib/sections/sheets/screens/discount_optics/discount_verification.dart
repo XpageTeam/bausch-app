@@ -118,7 +118,7 @@ class DiscountVerification extends StatelessWidget {
                   },
                 ),
               ),
-              InfoBlock(),
+              const InfoBlock(),
             ],
           ),
         ),

@@ -45,7 +45,7 @@ class WebinarsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 132,
                     ),
@@ -71,7 +71,7 @@ class WebinarsScreen extends StatelessWidget {
                   showDialog<void>(
                     context: Keys.bottomSheetItemsNav.currentContext!,
                     builder: (context) {
-                      return DialogWithPlayers();
+                      return const DialogWithPlayers();
                     },
                   );
                 },

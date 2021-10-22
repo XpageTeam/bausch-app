@@ -25,8 +25,8 @@ class _DialogWithPlayersState extends State<DialogWithPlayers> {
       contentPadding: EdgeInsets.zero,
       content: Column(
         children: [
-          Text('Vimeo'),
-          Container(
+          const Text('Vimeo'),
+          SizedBox(
             width: 350,
             height: 200,
             child: VimeoPlayer(
@@ -34,7 +34,7 @@ class _DialogWithPlayersState extends State<DialogWithPlayers> {
               //allowFullScreen: true,
             ),
           ),
-          Text('Youtube'),
+          const Text('Youtube'),
           SizedBox(
             height: 200,
             width: 350,

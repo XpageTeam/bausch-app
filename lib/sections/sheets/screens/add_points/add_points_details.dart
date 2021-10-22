@@ -33,7 +33,7 @@ class AddPointsDetails extends StatelessWidget {
           controller: controller,
           slivers: [
             SliverPadding(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
@@ -90,7 +90,7 @@ class AddPointsDetails extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 4,
                     ),

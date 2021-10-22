@@ -1,5 +1,4 @@
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 
 class InfoSection extends StatelessWidget {

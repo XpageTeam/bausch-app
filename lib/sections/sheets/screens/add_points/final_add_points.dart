@@ -4,7 +4,6 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +81,7 @@ class FinalAddPointsScreen extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        floatingActionButton: const CustomFloatingActionButton(
           text: 'Потратить баллы',
           topPadding: 12,
         ),

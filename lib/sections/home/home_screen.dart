@@ -11,8 +11,6 @@ import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

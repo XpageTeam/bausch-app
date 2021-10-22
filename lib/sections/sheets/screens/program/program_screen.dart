@@ -61,15 +61,15 @@ class _ProgramScreenState extends State<ProgramScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection(),
+                    const InfoSection(),
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 40,
                       ),
                       child: MayBeInteresting(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
+                    const Padding(
+                      padding: EdgeInsets.only(
                         bottom: 40,
                       ),
                       child: InfoSection(),

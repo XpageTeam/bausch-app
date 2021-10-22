@@ -45,7 +45,7 @@ class FreePackagingScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 12,
                     ),
@@ -77,7 +77,7 @@ class FreePackagingScreen extends StatelessWidget {
                   Keys.mainNav.currentState!.push<void>(
                     MaterialPageRoute(
                       builder: (context) {
-                        return OrderRegistrationScreen();
+                        return const OrderRegistrationScreen();
                       },
                     ),
                   );

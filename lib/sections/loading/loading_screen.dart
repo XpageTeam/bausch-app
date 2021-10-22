@@ -1,6 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bausch/sections/loading/animated_blur.dart';
 import 'package:bausch/sections/loading/animated_content.dart';
 import 'package:bausch/theme/app_theme.dart';
 
