@@ -5,34 +5,24 @@ import 'package:flutter/material.dart';
 
 class CustomLineLoadingIndicator extends StatelessWidget {
   final Duration animationDuration;
-  final int maxDays;
-  final int remainDays;
+  final String text;
+  late int maxDays;
+  late int remainDays;
 
-  const CustomLineLoadingIndicator({
+  CustomLineLoadingIndicator({
     required this.animationDuration,
-    required this.maxDays,
-    required this.remainDays,
+    required this.text,
+    required int maxDays,
+    required int remainDays,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    this.maxDays = maxDays > 0 ? maxDays : 1;
+    this.remainDays =
+        remainDays > maxDays ? maxDays : (remainDays < 0 ? 0 : remainDays);
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (remainDays > maxDays) {
-      throw Exception(
-        'Количество оставшихся дней не может быть больше максимального числа дней',
-      );
-    }
-    if (remainDays < 0) {
-      throw Exception(
-        'Количество оставшихся дней не может быть меньше нуля',
-      );
-    }
-
-    final currentWidth =
-        (MediaQuery.of(context).size.width - StaticData.sidePadding * 2) /
-            maxDays *
-            (maxDays - remainDays);
-
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
@@ -47,7 +37,9 @@ class CustomLineLoadingIndicator extends StatelessWidget {
           curve: Curves.easeInOutCubic,
           duration: animationDuration,
           height: 26,
-          width: currentWidth, //snapshot.hasData ? currentWidth : 0,
+          width: _calcCurrentWidth(
+            MediaQuery.of(context).size.width,
+          ), //snapshot.hasData ? currentWidth : 0,
           decoration: BoxDecoration(
             color: AppTheme.sulu,
             borderRadius: BorderRadius.circular(5),
@@ -55,14 +47,22 @@ class CustomLineLoadingIndicator extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
-              '130 баллов сгорят через 10 дней',
+              text,
               style: AppStyles.p1,
             ),
           ],
         ),
       ],
     );
+  }
+
+  double _calcCurrentWidth(
+    double maxWidth,
+  ) {
+    return (maxWidth - StaticData.sidePadding * 2) /
+        maxDays *
+        (maxDays - remainDays);
   }
 }

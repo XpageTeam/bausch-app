@@ -1,5 +1,4 @@
 import 'package:bausch/sections/home/home_screen.dart';
-import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 

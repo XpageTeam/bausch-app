@@ -1,6 +1,5 @@
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -48,14 +47,15 @@ class ScoresSection extends StatelessWidget {
         FutureBuilder<int>(
           future: Future<int>.delayed(
             delay,
-            () => 10,
+            () => 4,
           ),
           builder: (context, snapshot) {
             return CustomLineLoadingIndicator(
-              maxDays: 30,
+              text: '127 баллов сгорят через 5 дней',
+              maxDays: 15,
               remainDays: snapshot.hasData
                   ? snapshot.data!
-                  : 20, // 20 = maxDays - future.value
+                  : 5, // 20 = maxDays - future.value
               animationDuration: loadingAnimationDuration,
             );
           },
