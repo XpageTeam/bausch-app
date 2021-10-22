@@ -1,4 +1,3 @@
-import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
@@ -22,7 +21,9 @@ class ProfileAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               NormalIconButton(
-                onPressed: () {}, //Navigator.of(context).pop,
+                onPressed: () {
+                  Keys.mainContentNav.currentState!.pop();
+                }, //Navigator.of(context).pop,
                 icon: const Icon(
                   Icons.chevron_left_rounded,
                   size: 20,
@@ -31,14 +32,8 @@ class ProfileAppBar extends StatelessWidget {
               ),
               NormalIconButton(
                 onPressed: () {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const ProfileSettingsScreen();
-                      },
-                    ),
-                  );
+                  Keys.mainContentNav.currentState!
+                      .pushNamed('/profile_settings');
                 }, //Navigator.of(context).pop,
                 icon: const Icon(
                   Icons.settings,

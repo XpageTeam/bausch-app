@@ -1,5 +1,7 @@
+import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/models/sheet_model.dart';
+import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+import 'package:bausch/models/sheets/sheet_without_items_model.dart';
 import 'package:bausch/models/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 
@@ -62,41 +64,64 @@ class Models {
     ),
   ];
 
-  static List<SheetModel> sheets = [
-    SheetModel(
+  static List<SheetModelWithItems> sheetsWithItems = [
+    SheetModelWithItems(
       title: 'Скидка 500р в оптике',
       img: 'assets/discount-in-optics.png',
       models: items,
-      type: SheetType.discountOptics,
+      type: SheetWithItemsType.discountOptics,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Бесплатная упаковка',
       img: 'assets/free-packaging.png',
       models: items,
-      type: SheetType.packaging,
+      type: SheetWithItemsType.packaging,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Предложения от партнеров',
       img: 'assets/offers-from-partners.png',
       models: items,
-      type: SheetType.partners,
+      type: SheetWithItemsType.partners,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Скидки в онлайн-магазинах',
       img: 'assets/discount-in-online-store.png',
       models: items,
-      type: SheetType.discountOnline,
+      type: SheetWithItemsType.discountOnline,
     ),
-    SheetModel(
+    SheetModelWithItems(
       title: 'Записи вебинаров',
       img: 'assets/webinar-rec.png',
       models: items,
-      type: SheetType.webinar,
+      type: SheetWithItemsType.webinar,
     ),
-    SheetModel(
-      title: 'Онлайн консультации',
-      models: items,
-      type: SheetType.consultations,
+  ];
+
+  static List<SheetModelWithoutItems> sheets = [
+    SheetModelWithoutItems(
+      title: 'Онлайн-консультация',
+      img: 'assets/online-consultations.png',
+      type: SheetWithoutItemsType.consultation,
+    ),
+    SheetModelWithoutItems(
+      title: 'Бесплатно подберем вам первые линзы в оптике',
+      img: 'assets/online-consultations.png',
+      type: SheetWithoutItemsType.program,
+    ),
+    SheetModelWithoutItems(
+      title: 'Добавить баллы',
+      img: 'assets/online-consultations.png',
+      type: SheetWithoutItemsType.addpoints,
+    ),
+  ];
+
+  static List<AddItemModel> addItems = [
+    AddItemModel(
+      title: 'Подпишитесь на группу ВКонтакте',
+      subtitle:
+          'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
+      price: '100',
+      img: 'assets/add_points_vk.png',
     ),
   ];
 }

@@ -49,7 +49,7 @@ class DiscountOpticsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.product(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 12,
                     ),
@@ -90,7 +90,12 @@ class DiscountOpticsScreen extends StatelessWidget {
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
-                        onPressed: () {},
+                        onPressed: () {
+                          Keys.mainNav.currentState!
+                              .push<void>(MaterialPageRoute(builder: (context) {
+                            return Container();
+                          }));
+                        },
                       ),
                     ),
                     Warning.warning(),
@@ -114,7 +119,7 @@ class DiscountOpticsScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Получить скидку',
                 onPressed: () {
-                  Keys.bottomSheetNav.currentState!
+                  Keys.bottomSheetItemsNav.currentState!
                       .pushNamed('/verification_discount');
                 },
               ),

@@ -48,7 +48,7 @@ class DiscountOnlineScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.product(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 12,
                     ),
@@ -99,7 +99,7 @@ class DiscountOnlineScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Получить скидку',
                 onPressed: () {
-                  Keys.bottomSheetNav.currentState!
+                  Keys.bottomSheetItemsNav.currentState!
                       .pushNamed('/verification_discount');
                 },
               ),

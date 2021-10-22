@@ -13,7 +13,7 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
 class MyAdressesScreen extends StatefulWidget {
-  MyAdressesScreen({Key? key}) : super(key: key);
+  const MyAdressesScreen({Key? key}) : super(key: key);
 
   @override
   _MyAdressesScreenState createState() => _MyAdressesScreenState();
@@ -48,14 +48,11 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                       selectedText:
                           'Кв.${Adresses.adresses[i].office},подъезд ${Adresses.adresses[i].lobby},этаж ${Adresses.adresses[i].floor}',
                       onPressed: () {
-                        Navigator.of(context).push<void>(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return AddDetailsScreen(
-                                adress: Adresses.adresses[i],
-                                isFirstLaunch: false,
-                              );
-                            },
+                        Keys.mainContentNav.currentState!.pushNamed(
+                          '/add_details',
+                          arguments: AddDetailsArguments(
+                            adress: Adresses.adresses[i],
+                            isFirstLaunch: false,
                           ),
                         );
                       },
@@ -69,13 +66,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
         child: BlueButtonWithText(
           text: 'Добавить адрес',
           onPressed: () {
-            Navigator.of(context).push<void>(
-              MaterialPageRoute(
-                builder: (context) {
-                  return AddAdressScreen();
-                },
-              ),
-            );
+            Keys.mainContentNav.currentState!.pushNamed('/add_adress');
           },
         ),
       ),

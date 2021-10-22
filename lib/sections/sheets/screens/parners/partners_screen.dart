@@ -44,7 +44,7 @@ class PartnersScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection.partners(),
+                    const InfoSection(),
                     const SizedBox(
                       height: 4,
                     ),
@@ -68,7 +68,7 @@ class PartnersScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Получить поощрение',
                 onPressed: () {
-                  Keys.bottomSheetNav.currentState!
+                  Keys.bottomSheetItemsNav.currentState!
                       .pushNamed('/verification_webinar');
                 },
               ),

@@ -1,76 +1,79 @@
 import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:flutter/material.dart';
 
 class TopSection extends StatelessWidget {
   final CatalogItemModel model;
-  final Widget leftIcon;
   final bool isFull;
   final bool withPrice;
+  final Widget appBar;
   const TopSection({
     required this.model,
-    required this.leftIcon,
     required this.isFull,
     required this.withPrice,
+    required this.appBar,
     Key? key,
   }) : super(key: key);
 
-  const TopSection.product(CatalogItemModel model, Widget leftIcon, Key? key)
+  TopSection.product(CatalogItemModel model, Widget leftIcon, Key? key)
       : this(
           model: model,
-          leftIcon: leftIcon,
           isFull: false,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toPop(icon: leftIcon, key: key),
         );
 
   TopSection.packaging(CatalogItemModel model, Key? key)
       : this(
           model: model,
-          leftIcon: Container(),
           isFull: false,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toPop(icon: Container(), key: key),
         );
 
   TopSection.webinar(CatalogItemModel model, Key? key)
       : this(
           model: model,
-          leftIcon: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Image.asset(
-              'assets/play-video.png',
-              height: 28,
-            ),
-          ),
           isFull: true,
           withPrice: false,
           key: key,
+          appBar: CustomSliverAppbar.toPop(
+            icon: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Image.asset(
+                'assets/play-video.png',
+                height: 28,
+              ),
+            ),
+            key: key,
+          ),
         );
 
-  const TopSection.consultation(
+  TopSection.consultation(
     CatalogItemModel model,
     Widget leftIcon,
     Key? key,
   ) : this(
           model: model,
-          leftIcon: leftIcon,
           isFull: false,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toClose(leftIcon, key),
         );
 
-  const TopSection.partners(CatalogItemModel model, Widget leftIcon, Key? key)
+  // ignore: avoid_unused_constructor_parameters
+  TopSection.partners(CatalogItemModel model, Widget leftIcon, Key? key)
       : this(
           model: model,
-          leftIcon: leftIcon,
           isFull: true,
           withPrice: true,
           key: key,
+          appBar: CustomSliverAppbar.toPop(icon: Container(), key: key),
         );
 
   @override
@@ -119,10 +122,7 @@ class TopSection extends StatelessWidget {
                 ),
             ],
           ),
-          CustomSliverAppbar(
-            iconColor: AppTheme.mystic,
-            icon: leftIcon,
-          ),
+          appBar,
         ],
       ),
     );

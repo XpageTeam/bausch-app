@@ -11,13 +11,17 @@ class DefaultTextInput extends StatefulWidget {
   final TextInputType inputType;
   final InputDecoration? decoration;
   final TextStyle? textStyle;
+  final Color? backgroundColor;
+  final int? maxLines;
   const DefaultTextInput({
     required this.labelText,
     required this.controller,
+    this.backgroundColor,
     this.onChanged,
     this.inputType = TextInputType.text,
     this.decoration,
     this.textStyle,
+    this.maxLines,
     Key? key,
   }) : super(key: key);
 
@@ -71,7 +75,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: widget.backgroundColor ?? Colors.white,
               borderRadius: BorderRadius.circular(5),
             ),
             padding: const EdgeInsets.only(
@@ -88,6 +92,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
               keyboardType: widget.inputType,
               style: widget.textStyle ?? AppStyles.h2Bold,
               decoration: widget.decoration ?? const InputDecoration(),
+              maxLines: widget.maxLines ?? 1,
             ),
           ),
 

@@ -35,9 +35,7 @@ class FinalWebinar extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    const CustomSliverAppbar(
-                      padding: EdgeInsets.only(top: StaticData.sidePadding),
-                    ),
+                    CustomSliverAppbar.toPop(icon: Container(), key: key),
                     const Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(

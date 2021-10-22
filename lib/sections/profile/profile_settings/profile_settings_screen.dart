@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:bausch/sections/profile/profile_settings/city_screen.dart';
-import 'package:bausch/sections/profile/profile_settings/lenses_parameters.dart';
-import 'package:bausch/sections/profile/profile_settings/my_adresses_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -128,10 +126,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               child: FocusButton(
                 labelText: 'Мои адреса',
                 onPressed: () {
-                  Navigator.of(context)
-                      .push<void>(MaterialPageRoute(builder: (context) {
-                    return MyAdressesScreen();
-                  }));
+                  Keys.mainContentNav.currentState!.pushNamed('/my_adresses');
                 },
               ),
             ),
@@ -140,10 +135,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               child: FocusButton(
                 labelText: 'Параметры контактных линз',
                 onPressed: () {
-                  Navigator.of(context)
-                      .push<void>(MaterialPageRoute(builder: (context) {
-                    return LensesParametersScreen();
-                  }));
+                  Keys.mainContentNav.currentState!
+                      .pushNamed('/lenses_parameters');
                 },
               ),
             ),
