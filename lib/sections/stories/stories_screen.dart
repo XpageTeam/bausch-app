@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bausch/models/story_model.dart';
+import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/stories_buttons.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/styles.dart';
@@ -96,8 +96,8 @@ class _StoriesScreenState extends State<StoriesScreen>
                 //final StoryModel story = widget.stories[i];
                 switch (story.media) {
                   case MediaType.image:
-                    return Image.asset(
-                      story.url,
+                    return Image.network(
+                      story.content.file,
                       fit: BoxFit.cover,
                     );
                   case MediaType.video:
@@ -244,18 +244,19 @@ class _StoriesScreenState extends State<StoriesScreen>
       case MediaType.video:
         //_videoPlayerController = null;
         _videoPlayerController.dispose();
-        _videoPlayerController = VideoPlayerController.network(story.url)
-          ..initialize().then(
-            (_) {
-              setState(() {});
-              if (_videoPlayerController.value.isInitialized) {
-                _animController.duration =
-                    _videoPlayerController.value.duration;
-                _videoPlayerController.play();
-                _animController.forward();
-              }
-            },
-          );
+        _videoPlayerController =
+            VideoPlayerController.network(story.content.file)
+              ..initialize().then(
+                (_) {
+                  setState(() {});
+                  if (_videoPlayerController.value.isInitialized) {
+                    _animController.duration =
+                        _videoPlayerController.value.duration;
+                    _videoPlayerController.play();
+                    _animController.forward();
+                  }
+                },
+              );
         break;
     }
     if (animateToPage) {

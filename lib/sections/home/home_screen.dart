@@ -69,7 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   //* Сторисы
-                  [StoriesSlider(items: Models.stories)],
+                  [
+                    StoriesSlider(),
+                  ],
                 ),
               ),
             ),
@@ -114,7 +116,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     const MayBeInteresting(),
                     CustomTextButton(
                       title: 'Правила программы',
-                      onPressed: () {},
+                      onPressed: () {
+                        showSimpleSheet(
+                          context,
+                          SimpleSheetModel(
+                            title: 'Частые вопросы',
+                            type: SimpleSheetType.rules,
+                          ),
+                        );
+                      },
                     ),
                     CustomTextButton(
                       title: 'Частые вопросы',

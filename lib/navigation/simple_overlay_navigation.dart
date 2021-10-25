@@ -2,6 +2,8 @@ import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/contact_support_screen.dart';
 import 'package:bausch/sections/faq/faq_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
+import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
+import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +32,10 @@ class SimpleOverlayNavigation extends StatelessWidget {
               page = FaqScreen(
                 controller: controller,
               );
+            } else if (sheetModel.type == SimpleSheetType.rules) {
+              page = RulesScreen(
+                controller: controller,
+              );
             } else {
               page = Container();
             }
@@ -37,6 +43,12 @@ class SimpleOverlayNavigation extends StatelessWidget {
 
           case '/faq':
             page = FaqScreen(controller: controller);
+            break;
+
+          case '/rules':
+            page = RulesScreen(
+              controller: controller,
+            );
             break;
 
           case '/question':
