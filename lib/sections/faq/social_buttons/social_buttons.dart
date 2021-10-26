@@ -14,26 +14,26 @@ class _SocialButtonsState extends State<SocialButtons> {
   final SocialCubit socialCubit = SocialCubit();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(
-            top: 40,
-            bottom: 14,
-          ),
-          child: Text(
-            'Вы можете найти нас здесь',
-            style: AppStyles.p1,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        SizedBox(
-          height: 45,
-          child: BlocBuilder<SocialCubit, SocialState>(
-            bloc: socialCubit,
-            builder: (context, state) {
-              if (state is SocialSuccess) {
-                return ListView.separated(
+    return BlocBuilder<SocialCubit, SocialState>(
+      bloc: socialCubit,
+      builder: (context, state) {
+        if (state is SocialSuccess) {
+          return Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(
+                  top: 40,
+                  bottom: 14,
+                ),
+                child: Text(
+                  'Вы можете найти нас здесь',
+                  style: AppStyles.p1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                height: 45,
+                child: ListView.separated(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, i) {
@@ -56,15 +56,15 @@ class _SocialButtonsState extends State<SocialButtons> {
                     );
                   },
                   itemCount: state.models.length,
-                );
-              }
-              return const SizedBox(
-                height: 99,
-              );
-            },
-          ),
-        ),
-      ],
+                ),
+              ),
+            ],
+          );
+        }
+        return const SizedBox(
+          height: 99,
+        );
+      },
     );
   }
 }

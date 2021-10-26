@@ -1,14 +1,16 @@
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/sheet_with_items_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WideContainerWithItems extends StatelessWidget {
   final List<String>? children;
   final String? subtitle;
-  final SheetModelWithItems sheetModel;
+  final CatalogSheetModel model;
   const WideContainerWithItems({
-    required this.sheetModel,
+    required this.model,
     this.children,
     this.subtitle,
     Key? key,
@@ -17,9 +19,7 @@ class WideContainerWithItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showSheetWithItems(context, sheetModel);
-      },
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -31,7 +31,7 @@ class WideContainerWithItems extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                sheetModel.title,
+                model.name,
                 style: AppStyles.h2Bold,
               ),
               Row(
@@ -43,8 +43,8 @@ class WideContainerWithItems extends StatelessWidget {
                       style: AppStyles.p1,
                     ),
                   ),
-                  Image.asset(
-                    sheetModel.img ?? 'assets/webinar-rec.png',
+                  SvgPicture.network(
+                    model.icon,
                     height: 40,
                   ),
                 ],
@@ -52,7 +52,7 @@ class WideContainerWithItems extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              if (children != null)
+              if (model.logos != null)
                 Center(
                   child: SizedBox(
                     height: 32,
@@ -60,15 +60,15 @@ class WideContainerWithItems extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, i) {
-                        return Image.asset(
-                          children![i],
+                        return Image.network(
+                          model.logos![i],
                           width: 100,
                         );
                       },
                       separatorBuilder: (context, i) {
                         return const VerticalDivider();
                       },
-                      itemCount: children!.length,
+                      itemCount: model.logos!.length,
                     ),
                   ),
                 ),

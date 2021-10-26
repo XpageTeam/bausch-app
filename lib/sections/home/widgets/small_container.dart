@@ -1,25 +1,22 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/sheet_with_items_model.dart';
-import 'package:bausch/navigation/overlay_navigation_with_items.dart';
-import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SmallContainer extends StatelessWidget {
-  final SheetModelWithItems sheetModel;
+  final CatalogSheetModel model;
   const SmallContainer({
-    required this.sheetModel,
+    required this.model,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showSheet(context, sheetModel);
-      },
+      onTap: () {},
       child: Container(
         width:
             MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2,
@@ -41,7 +38,7 @@ class SmallContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AutoSizeText(
-                sheetModel.title,
+                model.name,
                 style: AppStyles.h1,
                 maxLines: 2,
                 overflow: TextOverflow.visible,
@@ -50,14 +47,14 @@ class SmallContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
-                    '1',
+                  Text(
+                    model.count.toString(),
                     style: AppStyles.p1,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6.6),
-                    child: Image.asset(
-                      sheetModel.img!,
+                    child: SvgPicture.network(
+                      model.icon,
                       height: 50,
                     ),
                   ),
@@ -68,35 +65,5 @@ class SmallContainer extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void showSheet(BuildContext context, SheetModelWithItems model) {
-    showFlexibleBottomSheet<void>(
-      useRootNavigator: true,
-      minHeight: 0,
-      initHeight: calculatePercentage(model.models!.length),
-      maxHeight: 0.95,
-      anchors: [0, 0.6, 0.95],
-      context: context,
-      builder: (context, controller, d) {
-        return SheetWidget(
-          child: OverlayNavigationWithItems(
-            sheetModel: model,
-            controller: controller,
-          ),
-        );
-      },
-    );
-  }
-
-  double calculatePercentage(int lenght) {
-    switch (lenght ~/ 2) {
-      case 1:
-        return 0.5;
-      case 2:
-        return 0.8;
-      default:
-        return 0.9;
-    }
   }
 }

@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^7.3.0
   flutter_html: ^2.1.5
   flutter_keyboard_visibility: ^5.0.3
+  flutter_svg: ^0.22.0
   extended_masked_text: ^2.3.1
   menu_button: ^1.4.2+1
   video_player: ^2.2.5

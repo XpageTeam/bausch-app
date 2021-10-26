@@ -39,9 +39,11 @@ class CustomSliverAppbar extends StatelessWidget {
           key: key,
         );
 
-  CustomSliverAppbar.toCloseAndPop(Key? key,
-      {Color? backgroundColor, EdgeInsets? padding})
-      : this(
+  CustomSliverAppbar.toCloseAndPop(
+    Key? key, {
+    Color? backgroundColor,
+    EdgeInsets? padding,
+  }) : this(
           rightKey: Keys.mainNav,
           leftKey: Keys.bottomSheetWithoutItemsNav,
           iconColor: backgroundColor ?? AppTheme.mystic,

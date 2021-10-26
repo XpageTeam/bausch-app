@@ -43,14 +43,12 @@ class _RulesScreenState extends State<RulesScreen> {
                       style: {
                         'body': Style(
                           margin: EdgeInsets.zero,
-                          //textAlign: TextAlign.center,
+                          color: AppTheme.mineShaft,
                         ),
                         'strong': Style(
                           fontSize: const FontSize(17),
                           fontWeight: FontWeight.w500,
                           height: 20 / 17,
-                          //textAlign: TextAlign.center,
-                          //alignment: Alignment.topCenter,
                         ),
                         'h1': Style(
                           textAlign: TextAlign.center,
@@ -61,6 +59,7 @@ class _RulesScreenState extends State<RulesScreen> {
                       customRender: {
                         'table': (context, child) {
                           return SingleChildScrollView(
+                            clipBehavior: Clip.none,
                             child: (context.tree as TableLayoutElement)
                                 .toWidget(context),
                             scrollDirection: Axis.horizontal,
