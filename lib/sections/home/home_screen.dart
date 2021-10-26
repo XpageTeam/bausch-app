@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 delegate: SliverChildListDelegate(
                   //* Сторисы
                   [
-                    StoriesSlider(),
+                    const StoriesSlider(),
                   ],
                 ),
               ),

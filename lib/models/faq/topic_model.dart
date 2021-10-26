@@ -1,14 +1,32 @@
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/mappable_object.dart';
 
 class TopicModel implements MappableInterface<TopicModel> {
+  //* Идентификаор темы
   final int id;
+
+  //* Название темы
   final String title;
+
+  //* Список вопросов
   final List<QuestionModel> questions;
 
   TopicModel({required this.id, required this.title, required this.questions});
 
   factory TopicModel.fromMap(Map<String, dynamic> map) {
+    if (map['id'] == null) {
+      throw ResponseParseExeption('Не передан идентификатор темы');
+    }
+
+    if (map['title'] == null) {
+      throw ResponseParseExeption('Не передано название темы');
+    }
+
+    if (map['questions'] == null) {
+      throw ResponseParseExeption('Не передан список вопросов по теме');
+    }
+
     return TopicModel(
       id: map['id'] as int,
       title: map['title'] as String,
@@ -20,7 +38,10 @@ class TopicModel implements MappableInterface<TopicModel> {
 
   @override
   Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'questions': questions,
+    };
   }
 }

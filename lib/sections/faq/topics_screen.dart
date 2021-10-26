@@ -1,5 +1,6 @@
 import 'package:bausch/sections/faq/cubit/faq_cubit.dart';
 import 'package:bausch/sections/faq/support_section.dart';
+import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -10,16 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //* FAQ
-//* topics / topic
-class FaqScreen extends StatefulWidget {
+//* topics
+class TopicsScreen extends StatefulWidget {
   final ScrollController controller;
-  const FaqScreen({required this.controller, Key? key}) : super(key: key);
+  const TopicsScreen({required this.controller, Key? key}) : super(key: key);
 
   @override
-  State<FaqScreen> createState() => _FaqScreenState();
+  State<TopicsScreen> createState() => _TopicsScreenState();
 }
 
-class _FaqScreenState extends State<FaqScreen> {
+class _TopicsScreenState extends State<TopicsScreen> {
   final FaqCubit faqCubit = FaqCubit();
 
   @override
@@ -90,8 +91,13 @@ class _FaqScreenState extends State<FaqScreen> {
                             text: state.topics[index].title,
                             icon: Container(),
                             onPressed: () {
-                              Keys.simpleBottomSheetNav.currentState!
-                                  .pushNamed('/question');
+                              Keys.simpleBottomSheetNav.currentState!.pushNamed(
+                                '/faq_topic',
+                                arguments: TopicScreenArguments(
+                                  title: state.topics[index].title,
+                                  topicModel: state.topics[index],
+                                ),
+                              );
                             },
                           ),
                         ),

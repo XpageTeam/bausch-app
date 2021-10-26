@@ -23,41 +23,39 @@ class WhiteButton extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
-        child: Flexible(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Row(
-                  children: [
-                    icon ??
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.pin_drop,
-                              color: AppTheme.mineShaft,
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                          ],
-                        ),
-                    Flexible(
-                      child: Text(
-                        text,
-                        style: AppStyles.h2,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Row(
+                children: [
+                  icon ??
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.pin_drop,
+                            color: AppTheme.mineShaft,
+                          ),
+                          SizedBox(
+                            width: 12,
+                          ),
+                        ],
                       ),
+                  Flexible(
+                    child: Text(
+                      text,
+                      style: AppStyles.h2,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const Icon(
-                Icons.arrow_forward_ios_sharp,
-                color: AppTheme.mineShaft,
-                size: 20,
-              ),
-            ],
-          ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: AppTheme.mineShaft,
+              size: 20,
+            ),
+          ],
         ),
       ),
     );

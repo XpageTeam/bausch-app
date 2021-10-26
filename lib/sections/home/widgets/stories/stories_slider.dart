@@ -35,7 +35,7 @@ class _StoriesSliderState extends State<StoriesSlider> {
                         child: Story(
                           model: item,
                           models: state.stories,
-                          index: item.id - 1,
+                          index: state.stories.indexOf(item),
                         ),
                       ))
                   .toList(),
