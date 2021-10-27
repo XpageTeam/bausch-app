@@ -8,7 +8,7 @@ class CatalogSheetInitial extends CatalogSheetState {}
 class CatalogSheetLoading extends CatalogSheetState {}
 
 class CatalogSheetSuccess extends CatalogSheetState {
-  final List<CatalogSheetModel> models;
+  final List<BaseCatalogSheetModel> models;
 
   CatalogSheetSuccess({
     required this.models,

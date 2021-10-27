@@ -1,4 +1,4 @@
-import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';

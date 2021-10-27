@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';

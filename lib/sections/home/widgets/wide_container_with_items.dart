@@ -1,6 +1,4 @@
-import 'package:bausch/models/sheets/catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class WideContainerWithItems extends StatelessWidget {
   final List<String>? children;
   final String? subtitle;
-  final CatalogSheetModel model;
+  final CatalogSheetWithLogosModel model;
   const WideContainerWithItems({
     required this.model,
     this.children,
@@ -52,26 +50,25 @@ class WideContainerWithItems extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              if (model.logos != null)
-                Center(
-                  child: SizedBox(
-                    height: 32,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i) {
-                        return Image.network(
-                          model.logos![i],
-                          width: 100,
-                        );
-                      },
-                      separatorBuilder: (context, i) {
-                        return const VerticalDivider();
-                      },
-                      itemCount: model.logos!.length,
-                    ),
+              Center(
+                child: SizedBox(
+                  height: 32,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, i) {
+                      return Image.network(
+                        model.logos[i],
+                        width: 100,
+                      );
+                    },
+                    separatorBuilder: (context, i) {
+                      return const VerticalDivider();
+                    },
+                    itemCount: model.logos.length,
                   ),
                 ),
+              ),
             ],
           ),
         ),

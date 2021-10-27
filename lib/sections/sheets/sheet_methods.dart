@@ -1,6 +1,6 @@
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
-import 'package:bausch/models/sheets/sheet_without_items_model.dart';
-import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
+import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/navigation/overlay_navigation_with_items.dart';
 import 'package:bausch/navigation/overlay_navigation_without_items.dart';
 import 'package:bausch/navigation/simple_overlay_navigation.dart';

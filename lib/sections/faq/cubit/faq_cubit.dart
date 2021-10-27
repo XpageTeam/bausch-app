@@ -20,7 +20,7 @@ class FaqCubit extends Cubit<FaqState> {
 
     try {
       final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>('faq/')).data!,
+        (await rh.get<Map<String, dynamic>>('static/faq/')).data!,
       );
 
       emit(

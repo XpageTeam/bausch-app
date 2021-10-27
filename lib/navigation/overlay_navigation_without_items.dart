@@ -1,4 +1,4 @@
-import 'package:bausch/models/sheets/sheet_without_items_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';

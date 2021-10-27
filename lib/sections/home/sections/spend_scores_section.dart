@@ -1,8 +1,9 @@
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/sections/home/cubit/catalogsheet_cubit.dart';
 import 'package:bausch/sections/home/widgets/small_container.dart';
-import 'package:bausch/sections/home/widgets/wide_container.dart';
 import 'package:bausch/sections/home/widgets/wide_container_with_items.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,28 +35,29 @@ class _SpendScoresState extends State<SpendScores> {
               const SizedBox(
                 height: 20,
               ),
+              TextButton(
+                onPressed: () {
+                  debugPrint(state.models.toString());
+                },
+                child: Text('123'),
+              ),
               Flexible(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                child: Wrap(
+                  //mainAxisSize: MainAxisSize.min,
+                  spacing: 4,
+                  runSpacing: 4,
                   children: List.generate(
-                    (state.models.length % 2) == 0
-                        ? state.models.length ~/ 2
-                        : state.models.length ~/ 2 + 1,
+                    state.models.length,
                     (i) {
-                      if ((state.models[i].type != 'shop') &&
+                      if ((state.models[i].type != 'offline') &&
                           (state.models[i].type != 'online_consultation')) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Row(
-                            children: [
-                              SmallContainer(model: state.models[i * 2]),
-                              const SizedBox(width: 4),
-                              SmallContainer(model: state.models[i * 2 + 1]),
-                            ],
-                          ),
+                        return SmallContainer(
+                          model: state.models[i] as CatalogSheetModel,
                         );
                       } else {
-                        return Container();
+                        return WideContainerWithItems(
+                          model: state.models[i] as CatalogSheetWithLogosModel,
+                        );
                       }
                     },
                   ),

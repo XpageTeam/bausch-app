@@ -1,9 +1,13 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
+
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 part 'catalogsheet_state.dart';
@@ -23,12 +27,24 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
         (await rh.get<Map<String, dynamic>>('catalog/sections/')).data!,
       );
 
+      final m =
+          Map<String, dynamic>.from(parsedData.data as Map<String, dynamic>);
+
+      final a = m.values.toList();
+      debugPrint(a.runtimeType.toString());
+
       emit(
         CatalogSheetSuccess(
-          models: (parsedData.data as List<dynamic>)
-              .map((dynamic e) =>
-                  CatalogSheetModel.fromMap(e as Map<String, dynamic>))
-              .toList(),
+          // ignore: avoid_annotating_with_dynamic
+          models: a.map((dynamic e) {
+            if ((e as Map<String, dynamic>).containsKey('logos')) {
+              return CatalogSheetWithLogosModel.fromMap(
+                e,
+              );
+            } else {
+              return CatalogSheetModel.fromMap(e);
+            }
+          }).toList(),
         ),
       );
     } on ResponseParseExeption catch (e) {
@@ -48,3 +64,13 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
     }
   }
 }
+
+// data.map((dynamic e) {
+//             if ((e as Map<String, dynamic>).containsKey('logos')) {
+//               return CatalogSheetWithLogosModel.fromMap(
+//                 e,
+//               );
+//             } else {
+//               return CatalogSheetModel.fromMap(e);
+//             }
+//           }).toList(),

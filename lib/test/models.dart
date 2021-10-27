@@ -1,7 +1,7 @@
 import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
-import 'package:bausch/models/sheets/sheet_without_items_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 

@@ -1,4 +1,4 @@
-import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/contact_support_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';

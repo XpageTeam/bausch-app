@@ -1,4 +1,4 @@
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';

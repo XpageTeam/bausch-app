@@ -1,4 +1,5 @@
-import 'package:bausch/models/sheets/sheet_without_items_model.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,9 @@ import 'package:flutter/material.dart';
 class WideContainerWithoutItems extends StatelessWidget {
   final List<String>? children;
   final String? subtitle;
-  final SheetModelWithoutItems sheetModel;
+  final BaseCatalogSheetModel model;
   const WideContainerWithoutItems({
-    required this.sheetModel,
+    required this.model,
     this.children,
     this.subtitle,
     Key? key,
@@ -18,7 +19,7 @@ class WideContainerWithoutItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showSheetWithoutItems(context, sheetModel);
+        //showSheetWithoutItems(context, model);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -31,7 +32,7 @@ class WideContainerWithoutItems extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                sheetModel.title,
+                model.name,
                 style: AppStyles.h2Bold,
               ),
               Row(
@@ -43,8 +44,8 @@ class WideContainerWithoutItems extends StatelessWidget {
                       style: AppStyles.p1,
                     ),
                   ),
-                  Image.asset(
-                    sheetModel.img,
+                  Image.network(
+                    model.icon,
                     height: 40,
                   ),
                 ],

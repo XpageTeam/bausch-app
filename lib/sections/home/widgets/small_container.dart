@@ -1,6 +1,6 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +15,14 @@ class SmallContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _width =
+        MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
+
     return GestureDetector(
       onTap: () {},
       child: Container(
-        width:
-            MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2,
-        height:
-            MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2,
+        width: _width,
+        height: _width,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),

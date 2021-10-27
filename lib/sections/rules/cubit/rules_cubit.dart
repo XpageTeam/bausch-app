@@ -19,7 +19,7 @@ class RulesCubit extends Cubit<RulesState> {
 
     try {
       final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>('rules/')).data!,
+        (await rh.get<Map<String, dynamic>>('static/rules/')).data!,
       );
 
       emit(RulesSuccess(data: parsedData.data as String));
