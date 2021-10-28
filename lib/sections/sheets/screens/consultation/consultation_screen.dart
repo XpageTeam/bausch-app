@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -60,7 +60,7 @@ class ConsultationScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                    InfoSection(),
                   ],
                 ),
               ),

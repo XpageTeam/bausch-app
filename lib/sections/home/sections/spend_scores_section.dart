@@ -35,12 +35,6 @@ class _SpendScoresState extends State<SpendScores> {
               const SizedBox(
                 height: 20,
               ),
-              TextButton(
-                onPressed: () {
-                  debugPrint(state.models.toString());
-                },
-                child: Text('123'),
-              ),
               Flexible(
                 child: Wrap(
                   //mainAxisSize: MainAxisSize.min,

@@ -8,6 +8,7 @@ import 'package:flutter_html/flutter_html.dart';
 
 class RulesScreen extends StatefulWidget {
   final ScrollController controller;
+
   const RulesScreen({required this.controller, Key? key}) : super(key: key);
 
   @override

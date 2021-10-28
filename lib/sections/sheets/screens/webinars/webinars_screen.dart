@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/screens/webinars/dialog_with_players.dart';
@@ -45,7 +45,7 @@ class WebinarsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                    InfoSection(),
                     const SizedBox(
                       height: 132,
                     ),

@@ -27,17 +27,18 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
         (await rh.get<Map<String, dynamic>>('catalog/sections/')).data!,
       );
 
-      final m =
-          Map<String, dynamic>.from(parsedData.data as Map<String, dynamic>);
+      // final m =
+      //     Map<String, dynamic>.from(parsedData.data as Map<String, dynamic>);
 
-      final a = m.values.toList();
-      debugPrint(a.runtimeType.toString());
+      final a = (parsedData.data as Map<String, dynamic>).values.toList();
 
       emit(
         CatalogSheetSuccess(
           // ignore: avoid_annotating_with_dynamic
           models: a.map((dynamic e) {
-            if ((e as Map<String, dynamic>).containsKey('logos')) {
+            if (((e as Map<String, dynamic>).containsValue('offline')) ||
+                ((e as Map<String, dynamic>)
+                    .containsValue('online_consultation'))) {
               return CatalogSheetWithLogosModel.fromMap(
                 e,
               );

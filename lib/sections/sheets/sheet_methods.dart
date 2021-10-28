@@ -1,3 +1,4 @@
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
@@ -9,11 +10,11 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 //* Функция вывода bottomSheet с эементами каталога
-void showSheetWithItems(BuildContext context, SheetModelWithItems model) {
+void showSheetWithItems(BuildContext context, BaseCatalogSheetModel model) {
   showFlexibleBottomSheet<void>(
     useRootNavigator: true,
     minHeight: 0,
-    initHeight: calculatePercentage(model.models!.length),
+    initHeight: 0.9, //calculatePercentage(model.models!.length),
     maxHeight: 0.95,
     anchors: [0, 0.6, 0.95],
     context: context,

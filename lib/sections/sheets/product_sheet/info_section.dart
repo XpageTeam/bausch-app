@@ -1,8 +1,11 @@
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class InfoSection extends StatelessWidget {
-  const InfoSection({Key? key}) : super(key: key);
+  final String? text;
+  const InfoSection({this.text, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +22,18 @@ class InfoSection extends StatelessWidget {
           bottom: 40,
         ),
         child: Column(
-          children: const [
-            Text(
-              'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
-              style: AppStyles.p1,
+          children: [
+            Html(
+              data: text ?? 'text',
+              style: {
+                'body': Style(
+                  padding: EdgeInsets.zero,
+                  color: AppTheme.mineShaft,
+                  fontWeight: FontWeight.w400,
+                  fontSize: const FontSize(14),
+                  lineHeight: LineHeight(20 / 14),
+                ),
+              },
             ),
           ],
         ),

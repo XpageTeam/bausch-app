@@ -1,3 +1,4 @@
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
@@ -18,7 +19,7 @@ import 'package:flutter/material.dart';
 //* Навигатор для bottomSheet'а с элементами каталога
 class OverlayNavigationWithItems extends StatelessWidget {
   final ScrollController controller;
-  final SheetModelWithItems sheetModel;
+  final BaseCatalogSheetModel sheetModel;
   const OverlayNavigationWithItems({
     required this.sheetModel,
     required this.controller,
@@ -38,104 +39,104 @@ class OverlayNavigationWithItems extends StatelessWidget {
             page = SheetScreen(
               sheetModel: sheetModel,
               controller: controller,
-              path: path(sheetModel.type),
+              //path: path(sheetModel.type),
             );
 
             break;
 
-          case '/consultation':
+          case '/online_consultation':
             page = ConsultationScreen(
               controller: controller,
-              model: Models.items[2],
+              model: Models.items[0],
             );
             break;
 
-          case '/free_packaging':
+          case '/free_product':
             page = FreePackagingScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 
-          case '/discount_optics':
-            page = DiscountOpticsScreen(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/discount_optics':
+          //   page = DiscountOpticsScreen(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
-          case '/discount_online':
+          case '/onlineShop':
             page = DiscountOnlineScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 
-          case '/partners':
+          case '/promo_code_immediately':
             page = PartnersScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 
-          case '/webinar':
+          case '/promo_code_video':
             page = WebinarsScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 
-          case '/verification_discount':
-            page = DiscountVerification(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/verification_discount':
+          //   page = DiscountVerification(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
-          case '/verification_webinar':
-            page = WebinarVerification(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/verification_webinar':
+          //   page = WebinarVerification(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
-          case '/final_webinar':
-            page = FinalWebinar(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/final_webinar':
+          //   page = FinalWebinar(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
-          case '/final_discount':
-            page = FinalDiscountOptics(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/final_discount':
+          //   page = FinalDiscountOptics(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
-          case '/final_free_packaging':
-            page = FinalWebinar(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/final_free_packaging':
+          //   page = FinalWebinar(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
-          case '/program':
-            page = ProgramScreen(controller: controller);
-            break;
+          // case '/program':
+          //   page = ProgramScreen(controller: controller);
+          //   break;
 
-          case '/addpoints':
-            page = FinalWebinar(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/addpoints':
+          //   page = FinalWebinar(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
           default:
             page = SheetScreen(
-              sheetModel: Models.sheetsWithItems.first,
+              sheetModel: sheetModel,
               controller: controller,
-              path: path(sheetModel.type),
+              //path: path(sheetModel.type),
             );
         }
         return PageRouteBuilder<dynamic>(

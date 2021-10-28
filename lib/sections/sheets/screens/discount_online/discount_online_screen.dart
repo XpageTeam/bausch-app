@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -48,11 +48,15 @@ class DiscountOnlineScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                    InfoSection(
+                      text: model.previewText,
+                    ),
                     const SizedBox(
                       height: 12,
                     ),
-                    const LegalInfo(),
+                    LegalInfo(
+                      text: model.detailText,
+                    ),
                     const SizedBox(
                       height: 40,
                     ),

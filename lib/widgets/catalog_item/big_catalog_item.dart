@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
@@ -36,7 +36,7 @@ class BigCatalogItem extends StatelessWidget {
                   height: 4,
                 ),
                 ButtonContent(
-                  price: model.price,
+                  price: model.price.toString(),
                   alignment: MainAxisAlignment.start,
                 ),
               ],
@@ -46,7 +46,7 @@ class BigCatalogItem extends StatelessWidget {
             width: 4,
           ),
           Image.asset(
-            model.img ?? 'assets/free-packaging.png',
+            model.picture,
             height: 100,
           ),
         ],

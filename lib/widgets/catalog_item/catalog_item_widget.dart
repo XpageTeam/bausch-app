@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/point_widget.dart';
@@ -65,7 +65,7 @@ class CatalogItemWidget extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              model.price,
+                              model.price.toString(),
                               style: AppStyles.h2Bold,
                             ),
                           ),

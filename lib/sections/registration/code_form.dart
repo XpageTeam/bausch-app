@@ -1,3 +1,4 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:bausch/packages/pin_code_fields/lib/pin_code_fields.dart';
 import 'package:bausch/sections/registration/city_and_email_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -10,7 +11,7 @@ class CodeForm extends StatefulWidget {
   _CodeFormState createState() => _CodeFormState();
 }
 
-class _CodeFormState extends State<CodeForm> {
+class _CodeFormState extends State<CodeForm> with AfterLayoutMixin {
   TextEditingController codeFieldController = TextEditingController();
   FocusNode focusNode = FocusNode();
 
@@ -19,14 +20,6 @@ class _CodeFormState extends State<CodeForm> {
     //focusNode.dispose();
     codeFieldController.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // if (!focusNode.hasFocus) {
-    //   FocusScope.of(context).requestFocus(focusNode);
-    // }
   }
 
   @override
@@ -69,5 +62,12 @@ class _CodeFormState extends State<CodeForm> {
         ),
       ),
     );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    if (!focusNode.hasFocus) {
+      FocusScope.of(context).requestFocus(focusNode);
+    }
   }
 }

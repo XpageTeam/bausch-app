@@ -7,7 +7,8 @@ import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
-//Registration / phone_number
+//* Registration
+//* phone number
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 

@@ -3,7 +3,7 @@ import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 
 class CatalogSheetWithLogosModel extends BaseCatalogSheetModel
     implements MappableInterface<CatalogSheetWithLogosModel> {
-  final List<String> logos;
+  final List<String>? logos;
 
   CatalogSheetWithLogosModel({
     required int id,
@@ -11,7 +11,7 @@ class CatalogSheetWithLogosModel extends BaseCatalogSheetModel
     required String type,
     required String icon,
     required int count,
-    required this.logos,
+    this.logos,
   }) : super(
           id: id,
           name: name,
@@ -29,9 +29,11 @@ class CatalogSheetWithLogosModel extends BaseCatalogSheetModel
               'https://baush-app.xpager.ru/upload/uf/646/8b6gclwm3bl9vvztnjas4wp1m2tln9i6.svg')
           as String,
       count: map['count'] as int,
-      logos: (map['logos'] as List<dynamic>)
-          .map((dynamic logo) => logo as String)
-          .toList(),
+      logos: map['logos'] != null
+          ? (map['logos'] as List<dynamic>)
+              .map((dynamic logo) => logo as String)
+              .toList()
+          : null,
     );
   }
 
