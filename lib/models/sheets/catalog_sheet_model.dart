@@ -23,7 +23,7 @@ class CatalogSheetModel extends BaseCatalogSheetModel
       name: map['name'] as String,
       type: map['type'] as String,
       icon: (map['icon'] ??
-              'https://baush-app.xpager.ru/upload/uf/646/8b6gclwm3bl9vvztnjas4wp1m2tln9i6.svg')
+              'https://baush-app.xpager.ru/upload/uf/aa5/heterm9de8wkk1pvr37o5rqxrymh66cd.jpg')
           as String,
       count: map['count'] as int,
     );

@@ -22,7 +22,9 @@ class CatalogSheetWithoutLogosModel extends BaseCatalogSheetModel
       id: map['id'] as int,
       name: map['name'] as String,
       type: map['type'] as String,
-      icon: map['icon'] as String,
+      icon: (map['icon'] ??
+              'https://baush-app.xpager.ru/upload/uf/aa5/heterm9de8wkk1pvr37o5rqxrymh66cd.jpg')
+          as String,
       count: map['count'] as int,
     );
   }

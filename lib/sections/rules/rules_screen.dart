@@ -69,10 +69,8 @@ class _RulesScreenState extends State<RulesScreen> {
                       },
                     ),
                   ),
-                  CustomSliverAppbar.toCloseAndPop(
-                    widget.key,
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(12),
+                  CustomSliverAppbar.toPop(
+                    icon: Container(),
                   ),
                 ],
               );

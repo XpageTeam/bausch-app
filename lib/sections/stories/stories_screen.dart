@@ -55,9 +55,10 @@ class _StoriesScreenState extends State<StoriesScreen>
                 _loadStory(story: widget.stories[_currentIndex]);
               } else {
                 // Out of bounds - loop story
-                // You can also Navigator.of(context).pop() here
+                //_animController.stop();
+                Navigator.of(context).pop();
                 //_currentIndex = 0;
-                _loadStory(story: widget.stories[_currentIndex]);
+                //_loadStory(story: widget.stories[_currentIndex]);
               }
             },
           );
@@ -99,6 +100,7 @@ class _StoriesScreenState extends State<StoriesScreen>
                     return Image.network(
                       story.content.file,
                       fit: BoxFit.cover,
+                      color: Colors.red,
                     );
                   case MediaType.video:
                     if (_videoPlayerController.value.isInitialized) {

@@ -1,9 +1,8 @@
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/contact_support_screen.dart';
+import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';
-import 'package:bausch/sections/faq/question_screen.dart';
-import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';

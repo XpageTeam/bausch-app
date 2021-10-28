@@ -3,6 +3,7 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
@@ -30,48 +31,48 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
       // final m =
       //     Map<String, dynamic>.from(parsedData.data as Map<String, dynamic>);
 
-      final a = (parsedData.data as Map<String, dynamic>).values.toList();
+      //final a = (parsedData.data as Map<String, dynamic>).values.toList();
 
       emit(
         CatalogSheetSuccess(
           // ignore: avoid_annotating_with_dynamic
-          models: a.map((dynamic e) {
-            if (((e as Map<String, dynamic>).containsValue('offline')) ||
-                ((e as Map<String, dynamic>)
-                    .containsValue('online_consultation'))) {
+          models: (parsedData.data as List<dynamic>).map((dynamic sheet) {
+            if ((sheet as Map<String, dynamic>).containsValue('offline')) {
               return CatalogSheetWithLogosModel.fromMap(
-                e,
+                sheet,
               );
+            } else if (sheet.containsValue('online_consultation')) {
+              return CatalogSheetWithoutLogosModel.fromMap(sheet);
             } else {
-              return CatalogSheetModel.fromMap(e);
+              return CatalogSheetModel.fromMap(sheet);
             }
           }).toList(),
         ),
       );
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseExeption catch (sheet) {
       emit(
         CatalogSheetFailed(
           title: 'Ошибка при обработке ответа от сервера',
-          subtitle: e.toString(),
+          subtitle: sheet.toString(),
         ),
       );
-    } on DioError catch (e) {
+    } on DioError catch (sheet) {
       emit(
         CatalogSheetFailed(
           title: 'Ошибка при отправке запроса',
-          subtitle: e.toString(),
+          subtitle: sheet.toString(),
         ),
       );
     }
   }
 }
 
-// data.map((dynamic e) {
-//             if ((e as Map<String, dynamic>).containsKey('logos')) {
+// data.map((dynamic sheet) {
+//             if ((sheet as Map<String, dynamic>).containsKey('logos')) {
 //               return CatalogSheetWithLogosModel.fromMap(
-//                 e,
+//                 sheet,
 //               );
 //             } else {
-//               return CatalogSheetModel.fromMap(e);
+//               return CatalogSheetModel.fromMap(sheet);
 //             }
 //           }).toList(),

@@ -1,5 +1,4 @@
 import 'package:bausch/navigation/main_navigation.dart';
-import 'package:bausch/sections/loading/loading_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       navigatorKey: Keys.mainNav,
       theme: AppTheme.currentAppTheme,
-      home: LoadingScreen(),
+      home: const MainNavigation(),
     );
   }
 }

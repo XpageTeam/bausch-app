@@ -1,5 +1,4 @@
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 

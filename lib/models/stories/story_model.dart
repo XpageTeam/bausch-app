@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_annotating_with_dynamic, unused_import
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';

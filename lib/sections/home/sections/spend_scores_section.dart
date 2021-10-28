@@ -1,9 +1,13 @@
+// ignore_for_file: unused_import
+
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/home/cubit/catalogsheet_cubit.dart';
-import 'package:bausch/sections/home/widgets/small_container.dart';
-import 'package:bausch/sections/home/widgets/wide_container_with_items.dart';
+import 'package:bausch/sections/home/widgets/containers/small_container.dart';
+import 'package:bausch/sections/home/widgets/containers/wide_container_with_items.dart';
+import 'package:bausch/sections/home/widgets/containers/wide_container_without_items.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,14 +47,19 @@ class _SpendScoresState extends State<SpendScores> {
                   children: List.generate(
                     state.models.length,
                     (i) {
-                      if ((state.models[i].type != 'offline') &&
-                          (state.models[i].type != 'online_consultation')) {
-                        return SmallContainer(
-                          model: state.models[i] as CatalogSheetModel,
-                        );
-                      } else {
+                      if (state.models[i].type == 'offline') {
                         return WideContainerWithItems(
                           model: state.models[i] as CatalogSheetWithLogosModel,
+                        );
+                      } else if (state.models[i].type ==
+                          'online_consultation') {
+                        return WideContainerWithoutItems(
+                          model:
+                              state.models[i] as CatalogSheetWithoutLogosModel,
+                        );
+                      } else {
+                        return SmallContainer(
+                          model: state.models[i] as CatalogSheetModel,
                         );
                       }
                     },

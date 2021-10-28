@@ -30,12 +30,12 @@ class MayBeInteresting extends StatelessWidget {
                 : Models.items.length ~/ 2 + 1,
             (i) => Row(
               children: [
-                CatalogItem(
-                  model: Models.items[i * 2],
-                  isProduct: true,
-                ),
-                const SizedBox(
-                  width: 4,
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: CatalogItem(
+                    model: Models.items[i * 2],
+                    isProduct: true,
+                  ),
                 ),
                 if (Models.items.asMap().containsKey(i * 2 + 1))
                   CatalogItem(

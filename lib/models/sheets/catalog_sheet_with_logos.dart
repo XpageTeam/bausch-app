@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'package:bausch/models/mappable_object.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 
@@ -26,7 +28,7 @@ class CatalogSheetWithLogosModel extends BaseCatalogSheetModel
       name: map['name'] as String,
       type: map['type'] as String,
       icon: (map['icon'] ??
-              'https://baush-app.xpager.ru/upload/uf/646/8b6gclwm3bl9vvztnjas4wp1m2tln9i6.svg')
+              'https://baush-app.xpager.ru/upload/uf/aa5/heterm9de8wkk1pvr37o5rqxrymh66cd.jpg')
           as String,
       count: map['count'] as int,
       logos: map['logos'] != null

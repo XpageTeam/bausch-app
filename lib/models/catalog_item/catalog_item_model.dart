@@ -3,10 +3,20 @@ import 'package:bausch/models/mappable_object.dart';
 
 class CatalogItemModel implements MappableInterface<CatalogItemModel> {
   final int id;
+
+  //* Название товара
   final String name;
+
+  //* Текст для infoSection
   final String previewText;
+
+  //* Текст для legalInfo
   final String detailText;
+
+  //* Ссылка на картинку
   final String picture;
+
+  //* цена товара
   final int price;
 
   CatalogItemModel({
@@ -51,7 +61,13 @@ class CatalogItemModel implements MappableInterface<CatalogItemModel> {
 
   @override
   Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'previewText': previewText,
+      'detailtext': detailText,
+      'picture': picture,
+      'price': price,
+    };
   }
 }
