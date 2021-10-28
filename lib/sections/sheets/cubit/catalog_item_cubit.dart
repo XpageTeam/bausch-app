@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 
 part 'catalog_item_state.dart';
 
+//* Получение товаров из раздела 'Бесплатная упаковка'
 class CatalogItemCubit extends Cubit<CatalogItemState> {
   CatalogItemCubit() : super(CatalogItemInitial()) {
     loadData();

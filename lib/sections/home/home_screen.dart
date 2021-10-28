@@ -3,6 +3,7 @@ import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
+import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -114,37 +115,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   [
                     //* Вам может быть интересно
                     const MayBeInteresting(),
-                    CustomTextButton(
-                      title: 'Правила программы',
-                      onPressed: () {
-                        showSimpleSheet(
-                          context,
-                          SimpleSheetModel(
-                            title: 'Частые вопросы',
-                            type: SimpleSheetType.rules,
-                          ),
-                        );
-                      },
-                    ),
-                    CustomTextButton(
-                      title: 'Частые вопросы',
-                      onPressed: () {
-                        showSimpleSheet(
-                          context,
-                          SimpleSheetModel(
-                            title: 'Частые вопросы',
-                            type: SimpleSheetType.faq,
-                          ),
-                        );
-                      },
-                    ),
-                    const CustomTextButton(title: 'Библиотека ссылок'),
+
+                    //* Текстовые кнопки(Частые вопросы и тд)
+                    const TextButtonsSection(),
                     const SizedBox(
                       height: 100,
                     ),
                     Image.asset('assets/logo.png'),
                     const SizedBox(
-                      height: 120,
+                      height: 60,
                     ),
                   ],
                 ),

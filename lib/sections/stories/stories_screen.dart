@@ -100,7 +100,7 @@ class _StoriesScreenState extends State<StoriesScreen>
                     return Image.network(
                       story.content.file,
                       fit: BoxFit.cover,
-                      color: Colors.red,
+                      //color: Colors.red.withAlpha(10),
                     );
                   case MediaType.video:
                     if (_videoPlayerController.value.isInitialized) {
