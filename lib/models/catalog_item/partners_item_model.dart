@@ -2,19 +2,19 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/mappable_object.dart';
 
-class ConsultationItemModel extends CatalogItemModel
-    implements MappableInterface<ConsultationItemModel> {
-  //* Продолжительность консультации в минутах
-  final int length;
-
-  ConsultationItemModel({
+class PartnersItemModel extends CatalogItemModel
+    implements MappableInterface<PartnersItemModel> {
+  final String poolPromoCode;
+  final String staticPromoCode;
+  PartnersItemModel({
     required int id,
     required String name,
     required String previewText,
     required String detailText,
     required String picture,
     required int price,
-    required this.length,
+    required this.poolPromoCode,
+    required this.staticPromoCode,
   }) : super(
           id: id,
           name: name,
@@ -24,7 +24,7 @@ class ConsultationItemModel extends CatalogItemModel
           price: price,
         );
 
-  factory ConsultationItemModel.fromMap(Map<String, dynamic> map) {
+  factory PartnersItemModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
       throw ResponseParseExeption('Не передан идентификатор');
     }
@@ -44,7 +44,7 @@ class ConsultationItemModel extends CatalogItemModel
       throw ResponseParseExeption('Не передана цена товара');
     }
 
-    return ConsultationItemModel(
+    return PartnersItemModel(
       id: map['id'] as int,
       name: map['name'] as String,
       previewText: map['preview_text'] as String,
@@ -52,7 +52,8 @@ class ConsultationItemModel extends CatalogItemModel
       picture:
           'https://ryady.ru/upload/resize_cache/iblock/6c2/600_600_1/000000000000060033_0.jpg',
       price: (map['price'] ?? 150) as int,
-      length: map['length'] as int,
+      poolPromoCode: map['pool_promo_code'] as String,
+      staticPromoCode: map['static_promo_code'] as String,
     );
   }
 

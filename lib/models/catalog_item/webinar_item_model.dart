@@ -4,7 +4,9 @@ import 'package:bausch/models/mappable_object.dart';
 
 class WebinarItemModel extends CatalogItemModel
     implements MappableInterface<WebinarItemModel> {
+  //* Идентификатор ролика
   final String vimeoId;
+
   WebinarItemModel({
     required int id,
     required String name,

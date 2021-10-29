@@ -35,7 +35,11 @@ class FinalConsultation extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(icon: Container(), key: key),
+                    CustomSliverAppbar.toPop(
+                      icon: Container(),
+                      key: key,
+                      rightKey: Keys.mainNav,
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(

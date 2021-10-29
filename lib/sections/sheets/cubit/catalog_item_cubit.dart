@@ -2,7 +2,9 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
@@ -39,14 +41,19 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
             items: (parsedData.data as List<dynamic>).map(
               (dynamic item) {
                 if (section == StaticData.types['webinar']) {
-                  debugPrint('webinar');
                   return WebinarItemModel.fromMap(item as Map<String, dynamic>);
                 } else if (section == StaticData.types['consultation']) {
                   return ConsultationItemModel.fromMap(
                     item as Map<String, dynamic>,
                   );
+                } else if (section == StaticData.types['partners']) {
+                  return PartnersItemModel.fromMap(
+                    item as Map<String, dynamic>,
+                  );
+                } else if ((section == StaticData.types['discount_optics']) ||
+                    (section == StaticData.types['discount_online'])) {
+                  return PromoItemModel.fromMap(item as Map<String, dynamic>);
                 } else {
-                  debugPrint('product');
                   return ProductItemModel.fromMap(item as Map<String, dynamic>);
                 }
               },

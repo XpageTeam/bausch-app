@@ -2,19 +2,17 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/mappable_object.dart';
 
-class ConsultationItemModel extends CatalogItemModel
-    implements MappableInterface<ConsultationItemModel> {
-  //* Продолжительность консультации в минутах
-  final int length;
-
-  ConsultationItemModel({
+class PromoItemModel extends CatalogItemModel
+    implements MappableInterface<PromoItemModel> {
+  final String code;
+  PromoItemModel({
     required int id,
     required String name,
     required String previewText,
     required String detailText,
     required String picture,
     required int price,
-    required this.length,
+    required this.code,
   }) : super(
           id: id,
           name: name,
@@ -24,14 +22,14 @@ class ConsultationItemModel extends CatalogItemModel
           price: price,
         );
 
-  factory ConsultationItemModel.fromMap(Map<String, dynamic> map) {
+  factory PromoItemModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
       throw ResponseParseExeption('Не передан идентификатор');
     }
 
-    if (map['name'] == null) {
-      throw ResponseParseExeption('Не передано название товара');
-    }
+    // if (map['name'] == null) {
+    //   throw ResponseParseExeption('Не передано название товара');
+    // }
 
     if (map['preview_text'] == null) {
       throw ResponseParseExeption('Не передан превью текст');
@@ -44,15 +42,15 @@ class ConsultationItemModel extends CatalogItemModel
       throw ResponseParseExeption('Не передана цена товара');
     }
 
-    return ConsultationItemModel(
+    return PromoItemModel(
       id: map['id'] as int,
-      name: map['name'] as String,
+      name: (map['name'] ?? map['title']) as String,
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
       picture:
           'https://ryady.ru/upload/resize_cache/iblock/6c2/600_600_1/000000000000060033_0.jpg',
       price: (map['price'] ?? 150) as int,
-      length: map['length'] as int,
+      code: map['code'] as String,
     );
   }
 

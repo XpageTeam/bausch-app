@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -15,7 +16,7 @@ class PartnersScreen extends StatelessWidget implements SheetScreenArguments {
   final ScrollController controller;
 
   @override
-  final ProductItemModel model;
+  final PartnersItemModel model;
 
   const PartnersScreen({
     required this.controller,
@@ -75,8 +76,10 @@ class PartnersScreen extends StatelessWidget implements SheetScreenArguments {
               child: BlueButtonWithText(
                 text: 'Получить поощрение',
                 onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_webinar');
+                  Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                    '/verification_partners',
+                    arguments: SheetScreenArguments(model: model),
+                  );
                 },
               ),
             ),

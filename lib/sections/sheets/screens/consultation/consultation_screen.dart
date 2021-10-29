@@ -3,6 +3,7 @@ import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -27,6 +28,7 @@ class ConsultationScreen extends StatefulWidget {
 class _ConsultationScreenState extends State<ConsultationScreen> {
   final CatalogItemCubit catalogItemCubit =
       CatalogItemCubit(section: StaticData.types['consultation']!);
+  late ConsultationItemModel model;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -40,6 +42,8 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           bloc: catalogItemCubit,
           builder: (context, state) {
             if (state is CatalogItemSuccess) {
+              model = state.items[0] as ConsultationItemModel;
+
               return CustomScrollView(
                 controller: widget.controller,
                 slivers: [
@@ -113,8 +117,10 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
               child: BlueButtonWithText(
                 text: 'Потратить баллы',
                 onPressed: () {
-                  Keys.bottomSheetWithoutItemsNav.currentState!
-                      .pushNamed('/verification_consultation');
+                  Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
+                    '/verification_consultation',
+                    arguments: SheetScreenArguments(model: model),
+                  );
                 },
               ),
             ),

@@ -7,6 +7,7 @@ import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
@@ -62,14 +63,14 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
           case '/verification_consultation':
             page = ConsultationVerification(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 
           case '/final_consultation':
             page = FinalConsultation(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 

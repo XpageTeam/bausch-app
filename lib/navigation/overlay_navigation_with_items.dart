@@ -1,6 +1,8 @@
 // ignore_for_file: unused_import
 
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
@@ -10,7 +12,9 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_s
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
+import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
+import 'package:bausch/sections/sheets/screens/parners/partners_verification.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
@@ -55,18 +59,19 @@ class OverlayNavigationWithItems extends StatelessWidget {
             );
             break;
 
-          // case '/discount_optics':
-          //   page = DiscountOpticsScreen(
-          //     controller: controller,
-          //     model: Models.items[2],
-          //   );
-          //   break;
+          case '/offline':
+            page = DiscountOpticsScreen(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
+            );
+            break;
 
           case '/onlineShop':
             page = DiscountOnlineScreen(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
-                  as ProductItemModel,
+                  as PromoItemModel,
             );
             break;
 
@@ -74,7 +79,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
             page = PartnersScreen(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
-                  as ProductItemModel,
+                  as PartnersItemModel,
             );
             break;
 
@@ -86,33 +91,51 @@ class OverlayNavigationWithItems extends StatelessWidget {
             );
             break;
 
-          // case '/verification_discount':
-          //   page = DiscountVerification(
-          //     controller: controller,
-          //     model: Models.items[2],
-          //   );
-          //   break;
+          case '/verification_discount':
+            page = DiscountVerification(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
+            );
+            break;
 
-          // case '/verification_webinar':
-          //   page = WebinarVerification(
-          //     controller: controller,
-          //     model: Models.items[2],
-          //   );
-          //   break;
+          case '/verification_webinar':
+            page = WebinarVerification(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model,
+            );
+            break;
 
-          // case '/final_webinar':
-          //   page = FinalWebinar(
-          //     controller: controller,
-          //     model: Models.items[2],
-          //   );
-          //   break;
+          case '/verification_partners':
+            page = PartnersVerification(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PartnersItemModel,
+            );
+            break;
 
-          // case '/final_discount':
-          //   page = FinalDiscountOptics(
-          //     controller: controller,
-          //     model: Models.items[2],
-          //   );
-          //   break;
+          case '/final_webinar':
+            page = FinalWebinar(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model,
+            );
+            break;
+
+          case '/final_partners':
+            page = FinalPartners(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PartnersItemModel,
+            );
+            break;
+
+          case '/final_discount':
+            page = FinalDiscountOptics(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
+            );
+            break;
 
           // case '/final_free_packaging':
           //   page = FinalWebinar(

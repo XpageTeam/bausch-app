@@ -20,6 +20,8 @@ class StaticData {
     'webinar': 'promo_code_video',
     'consultation': 'online_consultation',
     'discount_optics': 'offline',
+    'discount_online': 'onlineShop',
+    'partners': 'promo_code_immediately',
   };
 }
 

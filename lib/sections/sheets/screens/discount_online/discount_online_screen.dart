@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -19,7 +20,7 @@ class DiscountOnlineScreen extends StatelessWidget
     implements SheetScreenArguments {
   final ScrollController controller;
   @override
-  final ProductItemModel model;
+  final PromoItemModel model;
   const DiscountOnlineScreen({
     required this.controller,
     required this.model,

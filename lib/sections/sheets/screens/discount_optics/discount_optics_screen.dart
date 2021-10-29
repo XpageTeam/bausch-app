@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -22,7 +23,7 @@ class DiscountOpticsScreen extends StatelessWidget
   final ScrollController controller;
 
   @override
-  final ProductItemModel model;
+  final PromoItemModel model;
 
   const DiscountOpticsScreen({
     required this.controller,
@@ -130,8 +131,10 @@ class DiscountOpticsScreen extends StatelessWidget
               child: BlueButtonWithText(
                 text: 'Получить скидку',
                 onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_discount');
+                  Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                    '/verification_discount',
+                    arguments: SheetScreenArguments(model: model),
+                  );
                 },
               ),
             ),

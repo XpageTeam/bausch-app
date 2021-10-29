@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -9,10 +10,10 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
-class ConsultationVerification extends StatelessWidget {
+class PartnersVerification extends StatelessWidget {
   final ScrollController controller;
-  final CatalogItemModel model;
-  const ConsultationVerification({
+  final PartnersItemModel model;
+  const PartnersVerification({
     required this.controller,
     required this.model,
     Key? key,
@@ -40,8 +41,10 @@ class ConsultationVerification extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomSliverAppbar.toCloseAndPop(
-                          key,
+                        CustomSliverAppbar.toPop(
+                          icon: Container(),
+                          key: key,
+                          backgroundColor: Colors.white,
                         ),
                         const SizedBox(
                           height: 20,
@@ -95,8 +98,8 @@ class ConsultationVerification extends StatelessWidget {
                 child: BlueButtonWithText(
                   text: 'Потратить баллы',
                   onPressed: () {
-                    Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
-                      '/final_consultation',
+                    Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                      '/final_partners',
                       arguments: SheetScreenArguments(model: model),
                     );
                   },

@@ -1,6 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/catalog_item/product_item_model.dart';
-import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -10,10 +9,10 @@ import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
-class FinalDiscountOptics extends StatelessWidget {
+class FinalPartners extends StatelessWidget {
   final ScrollController controller;
-  final PromoItemModel model;
-  const FinalDiscountOptics({
+  final PartnersItemModel model;
+  const FinalPartners({
     required this.controller,
     required this.model,
     Key? key,
@@ -40,9 +39,12 @@ class FinalDiscountOptics extends StatelessWidget {
                   [
                     CustomSliverAppbar.toPop(icon: Container(), key: key),
                     const Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 40),
+                      padding: EdgeInsets.only(
+                        top: 20,
+                        bottom: 40,
+                      ),
                       child: Text(
-                        'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
+                        'Ваш промокод',
                         style: AppStyles.h2,
                       ),
                     ),
@@ -51,7 +53,7 @@ class FinalDiscountOptics extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model.code,
+                            model.poolPromoCode,
                             style: AppStyles.h2,
                           ),
                         ],
@@ -63,7 +65,7 @@ class FinalDiscountOptics extends StatelessWidget {
                         bottom: 40,
                       ),
                       child: Text(
-                        'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
+                        'Доступ видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
                         style: AppStyles.p1,
                       ),
                     ),

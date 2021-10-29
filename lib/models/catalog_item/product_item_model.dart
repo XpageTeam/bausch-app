@@ -42,7 +42,8 @@ class ProductItemModel extends CatalogItemModel
 
     return ProductItemModel(
       id: map['id'] as int,
-      name: (map['name'] ?? 'name') as String,
+      //TODO(Nikita): Попросить сделать одинаковые названия
+      name: (map['name'] ?? map['title']) as String,
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
       picture:

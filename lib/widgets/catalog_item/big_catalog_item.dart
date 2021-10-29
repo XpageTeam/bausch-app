@@ -45,7 +45,7 @@ class BigCatalogItem extends StatelessWidget {
           const SizedBox(
             width: 4,
           ),
-          Image.asset(
+          Image.network(
             model.picture,
             height: 100,
           ),
