@@ -7,24 +7,28 @@ import 'package:flutter/material.dart';
 class DefaultCatalogItem extends StatelessWidget {
   final CatalogItemModel model;
   final double rightMargin;
+  final double itemWidth;
+  final VoidCallback? onPressed;
+
   const DefaultCatalogItem({
     required this.model,
     required this.rightMargin,
+    required this.itemWidth,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onPressed,
       child: Container(
         margin: EdgeInsets.only(right: rightMargin),
         padding: const EdgeInsets.symmetric(
           vertical: StaticData.sidePadding,
           horizontal: StaticData.sidePadding,
         ),
-        width:
-            MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2,
+        width: itemWidth,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),

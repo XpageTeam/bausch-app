@@ -39,28 +39,124 @@ class Models {
 
   static List<CatalogItemModel> items = [
     CatalogItemModel(
-      name: 'Раствор Biotrue универсальный(300 мл)',
+      name: '1. Раствор Biotrue универсальный(300 мл)',
       price: '1300',
       img: 'assets/items/item1.png',
     ),
     CatalogItemModel(
-      name: 'Biotrue one day (30 линз в упаковке)',
+      name: '2. Biotrue one day (30 линз в упаковке)',
       price: '600',
       img: 'assets/items/item2.png',
     ),
     CatalogItemModel(
-      name: 'Раствор',
+      name: '3. Раствор',
       price: '1300',
       img: 'assets/items/item1.png',
     ),
     CatalogItemModel(
-      name: 'Раствор',
+      name: '4. Раствор',
       price: '1300',
       img: 'assets/items/item1.png',
     ),
     CatalogItemModel(
-      name: 'Раствор',
+      name: '5. Раствор',
       price: '1300',
+    ),
+    CatalogItemModel(
+      name: '6. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '7. Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
+    ),
+    CatalogItemModel(
+      name: '8. Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
+    CatalogItemModel(
+      name: '9. Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
+    CatalogItemModel(
+      name: '10. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '11. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '12. Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
+    ),
+    CatalogItemModel(
+      name: '13. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '14. Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
+    ),
+    CatalogItemModel(
+      name: '15. Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
+    CatalogItemModel(
+      name: '16. Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
+    CatalogItemModel(
+      name: '17. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '18. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '19. Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
+    ),
+    CatalogItemModel(
+      name: '20. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '21. Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
+    ),
+    CatalogItemModel(
+      name: '22. Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
+    CatalogItemModel(
+      name: '23. Раствор',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
+    CatalogItemModel(
+      name: '24. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '25. Раствор',
+      price: '1300',
+    ),
+    CatalogItemModel(
+      name: '26. Biotrue one day (30 линз в упаковке)',
+      price: '600',
+      img: 'assets/items/item2.png',
     ),
   ];
 

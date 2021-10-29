@@ -14,19 +14,22 @@ class _MayBeInterestingState extends State<MayBeInteresting> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Вам может быть интересно',
-          style: AppStyles.h1,
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Вам может быть интересно',
+            style: AppStyles.h1,
+          ),
         ),
         const SizedBox(
           height: 20,
         ),
 
         // Слайдер с товаром
-        HomeScreenItemSlider(
-          modelList: Models.items,
+        CustomItemSlider(
+          items: Models.items.take(12).toList(),
+          animationDuration: const Duration(milliseconds: 250),
         ),
       ],
     );

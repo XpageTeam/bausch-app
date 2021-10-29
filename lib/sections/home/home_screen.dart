@@ -22,6 +22,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
+      extendBody: true,
       primary: false,
       body: SafeArea(
         child: CustomScrollView(
@@ -119,7 +120,7 @@ class HomeScreen extends StatelessWidget {
             ),
             SliverPadding(
               padding: const EdgeInsets.only(
-                bottom: 20,
+                bottom: 30,
                 left: StaticData.sidePadding,
                 right: StaticData.sidePadding,
               ),
@@ -128,41 +129,49 @@ class HomeScreen extends StatelessWidget {
                   [
                     //* Вам может быть интересно
                     const MayBeInteresting(),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    CustomTextButton(
-                      title: 'Правила программы',
-                      onPressed: () {},
-                    ),
-                    CustomTextButton(
-                      title: 'Частые вопросы',
-                      onPressed: () {
-                        showSimpleSheet(
-                          context,
-                          SimpleSheetModel(
-                            title: 'Частые вопросы',
-                            type: SimpleSheetType.faq,
-                          ),
-                        );
-                      },
-                    ),
-                    const CustomTextButton(title: 'Библиотека ссылок'),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    Image.asset('assets/logo.png'),
-                    const SizedBox(
-                      height: 120,
-                    ),
                   ],
                 ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  CustomTextButton(
+                    title: 'Правила программы',
+                    onPressed: () {},
+                  ),
+                  CustomTextButton(
+                    title: 'Частые вопросы',
+                    onPressed: () {
+                      showSimpleSheet(
+                        context,
+                        SimpleSheetModel(
+                          title: 'Частые вопросы',
+                          type: SimpleSheetType.faq,
+                        ),
+                      );
+                    },
+                  ),
+                  CustomTextButton(
+                    onPressed: () {},
+                    title: 'Библиотека ссылок',
+                  ),
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                bottom: 20,
+                top: 100,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: Image.asset('assets/logo.png'),
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: DelayedAnimatedTranslateOpacity(
+      bottomNavigationBar: DelayedAnimatedTranslateOpacity(
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
@@ -172,7 +181,6 @@ class HomeScreen extends StatelessWidget {
         ),
         animationDuration: Duration.zero,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

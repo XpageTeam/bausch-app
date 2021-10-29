@@ -25,6 +25,9 @@ class QuestionScreen extends StatelessWidget {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
+                  const SizedBox(
+                    height: 14,
+                  ),
                   DefaultAppBar(
                     title: 'Частые вопросы',
                     backgroundColor: AppTheme.mystic,
