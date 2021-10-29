@@ -23,7 +23,7 @@ class OfferWidget extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            showSheetWithoutItems(context, Models.sheets[1]);
+            //showSheetWithoutItems(context, Models.sheets[1]);
           },
           child: Container(
             decoration: BoxDecoration(

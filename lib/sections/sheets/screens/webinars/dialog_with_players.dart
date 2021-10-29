@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DialogWithPlayers extends StatefulWidget {
-  const DialogWithPlayers({Key? key}) : super(key: key);
+  final String vimeoId;
+  const DialogWithPlayers({required this.vimeoId, Key? key}) : super(key: key);
 
   @override
   _DialogWithPlayersState createState() => _DialogWithPlayersState();
 }
 
 class _DialogWithPlayersState extends State<DialogWithPlayers> {
-  final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'iLnmTe5Q2Qw',
-    flags: const YoutubePlayerFlags(
-      mute: true,
-      autoPlay: false,
-    ),
-  );
+  // final YoutubePlayerController _controller = YoutubePlayerController(
+  //   initialVideoId: 'iLnmTe5Q2Qw',
+  //   flags: const YoutubePlayerFlags(
+  //     mute: true,
+  //     autoPlay: false,
+  //   ),
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +30,24 @@ class _DialogWithPlayersState extends State<DialogWithPlayers> {
             width: 350,
             height: 200,
             child: VimeoPlayer(
-              id: '395212534',
+              id: widget.vimeoId,
               //allowFullScreen: true,
             ),
           ),
-          const Text('Youtube'),
-          SizedBox(
-            height: 200,
-            width: 350,
-            child: YoutubePlayerBuilder(
-              builder: (context, player) {
-                return player;
-              },
-              player: YoutubePlayer(
-                controller: _controller,
-                //width: MediaQuery.of(context).size.width,
-              ),
-            ),
-          ),
+          // const Text('Youtube'),
+          // SizedBox(
+          //   height: 200,
+          //   width: 350,
+          //   child: YoutubePlayerBuilder(
+          //     builder: (context, player) {
+          //       return player;
+          //     },
+          //     player: YoutubePlayer(
+          //       controller: _controller,
+          //       //width: MediaQuery.of(context).size.width,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

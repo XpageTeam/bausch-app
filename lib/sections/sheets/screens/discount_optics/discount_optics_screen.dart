@@ -1,8 +1,10 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/sections/shops/shops_screen.dart';
@@ -15,9 +17,13 @@ import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
 
 //catalog_discount_optics
-class DiscountOpticsScreen extends StatelessWidget {
+class DiscountOpticsScreen extends StatelessWidget
+    implements SheetScreenArguments {
   final ScrollController controller;
-  final CatalogItemModel model;
+
+  @override
+  final ProductItemModel model;
+
   const DiscountOpticsScreen({
     required this.controller,
     required this.model,

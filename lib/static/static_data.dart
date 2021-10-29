@@ -14,6 +14,13 @@ class StaticData {
   ];
 
   static String apiUrl = 'https://baush-app.xpager.ru/api/';
+
+  //* Названия типов разделов, чтобы не менять во всех местах
+  static Map<String, String> types = {
+    'webinar': 'promo_code_video',
+    'consultation': 'online_consultation',
+    'discount_optics': 'offline',
+  };
 }
 
 //* Типы экранов с элементами каталога

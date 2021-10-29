@@ -49,7 +49,7 @@ void showSimpleSheet(BuildContext context, SimpleSheetModel model) {
 }
 
 //* Функция вывода bottomSheet без элементов каталога
-void showSheetWithoutItems(BuildContext context, SheetModelWithoutItems model) {
+void showSheetWithoutItems(BuildContext context, BaseCatalogSheetModel model) {
   showFlexibleBottomSheet<void>(
     useRootNavigator: true,
     minHeight: 0,
@@ -61,7 +61,7 @@ void showSheetWithoutItems(BuildContext context, SheetModelWithoutItems model) {
     builder: (context, controller, d) {
       return SheetWidget(
         child: OverlayNavigationWithoutItems(
-          sheetModel: model,
+          model: model,
           controller: controller,
         ),
       );

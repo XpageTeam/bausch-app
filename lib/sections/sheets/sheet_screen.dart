@@ -36,7 +36,19 @@ class SheetScreen extends StatefulWidget {
 }
 
 class _SheetScreenState extends State<SheetScreen> {
-  final CatalogItemCubit catalogItemCubit = CatalogItemCubit();
+  late CatalogItemCubit catalogItemCubit =
+      CatalogItemCubit(section: widget.sheetModel.type);
+
+  @override
+  void dispose() {
+    super.dispose();
+    catalogItemCubit.close();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +109,10 @@ class _SheetScreenState extends State<SheetScreen> {
                               CatalogItem(
                                 //context,
                                 model: state.items[i * 2],
-                                isProduct:
-                                    widget.sheetModel.type != 'promo_code_video'
-                                        ? true
-                                        : false,
+                                isProduct: widget.sheetModel.type !=
+                                        StaticData.types['webinar']
+                                    ? true
+                                    : false,
                                 onTap: () {
                                   Keys.bottomSheetItemsNav.currentState!
                                       .pushNamed(
@@ -116,7 +128,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                   //context,
                                   model: state.items[i * 2 + 1],
                                   isProduct: widget.sheetModel.type !=
-                                          'promo_code_video'
+                                          StaticData.types['webinar']
                                       ? true
                                       : false,
                                   onTap: () {
@@ -158,6 +170,12 @@ class _SheetScreenState extends State<SheetScreen> {
                     ),
                   ),
                 ],
+              );
+            }
+            if (state is CatalogItemFailed) {
+              debugPrint(state.subtitle);
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
               );
             }
             return const Center(

@@ -3,6 +3,7 @@
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,6 +24,9 @@ class WideContainerWithItems extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return WhiteContainerWithRoundedCorners(
+      onTap: () {
+        showSheetWithItems(context, model);
+      },
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

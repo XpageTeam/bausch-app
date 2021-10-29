@@ -1,3 +1,4 @@
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
@@ -13,10 +14,10 @@ import 'package:flutter/material.dart';
 //* Навигатор для bottomSheet'а без элементов каталога
 class OverlayNavigationWithoutItems extends StatelessWidget {
   final ScrollController controller;
-  final SheetModelWithoutItems sheetModel;
+  final BaseCatalogSheetModel model;
   const OverlayNavigationWithoutItems({
     required this.controller,
-    required this.sheetModel,
+    required this.model,
     Key? key,
   }) : super(key: key);
 
@@ -30,13 +31,10 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
 
         switch (settings.name) {
           case '/':
-            if (sheetModel.type == SheetWithoutItemsType.consultation) {
+            if (model.type == StaticData.types['consultation']) {
               page = ConsultationScreen(
                 controller: controller,
-                model: Models.items[2],
               );
-            } else if (sheetModel.type == SheetWithoutItemsType.program) {
-              page = ProgramScreen(controller: controller);
             } else {
               page = AddPointsScreen(
                 controller: controller,
@@ -47,7 +45,6 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
           case '/consultation':
             page = ConsultationScreen(
               controller: controller,
-              model: Models.items[2],
             );
             break;
 

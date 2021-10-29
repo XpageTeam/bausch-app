@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomFloatingActionButton(
         text: 'Добавить баллы',
         onPressed: () {
-          showSheetWithoutItems(context, Models.sheets[2]);
+          //showSheetWithoutItems(context, Models.sheets[2]);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

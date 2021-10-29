@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -55,7 +56,7 @@ class TopSection extends StatelessWidget {
         );
 
   TopSection.consultation(
-    CatalogItemModel model,
+    ConsultationItemModel model,
     Widget leftIcon,
     Key? key,
   ) : this(

@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import
 
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
@@ -46,13 +48,6 @@ class OverlayNavigationWithItems extends StatelessWidget {
 
             break;
 
-          case '/online_consultation':
-            page = ConsultationScreen(
-              controller: controller,
-              model: Models.items[0],
-            );
-            break;
-
           case '/free_product':
             page = FreePackagingScreen(
               controller: controller,
@@ -70,21 +65,24 @@ class OverlayNavigationWithItems extends StatelessWidget {
           case '/onlineShop':
             page = DiscountOnlineScreen(
               controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as ProductItemModel,
             );
             break;
 
           case '/promo_code_immediately':
             page = PartnersScreen(
               controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as ProductItemModel,
             );
             break;
 
           case '/promo_code_video':
             page = WebinarsScreen(
               controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as WebinarItemModel,
             );
             break;
 

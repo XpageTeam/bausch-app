@@ -1,16 +1,21 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 part 'catalog_item_state.dart';
 
-//* Получение товаров из раздела 'Бесплатная упаковка'
 class CatalogItemCubit extends Cubit<CatalogItemState> {
-  CatalogItemCubit() : super(CatalogItemInitial()) {
+  final String section;
+  CatalogItemCubit({required this.section}) : super(CatalogItemInitial()) {
     loadData();
   }
 
@@ -22,8 +27,8 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
     try {
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.get<Map<String, dynamic>>(
-          'catalog/products/',
-          queryParameters: <String, dynamic>{'section': 'free_product'},
+          'catalog/products',
+          queryParameters: <String, dynamic>{'section': section},
         ))
             .data!,
       );
@@ -31,10 +36,21 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
       if (parsedData.success) {
         emit(
           CatalogItemSuccess(
-            items: (parsedData.data as List<dynamic>)
-                .map((dynamic item) =>
-                    CatalogItemModel.fromMap(item as Map<String, dynamic>))
-                .toList(),
+            items: (parsedData.data as List<dynamic>).map(
+              (dynamic item) {
+                if (section == StaticData.types['webinar']) {
+                  debugPrint('webinar');
+                  return WebinarItemModel.fromMap(item as Map<String, dynamic>);
+                } else if (section == StaticData.types['consultation']) {
+                  return ConsultationItemModel.fromMap(
+                    item as Map<String, dynamic>,
+                  );
+                } else {
+                  debugPrint('product');
+                  return ProductItemModel.fromMap(item as Map<String, dynamic>);
+                }
+              },
+            ).toList(),
           ),
         );
       } else {
