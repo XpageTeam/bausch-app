@@ -57,13 +57,9 @@ class SliderCubit extends Cubit<SliderState> {
   }
 
   Future<void> slidePageTo(int direction) async {
-    debugPrint('direction: $direction');
-    await Future.delayed(
-      Duration.zero,
-      () => emit(
-        SliderSlideTo(
-          direction: direction,
-        ),
+    emit(
+      SliderSlideTo(
+        direction: direction,
       ),
     );
   }

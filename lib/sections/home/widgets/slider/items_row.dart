@@ -1,16 +1,17 @@
 import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/sections/home/widgets/default_catalog_item.dart';
 import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
+import 'package:bausch/sections/home/widgets/slider/no_glow_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ItemRow extends StatefulWidget {
+class ItemsRow extends StatefulWidget {
   final List<CatalogItemModel> items;
   final int itemsOnPage;
   final double spaceBetween;
   final Duration animationDuration;
 
-  const ItemRow({
+  const ItemsRow({
     required this.items,
     required this.animationDuration,
     this.itemsOnPage = 2,
@@ -19,12 +20,12 @@ class ItemRow extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ItemRow> createState() => _ItemRowState();
+  State<ItemsRow> createState() => _ItemsRowState();
 }
 
-class _ItemRowState extends State<ItemRow> with TickerProviderStateMixin {
+class _ItemsRowState extends State<ItemsRow> with TickerProviderStateMixin {
   late final ScrollController controller = ScrollController(
-    initialScrollOffset: (maxWidth + 4) * 2,
+    initialScrollOffset: (maxWidth + widget.spaceBetween) * 2,
   );
 
 // TODO(Nikolay): ! Проблема !.
@@ -40,7 +41,6 @@ class _ItemRowState extends State<ItemRow> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // sliderCubit = BlocProvider.of<SliderCubit>(context);
 
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) {
@@ -103,11 +103,10 @@ class _ItemRowState extends State<ItemRow> with TickerProviderStateMixin {
                 return true;
               },
               child: ScrollConfiguration(
-                behavior: MyBehavior(),
+                behavior: NoGlowScrollBehavior(),
                 child: SingleChildScrollView(
                   controller: controller,
                   scrollDirection: Axis.horizontal,
-                  // physics: physics,
                   child: IntrinsicHeight(
                     child: Row(
                       children: List.generate(
@@ -156,59 +155,6 @@ class _ItemRowState extends State<ItemRow> with TickerProviderStateMixin {
     await Future.delayed(
       Duration.zero,
       () => controller.jumpTo(offset),
-    );
-  }
-
-  Future<void> animateTo(double offset) async {
-    await Future.delayed(
-      Duration.zero,
-      () => controller.animateTo(
-        offset,
-        duration: const Duration(
-          milliseconds: 300,
-        ),
-        curve: Curves.linear,
-      ),
-    );
-  }
-}
-
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildViewportChrome(
-    BuildContext context,
-    Widget child,
-    AxisDirection axisDirection,
-  ) {
-    return child;
-  }
-}
-
-class ConstrainedItemRow extends StatelessWidget {
-  final Duration animationDuration;
-  final int itemsOnPage;
-  final double spaceBetween;
-  final List<CatalogItemModel> items;
-  const ConstrainedItemRow({
-    required this.animationDuration,
-    required this.itemsOnPage,
-    required this.spaceBetween,
-    required this.items,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return ItemRow(
-          // maxWidth: constraints.maxWidth,
-          animationDuration: animationDuration,
-          itemsOnPage: itemsOnPage,
-          spaceBetween: spaceBetween,
-          items: items,
-        );
-      },
     );
   }
 }
