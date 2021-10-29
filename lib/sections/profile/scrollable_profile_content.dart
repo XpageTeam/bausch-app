@@ -36,6 +36,7 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
             expandedHeight: 70,
             pinned: true,
             elevation: 0,
+            leading: Container(),
             flexibleSpace: Container(
               color: AppTheme.mystic,
               padding: const EdgeInsets.only(

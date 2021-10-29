@@ -24,7 +24,7 @@ class _LoadingScreenState extends State<LoadingScreen>
   late RiveAnimationController afterController;
 
   //* Анимация начнется примерно через 2 секунды после initState
-  Interval interval = const Interval(0.7, 1.0, curve: Curves.easeInOut);
+  Interval interval = const Interval(0.5, 0.8, curve: Curves.easeInOut);
 
   double opacity = 0;
 
