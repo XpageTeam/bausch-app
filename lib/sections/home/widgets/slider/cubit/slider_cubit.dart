@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'slider_state.dart';
@@ -24,24 +25,24 @@ part 'slider_state.dart';
 //     );
 //   }
 
-  // int _calcDirection(int page) {
-  //   if (page > state.page) {
-  //     if (page - state.page > 2) {
-  //       return -1;
-  //     } else {
-  //       return 1;
-  //     }
-  //   }
-  //   if (page < state.page) {
-  //     if (page - state.page < -2) {
-  //       return 1;
-  //     } else {
-  //       return -1;
-  //     }
-  //   }
+// int _calcDirection(int page) {
+//   if (page > state.page) {
+//     if (page - state.page > 2) {
+//       return -1;
+//     } else {
+//       return 1;
+//     }
+//   }
+//   if (page < state.page) {
+//     if (page - state.page < -2) {
+//       return 1;
+//     } else {
+//       return -1;
+//     }
+//   }
 
-  //   return 0;
-  // }
+//   return 0;
+// }
 // }
 
 class SliderCubit extends Cubit<SliderState> {
@@ -55,10 +56,14 @@ class SliderCubit extends Cubit<SliderState> {
     );
   }
 
-  void slidePageTo(int direction) {
-    emit(
-      SliderSlideTo(
-        direction: direction,
+  Future<void> slidePageTo(int direction) async {
+    debugPrint('direction: $direction');
+    await Future.delayed(
+      Duration.zero,
+      () => emit(
+        SliderSlideTo(
+          direction: direction,
+        ),
       ),
     );
   }
