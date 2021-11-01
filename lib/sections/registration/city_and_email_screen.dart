@@ -114,11 +114,16 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
         ),
       ),
       floatingActionButton: isValidated
-          ? const Padding(
-              padding: EdgeInsets.symmetric(
+          ? Padding(
+              padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
               ),
-              child: BlueButtonWithText(text: 'Готово'),
+              child: BlueButtonWithText(
+                text: 'Готово',
+                onPressed: () {
+                  Keys.mainContentNav.currentState!.pushNamed('/home');
+                },
+              ),
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
