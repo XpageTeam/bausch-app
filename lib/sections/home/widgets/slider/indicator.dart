@@ -9,6 +9,7 @@ class Indicator extends StatelessWidget {
   final double indicatorWidth;
   final VoidCallback? onPressed;
   final Duration animationDuration;
+
   const Indicator({
     required this.ownIndex,
     required this.currentIndex,
