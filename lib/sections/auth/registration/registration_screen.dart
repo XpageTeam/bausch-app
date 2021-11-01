@@ -1,4 +1,4 @@
-import 'package:bausch/sections/registration/code_screen.dart';
+import 'package:bausch/sections/auth/registration/code_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -19,6 +19,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController controller = TextEditingController();
   bool isAgree = false;
+  bool isNumberEnough = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +50,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 controller: controller,
                 inputType: TextInputType.phone,
                 textStyle: AppStyles.h1,
+                onChanged: (s) {
+                  if (s.length == 10) {
+                    setState(() {
+                      isNumberEnough = true;
+                    });
+                  } else {
+                    setState(() {
+                      isNumberEnough = false;
+                    });
+                  }
+                },
                 decoration: const InputDecoration(
                   prefix: Text(
                     '+7 ',
@@ -58,16 +70,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             BlueButtonWithText(
               text: 'Продолжить',
-              onPressed: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const CodeScreen();
-                    },
-                  ),
-                );
-              },
+              onPressed: (isAgree && isNumberEnough)
+                  ? () {
+                      //* Переход на экран ввода кода
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const CodeScreen();
+                          },
+                        ),
+                      );
+                    }
+                  : null,
             ),
             const SizedBox(
               height: 20,

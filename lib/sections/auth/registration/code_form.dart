@@ -1,6 +1,6 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:bausch/packages/pin_code_fields/lib/pin_code_fields.dart';
-import 'package:bausch/sections/registration/city_and_email_screen.dart';
+import 'package:bausch/sections/auth/registration/city_and_email_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 

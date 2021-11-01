@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bausch/sections/loading/animated_content.dart';
+import 'package:bausch/sections/auth/loading/animated_content.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
