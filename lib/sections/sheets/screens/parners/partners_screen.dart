@@ -2,6 +2,7 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
+import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -52,10 +53,12 @@ class PartnersScreen extends StatelessWidget implements SheetScreenArguments {
                     ),
                     InfoSection(
                       text: model.previewText,
+                      secondText: model.detailText,
                     ),
                     const SizedBox(
                       height: 4,
                     ),
+                    //LegalInfo(text: model.detailText),
                     Warning.advertisment(),
                     const SizedBox(
                       height: 120,

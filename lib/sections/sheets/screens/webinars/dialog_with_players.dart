@@ -30,7 +30,7 @@ class _DialogWithPlayersState extends State<DialogWithPlayers> {
             width: 350,
             height: 200,
             child: VimeoPlayer(
-              id: widget.vimeoId,
+              id: '577635596',
               //allowFullScreen: true,
             ),
           ),

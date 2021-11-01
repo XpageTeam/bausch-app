@@ -42,6 +42,7 @@ class ConsultationVerification extends StatelessWidget {
                       children: [
                         CustomSliverAppbar.toCloseAndPop(
                           key,
+                          backgroundColor: Colors.white,
                         ),
                         const SizedBox(
                           height: 20,
@@ -93,7 +94,7 @@ class ConsultationVerification extends StatelessWidget {
                   horizontal: StaticData.sidePadding,
                 ),
                 child: BlueButtonWithText(
-                  text: 'Потратить баллы',
+                  text: 'Потратить ${model.price} б',
                   onPressed: () {
                     Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
                       '/final_consultation',

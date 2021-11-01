@@ -52,6 +52,7 @@ class WebinarsScreen extends StatelessWidget implements SheetScreenArguments {
                     ),
                     InfoSection(
                       text: model.previewText,
+                      secondText: model.detailText,
                     ),
                     const SizedBox(
                       height: 132,

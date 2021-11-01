@@ -115,7 +115,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                 horizontal: StaticData.sidePadding,
               ),
               child: BlueButtonWithText(
-                text: 'Потратить баллы',
+                text: 'Потратить ${model.price} б',
                 onPressed: () {
                   Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
                     '/verification_consultation',

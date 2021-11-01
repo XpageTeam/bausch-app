@@ -96,7 +96,7 @@ class PartnersVerification extends StatelessWidget {
                   horizontal: StaticData.sidePadding,
                 ),
                 child: BlueButtonWithText(
-                  text: 'Потратить баллы',
+                  text: 'Потратить ${model.price} б',
                   onPressed: () {
                     Keys.bottomSheetItemsNav.currentState!.pushNamed(
                       '/final_partners',
