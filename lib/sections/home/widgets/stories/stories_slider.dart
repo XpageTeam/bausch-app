@@ -15,6 +15,12 @@ class _StoriesSliderState extends State<StoriesSlider> {
   final StoriesCubit storiesCubit = StoriesCubit();
 
   @override
+  void dispose() {
+    super.dispose();
+    storiesCubit.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<StoriesCubit, StoriesState>(
       bloc: storiesCubit,

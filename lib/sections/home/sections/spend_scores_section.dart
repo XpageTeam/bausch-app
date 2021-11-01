@@ -23,6 +23,12 @@ class _SpendScoresState extends State<SpendScores> {
   CatalogSheetCubit catalogSheetCubit = CatalogSheetCubit();
 
   @override
+  void dispose() {
+    super.dispose();
+    catalogSheetCubit.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<CatalogSheetCubit, CatalogSheetState>(
       bloc: catalogSheetCubit,
