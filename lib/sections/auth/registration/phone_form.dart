@@ -77,29 +77,20 @@ class _PhoneFormState extends State<PhoneForm> with AfterLayoutMixin {
             inputFormatters: [
               MaskTextInputFormatter(mask: '+7 (9##) ###-##-##'),
             ],
-            validator: (dynamic value) {
-              if ((value! as String).isEmpty) {
-                return 'Номер не введён';
-              }
-
-              if ((value! as String).length < 18) {
-                return 'Введён неверный номер телефона';
-              }
-
-              return null;
-            },
           ),
+        ),
+        const SizedBox(
+          height: 4,
         ),
         BlueButtonWithText(
           text: 'Продолжить',
-          onPressed: () {
-            if (loginBloc.state is LoginPhoneSetted) {
-              if ((loginBloc.state as LoginPhoneSetted).isPhoneValid &&
-                  isAgree) {
-                loginBloc.add(LoginSendPhone(phone: loginBloc.state.phone));
-              }
-            }
-          },
+          onPressed: (loginBloc.state is LoginPhoneSetted &&
+                  (loginBloc.state as LoginPhoneSetted).isPhoneValid &&
+                  isAgree)
+              ? () {
+                  loginBloc.add(LoginSendPhone(phone: loginBloc.state.phone));
+                }
+              : null,
         ),
         const SizedBox(
           height: 20,

@@ -54,7 +54,7 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField>
     keyboardVisibilityController.onChange.listen(
       (visible) {
         //* Когда клавиатура скрыта, то убирается фокус с textInput
-        if (!visible) unFocus();
+        if (!visible && mounted) unFocus();
       },
     );
   }
