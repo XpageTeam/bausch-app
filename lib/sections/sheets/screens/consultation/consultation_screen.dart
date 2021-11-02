@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -28,7 +29,9 @@ class ConsultationScreen extends StatefulWidget {
 class _ConsultationScreenState extends State<ConsultationScreen> {
   final CatalogItemCubit catalogItemCubit =
       CatalogItemCubit(section: StaticData.types['consultation']!);
+
   late ConsultationItemModel model;
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -36,15 +39,14 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         topLeft: Radius.circular(5),
         topRight: Radius.circular(5),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        body: BlocBuilder<CatalogItemCubit, CatalogItemState>(
-          bloc: catalogItemCubit,
-          builder: (context, state) {
-            if (state is CatalogItemSuccess) {
-              model = state.items[0] as ConsultationItemModel;
-
-              return CustomScrollView(
+      child: BlocBuilder<CatalogItemCubit, CatalogItemState>(
+        bloc: catalogItemCubit,
+        builder: (context, state) {
+          if (state is CatalogItemSuccess) {
+            model = state.items[0] as ConsultationItemModel;
+            return Scaffold(
+              backgroundColor: AppTheme.mystic,
+              body: CustomScrollView(
                 controller: widget.controller,
                 slivers: [
                   SliverPadding(
@@ -68,7 +70,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                                     width: 4,
                                   ),
                                   Text(
-                                    '${(state.items[0] as ConsultationItemModel).length} минут',
+                                    '${model.length} минут',
                                     style: AppStyles.p1,
                                   ),
                                 ],
@@ -100,34 +102,37 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                     ),
                   ),
                 ],
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
+              ),
+              floatingActionButton: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                    ),
+                    child: BlueButtonWithText(
+                      text: 'Потратить ${model.price} б',
+                      onPressed: () {
+                        Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
+                          '/verification_consultation',
+                          arguments: SheetScreenArguments(model: model),
+                        );
+                      },
+                    ),
+                  ),
+                  const InfoBlock(),
+                ],
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
             );
-          },
-        ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Потратить ${model.price} б',
-                onPressed: () {
-                  Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
-                    '/verification_consultation',
-                    arguments: SheetScreenArguments(model: model),
-                  );
-                },
-              ),
+          }
+          return const Scaffold(
+            body: Center(
+              child: AnimatedLoader(),
             ),
-            const InfoBlock(),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          );
+        },
       ),
     );
   }
