@@ -27,4 +27,18 @@ class UserRepository implements MappableInterface<UserRepository> {
     // TODO: implement toMap
     throw UnimplementedError();
   }
+
+  /// Отправляет запрос на отправку смс-кода
+  static Future<BaseResponseRepository> sendPhone(String phone) async {
+    final rh = RequestHandler();
+
+    final res = await rh.post<Map<String, dynamic>>(
+      '/user/authentication/',
+      data: FormData.fromMap(<String, dynamic>{
+        'phone': phone,
+      }),
+    );
+
+    return BaseResponseRepository.fromMap(res.data!);
+  }
 }

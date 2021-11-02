@@ -29,7 +29,7 @@ class _CodeFormState extends State<CodeForm> with AfterLayoutMixin {
       child: PinCodeTextField(
         controller: codeFieldController,
         appContext: context,
-        length: 5,
+        length: 4,
         onChanged: (str) {},
         enableActiveFill: true,
         focusNode: focusNode,

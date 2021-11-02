@@ -12,10 +12,14 @@ class DefaultTextFormField extends StatefulWidget {
   final TextStyle? textStyle;
   final FormFieldValidator? validator;
   final String? initialValue;
+  final ValueChanged<String>? onFieldSubmitted;
+  final List<TextInputFormatter>? inputFormatters;
 
   const DefaultTextFormField({
     required this.labelText,
     required this.controller,
+    this.inputFormatters,
+    this.onFieldSubmitted,
     this.initialValue,
     this.validator,
     this.inputType = TextInputType.text,
@@ -89,6 +93,8 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField>
               decoration: widget.decoration ?? const InputDecoration(),
               validator: widget.validator,
               initialValue: widget.initialValue,
+              onFieldSubmitted: widget.onFieldSubmitted,
+              inputFormatters: widget.inputFormatters,
             ),
           ),
 

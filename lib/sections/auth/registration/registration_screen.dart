@@ -1,11 +1,16 @@
+import 'package:bausch/sections/auth/registration/bloc/login/login_bloc.dart';
 import 'package:bausch/sections/auth/registration/code_screen.dart';
+import 'package:bausch/sections/auth/registration/listeners/login_listeners.dart';
+import 'package:bausch/sections/auth/registration/phone_form.dart';
+import 'package:bausch/sections/auth/registration/phone_screen.dart';
+import 'package:bausch/sections/auth/registration/providers/login_providers.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 //* Registration
 //* phone number
@@ -17,9 +22,15 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  TextEditingController controller = TextEditingController();
+  final PageController pageController = PageController();
   bool isAgree = false;
   bool isNumberEnough = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,86 +40,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Войти или создать профиль',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 24,
-                height: 31 / 24,
-              ),
+        child: LoginProviders(
+          child: LoginListeners(
+            child: BlocBuilder<LoginBloc, LoginState>(
+              builder: (context, state) {
+                return PageView(
+                  controller: pageController,
+                  children: const [
+                    PhoneScreen(),
+                    CodeScreen(),
+                  ],
+                );
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 100,
-                bottom: 4,
-              ),
-              child: DefaultTextInput(
-                labelText: 'Мобильный телефон',
-                controller: controller,
-                inputType: TextInputType.phone,
-                textStyle: AppStyles.h1,
-                onChanged: (s) {
-                  if (s.length == 10) {
-                    setState(() {
-                      isNumberEnough = true;
-                    });
-                  } else {
-                    setState(() {
-                      isNumberEnough = false;
-                    });
-                  }
-                },
-                decoration: const InputDecoration(
-                  prefix: Text(
-                    '+7 ',
-                  ),
-                ),
-              ),
-            ),
-            BlueButtonWithText(
-              text: 'Продолжить',
-              onPressed: (isAgree && isNumberEnough)
-                  ? () {
-                      //* Переход на экран ввода кода
-                      Navigator.push<void>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const CodeScreen();
-                          },
-                        ),
-                      );
-                    }
-                  : null,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomCheckbox(
-                  value: isAgree,
-                  onChanged: (val) {
-                    setState(
-                      () {
-                        isAgree = val!;
-                      },
-                    );
-                  },
-                ),
-                const Flexible(
-                  child: Text(
-                    'Я соглашаюсь с Условиями обработки персональных данных и Правилами программы',
-                    style: AppStyles.p1,
-                  ),
-                ),
-              ],
-            ),
-          ],
+            pageController: pageController,
+          ),
         ),
       ),
     );
