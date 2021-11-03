@@ -1,6 +1,8 @@
 import 'package:bausch/sections/faq/cubit/faq_cubit.dart';
+import 'package:bausch/sections/faq/faq_listener.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
+import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -25,109 +27,114 @@ class _TopicsScreenState extends State<TopicsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FaqCubit, FaqState>(
-      bloc: faqCubit,
-      builder: (context, state) {
-        if (state is FaqSuccess) {
-          return ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5),
-              topRight: Radius.circular(5),
-            ),
-            child: Scaffold(
-              backgroundColor: AppTheme.mystic,
-              resizeToAvoidBottomInset: false,
-              body: CustomScrollView(
-                controller: widget.controller,
-                slivers: [
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 20,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              DefaultAppBar(
-                                title: 'Частые вопросы',
-                                backgroundColor: AppTheme.mystic,
-                                topRightWidget: NormalIconButton(
-                                  icon: const Icon(Icons.close),
-                                  onPressed: () {
-                                    Keys.mainNav.currentState!.pop();
-                                  },
-                                ),
+    return BlocProvider.value(
+      value: faqCubit,
+      child: FaqListener(
+        child: BlocBuilder<FaqCubit, FaqState>(
+          builder: (context, state) {
+            if (state is FaqSuccess) {
+              return ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                ),
+                child: Scaffold(
+                  backgroundColor: AppTheme.mystic,
+                  resizeToAvoidBottomInset: false,
+                  body: CustomScrollView(
+                    controller: widget.controller,
+                    slivers: [
+                      SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 20,
                               ),
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  right: StaticData.sidePadding,
-                                  left: StaticData.sidePadding,
-                                  top: 30,
-                                ),
-                                child: Text(
-                                  'Темы',
-                                  style: AppStyles.h2,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  DefaultAppBar(
+                                    title: 'Частые вопросы',
+                                    backgroundColor: AppTheme.mystic,
+                                    topRightWidget: NormalIconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        Keys.mainNav.currentState!.pop();
+                                      },
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(
+                                      right: StaticData.sidePadding,
+                                      left: StaticData.sidePadding,
+                                      top: 30,
+                                    ),
+                                    child: Text(
+                                      'Темы',
+                                      style: AppStyles.h2,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 4,
-                          ),
-                          child: WhiteButton(
-                            text: state.topics[index].title,
-                            icon: Container(),
-                            onPressed: () {
-                              Keys.simpleBottomSheetNav.currentState!.pushNamed(
-                                '/faq_topic',
-                                arguments: TopicScreenArguments(
-                                  title: state.topics[index].title,
-                                  topicModel: state.topics[index],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        childCount: state.topics.length,
                       ),
-                    ),
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: StaticData.sidePadding,
+                        ),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 4,
+                              ),
+                              child: WhiteButton(
+                                text: state.topics[index].title,
+                                icon: Container(),
+                                onPressed: () {
+                                  Keys.simpleBottomSheetNav.currentState!
+                                      .pushNamed(
+                                    '/faq_topic',
+                                    arguments: TopicScreenArguments(
+                                      title: state.topics[index].title,
+                                      topicModel: state.topics[index],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            childCount: state.topics.length,
+                          ),
+                        ),
+                      ),
+                      const SliverPadding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: StaticData.sidePadding,
+                        ),
+                        sliver: SupportSection(),
+                      ),
+                    ],
                   ),
-                  const SliverPadding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
-                    ),
-                    sliver: SupportSection(),
-                  ),
-                ],
+                ),
+              );
+            }
+            return const ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
               ),
-            ),
-          );
-        }
-        return const ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(5),
-            topRight: Radius.circular(5),
-          ),
-          child: Scaffold(
-            body: Center(
-              child: CircularProgressIndicator.adaptive(),
-            ),
-          ),
-        );
-      },
+              child: Scaffold(
+                body: Center(
+                  child: AnimatedLoader(),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
