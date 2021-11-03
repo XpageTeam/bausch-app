@@ -2,7 +2,6 @@
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/user/user_repository.dart';
-import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -33,14 +32,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<LoginState> _sendPhone(String phone) async {
-    final rh = RequestHandler();
+    //final rh = RequestHandler();
 
     try {
       final result = await UserRepository.sendPhone(phone);
 
       if (result.success) {
         //message = (result.data as Map<String, dynamic>)['message'] as String;
-        var data =
+        final data =
             Map<String, dynamic>.from(result.data as Map<String, dynamic>);
         debugPrint(data.toString());
         return LoginPhoneSended(phone: phone);

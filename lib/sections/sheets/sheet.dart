@@ -1,5 +1,3 @@
-import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
-import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';

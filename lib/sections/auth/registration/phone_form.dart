@@ -2,7 +2,6 @@
 
 import 'package:after_layout/after_layout.dart';
 import 'package:bausch/sections/auth/registration/bloc/login/login_bloc.dart';
-import 'package:bausch/sections/auth/registration/code_screen.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/inputs/default_text_form_field.dart';

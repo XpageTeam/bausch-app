@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:meta/meta.dart';
@@ -23,7 +21,6 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
     final result = await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null) {
-      final File file = File(result.files.single.path!);
       return AttachAdded(files: result.files.map((e) => e.name).toList());
     } else {
       return AttachStopped();

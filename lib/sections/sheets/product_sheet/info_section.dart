@@ -1,3 +1,5 @@
+// ignore_for_file: use_named_constants
+
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +36,7 @@ class InfoSection extends StatelessWidget {
                   color: AppTheme.mineShaft,
                   fontWeight: FontWeight.w400,
                   fontSize: const FontSize(14),
-                  lineHeight: LineHeight(20 / 14),
+                  lineHeight: const LineHeight(20 / 14),
                 ),
                 'br': Style(
                   padding: EdgeInsets.zero,
@@ -56,14 +58,14 @@ class InfoSection extends StatelessWidget {
                     color: AppTheme.mineShaft,
                     fontWeight: FontWeight.w400,
                     fontSize: const FontSize(14),
-                    lineHeight: LineHeight(20 / 14),
+                    lineHeight: const LineHeight(20 / 14),
                   ),
                   'b': Style(
                     padding: EdgeInsets.zero,
                     color: AppTheme.mineShaft,
                     fontWeight: FontWeight.w500,
                     fontSize: const FontSize(17),
-                    lineHeight: LineHeight(20 / 17),
+                    lineHeight: const LineHeight(20 / 17),
                   ),
                   'div': Style(
                     padding: EdgeInsets.zero,

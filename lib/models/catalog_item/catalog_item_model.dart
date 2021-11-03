@@ -1,5 +1,3 @@
-import 'package:bausch/exceptions/response_parse_exception.dart';
-
 class CatalogItemModel {
   final int id;
 
