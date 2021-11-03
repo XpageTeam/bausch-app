@@ -35,10 +35,15 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  const [
+                  [
                     DelayedAnimatedTranslateOpacity(
                       offsetY: 20,
-                      child: ProfileStatus(),
+                      child: ProfileStatus(
+                        onPressed: () {
+                          Keys.mainContentNav.currentState!
+                              .pushNamed('/profile');
+                        },
+                      ),
                     ),
                   ],
                 ),
