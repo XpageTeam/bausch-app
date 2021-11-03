@@ -62,6 +62,7 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
         );
       } else {
         emit(CatalogItemFailed(title: 'Ошибка при соединении'));
+        debugPrint('Ошибка при соединении');
       }
     } on ResponseParseExeption catch (e) {
       emit(

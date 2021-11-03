@@ -1,3 +1,5 @@
+import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
+import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,11 @@ import 'package:flutter/material.dart';
 //* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
   final Widget child;
-  const SheetWidget({required this.child, Key? key}) : super(key: key);
+
+  const SheetWidget({
+    required this.child,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

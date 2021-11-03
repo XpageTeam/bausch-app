@@ -20,8 +20,8 @@ class SheetListener extends StatelessWidget {
           Keys.mainNav.currentState!.pop();
 
           Flushbar<void>(
-            messageText: const Text(
-              'Что-то пошло не так',
+            messageText: Text(
+              state.title,
               textAlign: TextAlign.center,
               style: AppStyles.p1White,
             ),
