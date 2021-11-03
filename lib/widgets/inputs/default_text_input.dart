@@ -13,9 +13,11 @@ class DefaultTextInput extends StatefulWidget {
   final TextStyle? textStyle;
   final Color? backgroundColor;
   final int? maxLines;
+  final AlignmentGeometry? labelAlignment;
   const DefaultTextInput({
     required this.labelText,
     required this.controller,
+    this.labelAlignment,
     this.backgroundColor,
     this.onChanged,
     this.inputType = TextInputType.text,
@@ -72,6 +74,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
       //* и устанавливать фокус при нажатии
       onTap: setFocus,
       child: Stack(
+        alignment: Alignment.topLeft,
         children: [
           Container(
             decoration: BoxDecoration(
@@ -103,11 +106,14 @@ class _DefaultTextInputState extends State<DefaultTextInput>
             child: AnimatedContainer(
               padding: EdgeInsets.only(
                 left: 12,
-                top: _isTextInputFocusedOrFilled ? 10 : 0,
+                top: widget.labelAlignment == null
+                    ? (_isTextInputFocusedOrFilled ? 10 : 0)
+                    : 10,
               ),
-              alignment: _isTextInputFocusedOrFilled
-                  ? Alignment.topLeft
-                  : Alignment.centerLeft,
+              alignment: widget.labelAlignment ??
+                  (_isTextInputFocusedOrFilled
+                      ? Alignment.topLeft
+                      : Alignment.centerLeft),
 
               //* Здесь анимируется стиль текста
               child: AnimatedDefaultTextStyle(

@@ -224,6 +224,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "file_picker",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/file_picker-4.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///C:/flutter/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -280,6 +286,12 @@
     {
       "name": "flutter_math_fork",
       "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_math_fork-0.4.2+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_plugin_android_lifecycle",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -824,7 +836,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-11-02T11:31:10.515330Z",
+  "generated": "2021-11-03T07:45:13.708438Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }
