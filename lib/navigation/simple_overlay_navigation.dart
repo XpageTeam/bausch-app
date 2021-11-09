@@ -1,3 +1,4 @@
+import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/contact_support_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
@@ -11,10 +12,12 @@ import 'package:flutter/material.dart';
 class SimpleOverlayNavigation extends StatelessWidget {
   final ScrollController controller;
   final SimpleSheetModel sheetModel;
+  final List<TopicModel>? topics;
 
   const SimpleOverlayNavigation({
     required this.controller,
     required this.sheetModel,
+    this.topics,
     Key? key,
   }) : super(key: key);
 
@@ -31,6 +34,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
             if (sheetModel.type == SimpleSheetType.faq) {
               page = TopicsScreen(
                 controller: controller,
+                topics: topics!,
               );
             } else if (sheetModel.type == SimpleSheetType.rules) {
               page = RulesScreen(
@@ -42,7 +46,10 @@ class SimpleOverlayNavigation extends StatelessWidget {
             break;
 
           case '/faq_topics':
-            page = TopicsScreen(controller: controller);
+            page = TopicsScreen(
+              controller: controller,
+              topics: topics!,
+            );
             break;
 
           case '/faq_topic':

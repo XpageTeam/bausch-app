@@ -4,11 +4,14 @@ import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WideContainerWithoutItems extends StatelessWidget
+class WideContainerWithoutItems extends StatefulWidget
     implements ContainerInterface {
   final String? subtitle;
 
@@ -22,38 +25,64 @@ class WideContainerWithoutItems extends StatelessWidget
   }) : super(key: key);
 
   @override
+  State<WideContainerWithoutItems> createState() =>
+      _WideContainerWithoutItemsState();
+}
+
+class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
+  late CatalogItemCubit catalogItemCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    catalogItemCubit = CatalogItemCubit(section: widget.model.type);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    catalogItemCubit.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return WhiteContainerWithRoundedCorners(
-      onTap: () {
-        showSheetWithoutItems(context, model);
-      },
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            model.name,
-            style: AppStyles.h2Bold,
-          ),
-          Row(
+    return BlocProvider(
+      create: (context) => catalogItemCubit,
+      child: SheetListener(
+        model: widget.model,
+        child: WhiteContainerWithRoundedCorners(
+          onTap: () {
+            catalogItemCubit.loadData();
+          },
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                child: Text(
-                  subtitle ??
-                      'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
-                  style: AppStyles.p1,
-                ),
+              Text(
+                widget.model.name,
+                style: AppStyles.h2Bold,
               ),
-              Image.network(
-                model.icon,
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      widget.subtitle ??
+                          'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
+                      style: AppStyles.p1,
+                    ),
+                  ),
+                  Image.network(
+                    widget.model.icon,
+                    height: 40,
+                  ),
+                ],
+              ),
+              const SizedBox(
                 height: 40,
               ),
             ],
           ),
-          const SizedBox(
-            height: 40,
-          ),
-        ],
+        ),
       ),
     );
   }

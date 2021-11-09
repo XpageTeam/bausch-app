@@ -1,42 +1,53 @@
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+import 'package:bausch/sections/faq/cubit/faq_cubit.dart';
+import 'package:bausch/sections/home/widgets/listeners/text_buttons_listener.dart';
+import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TextButtonsSection extends StatelessWidget {
+class TextButtonsSection extends StatefulWidget {
   const TextButtonsSection({Key? key}) : super(key: key);
 
   @override
+  State<TextButtonsSection> createState() => _TextButtonsSectionState();
+}
+
+class _TextButtonsSectionState extends State<TextButtonsSection> {
+  final FaqCubit faqCubit = FaqCubit();
+  final RulesCubit rulesCubit = RulesCubit();
+
+  @override
+  void dispose() {
+    super.dispose();
+    faqCubit.close();
+    rulesCubit.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomTextButton(
-          title: 'Правила программы',
-          onPressed: () {
-            showSimpleSheet(
-              context,
-              SimpleSheetModel(
-                title: 'Частые вопросы',
-                type: SimpleSheetType.rules,
-              ),
-            );
-          },
-        ),
-        CustomTextButton(
-          title: 'Частые вопросы',
-          onPressed: () {
-            showSimpleSheet(
-              context,
-              SimpleSheetModel(
-                title: 'Частые вопросы',
-                type: SimpleSheetType.faq,
-              ),
-            );
-          },
-        ),
-        const CustomTextButton(title: 'Библиотека ссылок'),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => faqCubit),
+        BlocProvider(create: (context) => rulesCubit),
       ],
+      child: TextButtonsListener(
+        child: Column(
+          children: [
+            CustomTextButton(
+              title: 'Правила программы',
+              onPressed: rulesCubit.loadData,
+            ),
+            CustomTextButton(
+              title: 'Частые вопросы',
+              onPressed: faqCubit.loadData,
+            ),
+            const CustomTextButton(title: 'Библиотека ссылок'),
+          ],
+        ),
+      ),
     );
   }
 }

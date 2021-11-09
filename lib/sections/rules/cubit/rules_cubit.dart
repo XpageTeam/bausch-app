@@ -8,9 +8,7 @@ import 'package:meta/meta.dart';
 part 'rules_state.dart';
 
 class RulesCubit extends Cubit<RulesState> {
-  RulesCubit() : super(RulesInitial()) {
-    loadData();
-  }
+  RulesCubit() : super(RulesInitial());
 
   Future<void> loadData() async {
     emit(RulesLoading());

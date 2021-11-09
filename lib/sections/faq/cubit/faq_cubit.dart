@@ -11,9 +11,7 @@ import 'package:meta/meta.dart';
 part 'faq_state.dart';
 
 class FaqCubit extends Cubit<FaqState> {
-  FaqCubit() : super(FaqInitial()) {
-    loadData();
-  }
+  FaqCubit() : super(FaqInitial());
 
   Future<void> loadData() async {
     emit(FaqLoading());

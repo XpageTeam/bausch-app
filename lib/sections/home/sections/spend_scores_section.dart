@@ -8,6 +8,7 @@ import 'package:bausch/sections/home/cubit/catalogsheet_cubit.dart';
 import 'package:bausch/sections/home/widgets/containers/small_container.dart';
 import 'package:bausch/sections/home/widgets/containers/wide_container_with_items.dart';
 import 'package:bausch/sections/home/widgets/containers/wide_container_without_items.dart';
+import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

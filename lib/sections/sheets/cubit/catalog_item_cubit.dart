@@ -17,9 +17,7 @@ part 'catalog_item_state.dart';
 
 class CatalogItemCubit extends Cubit<CatalogItemState> {
   final String section;
-  CatalogItemCubit({required this.section}) : super(CatalogItemInitial()) {
-    loadData();
-  }
+  CatalogItemCubit({required this.section}) : super(CatalogItemInitial());
 
   Future<void> loadData() async {
     emit(CatalogItemLoading());

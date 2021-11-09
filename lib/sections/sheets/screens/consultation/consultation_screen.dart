@@ -1,3 +1,4 @@
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
@@ -16,8 +17,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //catalog_online_consultation
 class ConsultationScreen extends StatefulWidget {
   final ScrollController controller;
+  final CatalogItemModel item;
   const ConsultationScreen({
     required this.controller,
+    required this.item,
     Key? key,
   }) : super(key: key);
 
@@ -26,10 +29,13 @@ class ConsultationScreen extends StatefulWidget {
 }
 
 class _ConsultationScreenState extends State<ConsultationScreen> {
-  final CatalogItemCubit catalogItemCubit =
-      CatalogItemCubit(section: StaticData.types['consultation']!);
-
   late ConsultationItemModel model;
+
+  @override
+  void initState() {
+    super.initState();
+    model = widget.item as ConsultationItemModel;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,100 +44,86 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         topLeft: Radius.circular(5),
         topRight: Radius.circular(5),
       ),
-      child: BlocBuilder<CatalogItemCubit, CatalogItemState>(
-        bloc: catalogItemCubit,
-        builder: (context, state) {
-          if (state is CatalogItemSuccess) {
-            model = state.items[0] as ConsultationItemModel;
-            return Scaffold(
-              backgroundColor: AppTheme.mystic,
-              body: CustomScrollView(
-                controller: widget.controller,
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      top: 12,
-                      left: 12,
-                      right: 12,
-                      bottom: 4,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          TopSection.consultation(
-                            state.items[0] as ConsultationItemModel,
-                            Padding(
-                              padding: const EdgeInsets.only(left: 6),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.lock_clock_sharp),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    '${model.length} минут',
-                                    style: AppStyles.p1,
-                                  ),
-                                ],
-                              ),
+      child: Scaffold(
+        backgroundColor: AppTheme.mystic,
+        body: CustomScrollView(
+          controller: widget.controller,
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                top: 12,
+                left: 12,
+                right: 12,
+                bottom: 4,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    TopSection.consultation(
+                      widget.item as ConsultationItemModel,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.lock_clock_sharp),
+                            const SizedBox(
+                              width: 4,
                             ),
-                            widget.key,
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const InfoSection(),
-                        ],
+                            Text(
+                              '${model.length} минут',
+                              style: AppStyles.p1,
+                            ),
+                          ],
+                        ),
                       ),
+                      widget.key,
                     ),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
+                    const SizedBox(
+                      height: 4,
                     ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          Warning.advertisment(),
-                          const SizedBox(
-                            height: 160,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                    const InfoSection(),
+                  ],
+                ),
               ),
-              floatingActionButton: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
-                    ),
-                    child: BlueButtonWithText(
-                      text: 'Потратить ${model.price} б',
-                      onPressed: () {
-                        Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
-                          '/verification_consultation',
-                          arguments: SheetScreenArguments(model: model),
-                        );
-                      },
-                    ),
-                  ),
-                  const InfoBlock(),
-                ],
-              ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
-            );
-          }
-          return const Scaffold(
-            body: Center(
-              child: AnimatedLoader(),
             ),
-          );
-        },
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Warning.advertisment(),
+                    const SizedBox(
+                      height: 160,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              child: BlueButtonWithText(
+                text: 'Потратить ${model.price} б',
+                onPressed: () {
+                  Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
+                    '/verification_consultation',
+                    arguments: SheetScreenArguments(model: model),
+                  );
+                },
+              ),
+            ),
+            const InfoBlock(),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

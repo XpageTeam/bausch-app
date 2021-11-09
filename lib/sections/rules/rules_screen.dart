@@ -30,61 +30,47 @@ class _RulesScreenState extends State<RulesScreen> {
       child: Scaffold(
         backgroundColor: AppTheme.mystic,
         resizeToAvoidBottomInset: false,
-        body: BlocProvider.value(
-          value: rulesCubit,
-          child: RulesListener(
-            child: BlocBuilder<RulesCubit, RulesState>(
-              builder: (context, state) {
-                if (state is RulesSuccess) {
-                  return Stack(
-                    children: [
-                      SingleChildScrollView(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: StaticData.sidePadding,
-                        ),
-                        controller: widget.controller,
-                        child: Html(
-                          data: state.data,
-                          style: {
-                            'body': Style(
-                              margin: EdgeInsets.zero,
-                              color: AppTheme.mineShaft,
-                            ),
-                            'strong': Style(
-                              fontSize: const FontSize(17),
-                              fontWeight: FontWeight.w500,
-                              height: 20 / 17,
-                            ),
-                            'h1': Style(
-                              textAlign: TextAlign.center,
-                              //alignment: Alignment.topCenter,
-                              color: AppTheme.mineShaft,
-                            ),
-                          },
-                          customRender: {
-                            'table': (context, child) {
-                              return SingleChildScrollView(
-                                clipBehavior: Clip.none,
-                                child: (context.tree as TableLayoutElement)
-                                    .toWidget(context),
-                                scrollDirection: Axis.horizontal,
-                              );
-                            },
-                          },
-                        ),
-                      ),
-                      CustomSliverAppbar.toPop(
-                        icon: Container(),
-                      ),
-                    ],
-                  );
-                }
-                return const Center(
-                  child: AnimatedLoader(),
-                );
-              },
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              controller: widget.controller,
+              child: Html(
+                data: 'state.data',
+                style: {
+                  'body': Style(
+                    margin: EdgeInsets.zero,
+                    color: AppTheme.mineShaft,
+                  ),
+                  'strong': Style(
+                    fontSize: const FontSize(17),
+                    fontWeight: FontWeight.w500,
+                    height: 20 / 17,
+                  ),
+                  'h1': Style(
+                    textAlign: TextAlign.center,
+                    //alignment: Alignment.topCenter,
+                    color: AppTheme.mineShaft,
+                  ),
+                },
+                customRender: {
+                  'table': (context, child) {
+                    return SingleChildScrollView(
+                      clipBehavior: Clip.none,
+                      child: (context.tree as TableLayoutElement)
+                          .toWidget(context),
+                      scrollDirection: Axis.horizontal,
+                    );
+                  },
+                },
+              ),
             ),
-          ),
+            CustomSliverAppbar.toPop(
+              icon: Container(),
+            ),
+          ],
         ),
       ),
     );
