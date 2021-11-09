@@ -1,6 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
-import 'package:bausch/sections/faq/cubit/faq_cubit.dart';
+import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';

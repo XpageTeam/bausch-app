@@ -1,5 +1,5 @@
 import 'package:bausch/models/faq/topic_model.dart';
-import 'package:bausch/sections/faq/cubit/faq_cubit.dart';
+import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/faq/faq_listener.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';

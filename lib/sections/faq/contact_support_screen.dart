@@ -1,4 +1,5 @@
 import 'package:bausch/sections/faq/attach_files_screen.dart';
+import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
@@ -6,6 +7,7 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/select_widgets/dropdown_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactSupportScreen extends StatefulWidget {
   final ScrollController controller;
@@ -17,6 +19,7 @@ class ContactSupportScreen extends StatefulWidget {
 }
 
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
+  final FormsCubit formsCubit = FormsCubit();
   TextEditingController emailController = TextEditingController();
   TextEditingController commentController = TextEditingController();
 
@@ -26,6 +29,8 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
   @override
   void dispose() {
     super.dispose();
+
+    formsCubit.close();
 
     emailController.dispose();
     commentController.dispose();
@@ -66,72 +71,122 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                 ],
               ),
             ),
+            // SliverPadding(
+            //   padding: const EdgeInsets.symmetric(
+            //     horizontal: StaticData.sidePadding,
+            //   ),
+            //   sliver: SliverList(
+            //     delegate: SliverChildListDelegate(
+            //       [
+            // DefaultTextInput(
+            //   labelText: 'E-mail',
+            //   controller: emailController,
+            //   inputType: TextInputType.emailAddress,
+            // ),
+            //         const SizedBox(
+            //           height: 4,
+            //         ),
+            // DropdownWidget(
+            //   items: const [
+            //     'as',
+            //     'adsd',
+            //   ],
+            //   onItemSelected: (s) {
+            //     setState(() {
+            //       selectedCategory = s;
+            //     });
+            //   },
+            //   labeltext: 'Категория',
+            //   selectedKey: selectedCategory,
+            //   backgroundColor: Colors.white,
+            //   cornersColor: AppTheme.mystic,
+            // ),
+            //         const SizedBox(
+            //           height: 4,
+            //         ),
+            //         DropdownWidget(
+            //           items: const ['as', 'adsd'],
+            //           onItemSelected: (s) {
+            //             setState(() {
+            //               selectedTheme = s;
+            //             });
+            //           },
+            //           labeltext: 'Тема',
+            //           selectedKey: selectedTheme,
+            //           backgroundColor: Colors.white,
+            //           cornersColor: AppTheme.mystic,
+            //         ),
+            //         const SizedBox(
+            //           height: 4,
+            //         ),
+            //         DefaultTextInput(
+            //           labelText: 'Ваш комметарий',
+            //           labelAlignment: Alignment.topLeft,
+            //           controller: commentController,
+            //           decoration: InputDecoration(
+            //             suffixIcon: IconButton(
+            //               onPressed: () {
+            //                 Navigator.of(context).push<void>(
+            //                   MaterialPageRoute(
+            //                     builder: (context) {
+            //                       return const AttachFilesScreen();
+            //                     },
+            //                   ),
+            //                 );
+            //               },
+            //               icon: const Icon(Icons.add_circle_outline_rounded),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
               ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    DefaultTextInput(
-                      labelText: 'E-mail',
-                      controller: emailController,
-                      inputType: TextInputType.emailAddress,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    DropdownWidget(
-                      items: const ['as', 'adsd'],
-                      onItemSelected: (s) {
-                        setState(() {
-                          selectedCategory = s;
-                        });
-                      },
-                      labeltext: 'Категория',
-                      selectedKey: selectedCategory,
-                      backgroundColor: Colors.white,
-                      cornersColor: AppTheme.mystic,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    DropdownWidget(
-                      items: const ['as', 'adsd'],
-                      onItemSelected: (s) {
-                        setState(() {
-                          selectedTheme = s;
-                        });
-                      },
-                      labeltext: 'Тема',
-                      selectedKey: selectedTheme,
-                      backgroundColor: Colors.white,
-                      cornersColor: AppTheme.mystic,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    DefaultTextInput(
-                      labelText: 'Ваш комметарий',
-                      labelAlignment: Alignment.topLeft,
-                      controller: commentController,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            Navigator.of(context).push<void>(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const AttachFilesScreen();
-                                },
-                              ),
+              sliver: BlocBuilder<FormsCubit, FormsState>(
+                bloc: formsCubit,
+                builder: (context, state) {
+                  if (state is FormsSuccess) {
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, i) {
+                          debugPrint(i.toString());
+                          if (state.fields[i].type == 'select') {
+                            return DropdownWidget(
+                              items: state.fields[i].values!,
+                              onItemSelected: (s) {
+                                setState(() {
+                                  selectedCategory = s;
+                                });
+                              },
+                              labeltext: state.fields[i].name,
+                              selectedKey: selectedCategory,
+                              backgroundColor: Colors.white,
+                              cornersColor: AppTheme.mystic,
                             );
-                          },
-                          icon: const Icon(Icons.add_circle_outline_rounded),
-                        ),
+                          } else {
+                            return DefaultTextInput(
+                              labelText: state.fields[i].name,
+                              controller: emailController,
+                              inputType: TextInputType.emailAddress,
+                            );
+                          }
+                        },
+                        childCount: state.fields.length,
                       ),
+                    );
+                  }
+                  return SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Container(),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ],

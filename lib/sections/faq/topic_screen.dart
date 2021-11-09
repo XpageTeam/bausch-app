@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:bausch/models/faq/topic_model.dart';
-import 'package:bausch/sections/faq/cubit/faq_cubit.dart';
+import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/static/static_data.dart';
