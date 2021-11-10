@@ -1,4 +1,3 @@
-import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';
 
 /// Модель ответа на запрос
@@ -28,18 +27,25 @@ class BaseResponseRepository
 
   factory BaseResponseRepository.fromMap(Map<String, dynamic> map) {
     if (map['success'] is! bool) {
-      throw ResponseParseExeption('ответ от сервера не содержит success');
+      throw ResponseParseException('Ответ от сервера не содержит success');
     }
 
-    return BaseResponseRepository(
-      data: map['data'],
-      success: map['success'] as bool,
-      code: map['code'] != null ? map['code'] as int : null,
-      message: map['message'] != null ? map['message'] as String : null,
-      ubiquitous: map['ubiquitous'] != null
-          ? map['ubiquitous'] as Map<String, dynamic>
-          : null,
-    );
+    if (map['success'] == false) {
+      throw SuccessFalse(map['message'] as String? ?? 'Произошла ошибка');
+    }
+
+    try {
+      return BaseResponseRepository(
+        data: map['data'],
+        success: map['success'] as bool,
+        code: map['code'] as int?,
+        message: map['message'] as String?,
+        ubiquitous: map['ubiquitous'] as Map<String, dynamic>?,
+      );
+    // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException(e.toString());
+    }
   }
 
   @override
