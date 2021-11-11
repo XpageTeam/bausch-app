@@ -1,11 +1,21 @@
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+// ignore_for_file: unused_import
+
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
+import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
+import 'package:bausch/sections/sheets/screens/parners/partners_verification.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
@@ -18,10 +28,12 @@ import 'package:flutter/material.dart';
 //* Навигатор для bottomSheet'а с элементами каталога
 class OverlayNavigationWithItems extends StatelessWidget {
   final ScrollController controller;
-  final SheetModelWithItems sheetModel;
+  final BaseCatalogSheetModel sheetModel;
+  final List<CatalogItemModel> items;
   const OverlayNavigationWithItems({
     required this.sheetModel,
     required this.controller,
+    required this.items,
     Key? key,
   }) : super(key: key);
 
@@ -38,104 +50,121 @@ class OverlayNavigationWithItems extends StatelessWidget {
             page = SheetScreen(
               sheetModel: sheetModel,
               controller: controller,
-              path: path(sheetModel.type),
+              items: items,
+              //path: path(sheetModel.type),
             );
 
             break;
 
-          case '/consultation':
-            page = ConsultationScreen(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
-
-          case '/free_packaging':
+          case '/free_product':
             page = FreePackagingScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 
-          case '/discount_optics':
+          case '/offline':
             page = DiscountOpticsScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
             );
             break;
 
-          case '/discount_online':
+          case '/onlineShop':
             page = DiscountOnlineScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
             );
             break;
 
-          case '/partners':
+          case '/promo_code_immediately':
             page = PartnersScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PartnersItemModel,
             );
             break;
 
-          case '/webinar':
+          case '/promo_code_video':
             page = WebinarsScreen(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model
+                  as WebinarItemModel,
             );
             break;
 
           case '/verification_discount':
             page = DiscountVerification(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
             );
             break;
 
           case '/verification_webinar':
             page = WebinarVerification(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
+            );
+            break;
+
+          case '/verification_partners':
+            page = PartnersVerification(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PartnersItemModel,
             );
             break;
 
           case '/final_webinar':
             page = FinalWebinar(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
+            );
+            break;
+
+          case '/final_partners':
+            page = FinalPartners(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PartnersItemModel,
             );
             break;
 
           case '/final_discount':
             page = FinalDiscountOptics(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
             );
             break;
 
-          case '/final_free_packaging':
-            page = FinalWebinar(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/final_free_packaging':
+          //   page = FinalWebinar(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
-          case '/program':
-            page = ProgramScreen(controller: controller);
-            break;
+          // case '/program':
+          //   page = ProgramScreen(controller: controller);
+          //   break;
 
-          case '/addpoints':
-            page = FinalWebinar(
-              controller: controller,
-              model: Models.items[2],
-            );
-            break;
+          // case '/addpoints':
+          //   page = FinalWebinar(
+          //     controller: controller,
+          //     model: Models.items[2],
+          //   );
+          //   break;
 
           default:
             page = SheetScreen(
-              sheetModel: Models.sheetsWithItems.first,
+              sheetModel: sheetModel,
               controller: controller,
-              path: path(sheetModel.type),
+              items: items,
+              //path: path(sheetModel.type),
             );
         }
         return PageRouteBuilder<dynamic>(

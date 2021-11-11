@@ -1,8 +1,9 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/sections/shops/shops_screen.dart';
@@ -15,9 +16,13 @@ import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
 
 //catalog_discount_optics
-class DiscountOpticsScreen extends StatelessWidget {
+class DiscountOpticsScreen extends StatelessWidget
+    implements SheetScreenArguments {
   final ScrollController controller;
-  final CatalogItemModel model;
+
+  @override
+  final PromoItemModel model;
+
   const DiscountOpticsScreen({
     required this.controller,
     required this.model,
@@ -50,11 +55,15 @@ class DiscountOpticsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                    InfoSection(
+                      text: model.previewText,
+                    ),
                     const SizedBox(
                       height: 12,
                     ),
-                    const LegalInfo(),
+                    LegalInfo(
+                      text: model.detailText,
+                    ),
                     const SizedBox(
                       height: 40,
                     ),
@@ -120,8 +129,10 @@ class DiscountOpticsScreen extends StatelessWidget {
               child: BlueButtonWithText(
                 text: 'Получить скидку',
                 onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_discount');
+                  Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                    '/verification_discount',
+                    arguments: SheetScreenArguments(model: model),
+                  );
                 },
               ),
             ),

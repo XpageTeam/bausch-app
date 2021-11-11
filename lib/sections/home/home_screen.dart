@@ -1,17 +1,14 @@
-import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
+import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -134,45 +131,18 @@ class HomeScreen extends StatelessWidget {
                   [
                     //* Вам может быть интересно
                     const MayBeInteresting(),
+
+                    //* Текстовые кнопки(Частые вопросы и тд)
+                    const TextButtonsSection(),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    Image.asset('assets/logo.png'),
+                    const SizedBox(
+                      height: 60,
+                    ),
                   ],
                 ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  CustomTextButton(
-                    title: 'Правила программы',
-                    onPressed: () {},
-                  ),
-                  CustomTextButton(
-                    title: 'Частые вопросы',
-                    onPressed: () {
-                      showSimpleSheet(
-                        context,
-                        SimpleSheetModel(
-                          title: 'Частые вопросы',
-                          type: SimpleSheetType.faq,
-                        ),
-                      );
-                    },
-                  ),
-                  CustomTextButton(
-                    onPressed: () {},
-                    title: 'Библиотека ссылок',
-                  ),
-                ],
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                bottom: 20,
-                right: StaticData.sidePadding,
-                left: StaticData.sidePadding,
-                top: 100,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: Image.asset('assets/logo.png'),
               ),
             ),
           ],

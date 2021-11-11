@@ -1,26 +1,54 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
-import 'package:bausch/models/sheets/sheet_with_items_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/sections/loader/widgets/animated_loader.dart';
+import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class SheetScreenArguments {
+  final CatalogItemModel model;
+
+  SheetScreenArguments({required this.model});
+}
 
 //* Главный экран с элементами каталога
 //* С него происходит переход в нужные секции
-class SheetScreen extends StatelessWidget {
+class SheetScreen extends StatefulWidget {
   final ScrollController controller;
 
-  final SheetModelWithItems sheetModel;
+  final BaseCatalogSheetModel sheetModel;
 
-  final String path;
+  final List<CatalogItemModel> items;
+
+  //final String path;
   const SheetScreen({
     required this.sheetModel,
     required this.controller,
-    required this.path,
+    required this.items,
+    // required this.path,
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SheetScreen> createState() => _SheetScreenState();
+}
+
+class _SheetScreenState extends State<SheetScreen> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +59,7 @@ class SheetScreen extends StatelessWidget {
       ),
       child: Scaffold(
         body: CustomScrollView(
-          controller: controller,
+          controller: widget.controller,
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.symmetric(
@@ -44,7 +72,7 @@ class SheetScreen extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          sheetModel.img ?? 'assets/free-packaging.png',
+                          'assets/free-packaging.png',
                           height: 60,
                         ),
                         const SizedBox(
@@ -52,7 +80,7 @@ class SheetScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            sheetModel.title,
+                            widget.sheetModel.name,
                             style: AppStyles.h2,
                           ),
                         ),
@@ -76,35 +104,43 @@ class SheetScreen extends StatelessWidget {
                       children: [
                         CatalogItem(
                           //context,
-                          model: sheetModel.models![i * 2],
-                          isProduct:
-                              sheetModel.type != SheetWithItemsType.webinar
-                                  ? true
-                                  : false,
+                          model: widget.items[i * 2],
+                          isProduct: widget.sheetModel.type !=
+                                  StaticData.types['webinar']
+                              ? true
+                              : false,
                           onTap: () {
-                            Keys.bottomSheetItemsNav.currentState!
-                                .pushNamed(path);
+                            Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                              '/${widget.sheetModel.type}',
+                              arguments: SheetScreenArguments(
+                                model: widget.items[i * 2],
+                              ),
+                            );
                           },
                         ),
-                        if (sheetModel.models!.asMap().containsKey(i * 2 + 1))
+                        if (widget.items.asMap().containsKey(i * 2 + 1))
                           CatalogItem(
                             //context,
-                            model: sheetModel.models![i * 2 + 1],
-                            isProduct:
-                                sheetModel.type != SheetWithItemsType.webinar
-                                    ? true
-                                    : false,
+                            model: widget.items[i * 2 + 1],
+                            isProduct: widget.sheetModel.type !=
+                                    StaticData.types['webinar']
+                                ? true
+                                : false,
                             onTap: () {
-                              Keys.bottomSheetItemsNav.currentState!
-                                  .pushNamed(path);
+                              Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                                '/${widget.sheetModel.type}',
+                                arguments: SheetScreenArguments(
+                                  model: widget.items[i * 2 + 1],
+                                ),
+                              );
                             },
                           ),
                       ],
                     ),
                   ),
-                  childCount: (sheetModel.models!.length % 2) == 0
-                      ? sheetModel.models!.length ~/ 2
-                      : sheetModel.models!.length ~/ 2 + 1,
+                  childCount: (widget.items.length % 2) == 0
+                      ? widget.items.length ~/ 2
+                      : widget.items.length ~/ 2 + 1,
                 ),
               ),
             ),

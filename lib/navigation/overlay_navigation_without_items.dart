@@ -1,4 +1,5 @@
-import 'package:bausch/models/sheets/sheet_without_items_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
@@ -6,6 +7,7 @@ import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +15,12 @@ import 'package:flutter/material.dart';
 //* Навигатор для bottomSheet'а без элементов каталога
 class OverlayNavigationWithoutItems extends StatelessWidget {
   final ScrollController controller;
-  final SheetModelWithoutItems sheetModel;
+  final BaseCatalogSheetModel model;
+  final CatalogItemModel item;
   const OverlayNavigationWithoutItems({
     required this.controller,
-    required this.sheetModel,
+    required this.model,
+    required this.item,
     Key? key,
   }) : super(key: key);
 
@@ -30,13 +34,11 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
 
         switch (settings.name) {
           case '/':
-            if (sheetModel.type == SheetWithoutItemsType.consultation) {
+            if (model.type == StaticData.types['consultation']) {
               page = ConsultationScreen(
                 controller: controller,
-                model: Models.items[2],
+                item: item,
               );
-            } else if (sheetModel.type == SheetWithoutItemsType.program) {
-              page = ProgramScreen(controller: controller);
             } else {
               page = AddPointsScreen(
                 controller: controller,
@@ -47,7 +49,7 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
           case '/consultation':
             page = ConsultationScreen(
               controller: controller,
-              model: Models.items[2],
+              item: item,
             );
             break;
 
@@ -65,14 +67,14 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
           case '/verification_consultation':
             page = ConsultationVerification(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 
           case '/final_consultation':
             page = FinalConsultation(
               controller: controller,
-              model: Models.items[2],
+              model: (settings.arguments as SheetScreenArguments).model,
             );
             break;
 

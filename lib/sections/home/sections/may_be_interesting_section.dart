@@ -3,14 +3,9 @@ import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
-class MayBeInteresting extends StatefulWidget {
+class MayBeInteresting extends StatelessWidget {
   const MayBeInteresting({Key? key}) : super(key: key);
 
-  @override
-  State<MayBeInteresting> createState() => _MayBeInterestingState();
-}
-
-class _MayBeInterestingState extends State<MayBeInteresting> {
   @override
   Widget build(BuildContext context) {
     return Column(

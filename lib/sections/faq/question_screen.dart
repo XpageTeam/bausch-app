@@ -4,11 +4,37 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class QuestionScreen extends StatelessWidget {
+//* FAQ
+//* Answer
+class QuestionScreenArguments {
+  final String question;
+  final String answer;
+
+  QuestionScreenArguments({
+    required this.question,
+    required this.answer,
+  });
+}
+
+class QuestionScreen extends StatelessWidget
+    implements QuestionScreenArguments {
   final ScrollController controller;
-  const QuestionScreen({required this.controller, Key? key}) : super(key: key);
+
+  @override
+  final String question;
+  @override
+  final String answer;
+
+  const QuestionScreen({
+    required this.controller,
+    required this.answer,
+    required this.question,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +52,7 @@ class QuestionScreen extends StatelessWidget {
               delegate: SliverChildListDelegate(
                 [
                   const SizedBox(
-                    height: 14,
+                    height: 20,
                   ),
                   DefaultAppBar(
                     title: 'Частые вопросы',
@@ -46,19 +72,20 @@ class QuestionScreen extends StatelessWidget {
                       bottom: 100,
                     ),
                     child: Column(
-                      children: const [
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          'Почему в контактных линзах видно лучше, чем в очках?',
+                          question,
                           style: AppStyles.h2,
-                          textAlign: TextAlign.left,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        Text(
-                          'Контактные линзы находятся непосредственно на роговице, поэтому они не ограничивают поле зрения и не дают дополнительных искажений, в отличие от очков. Некоторые контактные линзы имеют асферическую оптику, которая помогает обеспечить более высокое качество зрения. Bausch+Lomb использует асферическую оптику в контактных линзах Biotrue® ONEday*, PureVision®2 и Bausch+Lomb ULTRA**, что помогает обеспечить более четкое зрение при длительной работе за компьютером, при длительной работе с цифровыми устройствами, в условиях сухого воздуха, при вождении автомобиля ночью.48 Имеются противопоказания, перед применением необходимо проконсультироваться со специалистом.',
-                          style: AppStyles.p1,
-                          textAlign: TextAlign.left,
+                        Html(
+                          data: answer,
+                          style: {
+                            'body': Style(margin: EdgeInsets.zero),
+                          },
                         ),
                       ],
                     ),

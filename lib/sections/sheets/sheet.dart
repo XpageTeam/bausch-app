@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 //* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
   final Widget child;
-  const SheetWidget({required this.child, Key? key}) : super(key: key);
+
+  const SheetWidget({
+    required this.child,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

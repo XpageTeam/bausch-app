@@ -15,20 +15,19 @@ class WhiteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      //height: 74,
-      child: TextButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          backgroundColor: Colors.white,
-          padding: EdgeInsets.zero,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.zero,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Row(
                 children: [
                   icon ??
                       Row(
@@ -42,19 +41,21 @@ class WhiteButton extends StatelessWidget {
                           ),
                         ],
                       ),
-                  Text(
-                    text,
-                    style: AppStyles.h2,
+                  Flexible(
+                    child: Text(
+                      text,
+                      style: AppStyles.h2,
+                    ),
                   ),
                 ],
               ),
-              const Icon(
-                Icons.arrow_forward_ios_sharp,
-                color: AppTheme.mineShaft,
-                size: 20,
-              ),
-            ],
-          ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: AppTheme.mineShaft,
+              size: 20,
+            ),
+          ],
         ),
       ),
     );

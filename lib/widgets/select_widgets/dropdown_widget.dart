@@ -37,6 +37,7 @@ class _DropdownWidgetState extends State<DropdownWidget> {
       itemBackgroundColor: widget.cornersColor ?? Colors.white,
       menuButtonBackgroundColor: widget.cornersColor ?? Colors.white,
       //showSelectedItemOnList: false,
+      scrollPhysics: const BouncingScrollPhysics(),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2),
       ),
