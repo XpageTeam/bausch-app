@@ -1,3 +1,4 @@
+import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -11,12 +12,12 @@ import 'package:flutter_html/flutter_html.dart';
 //* FAQ
 //* Answer
 class QuestionScreenArguments {
-  final String question;
-  final String answer;
+  final QuestionModel question;
+  final int topicId;
 
   QuestionScreenArguments({
     required this.question,
-    required this.answer,
+    required this.topicId,
   });
 }
 
@@ -25,14 +26,15 @@ class QuestionScreen extends StatelessWidget
   final ScrollController controller;
 
   @override
-  final String question;
+  final QuestionModel question;
+
   @override
-  final String answer;
+  final int topicId;
 
   const QuestionScreen({
     required this.controller,
-    required this.answer,
     required this.question,
+    required this.topicId,
     Key? key,
   }) : super(key: key);
 
@@ -75,14 +77,14 @@ class QuestionScreen extends StatelessWidget
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          question,
+                          question.title,
                           style: AppStyles.h2,
                         ),
                         const SizedBox(
                           height: 40,
                         ),
                         Html(
-                          data: answer,
+                          data: question.answer,
                           style: {
                             'body': Style(margin: EdgeInsets.zero),
                           },
@@ -93,9 +95,14 @@ class QuestionScreen extends StatelessWidget
                 ],
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-              sliver: SupportSection(),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              sliver: SupportSection(
+                questionId: question.id,
+                topicId: topicId,
+              ),
             ),
           ],
         ),

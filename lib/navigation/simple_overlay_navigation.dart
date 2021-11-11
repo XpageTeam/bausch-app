@@ -1,6 +1,6 @@
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
-import 'package:bausch/sections/faq/contact_support_screen.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';
@@ -72,12 +72,18 @@ class SimpleOverlayNavigation extends StatelessWidget {
               controller: controller,
               question:
                   (settings.arguments as QuestionScreenArguments).question,
-              answer: (settings.arguments as QuestionScreenArguments).answer,
+              topicId: (settings.arguments as QuestionScreenArguments).topicId,
             );
             break;
 
           case '/support':
-            page = ContactSupportScreen(controller: controller);
+            page = ContactSupportScreen(
+              controller: controller,
+              questionId: (settings.arguments as ContactSupportScreenArguments)
+                  .questionId,
+              topicId:
+                  (settings.arguments as ContactSupportScreenArguments).topicId,
+            );
             break;
 
           default:

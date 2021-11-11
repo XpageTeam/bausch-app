@@ -1,4 +1,4 @@
-import 'package:bausch/sections/faq/bloc/attach_bloc.dart';
+import 'package:bausch/sections/faq/bloc/attach/attach_bloc.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';

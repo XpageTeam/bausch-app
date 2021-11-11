@@ -9,7 +9,8 @@ import 'package:meta/meta.dart';
 part 'forms_extra_state.dart';
 
 class FormsExtraCubit extends Cubit<FormsExtraState> {
-  FormsExtraCubit() : super(FormsExtraInitial()) {
+  final int id;
+  FormsExtraCubit({required this.id}) : super(FormsExtraInitial()) {
     loadData();
   }
 
@@ -22,7 +23,7 @@ class FormsExtraCubit extends Cubit<FormsExtraState> {
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.get<Map<String, dynamic>>(
           'faq/form/fields/extra/',
-          queryParameters: <String, dynamic>{'question': 1},
+          queryParameters: <String, dynamic>{'question': id},
         ))
             .data!,
       );

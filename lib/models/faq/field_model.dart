@@ -5,11 +5,13 @@ class FieldModel implements MappableInterface<FieldModel> {
   final String type;
   final String name;
   final List<String>? values;
+  final bool? isRequired;
 
   FieldModel({
     required this.id,
     required this.type,
     required this.name,
+    this.isRequired,
     this.values,
   });
 
@@ -18,6 +20,7 @@ class FieldModel implements MappableInterface<FieldModel> {
       id: map['id'] as int,
       type: map['type'] as String,
       name: map['name'] as String,
+      isRequired: map['required'] != null ? map['required'] as bool : null,
       values: map['values'] != null
           ? (map['values'] as List<dynamic>)
               .map((dynamic e) => (e as Map<String, dynamic>)['name'] as String)
