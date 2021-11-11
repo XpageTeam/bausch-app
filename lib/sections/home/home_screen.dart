@@ -7,6 +7,7 @@ import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
+      extendBody: true,
       primary: false,
       body: SafeArea(
         child: CustomScrollView(
@@ -30,12 +32,15 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  //* Статус пользователя
                   [
-                    ProfileStatus(
-                      onPressed: () {
-                        Keys.mainContentNav.currentState!.pushNamed('/profile');
-                      },
+                    DelayedAnimatedTranslateOpacity(
+                      offsetY: 20,
+                      child: ProfileStatus(
+                        onPressed: () {
+                          Keys.mainContentNav.currentState!
+                              .pushNamed('/profile');
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -49,8 +54,19 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  //* Количество баллов
-                  const [ScoresSection()],
+                  const [
+                    DelayedAnimatedTranslateOpacity(
+                      offsetY: 30,
+                      child: ScoresSection(
+                        loadingAnimationDuration: Duration(
+                          milliseconds: 2500,
+                        ),
+                        delay: Duration(
+                          milliseconds: 1000,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -60,9 +76,11 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  //* Сторисы
                   [
-                    const StoriesSlider(),
+                    DelayedAnimatedTranslateOpacity(
+                      offsetY: 40,
+                      child: StoriesSlider(items: Models.stories),
+                    ),
                   ],
                 ),
               ),
@@ -75,8 +93,12 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
-                  //* Баннер для перехода на экран программы подбора
-                  const [OfferWidget()],
+                  const [
+                    DelayedAnimatedTranslateOpacity(
+                      offsetY: 50,
+                      child: OfferWidget(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -90,14 +112,17 @@ class HomeScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   const [
                     //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
-                    SpendScores(),
+                    DelayedAnimatedTranslateOpacity(
+                      offsetY: 60,
+                      child: SpendScores(),
+                    ),
                   ],
                 ),
               ),
             ),
             SliverPadding(
               padding: const EdgeInsets.only(
-                bottom: 20,
+                bottom: 30,
                 left: StaticData.sidePadding,
                 right: StaticData.sidePadding,
               ),
@@ -123,13 +148,16 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomFloatingActionButton(
-        text: 'Добавить баллы',
-        onPressed: () {
-          //showSheetWithoutItems(context, Models.sheets[2]);
-        },
+      bottomNavigationBar: DelayedAnimatedTranslateOpacity(
+        offsetY: 10,
+        child: CustomFloatingActionButton(
+          text: 'Добавить баллы',
+          onPressed: () {
+            showSheetWithoutItems(context, Models.sheets[2]);
+          },
+        ),
+        animationDuration: Duration.zero,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

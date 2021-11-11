@@ -1,8 +1,6 @@
-import 'package:bausch/custom_slideshow.dart';
+import 'package:bausch/sections/home/widgets/slider/default_item_slider.dart';
 import 'package:bausch/test/models.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
 
 class MayBeInteresting extends StatelessWidget {
@@ -11,40 +9,22 @@ class MayBeInteresting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Вам может быть интересно',
-          style: AppStyles.h1,
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Вам может быть интересно',
+            style: AppStyles.h1,
+          ),
         ),
         const SizedBox(
           height: 20,
         ),
-        CustomImageSlideshow(
-          height: MediaQuery.of(context).size.height / 2.5,
-          indicatorBackgroundColor: Colors.white,
-          indicatorColor: AppTheme.turquoiseBlue,
-          children: List.generate(
-            (Models.items.length % 2) == 0
-                ? Models.items.length ~/ 2
-                : Models.items.length ~/ 2 + 1,
-            (i) => Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: CatalogItem(
-                    model: Models.items[i * 2],
-                    isProduct: true,
-                  ),
-                ),
-                if (Models.items.asMap().containsKey(i * 2 + 1))
-                  CatalogItem(
-                    model: Models.items[i * 2 + 1],
-                    isProduct: true,
-                  ),
-              ],
-            ),
-          ),
+
+        // Слайдер с товаром
+        CustomItemSlider(
+          items: Models.items.take(12).toList(),
+          animationDuration: const Duration(milliseconds: 250),
         ),
       ],
     );

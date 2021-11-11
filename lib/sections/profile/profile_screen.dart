@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OpacityBloc(minChildSize: 0.7),
       child: Scaffold(
-        backgroundColor: AppTheme.turquoiseBlue,
+        backgroundColor: AppTheme.mystic,
         body: SizedBox.expand(
           child: Builder(
             builder: (context) => CustomNotificationListener(
