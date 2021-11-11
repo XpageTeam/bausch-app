@@ -109,7 +109,7 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                           '/question',
                           arguments: QuestionScreenArguments(
                             question: topicModel.questions[index],
-                            topicId: topicModel.id,
+                            topic: topicModel,
                           ),
                         );
                       },
@@ -124,7 +124,7 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                 horizontal: StaticData.sidePadding,
               ),
               sliver: SupportSection(
-                topicId: topicModel.id,
+                topic: topicModel,
               ),
             ),
           ],

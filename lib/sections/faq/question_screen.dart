@@ -1,4 +1,5 @@
 import 'package:bausch/models/faq/question_model.dart';
+import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -13,11 +14,11 @@ import 'package:flutter_html/flutter_html.dart';
 //* Answer
 class QuestionScreenArguments {
   final QuestionModel question;
-  final int topicId;
+  final TopicModel topic;
 
   QuestionScreenArguments({
     required this.question,
-    required this.topicId,
+    required this.topic,
   });
 }
 
@@ -29,12 +30,12 @@ class QuestionScreen extends StatelessWidget
   final QuestionModel question;
 
   @override
-  final int topicId;
+  final TopicModel topic;
 
   const QuestionScreen({
     required this.controller,
     required this.question,
-    required this.topicId,
+    required this.topic,
     Key? key,
   }) : super(key: key);
 
@@ -100,8 +101,8 @@ class QuestionScreen extends StatelessWidget
                 horizontal: StaticData.sidePadding,
               ),
               sliver: SupportSection(
-                questionId: question.id,
-                topicId: topicId,
+                question: question,
+                topic: topic,
               ),
             ),
           ],

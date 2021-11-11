@@ -1,4 +1,6 @@
 import 'package:bausch/models/faq/field_model.dart';
+import 'package:bausch/models/faq/question_model.dart';
+import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/default_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/extra_forms_section.dart';
@@ -6,6 +8,7 @@ import 'package:bausch/sections/faq/contact_support/form_builder.dart';
 import 'package:bausch/sections/faq/contact_support/select.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
 import 'package:bausch/sections/faq/cubit/forms_extra/forms_extra_cubit.dart';
+import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -19,24 +22,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactSupportScreenArguments {
-  final int? questionId;
-  final int? topicId;
+  final QuestionModel? question;
+  final TopicModel? topic;
 
-  ContactSupportScreenArguments({this.questionId, this.topicId});
+  ContactSupportScreenArguments({this.question, this.topic});
 }
 
 class ContactSupportScreen extends StatefulWidget
     implements ContactSupportScreenArguments {
   final ScrollController controller;
   @override
-  final int? questionId;
+  final QuestionModel? question;
   @override
-  final int? topicId;
+  final TopicModel? topic;
 
   const ContactSupportScreen({
     required this.controller,
-    this.questionId,
-    this.topicId,
+    this.question,
+    this.topic,
     Key? key,
   }) : super(key: key);
 
@@ -55,7 +58,15 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
   @override
   void initState() {
     super.initState();
-    debugPrint('Question: ${widget.questionId}, topic: ${widget.topicId}');
+    if (widget.question != null) {
+      fieldsBloc.add(FieldsSetQuestion(widget.question!.id));
+    }
+
+    if (widget.topic != null) {
+      fieldsBloc.add(FieldsSetTopic(widget.topic!.id));
+    }
+
+    debugPrint('Question: ${widget.question?.id}, topic: ${widget.topic?.id}');
   }
 
   @override
@@ -100,9 +111,14 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                       ],
                     ),
                   ),
-                  DefaultFormsSection(),
-                  if (widget.questionId != null)
-                    ExtraFormsSection(id: widget.questionId!),
+                  DefaultFormsSection(
+                    arguments: ContactSupportScreenArguments(
+                      topic: widget.topic,
+                      question: widget.question,
+                    ),
+                  ),
+                  if (widget.question?.id != null)
+                    ExtraFormsSection(id: widget.question!.id),
                 ],
               ),
               floatingActionButton: Padding(
@@ -115,8 +131,8 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                     fieldsBloc.add(
                       FieldsSend(
                         email: fieldState.email,
-                        topic: widget.topicId!,
-                        question: widget.questionId!,
+                        topic: widget.topic!.id,
+                        question: widget.question!.id,
                       ),
                     );
                   },

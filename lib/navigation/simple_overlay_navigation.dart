@@ -72,17 +72,17 @@ class SimpleOverlayNavigation extends StatelessWidget {
               controller: controller,
               question:
                   (settings.arguments as QuestionScreenArguments).question,
-              topicId: (settings.arguments as QuestionScreenArguments).topicId,
+              topic: (settings.arguments as QuestionScreenArguments).topic,
             );
             break;
 
           case '/support':
             page = ContactSupportScreen(
               controller: controller,
-              questionId: (settings.arguments as ContactSupportScreenArguments)
-                  .questionId,
-              topicId:
-                  (settings.arguments as ContactSupportScreenArguments).topicId,
+              question: (settings.arguments as ContactSupportScreenArguments)
+                  .question,
+              topic:
+                  (settings.arguments as ContactSupportScreenArguments).topic,
             );
             break;
 

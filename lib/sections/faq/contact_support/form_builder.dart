@@ -1,5 +1,6 @@
 import 'package:bausch/models/faq/field_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/contact_support/form_text_input.dart';
 import 'package:bausch/sections/faq/contact_support/select.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
@@ -8,12 +9,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore_for_file: avoid-returning-widgets
 
-Widget childBuilder(FieldModel model, BuildContext context) {
-  debugPrint(model.id.toString());
+Widget childBuilder(
+  FieldModel model,
+  BuildContext context, [
+  ContactSupportScreenArguments? arguments,
+]) {
+  debugPrint(arguments?.topic?.title);
   switch (model.type) {
     case 'select':
       return Select(
         model: model,
+        arguments: arguments,
       );
     case 'textarea':
       return Padding(

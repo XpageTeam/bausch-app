@@ -1,5 +1,6 @@
 import 'package:bausch/models/faq/field_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Select extends StatefulWidget {
   final String? value;
   final FieldModel model;
-  const Select({required this.model, this.value, Key? key}) : super(key: key);
+  final ContactSupportScreenArguments? arguments;
+  const Select({
+    required this.model,
+    this.arguments,
+    this.value,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _SelectState createState() => _SelectState();
@@ -16,11 +23,19 @@ class Select extends StatefulWidget {
 
 class _SelectState extends State<Select> {
   late FieldsBloc fieldsBloc;
-  late String? _value = widget.value;
+  late String? _value;
 
   @override
   void initState() {
     super.initState();
+
+    if (widget.model.xmlId == 'category') {
+      _value = widget.arguments?.topic?.title ?? widget.model.name;
+    }
+
+    if (widget.model.xmlId == 'question') {
+      _value = widget.arguments?.question?.title ?? widget.model.name;
+    }
 
     fieldsBloc = BlocProvider.of<FieldsBloc>(context);
   }
@@ -44,6 +59,7 @@ class _SelectState extends State<Select> {
                         setState(() {
                           _value = e;
                         });
+
                         if (widget.model.xmlId == 'category') {
                           fieldsBloc.add(
                             FieldsSetTopic(widget.model.id),
@@ -55,6 +71,7 @@ class _SelectState extends State<Select> {
                             FieldsSetQuestion(widget.model.id),
                           );
                         }
+
                         Navigator.of(context).pop();
                       },
                       child: Text(e),
