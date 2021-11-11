@@ -23,13 +23,20 @@ class FaqCubit extends Cubit<FaqState> {
         (await rh.get<Map<String, dynamic>>('static/faq/')).data!,
       );
 
-      emit(
-        FaqSuccess(
-          topics: (parsedData.data as List<dynamic>)
-              .map((dynamic e) => TopicModel.fromMap(e as Map<String, dynamic>))
-              .toList(),
-        ),
-      );
+      if (parsedData.success) {
+        emit(
+          FaqSuccess(
+            topics: (parsedData.data as List<dynamic>)
+                .map((dynamic e) =>
+                    TopicModel.fromMap(e as Map<String, dynamic>))
+                .toList(),
+          ),
+        );
+      } else {
+        emit(
+          FaqFailed(title: 'Что-то пошло не так'),
+        );
+      }
     } on ResponseParseExeption catch (e) {
       emit(
         FaqFailed(

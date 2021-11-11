@@ -20,7 +20,13 @@ class RulesCubit extends Cubit<RulesState> {
         (await rh.get<Map<String, dynamic>>('static/rules/')).data!,
       );
 
-      emit(RulesSuccess(data: parsedData.data as String));
+      if (parsedData.success) {
+        emit(RulesSuccess(data: parsedData.data as String));
+      } else {
+        emit(
+          RulesFailed(title: 'Что-то пошло не так'),
+        );
+      }
     } on ResponseParseExeption catch (e) {
       emit(
         RulesFailed(
