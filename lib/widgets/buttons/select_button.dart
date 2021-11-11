@@ -32,21 +32,28 @@ class SelectButton extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (labeltext != null)
-                    Text(
-                      labeltext!,
-                      style: AppStyles.p1Grey,
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (labeltext != null)
+                      Text(
+                        labeltext!,
+                        style: AppStyles.p1Grey,
+                      ),
+                    Flexible(
+                      child: Text(
+                        value,
+                        style: labeltext == null
+                            ? AppStyles.h2GreyBold
+                            : AppStyles.h2,
+                      ),
                     ),
-                  Text(
-                    value,
-                    style:
-                        labeltext == null ? AppStyles.h2GreyBold : AppStyles.h2,
-                  ),
-                ],
+                  ],
+                ),
               ),
               const Icon(
                 Icons.arrow_downward_sharp,

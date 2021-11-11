@@ -1,3 +1,4 @@
+import 'package:bausch/sections/faq/contact_support/form_builder.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
 import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/static/static_data.dart';
@@ -30,40 +31,7 @@ class _DefaultFormsSectionState extends State<DefaultFormsSection> {
             return SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, i) {
-                  if (state.fields[i].type == 'select') {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: SelectButton(
-                        value: state.fields[i].name,
-                        color: Colors.white,
-                        onPressed: () {
-                          showCupertinoModalPopup<void>(
-                            context: context,
-                            builder: (context) => CupertinoActionSheet(
-                              title: Text(state.fields[i].name),
-                              actions: state.fields[i].values!
-                                  .map(
-                                    (e) => CupertinoActionSheetAction(
-                                      onPressed: () {},
-                                      child: Text(e),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: DefaultTextInput(
-                        labelText: state.fields[i].name,
-                        controller: TextEditingController(),
-                        inputType: TextInputType.emailAddress,
-                      ),
-                    );
-                  }
+                  return childBuilder(state.fields[i], context);
                 },
                 childCount: state.fields.length,
               ),

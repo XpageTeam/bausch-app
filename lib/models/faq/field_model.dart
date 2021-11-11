@@ -4,6 +4,7 @@ class FieldModel implements MappableInterface<FieldModel> {
   final int id;
   final String type;
   final String name;
+  final String xmlId;
   final List<String>? values;
   final bool? isRequired;
 
@@ -11,6 +12,7 @@ class FieldModel implements MappableInterface<FieldModel> {
     required this.id,
     required this.type,
     required this.name,
+    required this.xmlId,
     this.isRequired,
     this.values,
   });
@@ -20,6 +22,7 @@ class FieldModel implements MappableInterface<FieldModel> {
       id: map['id'] as int,
       type: map['type'] as String,
       name: map['name'] as String,
+      xmlId: map['xml_id'] as String,
       isRequired: map['required'] != null ? map['required'] as bool : null,
       values: map['values'] != null
           ? (map['values'] as List<dynamic>)
