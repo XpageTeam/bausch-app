@@ -14,6 +14,7 @@ class DefaultTextInput extends StatefulWidget {
   final Color? backgroundColor;
   final int? maxLines;
   final List<TextInputFormatter>? inputFormatters;
+  final bool autofocus;
   final AlignmentGeometry? labelAlignment;
 
   const DefaultTextInput({
@@ -27,6 +28,7 @@ class DefaultTextInput extends StatefulWidget {
     this.textStyle,
     this.maxLines,
     this.inputFormatters,
+    this.autofocus = false,
     Key? key,
   }) : super(key: key);
 
@@ -100,6 +102,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
               decoration: widget.decoration,
               maxLines: widget.maxLines,
               inputFormatters: widget.inputFormatters,
+              autofocus: widget.autofocus,
             ),
           ),
 

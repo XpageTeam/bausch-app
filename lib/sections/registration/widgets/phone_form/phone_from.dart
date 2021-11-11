@@ -1,5 +1,4 @@
 import 'package:bausch/global/login/login_wm.dart';
-import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
@@ -32,6 +31,7 @@ class _PhoneFormState extends WidgetState<PhoneForm, LoginWM> {
           controller: wm.phoneController,
           inputType: TextInputType.phone,
           textStyle: AppStyles.h1,
+          autofocus: true,
           // decoration: const InputDecoration(
           //   prefix: Text(
           //     '+7 ',
@@ -47,16 +47,7 @@ class _PhoneFormState extends WidgetState<PhoneForm, LoginWM> {
             return BlueButtonWithText(
               text: 'Продолжить',
               onPressed: state
-                  ? () {
-                      Navigator.push<void>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const CodeScreen();
-                          },
-                        ),
-                      );
-                    }
+                  ? () => wm.sendPhoneAction()
                   : null,
             );
           },
@@ -80,6 +71,7 @@ class _PhoneFormState extends WidgetState<PhoneForm, LoginWM> {
             ),
             const Flexible(
               child: Text(
+                // TODO(Danil): вывести ссылки
                 'Я соглашаюсь с Условиями обработки персональных данных и Правилами программы',
                 style: AppStyles.p1,
               ),
