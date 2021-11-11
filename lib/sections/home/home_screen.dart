@@ -77,9 +77,9 @@ class HomeScreen extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    DelayedAnimatedTranslateOpacity(
+                    const DelayedAnimatedTranslateOpacity(
                       offsetY: 40,
-                      child: StoriesSlider(items: Models.stories),
+                      child: StoriesSlider(),
                     ),
                   ],
                 ),
@@ -130,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     //* Вам может быть интересно
-                    const MayBeInteresting(),
+                    //const MayBeInteresting(),
 
                     //* Текстовые кнопки(Частые вопросы и тд)
                     const TextButtonsSection(),
@@ -152,9 +152,7 @@ class HomeScreen extends StatelessWidget {
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
-          onPressed: () {
-            showSheetWithoutItems(context, Models.sheets[2]);
-          },
+          onPressed: () {},
         ),
         animationDuration: Duration.zero,
       ),

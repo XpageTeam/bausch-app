@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/home/widgets/default_catalog_item.dart';
 import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
 import 'package:bausch/sections/home/widgets/slider/no_glow_behavior.dart';
