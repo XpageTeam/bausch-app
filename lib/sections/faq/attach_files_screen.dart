@@ -80,7 +80,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                 ),
                 if (state is AttachAdded)
                   SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, i) {

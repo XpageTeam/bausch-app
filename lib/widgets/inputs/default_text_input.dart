@@ -1,3 +1,4 @@
+// ignore_for_file: avoid-unnecessary-setstate
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

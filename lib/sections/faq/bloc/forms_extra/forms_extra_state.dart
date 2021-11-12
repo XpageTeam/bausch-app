@@ -1,4 +1,4 @@
-part of 'forms_extra_cubit.dart';
+part of 'forms_extra_bloc.dart';
 
 @immutable
 abstract class FormsExtraState {}
@@ -19,6 +19,6 @@ class FormsExtraFailed extends FormsExtraState {
 
   FormsExtraFailed({
     required this.title,
-    required this.subtitle,
+    this.subtitle,
   });
 }

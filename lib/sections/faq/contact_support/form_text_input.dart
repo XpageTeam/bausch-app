@@ -1,5 +1,5 @@
 import 'package:after_layout/after_layout.dart';
-import 'package:bausch/models/faq/field_model.dart';
+import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FormTextInput extends StatefulWidget {
   final FieldModel model;
+  final TextInputType? type;
   const FormTextInput({
     required this.model,
+    this.type,
     Key? key,
   }) : super(key: key);
 
@@ -46,7 +48,7 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
       child: DefaultTextInput(
         labelText: widget.model.name,
         controller: controller,
-        inputType: TextInputType.emailAddress,
+        inputType: widget.type ?? TextInputType.emailAddress,
         onChanged: (str) {
           if (widget.model.xmlId == 'email') {
             //debugPrint(str);

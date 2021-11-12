@@ -23,7 +23,7 @@ class FieldsInitial extends FieldsState {
 }
 
 class FieldsSending extends FieldsState {
-  FieldsSending({
+  const FieldsSending({
     required String email,
     required int topic,
     required int question,
@@ -47,7 +47,7 @@ class FieldsSended extends FieldsState {
 }
 
 class FieldsSetted extends FieldsState {
-  FieldsSetted({
+  const FieldsSetted({
     required String email,
     required int topic,
     required int question,
@@ -59,7 +59,7 @@ class FieldsSetted extends FieldsState {
 }
 
 class FieldsUpdated extends FieldsState {
-  FieldsUpdated({
+  const FieldsUpdated({
     required String email,
     required int topic,
     required int question,
@@ -74,7 +74,7 @@ class FieldsFailed extends FieldsState {
   final String title;
   final String? subtitle;
 
-  FieldsFailed({
+  const FieldsFailed({
     required this.title,
     required String email,
     required int topic,

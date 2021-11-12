@@ -1,23 +1,38 @@
+import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/form_builder.dart';
-import 'package:bausch/sections/faq/cubit/forms_extra/forms_extra_cubit.dart';
-import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/buttons/select_button.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExtraFormsSection extends StatefulWidget {
-  final int id;
-  const ExtraFormsSection({required this.id, Key? key}) : super(key: key);
+  //final int id;
+  const ExtraFormsSection({Key? key}) : super(key: key);
 
   @override
   _ExtraFormsSectionState createState() => _ExtraFormsSectionState();
 }
 
 class _ExtraFormsSectionState extends State<ExtraFormsSection> {
-  late FormsExtraCubit formsExtraCubit = FormsExtraCubit(id: widget.id);
+  late FormsExtraBloc formsExtraBloc;
+  late FieldsBloc fieldsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+    formsExtraBloc = BlocProvider.of<FormsExtraBloc>(context);
+    //formsExtraBloc.add(FormsExtraChangeId(id: widget.id));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    fieldsBloc.close();
+    formsExtraBloc.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +40,7 @@ class _ExtraFormsSectionState extends State<ExtraFormsSection> {
       padding: const EdgeInsets.symmetric(
         horizontal: StaticData.sidePadding,
       ),
-      sliver: BlocBuilder<FormsExtraCubit, FormsExtraState>(
-        bloc: formsExtraCubit,
+      sliver: BlocBuilder<FormsExtraBloc, FormsExtraState>(
         builder: (context, state) {
           if (state is FormsExtraSuccess) {
             return SliverList(
@@ -41,7 +55,7 @@ class _ExtraFormsSectionState extends State<ExtraFormsSection> {
           return SliverList(
             delegate: SliverChildListDelegate(
               [
-                const AnimatedLoader(),
+                Container(),
               ],
             ),
           );

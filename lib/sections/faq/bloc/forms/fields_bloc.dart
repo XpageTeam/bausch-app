@@ -10,7 +10,9 @@ part 'fields_event.dart';
 part 'fields_state.dart';
 
 class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
-  FieldsBloc() : super(FieldsInitial());
+  FieldsBloc() : super(const FieldsInitial()) {
+    debugPrint('Q: ${state.question}, topic: ${state.topic}');
+  }
 
   @override
   Stream<FieldsState> mapEventToState(
@@ -39,7 +41,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
     }
 
     if (event is FieldsSetTopic) {
-      debugPrint(event.number.toString());
+      //debugPrint(event.number.toString());
       yield FieldsUpdated(
         email: state.email,
         topic: event.number,
@@ -48,6 +50,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
     }
 
     if (event is FieldsSetQuestion) {
+      //debugPrint(event.number.toString());
       yield FieldsUpdated(
         email: state.email,
         topic: state.topic,
@@ -67,7 +70,6 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
           'email': email,
           'topic': topic,
           'question': question,
-          //if (message != null) 'message': message,
         }),
       ))
               .data!);
@@ -83,7 +85,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
       } else {
         debugPrint(parsedData.message);
         return FieldsFailed(
-          title: 'что-то пошло не так',
+          title: parsedData.message ?? 'Что-то пошло не так',
           email: state.email,
           topic: state.topic,
           question: state.question,

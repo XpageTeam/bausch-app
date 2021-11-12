@@ -1,17 +1,21 @@
-import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
+import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/form_builder.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
 import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/buttons/select_button.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DefaultFormsSection extends StatefulWidget {
-  final ContactSupportScreenArguments? arguments;
-  const DefaultFormsSection({this.arguments, Key? key}) : super(key: key);
+  //final ContactSupportScreenArguments? arguments;
+  final int? topic;
+  final int? question;
+  const DefaultFormsSection({
+    this.topic,
+    this.question,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DefaultFormsSection> createState() => _DefaultFormsSectionState();
@@ -19,6 +23,29 @@ class DefaultFormsSection extends StatefulWidget {
 
 class _DefaultFormsSectionState extends State<DefaultFormsSection> {
   final FormsCubit formsCubit = FormsCubit();
+  late FieldsBloc fieldsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+
+    if (widget.question != null) {
+      fieldsBloc.add(FieldsSetQuestion(widget.question!));
+    }
+
+    if (widget.topic != null) {
+      fieldsBloc.add(FieldsSetTopic(widget.topic!));
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    fieldsBloc.close();
+    formsCubit.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +63,6 @@ class _DefaultFormsSectionState extends State<DefaultFormsSection> {
                   return childBuilder(
                     state.fields[i],
                     context,
-                    widget.arguments,
                   );
                 },
                 childCount: state.fields.length,
@@ -46,7 +72,7 @@ class _DefaultFormsSectionState extends State<DefaultFormsSection> {
           return SliverList(
             delegate: SliverChildListDelegate(
               [
-                const AnimatedLoader(),
+                const Center(child: AnimatedLoader()),
               ],
             ),
           );

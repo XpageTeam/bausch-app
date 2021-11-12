@@ -1,6 +1,9 @@
-import 'package:bausch/models/faq/field_model.dart';
+// ignore_for_file: omit_local_variable_types
+
+import 'package:bausch/models/faq/forms/field_model.dart';
+import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
-import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
+import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +12,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Select extends StatefulWidget {
   final String? value;
   final FieldModel model;
-  final ContactSupportScreenArguments? arguments;
+  //final ContactSupportScreenArguments? arguments;
   const Select({
     required this.model,
-    this.arguments,
+    //this.arguments,
     this.value,
     Key? key,
   }) : super(key: key);
@@ -23,21 +26,43 @@ class Select extends StatefulWidget {
 
 class _SelectState extends State<Select> {
   late FieldsBloc fieldsBloc;
+  late FormsExtraBloc formsExtraBloc;
   late String? _value;
 
   @override
   void initState() {
     super.initState();
 
+    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+    formsExtraBloc = BlocProvider.of<FormsExtraBloc>(context);
+
+    _value = widget.model.name;
+
     if (widget.model.xmlId == 'category') {
-      _value = widget.arguments?.topic?.title ?? widget.model.name;
+      if (fieldsBloc.state.topic != 0) {
+        final ValueModel value = widget.model.values!
+            .firstWhere((element) => element.id == fieldsBloc.state.topic);
+        _value = value.name;
+      } else {
+        _value = widget.model.name;
+      }
     }
 
     if (widget.model.xmlId == 'question') {
-      _value = widget.arguments?.question?.title ?? widget.model.name;
+      if (fieldsBloc.state.question != 0) {
+        final ValueModel value = widget.model.values!
+            .firstWhere((element) => element.id == fieldsBloc.state.question);
+        _value = value.name;
+      } else {
+        _value = widget.model.name;
+      }
     }
+  }
 
-    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+  @override
+  void dispose() {
+    super.dispose();
+    fieldsBloc.close();
   }
 
   @override
@@ -57,24 +82,28 @@ class _SelectState extends State<Select> {
                     (e) => CupertinoActionSheetAction(
                       onPressed: () {
                         setState(() {
-                          _value = e;
+                          _value = e.name;
                         });
 
                         if (widget.model.xmlId == 'category') {
                           fieldsBloc.add(
-                            FieldsSetTopic(widget.model.id),
+                            FieldsSetTopic(e.id),
                           );
                         }
 
                         if (widget.model.xmlId == 'question') {
                           fieldsBloc.add(
-                            FieldsSetQuestion(widget.model.id),
+                            FieldsSetQuestion(e.id),
+                          );
+
+                          formsExtraBloc.add(
+                            FormsExtraChangeId(id: e.id),
                           );
                         }
 
                         Navigator.of(context).pop();
                       },
-                      child: Text(e),
+                      child: Text(e.name),
                     ),
                   )
                   .toList(),
