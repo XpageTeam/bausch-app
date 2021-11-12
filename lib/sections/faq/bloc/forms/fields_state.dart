@@ -5,20 +5,23 @@ abstract class FieldsState {
   final String email;
   final int topic;
   final int question;
+  final Map<String, dynamic> extra;
 
   const FieldsState({
     required this.email,
     required this.topic,
     required this.question,
+    required this.extra,
   });
 }
 
 class FieldsInitial extends FieldsState {
-  const FieldsInitial()
+  FieldsInitial()
       : super(
           email: '',
           topic: 0,
           question: 0,
+          extra: <String, dynamic>{},
         );
 }
 
@@ -27,10 +30,12 @@ class FieldsSending extends FieldsState {
     required String email,
     required int topic,
     required int question,
+    required Map<String, dynamic> extra,
   }) : super(
           email: email,
           topic: topic,
           question: question,
+          extra: extra,
         );
 }
 
@@ -39,10 +44,12 @@ class FieldsSended extends FieldsState {
     required String email,
     required int topic,
     required int question,
+    required Map<String, dynamic> extra,
   }) : super(
           email: email,
           topic: topic,
           question: question,
+          extra: extra,
         );
 }
 
@@ -51,10 +58,12 @@ class FieldsSetted extends FieldsState {
     required String email,
     required int topic,
     required int question,
+    required Map<String, dynamic> extra,
   }) : super(
           email: email,
           topic: topic,
           question: question,
+          extra: extra,
         );
 }
 
@@ -63,10 +72,12 @@ class FieldsUpdated extends FieldsState {
     required String email,
     required int topic,
     required int question,
+    required Map<String, dynamic> extra,
   }) : super(
           email: email,
           topic: topic,
           question: question,
+          extra: extra,
         );
 }
 
@@ -79,10 +90,12 @@ class FieldsFailed extends FieldsState {
     required String email,
     required int topic,
     required int question,
+    required Map<String, dynamic> extra,
     this.subtitle,
   }) : super(
           email: email,
           topic: topic,
           question: question,
+          extra: extra,
         );
 }

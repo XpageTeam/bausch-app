@@ -10,7 +10,7 @@ part 'fields_event.dart';
 part 'fields_state.dart';
 
 class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
-  FieldsBloc() : super(const FieldsInitial()) {
+  FieldsBloc() : super(FieldsInitial()) {
     debugPrint('Q: ${state.question}, topic: ${state.topic}');
   }
 
@@ -23,11 +23,13 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: state.question,
+        extra: state.extra,
       );
       yield await _sendFields(
         event.email,
         event.topic,
         event.question,
+        event.extra,
       );
     }
 
@@ -37,6 +39,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: event.txt,
         topic: state.topic,
         question: state.question,
+        extra: state.extra,
       );
     }
 
@@ -46,6 +49,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: event.number,
         question: state.question,
+        extra: state.extra,
       );
     }
 
@@ -55,22 +59,49 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: event.number,
+        extra: state.extra,
       );
+    }
+
+    if (event is FieldsAddExtra) {
+      yield _addExtra(event.extra);
+      debugPrint(state.extra.toString());
     }
   }
 
-  Future<FieldsState> _sendFields(String email, int topic, int question) async {
+  FieldsState _addExtra(Map<String, dynamic> extra) {
+    if (!state.extra.containsKey(extra.keys.first)) {
+      state.extra.addAll(extra);
+    } else {
+      state.extra[extra.keys.first] = extra.values.first;
+    }
+    return FieldsUpdated(
+      email: state.email,
+      topic: state.topic,
+      question: state.question,
+      extra: state.extra,
+    );
+  }
+
+  Future<FieldsState> _sendFields(
+    String email,
+    int topic,
+    int question,
+    Map<String, dynamic> a,
+  ) async {
     final rh = RequestHandler();
 
     try {
       final parsedData =
           BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         'faq/form/',
-        data: FormData.fromMap(<String, dynamic>{
-          'email': email,
-          'topic': topic,
-          'question': question,
-        }),
+        data: FormData.fromMap(
+          <String, dynamic>{
+            'email': email,
+            'topic': topic,
+            'question': question,
+          }..addAll(a),
+        ),
       ))
               .data!);
 
@@ -81,6 +112,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
           email: state.email,
           topic: state.topic,
           question: state.question,
+          extra: state.extra,
         );
       } else {
         debugPrint(parsedData.message);
@@ -89,6 +121,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
           email: state.email,
           topic: state.topic,
           question: state.question,
+          extra: state.extra,
         );
       }
     } on ResponseParseExeption catch (e) {
@@ -98,6 +131,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: state.question,
+        extra: state.extra,
       );
     } on DioError catch (e) {
       return FieldsFailed(
@@ -106,6 +140,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: state.question,
+        extra: state.extra,
       );
     }
   }

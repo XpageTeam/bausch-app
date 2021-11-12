@@ -99,6 +99,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                           email: state.email,
                           topic: state.topic,
                           question: state.question,
+                          extra: state.extra,
                         ),
                       );
                     },

@@ -40,16 +40,22 @@ class FieldsSetQuestion extends FormsSetInt {
         );
 }
 
-class FieldsSetField extends FieldsEvent {}
+class FieldsAddExtra extends FieldsEvent {
+  final Map<String, dynamic> extra;
+
+  FieldsAddExtra({required this.extra});
+}
 
 class FieldsSend extends FieldsEvent {
   final String email;
   final int topic;
   final int question;
+  final Map<String, dynamic> extra;
 
   FieldsSend({
     required this.email,
     required this.topic,
     required this.question,
+    required this.extra,
   });
 }

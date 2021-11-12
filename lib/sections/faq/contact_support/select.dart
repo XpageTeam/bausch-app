@@ -89,15 +89,21 @@ class _SelectState extends State<Select> {
                           fieldsBloc.add(
                             FieldsSetTopic(e.id),
                           );
-                        }
-
-                        if (widget.model.xmlId == 'question') {
+                        } else if (widget.model.xmlId == 'question') {
                           fieldsBloc.add(
                             FieldsSetQuestion(e.id),
                           );
 
                           formsExtraBloc.add(
                             FormsExtraChangeId(id: e.id),
+                          );
+                        } else {
+                          fieldsBloc.add(
+                            FieldsAddExtra(
+                              extra: <String, dynamic>{
+                                'extra[${widget.model.xmlId}]': e.id,
+                              },
+                            ),
                           );
                         }
 

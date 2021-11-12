@@ -26,13 +26,31 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
   void initState() {
     super.initState();
     fieldsBloc = BlocProvider.of<FieldsBloc>(context);
-    controller.addListener(
-      () {
-        fieldsBloc.add(
-          FieldsSetEmail(controller.text),
+    switch (widget.model.xmlId) {
+      case 'email':
+        controller.addListener(
+          () {
+            fieldsBloc.add(
+              FieldsSetEmail(controller.text),
+            );
+          },
         );
-      },
-    );
+        break;
+      default:
+        controller.addListener(
+          () {
+            fieldsBloc.add(
+              FieldsAddExtra(
+                extra: controller.text.isNotEmpty
+                    ? <String, dynamic>{
+                        'extra[${widget.model.xmlId}]': controller.text,
+                      }
+                    : <String, dynamic>{},
+              ),
+            );
+          },
+        );
+    }
   }
 
   @override
@@ -49,11 +67,6 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
         labelText: widget.model.name,
         controller: controller,
         inputType: widget.type ?? TextInputType.emailAddress,
-        onChanged: (str) {
-          if (widget.model.xmlId == 'email') {
-            //debugPrint(str);
-          }
-        },
       ),
     );
   }
