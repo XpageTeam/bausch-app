@@ -11,58 +11,29 @@ import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
-class MyApp extends CoreMwwmWidget<AuthWM> {
-  MyApp({
-    // required AuthWM wm,
+class MyApp extends StatelessWidget {
+  const MyApp({
     Key? key,
-  }) : super(
-          widgetModelBuilder: (context) =>
-              AuthWM(const WidgetModelDependencies()),
-          key: key,
-        );
+  }) : super(key: key);
 
-  @override
-  WidgetState<CoreMwwmWidget<AuthWM>, AuthWM> createWidgetState() =>
-      _MyAppState();
-}
-
-class _MyAppState extends WidgetState<MyApp, AuthWM> {
   @override
   Widget build(BuildContext context) {
-    RequestHandler.setContext(context);
-
-    wm.checkAuthAction();
-
     return Provider(
-      create: (context) => wm,
+      create: (context) {
+        return AuthWM(const WidgetModelDependencies());
+      },
+      lazy: false,
       child: GlobalProviders(
         child: MaterialApp(
           title: 'Bausch + Lomb',
           navigatorKey: Keys.mainNav,
           theme: AppTheme.currentAppTheme,
-          home: StreamedStateBuilder<AuthStatus>(
-            streamedState: wm.authStatus,
-            builder: (context, data) {
-              switch (data) {
-                case AuthStatus.unknown:
-                  return const LoaderScreen();
-
-                case AuthStatus.unauthenticated:
-                  return const LoadingScreen();
-
-                case AuthStatus.authenticated:
-                  // TODO(Danil): реализовать переход
-                  // if (wm.user.value.data?.user.city != null) {
-                    return const HomeScreen();
-                  // } else {
-                  //   return const CityAndEmailScreen();
-                  // }
-              }
-            },
-          ),
+          home: const LoaderScreen(),
         ),
       ),
     );

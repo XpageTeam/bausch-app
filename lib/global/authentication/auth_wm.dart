@@ -18,48 +18,37 @@ enum AuthStatus {
 class AuthWM extends WidgetModel {
   final authStatus = StreamedState<AuthStatus>(AuthStatus.unknown);
 
-  final user = EntityStreamedState<UserRepository>()..loading();
+  final user = EntityStreamedState<UserRepository>();
 
   final checkAuthAction = VoidAction();
 
   AuthWM(WidgetModelDependencies baseDependencies) : super(baseDependencies);
 
   @override
+  void onLoad() {
+    debugPrint('1232');
+    super.onLoad();
+  }
+
+  @override
   void onBind() {
     subscribe(authStatus.stream, (value) {
+      late Widget targetPage;
+
       switch (authStatus.value) {
         case AuthStatus.unknown:
-          Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
-            PageRouteBuilder<void>(
-              pageBuilder: (context, animation, secondaryAnimation) {
-                return const LoaderScreen();
-              },
-            ),
-            (route) => false,
-          );
+          targetPage = const LoaderScreen();
           break;
 
         case AuthStatus.unauthenticated:
-          Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
-            PageRouteBuilder<void>(
-              pageBuilder: (context, animation, secondaryAnimation) {
-                return const LoadingScreen();
-              },
-            ),
-            (route) => false,
-          );
+          targetPage =  const LoadingScreen();
           break;
 
         case AuthStatus.authenticated:
-        // TODO(Danil): реализовать переход
+          // TODO(Danil): реализовать переход
           // if (user.value.data != null) {
           //   if (user.value.data?.user.city != null) {
-              Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
-                CupertinoPageRoute<void>(
-                  builder: (context) => const HomeScreen(),
-                ),
-                (route) => false,
-              );
+          targetPage = const HomeScreen();
           //   } else {
           //     Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
           //       CupertinoPageRoute<void>(
@@ -69,15 +58,26 @@ class AuthWM extends WidgetModel {
           //     );
           //   }
           // }
-
+ 
           break;
       }
+
+      Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
+        PageRouteBuilder<void>(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return targetPage;
+          },
+        ),
+        (route) => false,
+      );
     });
 
     subscribe(checkAuthAction.stream, (value) {
-      user.loading();
+      debugPrint('1234');
+      if (user.value.isLoading) return;
+      debugPrint('1234345');
 
-      debugPrint('21342');
+      user.loading();
 
       UserWriter.checkUserToken().then((user) {
         if (user == null) {
@@ -91,8 +91,13 @@ class AuthWM extends WidgetModel {
         }
 
         debugPrint(user.toString());
+      // ignore: argument_type_not_assignable_to_error_handler
+      }).catchError((){
+        debugPrint('error');
       });
     });
+
+    checkAuthAction();
 
     super.onBind();
   }
