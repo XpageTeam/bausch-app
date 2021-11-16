@@ -45,15 +45,25 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
       default:
         controller.addListener(
           () {
-            fieldsBloc.add(
-              FieldsAddExtra(
-                extra: controller.text.isNotEmpty
-                    ? <String, dynamic>{
-                        'extra[${widget.model.xmlId}]': controller.text,
-                      }
-                    : <String, dynamic>{},
-              ),
-            );
+            if (controller.text.isNotEmpty) {
+              fieldsBloc.add(
+                FieldsAddExtra(
+                  extra: <String, dynamic>{
+                    'extra[${widget.model.xmlId}]': controller.text,
+                  },
+                ),
+              );
+            }
+
+            if (controller.text.isEmpty) {
+              fieldsBloc.add(
+                FieldsRemoveExtra(
+                  extra: <String, dynamic>{
+                    'extra[${widget.model.xmlId}]': controller.text,
+                  },
+                ),
+              );
+            }
           },
         );
     }

@@ -18,6 +18,10 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
     if (event is AttachAdd) {
       yield await _attachFile();
     }
+
+    if (event is AttachAddFromOutside) {
+      yield AttachAdded(files: event.files);
+    }
   }
 
   Future<AttachState> _attachFile() async {

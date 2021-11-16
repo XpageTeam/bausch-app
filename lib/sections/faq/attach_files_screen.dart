@@ -41,6 +41,13 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(

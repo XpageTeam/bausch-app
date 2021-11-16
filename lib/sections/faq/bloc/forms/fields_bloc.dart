@@ -39,7 +39,6 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
     }
 
     if (event is FieldsSetEmail) {
-      debugPrint(event.txt);
       yield FieldsUpdated(
         email: event.txt,
         topic: state.topic,
@@ -86,20 +85,33 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
       yield _addExtra(event.extra);
       debugPrint(state.extra.toString());
     }
+
+    if (event is FieldsRemoveExtra) {
+      yield _removeExtra(event.extra);
+      debugPrint(state.extra.toString());
+    }
   }
 
   FieldsState _addExtra(Map<String, dynamic> extra) {
-    if (extra.keys.isNotEmpty) {
-      if (!state.extra.containsKey(extra.keys.first)) {
-        state.extra.addAll(extra);
-      } else {
-        state.extra[extra.keys.first] = extra.values.first;
-      }
+    if (!state.extra.containsKey(extra.keys.first)) {
+      state.extra.addAll(extra);
     } else {
-      if (state.extra.isNotEmpty) {
-        state.extra.remove(state.extra.keys.last);
-      }
+      state.extra[extra.keys.first] = extra.values.first;
     }
+    return FieldsUpdated(
+      email: state.email,
+      topic: state.topic,
+      question: state.question,
+      files: state.files,
+      extra: state.extra,
+    );
+  }
+
+  FieldsState _removeExtra(Map<String, dynamic> extra) {
+    if (state.extra.containsKey(extra.keys.first)) {
+      state.extra.remove(extra.keys.first);
+    }
+
     return FieldsUpdated(
       email: state.email,
       topic: state.topic,
@@ -135,7 +147,9 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
 
       if (parsedData.success) {
         //message = (result.data as Map<String, dynamic>)['message'] as Strin
-        debugPrint('sended');
+        debugPrint(
+          'Email: ${state.email}\nTopic: ${state.topic}\nQuestion: ${state.question}\nFiles: ${state.files}\nExtra: ${state.extra}\n',
+        );
         return FieldsSended(
           email: state.email,
           topic: state.topic,

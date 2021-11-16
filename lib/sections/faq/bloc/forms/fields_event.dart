@@ -46,6 +46,12 @@ class FieldsAddExtra extends FieldsEvent {
   FieldsAddExtra({required this.extra});
 }
 
+class FieldsRemoveExtra extends FieldsEvent {
+  final Map<String, dynamic> extra;
+
+  FieldsRemoveExtra({required this.extra});
+}
+
 class FieldsAddFiles extends FieldsEvent {
   final List<File> files;
 
