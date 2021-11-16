@@ -1,5 +1,6 @@
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
@@ -83,6 +84,13 @@ class SimpleOverlayNavigation extends StatelessWidget {
                   .question,
               topic:
                   (settings.arguments as ContactSupportScreenArguments).topic,
+            );
+            break;
+
+          case '/attach':
+            page = AttachFilesScreen(
+              fieldsBloc:
+                  (settings.arguments as AttachFilesScreenArguments).fieldsBloc,
             );
             break;
 

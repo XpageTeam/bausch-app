@@ -1,10 +1,12 @@
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/default_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/extra_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/forms_listener.dart';
 import 'package:bausch/sections/faq/contact_support/forms_provider.dart';
+import 'package:bausch/sections/faq/contact_support/forms_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
@@ -50,65 +52,10 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
       ),
       child: FormsProvider(
         child: FormsListener(
-          child: BlocBuilder<FieldsBloc, FieldsState>(
-            builder: (context, state) {
-              return Scaffold(
-                backgroundColor: AppTheme.mystic,
-                resizeToAvoidBottomInset: false,
-                body: CustomScrollView(
-                  controller: widget.controller,
-                  slivers: [
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 14,
-                              bottom: 30,
-                            ),
-                            child: DefaultAppBar(
-                              title: 'Написать в поддержку',
-                              backgroundColor: AppTheme.mystic,
-                              topRightWidget: NormalIconButton(
-                                icon: const Icon(Icons.close),
-                                onPressed: () {
-                                  Keys.mainNav.currentState!.pop();
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    DefaultFormsSection(
-                      topic: widget.topic?.id,
-                      question: widget.question?.id,
-                    ),
-                    const ExtraFormsSection(),
-                  ],
-                ),
-                floatingActionButton: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding,
-                  ),
-                  child: BlueButtonWithText(
-                    text: 'Отправить',
-                    onPressed: () {
-                      BlocProvider.of<FieldsBloc>(context).add(
-                        FieldsSend(
-                          email: state.email,
-                          topic: state.topic,
-                          question: state.question,
-                          extra: state.extra,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerFloat,
-              );
-            },
+          child: FormsScreen(
+            controller: widget.controller,
+            topic: widget.topic,
+            question: widget.question,
           ),
         ),
       ),

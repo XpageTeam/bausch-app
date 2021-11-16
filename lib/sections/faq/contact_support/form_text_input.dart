@@ -8,9 +8,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FormTextInput extends StatefulWidget {
   final FieldModel model;
   final TextInputType? type;
+  final int? maxLines;
+  final Alignment? labelAlignment;
+  final InputDecoration? decoration;
   const FormTextInput({
     required this.model,
     this.type,
+    this.maxLines,
+    this.labelAlignment,
+    this.decoration,
     Key? key,
   }) : super(key: key);
 
@@ -67,6 +73,9 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
         labelText: widget.model.name,
         controller: controller,
         inputType: widget.type ?? TextInputType.emailAddress,
+        maxLines: widget.maxLines,
+        labelAlignment: widget.labelAlignment,
+        decoration: widget.decoration,
       ),
     );
   }

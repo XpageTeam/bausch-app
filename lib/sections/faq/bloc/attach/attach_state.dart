@@ -1,16 +1,24 @@
 part of 'attach_bloc.dart';
 
 @immutable
-abstract class AttachState {}
+abstract class AttachState {
+  final List<File> files;
 
-class AttachInitial extends AttachState {}
-
-class AttachAdding extends AttachState {}
-
-class AttachAdded extends AttachState {
-  final List<String> files;
-
-  AttachAdded({required this.files});
+  const AttachState({required this.files});
 }
 
-class AttachStopped extends AttachState {}
+class AttachInitial extends AttachState {
+  AttachInitial() : super(files: []);
+}
+
+class AttachAdding extends AttachState {
+  AttachAdding() : super(files: []);
+}
+
+class AttachAdded extends AttachState {
+  const AttachAdded({required List<File> files}) : super(files: files);
+}
+
+class AttachStopped extends AttachState {
+  AttachStopped() : super(files: []);
+}

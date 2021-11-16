@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
@@ -23,12 +26,14 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: state.question,
+        files: state.files,
         extra: state.extra,
       );
       yield await _sendFields(
         event.email,
         event.topic,
         event.question,
+        event.files,
         event.extra,
       );
     }
@@ -39,6 +44,18 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: event.txt,
         topic: state.topic,
         question: state.question,
+        files: state.files,
+        extra: state.extra,
+      );
+    }
+
+    if (event is FieldsAddFiles) {
+      debugPrint(event.files.toString());
+      yield FieldsUpdated(
+        email: state.email,
+        topic: state.topic,
+        question: state.question,
+        files: event.files,
         extra: state.extra,
       );
     }
@@ -49,6 +66,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: event.number,
         question: state.question,
+        files: state.files,
         extra: state.extra,
       );
     }
@@ -59,6 +77,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: event.number,
+        files: state.files,
         extra: state.extra,
       );
     }
@@ -70,15 +89,22 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
   }
 
   FieldsState _addExtra(Map<String, dynamic> extra) {
-    if (!state.extra.containsKey(extra.keys.first)) {
-      state.extra.addAll(extra);
+    if (extra.keys.isNotEmpty) {
+      if (!state.extra.containsKey(extra.keys.first)) {
+        state.extra.addAll(extra);
+      } else {
+        state.extra[extra.keys.first] = extra.values.first;
+      }
     } else {
-      state.extra[extra.keys.first] = extra.values.first;
+      if (state.extra.isNotEmpty) {
+        state.extra.remove(state.extra.keys.last);
+      }
     }
     return FieldsUpdated(
       email: state.email,
       topic: state.topic,
       question: state.question,
+      files: state.files,
       extra: state.extra,
     );
   }
@@ -87,7 +113,8 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
     String email,
     int topic,
     int question,
-    Map<String, dynamic> a,
+    List<File> files,
+    Map<String, dynamic> extra,
   ) async {
     final rh = RequestHandler();
 
@@ -100,7 +127,8 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
             'email': email,
             'topic': topic,
             'question': question,
-          }..addAll(a),
+            'files': files,
+          }..addAll(extra),
         ),
       ))
               .data!);
@@ -112,6 +140,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
           email: state.email,
           topic: state.topic,
           question: state.question,
+          files: state.files,
           extra: state.extra,
         );
       } else {
@@ -121,6 +150,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
           email: state.email,
           topic: state.topic,
           question: state.question,
+          files: state.files,
           extra: state.extra,
         );
       }
@@ -131,6 +161,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: state.question,
+        files: state.files,
         extra: state.extra,
       );
     } on DioError catch (e) {
@@ -140,6 +171,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
         email: state.email,
         topic: state.topic,
         question: state.question,
+        files: state.files,
         extra: state.extra,
       );
     }

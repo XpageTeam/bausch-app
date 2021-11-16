@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:meta/meta.dart';
@@ -21,7 +24,12 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
     final result = await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null) {
-      return AttachAdded(files: result.files.map((e) => e.name).toList());
+      state.files.addAll(result.files.map((e) => File(e.path!)).toList());
+
+      //* Убираю дубликаты
+      var files = LinkedHashSet<File>.from(state.files).toList();
+
+      return AttachAdded(files: files);
     } else {
       return AttachStopped();
     }

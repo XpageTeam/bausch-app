@@ -24,7 +24,6 @@ class _ExtraFormsSectionState extends State<ExtraFormsSection> {
 
     fieldsBloc = BlocProvider.of<FieldsBloc>(context);
     formsExtraBloc = BlocProvider.of<FormsExtraBloc>(context);
-    //formsExtraBloc.add(FormsExtraChangeId(id: widget.id));
   }
 
   @override

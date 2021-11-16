@@ -46,10 +46,17 @@ class FieldsAddExtra extends FieldsEvent {
   FieldsAddExtra({required this.extra});
 }
 
+class FieldsAddFiles extends FieldsEvent {
+  final List<File> files;
+
+  FieldsAddFiles({required this.files});
+}
+
 class FieldsSend extends FieldsEvent {
   final String email;
   final int topic;
   final int question;
+  final List<File> files;
   final Map<String, dynamic> extra;
 
   FieldsSend({
@@ -57,5 +64,6 @@ class FieldsSend extends FieldsEvent {
     required this.topic,
     required this.question,
     required this.extra,
+    required this.files,
   });
 }
