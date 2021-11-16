@@ -39,69 +39,79 @@ class _FormsScreenState extends State<FormsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: CustomScrollView(
-        controller: widget.controller,
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 14,
-                    bottom: 30,
-                  ),
-                  child: DefaultAppBar(
-                    title: 'Написать в поддержку',
-                    backgroundColor: AppTheme.mystic,
-                    topRightWidget: NormalIconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        Keys.mainNav.currentState!.pop();
-                      },
+    return BlocBuilder<FieldsBloc, FieldsState>(
+      bloc: fieldsBloc,
+      builder: (context, state) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: CustomScrollView(
+            controller: widget.controller,
+            slivers: [
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 14,
+                        bottom: 30,
+                      ),
+                      child: DefaultAppBar(
+                        title: 'Написать в поддержку',
+                        backgroundColor: AppTheme.mystic,
+                        topRightWidget: NormalIconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            Keys.mainNav.currentState!.pop();
+                          },
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          DefaultFormsSection(
-            topic: widget.topic?.id,
-            question: widget.question?.id,
-          ),
-          const ExtraFormsSection(),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                const SizedBox(
-                  height: 120,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: StaticData.sidePadding,
-        ),
-        child: BlueButtonWithText(
-          text: 'Отправить',
-          onPressed: () {
-            fieldsBloc.add(
-              FieldsSend(
-                email: fieldsBloc.state.email,
-                topic: fieldsBloc.state.topic,
-                question: fieldsBloc.state.question,
-                files: fieldsBloc.state.files,
-                extra: fieldsBloc.state.extra,
               ),
-            );
-          },
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+              DefaultFormsSection(
+                topic: widget.topic?.id,
+                question: widget.question?.id,
+              ),
+              const ExtraFormsSection(),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const SizedBox(
+                      height: 120,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: StaticData.sidePadding,
+            ),
+            child: BlueButtonWithText(
+              text: 'Отправить',
+              onPressed: ((fieldsBloc.state.email != '') &&
+                      (fieldsBloc.state.topic != 0) &&
+                      (fieldsBloc.state.question != 0))
+                  ? () {
+                      fieldsBloc.add(
+                        FieldsSend(
+                          email: state.email,
+                          topic: state.topic,
+                          question: state.question,
+                          files: state.files,
+                          extra: state.extra,
+                        ),
+                      );
+                    }
+                  : null,
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+        );
+      },
     );
   }
 }
