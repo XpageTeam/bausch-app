@@ -1,41 +1,63 @@
 import 'package:bausch/models/catalog_item_model.dart';
-import 'package:bausch/sections/home/widgets/default_catalog_item.dart';
 import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
+import 'package:bausch/sections/home/widgets/slider/custom_scroll_controller.dart';
 import 'package:bausch/sections/home/widgets/slider/no_glow_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ItemsRow extends StatefulWidget {
-  final List<CatalogItemModel> items;
+typedef ItemBuilder<T> = Widget Function(
+  BuildContext context,
+  T item,
+);
+
+class ItemsRow<T> extends StatefulWidget {
+  final List<T> items;
   final int itemsOnPage;
+  final double maxWidth;
   final double spaceBetween;
+  final int initPage;
   final Duration animationDuration;
+
+  final ItemBuilder<T> builder;
 
   const ItemsRow({
     required this.items,
     required this.animationDuration,
-    this.itemsOnPage = 2,
-    this.spaceBetween = 4,
+    required this.itemsOnPage,
+    required this.maxWidth,
+    required this.initPage,
+    required this.spaceBetween,
+    required this.builder,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ItemsRow> createState() => _ItemsRowState();
+  State<ItemsRow<T>> createState() => _ItemsRowState<T>();
 }
 
-class _ItemsRowState extends State<ItemsRow> with TickerProviderStateMixin {
-  late final ScrollController controller = ScrollController(
-    initialScrollOffset: (maxWidth + widget.spaceBetween) * 2,
-  );
+class _ItemsRowState<T> extends State<ItemsRow<T>> {
+  late final double triggerOffset = widget.maxWidth + widget.spaceBetween;
+  late final controller = widget.items.length / widget.itemsOnPage <= 3
+      ? ScrollController()
+      : CustomScrollController(
+          triggerOffset: triggerOffset,
+          initialScrollOffset:
+              currentPage * (widget.maxWidth + widget.spaceBetween),
+        );
 
-// TODO(Nikolay): ! Проблема !.
-  // late final SliderCubit sliderCubit;
-  int currentPage = 2;
-  late double maxWidth;
+  late int currentPage = 1;
+  late double itemWidth;
+  int scrolledPages = 0;
+
+  int counter = 0;
 
   @override
   void initState() {
     super.initState();
+
+    itemWidth =
+        (widget.maxWidth - (widget.itemsOnPage - 1) * widget.spaceBetween) /
+            widget.itemsOnPage;
   }
 
   @override
@@ -46,22 +68,48 @@ class _ItemsRowState extends State<ItemsRow> with TickerProviderStateMixin {
       (_) {
         controller.addListener(
           () {
-            final newPage = double.parse(
-              (controller.offset / maxWidth).toStringAsFixed(5),
+            final otherNewPage = double.parse(
+              (controller.offset / (widget.maxWidth + widget.spaceBetween))
+                  .toStringAsFixed(5),
             ).round();
 
-            if (currentPage > newPage && currentPage - newPage < 3) {
-              BlocProvider.of<SliderCubit>(context).slidePageTo(-1);
-            }
-            if (currentPage < newPage && currentPage - newPage > -3) {
-              BlocProvider.of<SliderCubit>(context).slidePageTo(1);
-            }
+            if (currentPage != otherNewPage) {
+              // TODO(Nikolay): Изменить.
+              // if (otherNewPage < currentPage) {
+              //   if (otherNewPage - currentPage > -3) {
+              //     scrolledPages -= 1;
+              //   } else {
+              //     scrolledPages += 1;
+              //   }
+              // }
 
-            setState(
-              () {
-                currentPage = newPage;
-              },
-            );
+              // // Вправо
+              // if (otherNewPage > currentPage) {
+              //   if (otherNewPage - currentPage < 3) {
+              //     scrolledPages += 1;
+              //   } else {
+              //     scrolledPages -= 1;
+              //   }
+              // }
+              var scrollPages = 0;
+
+              // TODO(Nikolay): Протестить.
+              if (otherNewPage < currentPage &&
+                      otherNewPage - currentPage >= -1 ||
+                  otherNewPage > currentPage &&
+                      otherNewPage - currentPage > 1) {
+                // Влево
+                scrolledPages = -1;
+              } else {
+                // Вправо
+                scrolledPages = 1;
+              }
+              setState(
+                () {
+                  currentPage = otherNewPage;
+                },
+              );
+            }
           },
         );
       },
@@ -76,85 +124,61 @@ class _ItemsRowState extends State<ItemsRow> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        maxWidth = constraints.maxWidth;
-        return BlocConsumer<SliderCubit, SliderState>(
-          listener: (context, state) {
-            if (controller.hasClients && state is SliderMoveTo) {
-              controller.animateTo(
-                maxWidth * (currentPage + state.direction) >
-                        controller.position.maxScrollExtent
-                    ? controller.position.maxScrollExtent
-                    : (maxWidth + widget.spaceBetween) *
-                        (currentPage + state.direction),
-                duration: widget.animationDuration,
-                curve: Curves.easeOutQuart,
-              );
-            }
-          },
-          builder: (context, state) {
-            return NotificationListener<ScrollNotification>(
-              onNotification: (scrollNotification) {
-                if (scrollNotification is ScrollEndNotification) {
-                  onEndScroll(scrollNotification.metrics);
-                }
+    return BlocListener<SliderCubit, SliderState>(
+      listener: (context, state) {
+        if (controller.hasClients && state is SliderMovePage) {
+          final newOffset =
+              currentPage * (widget.maxWidth + widget.spaceBetween) +
+                  state.scrollPages * (widget.maxWidth + widget.spaceBetween);
 
-                return true;
-              },
-              child: ScrollConfiguration(
-                behavior: NoGlowScrollBehavior(),
-                child: SingleChildScrollView(
-                  controller: controller,
-                  scrollDirection: Axis.horizontal,
-                  child: IntrinsicHeight(
-                    child: Row(
-                      children: List.generate(
-                        widget.items.length,
-                        (i) => DefaultCatalogItem(
-                          model: widget.items[i],
-                          rightMargin: i == widget.items.length - 1
-                              ? 0
-                              : widget.spaceBetween,
-                          itemWidth: (maxWidth - widget.spaceBetween) /
-                              widget.itemsOnPage,
-                        ),
-                      ),
+          controller.animateTo(
+            newOffset,
+            duration: widget.animationDuration,
+            curve: Curves.easeOutQuart,
+          );
+        }
+      },
+      child: ScrollConfiguration(
+        behavior: NoGlowScrollBehavior(),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (scroll) {
+            if (scroll is ScrollEndNotification) {
+              if (scrolledPages != 0) {
+                BlocProvider.of<SliderCubit>(context)
+                    // TODO(Nikolay): Переделать на "неограниченное" количество страниц при скроллинге.
+                    .slidePageBy(scrolledPages.sign);
+                scrolledPages = 0;
+              }
+            }
+
+            return false;
+          },
+          child: SingleChildScrollView(
+            controller: controller,
+            physics: const AlwaysScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: IntrinsicHeight(
+              child: Row(
+                children: List.generate(
+                  widget.items.length,
+                  (index) => Container(
+                    margin: EdgeInsets.only(
+                      right: index == widget.items.length - 1
+                          ? 0
+                          : widget.spaceBetween,
+                    ),
+                    width: itemWidth,
+                    child: widget.builder(
+                      context,
+                      widget.items[index],
                     ),
                   ),
                 ),
               ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void onEndScroll(ScrollMetrics metrics) {
-    if (metrics.extentBefore < metrics.extentInside + widget.spaceBetween) {
-      final end = metrics.maxScrollExtent -
-          metrics.extentInside * 2 -
-          widget.spaceBetween * 3 +
-          (metrics.pixels - metrics.extentInside);
-
-      jumpTo(end);
-    }
-    if (metrics.extentAfter < metrics.extentInside + widget.spaceBetween) {
-      final start = metrics.extentInside * 2 +
-          widget.spaceBetween * 3 +
-          metrics.extentInside +
-          metrics.pixels -
-          metrics.maxScrollExtent;
-
-      jumpTo(start);
-    }
-  }
-
-  Future<void> jumpTo(double offset) async {
-    await Future.delayed(
-      Duration.zero,
-      () => controller.jumpTo(offset),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

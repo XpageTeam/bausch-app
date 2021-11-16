@@ -39,6 +39,11 @@ class Models {
 
   static List<CatalogItemModel> items = [
     CatalogItemModel(
+      name: '0. Раствор жопы универсальный(300 мл)',
+      price: '1300',
+      img: 'assets/items/item1.png',
+    ),
+    CatalogItemModel(
       name: '1. Раствор Biotrue универсальный(300 мл)',
       price: '1300',
       img: 'assets/items/item1.png',
