@@ -1,8 +1,10 @@
+import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/city_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/lenses_parameters.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
@@ -24,11 +26,11 @@ class MainNavigation extends StatelessWidget {
         Widget page;
 
         switch (settings.name) {
-          // case '/':
-          //   page = const LoadingScreen();
-          //   break;
-
           case '/':
+            page = const LoadingScreen();
+            break;
+
+          case '/home':
             page = const HomeScreen();
             break;
 
@@ -42,6 +44,10 @@ class MainNavigation extends StatelessWidget {
 
           case '/my_adresses':
             page = const MyAdressesScreen();
+            break;
+
+          case '/city':
+            page = const CityScreen();
             break;
 
           case '/lenses_parameters':

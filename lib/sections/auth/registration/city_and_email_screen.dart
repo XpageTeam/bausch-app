@@ -4,7 +4,9 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/inputs/default_text_form_field.dart';
+import 'package:bausch/widgets/select_widgets/dropdown_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -48,30 +50,40 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
                   style: AppStyles.h1,
                 ),
               ),
-              DefaultTextFormField(
+              FocusButton(
                 labelText: 'Город',
-                controller: cityController,
-                inputType: TextInputType.name,
-                validator: (dynamic value) {
-                  if (value == null || value.toString().isEmpty) {
-                    return 'Не введёно название города';
-                  }
-                  return null;
+                onPressed: () {
+                  Keys.mainContentNav.currentState!.pushNamed('/city');
                 },
               ),
               const SizedBox(
                 height: 4,
               ),
-              DefaultTextFormField(
-                labelText: 'E-mail',
-                controller: emailController,
-                inputType: TextInputType.emailAddress,
-                validator: (dynamic value) {
-                  if (value == null || value.toString().isEmpty) {
-                    return 'Не введён e-mail';
-                  }
-                  return null;
-                },
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  DefaultTextFormField(
+                    labelText: 'E-mail',
+                    controller: emailController,
+                    inputType: TextInputType.emailAddress,
+                    validator: (dynamic value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return 'Не введён e-mail';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  //* Кнопка с колбеком
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.arrow_forward_ios_sharp,
+                      color: AppTheme.grey,
+                      size: 20,
+                    ),
+                  ),
+                ],
               ),
               if (!isValidated)
                 Column(
