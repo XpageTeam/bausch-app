@@ -91,6 +91,7 @@ flutter:
     - assets/
     - assets/logos/
     - assets/items/
+    - assets/icons/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png
