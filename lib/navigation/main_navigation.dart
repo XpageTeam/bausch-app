@@ -9,6 +9,7 @@ import 'package:bausch/sections/profile/profile_settings/lenses_parameters.dart'
 import 'package:bausch/sections/profile/profile_settings/my_adresses_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для страниц приложения

@@ -37,7 +37,7 @@ class TextButtonsListener extends StatelessWidget {
                   title: 'Частые вопросы',
                   type: SimpleSheetType.faq,
                 ),
-                state.topics,
+                topics: state.topics,
               );
             }
           },
@@ -63,6 +63,7 @@ class TextButtonsListener extends StatelessWidget {
                   title: 'Rules',
                   type: SimpleSheetType.rules,
                 ),
+                rules: state.data,
               );
             }
           },

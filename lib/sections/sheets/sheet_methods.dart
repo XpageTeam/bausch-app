@@ -42,8 +42,12 @@ void showSheetWithItems(
 }
 
 //* Функция вывода bottomSheet(Частые вопросы,Библиотека ссылок,Правила прграммы)
-void showSimpleSheet(BuildContext context, SimpleSheetModel model,
-    [List<TopicModel>? topics]) {
+void showSimpleSheet(
+  BuildContext context,
+  SimpleSheetModel model, {
+  List<TopicModel>? topics,
+  String? rules,
+}) {
   showFlexibleBottomSheet<void>(
     useRootNavigator: true,
     minHeight: 0,
@@ -57,6 +61,7 @@ void showSimpleSheet(BuildContext context, SimpleSheetModel model,
           controller: controller,
           sheetModel: model,
           topics: topics,
+          rules: rules,
         ),
       );
     },

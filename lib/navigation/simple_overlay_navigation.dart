@@ -13,10 +13,12 @@ class SimpleOverlayNavigation extends StatelessWidget {
   final ScrollController controller;
   final SimpleSheetModel sheetModel;
   final List<TopicModel>? topics;
+  final String? rules;
 
   const SimpleOverlayNavigation({
     required this.controller,
     required this.sheetModel,
+    this.rules,
     this.topics,
     Key? key,
   }) : super(key: key);
@@ -39,6 +41,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
             } else if (sheetModel.type == SimpleSheetType.rules) {
               page = RulesScreen(
                 controller: controller,
+                data: rules!,
               );
             } else {
               page = Container();
@@ -64,6 +67,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
           case '/rules':
             page = RulesScreen(
               controller: controller,
+              data: rules!,
             );
             break;
 

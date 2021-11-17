@@ -10,16 +10,16 @@ import 'package:flutter_html/flutter_html.dart';
 
 class RulesScreen extends StatefulWidget {
   final ScrollController controller;
+  final String data;
 
-  const RulesScreen({required this.controller, Key? key}) : super(key: key);
+  const RulesScreen({required this.controller, required this.data, Key? key})
+      : super(key: key);
 
   @override
   State<RulesScreen> createState() => _RulesScreenState();
 }
 
 class _RulesScreenState extends State<RulesScreen> {
-  final RulesCubit rulesCubit = RulesCubit();
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -27,18 +27,19 @@ class _RulesScreenState extends State<RulesScreen> {
         topLeft: Radius.circular(5),
         topRight: Radius.circular(5),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: [
-            SingleChildScrollView(
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Scaffold(
+            backgroundColor: AppTheme.mystic,
+            //resizeToAvoidBottomInset: false,
+            body: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
               ),
               controller: widget.controller,
               child: Html(
-                data: 'state.data',
+                data: widget.data,
                 style: {
                   'body': Style(
                     margin: EdgeInsets.zero,
@@ -67,11 +68,29 @@ class _RulesScreenState extends State<RulesScreen> {
                 },
               ),
             ),
-            CustomSliverAppbar.toPop(
-              icon: Container(),
+          ),
+          // CustomSliverAppbar.toPop(
+          //   icon: Container(),
+          //   rightKey: Keys.mainNav,
+          //   backgroundColor: Colors.white,
+          // ),
+          Padding(
+            padding: const EdgeInsets.all(StaticData.sidePadding),
+            child: CircleAvatar(
+              radius: 22,
+              backgroundColor: Colors.white,
+              child: IconButton(
+                onPressed: () {
+                  Keys.mainNav.currentState!.pop();
+                },
+                icon: const Icon(
+                  Icons.close,
+                  color: AppTheme.mineShaft,
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
