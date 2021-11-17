@@ -1,5 +1,5 @@
-import 'package:bausch/sections/loader/widgets/default_circle.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/loader/default_circle.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedLoader extends StatefulWidget {

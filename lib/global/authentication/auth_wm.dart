@@ -26,12 +26,14 @@ class AuthWM extends WidgetModel {
 
   @override
   void onLoad() {
-    debugPrint('1232');
+    debugPrint('auth-load');
     super.onLoad();
   }
 
   @override
   void onBind() {
+    debugPrint('auth-bind');
+
     subscribe(authStatus.stream, (value) {
       late Widget targetPage;
 
@@ -73,9 +75,7 @@ class AuthWM extends WidgetModel {
     });
 
     subscribe(checkAuthAction.stream, (value) {
-      debugPrint('1234');
       if (user.value.isLoading) return;
-      debugPrint('1234345');
 
       user.loading();
 
@@ -92,8 +92,6 @@ class AuthWM extends WidgetModel {
 
         debugPrint(user.toString());
       // ignore: argument_type_not_assignable_to_error_handler
-      }).catchError((){
-        debugPrint('error');
       });
     });
 

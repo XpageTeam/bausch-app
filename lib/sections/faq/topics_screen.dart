@@ -1,9 +1,6 @@
 import 'package:bausch/models/faq/topic_model.dart';
-import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
-import 'package:bausch/sections/faq/faq_listener.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
-import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -11,7 +8,6 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 //* FAQ
 //* topics
