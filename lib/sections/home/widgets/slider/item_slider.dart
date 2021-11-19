@@ -1,4 +1,3 @@
-import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
 import 'package:bausch/sections/home/widgets/slider/indicators_row.dart';
 import 'package:bausch/sections/home/widgets/slider/items_row.dart';
@@ -39,16 +38,12 @@ class _ItemSliderState<T> extends State<ItemSlider<T>> {
 
   late final initPage = additionalItems - 1;
   late final SliderCubit sliderCubit = SliderCubit();
-  late List<T> scrollItems;
-
+  final SliderController sliderController = SliderController();
+  // late List<T> scrollItems;
   @override
   void initState() {
     super.initState();
-    scrollItems = [
-      ...widget.items.skip(widget.items.length - additionalItems),
-      ...widget.items,
-      ...widget.items.take(additionalItems),
-    ];
+    sliderController.sliderCubit = sliderCubit;
   }
 
   @override
@@ -65,32 +60,62 @@ class _ItemSliderState<T> extends State<ItemSlider<T>> {
         children: [
           LayoutBuilder(
             builder: (context, constraints) => ItemsRow<T>(
-              animationDuration: widget.animationDuration,
+              sliderController: sliderController,
               maxWidth: constraints.maxWidth,
+              animationDuration: widget.animationDuration,
               itemsOnPage: widget.itemsOnPage,
               spaceBetween: widget.spaceBetween,
-              items: scrollItems,
-              initPage: initPage,
               builder: widget.itemBuilder,
+              items: widget.items,
             ),
           ),
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 70.0),
             child: LayoutBuilder(
-              builder: (context, constraints) {
-                return IndicatorsRow(
-                  animationDuration: widget.animationDuration,
-                  maxWidth: constraints.maxWidth,
-                  indicatorsOnPage: widget.indicatorsOnPage,
-                  spaceBetween: widget.spaceBetween,
-                  builder: widget.indicatorBuilder,
-                );
-              },
+              builder: (context, constraints) => IndicatorsRow(
+                sliderController: sliderController,
+                maxWidth: constraints.maxWidth,
+                animationDuration: widget.animationDuration,
+                indicatorsOnPage: widget.indicatorsOnPage,
+                spaceBetween: widget.spaceBetween,
+                builder: widget.indicatorBuilder,
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+abstract class AbstractSliderController {
+  late SliderCubit sliderCubit;
+
+  void clickNext();
+  void clickPrev();
+  void slideNext();
+  void slidePrev();
+}
+
+class SliderController extends AbstractSliderController {
+  @override
+  void clickNext() {
+    sliderCubit.movePageBy(1);
+  }
+
+  @override
+  void clickPrev() {
+    sliderCubit.movePageBy(-1);
+  }
+
+  @override
+  void slideNext() {
+    sliderCubit.slidePageBy(1);
+  }
+
+  @override
+  void slidePrev() {
+    sliderCubit.slidePageBy(-1);
   }
 }

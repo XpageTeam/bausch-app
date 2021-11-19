@@ -1,6 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/point_widget.dart';
+import 'package:bausch/widgets/text/underlined_text.dart';
 import 'package:flutter/material.dart';
 
 class ScoresSection extends StatelessWidget {
@@ -24,15 +28,19 @@ class ScoresSection extends StatelessWidget {
             Text(
               '5600',
               style: TextStyle(
+                leadingDistribution: TextLeadingDistribution
+                    .even, // центрирует текст в строке по вертикали
                 color: AppTheme.mineShaft,
                 fontWeight: FontWeight.w500,
                 fontSize: 85,
                 height: 80 / 85,
+                // height: 80 / 85,
               ),
             ),
             PointWidget(
-              radius: 18,
+              radius: 37 / 2,
               textStyle: TextStyle(
+                leadingDistribution: TextLeadingDistribution.even,
                 color: AppTheme.mineShaft,
                 fontWeight: FontWeight.w500,
                 fontSize: 27,
@@ -44,6 +52,17 @@ class ScoresSection extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
+        // UnderlinedText(
+        //   space: 4,
+        //   text:
+        //       'Подчеркнутый текст (CustomPainter) и невероятные приключения какого-то неинтересного персонажа, '
+        //       'а также его верного товарища - Кента, который поменял саперную лопату на тушенку во время второй мировой войны.',
+        //   textStyle: AppStyles.p1.copyWith(
+        //     fontSize: 24,
+        //   ),
+        //   lineWidth: 2,
+        //   lineColor: AppTheme.turquoiseBlue,
+        // ),
         FutureBuilder<int>(
           future: Future<int>.delayed(
             delay,

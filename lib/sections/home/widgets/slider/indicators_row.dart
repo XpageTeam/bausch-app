@@ -1,5 +1,6 @@
 import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
 import 'package:bausch/sections/home/widgets/slider/custom_scroll_controller.dart';
+import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
 import 'package:bausch/sections/home/widgets/slider/no_glow_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ class IndicatorsRow extends StatefulWidget {
   final double maxWidth;
   final Duration animationDuration;
   final IndicatorBuilder builder;
+  final AbstractSliderController sliderController;
 
   const IndicatorsRow({
     required this.indicatorsOnPage,
@@ -22,6 +24,7 @@ class IndicatorsRow extends StatefulWidget {
     required this.maxWidth,
     required this.animationDuration,
     required this.builder,
+    required this.sliderController,
     Key? key,
   }) : super(key: key);
 
@@ -30,14 +33,15 @@ class IndicatorsRow extends StatefulWidget {
 }
 
 class _IndicatorsRowState extends State<IndicatorsRow> {
-  late final controller = CustomScrollController(
+  late final scrollController = CustomScrollController(
     initialScrollOffset:
         (widget.indicatorsOnPage ~/ 2) * (indicatorWidth + widget.spaceBetween),
     triggerOffset: indicatorWidth + widget.spaceBetween,
+    pagesCount: count - 2,
+    viewportDim: indicatorWidth + widget.spaceBetween,
   );
 
   late final int count = widget.indicatorsOnPage * 2 + 2;
-
   late double indicatorWidth;
 
   int currentIndex = 0;
@@ -55,163 +59,153 @@ class _IndicatorsRowState extends State<IndicatorsRow> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) {
-        controller.addListener(
-          () {
-            final otherNewPage = double.parse(
-              (controller.offset / (indicatorWidth + widget.spaceBetween))
-                  .toStringAsFixed(5),
-            ).round();
-
-            if (currentPage != otherNewPage) {
-              setState(
-                () {
-                  currentPage = otherNewPage;
-                },
-              );
-            }
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocListener<SliderCubit, SliderState>(
       listener: (context, state) {
-        if (controller.hasClients && state is SliderSlidePage) {
+        if (scrollController.hasClients && state is SliderSlidePage) {
           if (isIndicatorClick) {
             isIndicatorClick = false;
           } else {
             indicatorsBlock = true;
-            setCurrentIndex(
-              (currentPage + state.scrollPages - 1) % 4,
-            );
 
-            animateTo(state.scrollPages);
+            changePage(
+              (scrollController.page + state.scrollPages - 1) % 4,
+              state.scrollPages,
+            );
           }
         }
       },
-      child: Column(
-        children: [
-          Text('currentPage: $currentPage'),
-          ScrollConfiguration(
-            behavior: NoGlowScrollBehavior(),
-            child: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: controller,
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  count,
-                  (i) {
-                    final innerIndex = (i - 2) % (widget.indicatorsOnPage + 1);
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (!indicatorsBlock) {
-                              indicatorsBlock = true;
+      child: ScrollConfiguration(
+        behavior: NoGlowScrollBehavior(),
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: scrollController,
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+              count,
+              (i) {
+                final innerIndex = (i - 2) % (widget.indicatorsOnPage + 1);
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        if (!indicatorsBlock) {
+                          indicatorsBlock = true;
+                          isIndicatorClick = true;
 
-                              var scrollPages = 0;
+                          var direction = 0;
 
-                              // Влево
-                              if (innerIndex < currentIndex) {
-                                if (innerIndex - currentIndex >
-                                    -(widget.indicatorsOnPage - 1)) {
-                                  scrollPages = innerIndex - currentIndex;
-                                } else {
-                                  // TODO(Nikolay): Изменить.
-                                  scrollPages = 1;
-                                }
-                              }
-
-                              // Вправо
-                              if (innerIndex > currentIndex) {
-                                if (innerIndex - currentIndex <
-                                    (widget.indicatorsOnPage - 1)) {
-                                  scrollPages = innerIndex - currentIndex;
-                                } else {
-                                  // TODO(Nikolay): Изменить.
-                                  scrollPages = -1;
-                                }
-                              }
-
-                              isIndicatorClick = true;
-
-                              setCurrentIndex(innerIndex);
-                              animateTo(scrollPages);
-
-                              BlocProvider.of<SliderCubit>(context)
-                                  .movePageBy(scrollPages);
-
+                          // Влево
+                          if (innerIndex < currentIndex) {
+                            if (innerIndex - currentIndex >
+                                -(widget.indicatorsOnPage - 1)) {
+                              direction = innerIndex - currentIndex;
+                            } else {
+                              // TODO(Nikolay): Изменить.
+                              direction = 1;
                             }
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            margin: EdgeInsets.only(
-                              right: i == count - 1 ? 0 : widget.spaceBetween,
-                            ),
-                            width: indicatorWidth,
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: widget.builder(
-                              context,
-                              currentIndex == innerIndex,
-                            ),
-                          ),
+                          }
+
+                          // Вправо
+                          if (innerIndex > currentIndex) {
+                            if (innerIndex - currentIndex <
+                                (widget.indicatorsOnPage - 1)) {
+                              direction = innerIndex - currentIndex;
+                            } else {
+                              // TODO(Nikolay): Изменить.
+                              direction = -1;
+                            }
+                          }
+
+                          changePage(innerIndex, direction);
+
+                          if (direction > 0) {
+                            widget.sliderController.clickNext();
+                          }
+                          if (direction < 0) {
+                            widget.sliderController.clickPrev();
+                          }
+                        }
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        margin: EdgeInsets.only(
+                          right: i == count - 1 ? 0 : widget.spaceBetween,
                         ),
-                        Text(
-                          '$innerIndex',
+                        width: indicatorWidth,
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: widget.builder(
+                          context,
+                          currentIndex == innerIndex,
                         ),
-                        Text(
-                          '$i',
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
+                      ),
+                    ),
+                    Text(
+                      '$innerIndex',
+                    ),
+                    Text(
+                      '$i',
+                    ),
+                  ],
+                );
+              },
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
-  void setCurrentIndex(int newCurrentIndex) {
+  void changePage(
+    int newCurrentIndex,
+    int direction,
+  ) {
     setState(
       () {
         currentIndex = newCurrentIndex;
       },
     );
+    if (direction > 0) {
+      delayed(
+        () => scrollController.nextPage().then(
+              (value) => indicatorsBlock = false,
+            ),
+      );
+    }
+    if (direction < 0) {
+      delayed(
+        () => scrollController.previousPage().then(
+              (value) => indicatorsBlock = false,
+            ),
+      );
+    }
   }
 
-  void animateTo(int scrollPages) {
-    final newOffset =
-        (currentPage + scrollPages) * (indicatorWidth + widget.spaceBetween);
-
-    Future.delayed(
-      widget.animationDuration ~/ 2,
-      () => controller.animateTo(
-        newOffset,
-        duration: widget.animationDuration ~/ 2,
-        curve: Curves.easeOutQuart,
+  void delayed(VoidCallback func) {
+    Future<void>.delayed(
+      const Duration(
+        milliseconds: 100,
       ),
-    ).then(
-      (value) => indicatorsBlock = false,
+      func,
     );
   }
+
+  // void animateTo(int scrollPages) {
+  //   final newOffset =
+  //       (currentPage + scrollPages) * (indicatorWidth + widget.spaceBetween);
+
+  //   Future.delayed(
+  //     widget.animationDuration ~/ 2,
+  //     () => controller.animateTo(
+  //       newOffset,
+  //       duration: widget.animationDuration ~/ 2,
+  //       curve: Curves.easeOutQuart,
+  //     ),
+  //   ).then(
+  //     (value) => indicatorsBlock = false,
+  //   );
+  // }
 }
 
 
