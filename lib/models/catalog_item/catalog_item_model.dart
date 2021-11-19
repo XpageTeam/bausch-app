@@ -19,8 +19,8 @@ class CatalogItemModel {
   CatalogItemModel({
     required this.id,
     required this.name,
-    required this.previewText,
-    required this.detailText,
+    this.previewText = 'test',
+    this.detailText = 'test',
     required this.picture,
     required this.price,
   });

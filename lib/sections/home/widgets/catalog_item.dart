@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
 import 'package:bausch/widgets/discount_info.dart';
@@ -35,7 +35,8 @@ class CatalogItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      model.img ?? 'assets/free-packaging.png',
+                      // model.img ?? 'assets/free-packaging.png',
+                      model.picture,
                       height: 100,
                       width: 100,
                     ),
@@ -55,7 +56,7 @@ class CatalogItem extends StatelessWidget {
                 ),
                 // TODO(Nikolay): Вынести onPressed.
                 ButtonWithPoints(
-                  price: model.price,
+                  price: '${model.price}',
                 ),
               ],
             ),

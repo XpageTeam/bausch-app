@@ -1,10 +1,7 @@
-import 'dart:math' as math;
 
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/point_widget.dart';
-import 'package:bausch/widgets/text/underlined_text.dart';
 import 'package:flutter/material.dart';
 
 class ScoresSection extends StatelessWidget {

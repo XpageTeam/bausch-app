@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/home/widgets/catalog_item.dart';
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
