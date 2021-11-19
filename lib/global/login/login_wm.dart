@@ -27,6 +27,7 @@ class LoginWM extends WidgetModel {
 
   /// Текст чекбокса согласия на обработку данных
   final loginText = EntityStreamedState<LoginText>();
+  final loginTextLoadAction = VoidAction();
 
   final smsSendCounter = StreamedState<int>(0);
   final smsResendSeconds = StreamedState<int>(0);
@@ -76,6 +77,11 @@ class LoginWM extends WidgetModel {
   @override
   void onBind() {
     debugPrint('loginBind');
+
+    subscribe(loginTextLoadAction.stream, (value) {
+      _loadText();
+    });
+
     //* принятие пользовательского соглашения
     subscribe(
       policyAcceptAction.stream,
