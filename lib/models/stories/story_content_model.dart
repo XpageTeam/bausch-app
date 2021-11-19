@@ -12,11 +12,11 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
 
   factory StoryContentModel.fromMap(Map<String, dynamic> map) {
     if (map['title'] == null) {
-      throw ResponseParseExeption('Не передано название истории');
+      throw ResponseParseException('Не передано название истории');
     }
 
     if (map['file'] == null) {
-      throw ResponseParseExeption('Не передана ссылка на файл');
+      throw ResponseParseException('Не передана ссылка на файл');
     }
 
     return StoryContentModel(

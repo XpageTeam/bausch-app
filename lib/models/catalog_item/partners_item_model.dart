@@ -26,22 +26,22 @@ class PartnersItemModel extends CatalogItemModel
 
   factory PartnersItemModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
-      throw ResponseParseExeption('Не передан идентификатор');
+      throw ResponseParseException('Не передан идентификатор');
     }
 
     if (map['name'] == null) {
-      throw ResponseParseExeption('Не передано название товара');
+      throw ResponseParseException('Не передано название товара');
     }
 
     if (map['preview_text'] == null) {
-      throw ResponseParseExeption('Не передан превью текст');
+      throw ResponseParseException('Не передан превью текст');
     }
 
     if (map['detail_text'] == null) {
-      throw ResponseParseExeption('Не передан детаил текст');
+      throw ResponseParseException('Не передан детаил текст');
     }
     if (map['price'] == null) {
-      throw ResponseParseExeption('Не передана цена товара');
+      throw ResponseParseException('Не передана цена товара');
     }
 
     return PartnersItemModel(

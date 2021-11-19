@@ -1,4 +1,4 @@
-import 'package:bausch/exceptions/response_parse_exeption.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/mappable_object.dart';
 

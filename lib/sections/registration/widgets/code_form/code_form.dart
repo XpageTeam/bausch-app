@@ -3,25 +3,15 @@ import 'package:bausch/packages/pin_code_fields/lib/pin_code_fields.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
 
-class CodeForm extends CoreMwwmWidget<LoginWM> {
+class CodeForm extends StatelessWidget {
   final LoginWM wm;
 
-  CodeForm({
+  const CodeForm({
     required this.wm,
     Key? key,
-  }) : super(
-          key: key,
-          widgetModelBuilder: (context) => wm,
-        );
+  }) : super(key: key);
 
-  @override
-  WidgetState<CoreMwwmWidget<LoginWM>, LoginWM> createWidgetState() =>
-      _CodeFormState();
-}
-
-class _CodeFormState extends WidgetState<CodeForm, LoginWM> {
   @override
   Widget build(BuildContext context) {
     return Column(

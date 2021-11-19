@@ -28,6 +28,7 @@ class _RegScreenBody extends WidgetState<RegScreenBody, LoginWM> {
           streamedState: wm.loginText,
           loadingChild: const Center(child: AnimatedLoader()),
           errorBuilder: (_, e) {
+            // TODO(Danil): ошибка
             return Text(e.toString());
           },
           builder: (_, loginText) {
