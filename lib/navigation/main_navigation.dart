@@ -24,6 +24,10 @@ class MainNavigation extends StatelessWidget {
         Widget page;
 
         switch (settings.name) {
+          // case '/':
+          //   page = const LoadingScreen();
+          //   break;
+
           case '/':
             page = const HomeScreen();
             break;

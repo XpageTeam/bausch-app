@@ -45,8 +45,8 @@ class _PickerScreenState extends State<PickerScreen> {
                 style: AppStyles.h1,
               ),
               //TODO(Nikita): Придумать что-то с оверлеем, чтобы не выглядело так стремно при переходе
-              SizedBox(
-                height: 300,
+              Flexible(
+                //height: 300,
                 child: CupertinoPicker.builder(
                   childCount: 10,
                   itemExtent: 40,

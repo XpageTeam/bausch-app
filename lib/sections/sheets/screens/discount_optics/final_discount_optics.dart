@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class FinalDiscountOptics extends StatelessWidget {
   final ScrollController controller;
-  final CatalogItemModel model;
+  final PromoItemModel model;
   const FinalDiscountOptics({
     required this.controller,
     required this.model,
@@ -47,9 +47,9 @@ class FinalDiscountOptics extends StatelessWidget {
                     WhiteRoundedContainer(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
-                            'adasd34',
+                            model.code,
                             style: AppStyles.h2,
                           ),
                         ],

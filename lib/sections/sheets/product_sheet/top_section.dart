@@ -1,4 +1,5 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -55,7 +56,7 @@ class TopSection extends StatelessWidget {
         );
 
   TopSection.consultation(
-    CatalogItemModel model,
+    ConsultationItemModel model,
     Widget leftIcon,
     Key? key,
   ) : this(
@@ -92,8 +93,8 @@ class TopSection extends StatelessWidget {
                 const SizedBox(
                   height: 64,
                 ),
-              Image.asset(
-                model.img ?? 'assets/woman.png',
+              Image.network(
+                model.picture,
                 height: !isFull ? MediaQuery.of(context).size.height / 5 : null,
                 fit: BoxFit.cover,
               ),
@@ -118,7 +119,7 @@ class TopSection extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     bottom: 30,
                   ),
-                  child: ButtonContent(price: model.price),
+                  child: ButtonContent(price: model.price.toString()),
                 ),
             ],
           ),

@@ -1,15 +1,19 @@
-import 'package:bausch/models/story_model.dart';
+import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class Story extends StatelessWidget {
   final StoryModel model;
+  final List<StoryModel> models;
   final int index;
-  const Story({required this.model, required this.index, Key? key})
-      : super(key: key);
+  const Story({
+    required this.model,
+    required this.index,
+    required this.models,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class Story extends StatelessWidget {
             MaterialPageRoute<dynamic>(
               builder: (context) {
                 return StoriesScreen(
-                  stories: Models.stories,
+                  stories: models,
                   currentIndex: index,
                 );
               },
@@ -39,7 +43,10 @@ class Story extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: Image.asset(model.url),
+                  child: Image.network(
+                    model.content.file,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -51,12 +58,12 @@ class Story extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        model.mainText ?? '',
+                        model.content.title,
                         style: AppStyles.h2WhiteBold,
                       ),
-                      const Text(
-                        '2',
-                        style: AppStyles.p1White,
+                      Text(
+                        model.id.toString(),
+                        style: AppStyles.p1,
                       ),
                     ],
                   ),

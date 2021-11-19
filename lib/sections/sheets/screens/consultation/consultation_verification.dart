@@ -1,4 +1,5 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -41,6 +42,7 @@ class ConsultationVerification extends StatelessWidget {
                       children: [
                         CustomSliverAppbar.toCloseAndPop(
                           key,
+                          backgroundColor: Colors.white,
                         ),
                         const SizedBox(
                           height: 20,
@@ -92,10 +94,12 @@ class ConsultationVerification extends StatelessWidget {
                   horizontal: StaticData.sidePadding,
                 ),
                 child: BlueButtonWithText(
-                  text: 'Потратить баллы',
+                  text: 'Потратить ${model.price} б',
                   onPressed: () {
-                    Keys.bottomSheetWithoutItemsNav.currentState!
-                        .pushNamed('/final_consultation');
+                    Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
+                      '/final_consultation',
+                      arguments: SheetScreenArguments(model: model),
+                    );
                   },
                 ),
               ),

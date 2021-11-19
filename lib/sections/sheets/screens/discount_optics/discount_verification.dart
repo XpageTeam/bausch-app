@@ -1,4 +1,5 @@
-import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/material.dart';
 
 class DiscountVerification extends StatelessWidget {
   final ScrollController controller;
-  final CatalogItemModel model;
+  final PromoItemModel model;
   const DiscountVerification({
     required this.controller,
     required this.model,
@@ -111,10 +112,12 @@ class DiscountVerification extends StatelessWidget {
                   horizontal: StaticData.sidePadding,
                 ),
                 child: BlueButtonWithText(
-                  text: 'Потратить баллы',
+                  text: 'Потратить ${model.price} б',
                   onPressed: () {
-                    Keys.bottomSheetItemsNav.currentState!
-                        .pushNamed('/final_discount');
+                    Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                      '/final_discount',
+                      arguments: SheetScreenArguments(model: model),
+                    );
                   },
                 ),
               ),
