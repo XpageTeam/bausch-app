@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bausch/exceptions/response_parse_exeption.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/foundation.dart';
@@ -23,7 +23,15 @@ class LoginText {
 
     return RichText(
       text: TextSpan(
-        style: AppStyles.p1,
+        style: AppStyles.p1.copyWith(
+          color: Colors.transparent,
+          shadows: const [
+            BoxShadow(
+              color: AppTheme.mineShaft,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
         children: _splitedText(),
       ),
     );
@@ -91,6 +99,7 @@ class LoginText {
         style: const TextStyle(
           decoration: TextDecoration.underline,
           decorationColor: Color(0xFF60D7E2),
+          decorationThickness: 2,
         ),
         text: linkText,
         recognizer: TapGestureRecognizer()

@@ -3,6 +3,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
+@Deprecated('использовать showDefaultNotification вместо этого')
 class DefaultSnackBar {
   static void show(
     BuildContext context, {

@@ -14,15 +14,15 @@ class QuestionModel implements MappableInterface<QuestionModel> {
 
   factory QuestionModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
-      throw ResponseParseExeption('Не передан идентификатор вопроса');
+      throw ResponseParseException('Не передан идентификатор вопроса');
     }
 
     if (map['title'] == null) {
-      throw ResponseParseExeption('Не передана формулировка вопроса');
+      throw ResponseParseException('Не передана формулировка вопроса');
     }
 
     if (map['answer'] == null) {
-      throw ResponseParseExeption('Не передан ответ на вопрос');
+      throw ResponseParseException('Не передан ответ на вопрос');
     }
 
     return QuestionModel(

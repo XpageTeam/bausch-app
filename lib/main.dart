@@ -5,6 +5,8 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -38,18 +40,31 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
         // statusBarIconBrightness: Brightness.dark,
       ),
     );
-    
-    return Provider(
-      create: (context) {
-        return wm;
-      },
-      lazy: false,
-      child: GlobalProviders(
-        child: MaterialApp(
-          title: 'Bausch + Lomb',
-          navigatorKey: Keys.mainNav,
-          theme: AppTheme.currentAppTheme,
-          home: const LoaderScreen(),
+
+    return OverlaySupport(
+      toastTheme: ToastThemeData(
+        background: AppTheme.mineShaft,
+        textColor: Colors.white,
+      ),
+      child: Provider(
+        create: (context) {
+          return wm;
+        },
+        lazy: false,
+        child: GlobalProviders(
+          child: MaterialApp(
+            supportedLocales: const [
+              Locale('ru', ''),
+            ],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            title: 'Bausch + Lomb',
+            navigatorKey: Keys.mainNav,
+            theme: AppTheme.currentAppTheme,
+            home: const LoaderScreen(),
+          ),
         ),
       ),
     );

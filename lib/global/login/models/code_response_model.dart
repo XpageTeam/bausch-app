@@ -1,3 +1,4 @@
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -11,10 +12,15 @@ class CodeResponseModel {
   });
 
   factory CodeResponseModel.fromJson(Map<String, dynamic> json) {
-    return CodeResponseModel(
-      confirmed: json['confirmed'] as bool,
-      xApiToken: json['x-api-token'] as String,
-    );
+    try {
+      return CodeResponseModel(
+        confirmed: json['confirmed'] as bool,
+        xApiToken: json['x-api-token'] as String,
+      );
+    // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException(e.toString());
+    }
   }
 
   @override

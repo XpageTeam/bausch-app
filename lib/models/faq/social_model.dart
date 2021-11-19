@@ -18,13 +18,13 @@ class SocialModel implements MappableInterface<SocialModel> {
 
   factory SocialModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
-      throw ResponseParseExeption('Не передан идентификатор');
+      throw ResponseParseException('Не передан идентификатор');
     }
     if (map['icon'] == null) {
-      throw ResponseParseExeption('Не передана ссылка на иконку');
+      throw ResponseParseException('Не передана ссылка на иконку');
     }
     if (map['url'] == null) {
-      throw ResponseParseExeption('Не передана ссылка на страницу');
+      throw ResponseParseException('Не передана ссылка на страницу');
     }
 
     return SocialModel(

@@ -35,7 +35,7 @@ class FaqCubit extends Cubit<FaqState> {
       } else {
         FaqFailed(title: 'Что-то пошло не так');
       }
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseException catch (e) {
       emit(
         FaqFailed(
           title: 'Ошибка при обработке ответа от сервера',

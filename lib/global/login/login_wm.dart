@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:bausch/exceptions/response_parse_exeption.dart';
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/models/auth_response_model.dart';
@@ -11,6 +12,8 @@ import 'package:bausch/global/login/requests/login_text_downloader.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_snackbar.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +29,8 @@ class LoginWM extends WidgetModel {
   final loginText = EntityStreamedState<LoginText>();
 
   final smsSendCounter = StreamedState<int>(0);
-
+  final smsResendSeconds = StreamedState<int>(0);
+  final smsSendAction = VoidAction();
 
   final phoneController = MaskedTextController(
     mask: '+7 (900) 000-00-00',
@@ -81,9 +85,16 @@ class LoginWM extends WidgetModel {
       },
     );
 
-    //* подписка на нажатие кнопки
-    subscribe(sendPhoneAction.stream, (_) {
-      _sendPhone().then((value) {
+    subscribe(authRequestResult.stream, (value) {
+      if (authRequestResult.value.isLoading) {
+        return;
+      }
+
+      if (authRequestResult.value.hasError) {
+        _showTopError(authRequestResult.value.error as CustomException);
+      }
+
+      if (authRequestResult.value.data != null) {
         Navigator.push<void>(
           Keys.mainNav.currentContext!,
           MaterialPageRoute(
@@ -92,36 +103,45 @@ class LoginWM extends WidgetModel {
             },
           ),
         );
-      });
+      }
+    });
+
+    //* подписка на нажатие кнопки
+    subscribe(sendPhoneAction.stream, (_) {
+      _sendPhone().then((value) {});
     });
 
     //* переключение состояния кнопки при отправке запроса
     subscribe(loginProcessedState.stream, (_) {
-      sendPhoneBtnActive.accept(loginProcessedState.value);
+      sendPhoneBtnActive.accept(!loginProcessedState.value);
+
+      debugPrint(sendPhoneBtnActive.value.toString());
+
       // TODO(Danil): показывать лоадер
     });
 
-    subscribe(sendCodeAction.stream, (value) {
-      _sendCode().then((value) {
-
-        // TODO(Danil)
-        final wm = Provider.of<AuthWM>(context, listen: false);
-
-        wm.checkAuthAction();
+    subscribe(sendCodeAction.stream, (_) {
+      _sendCode().then((_) {
+        Provider.of<AuthWM>(context, listen: false).checkAuthAction();
       });
+    });
 
-      // TODO(Nikita): Заменить на pushNamed
-      // Navigator.push<void>(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) {
-      //       return const CityAndEmailScreen();
-      //     },
-      //   ),
-      // );
+    subscribe(smsSendCounter.stream, (_) {
+      if (smsSendCounter.value == 1) {
+        _startResendTimer(30);
+      } else if (smsSendCounter.value > 1) {
+        _startResendTimer(300);
+      }
     });
 
     super.onBind();
+  }
+
+  void _showTopError(CustomException ex) {
+    showDefaultNotification(
+      title: ex.title,
+      subtitle: ex.subtitle,
+    );
   }
 
   void _checkBtnActive() {
@@ -137,22 +157,44 @@ class LoginWM extends WidgetModel {
     unawaited(authRequestResult.loading());
 
     try {
-      final res = await PhoneSender.send(phoneController.text);
+      await authRequestResult.content(
+        await PhoneSender.send(phoneController.text),
+      );
 
-      await authRequestResult.content(res);
+      await smsSendCounter.accept(smsSendCounter.value + 1);
     } on DioError catch (e) {
-      // TODO(Danil): вывести ошибку
+      await authRequestResult.error(
+        CustomException(
+          title: 'При отправке запроса произошла ошибка',
+          subtitle: e.message,
+          ex: e,
+        ),
+      );
     } on ResponseParseException catch (e) {
-      // TODO(Danil): вывести ошибку
+      await authRequestResult.error(
+        CustomException(
+          title: 'При чтении ответа от сервера произошла ошибка',
+          subtitle: e.toString(),
+          ex: e,
+        ),
+      );
     } on SuccessFalse catch (e) {
-      // TODO(Danil): вывести ошибку
+      await authRequestResult.error(
+        CustomException(
+          title: 'Произошла ошибка',
+          subtitle: e.toString(),
+          ex: e,
+        ),
+      );
     }
 
     unawaited(loginProcessedState.accept(false));
   }
 
-  Future<String?> _sendCode() async {
+  Future<void> _sendCode() async {
     unawaited(loginProcessedState.accept(true));
+
+    CustomException? error;
 
     try {
       final res = await CodeSender.send(
@@ -162,16 +204,28 @@ class LoginWM extends WidgetModel {
       );
 
       await UserWriter.writeToken(res.xApiToken);
-      
-      await smsSendCounter.accept(smsSendCounter.value+1);
-
-      return res.xApiToken;
     } on DioError catch (e) {
-      // TODO(Danil): вывести ошибку
+      error = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
     } on ResponseParseException catch (e) {
-      // TODO(Danil): вывести ошибку
+      error = CustomException(
+        title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
     } on SuccessFalse catch (e) {
-      // TODO(Danil): вывести ошибку
+      error = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    }
+
+    if (error != null) {
+      _showTopError(error);
     }
 
     unawaited(loginProcessedState.accept(false));
@@ -183,20 +237,59 @@ class LoginWM extends WidgetModel {
 
     unawaited(loginText.loading());
 
-    await Future<void>.delayed(const Duration(seconds: 5));
-
     try {
-      final res = await LoginTextDownloader.load();
-
-      debugPrint(res.toString());
-
-      await loginText.content(res);
+      /// TODO(Danil)
+      throw ResponseParseException('ой');
+      await loginText.content(await LoginTextDownloader.load());
     } on DioError catch (e) {
-      debugPrint(e.toString());
+      await loginText.error(
+        CustomException(
+          title: 'При отправке запроса произошла ошибка',
+          subtitle: e.message,
+          ex: e,
+        ),
+      );
     } on ResponseParseException catch (e) {
-      debugPrint(e.toString());
+      await loginText.error(
+        CustomException(
+          title: 'При чтении ответа от сервера произошла ошибка',
+          subtitle: e.toString(),
+          ex: e,
+        ),
+      );
     } on SuccessFalse catch (e) {
-      debugPrint(e.toString());
+      await loginText.error(
+        CustomException(
+          title: 'Произошла ошибка',
+          subtitle: e.toString(),
+          ex: e,
+        ),
+      );
     }
   }
+
+  void _startResendTimer(int seconds) {
+    smsResendSeconds.accept(seconds);
+
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      smsResendSeconds.accept(smsResendSeconds.value - 1);
+
+      if (smsResendSeconds.value <= 0) {
+        timer.cancel();
+
+        return;
+      }
+    });
+  }
+}
+
+String getTimerBySeconds(int seconds) {
+  if (seconds <= 0) {
+    return '00:00';
+  }
+
+  final remainsSeconds = seconds % 60;
+  final minutes = (seconds - remainsSeconds) ~/ 60;
+
+  return '${minutes.toString().length < 2 ? 0 : ""}$minutes:${remainsSeconds.toString().length < 2 ? 0 : ""}$remainsSeconds';
 }

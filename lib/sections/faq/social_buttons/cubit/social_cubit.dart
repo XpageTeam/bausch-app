@@ -34,7 +34,7 @@ class SocialCubit extends Cubit<SocialState> {
               .toList(),
         ),
       );
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseException catch (e) {
       emit(
         SocialFailed(
           title: 'Ошибка при обработке ответа от сервера',

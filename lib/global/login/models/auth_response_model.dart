@@ -1,4 +1,4 @@
-import 'package:bausch/exceptions/response_parse_exeption.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
