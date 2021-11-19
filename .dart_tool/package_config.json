@@ -302,6 +302,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_screenutil",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_screenutil-5.0.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.23.0+1",
       "packageUri": "lib/",
@@ -884,7 +890,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-11-18T06:05:48.446481Z",
+  "generated": "2021-11-19T05:49:01.087564Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

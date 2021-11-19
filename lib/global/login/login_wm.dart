@@ -244,8 +244,6 @@ class LoginWM extends WidgetModel {
     unawaited(loginText.loading());
 
     try {
-      /// TODO(Danil)
-      throw ResponseParseException('ой');
       await loginText.content(await LoginTextDownloader.load());
     } on DioError catch (e) {
       await loginText.error(
