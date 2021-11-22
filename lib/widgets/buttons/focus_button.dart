@@ -52,7 +52,7 @@ class FocusButton extends StatelessWidget {
           ),
           Icon(
             Icons.arrow_forward_ios_sharp,
-            size: 18,
+            size: 20,
             color: selectedText == null ? AppTheme.grey : AppTheme.mineShaft,
           ),
         ],

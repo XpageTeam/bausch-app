@@ -111,13 +111,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 labelText: 'Город',
                 selectedText: 'Москва',
                 onPressed: () {
-                  Navigator.of(context).push<void>(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return CityScreen();
-                      },
-                    ),
-                  );
+                  Keys.mainContentNav.currentState!.pushNamed('/city');
                 },
               ),
             ),

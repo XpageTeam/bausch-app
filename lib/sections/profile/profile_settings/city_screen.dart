@@ -63,21 +63,26 @@ class _CityScreenState extends State<CityScreen> {
             //TODO(Nikita): Добавить сверху избранные города и выбранный
             Flexible(
               child: AlphabetScrollView(
-                itemExtent: 60,
+                itemExtent: 50,
                 list: controller.value.text.isEmpty
                     ? Adresses.cities.map((e) => AlphaModel(e)).toList()
                     : filteredList.map((e) => AlphaModel(e)).toList(),
                 selectedTextStyle: AppStyles.h1,
                 unselectedTextStyle: AppStyles.h2,
                 itemBuilder: (context, i, cityName) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        cityName,
-                        style: AppStyles.h2,
-                      ),
-                    ],
+                  return InkWell(
+                    onTap: () {},
+                    borderRadius: BorderRadius.circular(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          cityName,
+                          style: AppStyles.h2,
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
