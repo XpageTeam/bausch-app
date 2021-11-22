@@ -10,20 +10,20 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart' as pp;
 
 class RequestHandler {
-  static CookieManager? cookieManager;
-  static CacheStore? store;
-  static bool storeCreating = false;
+  static CookieManager? _cookieManager;
+  static CacheStore? _store;
+  static bool _storeCreating = false;
 
   static BuildContext? globalContext;
 
-  String? cacheStorePath;
-
-  Dio? dio;
+  // String? _cacheStorePath;
 
   CacheOptions? cacheOptions;
 
+  Dio? _dio;
+
   RequestHandler._init() {
-    dio = Dio(
+    _dio = Dio(
       BaseOptions(
         baseUrl: StaticData.apiUrl,
         connectTimeout: 20000,
@@ -50,46 +50,46 @@ class RequestHandler {
     final handler = RequestHandler._init();
 
     try {
-      if (store == null && !storeCreating) {
-        storeCreating = true;
+      if (_store == null && !_storeCreating) {
+        _storeCreating = true;
 
         pp.getApplicationDocumentsDirectory().then((dir) {
-          store = DbCacheStore(
+          _store = DbCacheStore(
             databasePath: dir.path,
             logStatements: true,
             databaseName: 'cache',
           );
 
           handler.cacheOptions = CacheOptions(
-            store: store,
+            store: _store,
             policy: CachePolicy.noCache,
           );
 
-          handler.dio?.interceptors.add(
+          handler._dio?.interceptors.add(
             DioCacheInterceptor(options: handler.cacheOptions!),
           );
 
-          cookieManager = CookieManager(
+          _cookieManager = CookieManager(
             PersistCookieJar(
               storage: FileStorage(dir.path),
             ),
           );
 
-          handler.dio?.interceptors.add(cookieManager!);
+          handler._dio?.interceptors.add(_cookieManager!);
 
-          storeCreating = false;
+          _storeCreating = false;
         });
-      } else if (!storeCreating) {
+      } else if (!_storeCreating) {
         handler.cacheOptions = CacheOptions(
-          store: store,
+          store: _store,
           policy: CachePolicy.noCache,
         );
 
-        handler.dio?.interceptors.add(
+        handler._dio?.interceptors.add(
           DioCacheInterceptor(options: handler.cacheOptions!),
         );
 
-        handler.dio?.interceptors.add(cookieManager!);
+        handler._dio?.interceptors.add(_cookieManager!);
       }
     } on Exception catch (e) {
       debugPrint(e.toString());
@@ -99,7 +99,7 @@ class RequestHandler {
   }
 
   Future<void> cleanStore() async {
-    await store?.clean();
+    await _store?.clean();
   }
 
   Future<Response<T>> get<T>(
@@ -113,19 +113,19 @@ class RequestHandler {
 
     late Response<T> res;
 
-    if (dio?.interceptors != null && dio!.interceptors.isNotEmpty) {
-      if (cookieManager != null) {
-        dio!.interceptors.add(cookieManager!);
+    if (_dio?.interceptors != null && _dio!.interceptors.isNotEmpty) {
+      if (_cookieManager != null) {
+        _dio!.interceptors.add(_cookieManager!);
       }
     }
 
-    if (cookieManager != null) {
-      await cookieManager!.cookieJar
+    if (_cookieManager != null) {
+      await _cookieManager!.cookieJar
           .loadForRequest(Uri.parse(StaticData.apiUrl + path));
     }
 
     try {
-      res = await dio!.get(
+      res = await _dio!.get(
         path,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -174,13 +174,13 @@ class RequestHandler {
 
     late Response<T> res;
 
-    if (cookieManager != null) {
-      await cookieManager!.cookieJar
+    if (_cookieManager != null) {
+      await _cookieManager!.cookieJar
           .loadForRequest(Uri.parse(StaticData.apiUrl + path));
     }
 
     try {
-      res = await dio!.post(
+      res = await _dio!.post(
         path,
         data: data,
         queryParameters: queryParameters,
@@ -227,13 +227,13 @@ class RequestHandler {
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    if (cookieManager != null) {
-      await cookieManager!.cookieJar
+    if (_cookieManager != null) {
+      await _cookieManager!.cookieJar
           .loadForRequest(Uri.parse(StaticData.apiUrl + path));
     }
 
     try {
-      return dio!.put(
+      return _dio!.put(
         path,
         data: data,
         queryParameters: queryParameters,
@@ -278,13 +278,13 @@ class RequestHandler {
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    if (cookieManager != null) {
-      await cookieManager!.cookieJar
+    if (_cookieManager != null) {
+      await _cookieManager!.cookieJar
           .loadForRequest(Uri.parse(StaticData.apiUrl + path));
     }
 
     try {
-      return dio!.delete(
+      return _dio!.delete(
         path,
         data: data,
         queryParameters: queryParameters,
