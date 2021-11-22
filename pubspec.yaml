@@ -67,6 +67,7 @@ dependencies:
   surf_mwwm: ^2.0.2
   provider: ^6.0.1
   flutter_screenutil: ^5.0.0+2
+  auto_size_text: ^3.0.0
 
 
 dev_dependencies:

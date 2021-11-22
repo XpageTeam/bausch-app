@@ -1,3 +1,4 @@
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
@@ -14,15 +15,16 @@ enum AuthStatus {
   unknown,
 }
 
-/// TODO Отображать ошибки
 class AuthWM extends WidgetModel {
   final authStatus = StreamedState<AuthStatus>(AuthStatus.unknown);
 
-  final user = EntityStreamedState<UserRepository>();
+  // final user = EntityStreamedState<UserRepository>();
 
   final checkAuthAction = VoidAction();
 
-  AuthWM(WidgetModelDependencies baseDependencies) : super(baseDependencies);
+  final UserWM userWM;
+
+  AuthWM(WidgetModelDependencies baseDependencies, this.userWM) : super(baseDependencies);
 
   @override
   void onLoad() {
@@ -43,7 +45,7 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.unauthenticated:
-          targetPage =  const LoadingScreen();
+          targetPage = const LoadingScreen();
           break;
 
         case AuthStatus.authenticated:
@@ -60,7 +62,7 @@ class AuthWM extends WidgetModel {
           //     );
           //   }
           // }
- 
+
           break;
       }
 
@@ -75,23 +77,18 @@ class AuthWM extends WidgetModel {
     });
 
     subscribe(checkAuthAction.stream, (value) {
-      if (user.value.isLoading) return;
+      if (userWM.userData.value.isLoading) return;
 
-      user.loading();
+      userWM.userData.loading();
 
       UserWriter.checkUserToken().then((user) {
         if (user == null) {
           authStatus.accept(AuthStatus.unauthenticated);
-          this.user.error(
-                Exception('Необходима авторизация'),
-              );
+          userWM.userData.error(Exception('Необходима авторизация'));
         } else {
           authStatus.accept(AuthStatus.authenticated);
-          this.user.content(user);
+          userWM.userData.content(user);
         }
-
-        debugPrint(user.toString());
-      // ignore: argument_type_not_assignable_to_error_handler
       });
     });
 

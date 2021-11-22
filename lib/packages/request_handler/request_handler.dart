@@ -217,4 +217,104 @@ class RequestHandler {
 
     return res;
   }
+
+  Future<Response<T>> put<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    if (cookieManager != null) {
+      await cookieManager!.cookieJar
+          .loadForRequest(Uri.parse(StaticData.apiUrl + path));
+    }
+
+    try {
+      return dio!.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options != null
+            ? options.copyWith(
+                // headers: <String, dynamic>{
+                // 	if (UserRepository.currentUser != null)
+                // 		'token': UserRepository.currentUser!.token,
+                // },
+                )
+            : Options(
+                // headers: <String, dynamic>{
+                // 	if (UserRepository.currentUser != null)
+                // 		'token': UserRepository.currentUser!.token,
+                // },
+                ),
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+    } on DioError catch (e) {
+      final result = e.response;
+
+      debugPrint('statusCode: ${result?.statusCode}');
+
+      // TODO(Danil): реализовать логаут пользователя.
+
+      // if (result?.statusCode == 401 && globalContext != null)
+      // 	BlocProvider.of<AuthBloc>(globalContext!)
+      // 		.add(AuthLogoutRequested("Необходима авторизация"));
+
+      rethrow;
+    }
+  }
+
+  Future<Response<T>> delete<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    if (cookieManager != null) {
+      await cookieManager!.cookieJar
+          .loadForRequest(Uri.parse(StaticData.apiUrl + path));
+    }
+
+    try {
+      return dio!.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options != null
+            ? options.copyWith(
+                // headers: <String, dynamic>{
+                // 	if (UserRepository.currentUser != null)
+                // 		'token': UserRepository.currentUser!.token,
+                // },
+                )
+            : Options(
+                // headers: <String, dynamic>{
+                // 	if (UserRepository.currentUser != null)
+                // 		'token': UserRepository.currentUser!.token,
+                // },
+                ),
+        cancelToken: cancelToken,
+      );
+    } on DioError catch (e) {
+      final result = e.response;
+
+      debugPrint('statusCode: ${result?.statusCode}');
+
+      // TODO(Danil): реализовать логаут пользователя.
+
+      // if (result?.statusCode == 401 && globalContext != null)
+      // 	BlocProvider.of<AuthBloc>(globalContext!)
+      // 		.add(AuthLogoutRequested("Необходима авторизация"));
+
+      rethrow;
+    }
+  }
 }

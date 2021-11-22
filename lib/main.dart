@@ -1,5 +1,6 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/global_providers.dart';
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -22,6 +23,7 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
   }) : super(
           widgetModelBuilder: (context) => AuthWM(
             const WidgetModelDependencies(),
+            UserWM(const WidgetModelDependencies()),
           ),
           key: key,
         );
@@ -46,11 +48,21 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
         background: AppTheme.mineShaft,
         textColor: Colors.white,
       ),
-      child: Provider(
-        create: (context) {
-          return wm;
-        },
-        lazy: false,
+      child: MultiProvider(
+        providers: [
+          Provider(
+            create: (context) {
+              return wm.userWM;
+            },
+            lazy: false,
+          ),
+          Provider(
+            create: (context) {
+              return wm;
+            },
+            lazy: false,
+          ),
+        ],
         child: GlobalProviders(
           child: MaterialApp(
             supportedLocales: const [

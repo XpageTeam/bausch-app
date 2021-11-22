@@ -5,6 +5,10 @@ class UserRepository {
   final Balance balance;
   final User user;
 
+  String get userName => user.name ?? 'Новый друг';
+
+  num get userScrore => balance.total;
+
   const UserRepository({
     required this.balance,
     required this.user,

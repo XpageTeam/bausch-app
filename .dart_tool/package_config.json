@@ -50,6 +50,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "auto_size_text",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/auto_size_text-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "auto_size_text_pk",
       "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/auto_size_text_pk-3.0.0",
       "packageUri": "lib/",
@@ -890,7 +896,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-11-19T05:49:01.087564Z",
+  "generated": "2021-11-22T05:43:37.837627Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

@@ -45,6 +45,7 @@ class _GlobalProvidersState extends State<GlobalProviders> {
 
             return loginWM;
           },
+          lazy: false,
         ),
       ],
       child: widget.child,

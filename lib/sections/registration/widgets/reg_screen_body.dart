@@ -69,7 +69,7 @@ class _RegScreenBody extends WidgetState<RegScreenBody, LoginWM> {
                           ),
                         ),
                         SizedBox(
-                          height: 100.sh,
+                          height: 100.sp,
                         ),
                         PhoneForm(
                           wm: wm,

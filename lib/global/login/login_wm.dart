@@ -13,7 +13,6 @@ import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
-import 'package:bausch/widgets/default_snackbar.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,7 +53,10 @@ class LoginWM extends WidgetModel {
   LoginWM({
     required WidgetModelDependencies baseDependencies,
     required this.context,
-  }) : super(baseDependencies);
+  }) : super(baseDependencies){
+    _loadText();
+    debugPrint('loginConstructor');
+  }
 
   // @override
   // void dispose() {
@@ -66,8 +68,6 @@ class LoginWM extends WidgetModel {
   @override
   void onLoad() {
     phoneController.addListener(_checkBtnActive);
-
-    _loadText();
 
     debugPrint('loginLoad');
 
