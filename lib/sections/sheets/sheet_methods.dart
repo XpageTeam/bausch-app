@@ -6,13 +6,11 @@ import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/navigation/overlay_navigation_with_items.dart';
 import 'package:bausch/navigation/overlay_navigation_without_items.dart';
 import 'package:bausch/navigation/simple_overlay_navigation.dart';
-import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
-import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
-import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 

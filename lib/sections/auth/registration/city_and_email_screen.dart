@@ -30,6 +30,7 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
     cityController.dispose();
     emailController.dispose();
     FocusScope.of(context).unfocus();
+    
   }
 
   @override

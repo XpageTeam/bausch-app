@@ -13,7 +13,10 @@ class DefaultTextInput extends StatefulWidget {
   final TextStyle? textStyle;
   final Color? backgroundColor;
   final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool autofocus;
   final AlignmentGeometry? labelAlignment;
+
   const DefaultTextInput({
     required this.labelText,
     required this.controller,
@@ -24,6 +27,8 @@ class DefaultTextInput extends StatefulWidget {
     this.decoration,
     this.textStyle,
     this.maxLines,
+    this.inputFormatters,
+    this.autofocus = false,
     Key? key,
   }) : super(key: key);
 
@@ -94,8 +99,10 @@ class _DefaultTextInputState extends State<DefaultTextInput>
               focusNode: _focusNode,
               keyboardType: widget.inputType,
               style: widget.textStyle ?? AppStyles.h2Bold,
-              decoration: widget.decoration ?? const InputDecoration(),
-              maxLines: widget.maxLines ?? 1,
+              decoration: widget.decoration,
+              maxLines: widget.maxLines,
+              inputFormatters: widget.inputFormatters,
+              autofocus: widget.autofocus,
             ),
           ),
 

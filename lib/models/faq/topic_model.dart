@@ -18,15 +18,15 @@ class TopicModel implements MappableInterface<TopicModel> {
 
   factory TopicModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
-      throw ResponseParseExeption('Не передан идентификатор темы');
+      throw ResponseParseException('Не передан идентификатор темы');
     }
 
     if (map['title'] == null) {
-      throw ResponseParseExeption('Не передано название темы');
+      throw ResponseParseException('Не передано название темы');
     }
 
     if (map['questions'] == null) {
-      throw ResponseParseExeption('Не передан список вопросов по теме');
+      throw ResponseParseException('Не передан список вопросов по теме');
     }
 
     return TopicModel(

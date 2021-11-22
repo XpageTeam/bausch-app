@@ -2,9 +2,11 @@
 
 import 'package:bausch/sections/auth/loading/animated_content.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -74,6 +76,9 @@ class _LoadingScreenState extends State<LoadingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
+      appBar: const EmptyAppBar(
+        overlayStyle: SystemUiOverlayStyle.light,
+      ),
       body: SafeArea(
         child: Stack(
           alignment: Alignment.bottomCenter,

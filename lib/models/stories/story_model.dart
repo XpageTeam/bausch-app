@@ -46,7 +46,7 @@ class StoryModel implements MappableInterface<StoryModel> {
 
   factory StoryModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null || map['id'] is! int) {
-      throw ResponseParseExeption('Не передан идентификатор истории');
+      throw ResponseParseException('Не передан идентификатор истории');
     }
 
     return StoryModel(

@@ -1,11 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_model.dart';
-import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
