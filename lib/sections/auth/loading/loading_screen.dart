@@ -1,7 +1,10 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bausch/sections/auth/loading/animated_content.dart';
+import 'package:bausch/sections/auth/loading/animation_content.dart';
+import 'package:bausch/sections/auth/loading/loading_animation.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +25,8 @@ class _LoadingScreenState extends State<LoadingScreen>
   late Animation blurHeightAnimation;
   late AnimationController controller;
 
-  late RiveAnimationController loadingController;
-  late RiveAnimationController afterController;
-
   //* Анимация начнется примерно через 2 секунды после initState
-  Interval interval = const Interval(0.7, 1.0, curve: Curves.easeInOut);
+  Interval interval = const Interval(0.9, 1.0, curve: Curves.easeInOut);
 
   double opacity = 0;
 
@@ -34,23 +34,9 @@ class _LoadingScreenState extends State<LoadingScreen>
   void initState() {
     super.initState();
 
-    loadingController = OneShotAnimation(
-      'loading',
-      onStop: () {
-        afterController.isActive = true;
-      },
-      onStart: () {
-        setState(() {
-          afterController.isActive = false;
-        });
-      },
-    );
-
-    afterController = OneShotAnimation('afterLoading');
-
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 8),
     );
 
     positionAnimation = Tween<double>(begin: 250.0, end: 0.0).animate(
@@ -79,42 +65,50 @@ class _LoadingScreenState extends State<LoadingScreen>
       appBar: const EmptyAppBar(
         overlayStyle: SystemUiOverlayStyle.light,
       ),
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            //* Анимация, запускается при инициализации экрана
-            RiveAnimation.asset(
-              'assets/new_loading.riv',
-              fit: BoxFit.cover,
-              //animations: const ['loading', 'afterLoading'],
-              controllers: [afterController, loadingController],
-            ),
-            //* В Rive пока не завезли эффекты, в том числе размытие
-            //* Поэтому делаю Blur с помощью BackdropFilter
-            // AnimatedBlur(
-            //   animation: Tween<double>(
-            //     begin: 0.0,
-            //     end: MediaQuery.of(context).size.height * 0.7,
-            //   ).animate(
-            //     CurvedAnimation(parent: controller, curve: interval),
-            //   ),
-            // ),
-            Column(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          //* Анимация, запускается при инициализации экрана
+          const LoadingAnimation(),
+
+          //* В Rive пока не завезли эффекты, в том числе размытие
+          //* Поэтому делаю Blur с помощью BackdropFilter
+          // AnimatedBlur(
+          //   animation: Tween<double>(
+          //     begin: 0.0,
+          //     end: MediaQuery.of(context).size.height * 0.7,
+          //   ).animate(
+          //     CurvedAnimation(parent: controller, curve: interval),
+          //   ),
+          // ),
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     AnimatedOpacity(
+          //       duration: const Duration(seconds: 3),
+          //       opacity: opacity,
+          //       curve: Curves.easeInOut,
+          //       child: AnimatedContent(
+          //         animation: positionAnimation as Animation<double>,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          DelayedAnimatedTranslateOpacity(
+            offsetY: 120,
+            delay: const Duration(milliseconds: 2200),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                AnimatedOpacity(
-                  duration: const Duration(seconds: 3),
-                  opacity: opacity,
-                  curve: interval,
-                  child: AnimatedContent(
-                    animation: positionAnimation as Animation<double>,
-                  ),
+                Container(
+                  child: const AnimationContent(),
+                  color: Colors.white,
+                  height: MediaQuery.of(context).size.height / 2,
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

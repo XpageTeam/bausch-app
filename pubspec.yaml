@@ -37,7 +37,7 @@ dependencies:
   dio_cache_interceptor_db_store: ^3.0.2
   dio_cookie_manager: ^2.0.0
   file_picker: ^4.2.3
-  flutter_bloc: ^7.3.3
+  flutter_bloc: ^8.0.0
   flutter_html: ^2.1.5
   flutter_localizations:
     sdk: flutter
@@ -94,6 +94,7 @@ flutter:
     - assets/logos/
     - assets/items/
     - assets/icons/
+    - assets/loading/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png
