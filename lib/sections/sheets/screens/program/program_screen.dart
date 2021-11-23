@@ -85,7 +85,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    const Text(
+                    Text(
                       'Ваши данные',
                       style: AppStyles.h1,
                     ),
@@ -110,8 +110,8 @@ class _ProgramScreenState extends State<ProgramScreen> {
                       labelText: 'E-mail',
                       controller: nameController,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 40,
                         bottom: 20,
                       ),
@@ -150,7 +150,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Flexible(
+                            Flexible(
                               child: Text(
                                 'Контактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+Lomb ',
                                 style: AppStyles.h3,

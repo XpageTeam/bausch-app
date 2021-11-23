@@ -18,12 +18,12 @@ class DeliveryInfoContainer extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Icon(
+            children: [
+              const Icon(
                 Icons.charging_station,
                 color: AppTheme.mineShaft,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Flexible(

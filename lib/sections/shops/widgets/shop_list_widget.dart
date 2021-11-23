@@ -29,7 +29,7 @@ class ShopListWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: shopList.isEmpty
             ? [
-                const Center(
+                Center(
                   child: Text(
                     'Пусто',
                     style: AppStyles.p1,

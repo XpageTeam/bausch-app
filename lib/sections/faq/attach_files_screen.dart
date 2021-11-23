@@ -58,9 +58,9 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                         child: Column(
                           children: [
                             Row(
-                              children: const [
-                                Icon(Icons.add_circle_outline_rounded),
-                                SizedBox(
+                              children: [
+                                const Icon(Icons.add_circle_outline_rounded),
+                                const SizedBox(
                                   width: 12,
                                 ),
                                 Text(

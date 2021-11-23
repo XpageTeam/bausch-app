@@ -49,13 +49,13 @@ class DiscountVerification extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
+                        Text(
                           'Подтвердите покупку',
                           style: AppStyles.h2,
                         ),
                         Column(
-                          children: const [
-                            SizedBox(
+                          children: [
+                            const SizedBox(
                               height: 12,
                             ),
                             Text(
@@ -69,9 +69,9 @@ class DiscountVerification extends StatelessWidget {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            DiscountInfo(text: 'Скидка 500 ₽'),
-                            SizedBox(
+                          children: [
+                            const DiscountInfo(text: 'Скидка 500 ₽'),
+                            const SizedBox(
                               height: 4,
                             ),
                             Text(
@@ -89,7 +89,7 @@ class DiscountVerification extends StatelessWidget {
                         const SizedBox(
                           height: 12,
                         ),
-                        const Text(
+                        Text(
                           'После покупки у вас останется 100 баллов',
                           style: AppStyles.p1,
                         ),

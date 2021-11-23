@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   runApp(
@@ -64,18 +65,21 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
           ),
         ],
         child: GlobalProviders(
-          child: MaterialApp(
-            supportedLocales: const [
-              Locale('ru', ''),
-            ],
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            title: 'Bausch + Lomb',
-            navigatorKey: Keys.mainNav,
-            theme: AppTheme.currentAppTheme,
-            home: const LoaderScreen(),
+          child: ScreenUtilInit(
+            designSize: const Size(375, 799),
+            builder: () => MaterialApp(
+              supportedLocales: const [
+                Locale('ru', ''),
+              ],
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              title: 'Bausch + Lomb',
+              navigatorKey: Keys.mainNav,
+              theme: AppTheme.currentAppTheme,
+              home: const LoaderScreen(),
+            ),
           ),
         ),
       ),

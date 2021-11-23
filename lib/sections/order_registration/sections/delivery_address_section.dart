@@ -12,7 +12,7 @@ class DeliveryAddressSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Адрес доставки',
           style: AppStyles.h1,
         ),
@@ -22,7 +22,7 @@ class DeliveryAddressSection extends StatelessWidget {
 
         OrderButton(
           onPressed: () {},
-          title: const Flexible(
+          title: Flexible(
             child: Text(
               'Москва, Александра Чавчавадзе, 9',
               style: AppStyles.h2Bold,
@@ -33,7 +33,7 @@ class DeliveryAddressSection extends StatelessWidget {
         ),
         OrderButton(
           onPressed: () {},
-          title: const Text(
+          title: Text(
             'Добавить новый адрес',
             style: AppStyles.h2Bold,
           ),

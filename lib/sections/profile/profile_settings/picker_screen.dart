@@ -40,7 +40,7 @@ class _PickerScreenState extends State<PickerScreen> {
                   ),
                 ),
               ),
-              const Text(
+              Text(
                 'Диоптрий',
                 style: AppStyles.h1,
               ),

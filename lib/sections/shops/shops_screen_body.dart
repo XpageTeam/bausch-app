@@ -126,12 +126,12 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Text(
                       'Город',
                       style: AppStyles.p1Grey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 6,
                     ),
                     Text(

@@ -17,7 +17,7 @@ class CustomTextButtonIcon extends StatelessWidget {
         color: AppTheme.mineShaft,
         size: 20,
       ),
-      label: const Text(
+      label: Text(
         'Удалить адрес',
         style: AppStyles.h2,
       ),

@@ -44,7 +44,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         topRightWidget: TextButton(
           style: TextButton.styleFrom(padding: EdgeInsets.zero),
           onPressed: () {},
-          child: const Text(
+          child: Text(
             'Готово',
             style: AppStyles.p1Grey,
           ),
@@ -140,7 +140,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 labelText: 'Привязать аккаунт',
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(bottom: 40),
               child: Text(
                 'Версия приложения 10.6',

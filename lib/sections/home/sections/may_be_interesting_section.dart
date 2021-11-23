@@ -10,7 +10,7 @@ class MayBeInteresting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Align(
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Вам может быть интересно',

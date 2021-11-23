@@ -28,9 +28,9 @@ class AnimatedContent extends AnimatedWidget {
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 20),
+                padding: const EdgeInsets.only(top: 40, bottom: 20),
                 child: Text(
                   'Пользуйтесь продукцией Bauch+lomb и получайте любимые товары и другие привилегии',
                   style: AppStyles.h1,

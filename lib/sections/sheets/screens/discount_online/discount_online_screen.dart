@@ -63,7 +63,7 @@ class DiscountOnlineScreen extends StatelessWidget
                     const SizedBox(
                       height: 40,
                     ),
-                    const Text(
+                    Text(
                       'Выбрать интернет-магазин',
                       style: AppStyles.h2,
                     ),

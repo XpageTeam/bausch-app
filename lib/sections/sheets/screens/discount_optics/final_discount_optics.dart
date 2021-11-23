@@ -37,8 +37,8 @@ class FinalDiscountOptics extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     CustomSliverAppbar.toPop(icon: Container(), key: key),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 40),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
                         'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
                         style: AppStyles.h2,
@@ -55,8 +55,8 @@ class FinalDiscountOptics extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),

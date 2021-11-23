@@ -40,7 +40,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           'Линз Сервис',
                           style: AppStyles.h3,

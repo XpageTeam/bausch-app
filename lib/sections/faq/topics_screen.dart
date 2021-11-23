@@ -58,8 +58,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
                             },
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(
+                        Padding(
+                          padding: const EdgeInsets.only(
                             right: StaticData.sidePadding,
                             left: StaticData.sidePadding,
                             top: 30,
