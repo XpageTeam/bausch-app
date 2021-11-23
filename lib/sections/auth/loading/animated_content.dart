@@ -18,10 +18,10 @@ class AnimatedContent extends AnimatedWidget {
       height: MediaQuery.of(context).size.height / 2,
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(5),
-          topRight: Radius.circular(5),
-        ),
+        // borderRadius: BorderRadius.only(
+        //   topLeft: Radius.circular(5),
+        //   topRight: Radius.circular(5),
+        // ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -24,7 +24,7 @@ class _LoadingScreenState extends State<LoadingScreen>
   late RiveAnimationController afterController;
 
   //* Анимация начнется примерно через 2 секунды после initState
-  Interval interval = const Interval(0.7, 1.0, curve: Curves.easeInOut);
+  Interval interval = const Interval(0.4, 0.7, curve: Curves.easeInOut);
 
   double opacity = 0;
 
@@ -48,7 +48,7 @@ class _LoadingScreenState extends State<LoadingScreen>
 
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     );
 
     positionAnimation = Tween<double>(begin: 250.0, end: 0.0).animate(
@@ -73,14 +73,14 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.turquoiseBlue,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
             //* Анимация, запускается при инициализации экрана
             RiveAnimation.asset(
-              'assets/new_loading.riv',
+              'assets/loading_2.riv',
               fit: BoxFit.cover,
               //animations: const ['loading', 'afterLoading'],
               controllers: [afterController, loadingController],

@@ -1,3 +1,4 @@
+import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
@@ -24,11 +25,11 @@ class MainNavigation extends StatelessWidget {
         Widget page;
 
         switch (settings.name) {
-          // case '/':
-          //   page = const LoadingScreen();
-          //   break;
-
           case '/':
+            page = const LoadingScreen();
+            break;
+
+          case '/home':
             page = const HomeScreen();
             break;
 
