@@ -80,43 +80,81 @@ class _SelectState extends State<Select> {
             context: context,
             builder: (context) => CupertinoActionSheet(
               title: Text(widget.model.name),
-              actions: widget.model.values!
-                  .map(
-                    (e) => CupertinoActionSheetAction(
-                      onPressed: () {
-                        setState(() {
-                          _value = e.name;
-                        });
+              actions: widget.model.xmlId == 'question'
+                  ? valuesBloc.state.values
+                      .map(
+                        (e) => CupertinoActionSheetAction(
+                          onPressed: () {
+                            setState(() {
+                              _value = e.name;
+                            });
 
-                        if (widget.model.xmlId == 'category') {
-                          fieldsBloc.add(
-                            FieldsSetTopic(e.id),
-                          );
-                          valuesBloc.add(UpdateValues(id: e.id));
-                        } else if (widget.model.xmlId == 'question') {
-                          fieldsBloc.add(
-                            FieldsSetQuestion(e.id),
-                          );
+                            if (widget.model.xmlId == 'category') {
+                              fieldsBloc.add(
+                                FieldsSetTopic(e.id),
+                              );
+                              //valuesBloc.add(UpdateValues(id: e.id));
+                            } else if (widget.model.xmlId == 'question') {
+                              fieldsBloc.add(
+                                FieldsSetQuestion(e.id),
+                              );
 
-                          formsExtraBloc.add(
-                            FormsExtraChangeId(id: e.id),
-                          );
-                        } else {
-                          fieldsBloc.add(
-                            FieldsAddExtra(
-                              extra: <String, dynamic>{
-                                'extra[${widget.model.xmlId}]': e.id,
-                              },
-                            ),
-                          );
-                        }
+                              formsExtraBloc.add(
+                                FormsExtraChangeId(id: e.id),
+                              );
+                            } else {
+                              fieldsBloc.add(
+                                FieldsAddExtra(
+                                  extra: <String, dynamic>{
+                                    'extra[${widget.model.xmlId}]': e.id,
+                                  },
+                                ),
+                              );
+                            }
 
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(e.name),
-                    ),
-                  )
-                  .toList(),
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(e.name),
+                        ),
+                      )
+                      .toList()
+                  : widget.model.values!
+                      .map(
+                        (e) => CupertinoActionSheetAction(
+                          onPressed: () {
+                            setState(() {
+                              _value = e.name;
+                            });
+
+                            if (widget.model.xmlId == 'category') {
+                              fieldsBloc.add(
+                                FieldsSetTopic(e.id),
+                              );
+                              valuesBloc.add(UpdateValues(id: e.id));
+                            } else if (widget.model.xmlId == 'question') {
+                              fieldsBloc.add(
+                                FieldsSetQuestion(e.id),
+                              );
+
+                              formsExtraBloc.add(
+                                FormsExtraChangeId(id: e.id),
+                              );
+                            } else {
+                              fieldsBloc.add(
+                                FieldsAddExtra(
+                                  extra: <String, dynamic>{
+                                    'extra[${widget.model.xmlId}]': e.id,
+                                  },
+                                ),
+                              );
+                            }
+
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(e.name),
+                        ),
+                      )
+                      .toList(),
             ),
           );
         },
