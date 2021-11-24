@@ -15,28 +15,30 @@ class ColumnWithDynamicDuration extends StatelessWidget {
         if (i == 1) {
           return DelayedAnimatedTranslateOpacity(
             offsetY: 20,
+            delay: Duration(milliseconds: 200 + i * 400),
             child: WidgetConveyor(
               duration: 20,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 63,
-                  ),
-                  IntrinsicWidth(child: children[1]),
-                  SizedBox(
-                    width: 63,
-                  ),
-                  IntrinsicWidth(child: children[2]),
-                  SizedBox(
-                    width: 63,
-                  ),
-                  IntrinsicWidth(child: children[3]),
-                  SizedBox(
-                    width: 63,
-                  ),
-                  IntrinsicWidth(child: children[1]),
-                ],
-              ),
+              children: [
+                const SizedBox(
+                  width: 63,
+                ),
+                IntrinsicWidth(child: children[1]),
+                const SizedBox(
+                  width: 63,
+                ),
+                IntrinsicWidth(child: children[2]),
+                const SizedBox(
+                  width: 63,
+                ),
+                IntrinsicWidth(child: children[3]),
+                const SizedBox(
+                  width: 63,
+                ),
+                IntrinsicWidth(child: children[1]),
+                const SizedBox(
+                  width: 63,
+                ),
+              ],
             ),
           );
         } else {
