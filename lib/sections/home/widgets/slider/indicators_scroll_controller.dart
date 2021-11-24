@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-class CustomScrollController extends ScrollController {
+class IndicatorsScrollController extends ScrollController {
   final double triggerOffset;
-  final int pagesCount;
   final double viewportDim;
 
-  int get page => (position as CustomScrollPosition).page;
-  // TODO(Nikolay): Реализовать получение направления.
-  ScrollDirection get direction =>
-      (position as CustomScrollPosition).userScrollDirection;
+  int get page => (position as _IndicatorScrollPosition).page;
   int get distance {
     final dist = (page - _oldPage).abs();
     _oldPage = page;
@@ -18,9 +13,8 @@ class CustomScrollController extends ScrollController {
 
   int _oldPage = 0;
 
-  CustomScrollController({
+  IndicatorsScrollController({
     required double initialScrollOffset,
-    required this.pagesCount,
     required this.triggerOffset,
     required this.viewportDim,
   }) : super(
@@ -33,7 +27,7 @@ class CustomScrollController extends ScrollController {
     ScrollContext context,
     ScrollPosition? oldPosition,
   ) {
-    var pos = CustomScrollPosition(
+    final pos = _IndicatorScrollPosition(
       physics: physics,
       context: context,
       triggerOffset: triggerOffset,
@@ -49,7 +43,6 @@ class CustomScrollController extends ScrollController {
     required Duration duration,
     required Curve curve,
   }) {
-    // final _PagePosition position = this.position as _PagePosition;
     return position.animateTo(
       page * viewportDim,
       duration: duration,
@@ -78,21 +71,27 @@ class CustomScrollController extends ScrollController {
   }
 }
 
-class CustomScrollPosition extends ScrollPositionWithSingleContext {
+class _IndicatorScrollPosition extends ScrollPositionWithSingleContext {
   final double triggerOffset;
   double oldPixels;
-  double oldPixels2;
 
   double viewportDim;
 
-  CustomScrollPosition({
+  int get page {
+    final _page = double.parse(
+      (pixels / viewportDim).toStringAsFixed(5),
+    ).round();
+
+    return _page;
+  }
+
+  _IndicatorScrollPosition({
     required ScrollPhysics physics,
     required ScrollContext context,
     required this.triggerOffset,
     required this.viewportDim,
     required double initialScrollOffset,
   })  : oldPixels = initialScrollOffset,
-        oldPixels2 = initialScrollOffset,
         super(
           physics: physics,
           context: context,
@@ -123,8 +122,4 @@ class CustomScrollPosition extends ScrollPositionWithSingleContext {
 
     return super.setPixels(_newPixels);
   }
-
-  int get page => double.parse(
-        (pixels / viewportDim).toStringAsFixed(5),
-      ).round();
 }

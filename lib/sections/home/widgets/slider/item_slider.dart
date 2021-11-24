@@ -4,7 +4,6 @@ import 'package:bausch/sections/home/widgets/slider/items_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// TODO(Nikolay): Сырой.
 class ItemSlider<T> extends StatefulWidget {
   final List<T> items;
   final Duration animationDuration;
@@ -38,12 +37,10 @@ class _ItemSliderState<T> extends State<ItemSlider<T>> {
 
   late final initPage = additionalItems - 1;
   late final SliderCubit sliderCubit = SliderCubit();
-  final SliderController sliderController = SliderController();
   // late List<T> scrollItems;
   @override
   void initState() {
     super.initState();
-    sliderController.sliderCubit = sliderCubit;
   }
 
   @override
@@ -60,7 +57,6 @@ class _ItemSliderState<T> extends State<ItemSlider<T>> {
         children: [
           LayoutBuilder(
             builder: (context, constraints) => ItemsRow<T>(
-              sliderController: sliderController,
               maxWidth: constraints.maxWidth,
               animationDuration: widget.animationDuration,
               itemsOnPage: widget.itemsOnPage,
@@ -74,7 +70,6 @@ class _ItemSliderState<T> extends State<ItemSlider<T>> {
             padding: const EdgeInsets.symmetric(horizontal: 70.0),
             child: LayoutBuilder(
               builder: (context, constraints) => IndicatorsRow(
-                sliderController: sliderController,
                 maxWidth: constraints.maxWidth,
                 animationDuration: widget.animationDuration,
                 indicatorsOnPage: widget.indicatorsOnPage,
@@ -86,36 +81,5 @@ class _ItemSliderState<T> extends State<ItemSlider<T>> {
         ],
       ),
     );
-  }
-}
-
-abstract class AbstractSliderController {
-  late SliderCubit sliderCubit;
-
-  void clickNext();
-  void clickPrev();
-  void slideNext();
-  void slidePrev();
-}
-
-class SliderController extends AbstractSliderController {
-  @override
-  void clickNext() {
-    sliderCubit.movePageBy(1);
-  }
-
-  @override
-  void clickPrev() {
-    sliderCubit.movePageBy(-1);
-  }
-
-  @override
-  void slideNext() {
-    sliderCubit.slidePageBy(1);
-  }
-
-  @override
-  void slidePrev() {
-    sliderCubit.slidePageBy(-1);
   }
 }
