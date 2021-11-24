@@ -31,11 +31,7 @@ class FieldModel implements MappableInterface<FieldModel> {
           ? (map['values'] as List<dynamic>)
               .map((dynamic e) => ValueModel.fromMap(e as Map<String, dynamic>))
               .toList()
-          : [
-              ValueModel(id: 1, name: 'one'),
-              ValueModel(id: 78, name: 'two'),
-              ValueModel(id: 2, name: 'three'),
-            ],
+          : [],
     );
   }
 

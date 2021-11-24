@@ -4,6 +4,7 @@ import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
+import 'package:bausch/sections/faq/bloc/values/values_bloc.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class Select extends StatefulWidget {
 class _SelectState extends State<Select> {
   late FieldsBloc fieldsBloc;
   late FormsExtraBloc formsExtraBloc;
+  late ValuesBloc valuesBloc;
   late String? _value;
 
   @override
@@ -35,6 +37,7 @@ class _SelectState extends State<Select> {
 
     fieldsBloc = BlocProvider.of<FieldsBloc>(context);
     formsExtraBloc = BlocProvider.of<FormsExtraBloc>(context);
+    valuesBloc = BlocProvider.of<ValuesBloc>(context);
 
     _value = widget.model.name;
 
@@ -89,6 +92,7 @@ class _SelectState extends State<Select> {
                           fieldsBloc.add(
                             FieldsSetTopic(e.id),
                           );
+                          valuesBloc.add(UpdateValues(id: e.id));
                         } else if (widget.model.xmlId == 'question') {
                           fieldsBloc.add(
                             FieldsSetQuestion(e.id),

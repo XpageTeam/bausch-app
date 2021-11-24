@@ -22,7 +22,7 @@ class DefaultFormsSection extends StatefulWidget {
 }
 
 class _DefaultFormsSectionState extends State<DefaultFormsSection> {
-  final FormsCubit formsCubit = FormsCubit();
+  late FormsCubit formsCubit;
   late FieldsBloc fieldsBloc;
 
   @override
@@ -30,6 +30,8 @@ class _DefaultFormsSectionState extends State<DefaultFormsSection> {
     super.initState();
 
     fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+
+    formsCubit = BlocProvider.of<FormsCubit>(context);
 
     if (widget.question != null) {
       fieldsBloc.add(FieldsSetQuestion(widget.question!));
