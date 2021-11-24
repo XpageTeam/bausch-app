@@ -1,8 +1,12 @@
-
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ScoresSection extends StatelessWidget {
   final Duration loadingAnimationDuration;
@@ -16,28 +20,32 @@ class ScoresSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userWM = Provider.of<UserWM>(context);
+
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              '5600',
-              style: TextStyle(
-                leadingDistribution: TextLeadingDistribution
-                    .even, // центрирует текст в строке по вертикали
-                color: AppTheme.mineShaft,
-                fontWeight: FontWeight.w500,
-                fontSize: 85,
-                height: 80 / 85,
-                // height: 80 / 85,
-              ),
+          children: [
+            EntityStateBuilder<UserRepository>(
+              streamedState: userWM.userData,
+              builder: (_, repo) {
+                return AutoSizeText(
+                  repo.userScrore.toString(),
+                  maxLines: 1,
+                  style: const TextStyle(
+                    color: AppTheme.mineShaft,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 85,
+                    height: 80 / 85,
+                  ),
+                );
+              },
             ),
-            PointWidget(
-              radius: 37 / 2,
+            const PointWidget(
+              radius: 18,
               textStyle: TextStyle(
-                leadingDistribution: TextLeadingDistribution.even,
                 color: AppTheme.mineShaft,
                 fontWeight: FontWeight.w500,
                 fontSize: 27,
@@ -49,23 +57,13 @@ class ScoresSection extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        // UnderlinedText(
-        //   space: 4,
-        //   text:
-        //       'Подчеркнутый текст (CustomPainter) и невероятные приключения какого-то неинтересного персонажа, '
-        //       'а также его верного товарища - Кента, который поменял саперную лопату на тушенку во время второй мировой войны.',
-        //   textStyle: AppStyles.p1.copyWith(
-        //     fontSize: 24,
-        //   ),
-        //   lineWidth: 2,
-        //   lineColor: AppTheme.turquoiseBlue,
-        // ),
         FutureBuilder<int>(
           future: Future<int>.delayed(
             delay,
             () => 4,
           ),
           builder: (context, snapshot) {
+            // TODO: посчитать и вывести
             return CustomLineLoadingIndicator(
               text: '127 баллов сгорят через 5 дней',
               maxDays: 15,

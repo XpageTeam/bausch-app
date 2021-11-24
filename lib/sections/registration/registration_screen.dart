@@ -13,12 +13,8 @@ class RegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.mystic,
-      appBar: const EmptyAppBar(),
-      body: RegScreenBody(
-        wm: Provider.of<LoginWM>(context),
-      ),
+    return RegScreenBody(
+      wm: Provider.of<LoginWM>(context),
     );
   }
 }

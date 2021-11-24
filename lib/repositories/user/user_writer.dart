@@ -59,14 +59,19 @@ class UserWriter {
 
     final repo = UserRepository.fromJson(parsed.data! as Map<String, dynamic>);
 
-
-    
-
     // TODO(Danil): тупое место для подмешивания токена
     return repo.copyWith(
       user: repo.user.copyWith(
         token: token,
       ),
     );
+  }
+
+  static Future<void> updateUserData(UserRepository repo) async {
+    final rh = RequestHandler();
+
+    BaseResponseRepository.fromMap((await rh.put<Map<String, dynamic>>(
+      '/user/',
+    )).data!);
   }
 }

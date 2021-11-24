@@ -50,6 +50,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "auto_size_text",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/auto_size_text-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "auto_size_text_pk",
       "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/auto_size_text_pk-3.0.0",
       "packageUri": "lib/",
@@ -298,6 +304,12 @@
     {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_screenutil",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_screenutil-5.0.0+2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -884,7 +896,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-11-19T04:33:47.708959Z",
+  "generated": "2021-11-24T06:54:40.095715Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }
