@@ -1,4 +1,3 @@
-import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class UnderlinedText extends StatelessWidget {
@@ -54,7 +53,6 @@ class UnderlinedTextRaw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sizeWholeLine = getSizeWholeLine();
-    final fullHeight = calcFullHeight(sizeWholeLine);
     final height = calcHeight();
     final lines = makeLines();
 
@@ -84,10 +82,9 @@ class UnderlinedTextRaw extends StatelessWidget {
     );
 
     final list = text.split(' ');
-    var lines = 1;
     var width = 0.0;
     var lineText = '';
-    var arr = <String>[];
+    final arr = <String>[];
 
     for (var i = 0; i < list.length; i++) {
       final value = tp
@@ -102,7 +99,6 @@ class UnderlinedTextRaw extends StatelessWidget {
       if (width + value.width > maxWidth) {
         debugPrint('width: $width \t text: $lineText');
         width = 0.0;
-        lines++;
 
         arr.add(
           lineText.substring(0, lineText.length - 1),
@@ -126,10 +122,9 @@ class UnderlinedTextRaw extends StatelessWidget {
     );
 
     final list = text.split(' ');
-    var lines = 1;
     var width = 0.0;
     var lineText = '';
-    var arr = <String>[];
+    final arr = <String>[];
 
     for (var i = 0; i < list.length; i++) {
       final value = tp
@@ -143,7 +138,6 @@ class UnderlinedTextRaw extends StatelessWidget {
 
       if (width + value.width > maxWidth) {
         width = 0.0;
-        lines++;
 
         arr.add(lineText);
         lineText = '';

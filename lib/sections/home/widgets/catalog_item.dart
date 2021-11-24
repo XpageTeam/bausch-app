@@ -54,9 +54,11 @@ class CatalogItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                // TODO(Nikolay): Вынести onPressed.
                 ButtonWithPoints(
                   price: '${model.price}',
+                  onPressed: () {
+                    // TODO: Реализовать onPressed.
+                  },
                 ),
               ],
             ),
