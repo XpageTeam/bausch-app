@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/field_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -46,6 +47,13 @@ class FormsExtraCubit extends Cubit<FormsExtraState> {
       emit(
         FormsExtraFailed(
           title: 'Ошибка при отправке запроса',
+          subtitle: e.toString(),
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      emit(
+        FormsExtraFailed(
+          title: 'Ошибка при обработке ответа',
           subtitle: e.toString(),
         ),
       );

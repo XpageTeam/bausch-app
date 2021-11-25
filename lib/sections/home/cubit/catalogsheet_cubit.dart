@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
@@ -29,11 +30,6 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
         (await rh.get<Map<String, dynamic>>('catalog/sections/')).data!,
       );
 
-      // final m =
-      //     Map<String, dynamic>.from(parsedData.data as Map<String, dynamic>);
-
-      //final a = (parsedData.data as Map<String, dynamic>).values.toList();
-
       emit(
         CatalogSheetSuccess(
           // ignore: avoid_annotating_with_dynamic
@@ -63,6 +59,13 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
         CatalogSheetFailed(
           title: 'Ошибка при отправке запроса',
           subtitle: sheet.toString(),
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      emit(
+        CatalogSheetFailed(
+          title: 'Ошибка при обработке ответа',
+          subtitle: e.toString(),
         ),
       );
     }

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -23,18 +24,13 @@ class FaqCubit extends Cubit<FaqState> {
         (await rh.get<Map<String, dynamic>>('static/faq/')).data!,
       );
 
-      if (parsedData.success) {
-        emit(
-          FaqSuccess(
-            topics: (parsedData.data as List<dynamic>)
-                .map((dynamic e) =>
-                    TopicModel.fromMap(e as Map<String, dynamic>))
-                .toList(),
-          ),
-        );
-      } else {
-        FaqFailed(title: 'Что-то пошло не так');
-      }
+      emit(
+        FaqSuccess(
+          topics: (parsedData.data as List<dynamic>)
+              .map((dynamic e) => TopicModel.fromMap(e as Map<String, dynamic>))
+              .toList(),
+        ),
+      );
     } on ResponseParseException catch (e) {
       emit(
         FaqFailed(
@@ -46,6 +42,13 @@ class FaqCubit extends Cubit<FaqState> {
       emit(
         FaqFailed(
           title: 'Ошибка при отправке запроса',
+          subtitle: e.toString(),
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      emit(
+        FaqFailed(
+          title: 'Ошибка при обработке ответа',
           subtitle: e.toString(),
         ),
       );
