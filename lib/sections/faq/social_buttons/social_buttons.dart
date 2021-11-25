@@ -20,8 +20,8 @@ class _SocialButtonsState extends State<SocialButtons> {
         if (state is SocialSuccess) {
           return Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                   top: 40,
                   bottom: 14,
                 ),

@@ -72,7 +72,7 @@ class CatalogItemWidget extends StatelessWidget {
                           const SizedBox(
                             width: 4,
                           ),
-                          const PointWidget(),
+                          PointWidget(textStyle: AppStyles.h2),
                         ],
                       ),
 

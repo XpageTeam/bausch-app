@@ -37,8 +37,8 @@ class FinalPartners extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     CustomSliverAppbar.toPop(icon: Container(), key: key),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 20,
                         bottom: 40,
                       ),
@@ -58,8 +58,8 @@ class FinalPartners extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),

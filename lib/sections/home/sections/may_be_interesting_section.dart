@@ -20,7 +20,7 @@ class _MayBeInterestingState extends State<MayBeInteresting> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Align(
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Вам может быть интересно',

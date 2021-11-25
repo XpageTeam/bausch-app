@@ -20,7 +20,7 @@ class _RecipientSectionState extends State<RecipientSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Получатель',
             style: AppStyles.h1,
           ),
@@ -46,7 +46,7 @@ class _RecipientSectionState extends State<RecipientSection> {
                   isFormShowing = true;
                 },
               ),
-              title: const Text.rich(
+              title: Text.rich(
                 TextSpan(
                   text: 'Саша Константинопольский\n',
                   style: AppStyles.h2Bold,
