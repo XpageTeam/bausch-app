@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 
 class ButtonWithPoints extends StatelessWidget {
   final String price;
-  const ButtonWithPoints({required this.price, Key? key}) : super(key: key);
+  final VoidCallback onPressed;
+  const ButtonWithPoints({
+    required this.price,
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: TextButton.styleFrom(
         primary: AppTheme.grey,
         backgroundColor: AppTheme.mystic,

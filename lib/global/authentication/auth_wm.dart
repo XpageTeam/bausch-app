@@ -1,7 +1,7 @@
 import 'package:bausch/global/user/user_wm.dart';
-import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
+import 'package:bausch/sections/auth/registration/city_and_email_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
 import 'package:bausch/static/static_data.dart';
@@ -24,7 +24,8 @@ class AuthWM extends WidgetModel {
 
   final UserWM userWM;
 
-  AuthWM(WidgetModelDependencies baseDependencies, this.userWM) : super(baseDependencies);
+  AuthWM(WidgetModelDependencies baseDependencies, this.userWM)
+      : super(baseDependencies);
 
   @override
   void onLoad() {
@@ -49,19 +50,13 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.authenticated:
-          // TODO(Danil): реализовать переход
-          // if (user.value.data != null) {
-          //   if (user.value.data?.user.city != null) {
-          targetPage = const HomeScreen();
-          //   } else {
-          //     Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
-          //       CupertinoPageRoute<void>(
-          //         builder: (context) => const CityAndEmailScreen(),
-          //       ),
-          //       (route) => false,
-          //     );
-          //   }
-          // }
+        // TODO(Danil): когда Гоша разберётся - сделать
+          if (userWM.userData.value.data?.user.city == null ||
+              userWM.userData.value.data?.user.email == null) {
+                targetPage = const CityAndEmailScreen();
+              } else {
+                targetPage = const HomeScreen();
+              }
 
           break;
       }

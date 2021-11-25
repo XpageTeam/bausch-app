@@ -106,7 +106,6 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
             child: DefaultButton(
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
               onPressed: () {
-                // TODO(Nikolay): Реализовать кнопку.
                 showModalBottomSheet<void>(
                   context: context,
                   barrierColor: Colors.transparent,
@@ -117,7 +116,9 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                     site: 'lensservice.ru',
                     additionalInfo:
                         'Скидкой можно воспользоваться в любой из оптик сети.',
-                    onPressed: () {},
+                    onPressed: () {
+                      // TODO(Nikolay): Реализовать onPressed.
+                    },
                     btnText: 'Выбрать эту сеть оптик',
                   ),
                 );

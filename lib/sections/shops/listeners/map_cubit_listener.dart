@@ -1,6 +1,6 @@
 import 'package:bausch/sections/shops/cubits/map_cubit/map_cubit.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
-import 'package:bausch/widgets/default_snackbar.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -40,11 +40,10 @@ class _MapCubitListenerState extends State<MapCubitListener> {
 
         //* Ошибка
         if (state is MapFailed) {
-          if (!mounted) return;
-          DefaultSnackBar.show(
-            context,
+          // if (!mounted) return;
+          showDefaultNotification(
             title: state.title,
-            text: state.text,
+            subtitle: state.text,
           );
         }
 
@@ -78,7 +77,7 @@ class _MapCubitListenerState extends State<MapCubitListener> {
                 phone: state.shopModel.phone,
                 btnText: 'Выбрать оптику',
                 onPressed: () {
-                  // TODO(Nikolay): Кнопка.
+                  // TODO(Nikolay): Реализовать onPressed.
                 },
               ),
             );

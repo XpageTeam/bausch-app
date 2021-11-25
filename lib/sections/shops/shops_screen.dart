@@ -44,7 +44,7 @@ class ShopsScreen extends StatelessWidget {
                         'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
                     btnText: 'Хорошо',
                     onPressed: () {
-                      // TODO(Nikolay): Кнопка.
+                      // TODO(Nikolay): Реализовать onPressed.
                     },
                   ),
                 );

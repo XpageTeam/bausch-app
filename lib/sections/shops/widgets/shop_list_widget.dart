@@ -46,7 +46,7 @@ class ShopListWidget extends StatelessWidget {
                         ? ShopContainerWithButton(
                             shop: shop,
                             onPressed: () {
-                              // TODO(Nikolay): Кнопка.
+                              // TODO(Nikolay): Реализовать onPressed.
                             },
                           )
                         : ShopContainer(shop: shop),

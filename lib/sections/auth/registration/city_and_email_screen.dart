@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'package:bausch/sections/profile/profile_settings/city_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/inputs/default_text_form_field.dart';
-import 'package:bausch/widgets/select_widgets/dropdown_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -53,7 +53,15 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
               FocusButton(
                 labelText: 'Город',
                 onPressed: () {
-                  Keys.mainContentNav.currentState!.pushNamed('/city');
+                  // Keys.mainNav.currentState!.pushNamed('/city');
+
+                  // TODO: сделать через pushNamed
+                  Keys.mainNav.currentState!.push(
+                    PageRouteBuilder<void>(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const CityScreen(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(

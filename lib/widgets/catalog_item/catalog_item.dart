@@ -83,6 +83,9 @@ class CatalogItem extends StatelessWidget {
                     ),
                     child: ButtonWithPoints(
                       price: model.price.toString(),
+                      onPressed: () {
+                        // TODO: Реализовать onPressed.
+                      },
                     ),
                   ),
                 ],
