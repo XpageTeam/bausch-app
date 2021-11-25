@@ -11,6 +11,7 @@ class ImageRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final spaceBetween = (MediaQuery.of(context).size.width - 114 * 2) / 3;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       //mainAxisSize: MainAxisSize.min,
@@ -19,8 +20,8 @@ class ImageRow extends StatelessWidget {
           firstImg,
           height: 114,
         ),
-        const SizedBox(
-          width: 63,
+        SizedBox(
+          width: spaceBetween,
         ),
         Image.asset(
           secondImg,

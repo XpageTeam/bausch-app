@@ -1,4 +1,3 @@
-import 'package:bausch/sections/auth/loading/image_row.dart';
 import 'package:bausch/sections/auth/loading/widget_conveyor.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,8 @@ class ColumnWithDynamicDuration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final spaceBetween = (MediaQuery.of(context).size.width - 114 * 2) / 3;
+
     return ListView.separated(
       itemBuilder: (context, i) {
         if (i == 1) {
@@ -17,26 +18,25 @@ class ColumnWithDynamicDuration extends StatelessWidget {
             offsetY: 20,
             delay: Duration(milliseconds: 200 + i * 400),
             child: WidgetConveyor(
-              duration: 20,
               children: [
-                const SizedBox(
-                  width: 63,
+                SizedBox(
+                  width: spaceBetween,
                 ),
                 IntrinsicWidth(child: children[1]),
-                const SizedBox(
-                  width: 63,
+                SizedBox(
+                  width: spaceBetween,
                 ),
                 IntrinsicWidth(child: children[2]),
-                const SizedBox(
-                  width: 63,
+                SizedBox(
+                  width: spaceBetween,
                 ),
                 IntrinsicWidth(child: children[3]),
-                const SizedBox(
-                  width: 63,
+                SizedBox(
+                  width: spaceBetween,
                 ),
                 IntrinsicWidth(child: children[1]),
-                const SizedBox(
-                  width: 63,
+                SizedBox(
+                  width: spaceBetween,
                 ),
               ],
             ),
