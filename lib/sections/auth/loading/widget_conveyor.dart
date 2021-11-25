@@ -4,10 +4,8 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 
 class WidgetConveyor extends StatefulWidget {
-  final int duration;
   final List<Widget> children;
   const WidgetConveyor({
-    required this.duration,
     required this.children,
     Key? key,
   }) : super(key: key);
@@ -17,23 +15,7 @@ class WidgetConveyor extends StatefulWidget {
 }
 
 class _WidgetConveyorState extends State<WidgetConveyor> with AfterLayoutMixin {
-  // late AnimationController _controller;
-  // late Animation<double> _moveAnimation;
-
   final ScrollController controller = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    // _controller = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(
-    //     seconds: widget.duration,
-    //   ),
-    // )..repeat();
-
-    // _moveAnimation = Tween<double>(begin: 0.0, end: 1416).animate(_controller);
-  }
 
   @override
   void dispose() {
@@ -76,25 +58,6 @@ class _WidgetConveyorState extends State<WidgetConveyor> with AfterLayoutMixin {
             );
         });
       }
-
-      // if (controller.offset == 0) {
-      //   WidgetsBinding.instance?.addPostFrameCallback((_) {
-      //     controller.animateTo(
-      //       controller.position.maxScrollExtent,
-      //       duration: const Duration(seconds: 25),
-      //       curve: Curves.linear,
-      //     );
-      //   });
-      // }
     });
   }
 }
-
-// Timer(
-//           const Duration(microseconds: 1),
-          // () => controller.animateTo(
-          //   controller.position.maxScrollExtent,
-          //   duration: const Duration(seconds: 25),
-          //   curve: Curves.linear,
-          // ),
-//         );
