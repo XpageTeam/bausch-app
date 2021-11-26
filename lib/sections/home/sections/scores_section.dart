@@ -3,6 +3,7 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,10 +24,10 @@ class ScoresSection extends StatelessWidget {
     final userWM = Provider.of<UserWM>(context);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Stack(
+          clipBehavior: Clip.none,
           children: [
             EntityStateBuilder<UserRepository>(
               streamedState: userWM.userData,
@@ -39,39 +40,59 @@ class ScoresSection extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     fontSize: 85,
                     height: 80 / 85,
+                    leadingDistribution: TextLeadingDistribution.even,
                   ),
                 );
               },
             ),
-            const PointWidget(
-              radius: 18,
-              textStyle: TextStyle(
-                color: AppTheme.mineShaft,
-                fontWeight: FontWeight.w500,
-                fontSize: 27,
-                height: 25 / 27,
+            // TODO(Nikolay): Проверить.
+            Positioned(
+              right: 0,
+              top: 5,
+              child: Transform.translate(
+                offset: const Offset(37, 0),
+                child: const PointWidget(
+                  radius: 18,
+                  textStyle: TextStyle(
+                    color: AppTheme.mineShaft,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 27,
+                    height: 25 / 27,
+                    leadingDistribution: TextLeadingDistribution.even,
+                  ),
+                ),
               ),
             ),
           ],
         ),
-        const SizedBox(
-          height: 20,
-        ),
-        FutureBuilder<int>(
-          future: Future<int>.delayed(
-            delay,
-            () => 4,
-          ),
-          builder: (context, snapshot) {
-            // TODO: посчитать и вывести
-            return CustomLineLoadingIndicator(
-              text: '127 баллов сгорят через 5 дней',
-              maxDays: 15,
-              remainDays: snapshot.hasData
-                  ? snapshot.data!
-                  : 5, // 20 = maxDays - future.value
-              animationDuration: loadingAnimationDuration,
-            );
+        // TODO: посчитать и вывести
+        EntityStateBuilder<UserRepository>(
+          streamedState: userWM.userData,
+          builder: (_, repo) {
+            if (repo.canPrintLineLoadingText) {
+              final daysRemain = 3;
+              return FutureBuilder<void>(
+                future: Future.delayed(delay),
+                builder: (_, s) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                    ),
+                    child: CustomLineLoadingIndicator(
+                      text: repo.lineLoadingText,
+                      // TODO: Откуда берется максимальное количество дней?.
+                      maxDays: 30,
+                      daysRemain: s.connectionState == ConnectionState.done
+                          ? daysRemain
+                          : 6, // TODO: Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
+                      animationDuration: loadingAnimationDuration,
+                    ),
+                  );
+                },
+              );
+            } else {
+              return Container();
+            }
           },
         ),
       ],
