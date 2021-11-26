@@ -72,18 +72,27 @@ class _SelectState extends State<Select> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
-      child: SelectButton(
-        value: _value ?? widget.model.name,
-        color: Colors.white,
-        onPressed: () {
-          showCupertinoModalPopup<void>(
-            context: context,
-            builder: (context) => CupertinoActionSheet(
-              title: Text(widget.model.name),
-              actions: widget.model.xmlId == 'question'
-                  ? valuesList(valuesBloc.state.values, context)
-                  : valuesList(widget.model.values!, context),
-            ),
+      child: BlocBuilder<FieldsBloc, FieldsState>(
+        builder: (context, state) {
+          if (widget.model.xmlId == 'question') {
+            if (state.question == 0) {
+              _value = widget.model.name;
+            }
+          }
+          return SelectButton(
+            value: _value ?? widget.model.name,
+            color: Colors.white,
+            onPressed: () {
+              showCupertinoModalPopup<void>(
+                context: context,
+                builder: (context) => CupertinoActionSheet(
+                  title: Text(widget.model.name),
+                  actions: widget.model.xmlId == 'question'
+                      ? valuesList(valuesBloc.state.values, context)
+                      : valuesList(widget.model.values!, context),
+                ),
+              );
+            },
           );
         },
       ),
@@ -103,8 +112,14 @@ class _SelectState extends State<Select> {
               });
 
               if (widget.model.xmlId == 'category') {
-                fieldsBloc.add(
-                  FieldsSetTopic(e.id),
+                fieldsBloc
+                  ..add(
+                    FieldsSetTopic(e.id),
+                  )
+                  ..add(FieldsSetQuestion(0));
+
+                formsExtraBloc.add(
+                  FormsExtraChangeId(id: e.id),
                 );
                 valuesBloc.add(UpdateValues(id: e.id));
               } else if (widget.model.xmlId == 'question') {

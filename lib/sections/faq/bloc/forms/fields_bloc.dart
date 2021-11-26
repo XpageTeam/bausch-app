@@ -71,7 +71,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
     }
 
     if (event is FieldsSetQuestion) {
-      //debugPrint(event.number.toString());
+      debugPrint(event.number.toString());
       yield FieldsUpdated(
         email: state.email,
         topic: state.topic,
