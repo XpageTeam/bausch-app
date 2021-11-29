@@ -24,7 +24,7 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
   }) : super(
           widgetModelBuilder: (context) => AuthWM(
             const WidgetModelDependencies(),
-            UserWM(const WidgetModelDependencies()),
+            UserWM(),
           ),
           key: key,
         );

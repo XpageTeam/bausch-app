@@ -68,6 +68,7 @@ dependencies:
   surf_mwwm: ^2.0.2
   provider: ^6.0.1
   auto_size_text: ^3.0.0
+  csv: ^5.0.1
 
 
 dev_dependencies:

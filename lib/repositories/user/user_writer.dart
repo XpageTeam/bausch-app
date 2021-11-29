@@ -1,4 +1,6 @@
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/user/user_model/user.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:dio/dio.dart';
@@ -67,11 +69,34 @@ class UserWriter {
     );
   }
 
-  static Future<void> updateUserData(UserRepository repo) async {
+  /// Метод обновления данных пользователя в mindbox
+  /// Не вызывать напрямую! Для изменения данных использовать [UserWM]
+  static Future<UserRepository> updateUserData(User userData) async {
     final rh = RequestHandler();
 
-    BaseResponseRepository.fromMap((await rh.put<Map<String, dynamic>>(
+    final result =
+        BaseResponseRepository.fromMap((await rh.put<Map<String, dynamic>>(
       '/user/',
-    )).data!);
+      data: FormData.fromMap(<String, dynamic>{
+        'firstName': userData.name,
+        'lastName': userData.lastName,
+        'middleName': userData.secondName,
+        'email': userData.email,
+        'birthDate': userData.birthDate?.toIso8601String(),
+        'city': userData.city,
+      }),
+    ))
+            .data!);
+
+    final updatedUser =
+        UserRepository.fromJson(result.data as Map<String, dynamic>);
+
+    // TODO(Danil): опять тупое место для подмешивания токена
+    return UserRepository(
+      balance: updatedUser.balance,
+      user: updatedUser.user.copyWith(
+        token: userData.token,
+      ),
+    );
   }
 }

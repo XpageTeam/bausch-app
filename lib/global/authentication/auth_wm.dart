@@ -1,9 +1,9 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
-import 'package:bausch/sections/auth/registration/city_and_email_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
+import 'package:bausch/sections/registration/screens/city_email/city_and_email_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +53,7 @@ class AuthWM extends WidgetModel {
         // TODO(Danil): когда Гоша разберётся - сделать
           if (userWM.userData.value.data?.user.city == null ||
               userWM.userData.value.data?.user.email == null) {
-                targetPage = const CityAndEmailScreen();
+                targetPage = CityAndEmailScreen();
               } else {
                 targetPage = const HomeScreen();
               }

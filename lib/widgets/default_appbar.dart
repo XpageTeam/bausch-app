@@ -2,6 +2,7 @@
 
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
@@ -22,51 +23,56 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Material(
-        color: backgroundColor,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Navigator.of(context).canPop() != false //!
-                    ? Align(
-                        alignment: Alignment.centerLeft,
-                        child: NormalIconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          }, //Navigator.of(context).pop,
-                          icon: const Icon(
-                            Icons.chevron_left_rounded,
-                            size: 20,
-                            color: AppTheme.mineShaft,
-                          ),
-                        ),
-                      )
-                    : Container(),
-              ),
-              Expanded(
-                flex: 5,
-                child: Center(
-                  child: Text(
-                    title,
-                    style: AppStyles.h2Bold,
+    return Stack(
+      children: [
+        const EmptyAppBar(),
+        SafeArea(
+          bottom: false,
+          child: Material(
+            color: backgroundColor,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Navigator.of(context).canPop() != false //!
+                        ? Align(
+                            alignment: Alignment.centerLeft,
+                            child: NormalIconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              }, //Navigator.of(context).pop,
+                              icon: const Icon(
+                                Icons.chevron_left_rounded,
+                                size: 20,
+                                color: AppTheme.mineShaft,
+                              ),
+                            ),
+                          )
+                        : Container(),
                   ),
-                ),
+                  Expanded(
+                    flex: 5,
+                    child: Center(
+                      child: Text(
+                        title,
+                        style: AppStyles.h2Bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: topRightWidget != null ? topRightWidget! : Container(),
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: topRightWidget != null ? topRightWidget! : Container(),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
