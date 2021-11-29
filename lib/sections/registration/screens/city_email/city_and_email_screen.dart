@@ -50,8 +50,8 @@ class _CityAndEmailScreenState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 40),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40),
                 child: Text(
                   'Отлично, осталось выбрать город и указать электронную почту',
                   style: AppStyles.h1,
