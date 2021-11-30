@@ -34,20 +34,9 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
-  // TextEditingController nameController = TextEditingController();
-  // TextEditingController lastnameController = TextEditingController();
-  // TextEditingController emailController = TextEditingController();
-  // TextEditingController phoneController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-
   @override
   void dispose() {
     super.dispose();
-    // nameController.dispose();
-    // lastnameController.dispose();
-    // emailController.dispose();
-    // phoneController.dispose();
-    dateController.dispose();
   }
 
   @override

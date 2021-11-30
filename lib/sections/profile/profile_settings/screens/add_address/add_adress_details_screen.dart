@@ -1,7 +1,8 @@
 // ignore_for_file: unused_import
 
 import 'package:bausch/models/adress_model.dart';
-import 'package:bausch/sections/profile/profile_settings/add_adress_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/add_address/bloc/addresses_bloc.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/adresses.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -14,6 +15,7 @@ import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddDetailsArguments {
   final AdressModel adress;
@@ -38,16 +40,20 @@ class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
 }
 
 class _AddDetailsScreenState extends State<AddDetailsScreen> {
-  late TextEditingController officeController;
-  late TextEditingController lobbyController;
+  final AddressesBloc addressesBloc = AddressesBloc();
+
+  late TextEditingController flatController;
+  late TextEditingController entryController;
   late TextEditingController floorController;
 
   @override
   void dispose() {
     super.dispose();
 
-    officeController.dispose();
-    lobbyController.dispose();
+    addressesBloc.close();
+
+    flatController.dispose();
+    entryController.dispose();
     floorController.dispose();
   }
 
@@ -55,12 +61,14 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   void initState() {
     super.initState();
 
-    officeController = TextEditingController(
-      text: widget.adress.office == null ? '' : widget.adress.office.toString(),
+    //addressesBloc = BlocProvider.of<AddressesBloc>(context);
+
+    flatController = TextEditingController(
+      text: widget.adress.flat == null ? '' : widget.adress.flat.toString(),
     );
 
-    lobbyController = TextEditingController(
-      text: widget.adress.lobby == null ? '' : widget.adress.lobby.toString(),
+    entryController = TextEditingController(
+      text: widget.adress.entry == null ? '' : widget.adress.entry.toString(),
     );
 
     floorController = TextEditingController(
@@ -83,7 +91,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
         ),
         child: Column(
           children: [
-            Text(widget.adress.street, style: AppStyles.h1),
+            Text(
+              '${widget.adress.street}, ${widget.adress.house}',
+              style: AppStyles.h1,
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -92,7 +103,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                 Flexible(
                   child: DefaultTextInput(
                     labelText: 'Кв/офис',
-                    controller: officeController,
+                    controller: flatController,
                     inputType: TextInputType.number,
                   ),
                 ),
@@ -102,7 +113,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                 Flexible(
                   child: DefaultTextInput(
                     labelText: 'Подъезд',
-                    controller: lobbyController,
+                    controller: entryController,
                     inputType: TextInputType.number,
                   ),
                 ),
@@ -129,8 +140,17 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
             BlueButtonWithText(
               text: 'Сохранить',
               onPressed: () {
-                _addAdress();
-                _navigateBack();
+                final model = AdressModel(
+                  street: widget.adress.street,
+                  house: widget.adress.house,
+                  flat: int.parse(flatController.text),
+                  entry: int.parse(entryController.text),
+                  floor: int.parse(floorController.text),
+                );
+
+                addressesBloc.add(AddressesSend(address: model));
+
+                //_navigateBack();
               },
             ),
             if (!widget.isFirstLaunch)
@@ -146,10 +166,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       builder: (context) {
                         return CustomAlertDialog(
                           yesCallback: () {
-                            final index =
-                                Adresses.adresses.indexOf(widget.adress);
-                            Adresses.adresses.removeAt(index);
-                            _navigateBack();
+                            addressesBloc
+                                .add(AddressesDelete(id: widget.adress.id!));
                             Navigator.of(context).pop();
                           },
                           noCallback: () {
@@ -179,27 +197,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       //     .popUntil((route) => route.settings.name == '/my_adresses');
     } else {
       Navigator.of(context).pop();
-    }
-  }
-
-  void _addAdress() {
-    if (!Adresses.adresses.contains(widget.adress)) {
-      Adresses.adresses.add(
-        AdressModel(
-          street: widget.adress.street,
-          office: int.parse(officeController.value.text),
-          floor: int.parse(floorController.value.text),
-          lobby: int.parse(lobbyController.value.text),
-        ),
-      );
-    } else {
-      final index = Adresses.adresses.indexOf(widget.adress);
-      Adresses.adresses[index] = AdressModel(
-        street: widget.adress.street,
-        office: int.parse(officeController.value.text),
-        floor: int.parse(floorController.value.text),
-        lobby: int.parse(lobbyController.value.text),
-      );
     }
   }
 }

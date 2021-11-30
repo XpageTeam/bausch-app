@@ -1,0 +1,110 @@
+import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/models/adress_model.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+part 'addresses_event.dart';
+part 'addresses_state.dart';
+
+class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
+  AddressesBloc() : super(AddressesInitial()) {
+    on<AddressesEvent>((event, emit) {
+      on<AddressesSend>((event, emit) => sendAddress(event.address));
+      on<AddressesDelete>((event, emit) => deleteAddress(event.id));
+    });
+  }
+
+  Future<AddressesState> sendAddress(AdressModel address) async {
+    final rh = RequestHandler();
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      final token = prefs.getString('userToken');
+
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.post<Map<String, dynamic>>(
+          'user/address/',
+          data: address.toMap(),
+          //TODO: убрать токен в RequestHandler
+          options: Options(
+            headers: <String, dynamic>{
+              'x-api-key': token,
+            },
+          ),
+        ))
+            .data!,
+      );
+
+      debugPrint(parsedData.data.toString());
+
+      return AddressesSended();
+    } on ResponseParseException catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при обработке ответа от сервера',
+        subtitle: e.toString(),
+      );
+    } on DioError catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при отправке запроса',
+        subtitle: e.toString(),
+      );
+    } on SuccessFalse catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при обработке запроса',
+        subtitle: e.toString(),
+      );
+    }
+  }
+
+  Future<AddressesState> deleteAddress(int id) async {
+    final rh = RequestHandler();
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      final token = prefs.getString('userToken');
+
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.delete<Map<String, dynamic>>(
+          'user/address/',
+          queryParameters: <String, dynamic>{
+            'id': id,
+          },
+          //TODO: убрать токен в RequestHandler
+          options: Options(
+            headers: <String, dynamic>{
+              'x-api-key': token,
+            },
+          ),
+        ))
+            .data!,
+      );
+
+      debugPrint(parsedData.data.toString());
+
+      return AddressesSended();
+    } on ResponseParseException catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при обработке ответа от сервера',
+        subtitle: e.toString(),
+      );
+    } on DioError catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при отправке запроса',
+        subtitle: e.toString(),
+      );
+    } on SuccessFalse catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при обработке запроса',
+        subtitle: e.toString(),
+      );
+    }
+  }
+}
