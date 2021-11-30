@@ -1,5 +1,6 @@
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
+import 'package:bausch/sections/loader/loader_scren.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
@@ -27,6 +28,10 @@ class MainNavigation extends StatelessWidget {
 
         switch (settings.name) {
           case '/':
+            page = const LoaderScreen();
+            break;
+
+          case '/loading':
             page = const LoadingScreen();
             break;
 
@@ -39,7 +44,7 @@ class MainNavigation extends StatelessWidget {
             break;
 
           case '/profile_settings':
-            page = const ProfileSettingsScreen();
+            page = ProfileSettingsScreen();
             break;
 
           case '/my_adresses':

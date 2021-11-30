@@ -50,18 +50,26 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.authenticated:
-        // TODO(Danil): когда Гоша разберётся - сделать
+          // TODO(Danil): когда Гоша разберётся - сделать
           if (userWM.userData.value.data?.user.city == null ||
               userWM.userData.value.data?.user.email == null) {
-                targetPage = CityAndEmailScreen();
-              } else {
-                targetPage = const HomeScreen();
-              }
+            targetPage = CityAndEmailScreen();
+          } else {
+            targetPage = const HomeScreen();
+          }
 
           break;
       }
 
-      Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
+      // Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
+      //   PageRouteBuilder<void>(
+      //     pageBuilder: (context, animation, secondaryAnimation) {
+      //       return targetPage;
+      //     },
+      //   ),
+      //   (route) => false,
+      // );
+      Keys.mainContentNav.currentState!.pushAndRemoveUntil(
         PageRouteBuilder<void>(
           pageBuilder: (context, animation, secondaryAnimation) {
             return targetPage;

@@ -64,13 +64,12 @@ class CityEmailScreenWM extends WidgetModel {
   Future<void> _setUserCityAndEmail() async {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
-    
-      if (await userWM.updateUserData(userWM.userData.value.data!.user.copyWith(
-        email: emailFieldController.text,
-        city: selectedCityName.value,
-      ))){
-        unawaited(Keys.mainContentNav.currentState!.pushNamed('/home'));
-      }
+    if (await userWM.updateUserData(userWM.userData.value.data!.user.copyWith(
+      email: emailFieldController.text,
+      city: selectedCityName.value,
+    ))) {
+      unawaited(Keys.mainNav.currentState!.pushNamed('/home'));
+    }
   }
 
   void _validateForm() {
@@ -79,10 +78,10 @@ class CityEmailScreenWM extends WidgetModel {
     if (selectedCityName.value != null &&
         selectedCityName.value != '' &&
         RegExp(phonePattern).hasMatch(emailFieldController.text)) {
-          formValidationState.accept(true);
-        } else {
-          formValidationState.accept(false);
-        }
+      formValidationState.accept(true);
+    } else {
+      formValidationState.accept(false);
+    }
   }
 
   // Future<void> _confirmUserEmail() async {

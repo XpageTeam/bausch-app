@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 class FocusButton extends StatelessWidget {
   final String labelText;
   final String? selectedText;
+  final Widget? icon;
   final VoidCallback? onPressed;
   const FocusButton({
     required this.labelText,
     this.selectedText,
+    this.icon,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -50,11 +52,13 @@ class FocusButton extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios_sharp,
-            size: 20,
-            color: selectedText == null ? AppTheme.grey : AppTheme.mineShaft,
-          ),
+          icon ??
+              Icon(
+                Icons.arrow_forward_ios_sharp,
+                size: 20,
+                color:
+                    selectedText == null ? AppTheme.grey : AppTheme.mineShaft,
+              ),
         ],
       ),
     );
