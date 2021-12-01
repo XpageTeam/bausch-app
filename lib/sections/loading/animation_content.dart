@@ -16,9 +16,9 @@ class AnimationContent extends StatelessWidget {
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: const [
               Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 20),
+                padding: EdgeInsets.only(top: 40, bottom: 20),
                 child: Text(
                   'Пользуйтесь продукцией Bauch+lomb и получайте любимые товары и другие привилегии',
                   style: AppStyles.h1,
@@ -26,7 +26,7 @@ class AnimationContent extends StatelessWidget {
                 ),
               ),
               Text(
-                'Региструйте коды с упаковки, копите былла и тратье их ',
+                'Региструйте коды с упаковки, копите былла и тратьте их ',
                 style: AppStyles.p1Grey,
                 textAlign: TextAlign.center,
               ),
