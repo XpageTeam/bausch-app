@@ -22,18 +22,9 @@ class AdressesCubit extends Cubit<AdressesState> {
     final rh = RequestHandler();
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-
-      final token = prefs.getString('userToken');
-
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.get<Map<String, dynamic>>(
           'user/addresses',
-          options: Options(
-            headers: <String, dynamic>{
-              'x-api-key': token,
-            },
-          ),
         ))
             .data!,
       );

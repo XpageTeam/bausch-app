@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:bausch/models/adress_model.dart';
+import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/bloc/addresses_bloc.dart';
 import 'package:bausch/static/static_data.dart';
@@ -20,8 +21,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddDetailsArguments {
   final AdressModel adress;
   final bool isFirstLaunch;
+  //final AdressesCubit adressesCubit;
 
-  AddDetailsArguments({required this.adress, required this.isFirstLaunch});
+  AddDetailsArguments({
+    required this.adress,
+    required this.isFirstLaunch,
+    //required this.adressesCubit,
+  });
 }
 
 class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
@@ -29,9 +35,12 @@ class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
   final bool isFirstLaunch;
   @override
   final AdressModel adress;
+  // @override
+  // final AdressesCubit adressesCubit;
   const AddDetailsScreen({
     required this.adress,
     required this.isFirstLaunch,
+    //required this.adressesCubit,
     Key? key,
   }) : super(key: key);
 
@@ -168,7 +177,13 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           yesCallback: () {
                             addressesBloc
                                 .add(AddressesDelete(id: widget.adress.id!));
+
+                            BlocProvider.of<AdressesCubit>(context)
+                                .getAdresses();
                             Navigator.of(context).pop();
+
+                            debugPrint('delete');
+                            debugPrint(addressesBloc.state.toString());
                           },
                           noCallback: () {
                             Navigator.of(context).pop();

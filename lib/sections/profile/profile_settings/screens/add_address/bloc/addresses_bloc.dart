@@ -14,30 +14,18 @@ part 'addresses_state.dart';
 
 class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
   AddressesBloc() : super(AddressesInitial()) {
-    on<AddressesEvent>((event, emit) {
-      on<AddressesSend>((event, emit) => sendAddress(event.address));
-      on<AddressesDelete>((event, emit) => deleteAddress(event.id));
-    });
+    on<AddressesSend>((event, emit) => sendAddress(event.address));
+    on<AddressesDelete>((event, emit) => deleteAddress(event.id));
   }
 
   Future<AddressesState> sendAddress(AdressModel address) async {
     final rh = RequestHandler();
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-
-      final token = prefs.getString('userToken');
-
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
           'user/address/',
           data: address.toMap(),
-          //TODO: убрать токен в RequestHandler
-          options: Options(
-            headers: <String, dynamic>{
-              'x-api-key': token,
-            },
-          ),
         ))
             .data!,
       );
@@ -67,27 +55,12 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     final rh = RequestHandler();
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-
-      final token = prefs.getString('userToken');
-
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.delete<Map<String, dynamic>>(
-          'user/address/',
-          queryParameters: <String, dynamic>{
-            'id': id,
-          },
-          //TODO: убрать токен в RequestHandler
-          options: Options(
-            headers: <String, dynamic>{
-              'x-api-key': token,
-            },
-          ),
+          'user/address/$id/',
         ))
             .data!,
       );
-
-      debugPrint(parsedData.data.toString());
 
       return AddressesSended();
     } on ResponseParseException catch (e) {

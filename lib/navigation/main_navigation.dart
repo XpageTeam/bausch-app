@@ -62,6 +62,8 @@ class MainNavigation extends StatelessWidget {
           case '/add_details':
             page = AddDetailsScreen(
               adress: (settings.arguments as AddDetailsArguments).adress,
+              // adressesCubit:
+              //     (settings.arguments as AddDetailsArguments).adressesCubit,
               isFirstLaunch:
                   (settings.arguments as AddDetailsArguments).isFirstLaunch,
             );
