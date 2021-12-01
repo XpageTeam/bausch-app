@@ -1,6 +1,9 @@
-import 'package:bausch/sections/home/widgets/slider/default_item_slider.dart';
+import 'package:bausch/models/catalog_item_model.dart';
+import 'package:bausch/sections/home/widgets/slider/indicator.dart';
+import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
 
 class MayBeInteresting extends StatefulWidget {
@@ -11,6 +14,8 @@ class MayBeInteresting extends StatefulWidget {
 }
 
 class _MayBeInterestingState extends State<MayBeInteresting> {
+  late final items = Models.items.take(7).toList();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,9 +32,16 @@ class _MayBeInterestingState extends State<MayBeInteresting> {
         ),
 
         // Слайдер с товаром
-        CustomItemSlider(
-          items: Models.items.take(12).toList(),
-          animationDuration: const Duration(milliseconds: 250),
+        ItemSlider<CatalogItemModel>(
+          items: items,
+          itemBuilder: (context, model) => CatalogItem(
+            model: model,
+            isProduct: true,
+          ),
+          indicatorBuilder: (context, isActive) => Indicator(
+            isActive: isActive,
+            animationDuration: const Duration(milliseconds: 300),
+          ),
         ),
       ],
     );

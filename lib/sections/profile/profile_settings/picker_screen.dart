@@ -45,8 +45,7 @@ class _PickerScreenState extends State<PickerScreen> {
                 style: AppStyles.h1,
               ),
               //TODO(Nikita): Придумать что-то с оверлеем, чтобы не выглядело так стремно при переходе
-              SizedBox(
-                height: 300,
+              Flexible(
                 child: CupertinoPicker.builder(
                   childCount: 10,
                   itemExtent: 40,
@@ -84,7 +83,10 @@ class _PickerScreenState extends State<PickerScreen> {
                   },
                 ),
               ),
-              const BlueButtonWithText(text: 'Добавить'),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 26),
+                child: const BlueButtonWithText(text: 'Добавить'),
+              ),
             ],
           ),
         ),

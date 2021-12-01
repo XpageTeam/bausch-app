@@ -168,6 +168,8 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.only(
                 bottom: 20,
                 top: 100,
+                left: StaticData.sidePadding,
+                right: StaticData.sidePadding,
               ),
               sliver: SliverToBoxAdapter(
                 child: Image.asset('assets/logo.png'),
