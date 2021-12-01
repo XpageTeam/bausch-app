@@ -22,7 +22,11 @@ class AnimationContent extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 40, bottom: 20),
                 child: Text(
                   'Пользуйтесь продукцией Bauch+lomb и получайте любимые товары и другие привилегии',
-                  style: AppStyles.h1,
+                  style: TextStyle(
+                    fontSize: 24.sp,
+                    height: 31 / 24,
+                    fontWeight: FontWeight.w500,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),

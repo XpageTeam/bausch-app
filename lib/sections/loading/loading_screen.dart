@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -48,6 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     ),
                   ),
                   height: MediaQuery.of(context).size.height / 2,
+                  //height: 400.sp,
                 ),
               ],
             ),
