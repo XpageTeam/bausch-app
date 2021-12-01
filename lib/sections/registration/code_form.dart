@@ -3,6 +3,7 @@ import 'package:bausch/packages/pin_code_fields/lib/pin_code_fields.dart';
 import 'package:bausch/sections/registration/city_and_email_screen.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CodeForm extends StatefulWidget {
   const CodeForm({Key? key}) : super(key: key);
@@ -57,8 +58,8 @@ class _CodeFormState extends State<CodeForm> with AfterLayoutMixin {
           );
         },
         pinTheme: PinTheme(
-          fieldHeight: 100,
-          fieldWidth: 63,
+          fieldHeight: 100.sp,
+          fieldWidth: 63.sp,
           shape: PinCodeFieldShape.box,
           activeColor: Colors.white,
           borderWidth: 0,

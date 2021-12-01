@@ -24,16 +24,16 @@ class ProfileStatus extends StatelessWidget {
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'Саша',
                     style: AppStyles.h1,
                   ),
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 5,
                     backgroundColor: AppTheme.turquoiseBlue,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                     child: Icon(
                       Icons.arrow_forward_ios,
@@ -42,7 +42,7 @@ class ProfileStatus extends StatelessWidget {
                   ),
                 ],
               ),
-              const Text(
+              Text(
                 'Классный друг',
                 style: AppStyles.p1,
               ),

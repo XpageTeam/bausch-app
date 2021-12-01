@@ -13,7 +13,7 @@ class SpendScores extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Потратить баллы',
           style: AppStyles.h1,
         ),

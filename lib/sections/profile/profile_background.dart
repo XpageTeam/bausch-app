@@ -17,7 +17,7 @@ class ProfileBackground extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Text(
+            Text(
               'Саша',
               style: AppStyles.h1,
             ),
@@ -30,7 +30,7 @@ class ProfileBackground extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 color: AppTheme.sulu,
               ),
-              child: const Text(
+              child: Text(
                 'Классный друг',
                 style: AppStyles.h1,
               ),

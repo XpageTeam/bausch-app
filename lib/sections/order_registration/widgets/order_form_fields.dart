@@ -87,7 +87,7 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
         ),
         BlueButton(
           onPressed: widget.onPressed,
-          children: const [
+          children: [
             Text(
               'Готово',
               style: AppStyles.h2Bold,

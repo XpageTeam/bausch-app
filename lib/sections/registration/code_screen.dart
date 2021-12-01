@@ -23,20 +23,20 @@ class _CodeScreenState extends State<CodeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               'SMS-код был отправлен\nна +7 985 000 00 00',
               style: AppStyles.h1,
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
-            CodeForm(),
+            const CodeForm(),
           ],
         ),
       ),
-      floatingActionButton: const Padding(
-        padding: EdgeInsets.only(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
           bottom: 20,
         ),
         child: Text(

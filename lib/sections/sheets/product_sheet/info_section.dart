@@ -19,7 +19,7 @@ class InfoSection extends StatelessWidget {
           bottom: 40,
         ),
         child: Column(
-          children: const [
+          children: [
             Text(
               'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
               style: AppStyles.p1,

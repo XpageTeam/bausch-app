@@ -3,6 +3,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AnimationContent extends StatelessWidget {
   const AnimationContent({Key? key}) : super(key: key);
@@ -16,9 +17,9 @@ class AnimationContent extends StatelessWidget {
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 20),
+                padding: const EdgeInsets.only(top: 40, bottom: 20),
                 child: Text(
                   'Пользуйтесь продукцией Bauch+lomb и получайте любимые товары и другие привилегии',
                   style: AppStyles.h1,
@@ -26,7 +27,7 @@ class AnimationContent extends StatelessWidget {
                 ),
               ),
               Text(
-                'Региструйте коды с упаковки, копите былла и тратьте их ',
+                'Региструйте коды с упаковки, копите баллы и тратьте их ',
                 style: AppStyles.p1Grey,
                 textAlign: TextAlign.center,
               ),

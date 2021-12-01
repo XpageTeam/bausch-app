@@ -10,7 +10,7 @@ class InfoBlock extends StatelessWidget {
     return Container(
       height: 60,
       color: AppTheme.mystic,
-      child: const Center(
+      child: Center(
         child: Text(
           'Имеются противопоказания, необходимо проконсультироваться со специалистом',
           style: AppStyles.p1Grey,

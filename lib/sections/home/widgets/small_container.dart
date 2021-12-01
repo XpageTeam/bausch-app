@@ -50,7 +50,7 @@ class SmallContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
+                  Text(
                     '1',
                     style: AppStyles.p1,
                   ),

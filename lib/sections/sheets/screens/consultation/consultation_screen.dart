@@ -46,9 +46,9 @@ class ConsultationScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 6),
                         child: Row(
-                          children: const [
-                            Icon(Icons.lock_clock_sharp),
-                            SizedBox(
+                          children: [
+                            const Icon(Icons.lock_clock_sharp),
+                            const SizedBox(
                               width: 4,
                             ),
                             Text('20 минут', style: AppStyles.p1),

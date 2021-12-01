@@ -46,13 +46,13 @@ class QuestionScreen extends StatelessWidget {
                       bottom: 100,
                     ),
                     child: Column(
-                      children: const [
+                      children: [
                         Text(
                           'Почему в контактных линзах видно лучше, чем в очках?',
                           style: AppStyles.h2,
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         Text(

@@ -40,7 +40,7 @@ class _PickerScreenState extends State<PickerScreen> {
                   ),
                 ),
               ),
-              const Text(
+              Text(
                 'Диоптрий',
                 style: AppStyles.h1,
               ),
@@ -83,9 +83,9 @@ class _PickerScreenState extends State<PickerScreen> {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 26),
-                child: const BlueButtonWithText(text: 'Добавить'),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 26),
+                child: BlueButtonWithText(text: 'Добавить'),
               ),
             ],
           ),

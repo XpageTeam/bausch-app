@@ -35,8 +35,8 @@ class CustomAlertDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 40),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
               child: Text(
                 'Удалить адрес?',
                 style: AppStyles.h1,
@@ -59,7 +59,7 @@ class CustomAlertDialog extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       'Нет',
                       style: AppStyles.h2,

@@ -40,7 +40,7 @@ class _EmailScreenState extends State<EmailScreen> {
               controller: controller,
             ),
           ),
-          const Text(
+          Text(
             'Для отчёта о баллах',
             style: AppStyles.p1,
           ),

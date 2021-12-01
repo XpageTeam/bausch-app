@@ -54,7 +54,7 @@ class Story extends StatelessWidget {
                         model.mainText ?? '',
                         style: AppStyles.h2WhiteBold,
                       ),
-                      const Text(
+                      Text(
                         '2',
                         style: AppStyles.p1White,
                       ),

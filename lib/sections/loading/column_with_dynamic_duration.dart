@@ -1,6 +1,7 @@
 import 'package:bausch/sections/loading/widget_conveyor.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ColumnWithDynamicDuration extends StatelessWidget {
   final List<Widget> children;
@@ -9,7 +10,7 @@ class ColumnWithDynamicDuration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spaceBetween = (MediaQuery.of(context).size.width - 114 * 2) / 3;
+    final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
 
     return IgnorePointer(
       child: ListView.separated(
@@ -51,8 +52,8 @@ class ColumnWithDynamicDuration extends StatelessWidget {
           }
         },
         separatorBuilder: (context, i) {
-          return const SizedBox(
-            height: 63,
+          return SizedBox(
+            height: spaceBetween,
           );
         },
         itemCount: children.length,

@@ -46,8 +46,8 @@ class FaqScreen extends StatelessWidget {
                             },
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(
+                        Padding(
+                          padding: const EdgeInsets.only(
                             right: StaticData.sidePadding,
                             left: StaticData.sidePadding,
                             top: 30,

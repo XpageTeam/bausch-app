@@ -16,7 +16,8 @@ class BlueButtonWithText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      //padding: const EdgeInsets.symmetric(vertical: 20),
       height: 60,
       //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
       child: TextButton(

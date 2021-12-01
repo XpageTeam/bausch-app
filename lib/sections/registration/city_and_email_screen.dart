@@ -34,82 +34,86 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 40),
-                child: Text(
-                  'Отлично, осталось выбрать город и указать электронную почту',
-                  style: AppStyles.h1,
+      //resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
+          padding:
+              const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Text(
+                    'Отлично, осталось выбрать город и указать электронную почту',
+                    style: AppStyles.h1,
+                  ),
                 ),
-              ),
-              DefaultTextFormField(
-                labelText: 'Город',
-                controller: cityController,
-                inputType: TextInputType.name,
-                validator: (dynamic value) {
-                  if (value == null || value.toString().isEmpty) {
-                    return 'Не введено название города';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              DefaultTextFormField(
-                labelText: 'E-mail',
-                controller: emailController,
-                inputType: TextInputType.emailAddress,
-                validator: (dynamic value) {
-                  if (value == null || value.toString().isEmpty) {
-                    return 'Не введён e-mail';
-                  }
-                  return null;
-                },
-              ),
-              if (!isValidated)
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    BlueButtonWithText(
-                      text: 'Продолжить',
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            isValidated = true;
-                            FocusScope.of(context).unfocus();
-                          });
-                        }
-                      },
-                    ),
-                  ],
+                DefaultTextFormField(
+                  labelText: 'Город',
+                  controller: cityController,
+                  inputType: TextInputType.name,
+                  validator: (dynamic value) {
+                    if (value == null || value.toString().isEmpty) {
+                      return 'Не введено название города';
+                    }
+                    return null;
+                  },
                 ),
-              //* Когда кнопка нажата и письмо отправлено
-              if (isValidated)
-                Column(
-                  children: const [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        height: 20 / 14,
+                const SizedBox(
+                  height: 4,
+                ),
+                DefaultTextFormField(
+                  labelText: 'E-mail',
+                  controller: emailController,
+                  inputType: TextInputType.emailAddress,
+                  validator: (dynamic value) {
+                    if (value == null || value.toString().isEmpty) {
+                      return 'Не введён e-mail';
+                    }
+                    return null;
+                  },
+                ),
+                if (!isValidated)
+                  Column(
+                    children: [
+                      const SizedBox(
+                        height: 4,
                       ),
-                    ),
-                  ],
-                ),
-            ],
+                      BlueButtonWithText(
+                        text: 'Продолжить',
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              isValidated = true;
+                              FocusScope.of(context).unfocus();
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                //* Когда кнопка нажата и письмо отправлено
+                if (isValidated)
+                  Column(
+                    children: const [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          height: 20 / 14,
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
           ),
         ),
       ),

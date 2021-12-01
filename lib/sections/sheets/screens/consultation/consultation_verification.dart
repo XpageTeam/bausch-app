@@ -45,13 +45,13 @@ class ConsultationVerification extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
+                        Text(
                           'Подтвердите покупку',
                           style: AppStyles.h2,
                         ),
                         Column(
-                          children: const [
-                            SizedBox(
+                          children: [
+                            const SizedBox(
                               height: 12,
                             ),
                             Text(
@@ -69,7 +69,7 @@ class ConsultationVerification extends StatelessWidget {
                         const SizedBox(
                           height: 12,
                         ),
-                        const Text(
+                        Text(
                           'После покупки у вас останется 100 баллов',
                           style: AppStyles.p1,
                         ),

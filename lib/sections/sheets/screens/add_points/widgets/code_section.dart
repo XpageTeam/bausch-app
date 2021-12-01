@@ -43,7 +43,7 @@ class _CodeSectionState extends State<CodeSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Ввести код с упаковки',
             style: AppStyles.h2,
           ),

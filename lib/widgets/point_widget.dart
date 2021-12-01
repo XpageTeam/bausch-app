@@ -4,23 +4,30 @@ import 'package:flutter/material.dart';
 
 /// Виджет круглого значка баллов
 /// (такой assets/points.png)
-class PointWidget extends StatelessWidget {
+class PointWidget extends StatefulWidget {
   final double radius;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   const PointWidget({
     this.radius = 14,
-    this.textStyle = AppStyles.h2Bold,
+    this.textStyle,
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<PointWidget> createState() => _PointWidgetState();
+}
+
+class _PointWidgetState extends State<PointWidget> {
+  final style = AppStyles.h2Bold;
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: AppTheme.turquoiseBlue,
-      radius: radius,
+      radius: widget.radius,
       child: Text(
         'б',
-        style: textStyle,
+        style: widget.textStyle ?? style,
       ),
     );
   }

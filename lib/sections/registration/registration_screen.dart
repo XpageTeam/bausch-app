@@ -6,6 +6,7 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //Registration / phone_number
 class RegistrationScreen extends StatefulWidget {
@@ -23,76 +24,79 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: StaticData.sidePadding,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Войти или создать профиль',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 24,
-                height: 31 / 24,
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Войти или создать профиль',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 24.sp,
+                  height: 31 / 24,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 100,
-                bottom: 4,
-              ),
-              child: DefaultTextInput(
-                labelText: 'Мобильный телефон',
-                controller: controller,
-                inputType: TextInputType.phone,
-                textStyle: AppStyles.h1,
-                decoration: const InputDecoration(
-                  prefix: Text(
-                    '+7 ',
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 100,
+                  bottom: 4,
+                ),
+                child: DefaultTextInput(
+                  labelText: 'Мобильный телефон',
+                  controller: controller,
+                  inputType: TextInputType.phone,
+                  textStyle: AppStyles.h1,
+                  decoration: const InputDecoration(
+                    prefix: Text(
+                      '+7 ',
+                    ),
                   ),
                 ),
               ),
-            ),
-            BlueButtonWithText(
-              text: 'Продолжить',
-              onPressed: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const CodeScreen();
+              BlueButtonWithText(
+                text: 'Продолжить',
+                onPressed: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const CodeScreen();
+                      },
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomCheckbox(
+                    value: isAgree,
+                    onChanged: (val) {
+                      setState(
+                        () {
+                          isAgree = val!;
+                        },
+                      );
                     },
                   ),
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomCheckbox(
-                  value: isAgree,
-                  onChanged: (val) {
-                    setState(
-                      () {
-                        isAgree = val!;
-                      },
-                    );
-                  },
-                ),
-                const Flexible(
-                  child: Text(
-                    'Я соглашаюсь с Условиями обработки персональных данных и Правилами программы',
-                    style: AppStyles.p1,
+                  Flexible(
+                    child: Text(
+                      'Я соглашаюсь с Условиями обработки персональных данных и Правилами программы',
+                      style: AppStyles.p1,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
