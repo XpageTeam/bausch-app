@@ -134,6 +134,8 @@ class RequestHandler {
           .loadForRequest(Uri.parse(StaticData.apiUrl + path));
     }
 
+    debugPrint('userToken ${_userWM?.userData.value.data?.user.token}');
+
     try {
       res = await _dio!.get(
         path,
@@ -142,8 +144,11 @@ class RequestHandler {
         options: options != null
             ? options.copyWith(
                 headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'x-api-key': options.headers?.containsKey('x-api-key') != null
+                      ? options.headers != null
+                          ? options.headers!['x-api-key']
+                          : ''
+                      : _userWM?.userData.value.data?.user.token ?? '',
                 },
               )
             : Options(
@@ -197,8 +202,11 @@ class RequestHandler {
         options: options != null
             ? options.copyWith(
                 headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'x-api-key': options.headers?.containsKey('x-api-key') != null
+                      ? options.headers != null
+                          ? options.headers!['x-api-key']
+                          : ''
+                      : _userWM?.userData.value.data?.user.token ?? '',
                 },
               )
             : Options(
@@ -250,8 +258,11 @@ class RequestHandler {
         options: options != null
             ? options.copyWith(
                 headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'x-api-key': options.headers?.containsKey('x-api-key') != null
+                      ? options.headers != null
+                          ? options.headers!['x-api-key']
+                          : ''
+                      : _userWM?.userData.value.data?.user.token ?? '',
                 },
               )
             : Options(
@@ -301,8 +312,11 @@ class RequestHandler {
         options: options != null
             ? options.copyWith(
                 headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'x-api-key': options.headers?.containsKey('x-api-key') != null
+                      ? options.headers != null
+                          ? options.headers!['x-api-key']
+                          : ''
+                      : _userWM?.userData.value.data?.user.token ?? '',
                 },
               )
             : Options(
