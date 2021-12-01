@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_email_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -8,11 +7,10 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
-import 'package:bausch/widgets/inputs/default_text_form_field.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityAndEmailScreen extends CoreMwwmWidget<CityEmailScreenWM> {
@@ -86,17 +84,28 @@ class _CityAndEmailScreenState
               Stack(
                 alignment: Alignment.centerRight,
                 children: [
-                  DefaultTextFormField(
+                  // TODO(Nikolay): Проверить работоспособность.
+                  NativeTextInput(
                     labelText: 'E-mail',
                     controller: wm.emailFieldController,
                     inputType: TextInputType.emailAddress,
-                    // validator: (dynamic value) {
-                    //   if (value == null || value.toString().isEmpty) {
-                    //     return 'Не введён e-mail';
-                    //   }
-                    //   return null;
-                    // },
                   ),
+                  // DefaultTextInput(
+                  //   labelText: 'E-mail',
+                  //   controller: wm.emailFieldController,
+                  //   inputType: TextInputType.emailAddress,
+                  // ),
+                  // DefaultTextFormField(
+                  //   labelText: 'E-mail',
+                  //   controller: wm.emailFieldController,
+                  //   inputType: TextInputType.emailAddress,
+                  //   // validator: (dynamic value) {
+                  //   //   if (value == null || value.toString().isEmpty) {
+                  //   //     return 'Не введён e-mail';
+                  //   //   }
+                  //   //   return null;
+                  //   // },
+                  // ),
 
                   //* Кнопка с колбеком
                   // IconButton(
@@ -109,6 +118,10 @@ class _CityAndEmailScreenState
                   // ),
                 ],
               ),
+              const SizedBox(
+                height: 4,
+              ),
+
               // if (!isValidated)
               //   Column(
               //     children: [

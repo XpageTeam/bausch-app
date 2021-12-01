@@ -7,7 +7,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -77,14 +77,14 @@ class _ProfileSettingsScreenState
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 4, top: 30),
-              child: DefaultTextInput(
+              child: NativeTextInput(
                 labelText: 'Имя',
                 controller: wm.nameController,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: DefaultTextInput(
+              child: NativeTextInput(
                 labelText: 'Фамилия',
                 controller: wm.lastNameController,
               ),
@@ -94,7 +94,7 @@ class _ProfileSettingsScreenState
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  DefaultTextInput(
+                  NativeTextInput(
                     labelText: 'E-mail',
                     controller: wm.emailController,
                     inputType: TextInputType.emailAddress,
@@ -108,7 +108,7 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: DefaultTextInput(
+              child: NativeTextInput(
                 labelText: 'Мобильный телефон',
                 controller: wm.phoneController,
                 inputType: TextInputType.phone,
