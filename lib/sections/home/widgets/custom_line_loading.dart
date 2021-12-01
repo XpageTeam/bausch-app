@@ -6,18 +6,18 @@ class CustomLineLoadingIndicator extends StatelessWidget {
   final Duration animationDuration;
   final String text;
   late final int maxDays;
-  late final int remainDays;
+  late final int daysRemain;
 
   CustomLineLoadingIndicator({
     required this.animationDuration,
     required this.text,
     required int maxDays,
-    required int remainDays,
+    required int daysRemain,
     Key? key,
   }) : super(key: key) {
     this.maxDays = maxDays > 0 ? maxDays : 1;
-    this.remainDays =
-        remainDays > maxDays ? maxDays : (remainDays < 0 ? 0 : remainDays);
+    this.daysRemain =
+        daysRemain > maxDays ? maxDays : (daysRemain < 0 ? 0 : daysRemain);
   }
 
   @override
@@ -38,7 +38,7 @@ class CustomLineLoadingIndicator extends StatelessWidget {
               curve: Curves.easeInOutCubic,
               duration: animationDuration,
               height: 26,
-              width: constraints.maxWidth / maxDays * (maxDays - remainDays),
+              width: constraints.maxWidth / maxDays * (maxDays - daysRemain),
               decoration: BoxDecoration(
                 color: AppTheme.sulu,
                 borderRadius: BorderRadius.circular(5),
