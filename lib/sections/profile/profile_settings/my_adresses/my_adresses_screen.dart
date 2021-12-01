@@ -51,47 +51,47 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
           right: StaticData.sidePadding,
           top: 30,
         ),
-        child: BlocProvider(
-          create: (context) => AdressesCubit(),
-          child: BlocBuilder<AdressesCubit, AdressesState>(
-            //bloc: adressesCubit,
-            builder: (context, state) {
-              if (state is GetAdressesSuccess) {
-                if (state.adresses.isNotEmpty) {
-                  return ListView.builder(
-                    itemCount: state.adresses.length,
-                    itemBuilder: (context, i) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: FocusButton(
-                          labelText:
-                              '${state.adresses[i].street}, ${state.adresses[i].house}',
-                          selectedText:
-                              'Кв.${state.adresses[i].flat},подъезд ${state.adresses[i].entry},этаж ${state.adresses[i].floor}',
-                          onPressed: () {
-                            Keys.mainContentNav.currentState!.pushNamed(
-                              '/add_details',
-                              arguments: AddDetailsArguments(
-                                //adressesCubit: adressesCubit,
-                                adress: state.adresses[i],
-                                isFirstLaunch: false,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return Text(
-                    'Пока нет ни одного адреса для доставки ',
-                    style: AppStyles.h1,
-                  );
-                }
+        child: BlocBuilder<AdressesCubit, AdressesState>(
+          bloc: adressesCubit,
+          builder: (context, state) {
+            if (state is GetAdressesSuccess) {
+              if (state.adresses.isNotEmpty) {
+                return ListView.builder(
+                  itemCount: state.adresses.length,
+                  itemBuilder: (context, i) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: FocusButton(
+                        labelText:
+                            '${state.adresses[i].street}, ${state.adresses[i].house}',
+                        selectedText:
+                            'Кв.${state.adresses[i].flat},подъезд ${state.adresses[i].entry},этаж ${state.adresses[i].floor}',
+                        onPressed: () {
+                          Keys.mainContentNav.currentState!
+                              .pushNamed(
+                            '/add_details',
+                            arguments: AddDetailsArguments(
+                              adress: state.adresses[i],
+                              isFirstLaunch: false,
+                            ),
+                          )
+                              .then((v) {
+                            adressesCubit.getAdresses();
+                          });
+                        },
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return Text(
+                  'Пока нет ни одного адреса для доставки ',
+                  style: AppStyles.h1,
+                );
               }
-              return const Center(child: AnimatedLoader());
-            },
-          ),
+            }
+            return const Center(child: AnimatedLoader());
+          },
         ),
       ),
       floatingActionButton: Padding(
@@ -99,7 +99,11 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
         child: BlueButtonWithText(
           text: 'Добавить адрес',
           onPressed: () {
-            Keys.mainContentNav.currentState!.pushNamed('/add_adress');
+            Keys.mainContentNav.currentState!
+                .pushNamed('/add_adress')
+                .then((v) {
+              adressesCubit.getAdresses();
+            });
           },
         ),
       ),

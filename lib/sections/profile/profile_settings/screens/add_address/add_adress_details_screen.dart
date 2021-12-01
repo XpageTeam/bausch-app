@@ -21,12 +21,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddDetailsArguments {
   final AdressModel adress;
   final bool isFirstLaunch;
-  //final AdressesCubit adressesCubit;
 
   AddDetailsArguments({
     required this.adress,
     required this.isFirstLaunch,
-    //required this.adressesCubit,
   });
 }
 
@@ -35,12 +33,9 @@ class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
   final bool isFirstLaunch;
   @override
   final AdressModel adress;
-  // @override
-  // final AdressesCubit adressesCubit;
   const AddDetailsScreen({
     required this.adress,
     required this.isFirstLaunch,
-    //required this.adressesCubit,
     Key? key,
   }) : super(key: key);
 
@@ -158,8 +153,9 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                 );
 
                 addressesBloc.add(AddressesSend(address: model));
+                //widget.adressesCubit?.getAdresses();
 
-                //_navigateBack();
+                _navigateBack();
               },
             ),
             if (!widget.isFirstLaunch)
@@ -178,12 +174,12 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             addressesBloc
                                 .add(AddressesDelete(id: widget.adress.id!));
 
-                            BlocProvider.of<AdressesCubit>(context)
-                                .getAdresses();
-                            Navigator.of(context).pop();
+                            //widget.adressesCubit?.getAdresses();
 
                             debugPrint('delete');
                             debugPrint(addressesBloc.state.toString());
+
+                            _navigateBack();
                           },
                           noCallback: () {
                             Navigator.of(context).pop();
@@ -203,15 +199,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
   //TODO(Nikita): Заменить на popUntil.withName
   void _navigateBack() {
-    if (widget.isFirstLaunch) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-
-      //* popUntil не работает
-      // Navigator.of(context)
-      //     .popUntil((route) => route.settings.name == '/my_adresses');
-    } else {
-      Navigator.of(context).pop();
-    }
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 }
