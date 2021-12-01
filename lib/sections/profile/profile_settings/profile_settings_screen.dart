@@ -122,7 +122,7 @@ class _ProfileSettingsScreenState
                   return FocusButton(
                     labelText: 'Дата рождения',
                     selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
-                    icon: Container(),
+                    // icon: Container(),
                     onPressed: () async {
                       wm.setBirthDate(await showDatePicker(
                         context: context,

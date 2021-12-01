@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
@@ -8,13 +9,15 @@ import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.da
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart' as pp;
+import 'package:provider/provider.dart';
 
 class RequestHandler {
+  static BuildContext? globalContext;
+
+  static UserWM? _userWM;
   static CookieManager? _cookieManager;
   static CacheStore? _store;
   static bool _storeCreating = false;
-
-  static BuildContext? globalContext;
 
   // String? _cacheStorePath;
 
@@ -41,6 +44,13 @@ class RequestHandler {
 
   factory RequestHandler.setContext(BuildContext context) {
     globalContext ??= context;
+
+    try {
+      _userWM ??= Provider.of<UserWM>(context);
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      debugPrint('Неудалось получить UserWM в RequestHandler');
+    }
 
     return RequestHandler();
   }
@@ -131,17 +141,17 @@ class RequestHandler {
         onReceiveProgress: onReceiveProgress,
         options: options != null
             ? options.copyWith(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                )
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              )
             : Options(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                ),
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              ),
         queryParameters: queryParameters,
       );
     } on DioError catch (e) {
@@ -186,17 +196,17 @@ class RequestHandler {
         queryParameters: queryParameters,
         options: options != null
             ? options.copyWith(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                )
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              )
             : Options(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                ),
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -239,17 +249,17 @@ class RequestHandler {
         queryParameters: queryParameters,
         options: options != null
             ? options.copyWith(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                )
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              )
             : Options(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                ),
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              ),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -290,17 +300,17 @@ class RequestHandler {
         queryParameters: queryParameters,
         options: options != null
             ? options.copyWith(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                )
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              )
             : Options(
-                // headers: <String, dynamic>{
-                // 	if (UserRepository.currentUser != null)
-                // 		'token': UserRepository.currentUser!.token,
-                // },
-                ),
+                headers: <String, dynamic>{
+                  if (_userWM?.userData.value.data?.user.token != null)
+                    'x-api-key': _userWM?.userData.value.data?.user.token,
+                },
+              ),
         cancelToken: cancelToken,
       );
     } on DioError catch (e) {
