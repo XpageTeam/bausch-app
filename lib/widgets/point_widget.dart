@@ -9,7 +9,7 @@ class PointWidget extends StatelessWidget {
   final TextStyle textStyle;
   const PointWidget({
     this.radius = 14,
-    this.textStyle = AppStyles.h2Bold,
+    required this.textStyle,
     Key? key,
   }) : super(key: key);
 

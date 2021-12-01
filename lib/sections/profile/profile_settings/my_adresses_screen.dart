@@ -34,7 +34,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
           top: 30,
         ),
         child: Adresses.adresses.isEmpty
-            ? const Text(
+            ? Text(
                 'Пока нет ни одного адреса для доставки ',
                 style: AppStyles.h1,
               )

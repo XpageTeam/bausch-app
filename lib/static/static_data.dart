@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class StaticData {
+  static const dadataApiKey = 'c5884c57a17def3fe99c96a9ee13b15554680669';
+  static const dadataSecretKey = 'R_SHe3@bFx\$DOP28yrMgm_%&M';
+
   static const sidePadding = 12.0;
 
   static const contraindications =

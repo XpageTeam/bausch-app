@@ -67,11 +67,11 @@ class DiscountOpticsScreen extends StatelessWidget
                     const SizedBox(
                       height: 40,
                     ),
-                    const Text(
+                    Text(
                       'Выбрать сеть оптик',
                       style: AppStyles.h2,
                     ),
-                    const Text(
+                    Text(
                       'Скидкой можно воспользоваться в любой из оптик сети.',
                       style: AppStyles.p1,
                     ),

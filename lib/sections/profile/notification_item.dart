@@ -25,13 +25,13 @@ class NotificationItem extends StatelessWidget {
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 AutoSizeText(
                   'Регистрация в программе лояльности',
                   style: AppStyles.p1,
                   maxLines: 3,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2,
                 ),
                 AutoSizeText(

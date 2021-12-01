@@ -38,8 +38,8 @@ class FinalFreePackaging extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     CustomSliverAppbar.toPop(icon: Container(), key: key),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
                       child: Text(
                         'Заказ оформлен',
                         style: AppStyles.h2,
@@ -48,8 +48,8 @@ class FinalFreePackaging extends StatelessWidget {
                     // DefaultTextInput(
                     //     labelText: 'labelText',
                     //     controller: TextEditingController()),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),

@@ -31,6 +31,7 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
+            leading: Container(),
             backgroundColor: Colors.transparent,
             toolbarHeight: 60,
             expandedHeight: 70,

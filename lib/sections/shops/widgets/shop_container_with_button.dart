@@ -76,7 +76,7 @@ class ShopContainerWithButton extends StatelessWidget {
 
           BlueButton(
             onPressed: onPressed,
-            children: const [
+            children: [
               Text(
                 'Выбрать оптику',
                 style: AppStyles.h2Bold,

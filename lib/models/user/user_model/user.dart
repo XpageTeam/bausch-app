@@ -1,6 +1,7 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:flutter/foundation.dart';
 
+/// не забывать обновлять методы [User.toJson], [User.fromJson] и [User.toString] при изменении класса
 @immutable
 class User {
   final String phone;
@@ -45,7 +46,7 @@ class User {
             : DateTime.parse(json['birthDate'] as String),
         city: json['city'] as String?,
       );
-    // ignore: avoid_catches_without_on_clauses
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException(e.toString());
     }
