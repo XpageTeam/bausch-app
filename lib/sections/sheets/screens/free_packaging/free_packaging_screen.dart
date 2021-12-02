@@ -7,6 +7,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
 //catalog_free_packaging
@@ -59,33 +60,22 @@ class FreePackagingScreen extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Перейти к заказу',
-                onPressed: () {
-                  // Keys.mainNav.currentState!.pop();
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Перейти к заказу',
+          onPressed: () {
+            // Keys.mainNav.currentState!.pop();
 
-                  // Keys.mainContentNav.currentState!
-                  //     .pushNamed('/order_registration');
+            // Keys.mainContentNav.currentState!
+            //     .pushNamed('/order_registration');
 
-                  Keys.mainNav.currentState!.push<void>(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const OrderRegistrationScreen();
-                      },
-                    ),
-                  );
+            Keys.mainNav.currentState!.push<void>(
+              MaterialPageRoute(
+                builder: (context) {
+                  return const OrderRegistrationScreen();
                 },
               ),
-            ),
-            const InfoBlock(),
-          ],
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

@@ -4,6 +4,7 @@ import 'package:bausch/sections/order_registration/order_registration_screen.dar
 import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/add_adress_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/city_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/lenses_parameters.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
@@ -55,6 +56,10 @@ class MainNavigation extends StatelessWidget {
               isFirstLaunch:
                   (settings.arguments as AddDetailsArguments).isFirstLaunch,
             );
+            break;
+
+          case '/city':
+            page = CityScreen();
             break;
 
           case '/add_adress':

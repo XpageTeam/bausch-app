@@ -6,6 +6,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
 //catalog_partners
@@ -58,23 +59,12 @@ class PartnersScreen extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Получить поощрение',
-                onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_webinar');
-                },
-              ),
-            ),
-            const InfoBlock(),
-          ],
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Получить поощрение',
+          onPressed: () {
+            Keys.bottomSheetItemsNav.currentState!
+                .pushNamed('/verification_webinar');
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

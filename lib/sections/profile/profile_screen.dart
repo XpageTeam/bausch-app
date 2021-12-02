@@ -6,6 +6,7 @@ import 'package:bausch/sections/profile/profile_app_bar.dart';
 import 'package:bausch/sections/profile/scrollable_profile_content.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

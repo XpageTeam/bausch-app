@@ -23,7 +23,6 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      primary: false,
       body: SafeArea(
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),

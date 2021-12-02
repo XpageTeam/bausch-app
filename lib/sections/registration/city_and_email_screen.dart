@@ -4,6 +4,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/inputs/default_text_form_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,15 +52,10 @@ class _CityAndEmailScreenState extends State<CityAndEmailScreen> {
                     style: AppStyles.h1,
                   ),
                 ),
-                DefaultTextFormField(
+                FocusButton(
                   labelText: 'Город',
-                  controller: cityController,
-                  inputType: TextInputType.name,
-                  validator: (dynamic value) {
-                    if (value == null || value.toString().isEmpty) {
-                      return 'Не введено название города';
-                    }
-                    return null;
+                  onPressed: () {
+                    Keys.mainContentNav.currentState!.pushNamed('/city');
                   },
                 ),
                 const SizedBox(

@@ -16,7 +16,7 @@ class ProfileAppBar extends StatelessWidget {
           top: 2,
         ),
         child: SizedBox(
-          height: 56,
+          height: 48,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

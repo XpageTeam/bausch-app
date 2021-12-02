@@ -22,6 +22,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
+    debugPrint(spaceBetween.toString());
 
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
@@ -54,7 +55,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       MediaQuery.of(context).padding.bottom -
                       MediaQuery.of(context).padding.top -
                       86.sp -
-                      spaceBetween * 1.5 -
+                      spaceBetween -
+                      80.sp -
                       114.sp,
                   //height: 400.sp,
                 ),

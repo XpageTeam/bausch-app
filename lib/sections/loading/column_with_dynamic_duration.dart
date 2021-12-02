@@ -54,7 +54,7 @@ class ColumnWithDynamicDuration extends StatelessWidget {
         },
         separatorBuilder: (context, i) {
           return SizedBox(
-            height: spaceBetween,
+            height: i == 0 ? 80.sp : spaceBetween,
           );
         },
         itemCount: children.length,

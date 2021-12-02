@@ -6,6 +6,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
@@ -66,7 +67,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
                       padding: EdgeInsets.symmetric(
                         vertical: 40,
                       ),
-                      child: MayBeInteresting(),
+                      child: MayBeInteresting(
+                        text: 'В программе участвуют: ',
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(
@@ -197,20 +200,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Получить сертификат',
-                onPressed: () {},
-              ),
-            ),
-            const InfoBlock(),
-          ],
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Получить сертификат',
+          onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

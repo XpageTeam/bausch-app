@@ -5,6 +5,8 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +42,15 @@ class WebinarVerification extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomSliverAppbar.toPop(
-                          icon: Container(),
+                          icon: NormalIconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new_sharp,
+                              size: 15,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
                           key: key,
                           backgroundColor: Colors.white,
                         ),
@@ -83,27 +93,11 @@ class WebinarVerification extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Container(
-          height: 132,
-          color: AppTheme.mystic,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: BlueButtonWithText(
-                  text: 'Потратить баллы',
-                  onPressed: () {
-                    Keys.bottomSheetItemsNav.currentState!
-                        .pushNamed('/final_webinar');
-                  },
-                ),
-              ),
-              const InfoBlock(),
-            ],
-          ),
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Потратить баллы',
+          onPressed: () {
+            Keys.bottomSheetItemsNav.currentState!.pushNamed('/final_webinar');
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

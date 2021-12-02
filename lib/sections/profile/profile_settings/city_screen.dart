@@ -63,7 +63,7 @@ class _CityScreenState extends State<CityScreen> {
             //TODO(Nikita): Добавить сверху избранные города и выбранный
             Flexible(
               child: AlphabetScrollView(
-                itemExtent: 60,
+                itemExtent: 50,
                 list: controller.value.text.isEmpty
                     ? Adresses.cities.map((e) => AlphaModel(e)).toList()
                     : filteredList.map((e) => AlphaModel(e)).toList(),

@@ -2,6 +2,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final Widget? icon;
@@ -17,7 +18,7 @@ class CustomFloatingActionButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Container(
       color: AppTheme.mystic,
       child: Column(
@@ -40,14 +41,14 @@ Widget build(BuildContext context) {
               vertical: 8,
             ),
             color: AppTheme.mystic,
-            child: const Center(
+            child: Center(
               child: Text(
                 'Имеются противопоказания, необходимо проконсультироваться со специалистом',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppTheme.grey,
                   fontWeight: FontWeight.w400,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   height: 16 / 14,
                 ),
               ),

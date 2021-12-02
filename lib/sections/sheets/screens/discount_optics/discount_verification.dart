@@ -5,6 +5,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,15 @@ class DiscountVerification extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomSliverAppbar.toPop(
-                          icon: Container(),
+                          icon: NormalIconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new_sharp,
+                              size: 15,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
                           key: key,
                           backgroundColor: Colors.white,
                         ),
@@ -80,7 +89,7 @@ class DiscountVerification extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: 4,
+                          height: 20,
                         ),
                         BigCatalogItem(
                           model: model,
