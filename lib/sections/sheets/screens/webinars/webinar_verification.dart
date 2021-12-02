@@ -13,9 +13,11 @@ import 'package:flutter/material.dart';
 class WebinarVerification extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
+  final bool isWebinarScreen;
   const WebinarVerification({
     required this.controller,
     required this.model,
+    this.isWebinarScreen = true,
     Key? key,
   }) : super(key: key);
 
@@ -96,7 +98,13 @@ class WebinarVerification extends StatelessWidget {
         floatingActionButton: CustomFloatingActionButton(
           text: 'Потратить баллы',
           onPressed: () {
-            Keys.bottomSheetItemsNav.currentState!.pushNamed('/final_webinar');
+            if (isWebinarScreen) {
+              Keys.bottomSheetItemsNav.currentState!
+                  .pushNamed('/final_webinar');
+            } else {
+              Keys.bottomSheetItemsNav.currentState!
+                  .pushNamed('/final_discount');
+            }
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

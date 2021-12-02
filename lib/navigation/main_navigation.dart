@@ -59,7 +59,7 @@ class MainNavigation extends StatelessWidget {
             break;
 
           case '/city':
-            page = CityScreen();
+            page = const CityScreen();
             break;
 
           case '/add_adress':
