@@ -16,6 +16,7 @@ class DefaultTextInput extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool autofocus;
   final AlignmentGeometry? labelAlignment;
+  final ValueChanged<String>? onSubmitted;
 
   const DefaultTextInput({
     required this.labelText,
@@ -23,6 +24,7 @@ class DefaultTextInput extends StatefulWidget {
     this.labelAlignment,
     this.backgroundColor,
     this.onChanged,
+    this.onSubmitted,
     this.inputType = TextInputType.text,
     this.decoration,
     this.textStyle,
@@ -103,6 +105,7 @@ class _DefaultTextInputState extends State<DefaultTextInput>
               maxLines: widget.maxLines,
               inputFormatters: widget.inputFormatters,
               autofocus: widget.autofocus,
+              onSubmitted: widget.onSubmitted,
             ),
           ),
 

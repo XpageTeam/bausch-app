@@ -4,6 +4,8 @@ class StaticData {
   static const dadataApiKey = 'c5884c57a17def3fe99c96a9ee13b15554680669';
   static const dadataSecretKey = 'R_SHe3@bFx\$DOP28yrMgm_%&M';
 
+  static const vitaminkaKey = '5aca2ceb0ac2e60d8ec3894adf6953d0c6c6f50e';
+
   static const sidePadding = 12.0;
 
   static const contraindications =
