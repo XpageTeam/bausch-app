@@ -885,7 +885,7 @@
     },
     {
       "name": "yandex_mapkit",
-      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/yandex_mapkit-1.1.1",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/git/yandex_mapkit-5d58b0a46c2edd8991ce0e4e6ff7cfd85c8ccd85/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -902,7 +902,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-12-01T11:13:46.858073Z",
+  "generated": "2021-12-02T05:08:45.089494Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

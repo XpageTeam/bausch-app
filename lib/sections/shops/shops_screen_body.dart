@@ -1,12 +1,15 @@
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
+import 'package:bausch/sections/shops/clusterized_map_body.dart';
 import 'package:bausch/sections/shops/cubits/page_switcher_cubit/page_switcher_cubit_cubit.dart';
+import 'package:bausch/sections/shops/test_map.dart';
 import 'package:bausch/sections/shops/widgets/address_switcher.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_adapter.dart';
 import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_adapter.dart';
+import 'package:bausch/sections/shops/widgets/user_layer_map.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -174,10 +177,22 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                         state: filterState,
                       );
                     } else {
-                      return MapAdapter(
-                        shopList: widget.shopList,
-                        state: filterState,
+                      return ClusterizedMapBody(
+                        shopList: widget.shopList
+                            .where(
+                              (shop) =>
+                                  filterState is! ShopFilterChange ||
+                                  filterState.selectedFilters.any(
+                                    (filter) => filter.id == shop.id,
+                                  ),
+                            )
+                            .toList(),
                       );
+                      // const ClusterizedMapBody();
+                      // return MapAdapter(
+                      //   shopList: widget.shopList,
+                      //   state: filterState,
+                      // );
                     }
                   },
                 );

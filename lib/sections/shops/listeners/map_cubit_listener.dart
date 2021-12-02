@@ -49,12 +49,12 @@ class _MapCubitListenerState extends State<MapCubitListener> {
 
         //* Удаление метки
         if (state is MapRemovePlacemark && state.placemark != null) {
-          await controller.removePlacemark(state.placemark!);
+          // await controller.removePlacemark(state.placemark!);
         }
 
         //* Добавление метки
         if (state is MapAddPlacemark) {
-          await controller.addPlacemark(state.placemark);
+          // await controller.addPlacemark(state.placemark);
         }
 
         if (state is MapShowModalBottomSheet) {
@@ -95,14 +95,14 @@ class _MapCubitListenerState extends State<MapCubitListener> {
 
         //* Центрирование по всем меткам
         if (state is MapSetCenter) {
-          await controller.move(
-            zoom: state.zoom,
-            animation: state.mapAnimation,
-            point: Point(
-              latitude: state.point.latitude,
-              longitude: state.point.longitude,
-            ),
-          );
+          // await controller.move(
+          //   zoom: state.zoom,
+          //   animation: state.mapAnimation,
+          //   point: Point(
+          //     latitude: state.point.latitude,
+          //     longitude: state.point.longitude,
+          //   ),
+          // );
         }
       },
 

@@ -50,16 +50,16 @@ class MapCubit extends Cubit<MapState> {
       ),
     );
 
-    shopPlacemark = Placemark(
-      point: placemark.point,
-      onTap: placemark.onTap,
-      style: PlacemarkStyle(
-        zIndex: 1,
-        opacity: 1,
-        scale: 1.5,
-        rawImageData: placemark.style.rawImageData,
-      ),
-    );
+    // shopPlacemark = Placemark(
+    //   point: placemark.point,
+    //   onTap: placemark.onTap,
+    //   style: PlacemarkStyle(
+    //     zIndex: 1,
+    //     opacity: 1,
+    //     scale: 1.5,
+    //     rawImageData: placemark.style.rawImageData,
+    //   ),
+    // );
 
     emit(
       MapAddPlacemark(
@@ -170,15 +170,15 @@ class MapCubit extends Cubit<MapState> {
       longitude: position.longitude,
     );
 
-    userPlacemark = Placemark(
-      point: userPoint!,
-      style: PlacemarkStyle(
-        zIndex: 1,
-        opacity: 1,
-        rawImageData:
-            await Utils.getRawImageData('assets/icons/user-marker.png'),
-      ),
-    );
+    // userPlacemark = Placemark(
+    //   point: userPoint!,
+    //   style: PlacemarkStyle(
+    //     zIndex: 1,
+    //     opacity: 1,
+    //     rawImageData:
+    //         await Utils.getRawImageData('assets/icons/user-marker.png'),
+    //   ),
+    // );
 
     return MapAddPlacemark(
       placemark: userPlacemark!,

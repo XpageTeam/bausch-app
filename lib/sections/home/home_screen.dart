@@ -9,6 +9,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -33,7 +34,6 @@ class HomeScreen extends StatelessWidget {
             return CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
@@ -51,7 +51,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -77,7 +76,12 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+                SliverToBoxAdapter(
+                  child: TextButton(
+                    child: const Text('go'),
+                    onPressed: () => Navigator.of(context).pushNamed('/shops'),
+                  ),
+                ),
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -94,7 +98,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 20,

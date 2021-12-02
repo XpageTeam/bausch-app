@@ -32,7 +32,7 @@ class _MapWithButtonsState extends State<MapWithButtons> {
       shopList: widget.shopList,
     );
     // TODO(Nikolay): Инициализация меток должна быть в другом месте.
-    _initPlacemarks();
+    // _initPlacemarks();
   }
 
   @override
@@ -52,20 +52,27 @@ class _MapWithButtonsState extends State<MapWithButtons> {
             FutureBuilder(
               future: mapCompleter.future,
               builder: (_, snapshot) {
-                if (snapshot.hasData) {
-                  _generatePlacemarks(
-                    shopList: widget.shopList,
-                    controller: snapshot.data as YandexMapController,
-                  );
+                return Container();
+                // if (snapshot.hasData) {
+                //   // _generatePlacemarks(
+                //   //   shopList: widget.shopList,
+                //   //   controller: snapshot.data as YandexMapController,
+                //   // );
 
-                  mapCubit.setCenterOnShops();
-                }
-                return MapCubitListener(
-                  child: YandexMap(
-                    onMapCreated: mapCompleter.complete,
-                  ),
-                  mapCompleterFuture: mapCompleter.future,
-                );
+                //   mapCubit.setCenterOnShops();
+                // }
+                // return MapCubitListener(
+                //   child: 
+                  
+                //   YandexMap(
+                //     mapObjects: [
+                //       MapObject<String>()
+                //     ],
+                //     onMapCreated: mapCompleter.complete,
+                //   ),
+                 
+                //   mapCompleterFuture: mapCompleter.future,
+                // );
               },
             ),
             Positioned.fill(
@@ -90,43 +97,48 @@ class _MapWithButtonsState extends State<MapWithButtons> {
     );
   }
 
-  void _generatePlacemarks({
-    required List<ShopModel> shopList,
-    required YandexMapController controller,
-  }) {
-    // Иначе не удаляются, либо удаляются криво
-    for (var i = controller.placemarks.length - 1; i >= 0; i--) {
-      if (!shopList.any((shop) => shop.placemark == controller.placemarks[i])) {
-        controller.removePlacemark(controller.placemarks[i]);
-      }
-    }
+//   void _generatePlacemarks({
+//     required List<ShopModel> shopList,
+//     required YandexMapController controller,
+//   }) {
 
-    for (final shopModel in shopList) {
-      if (shopModel.placemark != null &&
-          !controller.placemarks.contains(shopModel.placemark)) {
-        controller.addPlacemark(shopModel.placemark!);
-      }
-    }
-  }
+    
+//     // Иначе не удаляются, либо удаляются криво
+//     for (var i = controller.placemarks.length - 1; i >= 0; i--) {
+//       if (!shopList.any((shop) => shop.placemark == controller.placemarks[i])) {
+//         controller.removePlacemark(controller.placemarks[i]);
+//       }
+//     }
 
-  Future<void> _initPlacemarks() async {
-    final shopRawImageData =
-        await Utils.getRawImageData('assets/icons/map-marker.png');
+//     for (final shopModel in shopList) {
+//       if (shopModel.placemark != null &&
+//           !controller.placemarks.contains(shopModel.placemark)) {
+//         controller.addPlacemark(shopModel.placemark!);
+//       }
+//     }
+//     controller
+//   }
 
-    for (final shop in widget.shopList) {
-      if (shop.coords != null) {
-        shop.placemark = Placemark(
-          point: shop.coords!,
-          onTap: (currentPlacemark, point) async {
-            mapCubit.showModalBottomSheet(shopModel: shop);
-          },
-          style: PlacemarkStyle(
-            zIndex: 1,
-            opacity: 1,
-            rawImageData: shopRawImageData,
-          ),
-        );
-      }
-    }
-  }
+//   Future<void> _initPlacemarks() async {
+//     final shopRawImageData =
+//         await Utils.getRawImageData('assets/icons/map-marker.png');
+
+//     for (final shop in widget.shopList) {
+//       if (shop.coords != null) {
+//         // shop.placemark = 
+//         // Placemark(
+//         //   point: shop.coords!,
+//         //   onTap: (currentPlacemark, point) async {
+//         //     mapCubit.showModalBottomSheet(shopModel: shop);
+//         //   },
+//         //   style: PlacemarkIconStyle(
+//         //     zIndex: 1,
+//         //     image: BitmapDescriptor.fromBytes(shopRawImageData),
+//         //   ),
+//         // );
+
+//         PlacemarkIcon.composite(iconParts);
+//       }
+//     }
+//   }
 }
