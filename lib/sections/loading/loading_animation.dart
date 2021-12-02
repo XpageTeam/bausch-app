@@ -10,15 +10,15 @@ class LoadingAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return ColumnWithDynamicDuration(
       children: [
-        // Container(
-        //   color: Colors.white,
-        //   padding: EdgeInsets.symmetric(
-        //     vertical: 30.sp,
-        //     horizontal: 18,
-        //   ),
-        //   child: Image.asset('assets/loading/logo.png'),
-        // ),
-
+        Container(
+          height: 86.sp,
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(
+            //vertical: 30.sp,
+            horizontal: 18.sp,
+          ),
+          child: Image.asset('assets/loading/logo.png'),
+        ),
         const ImageRow(
           firstImg: 'assets/loading/1.png',
           secondImg: 'assets/loading/2.png',

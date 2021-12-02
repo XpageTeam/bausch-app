@@ -21,6 +21,8 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
+    final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
+
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
       appBar: const EmptyAppBar(
@@ -48,7 +50,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       topRight: Radius.circular(5),
                     ),
                   ),
-                  height: MediaQuery.of(context).size.height / 2,
+                  height: MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.bottom -
+                      MediaQuery.of(context).padding.top -
+                      86.sp -
+                      spaceBetween * 1.5 -
+                      114.sp,
                   //height: 400.sp,
                 ),
               ],
