@@ -7,7 +7,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
@@ -92,21 +92,21 @@ class _ProgramScreenState extends State<ProgramScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    DefaultTextInput(
+                    NativeTextInput(
                       labelText: 'Имя',
                       controller: nameController,
                     ),
                     const SizedBox(
                       height: 4,
                     ),
-                    DefaultTextInput(
+                    NativeTextInput(
                       labelText: 'Фамилия',
                       controller: nameController,
                     ),
                     const SizedBox(
                       height: 4,
                     ),
-                    DefaultTextInput(
+                    NativeTextInput(
                       labelText: 'E-mail',
                       controller: nameController,
                     ),

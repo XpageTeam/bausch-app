@@ -3,7 +3,6 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

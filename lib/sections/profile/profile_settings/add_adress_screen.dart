@@ -6,7 +6,7 @@ import 'package:bausch/test/adresses.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
 
 class AddAdressScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
         ),
         child: Column(
           children: [
-            DefaultTextInput(
+            NativeTextInput(
               labelText: 'Поиск адреса',
               controller: controller,
               onChanged: (s) {

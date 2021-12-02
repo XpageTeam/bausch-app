@@ -1,10 +1,9 @@
-import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/select_widgets/dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,7 +167,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                               cornersColor: AppTheme.mystic,
                             );
                           } else {
-                            return DefaultTextInput(
+                            return NativeTextInput(
                               labelText: state.fields[i].name,
                               controller: emailController,
                               inputType: TextInputType.emailAddress,

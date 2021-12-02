@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/select_widgets/dropdown_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class _CodeSectionState extends State<CodeSection> {
           const SizedBox(
             height: 20,
           ),
-          DefaultTextInput(
+          NativeTextInput(
             labelText: 'Код',
             controller: codeController,
             backgroundColor: AppTheme.mystic,
