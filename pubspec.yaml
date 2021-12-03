@@ -79,6 +79,8 @@ flutter:
     - assets/items/
     - assets/loading/
 
+    - assets/icons/gift.png
+
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png
 
