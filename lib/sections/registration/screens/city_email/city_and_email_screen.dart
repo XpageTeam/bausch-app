@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_email_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -12,7 +11,6 @@ import 'package:bausch/widgets/inputs/default_text_form_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityAndEmailScreen extends CoreMwwmWidget<CityEmailScreenWM> {

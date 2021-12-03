@@ -1,12 +1,9 @@
-import 'dart:ui';
-
 import 'package:bausch/sections/profile/bloc/opacity_bloc.dart';
 import 'package:bausch/sections/profile/notification_listener.dart';
 import 'package:bausch/sections/profile/profile_app_bar.dart';
 import 'package:bausch/sections/profile/scrollable_profile_content.dart';
 import 'package:bausch/sections/profile/user_status_name.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

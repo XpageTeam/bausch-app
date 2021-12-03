@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_cast
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
-import 'package:flutter/material.dart';
 
 /// Модель города, предоставляемая сервисом dadata
 class DadataCity {
@@ -32,10 +31,11 @@ class DadataCity {
 
   factory DadataCity.fromCSV(List<dynamic> csv) {
     try {
-      var cityName = csv[9].toString() != '' ? csv[9].toString() : csv[5].toString();
+      var cityName =
+          csv[9].toString() != '' ? csv[9].toString() : csv[5].toString();
 
-      if (csv[8].toString() == ''){
-        if (csv[6].toString().toLowerCase() == 'г'){
+      if (csv[8].toString() == '') {
+        if (csv[6].toString().toLowerCase() == 'г') {
           cityName = csv[7].toString();
         } else {
           cityName = csv[5].toString();
