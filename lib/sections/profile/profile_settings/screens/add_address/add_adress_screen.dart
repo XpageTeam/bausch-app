@@ -122,10 +122,15 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                     );
                                   } else {
                                     //* Если выбрал и улицу, и дом
-                                    controller.text =
-                                        state.models[i].data.street;
+                                    controller
+                                      ..text = '${state.models[i].data.street} '
+                                      ..selection = TextSelection.fromPosition(
+                                        TextPosition(
+                                          offset: controller.text.length,
+                                        ),
+                                      );
                                     delayedSearch(
-                                      '${state.models[i].data.street}, ',
+                                      '${state.models[i].data.street}  ',
                                     );
                                   }
                                 },
