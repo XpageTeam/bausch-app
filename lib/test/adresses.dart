@@ -1,4 +1,4 @@
-import 'package:bausch/models/adress_model.dart';
+import 'package:bausch/models/profile_settings/adress_model.dart';
 
 class Adresses {
   static List<String> cities = [

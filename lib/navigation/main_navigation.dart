@@ -3,7 +3,7 @@ import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
-import 'package:bausch/sections/profile/profile_settings/lenses_parameters.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/lenses_parameters.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/my_adresses_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_details_screen.dart';

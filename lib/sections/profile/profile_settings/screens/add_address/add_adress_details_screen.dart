@@ -1,6 +1,6 @@
 // ignore_for_file: unused_import
 
-import 'package:bausch/models/adress_model.dart';
+import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/bloc/addresses_bloc.dart';
