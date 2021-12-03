@@ -1,4 +1,5 @@
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/sections/faq/add_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support_screen.dart';
 import 'package:bausch/sections/faq/faq_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
@@ -45,6 +46,12 @@ class SimpleOverlayNavigation extends StatelessWidget {
 
           case '/support':
             page = ContactSupportScreen(controller: controller);
+            break;
+
+          case '/add_files':
+            page = AddFilesScreen(
+              controller: controller,
+            );
             break;
 
           default:

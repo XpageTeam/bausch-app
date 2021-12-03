@@ -1,5 +1,8 @@
+import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
@@ -81,7 +84,10 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                       height: 4,
                     ),
                     DropdownWidget(
-                      items: const ['as', 'adsd'],
+                      items: const [
+                        'Использование продукции',
+                        'Проблемы со зрением',
+                      ],
                       onItemSelected: (s) {
                         setState(() {
                           selectedCategory = s;
@@ -96,7 +102,10 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                       height: 4,
                     ),
                     DropdownWidget(
-                      items: const ['as', 'adsd'],
+                      items: const [
+                        'Очки и контактные линзы',
+                        'Растворы для линз',
+                      ],
                       onItemSelected: (s) {
                         setState(() {
                           selectedTheme = s;
@@ -110,9 +119,46 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-                    DefaultTextInput(
-                      labelText: 'Ваш комметарий',
-                      controller: commentController,
+                    // DefaultTextInput(
+                    //   labelText: 'Ваш комметарий',
+                    //   controller: commentController,
+                    //   maxLines: 3,
+                    // ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          TextField(
+                            controller: commentController,
+                            maxLines: 4,
+                            decoration: InputDecoration(
+                              hintText: 'Ваш комментарий',
+                              hintStyle: AppStyles.h3,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/add_files');
+                            },
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            iconSize: 16,
+                            icon: Icon(Icons.add_circle_outline_sharp),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    BlueButtonWithText(
+                      text: 'Отправить',
+                      onPressed: () {},
                     ),
                   ],
                 ),
