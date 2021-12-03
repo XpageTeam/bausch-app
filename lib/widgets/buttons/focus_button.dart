@@ -7,10 +7,12 @@ class FocusButton extends StatelessWidget {
   final String labelText;
   final String? selectedText;
   final VoidCallback? onPressed;
+  final Color? backgroundColor;
   const FocusButton({
     required this.labelText,
     this.selectedText,
     this.onPressed,
+    this.backgroundColor,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +21,7 @@ class FocusButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor ?? Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
       ),
       child: Row(
