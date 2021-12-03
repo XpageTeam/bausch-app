@@ -43,6 +43,7 @@ class CustomFloatingActionButton extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(
               vertical: 8,
+              horizontal: 12,
             ),
             color: AppTheme.mystic,
             child: Center(

@@ -12,13 +12,13 @@ class ProfileStatus extends StatelessWidget {
       onTap: onPressed,
       child: Row(
         children: [
-          const CircleAvatar(
-            radius: 21,
-            backgroundColor: AppTheme.turquoiseBlue,
-          ),
-          const SizedBox(
-            width: 6,
-          ),
+          // const CircleAvatar(
+          //   radius: 21,
+          //   backgroundColor: AppTheme.turquoiseBlue,
+          // ),
+          // const SizedBox(
+          //   width: 6,
+          // ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

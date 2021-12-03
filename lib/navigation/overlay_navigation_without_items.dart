@@ -2,6 +2,7 @@ import 'package:bausch/models/sheets/sheet_without_items_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
+import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
@@ -59,6 +60,13 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
             page = AddPointsDetails(
               model: Models.addItems[0],
               controller: controller,
+            );
+            break;
+
+          case '/addpoints_survey':
+            page = SurveyScreen(
+              controller: controller,
+              model: Models.addItems[3],
             );
             break;
 

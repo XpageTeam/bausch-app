@@ -3,7 +3,9 @@ import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/models/sheets/sheet_with_items_model.dart';
 import 'package:bausch/models/sheets/sheet_without_items_model.dart';
 import 'package:bausch/models/story_model.dart';
+import 'package:bausch/models/survey_model.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/catalog_item/catalog_item_widget.dart';
 
 class Models {
   static List<StoryModel> stories = [
@@ -42,121 +44,66 @@ class Models {
       name: '1. Раствор Biotrue универсальный(300 мл)',
       price: '1300',
       img: 'assets/items/item1.png',
+      address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
+      deliveryInfo: 'Ещё пару дней...',
     ),
     CatalogItemModel(
       name: '2. Biotrue one day (30 линз в упаковке)',
       price: '600',
       img: 'assets/items/item2.png',
+      address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
+      deliveryInfo: 'Ещё пару дней...',
     ),
     CatalogItemModel(
       name: '3. Раствор',
       price: '1300',
       img: 'assets/items/item1.png',
+      type: ItemType.promocode,
     ),
     CatalogItemModel(
       name: '4. Раствор',
       price: '1300',
       img: 'assets/items/item1.png',
+      address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
+      deliveryInfo: 'Ещё пару дней...',
     ),
     CatalogItemModel(
       name: '5. Раствор',
       price: '1300',
+      type: ItemType.promocode,
     ),
     CatalogItemModel(
       name: '6. Раствор',
       price: '1300',
+      type: ItemType.promocode,
     ),
     CatalogItemModel(
       name: '7. Biotrue one day (30 линз в упаковке)',
       price: '600',
       img: 'assets/items/item2.png',
+      type: ItemType.webinar,
     ),
     CatalogItemModel(
       name: '8. Раствор',
       price: '1300',
       img: 'assets/items/item1.png',
+      type: ItemType.webinar,
     ),
     CatalogItemModel(
       name: '9. Раствор',
       price: '1300',
       img: 'assets/items/item1.png',
+      type: ItemType.webinar,
     ),
     CatalogItemModel(
       name: '10. Раствор',
       price: '1300',
+      type: ItemType.webinar,
     ),
     CatalogItemModel(
       name: '11. Раствор',
       price: '1300',
-    ),
-    CatalogItemModel(
-      name: '12. Biotrue one day (30 линз в упаковке)',
-      price: '600',
-      img: 'assets/items/item2.png',
-    ),
-    CatalogItemModel(
-      name: '13. Раствор',
-      price: '1300',
-    ),
-    CatalogItemModel(
-      name: '14. Biotrue one day (30 линз в упаковке)',
-      price: '600',
-      img: 'assets/items/item2.png',
-    ),
-    CatalogItemModel(
-      name: '15. Раствор',
-      price: '1300',
-      img: 'assets/items/item1.png',
-    ),
-    CatalogItemModel(
-      name: '16. Раствор',
-      price: '1300',
-      img: 'assets/items/item1.png',
-    ),
-    CatalogItemModel(
-      name: '17. Раствор',
-      price: '1300',
-    ),
-    CatalogItemModel(
-      name: '18. Раствор',
-      price: '1300',
-    ),
-    CatalogItemModel(
-      name: '19. Biotrue one day (30 линз в упаковке)',
-      price: '600',
-      img: 'assets/items/item2.png',
-    ),
-    CatalogItemModel(
-      name: '20. Раствор',
-      price: '1300',
-    ),
-    CatalogItemModel(
-      name: '21. Biotrue one day (30 линз в упаковке)',
-      price: '600',
-      img: 'assets/items/item2.png',
-    ),
-    CatalogItemModel(
-      name: '22. Раствор',
-      price: '1300',
-      img: 'assets/items/item1.png',
-    ),
-    CatalogItemModel(
-      name: '23. Раствор',
-      price: '1300',
-      img: 'assets/items/item1.png',
-    ),
-    CatalogItemModel(
-      name: '24. Раствор',
-      price: '1300',
-    ),
-    CatalogItemModel(
-      name: '25. Раствор',
-      price: '1300',
-    ),
-    CatalogItemModel(
-      name: '26. Biotrue one day (30 линз в упаковке)',
-      price: '600',
-      img: 'assets/items/item2.png',
+      type: ItemType.webinar,
     ),
   ];
 
@@ -218,6 +165,45 @@ class Models {
           'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
       price: '100',
       img: 'assets/add_points_vk.png',
+    ),
+    AddItemModel(
+      title: 'Подпишитесь на группу ВКонтакте',
+      subtitle:
+          'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
+      price: '100',
+      img: 'assets/add_points_vk.png',
+    ),
+    AddItemModel(
+      title: 'Подпишитесь на группу ВКонтакте',
+      subtitle:
+          'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
+      price: '100',
+      img: 'assets/add_points_vk.png',
+    ),
+    AddItemModel(
+      title: 'Проти опрос',
+      subtitle:
+          'Пройдите опрос от Bausch+Lomb! Мы начислим вам 100 дополнительных баллов.',
+      price: '100',
+      img: 'assets/add_points_vk.png',
+      type: 'survey',
+    ),
+  ];
+
+  static List<SurveyModel> survey = [
+    SurveyModel(
+      text:
+          'Да, оформил(а) и получил(а) свою первую пару зинз бесплатно в оптике',
+    ),
+    SurveyModel(
+      text:
+          'Да, но я не нашел(ла) времени активировать его и срок действия истёк ',
+    ),
+    SurveyModel(
+      text: 'Да, но у меня возникли трудности с его активацией',
+    ),
+    SurveyModel(
+      text: 'Я знаю про такую возможность,но не оформлял(а)',
     ),
   ];
 }

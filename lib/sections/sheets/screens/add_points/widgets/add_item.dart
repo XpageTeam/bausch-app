@@ -14,8 +14,13 @@ class AddItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Keys.bottomSheetWithoutItemsNav.currentState!
-            .pushNamed('/addpoints_details');
+        if (model.type == 'survey') {
+          Keys.bottomSheetWithoutItemsNav.currentState!
+              .pushNamed('/addpoints_survey');
+        } else {
+          Keys.bottomSheetWithoutItemsNav.currentState!
+              .pushNamed('/addpoints_details');
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -36,7 +41,7 @@ class AddItem extends StatelessWidget {
                 children: [
                   AutoSizeText(
                     model.title,
-                    style: AppStyles.h3,
+                    style: AppStyles.h2,
                     maxLines: 3,
                   ),
                   const SizedBox(
@@ -44,7 +49,7 @@ class AddItem extends StatelessWidget {
                   ),
                   AutoSizeText(
                     model.subtitle,
-                    style: AppStyles.p1Grey,
+                    style: AppStyles.p1,
                     maxLines: 3,
                   ),
                 ],
