@@ -17,7 +17,6 @@ class OrdersSection extends StatelessWidget {
             child: CatalogItemWidget(
               model: Models.items[index],
               orderTitle: 'Заказ № 89088 от 29.06.2021',
-              address: Models.items[index].address,
             ),
           ),
           childCount: Models.items.length,

@@ -12,7 +12,7 @@ class ContainerWithPromocode extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'adasd34',
+            '6СС5165АDF345',
             style: AppStyles.h2,
           ),
           const SizedBox(
@@ -20,7 +20,7 @@ class ContainerWithPromocode extends StatelessWidget {
           ),
           Image.asset(
             'assets/copy.png',
-            height: 12,
+            height: 15,
           ),
         ],
       ),

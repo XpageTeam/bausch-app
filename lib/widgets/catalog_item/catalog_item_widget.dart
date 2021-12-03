@@ -9,7 +9,7 @@ import 'package:bausch/widgets/point_widget.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-enum ItemType { product, promocode, webinar }
+enum ItemType { product, promocodeCopy, promocodeFollow, webinar }
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
@@ -105,9 +105,7 @@ class CatalogItemWidget extends StatelessWidget {
                 //* Изображение товара
                 Expanded(
                   child: Image.asset(
-                    model.type != ItemType.product
-                        ? 'assets/offers-from-partners.png'
-                        : 'assets/items/item1.png', //! model.img
+                    image(model.type!), //! model.img
                     scale: 3,
                   ),
                 ),
@@ -145,22 +143,25 @@ class CatalogItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-            if (model.type == ItemType.promocode)
+            if ((model.type == ItemType.promocodeFollow) ||
+                (model.type == ItemType.promocodeCopy))
               GestureDetector(
                 onTap: () {
-                  showFlexibleBottomSheet<void>(
-                    context: Keys.mainNav.currentContext!,
-                    minHeight: 0,
-                    initHeight: 0.7,
-                    maxHeight: 0.95,
-                    anchors: [0, 0.6, 0.95],
-                    builder: (context, controller, d) {
-                      return FinalDiscountOptics(
-                        controller: controller,
-                        model: Models.items[0],
-                      );
-                    },
-                  );
+                  if (model.type == ItemType.promocodeFollow) {
+                    showFlexibleBottomSheet<void>(
+                      context: Keys.mainNav.currentContext!,
+                      minHeight: 0,
+                      initHeight: 0.7,
+                      maxHeight: 0.95,
+                      anchors: [0, 0.6, 0.95],
+                      builder: (context, controller, d) {
+                        return FinalDiscountOptics(
+                          controller: controller,
+                          model: Models.items[0],
+                        );
+                      },
+                    );
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -179,7 +180,9 @@ class CatalogItemWidget extends StatelessWidget {
                         width: 10,
                       ),
                       Image.asset(
-                        'assets/copy.png',
+                        model.type == ItemType.promocodeCopy
+                            ? 'assets/copy.png'
+                            : 'assets/follow.png',
                         height: 16,
                       ),
                     ],
@@ -207,5 +210,15 @@ class CatalogItemWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String image(ItemType type) {
+    if (type == ItemType.webinar) {
+      return 'assets/webinar-rec.png';
+    } else if (type == ItemType.product) {
+      return 'assets/items/item1.png';
+    } else {
+      return 'assets/offers-from-partners.png';
+    }
   }
 }

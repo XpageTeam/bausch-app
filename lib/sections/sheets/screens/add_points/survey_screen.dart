@@ -95,6 +95,17 @@ class _SurveyScreenState extends State<SurveyScreen> {
                           ],
                         ),
                       ),
+                    if (page != 1)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: StaticData.sidePadding,
+                        ),
+                        child: Text(
+                          widget.model.title,
+                          style: AppStyles.h2,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     SizedBox(
                       height: 27,
                     ),
@@ -106,7 +117,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                       height: 4,
                     ),
                     Text(
-                      '1/10',
+                      '$page/10',
                       style: AppStyles.h3,
                     ),
                   ],

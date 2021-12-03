@@ -58,7 +58,7 @@ class Models {
       name: '3. Раствор',
       price: '1300',
       img: 'assets/items/item1.png',
-      type: ItemType.promocode,
+      type: ItemType.promocodeFollow,
     ),
     CatalogItemModel(
       name: '4. Раствор',
@@ -70,12 +70,12 @@ class Models {
     CatalogItemModel(
       name: '5. Раствор',
       price: '1300',
-      type: ItemType.promocode,
+      type: ItemType.promocodeFollow,
     ),
     CatalogItemModel(
       name: '6. Раствор',
       price: '1300',
-      type: ItemType.promocode,
+      type: ItemType.promocodeCopy,
     ),
     CatalogItemModel(
       name: '7. Biotrue one day (30 линз в упаковке)',
@@ -181,7 +181,7 @@ class Models {
       img: 'assets/add_points_vk.png',
     ),
     AddItemModel(
-      title: 'Проти опрос',
+      title: 'Пройти опрос',
       subtitle:
           'Пройдите опрос от Bausch+Lomb! Мы начислим вам 100 дополнительных баллов.',
       price: '100',
