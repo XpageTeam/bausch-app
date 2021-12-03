@@ -39,9 +39,21 @@ class _CodeScreenState extends State<CodeScreen> {
         padding: const EdgeInsets.only(
           bottom: 20,
         ),
-        child: Text(
-          'Повторная отправка через 00:20',
-          style: AppStyles.p1,
+        child: RichText(
+          text: TextSpan(
+            style: AppStyles.p1,
+            children: [
+              const TextSpan(
+                text: 'Повторная отправка через',
+              ),
+              TextSpan(
+                text: ' 00:20',
+                style: AppStyles.p1.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
