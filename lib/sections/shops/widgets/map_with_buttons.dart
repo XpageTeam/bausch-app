@@ -66,7 +66,7 @@ class _MapWithButtonsState extends State<MapWithButtons> {
                   
                 //   YandexMap(
                 //     mapObjects: [
-                //       MapObject<String>()
+                //       MapObject()
                 //     ],
                 //     onMapCreated: mapCompleter.complete,
                 //   ),

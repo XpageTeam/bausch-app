@@ -2,49 +2,46 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/sections/shops/clusterized_map_body_wm.dart';
 import 'package:bausch/sections/shops/clusterized_map_buttons_wm.dart';
 import 'package:bausch/sections/shops/widgets/current_location_button.dart';
 import 'package:bausch/sections/shops/widgets/zoom_buttons.dart';
-import 'package:bausch/widgets/shop_filter_widget/bloc/shop_filter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-// class ClusterizedMapBody extends StatelessWidget {
-//   final List<ShopModel> shopList;
-//   const ClusterizedMapBody({
-//     required this.shopList,
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return _ClusterizedPlacemarkCollectionExample();
-//   }
-// }
-
-class ClusterizedMapBody extends StatefulWidget {
+class ClusterizedMapBody extends CoreMwwmWidget<ClusterizedMapBodyWM> {
   final List<ShopModel> shopList;
-  const ClusterizedMapBody({
+
+  ClusterizedMapBody({
     required this.shopList,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (_) => ClusterizedMapBodyWM(
+            initShopList: shopList,
+          ),
+        );
 
   @override
-  _ClusterizedPlacemarkCollectionExampleState createState() =>
-      _ClusterizedPlacemarkCollectionExampleState();
+  WidgetState<CoreMwwmWidget<ClusterizedMapBodyWM>, ClusterizedMapBodyWM>
+      createWidgetState() => _ClusterizedMapBodyState();
 }
 
-class _ClusterizedPlacemarkCollectionExampleState
-    extends State<ClusterizedMapBody> {
+class _ClusterizedMapBodyState
+    extends WidgetState<ClusterizedMapBody, ClusterizedMapBodyWM> {
   final Completer<YandexMapController> mapCompleter = Completer();
-  List<MapObject> mapObjects = [];
 
   late YandexMapController controller;
 
   @override
+  void didUpdateWidget(covariant ClusterizedMapBody oldWidget) {
+    wm.updateMapObjects(widget.shopList);
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    debugPrint('shopList.len: ${widget.shopList.length}');
     return Stack(
       children: [
         Container(
@@ -56,12 +53,16 @@ class _ClusterizedPlacemarkCollectionExampleState
             ),
           ),
           child: YandexMap(
-            mapObjects: mapObjects,
+            mapObjects: wm.mapObjectList,
             onMapCreated: (yandexMapController) {
               if (!mapCompleter.isCompleted) {
                 mapCompleter.complete(yandexMapController);
+                wm.setMapController(yandexMapController);
+                // wm.setCenterOnShops();
               }
             },
+            // onMapCreated:
+            //     !mapCompleter.isCompleted ? mapCompleter.complete : null,
           ),
         ),
         FutureBuilder<YandexMapController>(
@@ -77,19 +78,13 @@ class _ClusterizedPlacemarkCollectionExampleState
                       bottom: 60,
                     ),
                     child: ClusterizedMapButtons(
-                      shopList: widget.shopList,
                       mapController: snapshot.data!,
-                      callback: (newMapObjects) => setState(
-                        () => mapObjects = newMapObjects,
-                      ),
                     ),
                   ),
                 ),
               );
             } else {
-              return Container(
-                color: Colors.white,
-              );
+              return Container();
             }
           },
         ),
@@ -100,18 +95,13 @@ class _ClusterizedPlacemarkCollectionExampleState
 
 class ClusterizedMapButtons extends CoreMwwmWidget<ClusterizedMapButtonsWM> {
   final YandexMapController mapController;
-  final void Function(List<MapObject> mapObjects) callback;
 
   ClusterizedMapButtons({
     required this.mapController,
-    required this.callback,
-    required List<ShopModel> shopList,
     Key? key,
   }) : super(
           widgetModelBuilder: (context) => ClusterizedMapButtonsWM(
             mapController: mapController,
-            callback: callback,
-            shopList: shopList,
           ),
           key: key,
         );

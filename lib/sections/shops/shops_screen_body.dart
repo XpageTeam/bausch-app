@@ -3,6 +3,7 @@ import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/shops/clusterized_map_body.dart';
 import 'package:bausch/sections/shops/cubits/page_switcher_cubit/page_switcher_cubit_cubit.dart';
+import 'package:bausch/sections/shops/placemark_map.dart';
 import 'package:bausch/sections/shops/test_map.dart';
 import 'package:bausch/sections/shops/widgets/address_switcher.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
@@ -160,7 +161,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
               filterList: filterList,
             ),
           ),
-
+          // Expanded(child: PlacemarkPage()),
           // С фильтром
           Expanded(
             child: BlocBuilder<ShopFilterBloc, ShopFilterState>(
