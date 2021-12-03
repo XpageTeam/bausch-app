@@ -35,7 +35,7 @@ class MainNavigation extends StatelessWidget {
           //   break;
 
           case '/profile':
-            page = const ProfileScreen();
+            page = ProfileScreen();
             break;
 
           case '/profile_settings':
