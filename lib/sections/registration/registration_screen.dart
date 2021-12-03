@@ -77,20 +77,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomCheckbox(
-                    value: isAgree,
-                    onChanged: (val) {
-                      setState(
-                        () {
-                          isAgree = val!;
-                        },
-                      );
-                    },
+                  Transform.translate(
+                    offset: const Offset(
+                      -11,
+                      -11,
+                    ),
+                    child: CustomCheckbox(
+                      value: isAgree,
+                      onChanged: (val) {
+                        setState(
+                          () {
+                            isAgree = val!;
+                          },
+                        );
+                      },
+                    ),
                   ),
                   Flexible(
-                    child: Text(
-                      'Я соглашаюсь с Условиями обработки персональных данных и Правилами программы',
-                      style: AppStyles.p1,
+                    child: Transform.translate(
+                      offset: const Offset(
+                        -11,
+                        0,
+                      ),
+                      child: Text(
+                        'Я соглашаюсь с Условиями обработки персональных данных и Правилами программы',
+                        style: AppStyles.p1,
+                      ),
                     ),
                   ),
                 ],
