@@ -46,7 +46,7 @@ class WideContainerWithItems extends StatelessWidget {
                   ),
                   Image.asset(
                     sheetModel.img ?? 'assets/webinar-rec.png',
-                    height: 40,
+                    height: 45,
                   ),
                 ],
               ),

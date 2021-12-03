@@ -1,6 +1,7 @@
 import 'package:bausch/models/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:flutter/material.dart';
@@ -123,6 +124,46 @@ class TopSection extends StatelessWidget {
             ],
           ),
           appBar,
+          Positioned(
+            top: 16,
+            left: 12,
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(12, 4, 20, 4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.sulu,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    'Не хватает 2000',
+                    style: AppStyles.h2,
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Transform.translate(
+                    offset: const Offset(18, 0),
+                    child: const CircleAvatar(
+                      backgroundColor: AppTheme.turquoiseBlue,
+                      child: Center(
+                        child: Text(
+                          'б',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: AppTheme.mineShaft,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -27,12 +27,12 @@ class MainNavigation extends StatelessWidget {
 
         switch (settings.name) {
           case '/':
-            page = const HomeScreen();
+            page = const LoadingScreen();
             break;
 
-          // case '/home':
-          //   page = const HomeScreen();
-          //   break;
+          case '/home':
+            page = const HomeScreen();
+            break;
 
           case '/profile':
             page = ProfileScreen();

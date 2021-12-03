@@ -43,7 +43,7 @@ class SmallContainer extends StatelessWidget {
               AutoSizeText(
                 sheetModel.title,
                 style: AppStyles.h1,
-                maxLines: 2,
+                maxLines: 3,
                 overflow: TextOverflow.visible,
               ),
               Row(
@@ -58,7 +58,7 @@ class SmallContainer extends StatelessWidget {
                     padding: const EdgeInsets.all(6.6),
                     child: Image.asset(
                       sheetModel.img!,
-                      height: 50,
+                      height: 53,
                     ),
                   ),
                 ],

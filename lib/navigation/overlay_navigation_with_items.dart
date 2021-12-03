@@ -33,6 +33,8 @@ class OverlayNavigationWithItems extends StatelessWidget {
       onGenerateRoute: (settings) {
         Widget page;
 
+        debugPrint(settings.name);
+
         switch (settings.name) {
           case '/':
             page = SheetScreen(
