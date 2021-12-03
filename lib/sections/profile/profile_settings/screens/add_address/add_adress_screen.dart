@@ -11,6 +11,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/AddressEditForm/bloc/Dadata/dadata_bloc.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
@@ -68,30 +69,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
             DefaultTextInput(
               labelText: 'Поиск адреса',
               controller: controller,
-              // onChanged: (s) {
-              //   setState(
-              //     () {
-              //       filteredList.clear();
-              //       for (var i = 0; i < Adresses.streets.length; i++) {
-              //         final str = Adresses.adresses[i].street.toLowerCase();
-              //         if (str.contains(s.toLowerCase())) {
-              //           filteredList.add(Adresses.adresses[i]);
-              //         }
-              //       }
-              //     },
-              //   );
-              // },
-              onChanged: (str) {
-                if (mounted && str.isNotEmpty) {
-                  if (timer?.isActive ?? false) {
-                    timer?.cancel();
-                  }
-                  timer = Timer(const Duration(seconds: 1), () {
-                    debugPrint(str);
-                    dadataBloc.add(DadataChangeText(text: str));
-                  });
-                }
-              },
+              onChanged: delayedSearch,
             ),
             BlocBuilder<DadataBloc, DadataState>(
               bloc: dadataBloc,
@@ -100,49 +78,114 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                 if (state is DadataSuccess) {
                   //debugPrint(state.models[0].data.street);
                   return Flexible(
-                    child: AlphabetScrollView(
-                      list: state.models
-                          .map((e) => AlphaModel(
-                                '${e.data.street}, ${e.data.house}',
-                              ))
-                          .toList(),
-                      selectedTextStyle: AppStyles.h1,
-                      unselectedTextStyle: AppStyles.h2,
-                      itemExtent: 60,
-                      itemBuilder: (context, i, str) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
+                    child: ListView.separated(
+                      itemBuilder: (context, i) {
+                        return Padding(
+                          padding: EdgeInsets.only(top: i == 0 ? 30 : 0),
+                          child: SizedBox(
+                            height: 30,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(5),
                               onTap: () {
-                                Keys.mainContentNav.currentState!.pushNamed(
-                                  '/add_details',
-                                  arguments: AddDetailsArguments(
-                                    adress: AdressModel(
-                                      street: state.models[i].data.street,
-                                      house: state.models[i].data.house,
+                                if (state.models[i].data.house.isNotEmpty) {
+                                  showModalBottomSheet<void>(
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
-                                    isFirstLaunch: true,
-                                  ),
-                                );
+                                    builder: (context) {
+                                      return CustomAlertDialog(
+                                        text: 'Добавить выбранный адрес?',
+                                        yesCallback: () {
+                                          Navigator.of(context).pop();
+
+                                          Keys.mainContentNav.currentState!
+                                              .pushNamed(
+                                            '/add_details',
+                                            arguments: AddDetailsArguments(
+                                              adress: AdressModel(
+                                                street:
+                                                    state.models[i].data.street,
+                                                house:
+                                                    state.models[i].data.house,
+                                              ),
+                                              isFirstLaunch: true,
+                                            ),
+                                          );
+                                        },
+                                        noCallback: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  controller.text = state.models[i].data.street;
+                                  delayedSearch(
+                                    '${state.models[i].data.street}, ',
+                                  );
+                                }
                               },
-                              child: Text(
-                                str,
-                                style: AppStyles.h2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.models[i].data.house.isNotEmpty
+                                        ? '${state.models[i].data.street}, ${state.models[i].data.house}'
+                                        : state.models[i].data.street,
+                                    style: AppStyles.h2,
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         );
                       },
+                      separatorBuilder: (context, i) {
+                        return const SizedBox(
+                          height: 30,
+                        );
+                      },
+                      itemCount: state.models.length,
+                      physics: const BouncingScrollPhysics(),
                     ),
                   );
                 }
-                return const AnimatedLoader();
+                if (state is DadataInitial) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Text(
+                      'Начните вводить адрес',
+                      style: AppStyles.h2,
+                    ),
+                  );
+                }
+                return const Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: AnimatedLoader(),
+                );
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  void delayedSearch(String str) {
+    if (str.isNotEmpty) {
+      if (mounted) {
+        if (timer?.isActive ?? false) {
+          timer?.cancel();
+        }
+        timer = Timer(const Duration(seconds: 1), () {
+          debugPrint(str);
+          dadataBloc.add(DadataChangeText(text: str));
+        });
+      }
+    } else {
+      dadataBloc.add(DadataSetEmptyField());
+    }
   }
 }

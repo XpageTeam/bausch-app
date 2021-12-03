@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   final VoidCallback yesCallback;
-  final VoidCallback noCallback;
+  final VoidCallback? noCallback;
+  final String? text;
   const CustomAlertDialog({
     required this.yesCallback,
-    required this.noCallback,
+    this.noCallback,
+    this.text,
     Key? key,
   }) : super(key: key);
 
@@ -38,7 +40,7 @@ class CustomAlertDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: Text(
-                'Удалить адрес?',
+                text ?? 'Удалить адрес?',
                 style: AppStyles.h1,
               ),
             ),
@@ -49,25 +51,26 @@ class CustomAlertDialog extends StatelessWidget {
             const SizedBox(
               height: 4,
             ),
-            SizedBox(
-              height: 60,
-              //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
-              child: TextButton(
-                onPressed: noCallback,
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Нет',
-                      style: AppStyles.h2,
-                    ),
-                  ],
+            if (noCallback != null)
+              SizedBox(
+                height: 60,
+                //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
+                child: TextButton(
+                  onPressed: noCallback,
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Нет',
+                        style: AppStyles.h2,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),

@@ -7,3 +7,5 @@ class DadataChangeText extends DadataEvent {
 
   DadataChangeText({required this.text});
 }
+
+class DadataSetEmptyField extends DadataEvent {}

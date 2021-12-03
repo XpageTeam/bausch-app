@@ -36,6 +36,8 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
       emit(DadataLoading());
       emit(await _sendRequest(event.text));
     });
+
+    on<DadataSetEmptyField>((event, emit) => emit(DadataInitial()));
   }
 
   // yield DadataLoading();
