@@ -1,5 +1,6 @@
 import 'package:bausch/models/sheets/sheet_with_items_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -56,20 +57,64 @@ class WideContainerWithItems extends StatelessWidget {
                 Center(
                   child: SizedBox(
                     height: 32,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i) {
-                        return Image.asset(
-                          children![i],
-                          width: 100,
-                        );
-                      },
-                      separatorBuilder: (context, i) {
-                        return const VerticalDivider();
-                      },
-                      itemCount: children!.length,
+                    child: Row(
+                      children: [
+                        Flexible(
+                          flex: 3,
+                          child: Image.asset(
+                            children![0],
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              color: AppTheme.mystic,
+                              width: 2,
+                              height: 32,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: Image.asset(
+                            children![1],
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              color: AppTheme.mystic,
+                              width: 2,
+                              height: 32,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: Image.asset(
+                            children![2],
+                          ),
+                        ),
+                      ],
                     ),
+                    // child: ListView.separated(
+                    //   shrinkWrap: true,
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   scrollDirection: Axis.horizontal,
+                    //   itemBuilder: (context, i) {
+                    //     return Image.asset(
+                    //       children![i],
+                    //       fit
+                    //     );
+                    //   },
+                    //   separatorBuilder: (context, i) {
+                    //     return const VerticalDivider(
+                    //       color: AppTheme.mystic,
+                    //       width: 2,
+                    //     );
+                    //   },
+                    //   itemCount: children!.length,
+                    // ),
                   ),
                 ),
             ],

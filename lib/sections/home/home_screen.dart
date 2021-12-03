@@ -10,6 +10,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
       extendBody: true,
+      appBar: const EmptyAppBar(),
       body: SafeArea(
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -181,6 +183,10 @@ class HomeScreen extends StatelessWidget {
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
+          icon: const Icon(
+            Icons.add,
+            // color: AppTheme.mineShaft,
+          ),
           onPressed: () {
             showSheetWithoutItems(context, Models.sheets[2]);
           },
