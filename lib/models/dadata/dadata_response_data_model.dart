@@ -13,7 +13,7 @@ class DadataResponseDataModel
   });
   factory DadataResponseDataModel.fromMap(Map<String, dynamic> map) {
     return DadataResponseDataModel(
-      street: map['street_with_type'] as String,
+      street: (map['street_with_type'] ?? '') as String,
       house: (map['house'] ?? '') as String,
       //streetType: (map['street_type'] ?? '') as String,
     );

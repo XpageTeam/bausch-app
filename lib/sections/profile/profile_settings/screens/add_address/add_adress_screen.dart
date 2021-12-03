@@ -34,8 +34,6 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
 
   Timer? timer;
 
-  List<AdressModel> filteredList = [];
-
   @override
   void dispose() {
     super.dispose();
@@ -80,67 +78,75 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                   return Flexible(
                     child: ListView.separated(
                       itemBuilder: (context, i) {
-                        return Padding(
-                          padding: EdgeInsets.only(top: i == 0 ? 30 : 0),
-                          child: SizedBox(
-                            height: 30,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(5),
-                              onTap: () {
-                                if (state.models[i].data.house.isNotEmpty) {
-                                  showModalBottomSheet<void>(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    builder: (context) {
-                                      return CustomAlertDialog(
-                                        text: 'Добавить выбранный адрес?',
-                                        yesCallback: () {
-                                          Navigator.of(context).pop();
+                        if (state.models[i].data.street.isNotEmpty) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: i == 0 ? 30 : 0),
+                            child: SizedBox(
+                              height: 30,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(5),
+                                onTap: () {
+                                  //* Если выбрал улицу без номера дома
+                                  if (state.models[i].data.house.isNotEmpty) {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      builder: (context) {
+                                        return CustomAlertDialog(
+                                          text:
+                                              'Добавить ${state.models[i].data.street}, ${state.models[i].data.house}?',
+                                          yesCallback: () {
+                                            Navigator.of(context).pop();
 
-                                          Keys.mainContentNav.currentState!
-                                              .pushNamed(
-                                            '/add_details',
-                                            arguments: AddDetailsArguments(
-                                              adress: AdressModel(
-                                                street:
-                                                    state.models[i].data.street,
-                                                house:
-                                                    state.models[i].data.house,
+                                            Keys.mainContentNav.currentState!
+                                                .pushNamed(
+                                              '/add_details',
+                                              arguments: AddDetailsArguments(
+                                                adress: AdressModel(
+                                                  street: state
+                                                      .models[i].data.street,
+                                                  house: state
+                                                      .models[i].data.house,
+                                                ),
+                                                isFirstLaunch: true,
                                               ),
-                                              isFirstLaunch: true,
-                                            ),
-                                          );
-                                        },
-                                        noCallback: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  controller.text = state.models[i].data.street;
-                                  delayedSearch(
-                                    '${state.models[i].data.street}, ',
-                                  );
-                                }
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    state.models[i].data.house.isNotEmpty
-                                        ? '${state.models[i].data.street}, ${state.models[i].data.house}'
-                                        : state.models[i].data.street,
-                                    style: AppStyles.h2,
-                                  ),
-                                ],
+                                            );
+                                          },
+                                          noCallback: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    //* Если выбрал и улицу, и дом
+                                    controller.text =
+                                        state.models[i].data.street;
+                                    delayedSearch(
+                                      '${state.models[i].data.street}, ',
+                                    );
+                                  }
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      state.models[i].data.house.isNotEmpty
+                                          ? '${state.models[i].data.street}, ${state.models[i].data.house}'
+                                          : state.models[i].data.street,
+                                      style: AppStyles.h2,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          return Container();
+                        }
                       },
                       separatorBuilder: (context, i) {
                         return const SizedBox(
@@ -185,7 +191,10 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
         });
       }
     } else {
-      dadataBloc.add(DadataSetEmptyField());
+      if (mounted) {
+        timer?.cancel();
+        dadataBloc.add(DadataSetEmptyField());
+      }
     }
   }
 }
