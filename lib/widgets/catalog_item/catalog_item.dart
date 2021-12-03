@@ -107,15 +107,16 @@ class CatalogItem extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: isProduct
-                    ? const DiscountInfo(text: '–500 ₽')
-                    : Image.asset(
-                        'assets/play-video.png',
-                        height: 28,
-                      ),
-              ),
+              if (sheetType != SheetWithItemsType.partners)
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: isProduct
+                      ? const DiscountInfo(text: '–500 ₽')
+                      : Image.asset(
+                          'assets/play-video.png',
+                          height: 28,
+                        ),
+                ),
             ],
           ),
         ),

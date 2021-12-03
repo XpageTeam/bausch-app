@@ -45,9 +45,17 @@ class BigCatalogItem extends StatelessWidget {
           const SizedBox(
             width: 4,
           ),
-          Image.asset(
-            model.img ?? 'assets/free-packaging.png',
-            height: 100,
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 100,
+              maxHeight: 100,
+            ),
+            child: AspectRatio(
+              aspectRatio: 100 / 100,
+              child: Image.asset(
+                model.img ?? 'assets/free-packaging.png',
+              ),
+            ),
           ),
         ],
       ),

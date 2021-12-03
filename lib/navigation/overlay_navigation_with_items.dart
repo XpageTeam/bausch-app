@@ -102,7 +102,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
           case '/verification_partners':
             page = WebinarVerification(
               controller: controller,
-              model: Models.items[2],
+              model: Models.partners[0],
               isWebinarScreen: false,
             );
             break;

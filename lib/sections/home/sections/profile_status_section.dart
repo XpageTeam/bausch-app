@@ -29,10 +29,10 @@ class ProfileStatus extends StatelessWidget {
                     'Саша',
                     style: AppStyles.h1,
                   ),
-                  // const CircleAvatar(
-                  //   radius: 5,
-                  //   backgroundColor: AppTheme.turquoiseBlue,
-                  // ),
+                  const CircleAvatar(
+                    radius: 5,
+                    backgroundColor: AppTheme.turquoiseBlue,
+                  ),
                   const SizedBox(
                     height: 24,
                     child: Icon(

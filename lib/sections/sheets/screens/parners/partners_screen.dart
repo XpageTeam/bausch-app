@@ -35,27 +35,33 @@ class PartnersScreen extends StatelessWidget {
         body: CustomScrollView(
           controller: controller,
           slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                top: 12,
-                left: 12,
-                right: 12,
-                bottom: 4,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    WhiteRoundedContainer(
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 12, right: 12, top: 12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                       child: Stack(
                         children: [
                           Column(
                             children: [
                               //* Проверка, растягивать ли изображение на всё доступное пространство
 
-                              Image.asset(
-                                'assets/temp/image.png',
-                                //height: null,
-                                fit: BoxFit.cover,
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(5),
+                                ),
+                                child: Image.asset(
+                                  'assets/temp/image.png',
+                                  //height: null,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               const SizedBox(
                                 height: 30,
@@ -86,19 +92,26 @@ class PartnersScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        const InfoSection(),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Warning.advertisment(),
+                        const SizedBox(
+                          height: 120,
+                        ),
+                      ],
                     ),
-                    const InfoSection(),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Warning.advertisment(),
-                    const SizedBox(
-                      height: 120,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
