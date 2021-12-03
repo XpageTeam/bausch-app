@@ -64,9 +64,7 @@ class _CityScreenState extends State<CityScreen> {
             Flexible(
               child: AlphabetScrollView(
                 itemExtent: 60,
-                list: controller.value.text.isEmpty
-                    ? Adresses.cities.map((e) => AlphaModel(e)).toList()
-                    : filteredList.map((e) => AlphaModel(e)).toList(),
+                list: Adresses.cities.map((e) => AlphaModel(e)).toList(),
                 selectedTextStyle: AppStyles.h1,
                 unselectedTextStyle: AppStyles.h2,
                 itemBuilder: (context, i, cityName) {

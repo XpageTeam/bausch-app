@@ -1,4 +1,5 @@
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
@@ -58,12 +59,21 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                       'assets/ochkov-net.png',
                       width: MediaQuery.of(context).size.width / 5,
                     ),
-                    Radio(
+                    // Radio(
+                    //   value: i,
+                    //   groupValue: _selectedIndex,
+                    //   onChanged: (v) {
+                    //     setState(() {
+                    //       _selectedIndex = v as int;
+                    //     });
+                    //   },
+                    // ),
+                    CustomRadio(
                       value: i,
                       groupValue: _selectedIndex,
                       onChanged: (v) {
                         setState(() {
-                          _selectedIndex = v as int;
+                          _selectedIndex = i;
                         });
                       },
                     ),

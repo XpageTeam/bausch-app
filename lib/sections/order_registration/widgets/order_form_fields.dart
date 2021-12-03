@@ -85,15 +85,15 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
             inputType: TextInputType.phone,
           ),
         ),
-        BlueButton(
-          onPressed: widget.onPressed,
-          children: [
-            Text(
-              'Готово',
-              style: AppStyles.h2Bold,
-            ),
-          ],
-        ),
+        // BlueButton(
+        //   onPressed: widget.onPressed,
+        //   children: [
+        //     Text(
+        //       'Готово',
+        //       style: AppStyles.h2Bold,
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

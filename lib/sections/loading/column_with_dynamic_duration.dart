@@ -12,72 +12,53 @@ class ColumnWithDynamicDuration extends StatelessWidget {
   Widget build(BuildContext context) {
     final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
 
-    return Column(
-      children: [
-        DelayedAnimatedTranslateOpacity(
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(
-              vertical: 30.sp,
-              horizontal: 18,
-            ),
-            child: Image.asset('assets/loading/logo.png'),
-          ),
-          offsetY: 20,
-        ),
-        Flexible(
-          child: IgnorePointer(
-            child: Center(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, i) {
-                  if (i == 0) {
-                    return DelayedAnimatedTranslateOpacity(
-                      offsetY: 20,
-                      delay: Duration(milliseconds: 200 + i * 400),
-                      child: WidgetConveyor(
-                        children: [
-                          SizedBox(
-                            width: spaceBetween,
-                          ),
-                          IntrinsicWidth(child: children[0]),
-                          SizedBox(
-                            width: spaceBetween,
-                          ),
-                          IntrinsicWidth(child: children[1]),
-                          SizedBox(
-                            width: spaceBetween,
-                          ),
-                          IntrinsicWidth(child: children[2]),
-                          SizedBox(
-                            width: spaceBetween,
-                          ),
-                          IntrinsicWidth(child: children[0]),
-                          SizedBox(
-                            width: spaceBetween,
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return DelayedAnimatedTranslateOpacity(
-                      offsetY: 20,
-                      child: children[i],
-                      delay: Duration(milliseconds: 200 + i * 400),
-                    );
-                  }
-                },
-                separatorBuilder: (context, i) {
-                  return SizedBox(
-                    height: spaceBetween,
-                  );
-                },
-                itemCount: children.length,
+    return IgnorePointer(
+      child: ListView.separated(
+        //shrinkWrap: true,
+        itemBuilder: (context, i) {
+          if (i == 1) {
+            return DelayedAnimatedTranslateOpacity(
+              offsetY: 20,
+              delay: Duration(milliseconds: 200 + i * 400),
+              child: WidgetConveyor(
+                children: [
+                  SizedBox(
+                    width: spaceBetween,
+                  ),
+                  IntrinsicWidth(child: children[1]),
+                  SizedBox(
+                    width: spaceBetween,
+                  ),
+                  IntrinsicWidth(child: children[2]),
+                  SizedBox(
+                    width: spaceBetween,
+                  ),
+                  IntrinsicWidth(child: children[3]),
+                  SizedBox(
+                    width: spaceBetween,
+                  ),
+                  IntrinsicWidth(child: children[1]),
+                  SizedBox(
+                    width: spaceBetween,
+                  ),
+                ],
               ),
-            ),
-          ),
-        ),
-      ],
+            );
+          } else {
+            return DelayedAnimatedTranslateOpacity(
+              offsetY: 20,
+              child: children[i],
+              delay: Duration(milliseconds: 200 + i * 400),
+            );
+          }
+        },
+        separatorBuilder: (context, i) {
+          return SizedBox(
+            height: i == 0 ? 80.sp : spaceBetween,
+          );
+        },
+        itemCount: children.length,
+      ),
     );
   }
 }

@@ -709,6 +709,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   text: _dialogConfig.dialogContent,
                   style: TextStyle(
                     color: Theme.of(context).textTheme.button!.color,
+                    fontFamily: 'Euclid Circular A',
                   ),
                   children: [
                     TextSpan(
@@ -736,6 +737,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   text: _dialogConfig.dialogContent,
                   style: TextStyle(
                     color: Theme.of(context).textTheme.button!.color,
+                    fontFamily: 'Euclid Circular A',
                   ),
                   children: [
                     TextSpan(

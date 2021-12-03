@@ -19,6 +19,7 @@ class AppTheme {
           isDense: true,
           border: InputBorder.none,
         ),
+        fontFamily: 'Euclid Circular A',
 
         scaffoldBackgroundColor: mystic,
 

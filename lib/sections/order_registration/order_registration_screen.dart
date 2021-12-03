@@ -81,7 +81,7 @@ class OrderRegistrationScreen extends StatelessWidget {
             children: [
               //* Область со списком заказанных продуктов
               OrderItemsSection(
-                orderItemList: OrderItem.generateList(),
+                orderItemList: OrderItem.generateList(1),
               ),
 
               //* Область "Получатель"
