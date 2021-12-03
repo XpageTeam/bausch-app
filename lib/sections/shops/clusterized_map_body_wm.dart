@@ -14,6 +14,7 @@ class ClusterizedMapBodyWM extends WidgetModel {
     'baush',
   );
   List<MapObject> mapObjectList = [];
+  final mapObjectsStreamed = StreamedState<List<MapObject>>(<MapObject>[]);
 
   ClusterizedPlacemarkCollection? currentPlacemarks;
   YandexMapController? mapController;
@@ -31,10 +32,6 @@ class ClusterizedMapBodyWM extends WidgetModel {
   }
 
   Future<void> updateMapObjects(List<ShopModel> shopList) async {
-    if (mapObjectList.any((el) => el.mapId == mapId)) {
-      return;
-    }
-
     final placemarkCollection = ClusterizedPlacemarkCollection(
       mapId: mapId,
       radius: 35,
@@ -65,6 +62,7 @@ class ClusterizedMapBodyWM extends WidgetModel {
           return Placemark(
             onTap: (placemark, point) {
               mapObjectList.clear();
+              mapObjectsStreamed.accept(mapObjectList);
             },
             opacity: 1,
             mapId: MapObjectId('placemark_${shopList[i].coords}'),
@@ -80,7 +78,6 @@ class ClusterizedMapBodyWM extends WidgetModel {
           );
         },
       ),
-      // onTap: (self, point) => debugPrint('Tapped me at $point'),
     );
 
     // Эта проверка нужна потому, что на карте оставались метки
@@ -89,7 +86,70 @@ class ClusterizedMapBodyWM extends WidgetModel {
     } else {
       mapObjectList = [placemarkCollection];
     }
+
+    mapObjectsStreamed.accept(mapObjectList);
   }
+
+  // Future<void> updateMapObjects(List<ShopModel> shopList) async {
+  //   if (mapObjectList.any((el) => el.mapId == mapId)) {
+  //     return;
+  //   }
+
+  //   final placemarkCollection = ClusterizedPlacemarkCollection(
+  //     mapId: mapId,
+  //     radius: 35,
+  //     minZoom: 15,
+  //     onClusterAdded: (
+  //       self,
+  //       cluster,
+  //     ) async {
+  //       return cluster.copyWith(
+  //         appearance: cluster.appearance.copyWith(
+  //           opacity: 0.75,
+  //           icon: PlacemarkIcon.single(
+  //             PlacemarkIconStyle(
+  //               image: BitmapDescriptor.fromBytes(
+  //                 await _buildClusterAppearance(cluster),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //     onClusterTap: (self, cluster) {
+  //       debugPrint('Tapped cluster');
+  //     },
+  //     placemarks: List<Placemark>.generate(
+  //       shopList.length,
+  //       (i) {
+  //         return Placemark(
+  //           onTap: (placemark, point) {
+  //             mapObjectList.clear();
+  //           },
+  //           opacity: 1,
+  //           mapId: MapObjectId('placemark_${shopList[i].coords}'),
+  //           point: shopList[i].coords!,
+  //           icon: PlacemarkIcon.single(
+  //             PlacemarkIconStyle(
+  //               scale: 1,
+  //               image: BitmapDescriptor.fromAssetImage(
+  //                 'assets/icons/map-marker.png',
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //     // onTap: (self, point) => debugPrint('Tapped me at $point'),
+  //   );
+
+  //   // Эта проверка нужна потому, что на карте оставались метки
+  //   if (shopList.isEmpty) {
+  //     mapObjectList = [];
+  //   } else {
+  //     mapObjectList = [placemarkCollection];
+  //   }
+  // }
 
   // void setCenterOnShops() {
   //   if (currentPlacemarks != null && mapController != null) {
