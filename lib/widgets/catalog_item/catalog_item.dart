@@ -9,10 +9,12 @@ class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
   final VoidCallback? onTap;
   final bool isProduct;
+  final SheetWithItemsType sheetType;
   const CatalogItem({
     required this.model,
     required this.isProduct,
     this.onTap,
+    this.sheetType = SheetWithItemsType.packaging,
     Key? key,
   }) : super(key: key);
 
@@ -41,7 +43,9 @@ class CatalogItem extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      if (isProduct)
+                      if ((sheetType == SheetWithItemsType.discountOnline) ||
+                          (sheetType == SheetWithItemsType.discountOptics) ||
+                          (sheetType == SheetWithItemsType.packaging))
                         SizedBox(
                           height: 100,
                           child: AspectRatio(
@@ -51,10 +55,26 @@ class CatalogItem extends StatelessWidget {
                             ),
                           ),
                         )
-                      else
+                      else if (sheetType == SheetWithItemsType.webinar)
                         AspectRatio(
                           aspectRatio: 174 / 112,
                           child: Image.asset('assets/woman.png'),
+                        )
+                      else
+                        SizedBox(
+                          height: 100,
+                          child: AspectRatio(
+                            aspectRatio: 174 / 112,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 10,
+                              ),
+                              child: Image.asset(
+                                model.img ?? 'assets/free-packaging.png',
+                              ),
+                            ),
+                          ),
                         ),
                       const SizedBox(
                         height: 8,

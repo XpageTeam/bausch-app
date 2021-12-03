@@ -74,7 +74,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
           case '/partners':
             page = PartnersScreen(
               controller: controller,
-              model: Models.items[2],
+              model: Models.partners[0],
             );
             break;
 

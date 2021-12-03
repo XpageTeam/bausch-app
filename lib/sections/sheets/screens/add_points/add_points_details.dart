@@ -96,12 +96,13 @@ class AddPointsDetails extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        const FocusButton(labelText: 'Привязать аккаунт'),
+                        if (model.type == 'vk')
+                          const FocusButton(labelText: 'Привязать аккаунт'),
                         const SizedBox(
                           height: 4,
                         ),
                         BlueButtonWithText(
-                          text: 'Привязать аккаунт',
+                          text: buttonText(model.type!),
                           onPressed: () {
                             Keys.bottomSheetWithoutItemsNav.currentState!
                                 .pushNamed('/final_addpoints');
@@ -134,5 +135,19 @@ class AddPointsDetails extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
+  }
+
+  String buttonText(String type) {
+    if (type == 'vk') {
+      return 'Привязать аккаунт';
+    } else if (type == 'friend') {
+      return 'Отправить ссылку';
+    } else if (type == 'overview_social') {
+      return 'Прикрепить скриншот';
+    } else if (type == 'overview') {
+      return 'Отправить ссылку';
+    } else {
+      return 'Далее';
+    }
   }
 }

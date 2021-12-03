@@ -45,14 +45,16 @@ class Models {
       price: '1300',
       img: 'assets/items/item1.png',
       address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
-      deliveryInfo: 'Ещё пару дней...',
+      deliveryInfo: 'Если нет, напишите сюда',
+      status: 'Доставлен. ',
     ),
     CatalogItemModel(
       name: '2. Biotrue one day (30 линз в упаковке)',
       price: '600',
       img: 'assets/items/item2.png',
       address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
-      deliveryInfo: 'Ещё пару дней...',
+      deliveryInfo: '',
+      status: 'Отправлен',
     ),
     CatalogItemModel(
       name: '3. Раствор',
@@ -65,7 +67,8 @@ class Models {
       price: '1300',
       img: 'assets/items/item1.png',
       address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
-      deliveryInfo: 'Ещё пару дней...',
+      deliveryInfo: '',
+      status: 'Отправлен',
     ),
     CatalogItemModel(
       name: '5. Раствор',
@@ -107,6 +110,33 @@ class Models {
     ),
   ];
 
+  static List<CatalogItemModel> partners = [
+    CatalogItemModel(
+      name: 'Подписка на онлайн-кинотеатр ',
+      price: '50',
+      img: 'assets/temp/logos/1.png',
+      type: ItemType.webinar,
+    ),
+    CatalogItemModel(
+      name: 'Подписка на онлайн-библиотеку',
+      price: '50',
+      img: 'assets/temp/logos/2.png',
+      type: ItemType.webinar,
+    ),
+    CatalogItemModel(
+      name: 'Скидка 500 р. в интернет-оптике Inoptika',
+      price: '50',
+      img: 'assets/temp/logos/3.png',
+      type: ItemType.webinar,
+    ),
+    CatalogItemModel(
+      name: 'Скидка 500 р. в интернет-оптике NetOptika',
+      price: '50',
+      img: 'assets/temp/logos/4.png',
+      type: ItemType.webinar,
+    ),
+  ];
+
   static List<SheetModelWithItems> sheetsWithItems = [
     SheetModelWithItems(
       title: 'Скидка 500р в оптике',
@@ -123,7 +153,7 @@ class Models {
     SheetModelWithItems(
       title: 'Предложения от партнеров',
       img: 'assets/offers-from-partners.png',
-      models: items,
+      models: partners,
       type: SheetWithItemsType.partners,
     ),
     SheetModelWithItems(
@@ -165,6 +195,7 @@ class Models {
           'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
       price: '100',
       img: 'assets/add_points_vk.png',
+      type: 'vk',
     ),
     AddItemModel(
       title: 'Пригласите друга',
@@ -172,6 +203,7 @@ class Models {
           'Пользуйтесь преимуществами программы лояльности вместе! Отправьте ссылку на регистрацию вашему другу и получите 100 баллов',
       price: '100',
       img: 'assets/add_points_vk.png',
+      type: 'friend',
     ),
     AddItemModel(
       title: 'Написать отзыв в соцсетях',
@@ -179,6 +211,7 @@ class Models {
           'Опубликуйте отзыв c фотографией продукции Bausch+Lomb, пришлите нам подтверждение и получите дополнительные 100 баллов!',
       price: '100',
       img: 'assets/add_points_vk.png',
+      type: 'overview_social',
     ),
     AddItemModel(
       title: 'Пройти опрос',
@@ -194,6 +227,7 @@ class Models {
           'Опубликуйте отзыв о продукции Bausch+Lomb или о преимуществах участия в Программе лояльности, пришлите нам подтверждение и получите дополнительные 50 баллов!',
       price: '50',
       img: 'assets/add_points_vk.png',
+      type: 'overview',
     ),
     AddItemModel(
       title: 'Баллы в день рождения',

@@ -7,6 +7,7 @@ class CatalogItemModel implements MappableInterface<CatalogItemModel> {
   final String price;
   final String? address;
   final String? deliveryInfo;
+  final String? status;
   final ItemType? type;
 
   CatalogItemModel({
@@ -15,6 +16,7 @@ class CatalogItemModel implements MappableInterface<CatalogItemModel> {
     this.type = ItemType.product,
     this.address,
     this.img,
+    this.status,
     this.deliveryInfo,
   });
 

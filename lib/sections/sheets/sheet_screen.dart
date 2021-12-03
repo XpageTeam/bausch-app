@@ -77,6 +77,7 @@ class SheetScreen extends StatelessWidget {
                         CatalogItem(
                           //context,
                           model: sheetModel.models![i * 2],
+                          sheetType: sheetModel.type,
                           isProduct:
                               sheetModel.type != SheetWithItemsType.webinar
                                   ? true
@@ -90,6 +91,7 @@ class SheetScreen extends StatelessWidget {
                           CatalogItem(
                             //context,
                             model: sheetModel.models![i * 2 + 1],
+                            sheetType: sheetModel.type,
                             isProduct:
                                 sheetModel.type != SheetWithItemsType.webinar
                                     ? true

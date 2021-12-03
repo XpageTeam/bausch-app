@@ -37,7 +37,12 @@ class FinalFreePackaging extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(icon: Container(), key: key),
+                    CustomSliverAppbar.toPop(
+                      icon: Container(),
+                      key: key,
+                      backgroundColor: Colors.white,
+                      rightKey: Keys.mainNav,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
@@ -67,6 +72,25 @@ class FinalFreePackaging extends StatelessWidget {
                             style: AppStyles.p1,
                             text:
                                 'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextWithPoint(
+                            style: AppStyles.p1,
+                            text:
+                                'Когда груз будет скомплектован, на указанные в профиле номер телефона и e-mail придет трек-номер. ',
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextWithPoint(
+                            style: AppStyles.p1,
+                            text:
+                                'Обращаем внимание, что в общей сложности обработка и доставка заказа осуществляются в течение 60 рабочих дней.',
+                          ),
+                          const SizedBox(
+                            height: 40,
                           ),
                         ],
                       ),

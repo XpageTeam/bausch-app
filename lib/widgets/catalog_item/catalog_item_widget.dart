@@ -119,9 +119,9 @@ class CatalogItemWidget extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.battery_charging_full,
-                      color: AppTheme.mineShaft,
+                    Image.asset(
+                      'assets/substract.png',
+                      height: 15,
                     ),
                     const SizedBox(
                       width: 4,
@@ -129,7 +129,7 @@ class CatalogItemWidget extends StatelessWidget {
                     Flexible(
                       child: Text.rich(
                         TextSpan(
-                          text: 'Ещё пару дней. ',
+                          text: model.status,
                           style: AppStyles.p1,
                           children: [
                             TextSpan(
