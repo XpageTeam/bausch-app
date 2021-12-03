@@ -7,7 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BottomButtonWithRoundedCorners extends StatelessWidget {
-  const BottomButtonWithRoundedCorners({Key? key}) : super(key: key);
+  final String? text;
+  const BottomButtonWithRoundedCorners({
+    this.text,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,8 @@ class BottomButtonWithRoundedCorners extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             CustomFloatingActionButton(
-              text: 'На главную',
+              text: text ?? 'На главную',
+              icon: Container(),
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     '/', (Route<dynamic> route) => false);

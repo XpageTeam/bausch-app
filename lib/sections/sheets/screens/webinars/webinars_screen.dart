@@ -6,6 +6,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
 //catalog_webinar
@@ -55,30 +56,20 @@ class WebinarsScreen extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Перейти к просмотру',
-                onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_webinar');
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Перейти к просмотру',
+          icon: Container(),
+          onPressed: () {
+            Keys.bottomSheetItemsNav.currentState!
+                .pushNamed('/verification_webinar');
 
-                  // showDialog<void>(
-                  //   context: Keys.bottomSheetItemsNav.currentContext!,
-                  //   builder: (context) {
-                  //     return const DialogWithPlayers();
-                  //   },
-                  // );
-                },
-              ),
-            ),
-            const InfoBlock(),
-          ],
+            // showDialog<void>(
+            //   context: Keys.bottomSheetItemsNav.currentContext!,
+            //   builder: (context) {
+            //     return const DialogWithPlayers();
+            //   },
+            // );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

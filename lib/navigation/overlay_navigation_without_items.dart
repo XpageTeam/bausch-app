@@ -6,7 +6,9 @@ import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
+import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +80,7 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
             break;
 
           case '/final_consultation':
-            page = FinalConsultation(
+            page = FinalDiscountOptics(
               controller: controller,
               model: Models.items[2],
             );

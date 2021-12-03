@@ -97,6 +97,7 @@ class WebinarVerification extends StatelessWidget {
         ),
         floatingActionButton: CustomFloatingActionButton(
           text: 'Потратить баллы',
+          icon: Container(),
           onPressed: () {
             if (isWebinarScreen) {
               Keys.bottomSheetItemsNav.currentState!

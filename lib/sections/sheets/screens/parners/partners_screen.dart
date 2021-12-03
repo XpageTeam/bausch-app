@@ -61,6 +61,7 @@ class PartnersScreen extends StatelessWidget {
         ),
         floatingActionButton: CustomFloatingActionButton(
           text: 'Получить поощрение',
+          icon: Container(),
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
               '/verification_partners',

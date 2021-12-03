@@ -96,15 +96,31 @@ class _SurveyScreenState extends State<SurveyScreen> {
                         ),
                       ),
                     if (page != 1)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: StaticData.sidePadding,
-                        ),
-                        child: Text(
-                          widget.model.title,
-                          style: AppStyles.h2,
-                          textAlign: TextAlign.center,
-                        ),
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          CustomSliverAppbar.toPop(
+                            backgroundColor: Colors.white,
+                            icon: Container(),
+                            key: widget.key,
+                            rightKey: Keys.bottomSheetWithoutItemsNav,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: StaticData.sidePadding,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  widget.model.title,
+                                  style: AppStyles.h2,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     SizedBox(
                       height: 27,

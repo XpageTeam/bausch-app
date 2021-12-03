@@ -33,10 +33,11 @@ class CustomFloatingActionButton extends StatelessWidget {
             ),
             child: BlueButtonWithText(
               text: text,
-              icon: const Icon(
-                Icons.add,
-                color: AppTheme.mineShaft,
-              ),
+              icon: icon ??
+                  const Icon(
+                    Icons.add,
+                    color: AppTheme.mineShaft,
+                  ),
               onPressed: onPressed,
             ),
           ),

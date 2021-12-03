@@ -1,7 +1,10 @@
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
+import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
@@ -10,6 +13,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
+import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 
 //Program
@@ -71,11 +75,58 @@ class _ProgramScreenState extends State<ProgramScreen> {
                         text: 'В программе участвуют: ',
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Text(
+                      'Важно знать перед подбором',
+                      style: AppStyles.h1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
                         bottom: 40,
+                        top: 20,
                       ),
-                      child: InfoSection(),
+                      child: WhiteRoundedContainer(
+                        child: Column(
+                          children: [
+                            TextWithPoint(
+                              text:
+                                  'Перед подбором контактных линз проверка зрения обязательна.',
+                              style: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Бесплатная пара выдается оптикой при отсутствии медицинских противопоказаний.',
+                              style: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Надеть первую бесплатную пару линз вам поможет специалист. Подарочные линзы не выдаются в блистерной упаковке.',
+                              style: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Бесплатная пара выдается оптикой в случае наличия подходящих диоптрий.Если вы младше 18 лет, может потребоваться присутствие родителя.',
+                              style: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Дополнительные услуги, не входящие в сертификат, могут быть платными, уточняйте условия в оптике.',
+                              style: AppStyles.p1,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -119,7 +170,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                         bottom: 20,
                       ),
                       child: Text(
-                        'Оформляли ли вы Сертификат на бесплатную пару линз Bausch+Lomb?',
+                        'Чем пользуетесь для коррекции зрения',
                         style: AppStyles.h1,
                       ),
                     ),
@@ -155,7 +206,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                           children: [
                             Flexible(
                               child: Text(
-                                'Контактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+Lomb ',
+                                Models.whatYouUse[index],
                                 style: AppStyles.h3,
                                 maxLines: 3,
                               ),
@@ -176,7 +227,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                       ),
                     ),
                   ),
-                  childCount: 5,
+                  childCount: Models.whatYouUse.length,
                 ),
               ),
             ),
@@ -190,7 +241,24 @@ class _ProgramScreenState extends State<ProgramScreen> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const WhiteButton(text: 'Выбрать оптику'),
+                    WhiteButton(
+                      text: 'Выбрать оптику',
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/map-marker.png',
+                          height: 16,
+                        ),
+                      ),
+                      onPressed: () {
+                        Keys.mainNav.currentState!
+                            .push<void>(MaterialPageRoute(builder: (context) {
+                          return const ShopsScreen();
+                        }));
+                      },
+                    ),
                     const SizedBox(
                       height: 160,
                     ),

@@ -41,7 +41,7 @@ class FinalFreePackaging extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        'Заказ оформлен',
+                        'Заказ успешно оформлен',
                         style: AppStyles.h2,
                       ),
                     ),

@@ -185,7 +185,7 @@ class HomeScreen extends StatelessWidget {
           text: 'Добавить баллы',
           icon: const Icon(
             Icons.add,
-            // color: AppTheme.mineShaft,
+            color: AppTheme.mineShaft,
           ),
           onPressed: () {
             showSheetWithoutItems(context, Models.sheets[2]);

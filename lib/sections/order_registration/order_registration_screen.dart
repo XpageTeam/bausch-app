@@ -28,13 +28,13 @@ class OrderRegistrationScreen extends StatelessWidget {
         title: 'Оформление заказа',
 
         //* Кнопка "Настройки"
-        topRightWidget: NormalIconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.settings,
-            color: AppTheme.mineShaft,
-          ),
-        ),
+        // topRightWidget: NormalIconButton(
+        //   onPressed: () {},
+        //   icon: const Icon(
+        //     Icons.settings,
+        //     color: AppTheme.mineShaft,
+        //   ),
+        // ),
 
         //* Кнопка "Готово"
         // topRightWidget: TextButton(
