@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iphone_has_notch/iphone_has_notch.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -56,7 +57,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       86.sp -
                       spaceBetween -
                       80.sp -
-                      114.sp,
+                      114.sp + (IphoneHasNotch.hasNotch ? 40.sp : 0.sp),
                   //height: 400.sp,
                 ),
               ],

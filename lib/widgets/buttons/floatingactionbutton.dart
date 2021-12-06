@@ -21,46 +21,48 @@ class CustomFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.mystic,
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: StaticData.sidePadding,
-              right: StaticData.sidePadding,
-              top: topPadding ?? 0,
+      child: SafeArea(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                left: StaticData.sidePadding,
+                right: StaticData.sidePadding,
+                top: topPadding ?? 0,
+              ),
+              child: BlueButtonWithText(
+                text: text,
+                icon: icon ??
+                    const Icon(
+                      Icons.add,
+                      color: AppTheme.mineShaft,
+                    ),
+                onPressed: onPressed,
+              ),
             ),
-            child: BlueButtonWithText(
-              text: text,
-              icon: icon ??
-                  const Icon(
-                    Icons.add,
-                    color: AppTheme.mineShaft,
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 12,
+              ),
+              color: AppTheme.mystic,
+              child: Center(
+                child: Text(
+                  'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppTheme.grey,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.sp,
+                    height: 16 / 14,
                   ),
-              onPressed: onPressed,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 12,
-            ),
-            color: AppTheme.mystic,
-            child: Center(
-              child: Text(
-                'Имеются противопоказания, необходимо проконсультироваться со специалистом',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppTheme.grey,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14.sp,
-                  height: 16 / 14,
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
