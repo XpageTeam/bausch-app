@@ -25,7 +25,7 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const EmptyAppBar(),
+        const NewEmptyAppBar(),
         SafeArea(
           bottom: false,
           child: Material(
@@ -36,7 +36,7 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Navigator.of(context).canPop() != false //!
+                    child: Navigator.of(context).canPop()
                         ? Align(
                             alignment: Alignment.centerLeft,
                             child: NormalIconButton(
@@ -64,7 +64,9 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                   Expanded(
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: topRightWidget != null ? topRightWidget! : Container(),
+                      child: topRightWidget != null
+                          ? topRightWidget!
+                          : Container(),
                     ),
                   ),
                 ],

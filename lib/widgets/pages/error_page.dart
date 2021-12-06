@@ -23,7 +23,7 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      appBar: const EmptyAppBar(),
+      appBar: const NewEmptyAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,

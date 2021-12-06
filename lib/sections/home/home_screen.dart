@@ -1,4 +1,5 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
@@ -24,9 +25,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
-
       extendBody: true,
-      primary: false,
+      // Из-за этого свойства не работает перекраска иконок на статусбаре
+      // при возвращении на эту страницу:)
+      // primary: false,
       appBar: const NewEmptyAppBar(
         scaffoldBgColor: AppTheme.mystic,
       ),
@@ -141,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        //const MayBeInteresting(),
+                        const MayBeInteresting(),
 
                         //* Текстовые кнопки(Частые вопросы и тд)
                         const TextButtonsSection(),
@@ -149,9 +151,9 @@ class HomeScreen extends StatelessWidget {
                           height: 100,
                         ),
                         Image.asset('assets/logo.png'),
-                        const SizedBox(
-                          height: 60,
-                        ),
+                        // const SizedBox(
+                        //   height: 60,
+                        // ),
                       ],
                     ),
                   ),

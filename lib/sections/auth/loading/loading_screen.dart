@@ -22,7 +22,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
-      appBar: const EmptyAppBar(
+      appBar: const NewEmptyAppBar(
         overlayStyle: SystemUiOverlayStyle.light,
       ),
       body: Stack(
