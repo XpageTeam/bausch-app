@@ -8,6 +8,7 @@ import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +24,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
+
       extendBody: true,
       primary: false,
+      appBar: const NewEmptyAppBar(
+        scaffoldBgColor: AppTheme.mystic,
+      ),
       // appBar: const EmptyAppBar(),
       body: SafeArea(
         child: StreamedStateBuilder<AuthStatus>(
@@ -33,7 +38,6 @@ class HomeScreen extends StatelessWidget {
             return CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
@@ -51,7 +55,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -77,7 +80,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -94,7 +96,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 20,

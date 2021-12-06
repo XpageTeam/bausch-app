@@ -34,9 +34,12 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
       child: StreamedStateBuilder<Color>(
         streamedState: wm.colorStreamed,
         builder: (_, color) => Scaffold(
-          appBar: const EmptyAppBar(
-              overlayStyle: SystemUiOverlayStyle.light,
-              ),
+          appBar: NewEmptyAppBar(
+            scaffoldBgColor: color,
+          ),
+          // const EmptyAppBar(
+          //     overlayStyle: SystemUiOverlayStyle.light,
+          //     ),
           backgroundColor: color,
           body: SizedBox.expand(
             child: Stack(
