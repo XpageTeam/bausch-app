@@ -2,11 +2,13 @@
 
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +103,10 @@ class _ProfileSettingsScreenState
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Container(), // TODO(Nikita): Вывести статус
+                    child: DiscountInfo(
+                      text: 'подтвердить',
+                      color: AppTheme.turquoiseBlue,
+                    ), // TODO(Nikita): Вывести статус
                   ),
                 ],
               ),
@@ -113,6 +118,10 @@ class _ProfileSettingsScreenState
                 controller: wm.phoneController,
                 inputType: TextInputType.phone,
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: const ProfileSettingsBanner(),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),

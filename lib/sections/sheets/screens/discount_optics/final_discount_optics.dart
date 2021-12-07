@@ -65,7 +65,9 @@ class FinalDiscountOptics extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(),
+        floatingActionButton: const BottomButtonWithRoundedCorners(
+          text: 'Скопировать и перейти на сайт',
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

@@ -6,6 +6,7 @@ import 'package:bausch/sections/home/widgets/containers/white_container_with_rou
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +76,7 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
                   ),
                   Image.network(
                     widget.model.icon,
-                    height: 40,
+                    height: 45,
                   ),
                 ],
               ),
@@ -86,19 +87,46 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
                 Center(
                   child: SizedBox(
                     height: 32,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i) {
-                        return Image.network(
-                          widget.model.logos![i],
-                          width: 100,
-                        );
-                      },
-                      separatorBuilder: (context, i) {
-                        return const VerticalDivider();
-                      },
-                      itemCount: widget.model.logos!.length,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          flex: 3,
+                          child: Image.network(
+                            widget.model.logos![0],
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              color: AppTheme.mystic,
+                              width: 2,
+                              height: 32,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: Image.network(
+                            widget.model.logos![1],
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              color: AppTheme.mystic,
+                              width: 2,
+                              height: 32,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: Image.network(
+                            widget.model.logos![2],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

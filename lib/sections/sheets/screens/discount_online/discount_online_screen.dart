@@ -11,6 +11,8 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 //catalog_discount_online_store
@@ -47,7 +49,11 @@ class DiscountOnlineScreen extends StatelessWidget
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.product(model, Container(), key),
+                    TopSection.product(
+                      model,
+                      const DiscountInfo(text: 'Скидка 500 ₽ '),
+                      key,
+                    ),
                     const SizedBox(
                       height: 4,
                     ),
@@ -57,18 +63,50 @@ class DiscountOnlineScreen extends StatelessWidget
                     const SizedBox(
                       height: 12,
                     ),
-                    LegalInfo(
-                      text: model.detailText,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
+                    // const LegalInfo(
+                    //   texts: [],
+                    // ),
+                    // const SizedBox(
+                    //   height: 40,
+                    // ),
+                    // Text(
+                    //   'Выбрать интернет-магазин',
+                    //   style: AppStyles.h2,
+                    // ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+            const SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                12,
+                StaticData.sidePadding,
+                40,
+              ),
+              sliver: LegalInfo(
+                texts: [
+                  'Перед заказом промокода на скидку необходимо проверить наличие продукта (на сайте и / или по контактному номеру телефона оптики).',
+                  'Срок действия промокода и количество промокодов ограничены. ',
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                20,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
                     Text(
                       'Выбрать интернет-магазин',
                       style: AppStyles.h2,
-                    ),
-                    const SizedBox(
-                      height: 20,
                     ),
                   ],
                 ),
@@ -88,6 +126,7 @@ class DiscountOnlineScreen extends StatelessWidget
                     Warning.warning(),
                     const Padding(
                       padding: EdgeInsets.only(top: 40, bottom: 160),
+                      //TODO(Nikita): это приходит с бэка или в приложении
                       child: HowToUsePromocode(),
                     ),
                   ],
@@ -96,23 +135,14 @@ class DiscountOnlineScreen extends StatelessWidget
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Получить скидку',
-                onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!
-                      .pushNamed('/verification_discount');
-                },
-              ),
-            ),
-            const InfoBlock(),
-          ],
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Получить скидку',
+          onPressed: () {
+            Keys.bottomSheetItemsNav.currentState!.pushNamed(
+              '/verification_discount',
+              arguments: SheetScreenArguments(model: model),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

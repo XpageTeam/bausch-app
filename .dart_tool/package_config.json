@@ -404,6 +404,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "iphone_has_notch",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/iphone_has_notch-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "js",
       "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.3",
       "packageUri": "lib/",
@@ -890,7 +896,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-12-07T05:49:11.481124Z",
+  "generated": "2021-12-07T09:14:57.902769Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

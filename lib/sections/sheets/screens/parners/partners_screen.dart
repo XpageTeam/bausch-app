@@ -1,6 +1,7 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -100,7 +101,10 @@ class PartnersScreen extends StatelessWidget {
                         const SizedBox(
                           height: 4,
                         ),
-                        const InfoSection(),
+                        InfoSection(
+                          text: model.previewText,
+                          secondText: model.detailText,
+                        ),
                         const SizedBox(
                           height: 4,
                         ),
@@ -117,11 +121,13 @@ class PartnersScreen extends StatelessWidget {
           ],
         ),
         floatingActionButton: CustomFloatingActionButton(
-          text: 'Получить поощрение',
+          text: 'Получить поощрение ${model.price} б',
+          withInfo: false,
           icon: Container(),
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
               '/verification_partners',
+              arguments: SheetScreenArguments(model: model),
             );
           },
         ),

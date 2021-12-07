@@ -1,4 +1,7 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
@@ -8,10 +11,8 @@ import 'package:flutter/material.dart';
 class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
   final VoidCallback? onTap;
-  final bool isProduct;
   const CatalogItem({
     required this.model,
-    required this.isProduct,
     this.onTap,
     Key? key,
   }) : super(key: key);
@@ -41,7 +42,7 @@ class CatalogItem extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      if (isProduct)
+                      if (model is! WebinarItemModel)
                         SizedBox(
                           height: 100,
                           child: AspectRatio(
@@ -90,20 +91,28 @@ class CatalogItem extends StatelessWidget {
                   ),
                 ],
               ),
-              //TODO(Nikita): отображать нужную иконку в зависимости от типа элемента
               Padding(
                 padding: const EdgeInsets.all(12),
-                child: isProduct
-                    ? const DiscountInfo(text: '–500 ₽')
-                    : Image.asset(
-                        'assets/play-video.png',
-                        height: 28,
-                      ),
+                child: shield(model),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  //* Вывод нужного виджета в зависимости от типа
+  Widget shield(CatalogItemModel _model) {
+    if (_model is WebinarItemModel) {
+      return Image.asset(
+        'assets/play-video.png',
+        height: 28,
+      );
+    } else if (_model is PromoItemModel) {
+      return const DiscountInfo(text: '–500 ₽');
+    } else {
+      return Container();
+    }
   }
 }
