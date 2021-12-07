@@ -9,6 +9,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
 //catalog_online_consultation
@@ -100,25 +101,14 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Потратить ${model.price} б',
-                onPressed: () {
-                  Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
-                    '/verification_consultation',
-                    arguments: SheetScreenArguments(model: model),
-                  );
-                },
-              ),
-            ),
-            const InfoBlock(),
-          ],
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Потратить ${model.price} б',
+          onPressed: () {
+            Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
+              '/verification_consultation',
+              arguments: SheetScreenArguments(model: model),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

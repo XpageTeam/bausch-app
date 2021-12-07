@@ -20,8 +20,7 @@ class AddItem extends StatelessWidget {
         //   Keys.bottomSheetWithoutItemsNav.currentState!
         //       .pushNamed('/addpoints_survey');
         // }
-        Keys.bottomSheetWithoutItemsNav.currentState!
-            .pushNamed('/addpoints_details');
+        Keys.simpleBottomSheetNav.currentState!.pushNamed('/addpoints_details');
       },
       child: Container(
         padding: const EdgeInsets.symmetric(

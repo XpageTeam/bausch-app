@@ -31,7 +31,7 @@ class FinalAddPointsScreen extends StatelessWidget {
               CustomSliverAppbar.toPop(
                 icon: Container(),
                 key: key,
-                rightKey: Keys.bottomSheetWithoutItemsNav,
+                rightKey: Keys.simpleBottomSheetNav,
               ),
               Stack(
                 alignment: Alignment.center,

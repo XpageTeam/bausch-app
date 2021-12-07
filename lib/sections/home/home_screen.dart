@@ -1,4 +1,5 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -6,6 +7,7 @@ import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
@@ -171,7 +173,12 @@ class HomeScreen extends StatelessWidget {
             Icons.add,
             color: AppTheme.mineShaft,
           ),
-          onPressed: () {},
+          onPressed: () {
+            showSimpleSheet(
+              context,
+              SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
+            );
+          },
         ),
         animationDuration: Duration.zero,
       ),
