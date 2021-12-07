@@ -1,4 +1,5 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
@@ -8,6 +9,7 @@ import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,12 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      primary: false,
+      // Из-за этого свойства не работает перекраска иконок на статусбаре
+      // при возвращении на эту страницу:)
+      // primary: false,
+      appBar: const NewEmptyAppBar(
+        scaffoldBgColor: AppTheme.mystic,
+      ),
       // appBar: const EmptyAppBar(),
       body: SafeArea(
         child: StreamedStateBuilder<AuthStatus>(
@@ -136,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        //const MayBeInteresting(),
+                        const MayBeInteresting(),
 
                         //* Текстовые кнопки(Частые вопросы и тд)
                         const TextButtonsSection(),
@@ -144,9 +151,9 @@ class HomeScreen extends StatelessWidget {
                           height: 100,
                         ),
                         Image.asset('assets/logo.png'),
-                        const SizedBox(
-                          height: 60,
-                        ),
+                        // const SizedBox(
+                        //   height: 60,
+                        // ),
                       ],
                     ),
                   ),

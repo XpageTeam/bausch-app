@@ -12,7 +12,7 @@ class LoaderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EmptyAppBar(),
+      appBar: const NewEmptyAppBar(),
       body: Container(
         color: AppTheme.mystic,
         child: const Center(
