@@ -4,13 +4,34 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//* Profile/ Параметры линз
-class LensesParametersScreen extends StatelessWidget {
+//* Profile
+/// Параметры линз
+class LensesParametersScreen extends StatefulWidget {
   const LensesParametersScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LensesParametersScreen> createState() => _LensesParametersScreenState();
+}
+
+class _LensesParametersScreenState extends State<LensesParametersScreen> {
+  final LensBloc lensBloc = LensBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    lensBloc.add(LensGet());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    lensBloc.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +41,11 @@ class LensesParametersScreen extends StatelessWidget {
         title: 'Параметры линз',
         backgroundColor: AppTheme.mystic,
       ),
-      body: BlocProvider(
-        create: (context) => LensBloc(),
-        child: BlocBuilder<LensBloc, LensState>(
-          builder: (context, state) {
+      body: BlocBuilder<LensBloc, LensState>(
+        bloc: lensBloc,
+        builder: (context, state) {
+          debugPrint(state.toString());
+          if (state is LensGotten) {
             return Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
@@ -37,6 +59,7 @@ class LensesParametersScreen extends StatelessWidget {
                     ),
                     child: FocusButton(
                       labelText: 'Диоптрии',
+                      selectedText: '${state.model.diopter}',
                       onPressed: () {
                         showModalBottomSheet<void>(
                           context: context,
@@ -48,23 +71,33 @@ class LensesParametersScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 4),
-                    child: FocusButton(labelText: 'Цилиндр'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: FocusButton(
+                      labelText: 'Цилиндр',
+                      selectedText: '${state.model.cylinder}',
+                    ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 4),
-                    child: FocusButton(labelText: 'Ось'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: FocusButton(
+                      labelText: 'Ось',
+                      selectedText: '${state.model.axis}',
+                    ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 4),
-                    child: FocusButton(labelText: 'Аддидация'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: FocusButton(
+                      labelText: 'Аддидация',
+                      selectedText: '${state.model.addict}',
+                    ),
                   ),
                 ],
               ),
             );
-          },
-        ),
+          }
+          return AnimatedLoader();
+        },
       ),
     );
   }

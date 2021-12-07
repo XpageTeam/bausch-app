@@ -15,7 +15,7 @@ class LensParametersModel implements MappableInterface<LensParametersModel> {
 
   factory LensParametersModel.fromMap(Map<String, dynamic> map) {
     return LensParametersModel(
-      cylinder: map['cylinder'] as int,
+      cylinder: map['cyl'] as int,
       diopter: map['diopter'] as int,
       axis: map['axis'] as int,
       addict: map['addict'] as int,
