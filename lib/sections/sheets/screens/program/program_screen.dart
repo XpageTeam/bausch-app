@@ -1,6 +1,7 @@
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -187,7 +188,25 @@ class _ProgramScreenState extends State<ProgramScreen> {
                     const SizedBox(
                       height: 24,
                     ),
-                    const WhiteButton(text: 'Выбрать оптику'),
+                    WhiteButton(
+                      text: 'Выбрать оптику',
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/map-marker.png',
+                          height: 16,
+                        ),
+                      ),
+                      onPressed: () {
+                        //TODO(Nikita): заменить на pushNamed
+                        Keys.mainNav.currentState!
+                            .push<void>(MaterialPageRoute(builder: (context) {
+                          return const ShopsScreen();
+                        }));
+                      },
+                    ),
                     const SizedBox(
                       height: 160,
                     ),

@@ -17,6 +17,7 @@ class CatalogItemWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  //TODO(Nikita) : Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -108,9 +109,9 @@ class CatalogItemWidget extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.battery_charging_full,
-                      color: AppTheme.mineShaft,
+                    Image.asset(
+                      'assets/substract.png',
+                      height: 15,
                     ),
                     const SizedBox(
                       width: 4,

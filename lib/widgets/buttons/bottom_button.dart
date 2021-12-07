@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BottomButtonWithRoundedCorners extends StatelessWidget {
-  const BottomButtonWithRoundedCorners({Key? key}) : super(key: key);
+  final String text;
+  const BottomButtonWithRoundedCorners({this.text = 'На главную', Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,8 @@ class BottomButtonWithRoundedCorners extends StatelessWidget {
                   top: StaticData.sidePadding + 8,
                 ),
                 child: BlueButtonWithText(
-                  text: 'На главную',
+                  text: text,
+                  icon: Container(),
                   onPressed: () {
                     Keys.mainNav.currentState!
                         .popUntil(ModalRoute.withName('/'));

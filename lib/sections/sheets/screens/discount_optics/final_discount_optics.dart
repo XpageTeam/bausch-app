@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
+import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -44,16 +45,8 @@ class FinalDiscountOptics extends StatelessWidget {
                         style: AppStyles.h2,
                       ),
                     ),
-                    WhiteRoundedContainer(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            model.code,
-                            style: AppStyles.h2,
-                          ),
-                        ],
-                      ),
+                    ContainerWithPromocode(
+                      promocode: model.code,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(

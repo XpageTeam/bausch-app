@@ -17,7 +17,7 @@ class CustomFloatingActionButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Container(
       color: AppTheme.mystic,
       child: Column(
@@ -38,6 +38,7 @@ Widget build(BuildContext context) {
           Container(
             padding: const EdgeInsets.symmetric(
               vertical: 8,
+              horizontal: StaticData.sidePadding,
             ),
             color: AppTheme.mystic,
             child: const Center(

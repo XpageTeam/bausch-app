@@ -41,7 +41,7 @@ class AppStyles {
 
   static final h3 = TextStyle(
     color: AppTheme.mineShaft,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     fontSize: 17.sp,
     height: 20 / 17,
   );

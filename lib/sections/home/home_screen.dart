@@ -167,6 +167,10 @@ class HomeScreen extends StatelessWidget {
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
+          icon: const Icon(
+            Icons.add,
+            color: AppTheme.mineShaft,
+          ),
           onPressed: () {},
         ),
         animationDuration: Duration.zero,
