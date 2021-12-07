@@ -76,7 +76,7 @@ class MainNavigation extends StatelessWidget {
             page = const OrderRegistrationScreen();
             break;
           case '/shops':
-            page = const ShopsScreen();
+            page = ShopsScreen();
             break;
 
           default:

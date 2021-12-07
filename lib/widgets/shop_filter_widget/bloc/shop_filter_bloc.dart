@@ -8,9 +8,12 @@ part 'shop_filter_state.dart';
 
 class ShopFilterBloc extends Bloc<ShopFilterEvent, ShopFilterState> {
   final Filter defaultFilter;
+  final List<Filter> allFilters;
   List<Filter> selectedFilters = [];
+
   ShopFilterBloc({
     required this.defaultFilter,
+    required this.allFilters,
   }) : super(
           ShopFilterInitial(
             defaultFilter: defaultFilter,

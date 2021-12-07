@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/shops/clusterized_map_body_wm.dart';
 import 'package:bausch/sections/shops/clusterized_map_buttons_wm.dart';
+import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/current_location_button.dart';
 import 'package:bausch/sections/shops/widgets/zoom_buttons.dart';
 import 'package:flutter/material.dart';
@@ -57,12 +58,42 @@ class _ClusterizedMapBodyState
             onMapCreated: (yandexMapController) {
               if (!mapCompleter.isCompleted) {
                 mapCompleter.complete(yandexMapController);
+                
                 wm.setMapController(yandexMapController);
-                // wm.setCenterOnShops();
+
+                if (widget.shopList.isNotEmpty) {
+                  wm
+                    ..setCenterOnShops(
+                      widget.shopList
+                          .where((s) => s.coords != null)
+                          .map((e) => e.coords!)
+                          .toList(),
+                    )
+                    // TODO(Nikolay): Пришлось таким образом прокидывать callback.
+                    ..setOnShopPressCallback(
+                      (shop) {
+                        debugPrint('shop: ${shop.name}');
+                        showModalBottomSheet<void>(
+                          context: context,
+                          barrierColor: Colors.transparent,
+                          builder: (context) => BottomSheetContent(
+                            title: shop.name,
+                            subtitle: shop.address,
+                            phone: shop.phone,
+                            site: shop.site,
+                            // additionalInfo:
+                            //     'Скидкой можно воспользоваться в любой из оптик сети.',
+                            onPressed: () {
+                              // TODO(Nikolay): Реализовать onPressed.
+                            },
+                            btnText: 'Выбрать эту сеть оптик',
+                          ),
+                        );
+                      },
+                    );
+                }
               }
             },
-            // onMapCreated:
-            //     !mapCompleter.isCompleted ? mapCompleter.complete : null,
           ),
         ),
         FutureBuilder<YandexMapController>(

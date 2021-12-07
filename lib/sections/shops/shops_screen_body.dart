@@ -1,16 +1,14 @@
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/shops/clusterized_map_body.dart';
 import 'package:bausch/sections/shops/cubits/page_switcher_cubit/page_switcher_cubit_cubit.dart';
-import 'package:bausch/sections/shops/placemark_map.dart';
-import 'package:bausch/sections/shops/test_map.dart';
 import 'package:bausch/sections/shops/widgets/address_switcher.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_adapter.dart';
 import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_adapter.dart';
-import 'package:bausch/sections/shops/widgets/user_layer_map.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -21,9 +19,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopsScreenBody extends StatefulWidget {
   final List<ShopModel> shopList;
+  final String currentCity;
+  final void Function(String newCity) cityChanged;
 
   const ShopsScreenBody({
     required this.shopList,
+    required this.currentCity,
+    required this.cityChanged,
     Key? key,
   }) : super(key: key);
 
@@ -36,35 +38,42 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
 
   late final ShopFilterBloc filterBloc;
 
-  final filterList = const [
-    Filter(
-      id: -1,
-      title: 'Все оптики',
-    ),
-    Filter(
-      id: 0,
-      title: 'ЛинзСервис',
-    ),
-    Filter(
-      id: 1,
-      title: 'Оптика-А',
-    ),
-    Filter(
-      id: 2,
-      title: 'Оптика-Б',
-    ),
-    Filter(
-      id: 3,
-      title: 'Оптика-В',
-    ),
-  ];
+  // final filterList = const [
+  //   Filter(
+  //     id: -1,
+  //     title: 'Все оптики',
+  //   ),
+  //   Filter(
+  //     id: 0,
+  //     title: 'ЛинзСервис',
+  //   ),
+  //   Filter(
+  //     id: 1,
+  //     title: 'Оптика-А',
+  //   ),
+  //   Filter(
+  //     id: 2,
+  //     title: 'Оптика-Б',
+  //   ),
+  //   Filter(
+  //     id: 3,
+  //     title: 'Оптика-В',
+  //   ),
+  // ];
+  late final List<Filter> filterList;
 
   int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    filterBloc = ShopFilterBloc(defaultFilter: filterList[0]);
+    filterList = Filter.getFiltersFromShopList(
+      widget.shopList,
+    );
+    filterBloc = ShopFilterBloc(
+      defaultFilter: filterList[0],
+      allFilters: filterList,
+    );
   }
 
   @override
@@ -109,24 +118,37 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
             ),
             child: DefaultButton(
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  context: context,
-                  barrierColor: Colors.transparent,
-                  builder: (context) => BottomSheetContent(
-                    title: 'ЛинзСервис',
-                    subtitle: 'ул. Задарожная, д. 20, к. 2, ТЦ Океания',
-                    phone: '+7 920 325-62-26',
-                    site: 'lensservice.ru',
-                    additionalInfo:
-                        'Скидкой можно воспользоваться в любой из оптик сети.',
-                    onPressed: () {
-                      // TODO(Nikolay): Реализовать onPressed.
-                    },
-                    btnText: 'Выбрать эту сеть оптик',
+              onPressed: () async {
+                // Открыть окно со списком городов
+                final cityName = await Keys.mainNav.currentState!.push<String>(
+                  PageRouteBuilder<String>(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        CityScreen(),
                   ),
                 );
+
+                if (cityName != null && cityName != widget.currentCity) {
+                  widget.cityChanged(cityName);
+                }
               },
+              // () {
+              //   showModalBottomSheet<void>(
+              //     context: context,
+              //     barrierColor: Colors.transparent,
+              //     builder: (context) => BottomSheetContent(
+              //       title: 'ЛинзСервис',
+              //       subtitle: 'ул. Задарожная, д. 20, к. 2, ТЦ Океания',
+              //       phone: '+7 920 325-62-26',
+              //       site: 'lensservice.ru',
+              //       additionalInfo:
+              //           'Скидкой можно воспользоваться в любой из оптик сети.',
+              //       onPressed: () {
+              //         // TODO(Nikolay): Реализовать onPressed.
+              //       },
+              //       btnText: 'Выбрать эту сеть оптик',
+              //     ),
+              //   );
+              // },
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,9 +161,11 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                     const SizedBox(
                       height: 6,
                     ),
-                    Text(
-                      'Москва',
-                      style: AppStyles.h2Bold,
+                    Flexible(
+                      child: Text(
+                        widget.currentCity,
+                        style: AppStyles.h2Bold,
+                      ),
                     ),
                   ],
                 ),
@@ -161,7 +185,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
               filterList: filterList,
             ),
           ),
-          // Expanded(child: PlacemarkPage()),
+
           // С фильтром
           Expanded(
             child: BlocBuilder<ShopFilterBloc, ShopFilterState>(
@@ -184,16 +208,11 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                               (shop) =>
                                   filterState is! ShopFilterChange ||
                                   filterState.selectedFilters.any(
-                                    (filter) => filter.id == shop.id,
+                                    (filter) => filter.title == shop.name,
                                   ),
                             )
                             .toList(),
                       );
-                      // const ClusterizedMapBody();
-                      // return MapAdapter(
-                      //   shopList: widget.shopList,
-                      //   state: filterState,
-                      // );
                     }
                   },
                 );

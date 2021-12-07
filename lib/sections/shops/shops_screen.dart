@@ -15,66 +15,67 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //* Program
 //* list
 class ShopsScreen extends StatelessWidget {
-  const ShopsScreen({Key? key}) : super(key: key);
+  String currentCity = 'Москва';
+  ShopsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      //* Включаю прозрачность статус бара
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: AppTheme.mystic,
+      appBar: const DefaultAppBar(
+        title: 'Адреса оптик',
         backgroundColor: AppTheme.mystic,
-        appBar: const DefaultAppBar(
-          title: 'Адреса оптик',
-          backgroundColor: AppTheme.mystic,
-        ),
-        body: ShopListCubitProvider(
-          child: BlocConsumer<ShopListCubit, ShopListState>(
-            listener: (context, state) {
-              if (state is ShopListSuccess && state.shopList.isEmpty) {
-                showModalBottomSheet<dynamic>(
-                  barrierColor: Colors.transparent,
-                  context: context,
-                  builder: (context) => BottomSheetContent(
-                    title: 'Поблизости нет оптик',
-                    subtitle:
-                        'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
-                    btnText: 'Хорошо',
-                    onPressed: () {
-                      // TODO(Nikolay): Реализовать onPressed.
-                    },
-                  ),
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is ShopListSuccess) {
-                return ShopsScreenBody(
-                  shopList: state.shopList,
-                );
-              }
-
-              if (state is ShopListFailed) {
-                return Center(
-                  child: DefaultInfoWidget(
-                    title: 'Ошибка',
-                    subtitle: 'Описание ошибки',
-                    onPressed: () =>
-                        BlocProvider.of<ShopListCubit>(context).loadShopList(),
-                  ),
-                );
-              }
-
-              return const Center(
-                child: CircularProgressIndicator.adaptive(
-                  backgroundColor: AppTheme.turquoiseBlue,
+      ),
+      body: ShopListCubitProvider(
+        cityName: currentCity,
+        child: BlocConsumer<ShopListCubit, ShopListState>(
+          listener: (context, state) {
+            if (state is ShopListSuccess && state.shopList.isEmpty) {
+              showModalBottomSheet<dynamic>(
+                barrierColor: Colors.transparent,
+                context: context,
+                builder: (context) => BottomSheetContent(
+                  title: 'Поблизости нет оптик',
+                  subtitle:
+                      'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                  btnText: 'Хорошо',
+                  onPressed: () {
+                    // TODO(Nikolay): Реализовать onPressed.
+                  },
                 ),
               );
-            },
-          ),
+            }
+          },
+          builder: (context, state) {
+            if (state is ShopListSuccess) {
+              return ShopsScreenBody(
+                currentCity: currentCity,
+                shopList: state.shopList,
+                cityChanged: (newCity) {
+                  BlocProvider.of<ShopListCubit>(context)
+                      .loadShopListByCity(newCity);
+                  currentCity = newCity;
+                },
+              );
+            }
+
+            if (state is ShopListFailed) {
+              return Center(
+                child: DefaultInfoWidget(
+                  title: 'Ошибка',
+                  subtitle: 'Описание ошибки',
+                  onPressed: () => BlocProvider.of<ShopListCubit>(context)
+                      .loadShopListByCity(currentCity),
+                ),
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: AppTheme.turquoiseBlue,
+              ),
+            );
+          },
         ),
       ),
     );

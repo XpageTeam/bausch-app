@@ -1,15 +1,8 @@
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 //* Заглушка
 class ShopModel {
-  //* Тестовые координаты магазинов
-  static const _shopsCoords = [
-    Point(latitude: 55.153596, longitude: 61.390849),
-    Point(latitude: 55.157433, longitude: 61.389645),
-    Point(latitude: 55.164274, longitude: 61.396131),
-    Point(latitude: 55.162664, longitude: 61.424410),
-  ];
-
   ///* Идентификатор магазина
   final int id;
 
@@ -41,20 +34,26 @@ class ShopModel {
     this.placemark,
   });
 
-  factory ShopModel.test([int idx = 0]) {
-    return ShopModel(
-      id: idx,
-      name: 'ЛинзСервис $idx',
-      address: 'ул. Задарожная, д. 20, к. 2, ТЦ Океания',
-      phone: '+7 920 325-62-26',
-      coords: _shopsCoords[idx % _shopsCoords.length],
-    );
-  }
+  factory ShopModel.fromJson(Map<String, dynamic> map) {
+    if (map['id'] == null) {
+      throw ResponseParseException('У магазина отсутствует идентификатор');
+    }
 
-  static List<ShopModel> generate([int length = 3]) {
-    return List<ShopModel>.generate(
-      length,
-      (i) => ShopModel.test(i),
+    return ShopModel(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      address: map['address'] as String,
+      // TODO(Nikolay): Номера.
+      phone: (map['phone'] as List<dynamic>)[0] as String,
+      site: map['site'] as String?,
+      coords: map['coordinates'] != null
+          ? Point(
+              latitude:
+                  (map['coordinates'] as Map<String, dynamic>)['lat'] as double,
+              longitude:
+                  (map['coordinates'] as Map<String, dynamic>)['lon'] as double,
+            )
+          : null,
     );
   }
 }

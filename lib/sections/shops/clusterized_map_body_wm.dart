@@ -10,14 +10,18 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class ClusterizedMapBodyWM extends WidgetModel {
   final List<ShopModel> initShopList;
+  final mapObjectsStreamed = StreamedState<List<MapObject>>(
+    <MapObject>[],
+  );
+
   final MapObjectId mapId = const MapObjectId(
     'baush',
   );
   List<MapObject> mapObjectList = [];
-  final mapObjectsStreamed = StreamedState<List<MapObject>>(<MapObject>[]);
 
   ClusterizedPlacemarkCollection? currentPlacemarks;
   YandexMapController? mapController;
+  void Function(ShopModel shop)? onShopClick;
 
   ClusterizedMapBodyWM({
     required this.initShopList,
@@ -28,10 +32,13 @@ class ClusterizedMapBodyWM extends WidgetModel {
   @override
   void onLoad() {
     updateMapObjects(initShopList);
+
+    // _setCenterOnShops(initShopList);
+
     super.onLoad();
   }
 
-  Future<void> updateMapObjects(List<ShopModel> shopList) async {
+  void updateMapObjects(List<ShopModel> shopList) {
     final placemarkCollection = ClusterizedPlacemarkCollection(
       mapId: mapId,
       radius: 35,
@@ -54,6 +61,10 @@ class ClusterizedMapBodyWM extends WidgetModel {
         );
       },
       onClusterTap: (self, cluster) {
+        setCenterOnShops(
+          cluster.placemarks.map((e) => e.point).toList(),
+        );
+
         debugPrint('Tapped cluster');
       },
       placemarks: List<Placemark>.generate(
@@ -61,8 +72,22 @@ class ClusterizedMapBodyWM extends WidgetModel {
         (i) {
           return Placemark(
             onTap: (placemark, point) {
-              mapObjectList.clear();
-              mapObjectsStreamed.accept(mapObjectList);
+              // mapObjectList.clear();
+              // mapObjectsStreamed.accept(mapObjectList);
+              mapController?.move(
+                cameraPosition: CameraPosition(
+                  zoom: 12,
+                  target: Point(
+                    latitude: placemark.point.latitude - 0.02, // небольшой сдвиг для того, чтобы метка была выше bottomSheet 
+                    longitude: placemark.point.longitude,
+                  ),
+                ),
+                animation: const MapAnimation(
+                  duration: 1.0,
+                ),
+              );
+
+              onShopClick?.call(shopList[i]);
             },
             opacity: 1,
             mapId: MapObjectId('placemark_${shopList[i].coords}'),
@@ -81,6 +106,7 @@ class ClusterizedMapBodyWM extends WidgetModel {
     );
 
     // Эта проверка нужна потому, что на карте оставались метки
+    // после переключения фильтра
     if (shopList.isEmpty) {
       mapObjectList = [];
     } else {
@@ -89,6 +115,61 @@ class ClusterizedMapBodyWM extends WidgetModel {
 
     mapObjectsStreamed.accept(mapObjectList);
   }
+
+  void setOnShopPressCallback(void Function(ShopModel shop) callback) {
+    onShopClick = callback;
+  }
+
+  void setCenterOnShops(List<Point> pointList) {
+    var north = 0.0;
+    var south = double.maxFinite;
+    var west = double.maxFinite;
+    var east = 0.0;
+
+    for (final point in pointList) {
+      if (point.latitude < south) {
+        south = point.latitude;
+      }
+      if (point.latitude > north) {
+        north = point.latitude;
+      }
+      if (point.longitude < west) {
+        west = point.longitude;
+      }
+      if (point.longitude > east) {
+        east = point.longitude;
+      }
+    }
+
+    debugPrint('southWest: $south\t$west');
+    debugPrint('northEast: $north\t$east');
+
+    final distance = sqrt(pow(south - north, 2) + pow(west - east, 2));
+    debugPrint('distance: $distance');
+
+    // От 0.001 до 1
+    final coeff = max(
+      min(distance / 10, 1),
+      0.001,
+    );
+
+    mapController?.setBounds(
+      boundingBox: BoundingBox(
+        southWest: Point(
+          latitude: south - coeff,
+          longitude: west - coeff,
+        ),
+        northEast: Point(
+          latitude: north + coeff,
+          longitude: east + coeff,
+        ),
+      ),
+    );
+  }
+
+  // void _setCenterOnShops(){
+  //   mapController.move(cameraPosition: CameraPosition(target: ));
+  // }
 
   // Future<void> updateMapObjects(List<ShopModel> shopList) async {
   //   if (mapObjectList.any((el) => el.mapId == mapId)) {
@@ -225,18 +306,19 @@ class ClusterizedMapBodyWM extends WidgetModel {
     return pngBytes!.buffer.asUint8List();
   }
 
-  Point _calcMiddlePoint(List<Placemark> placemarkList) {
+  Point _calcMiddlePoint(List<Point> pointList) {
     var middlePoint = const Point(latitude: 0, longitude: 0);
-    for (final placemark in placemarkList) {
+
+    for (final point in pointList) {
       middlePoint = Point(
-        latitude: middlePoint.latitude + placemark.point.latitude,
-        longitude: middlePoint.longitude + placemark.point.longitude,
+        latitude: middlePoint.latitude + point.latitude,
+        longitude: middlePoint.longitude + point.longitude,
       );
     }
 
     return Point(
-      latitude: middlePoint.latitude / placemarkList.length,
-      longitude: middlePoint.longitude / placemarkList.length,
+      latitude: middlePoint.latitude / pointList.length,
+      longitude: middlePoint.longitude / pointList.length,
     );
   }
 }

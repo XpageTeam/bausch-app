@@ -78,8 +78,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 SliverToBoxAdapter(
                   child: TextButton(
-                    child: const Text('go'),
-                    onPressed: () => Navigator.of(context).pushNamed('/shops'),
+                    child: const Text('click!'),
+                    onPressed: () =>
+                        Keys.mainContentNav.currentState!.pushNamed('/shops'),
                   ),
                 ),
                 if (status == AuthStatus.authenticated)
