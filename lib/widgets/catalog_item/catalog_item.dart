@@ -90,6 +90,7 @@ class CatalogItem extends StatelessWidget {
                   ),
                 ],
               ),
+              //TODO(Nikita): отображать нужную иконку в зависимости от типа элемента
               Padding(
                 padding: const EdgeInsets.all(12),
                 child: isProduct

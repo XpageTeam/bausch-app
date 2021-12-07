@@ -100,6 +100,15 @@ class DiscountOpticsScreen extends StatelessWidget
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 12,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/map-marker.png',
+                            height: 16,
+                          ),
+                        ),
                         onPressed: () {
                           Keys.mainNav.currentState!
                               .push<void>(MaterialPageRoute(builder: (context) {

@@ -33,7 +33,6 @@ class HomeScreen extends StatelessWidget {
             return CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
@@ -51,7 +50,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -77,7 +75,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -94,7 +91,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 20,
@@ -164,6 +160,10 @@ class HomeScreen extends StatelessWidget {
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
+          icon: const Icon(
+            Icons.add,
+            color: AppTheme.mineShaft,
+          ),
           onPressed: () {},
         ),
         animationDuration: Duration.zero,

@@ -52,7 +52,6 @@ dependencies:
   pin_code_fields: ^7.3.0
   shared_preferences: ^2.0.8
   sqlite3_flutter_libs: ^0.5.1
-  rive: ^0.7.33
   vimeoplayer_trinity: ^0.2.1+1
   youtube_player_flutter: ^8.0.0
   auto_size_text_pk: ^3.0.0
@@ -97,6 +96,8 @@ flutter:
     - assets/items/
     - assets/icons/
     - assets/loading/
+    - assets/temp/
+    - assets/temp/logos/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png
