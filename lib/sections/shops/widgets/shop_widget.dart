@@ -61,7 +61,8 @@ class ShopWidget extends StatelessWidget {
                   }
                 },
                 child: Text(
-                  shopModel.phone,
+                  // TODO(Nikolay): Телефон.
+                  shopModel.phone[0],
                   style: AppStyles.p1.copyWith(
                     decoration: TextDecoration.underline,
                     decorationColor: AppTheme.turquoiseBlue,

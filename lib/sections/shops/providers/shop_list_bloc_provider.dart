@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopListCubitProvider extends StatefulWidget {
   final Widget child;
-  final String cityName;
   const ShopListCubitProvider({
-    required this.cityName,
     required this.child,
     Key? key,
   }) : super(key: key);

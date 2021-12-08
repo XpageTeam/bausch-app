@@ -9,7 +9,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

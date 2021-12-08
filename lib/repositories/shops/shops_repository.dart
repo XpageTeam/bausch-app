@@ -67,6 +67,20 @@ class CitiesRepository {
 
     return filteredByCity.shopsRepository.shops;
   }
+
+  List<CityModel> getCityListByCityName(String cityName) {
+    final containsCity = cities.any(
+      (city) => city.name == cityName,
+    );
+
+    if (cities.isEmpty || !containsCity) return <CityModel>[];
+
+    final filteredByCity = cities.where(
+      (city) => city.name == cityName,
+    );
+
+    return filteredByCity.toList();
+  }
 }
 
 class CityModel {

@@ -13,16 +13,13 @@ class ShopModel {
   final String address;
 
   ///* Телефон
-  final String phone;
+  final List<String> phone;
 
   ///* Сайт
   final String? site;
 
   ///* Координаты магазина
   final Point? coords;
-
-  ///* Метка для отображения на карте
-  Placemark? placemark;
 
   ShopModel({
     required this.id,
@@ -31,7 +28,6 @@ class ShopModel {
     required this.phone,
     this.site,
     this.coords,
-    this.placemark,
   });
 
   factory ShopModel.fromJson(Map<String, dynamic> map) {
@@ -43,8 +39,10 @@ class ShopModel {
       id: map['id'] as int,
       name: map['name'] as String,
       address: map['address'] as String,
-      // TODO(Nikolay): Номера.
-      phone: (map['phone'] as List<dynamic>)[0] as String,
+      // TODO(Nikolay): Убрать эту хер.
+      phone: (map['phone'] as List<dynamic>)
+          .map((dynamic e) => e as String)
+          .toList(),
       site: map['site'] as String?,
       coords: map['coordinates'] != null
           ? Point(

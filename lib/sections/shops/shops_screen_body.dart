@@ -1,14 +1,13 @@
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
-import 'package:bausch/sections/shops/clusterized_map_body.dart';
 import 'package:bausch/sections/shops/cubits/page_switcher_cubit/page_switcher_cubit_cubit.dart';
-import 'package:bausch/sections/shops/widgets/address_switcher.dart';
-import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
-import 'package:bausch/sections/shops/widgets/map_adapter.dart';
+import 'package:bausch/sections/shops/map_body.dart';
 import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_adapter.dart';
+import 'package:bausch/sections/shops/widgets/shop_page_switcher.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -18,12 +17,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopsScreenBody extends StatefulWidget {
-  final List<ShopModel> shopList;
+  final List<CityModel> cityList;
   final String currentCity;
   final void Function(String newCity) cityChanged;
 
   const ShopsScreenBody({
-    required this.shopList,
+    required this.cityList,
     required this.currentCity,
     required this.cityChanged,
     Key? key,
@@ -37,39 +36,30 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
   final pageSwitcherCubit = PageSwitcherCubit();
 
   late final ShopFilterBloc filterBloc;
-
-  // final filterList = const [
-  //   Filter(
-  //     id: -1,
-  //     title: 'Все оптики',
-  //   ),
-  //   Filter(
-  //     id: 0,
-  //     title: 'ЛинзСервис',
-  //   ),
-  //   Filter(
-  //     id: 1,
-  //     title: 'Оптика-А',
-  //   ),
-  //   Filter(
-  //     id: 2,
-  //     title: 'Оптика-Б',
-  //   ),
-  //   Filter(
-  //     id: 3,
-  //     title: 'Оптика-В',
-  //   ),
-  // ];
   late final List<Filter> filterList;
+
+  List<ShopModel> shopList = [];
 
   int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    if (widget.cityList.any((element) => element.name == widget.currentCity)) {
+      shopList = widget.cityList
+          .firstWhere((element) => element.name == widget.currentCity)
+          .shopsRepository
+          .shops;
+    }
+
+    // for (final city in widget.cityList) {
+    //   shopList.addAll(city.shopsRepository.shops);
+    // }
+
     filterList = Filter.getFiltersFromShopList(
-      widget.shopList,
+      shopList,
     );
+
     filterBloc = ShopFilterBloc(
       defaultFilter: filterList[0],
       allFilters: filterList,
@@ -123,7 +113,13 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                 final cityName = await Keys.mainNav.currentState!.push<String>(
                   PageRouteBuilder<String>(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        CityScreen(),
+                        CityScreen(
+                      citiesWithShops: widget.cityList
+                          .map(
+                            (e) => e.name,
+                          )
+                          .toList(),
+                    ),
                   ),
                 );
 
@@ -131,24 +127,6 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                   widget.cityChanged(cityName);
                 }
               },
-              // () {
-              //   showModalBottomSheet<void>(
-              //     context: context,
-              //     barrierColor: Colors.transparent,
-              //     builder: (context) => BottomSheetContent(
-              //       title: 'ЛинзСервис',
-              //       subtitle: 'ул. Задарожная, д. 20, к. 2, ТЦ Океания',
-              //       phone: '+7 920 325-62-26',
-              //       site: 'lensservice.ru',
-              //       additionalInfo:
-              //           'Скидкой можно воспользоваться в любой из оптик сети.',
-              //       onPressed: () {
-              //         // TODO(Nikolay): Реализовать onPressed.
-              //       },
-              //       btnText: 'Выбрать эту сеть оптик',
-              //     ),
-              //   );
-              // },
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,12 +176,12 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                     if (switherState is PageSwitcherShowList) {
                       return ShopListAdapter(
                         containerType: ShopContainer,
-                        shopList: widget.shopList,
+                        shopList: shopList,
                         state: filterState,
                       );
                     } else {
-                      return ClusterizedMapBody(
-                        shopList: widget.shopList
+                      return MapBody(
+                        shopList: shopList
                             .where(
                               (shop) =>
                                   filterState is! ShopFilterChange ||

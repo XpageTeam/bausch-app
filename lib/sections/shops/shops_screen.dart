@@ -1,5 +1,6 @@
-import 'dart:ui';
-
+import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/providers/shop_list_bloc_provider.dart';
 import 'package:bausch/sections/shops/shops_screen_body.dart';
@@ -8,15 +9,40 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/default_info_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 //* Макет:
 //* Program
 //* list
-class ShopsScreen extends StatelessWidget {
-  String currentCity = 'Москва';
-  ShopsScreen({Key? key}) : super(key: key);
+class ShopsScreen extends StatefulWidget {
+  const ShopsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ShopsScreen> createState() => _ShopsScreenState();
+}
+
+class _ShopsScreenState extends State<ShopsScreen> {
+  String? currentCity;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) {
+        if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
+            AuthStatus.authenticated) {
+          currentCity = Provider.of<UserWM>(context, listen: false)
+              .userData
+              .value
+              .data
+              ?.user
+              .city;
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +53,13 @@ class ShopsScreen extends StatelessWidget {
         backgroundColor: AppTheme.mystic,
       ),
       body: ShopListCubitProvider(
-        cityName: currentCity,
         child: BlocConsumer<ShopListCubit, ShopListState>(
           listener: (context, state) {
-            if (state is ShopListSuccess && state.shopList.isEmpty) {
+            if (state is ShopListSuccess &&
+                !state.cityList.any(
+                  (element) => element.name == currentCity,
+                )) {
+              // Если нет магазинов в городе, который указан у пользователя, то показать окно
               showModalBottomSheet<dynamic>(
                 barrierColor: Colors.transparent,
                 context: context,
@@ -44,16 +73,20 @@ class ShopsScreen extends StatelessWidget {
                   },
                 ),
               );
+
+              // Сделать первый по списку город текущим
+              currentCity = sort(state.cityList)[0].name;
+              // Повторный запрос
+              BlocProvider.of<ShopListCubit>(context).loadShopList();
             }
           },
           builder: (context, state) {
             if (state is ShopListSuccess) {
               return ShopsScreenBody(
-                currentCity: currentCity,
-                shopList: state.shopList,
+                cityList: state.cityList,
+                currentCity: currentCity ?? sort(state.cityList)[0].name,
                 cityChanged: (newCity) {
-                  BlocProvider.of<ShopListCubit>(context)
-                      .loadShopListByCity(newCity);
+                  BlocProvider.of<ShopListCubit>(context).loadShopList();
                   currentCity = newCity;
                 },
               );
@@ -64,8 +97,8 @@ class ShopsScreen extends StatelessWidget {
                 child: DefaultInfoWidget(
                   title: 'Ошибка',
                   subtitle: 'Описание ошибки',
-                  onPressed: () => BlocProvider.of<ShopListCubit>(context)
-                      .loadShopListByCity(currentCity),
+                  onPressed:
+                      BlocProvider.of<ShopListCubit>(context).loadShopList,
                 ),
               );
             }
@@ -79,5 +112,9 @@ class ShopsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<CityModel> sort(List<CityModel> cities) {
+    return cities..sort((a, b) => a.name.compareTo(b.name));
   }
 }

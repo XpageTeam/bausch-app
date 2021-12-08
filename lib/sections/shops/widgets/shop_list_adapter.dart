@@ -25,7 +25,7 @@ class ShopListAdapter extends StatelessWidget {
                 (shop) =>
                     state is! ShopFilterChange ||
                     state!.selectedFilters.any(
-                      (filter) => filter.id == shop.id,
+                      (filter) => filter.title == shop.name,
                     ),
               )
               .toList()

@@ -43,9 +43,15 @@ class ShopContainer extends StatelessWidget {
             height: 4,
           ),
           GestureDetector(
-            onTap: () => Utils.tryLaunchUrl(rawUrl: shop.phone, isPhone: true),
+            onTap: () => Utils.tryLaunchUrl(
+              rawUrl:
+                  // TODO(Nikolay): Телефон.
+                  shop.phone[0],
+              isPhone: true,
+            ),
             child: Text(
-              shop.phone,
+              // TODO(Nikolay): Телефон.
+              shop.phone[0],
               style: AppStyles.p1.copyWith(
                 decoration: TextDecoration.underline,
                 decorationColor: AppTheme.turquoiseBlue,
