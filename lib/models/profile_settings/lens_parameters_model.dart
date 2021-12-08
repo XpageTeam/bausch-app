@@ -28,7 +28,7 @@ class LensParametersModel implements MappableInterface<LensParametersModel> {
       'diopter': diopter,
       'axis': axis,
       'addict': addict,
-      'cylinder': cylinder,
+      'cyl': cylinder,
     };
   }
 }

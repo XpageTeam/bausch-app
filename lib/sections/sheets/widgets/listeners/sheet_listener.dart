@@ -4,6 +4,7 @@ import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,21 +23,9 @@ class SheetListener extends StatelessWidget {
     return BlocListener<CatalogItemCubit, CatalogItemState>(
       listener: (context, state) {
         if (state is CatalogItemFailed) {
-          Flushbar<void>(
-            messageText: Text(
-              state.title,
-              textAlign: TextAlign.center,
-              style: AppStyles.p1White,
-            ),
-            duration: const Duration(
-              seconds: 3,
-            ),
-            flushbarPosition: FlushbarPosition.TOP,
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(5),
-              bottomRight: Radius.circular(5),
-            ),
-          ).show(Keys.mainNav.currentContext!);
+          showDefaultNotification(
+            title: state.title,
+          );
         }
 
         if (state is CatalogItemLoading) {

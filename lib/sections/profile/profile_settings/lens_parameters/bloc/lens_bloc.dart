@@ -14,28 +14,71 @@ part 'lens_event.dart';
 part 'lens_state.dart';
 
 class LensBloc extends Bloc<LensEvent, LensState> {
-  LensBloc() : super(LensInitial()) {
-    on<LensGet>((event, emit) => getParameters());
+  LensBloc() : super(LensInitial());
+
+  @override
+  Stream<LensState> mapEventToState(LensEvent event) async* {
+    if (event is LensUpdate) {
+      yield LensUpdated(model: event.model);
+    }
+
+    if (event is LensSend) {
+      yield LensLoading();
+      yield await sendParameters(event.model);
+    }
   }
 
-  Future<LensState> getParameters() async {
+  // Future<LensState> getParameters() async {
+  //   final rh = RequestHandler();
+
+  //   try {
+  //     final parsedData = BaseResponseRepository.fromMap(
+  //       (await rh.get<Map<String, dynamic>>(
+  //         'user/lens/',
+  //       ))
+  //           .data!,
+  //     );
+
+  //     debugPrint(parsedData.data.toString());
+
+  //     return LensSuccess(
+  //       model: LensParametersModel.fromMap(
+  //         parsedData.data as Map<String, dynamic>,
+  //       ),
+  //     );
+  //   } on ResponseParseException catch (e) {
+  //     return LensFailed(
+  //       title: 'Ошибка при обработке ответа от сервера',
+  //       subtitle: e.toString(),
+  //     );
+  //   } on DioError catch (e) {
+  //     return LensFailed(
+  //       title: 'Ошибка при обработке ответа от сервера',
+  //       subtitle: e.toString(),
+  //     );
+  //   } on SuccessFalse catch (e) {
+  //     return LensFailed(
+  //       title: 'Ошибка при обработке ответа от сервера',
+  //       subtitle: e.toString(),
+  //     );
+  //   }
+  // }
+
+  Future<LensState> sendParameters(LensParametersModel model) async {
     final rh = RequestHandler();
 
     try {
       final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>(
+        (await rh.put<Map<String, dynamic>>(
           'user/lens/',
+          data: model.toMap(),
         ))
             .data!,
       );
 
       debugPrint(parsedData.data.toString());
 
-      return LensGotten(
-        model: LensParametersModel.fromMap(
-          parsedData.data as Map<String, dynamic>,
-        ),
-      );
+      return LensSuccess(model: model);
     } on ResponseParseException catch (e) {
       return LensFailed(
         title: 'Ошибка при обработке ответа от сервера',
@@ -43,12 +86,12 @@ class LensBloc extends Bloc<LensEvent, LensState> {
       );
     } on DioError catch (e) {
       return LensFailed(
-        title: 'Ошибка при отправке запроса',
+        title: 'Ошибка при обработке ответа от сервера123',
         subtitle: e.toString(),
       );
     } on SuccessFalse catch (e) {
       return LensFailed(
-        title: 'Ошибка при обработке запроса',
+        title: 'Ошибка при обработке ответа от сервера',
         subtitle: e.toString(),
       );
     }

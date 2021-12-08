@@ -12,9 +12,22 @@ part 'addresses_event.dart';
 part 'addresses_state.dart';
 
 class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
-  AddressesBloc() : super(AddressesInitial()) {
-    on<AddressesSend>((event, emit) => sendAddress(event.address));
-    on<AddressesDelete>((event, emit) => deleteAddress(event.id));
+  // AddressesBloc() : super(AddressesInitial()) {
+  //   on<AddressesSend>((event, emit) => sendAddress(event.address));
+  //   on<AddressesDelete>((event, emit) => deleteAddress(event.id));
+  // }
+
+  AddressesBloc() : super(AddressesInitial());
+
+  @override
+  Stream<AddressesState> mapEventToState(AddressesEvent event) async* {
+    if (event is AddressesSend) {
+      yield await sendAddress(event.address);
+    }
+
+    if (event is AddressesDelete) {
+      yield await deleteAddress(event.id);
+    }
   }
 
   Future<AddressesState> sendAddress(AdressModel address) async {

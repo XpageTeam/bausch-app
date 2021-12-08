@@ -3,6 +3,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
@@ -23,7 +24,10 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      appBar: const EmptyAppBar(),
+      appBar: const DefaultAppBar(
+        title: '',
+        backgroundColor: Colors.transparent,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,
@@ -58,6 +62,7 @@ class ErrorPage extends StatelessWidget {
               Text(
                 subtitle!,
                 style: AppStyles.p1Grey,
+                maxLines: 5,
                 textAlign: TextAlign.center,
               ),
           ],

@@ -1,17 +1,59 @@
 part of 'lens_bloc.dart';
 
 @immutable
-abstract class LensState {}
-
-class LensInitial extends LensState {}
-
-class LensGotten extends LensState {
+abstract class LensState {
   final LensParametersModel model;
 
-  LensGotten({
-    required this.model,
-  });
+  const LensState({required this.model});
 }
+
+class LensInitial extends LensState {
+  LensInitial()
+      : super(
+          model: LensParametersModel(
+            cylinder: 0,
+            diopter: 0,
+            axis: 0,
+            addict: 0,
+          ),
+        );
+}
+
+class LensLoading extends LensState {
+  LensLoading()
+      : super(
+          model: LensParametersModel(
+            cylinder: 0,
+            diopter: 0,
+            axis: 0,
+            addict: 0,
+          ),
+        );
+}
+
+class LensSuccess extends LensState {
+  const LensSuccess({
+    required LensParametersModel model,
+  }) : super(
+          model: model,
+        );
+}
+
+class LensUpdated extends LensState {
+  const LensUpdated({
+    required LensParametersModel model,
+  }) : super(
+          model: model,
+        );
+}
+
+// class LensSended extends LensState {
+//   final LensParametersModel model;
+
+//   LensSended({
+//     required this.model,
+//   });
+// }
 
 class LensFailed extends LensState {
   final String title;
@@ -20,5 +62,12 @@ class LensFailed extends LensState {
   LensFailed({
     required this.title,
     this.subtitle,
-  });
+  }) : super(
+          model: LensParametersModel(
+            cylinder: 0,
+            diopter: 0,
+            axis: 0,
+            addict: 0,
+          ),
+        );
 }
