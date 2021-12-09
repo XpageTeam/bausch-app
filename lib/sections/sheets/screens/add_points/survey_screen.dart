@@ -1,11 +1,9 @@
 import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
-import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
