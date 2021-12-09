@@ -1025,7 +1025,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5d58b0a46c2edd8991ce0e4e6ff7cfd85c8ccd85"
+      resolved-ref: "5d55be92ab88365b9db48599ce9c865e4c3b2397"
       url: "https://github.com/Unact/yandex_mapkit.git"
     source: git
     version: "1.1.1"

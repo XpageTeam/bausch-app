@@ -885,7 +885,7 @@
     },
     {
       "name": "yandex_mapkit",
-      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/git/yandex_mapkit-5d58b0a46c2edd8991ce0e4e6ff7cfd85c8ccd85/",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/git/yandex_mapkit-5d55be92ab88365b9db48599ce9c865e4c3b2397/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -902,7 +902,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-12-08T11:33:33.990688Z",
+  "generated": "2021-12-09T06:56:42.975271Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }
