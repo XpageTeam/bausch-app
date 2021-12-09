@@ -76,12 +76,22 @@ class MapBodyWM extends WidgetModel {
 
     subscribe(zoomInAction.stream, (value) {
       // zoomIn
-      mapController?.zoomIn();
+      mapController?.moveCamera(
+        CameraUpdate.zoomIn(),
+        animation: const MapAnimation(
+          duration: 0.5,
+        ),
+      );
     });
 
     subscribe(zoomOutAction.stream, (value) {
       // zoomOut
-      mapController?.zoomOut();
+      mapController?.moveCamera(
+        CameraUpdate.zoomOut(),
+        animation: const MapAnimation(
+          duration: 0.5,
+        ),
+      );
     });
 
     super.onBind();
@@ -168,10 +178,12 @@ class MapBodyWM extends WidgetModel {
       return;
     }
 
-    mapController?.setBounds(
-      boundingBox: BoundingBox(
-        southWest: extremePoints.southWest,
-        northEast: extremePoints.northEast,
+    mapController?.moveCamera(
+      CameraUpdate.newBounds(
+        BoundingBox(
+          southWest: extremePoints.southWest,
+          northEast: extremePoints.northEast,
+        ),
       ),
     );
   }
@@ -203,13 +215,15 @@ class MapBodyWM extends WidgetModel {
   }
 
   Future<void> _moveTo(Point point) async {
-    await mapController?.move(
-      cameraPosition: CameraPosition(
-        zoom: 16,
-        target: Point(
-          latitude: point.latitude -
-              0.001, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
-          longitude: point.longitude,
+    await mapController?.moveCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          zoom: 16,
+          target: Point(
+            latitude: point.latitude -
+                0.001, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
+            longitude: point.longitude,
+          ),
         ),
       ),
       animation: const MapAnimation(
