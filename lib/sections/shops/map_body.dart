@@ -71,8 +71,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                                 builder: (context) => BottomSheetContent(
                                   title: shop.name,
                                   subtitle: shop.address,
-                                  // TODO(Nikolay): Телефон.
-                                  phone: shop.phone[0],
+                                  phones: shop.phones,
                                   site: shop.site,
                                   // additionalInfo:
                                   //     'Скидкой можно воспользоваться в любой из оптик сети.',

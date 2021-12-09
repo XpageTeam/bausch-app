@@ -1,3 +1,4 @@
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -15,16 +16,18 @@ import 'package:bausch/widgets/shop_filter_widget/bloc/shop_filter_bloc.dart';
 import 'package:bausch/widgets/shop_filter_widget/shop_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ShopsScreenBody extends StatefulWidget {
   final List<CityModel> cityList;
-  final String currentCity;
+  final String? currentCity;
   final void Function(String newCity) cityChanged;
 
   const ShopsScreenBody({
     required this.cityList,
-    required this.currentCity,
     required this.cityChanged,
+    this.currentCity,
     Key? key,
   }) : super(key: key);
 
@@ -41,6 +44,8 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
   List<ShopModel> shopList = [];
 
   int currentIndex = 0;
+
+  late AuthWM authWM;
 
   @override
   void initState() {
@@ -63,6 +68,10 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
     filterBloc = ShopFilterBloc(
       defaultFilter: filterList[0],
       allFilters: filterList,
+    );
+    authWM = Provider.of<AuthWM>(context, listen: false);
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) {},
     );
   }
 
@@ -99,58 +108,122 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
           ),
 
           // Кнопка выбора города
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              StaticData.sidePadding,
-              0,
-              StaticData.sidePadding,
-              20,
-            ),
-            child: DefaultButton(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
-              onPressed: () async {
-                // Открыть окно со списком городов
-                final cityName = await Keys.mainNav.currentState!.push<String>(
-                  PageRouteBuilder<String>(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        CityScreen(
-                      citiesWithShops: widget.cityList
-                          .map(
-                            (e) => e.name,
-                          )
-                          .toList(),
-                    ),
-                  ),
-                );
+          // StreamedStateBuilder<AuthStatus>(
+          //   streamedState: authWM.authStatus,
+          //   builder: (_, autStatus) => autStatus == AuthStatus.authenticated
+          //       ? Padding(
+          //           padding: const EdgeInsets.fromLTRB(
+          //             StaticData.sidePadding,
+          //             0,
+          //             StaticData.sidePadding,
+          //             20,
+          //           ),
+          //           child: DefaultButton(
+          //             padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+          //             onPressed: () async {
+          //               // Открыть окно со списком городов
+          //               final cityName =
+          //                   await Keys.mainNav.currentState!.push<String>(
+          //                 PageRouteBuilder<String>(
+          //                   pageBuilder:
+          //                       (context, animation, secondaryAnimation) =>
+          //                           CityScreen(
+          //                     citiesWithShops: widget.cityList
+          //                         .map(
+          //                           (e) => e.name,
+          //                         )
+          //                         .toList(),
+          //                   ),
+          //                 ),
+          //               );
 
-                if (cityName != null && cityName != widget.currentCity) {
-                  widget.cityChanged(cityName);
-                }
-              },
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Город',
-                      style: AppStyles.p1Grey,
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Flexible(
-                      child: Text(
-                        widget.currentCity,
-                        style: AppStyles.h2Bold,
+          //               if (cityName != null &&
+          //                   cityName != widget.currentCity) {
+          //                 widget.cityChanged(cityName);
+          //               }
+          //             },
+          //             children: [
+          //               Column(
+          //                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                 mainAxisSize: MainAxisSize.min,
+          //                 children: [
+          //                   Text(
+          //                     'Город',
+          //                     style: AppStyles.p1Grey,
+          //                   ),
+          //                   const SizedBox(
+          //                     height: 6,
+          //                   ),
+          //                   Flexible(
+          //                     child: Text(
+          //                       widget.currentCity!,
+          //                       style: AppStyles.h2Bold,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ],
+          //             chevronColor: AppTheme.mineShaft,
+          //           ),
+          //         )
+          //       : Container(),
+          // ),
+          
+          // Кнопка выбора города
+          if (widget.currentCity != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                20,
+              ),
+              child: DefaultButton(
+                padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+                onPressed: () async {
+                  // Открыть окно со списком городов
+                  final cityName =
+                      await Keys.mainNav.currentState!.push<String>(
+                    PageRouteBuilder<String>(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          CityScreen(
+                        citiesWithShops: widget.cityList
+                            .map(
+                              (e) => e.name,
+                            )
+                            .toList(),
                       ),
                     ),
-                  ],
-                ),
-              ],
-              chevronColor: AppTheme.mineShaft,
+                  );
+
+                  if (cityName != null && cityName != widget.currentCity) {
+                    widget.cityChanged(cityName);
+                  }
+                },
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Город',
+                        style: AppStyles.p1Grey,
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Flexible(
+                        child: Text(
+                          widget.currentCity!,
+                          style: AppStyles.h2Bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                chevronColor: AppTheme.mineShaft,
+              ),
             ),
-          ),
 
           // Фильтр магазинов
           Padding(

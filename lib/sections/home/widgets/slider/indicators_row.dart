@@ -99,7 +99,6 @@ class _IndicatorsRowState extends State<IndicatorsRow> {
                             -(widget.indicatorsOnPage - 1)) {
                           direction = innerIndex - currentIndex;
                         } else {
-                          // TODO(Nikolay): Изменить.
                           direction = 1;
                         }
                       }
@@ -110,7 +109,6 @@ class _IndicatorsRowState extends State<IndicatorsRow> {
                             (widget.indicatorsOnPage - 1)) {
                           direction = innerIndex - currentIndex;
                         } else {
-                          // TODO(Nikolay): Изменить.
                           direction = -1;
                         }
                       }

@@ -133,7 +133,7 @@ class MapBodyWM extends WidgetModel {
               PlacemarkIconStyle(
                 scale: indexOfPressedShop != null
                     ? indexOfPressedShop == i
-                        ? 1.5
+                        ? 2.5
                         : 1
                     : 1,
                 image: BitmapDescriptor.fromAssetImage(
@@ -205,10 +205,10 @@ class MapBodyWM extends WidgetModel {
   Future<void> _moveTo(Point point) async {
     await mapController?.move(
       cameraPosition: CameraPosition(
-        zoom: 17,
+        zoom: 16,
         target: Point(
           latitude: point.latitude -
-              0.0004, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
+              0.001, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
           longitude: point.longitude,
         ),
       ),

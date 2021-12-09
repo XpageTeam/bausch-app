@@ -86,7 +86,6 @@ class ItemsScrollController extends ScrollController {
     );
   }
 
-  // TODO(Nikolay): Этот метод пока что плохо протестирован.
   double getNearestGreaterPage() {
     final rawPage = page!;
     final integerPart = rawPage ~/ 1;
@@ -100,7 +99,6 @@ class ItemsScrollController extends ScrollController {
     return rawPage.ceilToDouble();
   }
 
-  // TODO(Nikolay): Этот метод пока что плохо протестирован.
   double getNearestSmallerPage() {
     final rawPage = page!;
     final integerPart = rawPage ~/ 1;

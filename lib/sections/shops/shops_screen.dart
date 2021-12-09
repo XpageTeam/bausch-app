@@ -28,20 +28,13 @@ class _ShopsScreenState extends State<ShopsScreen> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) {
-        if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
-            AuthStatus.authenticated) {
-          currentCity = Provider.of<UserWM>(context, listen: false)
-              .userData
-              .value
-              .data
-              ?.user
-              .city;
-        }
-      },
-    );
+    if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
+        AuthStatus.authenticated) {
+      currentCity = Provider.of<UserWM>(
+        context,
+        listen: false,
+      ).userData.value.data?.user.city;
+    }
   }
 
   @override
@@ -56,6 +49,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
         child: BlocConsumer<ShopListCubit, ShopListState>(
           listener: (context, state) {
             if (state is ShopListSuccess &&
+                state.cityList.isNotEmpty &&
                 !state.cityList.any(
                   (element) => element.name == currentCity,
                 )) {
@@ -75,7 +69,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
               );
 
               // Сделать первый по списку город текущим
-              currentCity = sort(state.cityList)[0].name;
+              currentCity = sort(state.cityList)?[0].name;
               // Повторный запрос
               BlocProvider.of<ShopListCubit>(context).loadShopList();
             }
@@ -84,7 +78,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
             if (state is ShopListSuccess) {
               return ShopsScreenBody(
                 cityList: state.cityList,
-                currentCity: currentCity ?? sort(state.cityList)[0].name,
+                currentCity: currentCity ?? sort(state.cityList)?[0].name,
                 cityChanged: (newCity) {
                   BlocProvider.of<ShopListCubit>(context).loadShopList();
                   currentCity = newCity;
@@ -114,7 +108,8 @@ class _ShopsScreenState extends State<ShopsScreen> {
     );
   }
 
-  List<CityModel> sort(List<CityModel> cities) {
+  List<CityModel>? sort(List<CityModel> cities) {
+    if (cities.isEmpty) return null;
     return cities..sort((a, b) => a.name.compareTo(b.name));
   }
 }

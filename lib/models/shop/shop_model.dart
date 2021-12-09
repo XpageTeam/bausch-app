@@ -13,7 +13,7 @@ class ShopModel {
   final String address;
 
   ///* Телефон
-  final List<String> phone;
+  final List<String> phones;
 
   ///* Сайт
   final String? site;
@@ -25,7 +25,7 @@ class ShopModel {
     required this.id,
     required this.name,
     required this.address,
-    required this.phone,
+    required this.phones,
     this.site,
     this.coords,
   });
@@ -39,8 +39,7 @@ class ShopModel {
       id: map['id'] as int,
       name: map['name'] as String,
       address: map['address'] as String,
-      // TODO(Nikolay): Убрать эту хер.
-      phone: (map['phone'] as List<dynamic>)
+      phones: (map['phone'] as List<dynamic>)
           .map((dynamic e) => e as String)
           .toList(),
       site: map['site'] as String?,

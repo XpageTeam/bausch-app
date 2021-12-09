@@ -19,41 +19,39 @@ class ShopListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.only(
-        right: StaticData.sidePadding,
-        left: StaticData.sidePadding,
-        bottom: 20,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: shopList.isEmpty
-            ? [
-                Center(
-                  child: Text(
-                    'Пусто',
-                    style: AppStyles.p1,
-                  ),
-                ),
-              ]
-            : shopList
-                .map(
-                  (shop) => Container(
-                    margin: shopList.last == shop
-                        ? null
-                        : const EdgeInsets.only(bottom: 4),
-                    child: containerType == ShopContainerWithButton
-                        ? ShopContainerWithButton(
-                            shop: shop,
-                            onPressed: () {
-                              // TODO(Nikolay): Реализовать onPressed.
-                            },
-                          )
-                        : ShopContainer(shop: shop),
-                  ),
-                )
-                .toList(),
-      ),
-    );
+    return shopList.isEmpty
+        ? Center(
+            child: Text(
+              'Пусто',
+              style: AppStyles.p1,
+            ),
+          )
+        : SingleChildScrollView(
+            padding: const EdgeInsets.only(
+              right: StaticData.sidePadding,
+              left: StaticData.sidePadding,
+              bottom: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: shopList
+                  .map(
+                    (shop) => Container(
+                      margin: shopList.last == shop
+                          ? null
+                          : const EdgeInsets.only(bottom: 4),
+                      child: containerType == ShopContainerWithButton
+                          ? ShopContainerWithButton(
+                              shop: shop,
+                              onPressed: () {
+                                // TODO(Nikolay): Реализовать onPressed.
+                              },
+                            )
+                          : ShopContainer(shop: shop),
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
   }
 }

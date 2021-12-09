@@ -25,32 +25,32 @@ class ScoresSection extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            EntityStateBuilder<UserRepository>(
-              streamedState: userWM.userData,
-              builder: (_, repo) {
-                return AutoSizeText(
-                  repo.userScrore.toString(),
-                  maxLines: 1,
-                  style: const TextStyle(
-                    color: AppTheme.mineShaft,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 85,
-                    height: 80 / 85,
-                    leadingDistribution: TextLeadingDistribution.even,
-                  ),
-                );
-              },
-            ),
-            // TODO(Nikolay): Проверить.
-            Positioned(
-              right: 0,
-              top: 5,
-              child: Transform.translate(
-                offset: const Offset(37, 0),
-                child: const PointWidget(
+        FittedBox(
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 37.0),
+                child: EntityStateBuilder<UserRepository>(
+                  streamedState: userWM.userData,
+                  builder: (_, repo) {
+                    return AutoSizeText(
+                      repo.userScrore.toString(),
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: AppTheme.mineShaft,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 85,
+                        height: 80 / 85,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const Positioned(
+                right: 0,
+                top: 1,
+                child: PointWidget(
                   radius: 18,
                   textStyle: TextStyle(
                     color: AppTheme.mineShaft,
@@ -61,10 +61,9 @@ class ScoresSection extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        // TODO: посчитать и вывести
         EntityStateBuilder<UserRepository>(
           streamedState: userWM.userData,
           builder: (_, repo) {
@@ -79,11 +78,11 @@ class ScoresSection extends StatelessWidget {
                     ),
                     child: CustomLineLoadingIndicator(
                       text: repo.lineLoadingText,
-                      // TODO: Откуда берется максимальное количество дней?.
+                      // TODO(Nikolay): Откуда берется максимальное количество дней?.
                       maxDays: 30,
                       daysRemain: s.connectionState == ConnectionState.done
                           ? daysRemain
-                          : 6, // TODO: Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
+                          : 6, // TODO(Nikolay): Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
                       animationDuration: loadingAnimationDuration,
                     ),
                   );
