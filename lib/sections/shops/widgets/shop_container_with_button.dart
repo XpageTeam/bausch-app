@@ -49,30 +49,58 @@ class ShopContainerWithButton extends StatelessWidget {
             ),
           ),
 
-          //* Номер
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: GestureDetector(
-                onTap: () async {
-                  final url = 'tel:${shop.phone}';
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    await Future<dynamic>.error('Could not launch $url');
-                  }
-                },
-                child: Text(
-                  shop.phone,
-                  style: AppStyles.p1.copyWith(
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppTheme.turquoiseBlue,
-                    decorationThickness: 2,
+          //* Номера
+          ...shop.phones
+              .map(
+                (phone) => Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: GestureDetector(
+                      onTap: () async {
+                        final url = 'tel:${shop.phones}';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          await Future<dynamic>.error('Could not launch $url');
+                        }
+                      },
+                      child: Text(
+                        shop.phones[0],
+                        style: AppStyles.p1.copyWith(
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppTheme.turquoiseBlue,
+                          decorationThickness: 2,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
+              )
+              .toList(),
+
+          // Flexible(
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(bottom: 20),
+          //     child: GestureDetector(
+          //       onTap: () async {
+          //         final url = 'tel:${shop.phone}';
+          //         if (await canLaunch(url)) {
+          //           await launch(url);
+          //         } else {
+          //           await Future<dynamic>.error('Could not launch $url');
+          //         }
+          //       },
+          //       child: Text(
+          //         shop.phone[0],
+          //         style: AppStyles.p1.copyWith(
+          //           decoration: TextDecoration.underline,
+          //           decorationColor: AppTheme.turquoiseBlue,
+          //           decorationThickness: 2,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           BlueButton(
             onPressed: onPressed,

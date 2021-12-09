@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityScreenWM extends WidgetModel {
+  final List<String>? citiesWithShops;
+
   final citiesList = EntityStreamedState<List<DadataCity>>();
 
   final citiesListReloadAction = VoidAction();
@@ -18,9 +20,33 @@ class CityScreenWM extends WidgetModel {
   final citiesFilterController = TextEditingController();
   final filteredCitiesList = StreamedState<List<DadataCity>>([]);
 
-  CityScreenWM(WidgetModelDependencies baseDependencies)
-      : super(baseDependencies) {
-    _loadCities();
+  CityScreenWM(
+    WidgetModelDependencies baseDependencies, {
+    this.citiesWithShops,
+  }) : super(baseDependencies) {
+    if (citiesWithShops == null) {
+      _loadCities();
+    } else {
+      // Это используется для карты
+      citiesList.content(
+        citiesWithShops!
+            .map(
+              (e) => DadataCity(
+                kladrID: 'kladrID',
+                fiasID: 'fiasID',
+                postalCode: 'postalCode',
+                fiasLevel: 'fiasLevel',
+                timezone: 'timezone',
+                cityType: 'cityType',
+                name: e,
+                regionType: 'regionType',
+                regionName: 'regionName',
+                address: 'address',
+              ),
+            )
+            .toList(),
+      );
+    }
   }
 
   @override
@@ -94,7 +120,10 @@ class CityScreenWM extends WidgetModel {
     final filteredList = <DadataCity>[];
 
     citiesList.value.data?.forEach((city) {
-      if (city.name.toLowerCase().indexOf(citiesFilterController.text.toLowerCase()) == 0) {
+      if (city.name
+              .toLowerCase()
+              .indexOf(citiesFilterController.text.toLowerCase()) ==
+          0) {
         filteredList.add(city);
       }
     });

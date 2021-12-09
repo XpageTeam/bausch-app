@@ -84,7 +84,6 @@ class _CityAndEmailScreenState
               Stack(
                 alignment: Alignment.centerRight,
                 children: [
-                  // TODO(Nikolay): Проверить работоспособность.
                   NativeTextInput(
                     labelText: 'E-mail',
                     controller: wm.emailFieldController,

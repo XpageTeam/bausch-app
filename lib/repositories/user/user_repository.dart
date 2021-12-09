@@ -17,20 +17,17 @@ class UserRepository {
       .inDays;
 
   String get lineLoadingText {
-    // TODO(Nikolay): Убрать хардкод.
-    final amount = 129;
-    final daysRemain = 4;
-    // final amount = balance.nearestExpiration?.amount;
+    final amount = balance.nearestExpiration?.amount;
     if (canPrintLineLoadingText) {
       return '$amount ${HelpFunctions.wordByCount(
-        amount.toInt(),
+        amount!.toInt(),
         [
           'баллов сгорят',
           'балл сгорит',
           'балла сгорят',
         ],
       )} через $daysRemain ${HelpFunctions.wordByCount(
-        daysRemain,
+        daysRemain!,
         [
           'дней',
           'день',
@@ -43,11 +40,8 @@ class UserRepository {
   }
 
   bool get canPrintLineLoadingText {
-    // TODO(Nikolay): Убрать хардкод.
-    final amount = 129;
-    final daysRemain = 4;
-    // final amount = balance.nearestExpiration?.amount;
-    if (daysRemain != null && daysRemain > 0 && amount != null) {
+    final amount = balance.nearestExpiration?.amount;
+    if (daysRemain != null && daysRemain! > 0 && amount != null) {
       return true;
     } else {
       return false;

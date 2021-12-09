@@ -1016,9 +1016,11 @@ packages:
   yandex_mapkit:
     dependency: "direct main"
     description:
-      name: yandex_mapkit
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "5d55be92ab88365b9db48599ce9c865e4c3b2397"
+      url: "https://github.com/Unact/yandex_mapkit.git"
+    source: git
     version: "1.1.1"
   youtube_player_flutter:
     dependency: "direct main"

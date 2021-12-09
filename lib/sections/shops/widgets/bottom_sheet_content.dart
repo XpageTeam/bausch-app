@@ -10,7 +10,7 @@ class BottomSheetContent extends StatelessWidget {
   final String title;
   final String btnText;
   final String? subtitle;
-  final String? phone;
+  final List<String>? phones;
   final String? site;
   final String? additionalInfo;
   final VoidCallback? onPressed;
@@ -18,7 +18,7 @@ class BottomSheetContent extends StatelessWidget {
     required this.title,
     required this.btnText,
     this.subtitle,
-    this.phone,
+    this.phones,
     this.onPressed,
     this.site,
     this.additionalInfo,
@@ -91,21 +91,43 @@ class BottomSheetContent extends StatelessWidget {
               ),
             ),
 
-          // Телефон
-          if (phone != null)
-            Flexible(
-              child: GestureDetector(
-                onTap: () => Utils.tryLaunchUrl(rawUrl: phone!, isPhone: true),
-                child: Text(
-                  phone!,
-                  style: AppStyles.p1.copyWith(
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppTheme.turquoiseBlue,
-                    decorationThickness: 2,
+          // Номера
+          if (phones != null)
+            ...phones!
+                .map(
+                  (phone) => Flexible(
+                    child: GestureDetector(
+                      onTap: () => Utils.tryLaunchUrl(
+                        rawUrl: phone,
+                        isPhone: true,
+                      ),
+                      child: Text(
+                        phone,
+                        style: AppStyles.p1.copyWith(
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppTheme.turquoiseBlue,
+                          decorationThickness: 2,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
+                )
+                .toList(),
+
+          // if (phone.is != null)
+          //   Flexible(
+          //     child: GestureDetector(
+          //       onTap: () => Utils.tryLaunchUrl(rawUrl: phone!, isPhone: true),
+          //       child: Text(
+          //         phone!,
+          //         style: AppStyles.p1.copyWith(
+          //           decoration: TextDecoration.underline,
+          //           decorationColor: AppTheme.turquoiseBlue,
+          //           decorationThickness: 2,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
 
           // Сайт
           if (site != null)

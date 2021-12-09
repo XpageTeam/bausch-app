@@ -108,7 +108,6 @@ class _NativeTextInputState extends State<NativeTextInput>
                     controller: widget.controller,
                     focusNode: focusNode,
                     keyboardType: widget.inputType,
-                    // TODO(Nikolay): Расстояние между буквами отличается от обчного textField.
                     style: widget.textStyle ?? AppStyles.h2Bold,
                     maxLines: widget.maxLines,
                     inputFormatters: widget.inputFormatters,
