@@ -20,8 +20,33 @@ class LensInitial extends LensState {
 }
 
 class LensLoading extends LensState {
-  LensLoading()
+  const LensLoading({required LensParametersModel model})
       : super(
+          model: model,
+        );
+}
+
+class LensGetting extends LensState {
+  const LensGetting({required LensParametersModel model})
+      : super(
+          model: model,
+        );
+}
+
+class LensGetSuccess extends LensState {
+  const LensGetSuccess({required LensParametersModel model})
+      : super(
+          model: model,
+        );
+}
+
+class LensGetFailed extends LensState {
+  final String title;
+  final String? subtitle;
+  LensGetFailed({
+    required this.title,
+    this.subtitle,
+  }) : super(
           model: LensParametersModel(
             cylinder: 0,
             diopter: 0,

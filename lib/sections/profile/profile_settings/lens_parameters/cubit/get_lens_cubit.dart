@@ -5,6 +5,7 @@ import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 part 'get_lens_state.dart';
@@ -24,6 +25,7 @@ class GetLensCubit extends Cubit<GetLensState> {
         ))
             .data!,
       );
+      debugPrint('get ${parsedData.data}');
 
       emit(GetLensSuccess(
         model: LensParametersModel.fromMap(

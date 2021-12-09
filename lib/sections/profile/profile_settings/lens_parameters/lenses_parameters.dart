@@ -1,7 +1,9 @@
 import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/cubit/get_lens_cubit.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_listener.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_parameters_content.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_provider.dart';
 import 'package:bausch/sections/profile/profile_settings/picker_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -24,24 +26,27 @@ class LensesParametersScreen extends StatefulWidget {
 }
 
 class _LensesParametersScreenState extends State<LensesParametersScreen> {
-  final LensBloc lensBloc = LensBloc();
+  //late LensBloc lensBloc;
+  //final GetLensCubit getLensCubit = GetLensCubit();
+
+  @override
+  void initState() {
+    super.initState();
+    //lensBloc =
+  }
 
   @override
   void dispose() {
     super.dispose();
-    lensBloc.close();
+    //lensBloc.close();
+    //getLensCubit.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => lensBloc,
+    return LensProvider(
       child: LensListener(
-        child: BlocBuilder<LensBloc, LensState>(
-          builder: (context, state) {
-            return LensParametersContent();
-          },
-        ),
+        child: LensParametersContent(),
       ),
     );
   }

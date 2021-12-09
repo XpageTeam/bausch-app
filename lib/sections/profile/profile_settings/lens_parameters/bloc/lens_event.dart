@@ -9,6 +9,8 @@ class LensSend extends LensEvent {
   LensSend({required this.model});
 }
 
+class LensGet extends LensEvent {}
+
 class LensUpdate extends LensEvent {
   final LensParametersModel model;
 
