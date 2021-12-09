@@ -87,7 +87,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
             );
             break;
 
-          case '/attach':
+          case '/add_files':
             page = AttachFilesScreen(
               fieldsBloc:
                   (settings.arguments as AttachFilesScreenArguments).fieldsBloc,

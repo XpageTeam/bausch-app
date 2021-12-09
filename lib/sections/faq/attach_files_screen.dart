@@ -89,7 +89,10 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                               },
                               child: Row(
                                 children: const [
-                                  Icon(Icons.add_circle_outline_rounded),
+                                  Icon(
+                                    Icons.add_circle_outline_rounded,
+                                    color: AppTheme.mineShaft,
+                                  ),
                                   SizedBox(
                                     width: 12,
                                   ),

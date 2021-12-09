@@ -2,6 +2,7 @@ import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/date_picker_button.dart';
+import 'package:bausch/sections/faq/contact_support/form_text_area.dart';
 import 'package:bausch/sections/faq/contact_support/form_text_input.dart';
 import 'package:bausch/sections/faq/contact_support/select.dart';
 import 'package:bausch/static/static_data.dart';
@@ -19,24 +20,7 @@ Widget childBuilder(FieldModel model, BuildContext context) {
         //arguments: arguments,
       );
     case 'textarea':
-      return FormTextInput(
-        model: model,
-        maxLines: 3,
-        labelAlignment: Alignment.topLeft,
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(
-                '/attach',
-                arguments: AttachFilesScreenArguments(
-                  fieldsBloc: BlocProvider.of<FieldsBloc>(context),
-                ),
-              );
-            },
-            icon: const Icon(Icons.add_circle_outline),
-          ),
-        ),
-      );
+      return FormTextArea(model: model);
     case 'number':
       return FormTextInput(
         model: model,
