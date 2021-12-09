@@ -23,7 +23,7 @@ class AnimationContent extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 40, bottom: 20),
                   child: Text(
-                    'Пользуйтесь продукцией Bauch+lomb и получайте любимые товары и другие привилегии',
+                    'Пользуйтесь продукцией Bauch+Lomb и получайте любимые товары и другие привилегии',
                     style: TextStyle(
                       fontSize: 24.sp,
                       height: 31 / 24,
@@ -33,7 +33,7 @@ class AnimationContent extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Региструйте коды с упаковки, копите баллы и тратьте их ',
+                  'Региструйте коды с упаковки,\nкопите баллы и тратьте их ',
                   style: AppStyles.p1Grey,
                   textAlign: TextAlign.center,
                 ),

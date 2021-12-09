@@ -108,14 +108,15 @@ class _CityAndEmailScreenState
                   // ),
 
                   //* Кнопка с колбеком
-                  // IconButton(
-                  //   onPressed: wm.confirmEmailAction,
-                  //   icon: const Icon(
-                  //     Icons.arrow_forward_ios_sharp,
-                  //     color: AppTheme.grey,
-                  //     size: 20,
-                  //   ),
-                  // ),
+                  if (wm.emailFieldController.text.isEmpty)
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        color: AppTheme.grey,
+                        size: 20,
+                      ),
+                    ),
                 ],
               ),
               const SizedBox(

@@ -41,6 +41,7 @@ class _ProfileSettingsScreenState
   // TextEditingController emailController = TextEditingController();
   // TextEditingController phoneController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  bool show = true;
 
   @override
   void dispose() {
@@ -77,6 +78,35 @@ class _ProfileSettingsScreenState
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
+            Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                NativeTextInput(
+                  labelText: 'E-mail',
+                  controller: dateController,
+                  inputType: TextInputType.emailAddress,
+                  onChanged: (str) {
+                    if (str.isEmpty) {
+                      setState(() {
+                        show = true;
+                      });
+                    } else {
+                      setState(() {
+                        show = false;
+                      });
+                    }
+                  },
+                ),
+                if (show)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.5),
+                    child: Icon(
+                      Icons.arrow_forward_ios_sharp,
+                      size: 15,
+                    ),
+                  ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4, top: 30),
               child: NativeTextInput(
