@@ -11,11 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
+  final List<String>? citiesWithShops;
   CityScreen({
     Key? key,
+    this.citiesWithShops,
   }) : super(
-          widgetModelBuilder: (context) =>
-              CityScreenWM(const WidgetModelDependencies()),
+          widgetModelBuilder: (context) => CityScreenWM(
+            const WidgetModelDependencies(),
+            citiesWithShops: citiesWithShops,
+          ),
           key: key,
         );
 

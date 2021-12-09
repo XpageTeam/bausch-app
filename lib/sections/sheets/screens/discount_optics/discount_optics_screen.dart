@@ -103,7 +103,7 @@ class DiscountOpticsScreen extends StatelessWidget
                         onPressed: () {
                           Keys.mainNav.currentState!
                               .push<void>(MaterialPageRoute(builder: (context) {
-                            return const ShopsScreen();
+                            return ShopsScreen();
                           }));
                         },
                       ),
