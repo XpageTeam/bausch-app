@@ -5,7 +5,11 @@ import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';
 import 'package:bausch/sections/rules/rules_screen.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
+import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для bottomSheet'а без элементов каталога
@@ -41,7 +45,9 @@ class SimpleOverlayNavigation extends StatelessWidget {
                 controller: controller,
               );
             } else {
-              page = Container();
+              page = AddPointsScreen(
+                controller: controller,
+              );
             }
             break;
 
@@ -78,6 +84,19 @@ class SimpleOverlayNavigation extends StatelessWidget {
 
           case '/support':
             page = ContactSupportScreen(controller: controller);
+            break;
+
+          case '/addpoints_details':
+            page = AddPointsDetails(
+              model: Models.addItems[0],
+              controller: controller,
+            );
+            break;
+
+          case '/final_addpoints':
+            page = FinalAddPointsScreen(
+              controller: controller,
+            );
             break;
 
           default:

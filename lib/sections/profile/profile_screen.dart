@@ -128,7 +128,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
               ],
             ),
           ),
-          bottomSheet: const InfoBlock(),
+          bottomSheet: SizedBox(height: 60, child: const InfoBlock()),
           extendBodyBehindAppBar: true,
         ),
       ),

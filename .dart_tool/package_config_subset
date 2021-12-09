@@ -238,10 +238,6 @@ glob
 2.14
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/glob-2.0.2/
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/glob-2.0.2/lib/
-graphs
-2.12
-file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/graphs-2.1.0/
-file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/graphs-2.1.0/lib/
 html
 2.12
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/html-0.15.0/
@@ -258,6 +254,10 @@ intl
 2.12
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/intl-0.17.0/
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/intl-0.17.0/lib/
+iphone_has_notch
+2.12
+file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/iphone_has_notch-1.0.0/
+file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/iphone_has_notch-1.0.0/lib/
 js
 2.12
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/js-0.6.3/
@@ -378,10 +378,6 @@ relation
 2.12
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/relation-3.1.0/
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/relation-3.1.0/lib/
-rive
-2.12
-file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/rive-0.7.33/
-file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/rive-0.7.33/lib/
 rxdart
 2.12
 file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/rxdart-0.27.2/

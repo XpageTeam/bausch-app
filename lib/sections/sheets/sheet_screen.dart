@@ -100,12 +100,7 @@ class _SheetScreenState extends State<SheetScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CatalogItem(
-                          //context,
                           model: widget.items[i * 2],
-                          isProduct: widget.sheetModel.type !=
-                                  StaticData.types['webinar']
-                              ? true
-                              : false,
                           onTap: () {
                             Keys.bottomSheetItemsNav.currentState!.pushNamed(
                               '/${widget.sheetModel.type}',
@@ -117,12 +112,7 @@ class _SheetScreenState extends State<SheetScreen> {
                         ),
                         if (widget.items.asMap().containsKey(i * 2 + 1))
                           CatalogItem(
-                            //context,
                             model: widget.items[i * 2 + 1],
-                            isProduct: widget.sheetModel.type !=
-                                    StaticData.types['webinar']
-                                ? true
-                                : false,
                             onTap: () {
                               Keys.bottomSheetItemsNav.currentState!.pushNamed(
                                 '/${widget.sheetModel.type}',

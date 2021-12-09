@@ -380,12 +380,6 @@
       "languageVersion": "2.14"
     },
     {
-      "name": "graphs",
-      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/graphs-2.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "html",
       "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/html-0.15.0",
       "packageUri": "lib/",
@@ -406,6 +400,12 @@
     {
       "name": "intl",
       "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "iphone_has_notch",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/iphone_has_notch-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -586,12 +586,6 @@
     {
       "name": "relation",
       "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/relation-3.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "rive",
-      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/rive-0.7.33",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -902,7 +896,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-12-09T06:56:42.975271Z",
+  "generated": "2021-12-09T07:00:21.999001Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

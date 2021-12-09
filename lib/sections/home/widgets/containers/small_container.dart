@@ -70,7 +70,7 @@ class _SmallContainerState extends State<SmallContainer> {
               AutoSizeText(
                 widget.model.name,
                 style: AppStyles.h1,
-                maxLines: 2,
+                maxLines: 3,
                 overflow: TextOverflow.visible,
               ),
               Row(
@@ -85,7 +85,7 @@ class _SmallContainerState extends State<SmallContainer> {
                     padding: const EdgeInsets.all(6.6),
                     child: Image.network(
                       widget.model.icon,
-                      height: 50,
+                      height: 53,
                     ),
                   ),
                 ],

@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 
 class TextWithPoint extends StatelessWidget {
   final String text;
-  final TextStyle? style;
-  const TextWithPoint({required this.text, this.style, Key? key})
-      : super(key: key);
+  final TextStyle? dotStyle;
+  final TextStyle? textStyle;
+  const TextWithPoint({
+    required this.text,
+    this.dotStyle,
+    this.textStyle,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ class TextWithPoint extends StatelessWidget {
       children: [
         Text(
           '•',
-          style: style ?? AppStyles.p1Grey,
+          style: dotStyle ?? AppStyles.p1Grey,
         ),
         const SizedBox(
           width: 14,
@@ -22,7 +27,7 @@ class TextWithPoint extends StatelessWidget {
         Flexible(
           child: Text(
             text,
-            style: style ?? AppStyles.p1Grey,
+            style: textStyle ?? AppStyles.p1Grey,
           ),
         ),
       ],
