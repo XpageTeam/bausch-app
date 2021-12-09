@@ -879,7 +879,7 @@
     },
     {
       "name": "yandex_mapkit",
-      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/yandex_mapkit-1.1.1",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/git/yandex_mapkit-5d55be92ab88365b9db48599ce9c865e4c3b2397/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -896,7 +896,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-12-09T07:18:08.681690Z",
+  "generated": "2021-12-09T10:58:01.176056Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

@@ -7,7 +7,8 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class MayBeInteresting extends StatefulWidget {
-  const MayBeInteresting({Key? key}) : super(key: key);
+  final String text;
+  const MayBeInteresting({required this.text, Key? key}) : super(key: key);
 
   @override
   State<MayBeInteresting> createState() => _MayBeInterestingState();
@@ -23,7 +24,7 @@ class _MayBeInterestingState extends State<MayBeInteresting> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Вам может быть интересно',
+            widget.text,
             style: AppStyles.h1,
           ),
         ),

@@ -1,13 +1,21 @@
+// ignore_for_file: avoid-returning-widgets
+
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
@@ -146,6 +154,10 @@ class CatalogItemWidget extends StatelessWidget {
             if (model is! ProductItemModel)
               GreyButton(
                 text: txt(model),
+                icon: icon(model),
+                onPressed: () {
+                  callback(model);
+                },
               ),
           ],
         ),
@@ -178,18 +190,60 @@ String txt(CatalogItemModel _model) {
   }
 }
 
+Widget icon(CatalogItemModel _model) {
+  if (_model is WebinarItemModel) {
+    return Container();
+  } else if (_model is PartnersItemModel) {
+    return Image.asset(
+      'assets/copy.png',
+      height: 16,
+    );
+  } else {
+    return Image.asset(
+      'assets/icons/preview.png',
+      height: 16,
+    );
+  }
+}
+
+void callback(CatalogItemModel _model) {
+  if (_model is WebinarItemModel) {
+    debugPrint('webinar');
+  } else if (_model is PartnersItemModel) {
+    Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
+    showDefaultNotification(title: 'title');
+  } else {
+    showFlexibleBottomSheet<void>(
+      context: Keys.mainNav.currentContext!,
+      minHeight: 0,
+      initHeight: 0.9,
+      maxHeight: 0.95,
+      anchors: [0, 0.6, 0.95],
+      builder: (context, controller, d) {
+        return FinalDiscountOptics(
+          controller: ScrollController(),
+          model: _model as PromoItemModel,
+        );
+      },
+    );
+  }
+}
+
 class GreyButton extends StatelessWidget {
   final String text;
-  final String? icon;
+  final Widget icon;
+  final VoidCallback? onPressed;
   const GreyButton({
     required this.text,
-    this.icon,
+    required this.icon,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.mystic,
@@ -206,10 +260,7 @@ class GreyButton extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Image.asset(
-              icon ?? 'assets/copy.png',
-              height: 16,
-            ),
+            icon,
           ],
         ),
       ),

@@ -145,7 +145,9 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        const MayBeInteresting(),
+                        const MayBeInteresting(
+                          text: 'Вам может быть интересно',
+                        ),
 
                         //* Текстовые кнопки(Частые вопросы и тд)
                         const TextButtonsSection(),

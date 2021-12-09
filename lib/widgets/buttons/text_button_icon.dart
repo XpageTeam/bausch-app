@@ -12,10 +12,9 @@ class CustomTextButtonIcon extends StatelessWidget {
     return TextButton.icon(
       onPressed: onPressed,
       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-      icon: const Icon(
-        Icons.clean_hands,
-        color: AppTheme.mineShaft,
-        size: 20,
+      icon: Image.asset(
+        'assets/icons/delete.png',
+        height: 16,
       ),
       label: Text(
         'Удалить адрес',

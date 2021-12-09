@@ -16,7 +16,7 @@ class LensParametersSection extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 20),
             child: Text(
-              'Параметры линз',
+              'Параметры',
               style: AppStyles.h1,
             ),
           ),
