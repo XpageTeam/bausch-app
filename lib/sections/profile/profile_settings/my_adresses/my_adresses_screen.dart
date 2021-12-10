@@ -100,9 +100,15 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   FloatingActionButtonLocation.centerFloat,
             );
           } else {
-            return Text(
-              'Пока нет ни одного адреса для доставки ',
-              style: AppStyles.h1,
+            return Scaffold(
+              appBar: const DefaultAppBar(
+                title: 'Мои адреса',
+                backgroundColor: AppTheme.mystic,
+              ),
+              body: Text(
+                'Пока нет ни одного адреса для доставки ',
+                style: AppStyles.h1,
+              ),
             );
           }
         } else if (state is AdressesFailed) {

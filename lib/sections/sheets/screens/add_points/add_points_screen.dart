@@ -57,7 +57,7 @@ class AddPointsScreen extends StatelessWidget {
                         ),
                         Text(
                           'Добавить ещё',
-                          style: AppStyles.h1,
+                          style: AppStyles.h2,
                         ),
                       ],
                     ),
@@ -72,14 +72,15 @@ class AddPointsScreen extends StatelessWidget {
               padding: const EdgeInsets.only(
                 right: StaticData.sidePadding,
                 left: StaticData.sidePadding,
+                bottom: 60,
               ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, i) => Padding(
                     padding: const EdgeInsets.only(bottom: 4),
-                    child: AddItem(model: Models.addItems[0]),
+                    child: AddItem(model: Models.addItems[i]),
                   ),
-                  childCount: 5,
+                  childCount: Models.addItems.length,
                 ),
               ),
             ),

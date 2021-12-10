@@ -71,9 +71,9 @@ class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
                       style: AppStyles.p1,
                     ),
                   ),
-                  Image.network(
-                    widget.model.icon,
-                    height: 40,
+                  Image.asset(
+                    setTheImg(widget.model.type),
+                    height: 45,
                   ),
                 ],
               ),

@@ -52,6 +52,7 @@ enum SimpleSheetType {
   links,
   rules,
   addpoints,
+  program,
 }
 
 class Keys {

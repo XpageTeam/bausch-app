@@ -78,29 +78,37 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
 
                       //* Цена и виджет баллов
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              model.price.toString(),
-                              style: AppStyles.h2Bold,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 30,
+                        ),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                model.price.toString(),
+                                style: AppStyles.h2Bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          PointWidget(textStyle: AppStyles.h2),
-                        ],
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            PointWidget(textStyle: AppStyles.h2),
+                          ],
+                        ),
                       ),
 
                       //* Адрес
                       if (model is ProductItemModel)
                         Flexible(
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 2),
-                            child: Text(
-                              address!,
-                              style: AppStyles.p1Grey,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 30),
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 2),
+                              child: Text(
+                                address!,
+                                style: AppStyles.p1Grey,
+                              ),
                             ),
                           ),
                         ),
@@ -121,7 +129,7 @@ class CatalogItemWidget extends StatelessWidget {
             //* Информация о доставке
             if (model is ProductItemModel)
               Container(
-                margin: const EdgeInsets.only(top: 32),
+                //margin: const EdgeInsets.only(top: 2),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -221,6 +229,7 @@ void callback(CatalogItemModel _model) {
         return FinalDiscountOptics(
           controller: ScrollController(),
           model: _model as PromoItemModel,
+          buttonText: 'Готово',
         );
       },
     );

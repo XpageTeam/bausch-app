@@ -68,7 +68,12 @@ class CityEmailScreenWM extends WidgetModel {
       email: emailFieldController.text,
       city: selectedCityName.value,
     ))) {
-      unawaited(Keys.mainNav.currentState!.pushNamed('/home'));
+      unawaited(
+        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
+          '/home',
+          (route) => false,
+        ),
+      );
     }
   }
 

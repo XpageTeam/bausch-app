@@ -1,13 +1,16 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
+import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для bottomSheet'а без элементов каталога
@@ -62,6 +65,26 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
           //   );
           //   break;
 
+          case '/addpoints_details':
+            page = AddPointsDetails(
+              model: Models.addItems[0],
+              controller: controller,
+            );
+            break;
+
+          case '/addpoints_survey':
+            page = SurveyScreen(
+              controller: controller,
+              model: Models.addItems[3],
+            );
+            break;
+
+          case '/final_addpoints':
+            page = FinalAddPointsScreen(
+              controller: controller,
+            );
+            break;
+
           case '/verification_consultation':
             page = ConsultationVerification(
               controller: controller,
@@ -73,12 +96,6 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
             page = FinalConsultation(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model,
-            );
-            break;
-
-          case '/final_addpoints':
-            page = FinalAddPointsScreen(
-              controller: controller,
             );
             break;
 

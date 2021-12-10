@@ -1,6 +1,7 @@
-import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
+import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
@@ -28,17 +29,11 @@ class OfferWidget extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            //showSheetWithoutItems(context, Models.sheets[1]);
-            showFlexibleBottomSheet<void>(
-              useRootNavigator: true,
-              minHeight: 0,
-              initHeight: 0.9, //calculatePercentage(model.models!.length),
-              maxHeight: 0.95,
-              anchors: [0, 0.6, 0.95],
-
-              context: context,
-              builder: (_, c, d) => ProgramScreen(
-                controller: c,
+            showSimpleSheet(
+              context,
+              SimpleSheetModel(
+                title: 'Программа подбора',
+                type: SimpleSheetType.program,
               ),
             );
           },
@@ -86,19 +81,12 @@ class OfferWidget extends StatelessWidget {
                         width: 45,
                       ),
                       InkWell(
-                        onTap: () => showFlexibleBottomSheet<void>(
-                          useRootNavigator: true,
-                          minHeight: 0,
-                          initHeight:
-                              0.9, //calculatePercentage(model.models!.length),
-                          maxHeight: 0.95,
-                          anchors: [0, 0.6, 0.95],
-
-                          context: context,
-                          builder: (_, c, d) => ProgramScreen(
-                            controller: c,
-                          ),
-                        ),
+                        onTap: () =>    context,
+              SimpleSheetModel(
+                title: 'Программа подбора',
+                type: SimpleSheetType.program,
+              ),
+            )
                         child: Stack(
                           alignment: Alignment.center,
                           children: [

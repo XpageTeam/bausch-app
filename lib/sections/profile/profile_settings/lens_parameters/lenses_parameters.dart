@@ -32,7 +32,7 @@ class _LensesParametersScreenState extends State<LensesParametersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return LensProvider(
+    return const LensProvider(
       child: LensListener(
         child: LensParametersContent(),
       ),

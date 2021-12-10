@@ -2,6 +2,7 @@
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -69,7 +70,7 @@ class _SheetScreenState extends State<SheetScreen> {
                     Row(
                       children: [
                         Image.asset(
-                          'assets/free-packaging.png',
+                          setTheImg(widget.sheetModel.type),
                           height: 60,
                         ),
                         const SizedBox(

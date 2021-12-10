@@ -141,3 +141,20 @@ double calculatePercentage(int lenght) {
       return 0.9;
   }
 }
+
+String setTheImg(String type) {
+  switch (type) {
+    case 'offline':
+      return 'assets/discount-in-optics.png';
+    case 'promo_code_immediately':
+      return 'assets/offers-from-partners.png';
+    case 'free_product':
+      return 'assets/free-packaging.png';
+    case 'onlineShop':
+      return 'assets/discount-in-online-store.png';
+    case 'promo_code_video':
+      return 'assets/webinar-recordings.png';
+    default:
+      return 'assets/online-consultations.png';
+  }
+}

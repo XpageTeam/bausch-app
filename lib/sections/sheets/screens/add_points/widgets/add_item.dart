@@ -1,6 +1,7 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,13 @@ class AddItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // if (model.type == 'survey') {
-        //   Keys.bottomSheetWithoutItemsNav.currentState!
-        //       .pushNamed('/addpoints_survey');
-        // }
-        Keys.simpleBottomSheetNav.currentState!.pushNamed('/addpoints_details');
+        if (model.type == 'survey') {
+          Keys.simpleBottomSheetNav.currentState!
+              .pushNamed('/addpoints_survey');
+        } else {
+          Keys.simpleBottomSheetNav.currentState!
+              .pushNamed('/addpoints_details');
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -61,42 +64,42 @@ class AddItem extends StatelessWidget {
                 ButtonContent(price: '+${model.price}'),
               ],
             ),
-            // if (model.type == 'birthday')
-            //   Padding(
-            //     padding: const EdgeInsets.only(top: 30),
-            //     child: TextButton(
-            //       onPressed: () {},
-            //       style: TextButton.styleFrom(
-            //         backgroundColor: AppTheme.mystic,
-            //         padding: const EdgeInsets.symmetric(
-            //           horizontal: StaticData.sidePadding,
-            //         ),
-            //       ),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           Padding(
-            //             padding: const EdgeInsets.only(top: 26, bottom: 28),
-            //             child: Column(
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Text(
-            //                   'Заполнить профиль',
-            //                   style: AppStyles.h2,
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-            //           const Icon(
-            //             Icons.arrow_forward_ios_sharp,
-            //             size: 18,
-            //             color: AppTheme.mineShaft,
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
+            if (model.type == 'birthday')
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: TextButton(
+                  onPressed: () {},
+                  style: TextButton.styleFrom(
+                    backgroundColor: AppTheme.mystic,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 26, bottom: 28),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Заполнить профиль',
+                              style: AppStyles.h2,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        size: 18,
+                        color: AppTheme.mineShaft,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),

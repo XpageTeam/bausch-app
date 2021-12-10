@@ -41,7 +41,9 @@ class _LensParametersScreenState extends State<LensParametersContent> {
             title: state.title,
             subtitle: state.subtitle,
             buttonText: 'Обновить',
-            buttonCallback: lensBloc.getParameters,
+            buttonCallback: () {
+              lensBloc.add(LensGet());
+            },
           );
         }
 

@@ -189,7 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             showSimpleSheet(
               context,
-              SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
+              SimpleSheetModel(
+                title: 'title',
+                type: SimpleSheetType.addpoints,
+              ),
             );
           },
         ),

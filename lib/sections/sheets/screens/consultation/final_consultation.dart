@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -44,9 +45,15 @@ class FinalConsultation extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        'Ваш доступ к записи вебинара',
+                        'Вот ваш промокод на онлайн-консультацию',
                         style: AppStyles.h2,
                       ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        top: 40,
+                      ),
+                      child: ContainerWithPromocode(promocode: '6СС5165АDF345'),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -65,7 +72,9 @@ class FinalConsultation extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(),
+        floatingActionButton: const BottomButtonWithRoundedCorners(
+          text: 'Скопировать код и перейти на сайт',
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

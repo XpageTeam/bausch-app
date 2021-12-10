@@ -54,7 +54,7 @@ class Models {
   static List<CatalogItemModel> items = [
     ProductItemModel(
       id: 0,
-      name: '0. Раствор универсальный(300 мл)',
+      name: '0. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
       detailText: '',
@@ -81,7 +81,7 @@ class Models {
     ),
     ProductItemModel(
       id: 0,
-      name: '0. Раствор универсальный(300 мл)',
+      name: '0. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
       detailText: '',
@@ -165,6 +165,47 @@ class Models {
           'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
       price: '100',
       img: 'assets/add_points_vk.png',
+      type: 'vk',
+    ),
+    AddItemModel(
+      title: 'Пригласите друга',
+      subtitle:
+          'Пользуйтесь преимуществами программы лояльности вместе! Отправьте ссылку на регистрацию вашему другу и получите 100 баллов',
+      price: '100',
+      img: 'assets/add_points_vk.png',
+      type: 'friend',
+    ),
+    AddItemModel(
+      title: 'Написать отзыв в соцсетях',
+      subtitle:
+          'Опубликуйте отзыв c фотографией продукции Bausch+Lomb, пришлите нам подтверждение и получите дополнительные 100 баллов!',
+      price: '100',
+      img: 'assets/add_points_vk.png',
+      type: 'overview_social',
+    ),
+    AddItemModel(
+      title: 'Пройти опрос',
+      subtitle:
+          'Пройдите опрос от Bausch+Lomb! Мы начислим вам 100 дополнительных баллов.',
+      price: '100',
+      img: 'assets/add_points_vk.png',
+      type: 'survey',
+    ),
+    AddItemModel(
+      title: 'Напишите отзыв',
+      subtitle:
+          'Опубликуйте отзыв о продукции Bausch+Lomb или о преимуществах участия в Программе лояльности, пришлите нам подтверждение и получите дополнительные 50 баллов!',
+      price: '50',
+      img: 'assets/add_points_vk.png',
+      type: 'overview',
+    ),
+    AddItemModel(
+      title: 'Баллы в день рождения',
+      subtitle:
+          'В день Вашего рождения Вам будут начислены дополнительные баллы.',
+      price: '50',
+      img: 'assets/add_points_vk.png',
+      type: 'birthday',
     ),
   ];
 
