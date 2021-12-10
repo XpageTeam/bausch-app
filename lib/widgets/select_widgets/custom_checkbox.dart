@@ -7,8 +7,8 @@ class CustomCheckbox extends StatefulWidget {
   final double? borderRadius;
 
   const CustomCheckbox({
-    required this.value,
     required this.onChanged,
+    this.value,
     this.borderRadius,
     Key? key,
   }) : super(key: key);
@@ -19,7 +19,18 @@ class CustomCheckbox extends StatefulWidget {
 
 class _CustomCheckboxState extends State<CustomCheckbox> {
   final size = 18 + 11 * 2.0; // размер чекбокса плюс отступы
-  late bool currentValue = widget.value ?? false;
+  late bool currentValue;
+  @override
+  void initState() {
+    super.initState();
+    currentValue = widget.value ?? false;
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomCheckbox oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    currentValue = widget.value ?? currentValue;
+  }
 
   @override
   Widget build(BuildContext context) {
