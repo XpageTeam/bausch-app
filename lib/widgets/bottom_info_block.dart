@@ -13,11 +13,13 @@ class InfoBlock extends StatelessWidget {
       ),
       //height: 60,
       color: AppTheme.mystic,
-      child: Center(
-        child: Text(
-          'Имеются противопоказания, необходимо проконсультироваться со специалистом',
-          style: AppStyles.p1Grey,
-          textAlign: TextAlign.center,
+      child: SafeArea(
+        child: Center(
+          child: Text(
+            'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+            style: AppStyles.p1Grey,
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

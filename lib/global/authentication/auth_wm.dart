@@ -65,10 +65,15 @@ class AuthWM extends WidgetModel {
       //   ),
       //   (route) => false,
       // );
-      Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
-        targetPage,
-        (route) => false,
-      );
+
+      debugPrint(targetPage);
+
+      if (Keys.mainContentNav.currentState != null) {
+        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
+          targetPage,
+          (route) => false,
+        );
+      }
     });
 
     subscribe(checkAuthAction.stream, (value) {
