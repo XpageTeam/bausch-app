@@ -2,7 +2,7 @@
 
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/text/text_with_point.dart';
+import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:flutter/material.dart';
 
 class LegalInfo extends StatelessWidget {
@@ -18,8 +18,9 @@ class LegalInfo extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: TextWithPoint(
-                  text: texts[i],
+                // TODO(Nikolay): Проверить.
+                child: BulletedList(
+                  list: [texts[i]],
                   dotStyle: AppStyles.p1.copyWith(
                     color: AppTheme.mineShaft,
                   ),

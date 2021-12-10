@@ -1,23 +1,19 @@
-import 'dart:async';
-
-import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/exceptions/response_parse_exception.dart';
-import 'package:bausch/exceptions/success_false.dart';
-import 'package:bausch/models/program/primary_data_downloader.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/models/program/primary_data.dart';
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
-import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
+import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/slider/indicator.dart';
+import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
+import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/custom_radio_button.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:bausch/widgets/select_widgets/custom_radio.dart';
-import 'package:dio/dio.dart';
+import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -51,193 +47,184 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
       streamedState: wm.primaryDataStreamed,
       builder: (context, primaryData) {
         return ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(5),
-            topRight: Radius.circular(5),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(5),
           ),
           child: Scaffold(
             backgroundColor: AppTheme.mystic,
-            resizeToAvoidBottomInset: true,
-            body: CustomScrollView(
-              controller: widget.controller,
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    top: StaticData.sidePadding,
-                    left: StaticData.sidePadding,
-                    right: StaticData.sidePadding,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        Stack(
-                          children: [
-                            Image.asset('assets/program.png'),
-                            CustomSliverAppbar.toClose(Container(), widget.key),
-                            // TODO(Nikolay): Название.
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        InfoSection(
-                          secondText: primaryData.description,
-                        ),
-                        // TODO(Nikolay): В программе участвуют.
-                        const Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 40,
-                          ),
-                          child: MayBeInteresting(),
-                        ),
-                        // TODO(Nikolay): Важно знать перед подбором.
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 40,
-                          ),
-                          child: InfoSection(
-                            text: 'Важно знать перед подбором',
-                            secondText: primaryData.description,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // TODO(Nikolay): Ваши данные будут браться из пользователя.
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    left: StaticData.sidePadding,
-                    right: StaticData.sidePadding,
-                    bottom: 40,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 20,
-                          ),
-                          child: Text(
-                            'Ваши данные',
-                            style: AppStyles.h1,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 20,
-                          ),
-                          child: NativeTextInput(
-                            labelText: 'Имя',
-                            controller: nameController,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 20,
-                          ),
-                          child: NativeTextInput(
-                            labelText: 'Фамилия',
-                            controller: nameController,
-                          ),
-                        ),
-                        NativeTextInput(
-                          labelText: 'E-mail',
-                          controller: nameController,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // TODO(Nikolay): Чем пользуетесь для коррекции зрения.
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    left: StaticData.sidePadding,
-                    right: StaticData.sidePadding,
-                    bottom: 30,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, i) =>
-                          // TODO(Nikolay): Вынести в отдельный виджет.
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                12,
+                StaticData.sidePadding,
+                0,
+              ),
+              child: CustomScrollView(
+                controller: widget.controller,
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.only(bottom: 40.0),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
                           Padding(
-                        padding: EdgeInsets.only(
-                          bottom:
-                              i != primaryData.whatDoYouUse.length - 1 ? 4 : 0,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            // setState(() {
-                            //   gValue = index;
-                            // });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: StaticData.sidePadding,
-                              vertical: 16,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            padding: const EdgeInsets.only(bottom: 4.0),
+                            child: Stack(
                               children: [
-                                Flexible(
-                                  child: Text(
-                                    primaryData.whatDoYouUse[i],
-                                    style: AppStyles.h3,
-                                    maxLines: 3,
-                                  ),
+                                // TODO(Nikolay): Название.
+                                _HeaderContainer(
+                                  text: primaryData.title,
                                 ),
-                                CustomRadio(
-                                  value: i,
-                                  groupValue: gValue,
-                                  onChanged: (v) {
-                                    // setState(
-                                    //   () {
-                                    //     gValue = index;
-                                    //   },
-                                    // );
-                                  },
+                                // Image.asset('assets/program.png'),
+                                CustomSliverAppbar.toClose(
+                                  Container(),
+                                  widget.key,
                                 ),
                               ],
                             ),
                           ),
-                        ),
+                          _InfoBlock(
+                            isWhiteContainerOnBackground: true,
+                            content: Text(
+                              primaryData.description,
+                              style: AppStyles.p1,
+                            ),
+                          ),
+                        ],
                       ),
-                      childCount: primaryData.whatDoYouUse.length,
                     ),
                   ),
-                ),
-
-                // Выбрать оптику
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: WhiteButton(
-                      text: 'Выбрать оптику',
-                      icon: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 12,
-                        ),
-                        child: Image.asset(
-                          'assets/icons/map-marker.png',
-                          height: 16,
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        headerText: 'В программе участвуют',
+                        content: ItemSlider<Product>(
+                          items: primaryData.products,
+                          itemBuilder: (context, product) => _ProductItem(
+                            product: product,
+                          ),
+                          indicatorBuilder: (context, isActive) => Indicator(
+                            isActive: isActive,
+                            animationDuration:
+                                const Duration(milliseconds: 300),
+                          ),
                         ),
                       ),
-                      onPressed: () =>
-                          Keys.mainNav.currentState!.pushNamed('/shops'),
                     ),
                   ),
-                ),
-              ],
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        isWhiteContainerOnBackground: true,
+                        headerText: 'Важно знать перед подбором',
+                        content: BulletedList(
+                          list: primaryData.importantToKnow,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        headerText: 'Ваши данные',
+                        content: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 20,
+                              ),
+                              child: NativeTextInput(
+                                labelText: 'Имя',
+                                controller: nameController,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 20,
+                              ),
+                              child: NativeTextInput(
+                                labelText: 'Фамилия',
+                                controller: nameController,
+                              ),
+                            ),
+                            NativeTextInput(
+                              labelText: 'E-mail',
+                              controller: nameController,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        headerText: 'Чем пользуетесь для коррекции зрения',
+                        content: Column(
+                          children: List.generate(
+                            primaryData.whatDoYouUse.length,
+                            (i) => Padding(
+                              padding: EdgeInsets.only(
+                                bottom: i != primaryData.whatDoYouUse.length - 1
+                                    ? 4
+                                    : 0,
+                              ),
+                              child: CustomRadioButton(
+                                text: primaryData.whatDoYouUse[i],
+                                onPressed: () => debugPrint(
+                                  primaryData.whatDoYouUse[i],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: WhiteButton(
+                        text: 'Выбрать оптику',
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 12,
+                            top: 10,
+                            bottom: 12,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/map-marker.png',
+                            height: 16,
+                          ),
+                        ),
+                        onPressed: () {
+                          Keys.mainNav.currentState!.pop();
+                          Keys.mainContentNav.currentState!.pushNamed('/shops');
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            floatingActionButton: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            resizeToAvoidBottomInset: true,
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -248,11 +235,21 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                     onPressed: () {},
                   ),
                 ),
-                const InfoBlock(),
+                const SizedBox(
+                  height: 60,
+                  child: InfoBlock(),
+                ),
+                // Container(
+                //   padding: const EdgeInsets.only(
+                //     top: 8,
+                //     bottom: 19,
+                //   ),
+                //   //height: 60,
+                //   color: AppTheme.mystic,
+                //   child: const InfoBlock(),
+                // ),
               ],
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
           ),
         );
       },
@@ -260,54 +257,128 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   }
 }
 
-class ProgramScreenWM extends WidgetModel {
-  final primaryDataStreamed = EntityStreamedState<PrimaryData>();
-
-  ProgramScreenWM()
-      : super(
-          const WidgetModelDependencies(),
-        );
+class _HeaderContainer extends StatelessWidget {
+  final String text;
+  const _HeaderContainer({
+    required this.text,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  void onLoad() {
-    _loadData();
-    super.onLoad();
+  Widget build(BuildContext context) {
+    return WhiteContainerWithRoundedCorners(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.only(
+              bottom: 33,
+            ),
+            // TODO(Nikolay): доделать.
+            child: Text('ASDAsdAS'),
+          ),
+          AutoSizeText(
+            text,
+            style: AppStyles.h1,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.fromLTRB(
+        12,
+        27,
+        12,
+        31,
+      ),
+      color: AppTheme.sulu,
+    );
   }
+}
 
-  Future<void> _loadData() async {
-    unawaited(primaryDataStreamed.loading());
+class _ProductItem extends StatelessWidget {
+  final Product product;
+  const _ProductItem({
+    required this.product,
+    Key? key,
+  }) : super(key: key);
 
-    try {
-      final data = await PrimaryDataDownloader.load();
+  @override
+  Widget build(BuildContext context) {
+    return WhiteContainerWithRoundedCorners(
+      padding: const EdgeInsets.fromLTRB(
+        10,
+        12,
+        10,
+        16,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Image.network(
+              product.picture,
+              height: 100,
+              width: 100,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              product.name,
+              textAlign: TextAlign.center,
+              softWrap: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-      unawaited(primaryDataStreamed.content(data));
-    } on DioError catch (e) {
-      unawaited(
-        primaryDataStreamed.error(
-          CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.message,
+class _InfoBlock extends StatelessWidget {
+  final String? headerText;
+  final Widget content;
+  final bool isWhiteContainerOnBackground;
+  const _InfoBlock({
+    required this.content,
+    this.isWhiteContainerOnBackground = false,
+    this.headerText,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (headerText != null)
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Text(
+                headerText!,
+                style: AppStyles.h1,
+              ),
+            ),
           ),
-        ),
-      );
-    } on ResponseParseException catch (e) {
-      unawaited(
-        primaryDataStreamed.error(
-          CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.toString(),
+        if (isWhiteContainerOnBackground) ...[
+          WhiteContainerWithRoundedCorners(
+            padding: const EdgeInsets.fromLTRB(
+              StaticData.sidePadding,
+              20,
+              StaticData.sidePadding,
+              40,
+            ),
+            child: content,
           ),
-        ),
-      );
-    } on SuccessFalse catch (e) {
-      unawaited(
-        primaryDataStreamed.error(
-          CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.toString(),
-          ),
-        ),
-      );
-    }
+        ] else ...[
+          content,
+        ],
+      ],
+    );
   }
 }

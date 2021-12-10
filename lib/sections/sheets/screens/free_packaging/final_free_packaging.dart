@@ -5,7 +5,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
-import 'package:bausch/widgets/text/text_with_point.dart';
+import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:flutter/material.dart';
 
 class FinalFreePackaging extends StatelessWidget {
@@ -67,9 +67,11 @@ class FinalFreePackaging extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 12, bottom: 120),
                       child: Column(
                         children: const [
-                          TextWithPoint(
-                            text:
-                                'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
+                          // TODO(Nikolay): Проверить.
+                          BulletedList(
+                            list: [
+                              'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
+                            ],
                           ),
                         ],
                       ),

@@ -7,7 +7,9 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class MayBeInteresting extends StatefulWidget {
-  const MayBeInteresting({Key? key}) : super(key: key);
+  const MayBeInteresting({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MayBeInteresting> createState() => _MayBeInterestingState();
