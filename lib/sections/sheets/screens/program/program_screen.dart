@@ -3,6 +3,7 @@ import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
+import 'package:bausch/sections/profile/widgets/blured_image.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -277,7 +278,7 @@ class _HeaderContainer extends StatelessWidget {
               bottom: 33,
             ),
             // TODO(Nikolay): доделать.
-            child: Text('ASDAsdAS'),
+            child: HalfBluredCircle(),
           ),
           AutoSizeText(
             text,

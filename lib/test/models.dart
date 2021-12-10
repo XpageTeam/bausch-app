@@ -53,7 +53,7 @@ class Models {
   static List<CatalogItemModel> items = [
     ProductItemModel(
       id: 0,
-      name: '0. Раствор жопы универсальный(300 мл)',
+      name: '0. Раствор универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
       detailText: '',
@@ -80,7 +80,7 @@ class Models {
     ),
     ProductItemModel(
       id: 0,
-      name: '0. Раствор жопы универсальный(300 мл)',
+      name: '0. Раствор универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
       detailText: '',
