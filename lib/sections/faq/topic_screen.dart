@@ -108,8 +108,8 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                         Keys.simpleBottomSheetNav.currentState!.pushNamed(
                           '/question',
                           arguments: QuestionScreenArguments(
-                            question: topicModel.questions[index].title,
-                            answer: topicModel.questions[index].answer,
+                            question: topicModel.questions[index],
+                            topic: topicModel,
                           ),
                         );
                       },
@@ -119,11 +119,13 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                 ),
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
               ),
-              sliver: SupportSection(),
+              sliver: SupportSection(
+                topic: topicModel,
+              ),
             ),
           ],
         ),
