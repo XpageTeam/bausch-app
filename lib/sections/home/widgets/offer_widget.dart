@@ -81,12 +81,10 @@ class OfferWidget extends StatelessWidget {
                         width: 45,
                       ),
                       InkWell(
-                        onTap: () =>    context,
-              SimpleSheetModel(
-                title: 'Программа подбора',
-                type: SimpleSheetType.program,
-              ),
-            )
+                        onTap: () => SimpleSheetModel(
+                          title: 'Программа подбора',
+                          type: SimpleSheetType.program,
+                        ),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
