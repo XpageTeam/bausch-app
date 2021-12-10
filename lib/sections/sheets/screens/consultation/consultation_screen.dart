@@ -61,7 +61,10 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                         padding: const EdgeInsets.only(left: 6),
                         child: Row(
                           children: [
-                            const Icon(Icons.lock_clock_sharp),
+                            Image.asset(
+                              'assets/icons/time.png',
+                              height: 16,
+                            ),
                             const SizedBox(
                               width: 4,
                             ),

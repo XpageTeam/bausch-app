@@ -2,6 +2,7 @@
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -69,7 +70,7 @@ class _SheetScreenState extends State<SheetScreen> {
                     Row(
                       children: [
                         Image.asset(
-                          img(widget.sheetModel.type),
+                          setTheImg(widget.sheetModel.type),
                           height: 60,
                         ),
                         const SizedBox(
@@ -154,23 +155,5 @@ class _SheetScreenState extends State<SheetScreen> {
         ),
       ),
     );
-  }
-
-  //TODO(Nikita): потом убрать
-  String img(String type) {
-    switch (type) {
-      case 'offline':
-        return 'assets/discount-in-optics.png';
-      case 'promo_code_immediately':
-        return '123';
-      case 'free_product':
-        return 'assets/offers-from-partners.png';
-      case 'onlineShop':
-        return 'assets/discount-in-online-store.png';
-      case 'promo_code_video':
-        return 'assets/webinar-recordings.png';
-      default:
-        return 'assets/online-consultations.png';
-    }
   }
 }

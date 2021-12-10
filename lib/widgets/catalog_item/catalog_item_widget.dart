@@ -229,6 +229,7 @@ void callback(CatalogItemModel _model) {
         return FinalDiscountOptics(
           controller: ScrollController(),
           model: _model as PromoItemModel,
+          buttonText: 'Готово',
         );
       },
     );

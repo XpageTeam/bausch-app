@@ -27,7 +27,7 @@ class InfoSection extends StatelessWidget {
         child: Column(
           children: [
             Html(
-              data: text ?? 'text',
+              data: txt(text),
               style: {
                 'body': Style(
                   padding: const EdgeInsets.symmetric(
@@ -76,5 +76,18 @@ class InfoSection extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  //TODO: УБРАТЬ!!!
+  String txt(String? text) {
+    if (text != null) {
+      if (text.isNotEmpty) {
+        return text;
+      } else {
+        return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
+      }
+    } else {
+      return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
+    }
   }
 }

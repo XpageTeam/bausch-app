@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
+import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -47,21 +48,22 @@ class FinalPartners extends StatelessWidget {
                         bottom: 40,
                       ),
                       child: Text(
-                        'Ваш промокод',
+                        'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
                         style: AppStyles.h2,
                       ),
                     ),
-                    WhiteRoundedContainer(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            model.poolPromoCode,
-                            style: AppStyles.h2,
-                          ),
-                        ],
-                      ),
-                    ),
+                    // WhiteRoundedContainer(
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Text(
+                    //         model.poolPromoCode,
+                    //         style: AppStyles.h2,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    const ContainerWithPromocode(promocode: '6СС5165АDF345'),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 12,

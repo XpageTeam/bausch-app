@@ -104,7 +104,7 @@ class AddPointsDetails extends StatelessWidget {
                         BlueButtonWithText(
                           text: buttonText(model.type!),
                           onPressed: () {
-                            Keys.bottomSheetWithoutItemsNav.currentState!
+                            Keys.simpleBottomSheetNav.currentState!
                                 .pushNamed('/final_addpoints');
                           },
                         ),
