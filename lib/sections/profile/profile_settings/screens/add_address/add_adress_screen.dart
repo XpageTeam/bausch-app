@@ -9,7 +9,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/AddressEditForm/bloc/Dadata/dadata_bloc.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +61,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
         ),
         child: Column(
           children: [
-            DefaultTextInput(
+            NativeTextInput(
               labelText: 'Поиск адреса',
               controller: controller,
               onChanged: delayedSearch,

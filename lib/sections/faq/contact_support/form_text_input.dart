@@ -1,7 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -79,7 +79,7 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
-      child: DefaultTextInput(
+      child: NativeTextInput(
         labelText: widget.model.name,
         controller: controller,
         inputType: widget.type ?? TextInputType.emailAddress,

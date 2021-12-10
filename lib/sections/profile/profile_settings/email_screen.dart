@@ -4,7 +4,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +56,7 @@ class _EmailScreenState extends State<EmailScreen> {
                 top: 30,
                 bottom: 12,
               ),
-              child: DefaultTextInput(
+              child: NativeTextInput(
                 labelText: 'E-mail',
                 controller: controller,
               ),

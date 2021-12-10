@@ -10,12 +10,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/discount_info.dart';
-<<<<<<< HEAD
-import 'package:bausch/widgets/inputs/default_text_input.dart';
-import 'package:bausch/widgets/points_info.dart';
-=======
 import 'package:bausch/widgets/inputs/native_text_input.dart';
->>>>>>> develop
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -42,16 +37,6 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
-<<<<<<< HEAD
-=======
-  // TextEditingController nameController = TextEditingController();
-  // TextEditingController lastnameController = TextEditingController();
-  // TextEditingController emailController = TextEditingController();
-  // TextEditingController phoneController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  bool show = true;
-
->>>>>>> develop
   @override
   void dispose() {
     super.dispose();
@@ -82,7 +67,6 @@ class _ProfileSettingsScreenState
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            
             Padding(
               padding: const EdgeInsets.only(bottom: 4, top: 30),
               child: NativeTextInput(
