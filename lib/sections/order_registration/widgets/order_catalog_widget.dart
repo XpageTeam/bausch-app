@@ -22,7 +22,7 @@ class OrderCatalogWidget extends StatelessWidget {
         deliveryInfo: '5 дней до получения',
       ),
       separatorBuilder: (context, index) => const SizedBox(height: 4),
-      itemCount: orderItemList.length,
+      itemCount: 1,
     );
   }
 }

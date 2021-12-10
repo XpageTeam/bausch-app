@@ -83,8 +83,8 @@ class _SmallContainerState extends State<SmallContainer> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6.6),
-                    child: Image.network(
-                      widget.model.icon,
+                    child: Image.asset(
+                      setTheImg(widget.model.type),
                       height: 53,
                     ),
                   ),

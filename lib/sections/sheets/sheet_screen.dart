@@ -69,7 +69,7 @@ class _SheetScreenState extends State<SheetScreen> {
                     Row(
                       children: [
                         Image.asset(
-                          'assets/free-packaging.png',
+                          img(widget.sheetModel.type),
                           height: 60,
                         ),
                         const SizedBox(
@@ -154,5 +154,23 @@ class _SheetScreenState extends State<SheetScreen> {
         ),
       ),
     );
+  }
+
+  //TODO(Nikita): потом убрать
+  String img(String type) {
+    switch (type) {
+      case 'offline':
+        return 'assets/discount-in-optics.png';
+      case 'promo_code_immediately':
+        return '123';
+      case 'free_product':
+        return 'assets/offers-from-partners.png';
+      case 'onlineShop':
+        return 'assets/discount-in-online-store.png';
+      case 'promo_code_video':
+        return 'assets/webinar-recordings.png';
+      default:
+        return 'assets/online-consultations.png';
+    }
   }
 }

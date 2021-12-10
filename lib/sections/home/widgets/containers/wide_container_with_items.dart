@@ -74,8 +74,8 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
                   const SizedBox(
                     width: 20,
                   ),
-                  Image.network(
-                    widget.model.icon,
+                  Image.asset(
+                    setTheImg(widget.model.type),
                     height: 45,
                   ),
                 ],
