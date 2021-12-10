@@ -17,9 +17,9 @@ OverlaySupportEntry showDefaultNotification({
   return showSimpleNotification(
     Stack(
       children: [
-        const NewEmptyAppBar(
-          overlayStyle: SystemUiOverlayStyle.light,
-        ),
+        // const NewEmptyAppBar(
+        //   overlayStyle: SystemUiOverlayStyle.light,
+        // ),
         _DefaultNotification(
           title: title,
           subtitle: subtitle,

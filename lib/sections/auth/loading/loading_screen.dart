@@ -8,6 +8,7 @@ import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iphone_has_notch/iphone_has_notch.dart';
 
@@ -26,9 +27,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
-      appBar: const NewEmptyAppBar(
-        appBarBgColor: Colors.white,
-      ),
+      appBar: const EmptyAppBar(),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
