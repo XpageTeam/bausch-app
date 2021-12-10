@@ -1,15 +1,19 @@
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
+import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
+import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 
 //Program
@@ -67,13 +71,67 @@ class _ProgramScreenState extends State<ProgramScreen> {
                       padding: EdgeInsets.symmetric(
                         vertical: 40,
                       ),
-                      child: MayBeInteresting(),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 40,
+                      child: MayBeInteresting(
+                        text: 'В программе участвуют: ',
                       ),
-                      child: InfoSection(),
+                    ),
+                    Text(
+                      'Важно знать перед подбором',
+                      style: AppStyles.h1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 40,
+                        top: 20,
+                      ),
+                      child: WhiteRoundedContainer(
+                        child: Column(
+                          children: [
+                            TextWithPoint(
+                              text:
+                                  'Перед подбором контактных линз проверка зрения обязательна.',
+                              textStyle: AppStyles.p1,
+                              dotStyle: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Бесплатная пара выдается оптикой при отсутствии медицинских противопоказаний.',
+                              textStyle: AppStyles.p1,
+                              dotStyle: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Надеть первую бесплатную пару линз вам поможет специалист. Подарочные линзы не выдаются в блистерной упаковке.',
+                              textStyle: AppStyles.p1,
+                              dotStyle: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Бесплатная пара выдается оптикой в случае наличия подходящих диоптрий.Если вы младше 18 лет, может потребоваться присутствие родителя.',
+                              textStyle: AppStyles.p1,
+                              dotStyle: AppStyles.p1,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextWithPoint(
+                              text:
+                                  'Дополнительные услуги, не входящие в сертификат, могут быть платными, уточняйте условия в оптике.',
+                              textStyle: AppStyles.p1,
+                              dotStyle: AppStyles.p1,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -117,7 +175,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                         bottom: 20,
                       ),
                       child: Text(
-                        'Оформляли ли вы Сертификат на бесплатную пару линз Bausch+Lomb?',
+                        'Чем пользуетесь для коррекции зрения',
                         style: AppStyles.h1,
                       ),
                     ),
@@ -153,7 +211,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                           children: [
                             Flexible(
                               child: Text(
-                                'Контактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+Lomb ',
+                                Models.whatYouUse[index],
                                 style: AppStyles.h3,
                                 maxLines: 3,
                               ),
@@ -174,7 +232,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                       ),
                     ),
                   ),
-                  childCount: 5,
+                  childCount: Models.whatYouUse.length,
                 ),
               ),
             ),
@@ -200,7 +258,6 @@ class _ProgramScreenState extends State<ProgramScreen> {
                         ),
                       ),
                       onPressed: () {
-                        //TODO(Nikita): заменить на pushNamed
                         Keys.mainNav.currentState!
                             .push<void>(MaterialPageRoute(builder: (context) {
                           return const ShopsScreen();
@@ -216,20 +273,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Получить сертификат',
-                onPressed: () {},
-              ),
-            ),
-            const InfoBlock(),
-          ],
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Получить сертификат',
+          onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

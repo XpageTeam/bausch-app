@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_if_elements_to_conditional_expressions, always_put_required_named_parameters_first
-// ignore_for_file: avoid_unnecessary_setstate
+// ignore_for_file: avoid-unnecessary-setstate
+// ignore_for_file: member-ordering-extended
 
 import 'package:bausch/packages/alphabet_scroll_view/lib/src/meta.dart';
 import 'package:bausch/theme/styles.dart';
@@ -187,7 +188,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   /// This helps to avoid recomputing the position to scroll to
   /// on each Scroll.
   void calculateFirstIndex() {
-    for (var letter in _filteredAlphabets) {
+    for (final letter in _filteredAlphabets) {
       final firstElement = _list.firstWhereOrNull(
         (item) => item.key.toLowerCase().startsWith(letter),
       );
@@ -205,13 +206,11 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
     //* Сложные математические расчеты - не трогать!
     final scrollToPostion = widget.itemExtent * index + x * 74;
-    if (index != null) {
-      listController.animateTo(
-        scrollToPostion,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
+    listController.animateTo(
+      scrollToPostion,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
     positionNotifer.value = offset;
 
     debugPrint('$index');

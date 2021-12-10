@@ -53,7 +53,7 @@ class LoginWM extends WidgetModel {
   LoginWM({
     required WidgetModelDependencies baseDependencies,
     required this.context,
-  }) : super(baseDependencies){
+  }) : super(baseDependencies) {
     _loadText();
     debugPrint('loginConstructor');
   }
@@ -101,14 +101,16 @@ class LoginWM extends WidgetModel {
       }
 
       if (authRequestResult.value.data != null) {
-        Navigator.push<void>(
-          Keys.mainNav.currentContext!,
-          MaterialPageRoute(
-            builder: (context) {
-              return const CodeScreen();
-            },
-          ),
-        );
+        // Navigator.push<void>(
+        //   Keys.mainNav.currentContext!,
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       return const CodeScreen();
+        //     },
+        //   ),
+        // );
+        debugPrint(context.toString());
+        Keys.mainContentNav.currentState!.pushNamed('/code');
       }
     });
 

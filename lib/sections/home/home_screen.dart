@@ -102,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
-                    bottom: 20,
+                    bottom: 40,
                     left: StaticData.sidePadding,
                     right: StaticData.sidePadding,
                   ),
@@ -145,7 +145,9 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        const MayBeInteresting(),
+                        const MayBeInteresting(
+                          text: 'Вам может быть интересно',
+                        ),
 
                         //* Текстовые кнопки(Частые вопросы и тд)
                         const TextButtonsSection(),

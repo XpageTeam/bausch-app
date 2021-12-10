@@ -2,6 +2,7 @@ import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
@@ -95,15 +96,14 @@ class Models {
       previewText: '',
       vimeoId: '123',
     ),
-    PartnersItemModel(
+    PromoItemModel(
       id: 2,
       name: '2. Biotrue one day (30 линз в упаковке)',
       price: 600,
       picture: 'assets/items/item2.png',
       detailText: '',
       previewText: '',
-      poolPromoCode: '123',
-      staticPromoCode: 'jij',
+      code: '123',
     ),
   ];
 
@@ -166,5 +166,14 @@ class Models {
       price: '100',
       img: 'assets/add_points_vk.png',
     ),
+  ];
+
+  static List<String> whatYouUse = [
+    'Контактные линзы Bousch+Lomb ',
+    'Контактные линзы других производителей',
+    'Очки и контактные линзы Bousch+Lomb ',
+    'Очки и контактные линзы других производителей',
+    'Очки',
+    'Ничем не пользуюсь',
   ];
 }

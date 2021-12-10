@@ -139,7 +139,7 @@ class DiscountOnlineScreen extends StatelessWidget
           text: 'Получить скидку',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
-              '/verification_discount',
+              '/verification_discount_online',
               arguments: SheetScreenArguments(model: model),
             );
           },

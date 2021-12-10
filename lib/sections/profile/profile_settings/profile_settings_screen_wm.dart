@@ -9,11 +9,14 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   final selectedCityName = StreamedState<String?>(null);
   final selectedBirthDate = StreamedState<DateTime?>(null);
+  final enteredEmail = StreamedState<String?>(null);
 
-  final emailController = TextEditingController();
+  //final emailController = TextEditingController();
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneController = TextEditingController();
+
+  late bool isEmailConfirmed;
 
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
@@ -24,8 +27,11 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
     selectedCityName.accept(userWM.userData.value.data!.user.city);
     selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
+    enteredEmail.accept(userWM.userData.value.data!.user.email);
 
-    emailController.text = userWM.userData.value.data!.user.email ?? '';
+    isEmailConfirmed = userWM.userData.value.data!.user.pendingEmail == null;
+
+    //emailController.text = userWM.userData.value.data!.user.email ?? '';
     nameController.text = userWM.userData.value.data!.user.name ?? '';
     lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
     phoneController.text = userWM.userData.value.data!.user.phone;
@@ -37,7 +43,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
   void dispose() {
     super.dispose();
 
-    emailController.dispose();
+    //emailController.dispose();
     nameController.dispose();
     lastNameController.dispose();
     phoneController.dispose();
@@ -50,7 +56,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
     await userWM.updateUserData(
       userWM.userData.value.data!.user.copyWith(
-        email: emailController.text,
+        email: enteredEmail.value,
         name: nameController.text,
         lastName: lastNameController.text,
         phone: phoneController.text,
@@ -64,6 +70,12 @@ class ProfileSettingsScreenWM extends WidgetModel {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
     selectedCityName.accept(cityName ?? userWM.userData.value.data!.user.city);
+  }
+
+  void setEmail(String? email) {
+    final userWM = Provider.of<UserWM>(context, listen: false);
+
+    enteredEmail.accept(email ?? userWM.userData.value.data!.user.email);
   }
 
   void setBirthDate(DateTime? birthDate) {

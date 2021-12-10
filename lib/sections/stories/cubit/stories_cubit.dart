@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -23,18 +24,13 @@ class StoriesCubit extends Cubit<StoriesState> {
         (await rh.get<Map<String, dynamic>>('stories')).data!,
       );
 
-      if (parsedData.success) {
-        emit(
-          StoriesSuccess(
-            stories: (parsedData.data as List<dynamic>)
-                .map((dynamic e) =>
-                    StoryModel.fromMap(e as Map<String, dynamic>))
-                .toList(),
-          ),
-        );
-      } else {
-        emit(StoriesFailed(title: 'title'));
-      }
+      emit(
+        StoriesSuccess(
+          stories: (parsedData.data as List<dynamic>)
+              .map((dynamic e) => StoryModel.fromMap(e as Map<String, dynamic>))
+              .toList(),
+        ),
+      );
     } on ResponseParseException catch (e) {
       emit(
         StoriesFailed(
@@ -46,6 +42,13 @@ class StoriesCubit extends Cubit<StoriesState> {
       emit(
         StoriesFailed(
           title: 'Ошибка при отправке запроса',
+          subtitle: e.toString(),
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      emit(
+        StoriesFailed(
+          title: 'Ошибка при обработке запроса',
           subtitle: e.toString(),
         ),
       );

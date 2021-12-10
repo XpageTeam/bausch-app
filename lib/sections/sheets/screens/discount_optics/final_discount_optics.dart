@@ -12,9 +12,14 @@ import 'package:flutter/material.dart';
 class FinalDiscountOptics extends StatelessWidget {
   final ScrollController controller;
   final PromoItemModel model;
+  final String? text;
+  final String? buttonText;
+
   const FinalDiscountOptics({
     required this.controller,
     required this.model,
+    this.buttonText,
+    this.text,
     Key? key,
   }) : super(key: key);
 
@@ -45,7 +50,8 @@ class FinalDiscountOptics extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
-                        'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
+                        text ??
+                            'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
                         style: AppStyles.h2,
                       ),
                     ),
@@ -69,8 +75,8 @@ class FinalDiscountOptics extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(
-          text: 'Скопировать и перейти на сайт',
+        floatingActionButton: BottomButtonWithRoundedCorners(
+          text: buttonText ?? 'На главную',
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

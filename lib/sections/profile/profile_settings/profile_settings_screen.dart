@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
@@ -36,20 +37,9 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
-  // TextEditingController nameController = TextEditingController();
-  // TextEditingController lastnameController = TextEditingController();
-  // TextEditingController emailController = TextEditingController();
-  // TextEditingController phoneController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-
   @override
   void dispose() {
     super.dispose();
-    // nameController.dispose();
-    // lastnameController.dispose();
-    // emailController.dispose();
-    // phoneController.dispose();
-    dateController.dispose();
   }
 
   @override
@@ -96,18 +86,40 @@ class _ProfileSettingsScreenState
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  NativeTextInput(
-                    labelText: 'E-mail',
-                    controller: wm.emailController,
-                    inputType: TextInputType.emailAddress,
+                  StreamedStateBuilder<String?>(
+                    streamedState: wm.enteredEmail,
+                    builder: (_, email) {
+                      return FocusButton(
+                        labelText: 'E-mail',
+                        selectedText: email,
+                        icon: Container(),
+                        onPressed: () async {
+                          wm.setEmail(
+                            await Keys.mainNav.currentState!.push<String>(
+                              PageRouteBuilder<String>(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        EmailScreen(),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: DiscountInfo(
-                      text: 'подтвердить',
-                      color: AppTheme.turquoiseBlue,
-                    ), // TODO(Nikita): Вывести статус
-                  ),
+                  if (!wm.isEmailConfirmed)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [
+                          DiscountInfo(
+                            color: AppTheme.turquoiseBlue,
+                            text: 'подтвердить',
+                          ),
+                        ],
+                      ), // TODO(Nikita): Вывести статус
+                    ),
                 ],
               ),
             ),

@@ -9,8 +9,10 @@ import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_online/discount_online_verification.dart';
+import 'package:bausch/sections/sheets/screens/discount_online/final_discount_online.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/discount_verification.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
@@ -95,8 +97,16 @@ class OverlayNavigationWithItems extends StatelessWidget {
             );
             break;
 
-          case '/verification_discount':
-            page = DiscountVerification(
+          case '/verification_discount_optics':
+            page = DiscountOpticsVerification(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
+            );
+            break;
+
+          case '/verification_discount_online':
+            page = DiscountOnlineVerification(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
                   as PromoItemModel,
@@ -133,11 +143,21 @@ class OverlayNavigationWithItems extends StatelessWidget {
             );
             break;
 
-          case '/final_discount':
+          case '/final_discount_optics':
             page = FinalDiscountOptics(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
                   as PromoItemModel,
+            );
+            break;
+          case '/final_discount_online':
+            page = FinalDiscountOptics(
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
+              text:
+                  'Это ваш промокод на скидку 500 ₽ в интернет-магазине ЛинзСервис',
+              buttonText: 'Скопировать и перейти на сайт',
             );
             break;
 

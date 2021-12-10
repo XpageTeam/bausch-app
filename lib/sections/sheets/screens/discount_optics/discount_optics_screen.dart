@@ -166,7 +166,7 @@ class DiscountOpticsScreen extends StatelessWidget
           text: 'Получить скидку',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
-              '/verification_discount',
+              '/verification_discount_optics',
               arguments: SheetScreenArguments(model: model),
             );
           },
