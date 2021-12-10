@@ -9,17 +9,13 @@ import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
-class FinalDiscountOptics extends StatelessWidget {
+class FinalDiscountOnline extends StatelessWidget {
   final ScrollController controller;
   final PromoItemModel model;
-  final String? text;
-  final String? buttonText;
 
-  const FinalDiscountOptics({
+  const FinalDiscountOnline({
     required this.controller,
     required this.model,
-    this.buttonText,
-    this.text,
     Key? key,
   }) : super(key: key);
 
@@ -50,8 +46,7 @@ class FinalDiscountOptics extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
-                        text ??
-                            'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
+                        'Это ваш промокод на скидку 500 ₽ в интернет-магазине ЛинзСервис',
                         style: AppStyles.h2,
                       ),
                     ),
@@ -75,8 +70,8 @@ class FinalDiscountOptics extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: BottomButtonWithRoundedCorners(
-          text: buttonText ?? 'На главную',
+        floatingActionButton: const BottomButtonWithRoundedCorners(
+          text: 'Скопировать и перейти на сайт',
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

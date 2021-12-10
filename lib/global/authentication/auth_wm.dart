@@ -38,30 +38,30 @@ class AuthWM extends WidgetModel {
     debugPrint('auth-bind');
 
     subscribe(authStatus.stream, (value) {
-      late Widget targetPage;
+      late String targetPage;
 
       switch (authStatus.value) {
         case AuthStatus.unknown:
-          targetPage = const LoaderScreen();
+          targetPage = '/';
           break;
 
         case AuthStatus.unauthenticated:
-          targetPage = const LoadingScreen();
+          targetPage = '/loading';
           break;
 
         case AuthStatus.authenticated:
           // TODO(Danil): когда Гоша разберётся - сделать
           if (userWM.userData.value.data?.user.city == null ||
               userWM.userData.value.data?.user.email == null) {
-            targetPage = CityAndEmailScreen();
+            targetPage = '/city_and_email';
           } else {
-            targetPage = const HomeScreen();
+            targetPage = '/home';
           }
 
           break;
       }
 
-      // Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
+      // Keys.mainContentNav.currentState!.pushAndRemoveUntil(
       //   PageRouteBuilder<void>(
       //     pageBuilder: (context, animation, secondaryAnimation) {
       //       return targetPage;
@@ -69,12 +69,8 @@ class AuthWM extends WidgetModel {
       //   ),
       //   (route) => false,
       // );
-      Keys.mainContentNav.currentState!.pushAndRemoveUntil(
-        PageRouteBuilder<void>(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return targetPage;
-          },
-        ),
+      Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
+        targetPage,
         (route) => false,
       );
     });

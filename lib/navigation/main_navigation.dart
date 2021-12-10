@@ -9,6 +9,9 @@ import 'package:bausch/sections/profile/profile_settings/profile_settings_screen
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/registration/code_screen.dart';
+import 'package:bausch/sections/registration/registration_screen.dart';
+import 'package:bausch/sections/registration/screens/city_email/city_and_email_screen.dart';
 import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +39,20 @@ class MainNavigation extends StatelessWidget {
             page = const LoadingScreen();
             break;
 
+          case '/city_and_email':
+            page = CityAndEmailScreen();
+            break;
+
+          case '/registration':
+            page = const RegistrationScreen();
+            break;
+
           case '/home':
             page = const HomeScreen();
+            break;
+
+          case '/code':
+            page = const CodeScreen();
             break;
 
           case '/profile':

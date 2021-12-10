@@ -12,10 +12,10 @@ import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
-class DiscountVerification extends StatelessWidget {
+class DiscountOpticsVerification extends StatelessWidget {
   final ScrollController controller;
   final PromoItemModel model;
-  const DiscountVerification({
+  const DiscountOpticsVerification({
     required this.controller,
     required this.model,
     Key? key,
@@ -115,7 +115,7 @@ class DiscountVerification extends StatelessWidget {
           text: 'Потратить ${model.price} б',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
-              '/final_discount',
+              '/final_discount_optics',
               arguments: SheetScreenArguments(model: model),
             );
           },
