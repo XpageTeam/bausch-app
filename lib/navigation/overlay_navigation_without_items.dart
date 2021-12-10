@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
@@ -9,6 +10,7 @@ import 'package:bausch/sections/sheets/screens/consultation/final_consultation.d
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для bottomSheet'а без элементов каталога
