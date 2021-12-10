@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
@@ -9,7 +10,12 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/discount_info.dart';
+<<<<<<< HEAD
+import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/points_info.dart';
+=======
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+>>>>>>> develop
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,6 +42,8 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
+<<<<<<< HEAD
+=======
   // TextEditingController nameController = TextEditingController();
   // TextEditingController lastnameController = TextEditingController();
   // TextEditingController emailController = TextEditingController();
@@ -43,14 +51,10 @@ class _ProfileSettingsScreenState
   TextEditingController dateController = TextEditingController();
   bool show = true;
 
+>>>>>>> develop
   @override
   void dispose() {
     super.dispose();
-    // nameController.dispose();
-    // lastnameController.dispose();
-    // emailController.dispose();
-    // phoneController.dispose();
-    dateController.dispose();
   }
 
   @override
@@ -78,35 +82,7 @@ class _ProfileSettingsScreenState
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                NativeTextInput(
-                  labelText: 'E-mail',
-                  controller: dateController,
-                  inputType: TextInputType.emailAddress,
-                  onChanged: (str) {
-                    if (str.isEmpty) {
-                      setState(() {
-                        show = true;
-                      });
-                    } else {
-                      setState(() {
-                        show = false;
-                      });
-                    }
-                  },
-                ),
-                if (show)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.5),
-                    child: Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: 15,
-                    ),
-                  ),
-              ],
-            ),
+            
             Padding(
               padding: const EdgeInsets.only(bottom: 4, top: 30),
               child: NativeTextInput(
@@ -126,18 +102,40 @@ class _ProfileSettingsScreenState
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  NativeTextInput(
-                    labelText: 'E-mail',
-                    controller: wm.emailController,
-                    inputType: TextInputType.emailAddress,
+                  StreamedStateBuilder<String?>(
+                    streamedState: wm.enteredEmail,
+                    builder: (_, email) {
+                      return FocusButton(
+                        labelText: 'E-mail',
+                        selectedText: email,
+                        icon: Container(),
+                        onPressed: () async {
+                          wm.setEmail(
+                            await Keys.mainNav.currentState!.push<String>(
+                              PageRouteBuilder<String>(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        EmailScreen(),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: DiscountInfo(
-                      text: 'подтвердить',
-                      color: AppTheme.turquoiseBlue,
-                    ), // TODO(Nikita): Вывести статус
-                  ),
+                  if (wm.isEmailConfirmed)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [
+                          DiscountInfo(
+                            color: AppTheme.turquoiseBlue,
+                            text: 'подтвердить',
+                          ),
+                        ],
+                      ), // TODO(Nikita): Вывести статус
+                    ),
                 ],
               ),
             ),

@@ -6,7 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PickerScreen extends StatefulWidget {
-  const PickerScreen({Key? key}) : super(key: key);
+  final String title;
+  const PickerScreen({
+    required this.title,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<PickerScreen> createState() => _PickerScreenState();
@@ -14,6 +18,26 @@ class PickerScreen extends StatefulWidget {
 
 class _PickerScreenState extends State<PickerScreen> {
   int selectedItem = 0;
+
+  List<String> numbers = [
+    '-8',
+    '-7',
+    '-6',
+    '-5',
+    '-4',
+    '-3',
+    '-2',
+    '-1',
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +76,7 @@ class _PickerScreenState extends State<PickerScreen> {
               Flexible(
                 //height: 300,
                 child: CupertinoPicker.builder(
-                  childCount: 10,
+                  childCount: numbers.length,
                   itemExtent: 40,
                   onSelectedItemChanged: (i) {
                     setState(() {
@@ -75,11 +99,11 @@ class _PickerScreenState extends State<PickerScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '+${i + 1}',
+                            numbers[i],
                             style: AppStyles.h2,
                           ),
                           Text(
-                            '${i * 25}',
+                            '${int.parse(numbers[i]) * 25}',
                             style: AppStyles.h2,
                           ),
                         ],
@@ -88,7 +112,17 @@ class _PickerScreenState extends State<PickerScreen> {
                   },
                 ),
               ),
-              const BlueButtonWithText(text: 'Добавить'),
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 26,
+                ),
+                child: BlueButtonWithText(
+                  text: 'Добавить',
+                  onPressed: () {
+                    Navigator.of(context).pop(int.parse(numbers[selectedItem]));
+                  },
+                ),
+              ),
             ],
           ),
         ),

@@ -39,6 +39,7 @@ class FinalConsultation extends StatelessWidget {
                       icon: Container(),
                       key: key,
                       rightKey: Keys.mainNav,
+                      backgroundColor: Colors.white,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),

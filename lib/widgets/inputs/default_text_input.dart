@@ -21,6 +21,7 @@ class DefaultTextInput extends StatefulWidget {
     this.labelAlignment,
     this.backgroundColor,
     this.onChanged,
+    this.onSubmitted,
     this.inputType = TextInputType.text,
     this.decoration,
     this.textStyle,

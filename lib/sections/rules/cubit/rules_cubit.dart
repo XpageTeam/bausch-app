@@ -39,7 +39,7 @@ class RulesCubit extends Cubit<RulesState> {
     } on SuccessFalse catch (e) {
       emit(
         RulesFailed(
-          title: 'Что-то пошло не так',
+          title: 'Ошибка при отправке запроса',
           subtitle: e.toString(),
         ),
       );
