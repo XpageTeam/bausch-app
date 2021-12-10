@@ -1,11 +1,16 @@
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
-import 'package:bausch/sections/faq/contact_support_screen.dart';
+import 'package:bausch/sections/faq/attach_files_screen.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';
 import 'package:bausch/sections/rules/rules_screen.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
+import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для bottomSheet'а без элементов каталога
@@ -41,7 +46,9 @@ class SimpleOverlayNavigation extends StatelessWidget {
                 controller: controller,
               );
             } else {
-              page = Container();
+              page = AddPointsScreen(
+                controller: controller,
+              );
             }
             break;
 
@@ -72,12 +79,38 @@ class SimpleOverlayNavigation extends StatelessWidget {
               controller: controller,
               question:
                   (settings.arguments as QuestionScreenArguments).question,
-              answer: (settings.arguments as QuestionScreenArguments).answer,
+              topic: (settings.arguments as QuestionScreenArguments).topic,
             );
             break;
 
           case '/support':
-            page = ContactSupportScreen(controller: controller);
+            page = ContactSupportScreen(
+              controller: controller,
+              question: (settings.arguments as ContactSupportScreenArguments)
+                  .question,
+              topic:
+                  (settings.arguments as ContactSupportScreenArguments).topic,
+            );
+            break;
+
+          case '/add_files':
+            page = AttachFilesScreen(
+              fieldsBloc:
+                  (settings.arguments as AttachFilesScreenArguments).fieldsBloc,
+            );
+            break;
+
+          case '/addpoints_details':
+            page = AddPointsDetails(
+              model: Models.addItems[0],
+              controller: controller,
+            );
+            break;
+
+          case '/final_addpoints':
+            page = FinalAddPointsScreen(
+              controller: controller,
+            );
             break;
 
           default:

@@ -74,6 +74,8 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
+                // Без этого не работает выделение текста. Очень странно.
+                GlobalCupertinoLocalizations.delegate,
               ],
               title: 'Bausch + Lomb',
               navigatorKey: Keys.mainNav,

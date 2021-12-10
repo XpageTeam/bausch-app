@@ -3,14 +3,19 @@
 import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/discount_info.dart';
+<<<<<<< HEAD
 import 'package:bausch/widgets/inputs/default_text_input.dart';
 import 'package:bausch/widgets/points_info.dart';
+=======
+import 'package:bausch/widgets/inputs/native_text_input.dart';
+>>>>>>> develop
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -37,6 +42,16 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
+<<<<<<< HEAD
+=======
+  // TextEditingController nameController = TextEditingController();
+  // TextEditingController lastnameController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController phoneController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  bool show = true;
+
+>>>>>>> develop
   @override
   void dispose() {
     super.dispose();
@@ -67,16 +82,17 @@ class _ProfileSettingsScreenState
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
+            
             Padding(
               padding: const EdgeInsets.only(bottom: 4, top: 30),
-              child: DefaultTextInput(
+              child: NativeTextInput(
                 labelText: 'Имя',
                 controller: wm.nameController,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: DefaultTextInput(
+              child: NativeTextInput(
                 labelText: 'Фамилия',
                 controller: wm.lastNameController,
               ),
@@ -125,11 +141,15 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: DefaultTextInput(
+              child: NativeTextInput(
                 labelText: 'Мобильный телефон',
                 controller: wm.phoneController,
                 inputType: TextInputType.phone,
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: const ProfileSettingsBanner(),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
@@ -139,7 +159,7 @@ class _ProfileSettingsScreenState
                   return FocusButton(
                     labelText: 'Дата рождения',
                     selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
-                    icon: Container(),
+                    // icon: Container(),
                     onPressed: () async {
                       wm.setBirthDate(await showDatePicker(
                         context: context,

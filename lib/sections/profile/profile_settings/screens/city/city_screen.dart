@@ -6,16 +6,20 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
+  final List<String>? citiesWithShops;
   CityScreen({
     Key? key,
+    this.citiesWithShops,
   }) : super(
-          widgetModelBuilder: (context) =>
-              CityScreenWM(const WidgetModelDependencies()),
+          widgetModelBuilder: (context) => CityScreenWM(
+            const WidgetModelDependencies(),
+            citiesWithShops: citiesWithShops,
+          ),
           key: key,
         );
 
@@ -43,7 +47,7 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
             ),
             child: Column(
               children: [
-                DefaultTextInput(
+                NativeTextInput(
                   labelText: 'Найти город',
                   controller: wm.citiesFilterController,
                 ),

@@ -47,17 +47,16 @@ dependencies:
   extended_masked_text: ^2.3.1
   mask_text_input_formatter: ^2.0.0
   intl: ^0.17.0
+  iphone_has_notch: ^1.0.0
   menu_button: ^1.4.2+1
   video_player: ^2.2.7
   pin_code_fields: ^7.3.0
   shared_preferences: ^2.0.8
   sqlite3_flutter_libs: ^0.5.1
-  rive: ^0.7.33
   vimeoplayer_trinity: ^0.2.1+1
   youtube_player_flutter: ^8.0.0
   auto_size_text_pk: ^3.0.0
   geolocator: ^7.7.1
-  yandex_mapkit: ^1.1.1
   overlay_support: ^1.2.1
   url_launcher: ^6.0.13
 
@@ -70,6 +69,9 @@ dependencies:
   provider: ^6.0.1
   auto_size_text: ^3.0.0
   csv: ^5.0.1
+  yandex_mapkit:
+    git:
+      url: https://github.com/Unact/yandex_mapkit.git
 
 
 dev_dependencies:
@@ -97,6 +99,8 @@ flutter:
     - assets/items/
     - assets/icons/
     - assets/loading/
+    - assets/temp/
+    - assets/temp/logos/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png

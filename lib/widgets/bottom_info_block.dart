@@ -8,7 +8,10 @@ class InfoBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 36,
+      ),
+      //height: 60,
       color: AppTheme.mystic,
       child: Center(
         child: Text(

@@ -1,5 +1,6 @@
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/material.dart';
 import 'package:menu_button/menu_button.dart';
 
@@ -110,7 +111,7 @@ class SelectButton extends StatelessWidget {
             ),
             icon ??
                 const Icon(
-                  Icons.arrow_downward_sharp,
+                  Icons.keyboard_arrow_down_sharp,
                   size: 20,
                 ),
           ],

@@ -9,6 +9,7 @@ import 'package:bausch/sections/profile/profile_settings/profile_settings_screen
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class MainNavigation extends StatelessWidget {
             break;
 
           case '/profile':
-            page = const ProfileScreen();
+            page = ProfileScreen();
             break;
 
           case '/profile_settings':
@@ -73,6 +74,9 @@ class MainNavigation extends StatelessWidget {
 
           case '/order_registration':
             page = const OrderRegistrationScreen();
+            break;
+          case '/shops':
+            page = ShopsScreen();
             break;
 
           default:

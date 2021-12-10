@@ -1,4 +1,5 @@
-// ignore_for_file: override_on_non_overriding_member
+import 'dart:collection';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
@@ -17,13 +18,22 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
     if (event is AttachAdd) {
       yield await _attachFile();
     }
+
+    if (event is AttachAddFromOutside) {
+      yield AttachAdded(files: event.files);
+    }
   }
 
   Future<AttachState> _attachFile() async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null) {
-      return AttachAdded(files: result.files.map((e) => e.name).toList());
+      state.files.addAll(result.files.map((e) => File(e.path!)).toList());
+
+      //* Убираю дубликаты
+      var files = LinkedHashSet<File>.from(state.files).toList();
+
+      return AttachAdded(files: files);
     } else {
       return AttachStopped();
     }

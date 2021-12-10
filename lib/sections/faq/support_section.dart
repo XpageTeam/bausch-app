@@ -1,3 +1,6 @@
+import 'package:bausch/models/faq/question_model.dart';
+import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -6,7 +9,9 @@ import 'package:flutter/material.dart';
 
 //* Нижний блок с кнопкой "Написать в поддержку" и кнопками соц сетей
 class SupportSection extends StatelessWidget {
-  const SupportSection({Key? key}) : super(key: key);
+  final QuestionModel? question;
+  final TopicModel? topic;
+  const SupportSection({this.question, this.topic, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,13 @@ class SupportSection extends StatelessWidget {
           BlueButtonWithText(
             text: 'Написать в поддержку',
             onPressed: () {
-              Keys.simpleBottomSheetNav.currentState!.pushNamed('/support');
+              Keys.simpleBottomSheetNav.currentState!.pushNamed(
+                '/support',
+                arguments: ContactSupportScreenArguments(
+                  question: question,
+                  topic: topic,
+                ),
+              );
             },
           ),
           const Center(

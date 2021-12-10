@@ -23,55 +23,74 @@ class ScoresSection extends StatelessWidget {
     final userWM = Provider.of<UserWM>(context);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            EntityStateBuilder<UserRepository>(
-              streamedState: userWM.userData,
-              builder: (_, repo) {
-                return AutoSizeText(
-                  repo.userScrore.toString(),
-                  maxLines: 1,
-                  style: const TextStyle(
+        FittedBox(
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 37.0),
+                child: EntityStateBuilder<UserRepository>(
+                  streamedState: userWM.userData,
+                  builder: (_, repo) {
+                    return AutoSizeText(
+                      repo.userScrore.toString(),
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: AppTheme.mineShaft,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 85,
+                        height: 80 / 85,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const Positioned(
+                right: 0,
+                top: 1,
+                child: PointWidget(
+                  radius: 18,
+                  textStyle: TextStyle(
                     color: AppTheme.mineShaft,
                     fontWeight: FontWeight.w500,
-                    fontSize: 85,
-                    height: 80 / 85,
+                    fontSize: 27,
+                    height: 25 / 27,
+                    leadingDistribution: TextLeadingDistribution.even,
                   ),
-                );
-              },
-            ),
-            const PointWidget(
-              radius: 18,
-              textStyle: TextStyle(
-                color: AppTheme.mineShaft,
-                fontWeight: FontWeight.w500,
-                fontSize: 27,
-                height: 25 / 27,
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        FutureBuilder<int>(
-          future: Future<int>.delayed(
-            delay,
-            () => 4,
+            ],
           ),
-          builder: (context, snapshot) {
-            // TODO: посчитать и вывести
-            return CustomLineLoadingIndicator(
-              text: '127 баллов сгорят через 5 дней',
-              maxDays: 15,
-              remainDays: snapshot.hasData
-                  ? snapshot.data!
-                  : 5, // 20 = maxDays - future.value
-              animationDuration: loadingAnimationDuration,
-            );
+        ),
+        EntityStateBuilder<UserRepository>(
+          streamedState: userWM.userData,
+          builder: (_, repo) {
+            if (repo.canPrintLineLoadingText) {
+              final daysRemain = 3;
+              return FutureBuilder<void>(
+                future: Future.delayed(delay),
+                builder: (_, s) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                    ),
+                    child: CustomLineLoadingIndicator(
+                      text: repo.lineLoadingText,
+                      // TODO(Nikolay): Откуда берется максимальное количество дней?.
+                      maxDays: 30,
+                      daysRemain: s.connectionState == ConnectionState.done
+                          ? daysRemain
+                          : 6, // TODO(Nikolay): Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
+                      animationDuration: loadingAnimationDuration,
+                    ),
+                  );
+                },
+              );
+            } else {
+              return Container();
+            }
           },
         ),
       ],

@@ -19,6 +19,6 @@ class FormsFailed extends FormsState {
 
   FormsFailed({
     required this.title,
-    required this.subtitle,
+    this.subtitle,
   });
 }

@@ -20,7 +20,22 @@ class FaqListener extends StatelessWidget {
         if (state is FaqFailed) {
           Keys.mainNav.currentState!.pop();
 
-          showDefaultNotification(title: state.title);
+          //TODO(Nikita): поменять на готовую функцию
+          Flushbar<void>(
+            messageText: Text(
+              state.title,
+              textAlign: TextAlign.center,
+              style: AppStyles.p1White,
+            ),
+            duration: const Duration(
+              seconds: 3,
+            ),
+            flushbarPosition: FlushbarPosition.TOP,
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(5),
+              bottomRight: Radius.circular(5),
+            ),
+          ).show(Keys.mainNav.currentContext!);
         }
       },
       child: child,

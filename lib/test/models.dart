@@ -1,5 +1,9 @@
 import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
@@ -48,53 +52,58 @@ class Models {
   ];
 
   static List<CatalogItemModel> items = [
-    CatalogItemModel(
+    ProductItemModel(
       id: 0,
       name: '0. Раствор жопы универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
+      detailText: '',
+      previewText: '',
     ),
-    CatalogItemModel(
+    WebinarItemModel(
       id: 1,
       name: '1. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
+      detailText: '',
+      previewText: '',
+      vimeoId: '123',
     ),
-    CatalogItemModel(
+    PartnersItemModel(
       id: 2,
       name: '2. Biotrue one day (30 линз в упаковке)',
       price: 600,
       picture: 'assets/items/item2.png',
+      detailText: '',
+      previewText: '',
+      poolPromoCode: '123',
+      staticPromoCode: 'jij',
     ),
-    CatalogItemModel(
-      id: 3,
-      name: '3. Раствор',
+    ProductItemModel(
+      id: 0,
+      name: '0. Раствор жопы универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
+      detailText: '',
+      previewText: '',
     ),
-    CatalogItemModel(
-      id: 4,
-      name: '4. Раствор',
+    WebinarItemModel(
+      id: 1,
+      name: '1. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
       picture: 'assets/items/item1.png',
+      detailText: '',
+      previewText: '',
+      vimeoId: '123',
     ),
-    CatalogItemModel(
-      id: 5,
-      name: '5. Раствор',
-      price: 1300,
-      picture: 'assets/items/item2.png',
-    ),
-    CatalogItemModel(
-      id: 6,
-      name: '6. Раствор',
-      price: 1300,
-      picture: 'assets/items/item2.png',
-    ),
-    CatalogItemModel(
-      id: 7,
-      name: '7. Biotrue one day (30 линз в упаковке)',
+    PromoItemModel(
+      id: 2,
+      name: '2. Biotrue one day (30 линз в упаковке)',
       price: 600,
       picture: 'assets/items/item2.png',
+      detailText: '',
+      previewText: '',
+      code: '123',
     ),
   ];
 
@@ -157,5 +166,14 @@ class Models {
       price: '100',
       img: 'assets/add_points_vk.png',
     ),
+  ];
+
+  static List<String> whatYouUse = [
+    'Контактные линзы Bousch+Lomb ',
+    'Контактные линзы других производителей',
+    'Очки и контактные линзы Bousch+Lomb ',
+    'Очки и контактные линзы других производителей',
+    'Очки',
+    'Ничем не пользуюсь',
   ];
 }

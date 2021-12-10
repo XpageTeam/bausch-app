@@ -1,15 +1,22 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
+import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/models/mappable_object.dart';
 
 class FieldModel implements MappableInterface<FieldModel> {
   final int id;
   final String type;
   final String name;
-  final List<String>? values;
+  final String xmlId;
+  final List<ValueModel>? values;
+  final bool? isRequired;
 
   FieldModel({
     required this.id,
     required this.type,
     required this.name,
+    required this.xmlId,
+    this.isRequired,
     this.values,
   });
 
@@ -18,11 +25,13 @@ class FieldModel implements MappableInterface<FieldModel> {
       id: map['id'] as int,
       type: map['type'] as String,
       name: map['name'] as String,
+      xmlId: map['xml_id'] as String,
+      isRequired: map['required'] != null ? map['required'] as bool : null,
       values: map['values'] != null
           ? (map['values'] as List<dynamic>)
-              .map((dynamic e) => (e as Map<String, dynamic>)['name'] as String)
+              .map((dynamic e) => ValueModel.fromMap(e as Map<String, dynamic>))
               .toList()
-          : ['one', 'hwo'],
+          : [],
     );
   }
 

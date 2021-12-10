@@ -51,6 +51,7 @@ enum SimpleSheetType {
   faq,
   links,
   rules,
+  addpoints,
 }
 
 class Keys {

@@ -12,7 +12,9 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
+import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 //catalog_discount_optics
@@ -51,7 +53,11 @@ class DiscountOpticsScreen extends StatelessWidget
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.product(model, Container(), key),
+                    TopSection.product(
+                      model,
+                      const DiscountInfo(text: 'Скидка 500 ₽ '),
+                      key,
+                    ),
                     const SizedBox(
                       height: 4,
                     ),
@@ -61,22 +67,49 @@ class DiscountOpticsScreen extends StatelessWidget
                     const SizedBox(
                       height: 12,
                     ),
-                    LegalInfo(
-                      text: model.detailText,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
+                    // const LegalInfo(
+                    //   texts: [],
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+            const SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                12,
+                StaticData.sidePadding,
+                40,
+              ),
+              sliver: LegalInfo(
+                texts: [
+                  'Перед заказом промокода на скидку необходимо проверить наличие продукта (на сайте и / или по контактному номеру телефона оптики).',
+                  'Срок действия промокода и количество промокодов ограничены. ',
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                left: StaticData.sidePadding,
+                right: StaticData.sidePadding,
+                //top: 20,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
                     Text(
                       'Выбрать сеть оптик',
-                      style: AppStyles.h2,
+                      style: AppStyles.h1,
                     ),
-                    Text(
-                      'Скидкой можно воспользоваться в любой из оптик сети.',
-                      style: AppStyles.p1,
-                    ),
-                    const SizedBox(
-                      height: 20,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 12,
+                        bottom: 20,
+                      ),
+                      child: Text(
+                        'Скидкой можно воспользоваться в любой из оптик сети.',
+                        style: AppStyles.p1,
+                      ),
                     ),
                   ],
                 ),
@@ -84,6 +117,7 @@ class DiscountOpticsScreen extends StatelessWidget
             ),
             const SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+              //TODO(Nikita): customCheckBox
               sliver: SelectShopSection(),
             ),
             SliverPadding(
@@ -100,10 +134,19 @@ class DiscountOpticsScreen extends StatelessWidget
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 12,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/map-marker.png',
+                            height: 16,
+                          ),
+                        ),
                         onPressed: () {
                           Keys.mainNav.currentState!
                               .push<void>(MaterialPageRoute(builder: (context) {
-                            return const ShopsScreen();
+                            return ShopsScreen();
                           }));
                         },
                       ),
@@ -119,25 +162,14 @@ class DiscountOpticsScreen extends StatelessWidget
             ),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Получить скидку',
-                onPressed: () {
-                  Keys.bottomSheetItemsNav.currentState!.pushNamed(
-                    '/verification_discount',
-                    arguments: SheetScreenArguments(model: model),
-                  );
-                },
-              ),
-            ),
-            const InfoBlock(),
-          ],
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Получить скидку',
+          onPressed: () {
+            Keys.bottomSheetItemsNav.currentState!.pushNamed(
+              '/verification_discount',
+              arguments: SheetScreenArguments(model: model),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

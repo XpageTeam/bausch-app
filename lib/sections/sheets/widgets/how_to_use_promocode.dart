@@ -11,7 +11,7 @@ class HowToUsePromocode extends StatelessWidget {
       children: [
         Text(
           'Как воспользоваться промокодом',
-          style: AppStyles.h2,
+          style: AppStyles.h1,
         ),
         const SizedBox(
           height: 12,

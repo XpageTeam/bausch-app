@@ -22,7 +22,7 @@ class WhiteButton extends StatelessWidget {
         padding: EdgeInsets.zero,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

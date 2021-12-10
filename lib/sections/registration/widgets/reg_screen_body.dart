@@ -29,7 +29,7 @@ class _RegScreenBody extends WidgetState<RegScreenBody, LoginWM> {
     return EntityStateBuilder<LoginText>(
       streamedState: wm.loginText,
       loadingChild: const Scaffold(
-        appBar: EmptyAppBar(),
+        appBar: NewEmptyAppBar(),
         body: Center(
           child: AnimatedLoader(),
         ),
@@ -46,7 +46,7 @@ class _RegScreenBody extends WidgetState<RegScreenBody, LoginWM> {
       },
       builder: (_, loginText) {
         return Scaffold(
-          appBar: const EmptyAppBar(),
+          appBar: const NewEmptyAppBar(),
           body: SafeArea(
             child: Center(
               child: SingleChildScrollView(

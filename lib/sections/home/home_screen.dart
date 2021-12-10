@@ -1,13 +1,17 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +28,12 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      primary: false,
+      // Из-за этого свойства не работает перекраска иконок на статусбаре
+      // при возвращении на эту страницу:)
+      // primary: false,
+      appBar: const NewEmptyAppBar(
+        scaffoldBgColor: AppTheme.mystic,
+      ),
       // appBar: const EmptyAppBar(),
       body: SafeArea(
         child: StreamedStateBuilder<AuthStatus>(
@@ -33,7 +42,6 @@ class HomeScreen extends StatelessWidget {
             return CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
@@ -51,7 +59,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -77,7 +84,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
@@ -94,10 +100,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 SliverPadding(
                   padding: const EdgeInsets.only(
-                    bottom: 20,
+                    bottom: 40,
                     left: StaticData.sidePadding,
                     right: StaticData.sidePadding,
                   ),
@@ -140,7 +145,9 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        //const MayBeInteresting(),
+                        const MayBeInteresting(
+                          text: 'Вам может быть интересно',
+                        ),
 
                         //* Текстовые кнопки(Частые вопросы и тд)
                         const TextButtonsSection(),
@@ -148,9 +155,9 @@ class HomeScreen extends StatelessWidget {
                           height: 100,
                         ),
                         Image.asset('assets/logo.png'),
-                        const SizedBox(
-                          height: 60,
-                        ),
+                        // const SizedBox(
+                        //   height: 60,
+                        // ),
                       ],
                     ),
                   ),
@@ -164,7 +171,16 @@ class HomeScreen extends StatelessWidget {
         offsetY: 10,
         child: CustomFloatingActionButton(
           text: 'Добавить баллы',
-          onPressed: () {},
+          icon: const Icon(
+            Icons.add,
+            color: AppTheme.mineShaft,
+          ),
+          onPressed: () {
+            showSimpleSheet(
+              context,
+              SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
+            );
+          },
         ),
         animationDuration: Duration.zero,
       ),

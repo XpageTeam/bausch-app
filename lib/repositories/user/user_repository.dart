@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/user/user_model/balance.dart';
 import 'package:bausch/models/user/user_model/user.dart';
 
@@ -8,6 +9,44 @@ class UserRepository {
   String get userName => user.name ?? 'Новый друг';
 
   num get userScrore => balance.total;
+
+  int? get daysRemain => balance.nearestExpiration?.date
+      ?.difference(
+        DateTime.now(),
+      )
+      .inDays;
+
+  String get lineLoadingText {
+    final amount = balance.nearestExpiration?.amount;
+    if (canPrintLineLoadingText) {
+      return '$amount ${HelpFunctions.wordByCount(
+        amount!.toInt(),
+        [
+          'баллов сгорят',
+          'балл сгорит',
+          'балла сгорят',
+        ],
+      )} через $daysRemain ${HelpFunctions.wordByCount(
+        daysRemain!,
+        [
+          'дней',
+          'день',
+          'дня',
+        ],
+      )}';
+    } else {
+      return '';
+    }
+  }
+
+  bool get canPrintLineLoadingText {
+    final amount = balance.nearestExpiration?.amount;
+    if (daysRemain != null && daysRemain! > 0 && amount != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const UserRepository({
     required this.balance,

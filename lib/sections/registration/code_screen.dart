@@ -41,10 +41,22 @@ class _CodeScreenState extends State<CodeScreen> {
               padding: const EdgeInsets.only(
                 bottom: 20,
               ),
-              child: Text(
-                'Повторная отправка через ${getTimerBySeconds(data)}',
-                style: AppStyles.p1,
-                textAlign: TextAlign.center,
+              //Повторная отправка через ${getTimerBySeconds(data)}',
+              child: RichText(
+                text: TextSpan(
+                  style: AppStyles.p1,
+                  children: [
+                    const TextSpan(
+                      text: 'Повторная отправка через',
+                    ),
+                    TextSpan(
+                      text: ' ${getTimerBySeconds(data)}',
+                      style: AppStyles.p1.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           } else {

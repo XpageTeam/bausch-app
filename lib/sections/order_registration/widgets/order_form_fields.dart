@@ -1,6 +1,6 @@
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 
@@ -57,21 +57,21 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
       children: [
         Container(
           margin: const EdgeInsets.only(bottom: 4),
-          child: DefaultTextInput(
+          child: NativeTextInput(
             labelText: 'Имя',
             controller: firstNameController,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 4),
-          child: DefaultTextInput(
+          child: NativeTextInput(
             labelText: 'Фамилия',
             controller: lastNameController,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 4),
-          child: DefaultTextInput(
+          child: NativeTextInput(
             labelText: 'E-mail',
             controller: emailController,
             inputType: TextInputType.emailAddress,
@@ -79,21 +79,21 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 4),
-          child: DefaultTextInput(
+          child: NativeTextInput(
             labelText: 'Мобильный телефон',
             controller: phoneController,
             inputType: TextInputType.phone,
           ),
         ),
-        BlueButton(
-          onPressed: widget.onPressed,
-          children: [
-            Text(
-              'Готово',
-              style: AppStyles.h2Bold,
-            ),
-          ],
-        ),
+        // BlueButton(
+        //   onPressed: widget.onPressed,
+        //   children: [
+        //     Text(
+        //       'Готово',
+        //       style: AppStyles.h2Bold,
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

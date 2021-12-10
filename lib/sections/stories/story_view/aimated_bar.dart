@@ -1,3 +1,4 @@
+// ignore_for_file: avoid-returning-widgets
 import 'package:flutter/material.dart';
 
 class AnimatedBar extends StatelessWidget {

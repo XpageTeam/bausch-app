@@ -28,13 +28,13 @@ class OrderRegistrationScreen extends StatelessWidget {
         title: 'Оформление заказа',
 
         //* Кнопка "Настройки"
-        topRightWidget: NormalIconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.settings,
-            color: AppTheme.mineShaft,
-          ),
-        ),
+        // topRightWidget: NormalIconButton(
+        //   onPressed: () {},
+        //   icon: const Icon(
+        //     Icons.settings,
+        //     color: AppTheme.mineShaft,
+        //   ),
+        // ),
 
         //* Кнопка "Готово"
         // topRightWidget: TextButton(
@@ -107,9 +107,25 @@ class OrderRegistrationScreen extends StatelessWidget {
             maxHeight: 0.95,
             anchors: [0, 0.6, 0.95],
             builder: (context, controller, d) {
-              return FinalFreePackaging(
-                controller: controller,
-                model: Models.items[0],
+              return Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  FinalFreePackaging(
+                    controller: controller,
+                    model: Models.items[0],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Container(
+                      height: 4,
+                      width: 38,
+                      decoration: BoxDecoration(
+                        color: AppTheme.mineShaft,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                ],
               );
             },
           );

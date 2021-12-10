@@ -109,7 +109,7 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
                 delegate: SliverChildListDelegate(
                   [
                     OfferWidget(
-                      title: 'Получите двойные баллы за подбор контактных линз',
+                      title: 'Получите двойные баллы за подбор контактных линз',
                       subtitle:
                           'После подбора вам будет передан код, зарегистрируйте его течение 14 дней ',
                       topRightIcon: Container(),
