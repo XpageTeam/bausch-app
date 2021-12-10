@@ -1,9 +1,7 @@
-import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/profile/notifications_section.dart';
 import 'package:bausch/sections/profile/orders_section.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:bausch/widgets/select_widgets/select_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -61,63 +59,20 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
               ),
             ),
           ),
-
-          //* Вкладка с заказами
-          if (isOrdersEnabled) const OrdersSection(),
-
-          //* Вкладка с уведомлениями(переключатель)
-          if (!isOrdersEnabled)
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  CustomRadio(
-                    value: 0,
-                    groupValue: groupChecked,
-                    text: 'Все уведомления',
-                    onChanged: (v) {
-                      setState(() {
-                        groupChecked = 0;
-                      });
-                    },
-                  ),
-                  CustomRadio(
-                    value: 1,
-                    groupValue: groupChecked,
-                    text: 'История баллов',
-                    onChanged: (v) {
-                      setState(() {
-                        groupChecked = 1;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                ],
+          if (isOrdersEnabled) ...[
+            //* Вкладка с заказами
+            const OrdersSection(),
+          ] else ...[
+            //* Вкладка с уведомлениями(переключатель)
+            NotificationSection(
+              groupChecked: groupChecked,
+              onChanged: (newGroupChecked) => setState(
+                () {
+                  groupChecked = newGroupChecked;
+                },
               ),
             ),
-
-          //* Вкладка с уведомлениями(сами уведомления)
-          if (!isOrdersEnabled) const NotificationSection(),
-
-          if (!isOrdersEnabled)
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    OfferWidget(
-                      title: 'Получите двойные баллы за подбор контактных линз',
-                      subtitle:
-                          'После подбора вам будет передан код, зарегистрируйте его течение 14 дней ',
-                      topRightIcon: Container(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          ],
           SliverList(
             delegate: SliverChildListDelegate(
               [

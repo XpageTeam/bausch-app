@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';

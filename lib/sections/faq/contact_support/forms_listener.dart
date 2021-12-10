@@ -1,4 +1,3 @@
-import 'package:bausch/sections/faq/bloc/attach/attach_bloc.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';

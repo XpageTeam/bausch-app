@@ -1,5 +1,4 @@
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 

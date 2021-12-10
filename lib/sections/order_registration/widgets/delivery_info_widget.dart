@@ -1,4 +1,3 @@
-import 'package:bausch/sections/order_registration/widgets/marked_text_row.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/text/text_with_point.dart';

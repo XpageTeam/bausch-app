@@ -1,12 +1,10 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
-
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 
 //part 'forms_extra_state.dart';
 
