@@ -13,6 +13,7 @@ OverlaySupportEntry showDefaultNotification({
   String? subtitle,
   Duration duration = const Duration(seconds: 3),
 }) {
+  //TODO: Поменять на Flushbar
   return showSimpleNotification(
     Stack(
       children: [
@@ -29,10 +30,9 @@ OverlaySupportEntry showDefaultNotification({
     contentPadding: EdgeInsets.zero,
     duration: duration,
     background: AppTheme.mineShaft,
-
     slideDismissDirection: Platform.isIOS
-      ? DismissDirection.vertical
-      : DismissDirection.horizontal,
+        ? DismissDirection.vertical
+        : DismissDirection.horizontal,
   );
 }
 

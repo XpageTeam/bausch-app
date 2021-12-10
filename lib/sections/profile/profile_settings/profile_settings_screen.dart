@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/static/static_data.dart';
@@ -7,7 +8,9 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -83,15 +86,40 @@ class _ProfileSettingsScreenState
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  DefaultTextInput(
-                    labelText: 'E-mail',
-                    controller: wm.emailController,
-                    inputType: TextInputType.emailAddress,
+                  StreamedStateBuilder<String?>(
+                    streamedState: wm.enteredEmail,
+                    builder: (_, email) {
+                      return FocusButton(
+                        labelText: 'E-mail',
+                        selectedText: email,
+                        icon: Container(),
+                        onPressed: () async {
+                          wm.setEmail(
+                            await Keys.mainNav.currentState!.push<String>(
+                              PageRouteBuilder<String>(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        EmailScreen(),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(), // TODO(Nikita): Вывести статус
-                  ),
+                  if (wm.isEmailConfirmed)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [
+                          DiscountInfo(
+                            color: AppTheme.turquoiseBlue,
+                            text: 'подтвердить',
+                          ),
+                        ],
+                      ), // TODO(Nikita): Вывести статус
+                    ),
                 ],
               ),
             ),

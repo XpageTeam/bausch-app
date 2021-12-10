@@ -14,6 +14,7 @@ class User {
   final String? lastName;
   final String? secondName;
   final String? email;
+  final String? pendingEmail;
   final DateTime? birthDate;
   final String? city;
 
@@ -26,6 +27,7 @@ class User {
     this.lastName,
     this.secondName,
     this.email,
+    this.pendingEmail,
     this.birthDate,
     this.city,
   });
@@ -40,6 +42,7 @@ class User {
         secondName: json['secondName'] as String?,
         email: json['email'] as String?,
         phone: json['phone'] as String,
+        pendingEmail: json['pendingEmail'] as String?,
         isMobilePhoneConfirmed: json['isMobilePhoneConfirmed'] as bool,
         birthDate: json['birthDate'] == null
             ? null
