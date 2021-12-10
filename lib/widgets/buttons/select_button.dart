@@ -56,7 +56,7 @@ class SelectButton extends StatelessWidget {
                 ),
               ),
               const Icon(
-                Icons.arrow_downward_sharp,
+                Icons.keyboard_arrow_down_sharp,
                 size: 20,
               ),
             ],

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -40,19 +41,13 @@ class FormsExtraBloc extends Bloc<FormsExtraEvent, FormsExtraState> {
             .data!,
       );
 
-      if (parsedData.success && parsedData.data != null) {
-        return FormsExtraSuccess(
-          fields: (parsedData.data as List<dynamic>)
-              .map((dynamic field) =>
-                  FieldModel.fromMap(field as Map<String, dynamic>))
-              .toList(),
-        );
-      } else {
-        return FormsExtraFailed(
-          title: 'что-то пошло не так',
-        );
-      }
-    } on ResponseParseExeption catch (e) {
+      return FormsExtraSuccess(
+        fields: (parsedData.data as List<dynamic>)
+            .map((dynamic field) =>
+                FieldModel.fromMap(field as Map<String, dynamic>))
+            .toList(),
+      );
+    } on ResponseParseException catch (e) {
       return FormsExtraFailed(
         title: 'Ошибка при обработке ответа от сервера',
         subtitle: e.toString(),
@@ -61,6 +56,10 @@ class FormsExtraBloc extends Bloc<FormsExtraEvent, FormsExtraState> {
       return FormsExtraFailed(
         title: 'Ошибка при отправке запроса',
         subtitle: e.toString(),
+      );
+    } on SuccessFalse catch (e) {
+      return FormsExtraFailed(
+        title: 'что-то пошло не так',
       );
     }
   }

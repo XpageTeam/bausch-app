@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -36,18 +37,14 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
             .data!,
       );
 
-      if (parsedData.success) {
-        debugPrint(parsedData.data.toString());
-        return ValuesSuccess(
-          values: (parsedData.data as List<dynamic>)
-              .map((dynamic value) =>
-                  ValueModel.fromMap(value as Map<String, dynamic>))
-              .toList(),
-        );
-      } else {
-        return ValuesFailed(title: 'title');
-      }
-    } on ResponseParseExeption catch (e) {
+      debugPrint(parsedData.data.toString());
+      return ValuesSuccess(
+        values: (parsedData.data as List<dynamic>)
+            .map((dynamic value) =>
+                ValueModel.fromMap(value as Map<String, dynamic>))
+            .toList(),
+      );
+    } on ResponseParseException catch (e) {
       return ValuesFailed(
         title: 'Ошибка при обработке ответа от сервера',
         subtitle: e.toString(),
@@ -56,6 +53,10 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
       return ValuesFailed(
         title: 'Ошибка при отправке запроса',
         subtitle: e.toString(),
+      );
+    } on SuccessFalse catch (e) {
+      return ValuesFailed(
+        title: e.toString(),
       );
     }
   }

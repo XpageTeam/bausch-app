@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
@@ -145,30 +146,17 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
       ))
               .data!);
 
-      if (parsedData.success) {
-        //message = (result.data as Map<String, dynamic>)['message'] as Strin
-        debugPrint(
-          'Email: ${state.email}\nTopic: ${state.topic}\nQuestion: ${state.question}\nFiles: ${state.files}\nExtra: ${state.extra}\n',
-        );
-        return FieldsSended(
-          email: state.email,
-          topic: state.topic,
-          question: state.question,
-          files: state.files,
-          extra: state.extra,
-        );
-      } else {
-        debugPrint(parsedData.message);
-        return FieldsFailed(
-          title: parsedData.message ?? 'Что-то пошло не так',
-          email: state.email,
-          topic: state.topic,
-          question: state.question,
-          files: state.files,
-          extra: state.extra,
-        );
-      }
-    } on ResponseParseExeption catch (e) {
+      debugPrint(
+        'Email: ${state.email}\nTopic: ${state.topic}\nQuestion: ${state.question}\nFiles: ${state.files}\nExtra: ${state.extra}\n',
+      );
+      return FieldsSended(
+        email: state.email,
+        topic: state.topic,
+        question: state.question,
+        files: state.files,
+        extra: state.extra,
+      );
+    } on ResponseParseException catch (e) {
       return FieldsFailed(
         title: 'Не удалось обработать ответ от сервера',
         subtitle: e.toString(),
@@ -182,6 +170,15 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
       return FieldsFailed(
         title: 'Не удалось обработать ответ от сервера',
         subtitle: e.toString(),
+        email: state.email,
+        topic: state.topic,
+        question: state.question,
+        files: state.files,
+        extra: state.extra,
+      );
+    } on SuccessFalse catch (e) {
+      return FieldsFailed(
+        title: e.toString(),
         email: state.email,
         topic: state.topic,
         question: state.question,

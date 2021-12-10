@@ -70,7 +70,7 @@ class _FormTextAreaState extends State<FormTextArea> {
           TextField(
             controller: controller,
             maxLines: 4,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               hintText: 'Ваш комментарий',
               hintStyle: AppStyles.h3,
             ),

@@ -88,12 +88,12 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                                 attachBloc.add(AttachAdd());
                               },
                               child: Row(
-                                children: const [
-                                  Icon(
+                                children: [
+                                  const Icon(
                                     Icons.add_circle_outline_rounded,
                                     color: AppTheme.mineShaft,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 12,
                                   ),
                                   Text(

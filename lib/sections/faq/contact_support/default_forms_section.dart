@@ -1,8 +1,9 @@
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/form_builder.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
-import 'package:bausch/sections/loader/widgets/animated_loader.dart';
+
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

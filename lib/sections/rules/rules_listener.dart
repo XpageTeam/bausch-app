@@ -19,6 +19,7 @@ class RulesListener extends StatelessWidget {
         if (state is RulesFailed) {
           Keys.mainNav.currentState!.pop();
 
+          //TODO(Nikita): поменять на готовую функцию
           Flushbar<void>(
             messageText: Text(
               state.title,
