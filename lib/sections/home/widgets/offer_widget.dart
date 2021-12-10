@@ -1,4 +1,7 @@
+import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +24,13 @@ class OfferWidget extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            //showSheetWithoutItems(context, Models.sheets[1]);
+            showSimpleSheet(
+              context,
+              SimpleSheetModel(
+                title: 'Программа подбора',
+                type: SimpleSheetType.program,
+              ),
+            );
           },
           child: Container(
             decoration: BoxDecoration(

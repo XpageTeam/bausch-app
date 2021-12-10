@@ -178,7 +178,10 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             showSimpleSheet(
               context,
-              SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
+              SimpleSheetModel(
+                title: 'title',
+                type: SimpleSheetType.addpoints,
+              ),
             );
           },
         ),

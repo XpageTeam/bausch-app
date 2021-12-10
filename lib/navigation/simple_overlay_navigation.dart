@@ -9,6 +9,8 @@ import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
+import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
+import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +47,12 @@ class SimpleOverlayNavigation extends StatelessWidget {
               page = RulesScreen(
                 controller: controller,
               );
-            } else {
+            } else if (sheetModel.type == SimpleSheetType.addpoints) {
               page = AddPointsScreen(
+                controller: controller,
+              );
+            } else {
+              page = ProgramScreen(
                 controller: controller,
               );
             }
@@ -110,6 +116,13 @@ class SimpleOverlayNavigation extends StatelessWidget {
           case '/final_addpoints':
             page = FinalAddPointsScreen(
               controller: controller,
+            );
+            break;
+
+          case '/addpoints_survey':
+            page = SurveyScreen(
+              controller: controller,
+              model: Models.addItems[3],
             );
             break;
 
