@@ -1,12 +1,14 @@
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/shops/cubits/page_switcher_cubit/page_switcher_cubit_cubit.dart';
-import 'package:bausch/sections/shops/widgets/address_switcher.dart';
-import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
-import 'package:bausch/sections/shops/widgets/map_adapter.dart';
+import 'package:bausch/sections/shops/map_body.dart';
 import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_adapter.dart';
+import 'package:bausch/sections/shops/widgets/shop_page_switcher.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -14,12 +16,18 @@ import 'package:bausch/widgets/shop_filter_widget/bloc/shop_filter_bloc.dart';
 import 'package:bausch/widgets/shop_filter_widget/shop_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ShopsScreenBody extends StatefulWidget {
-  final List<ShopModel> shopList;
+  final List<CityModel> cityList;
+  final String? currentCity;
+  final void Function(String newCity) cityChanged;
 
   const ShopsScreenBody({
-    required this.shopList,
+    required this.cityList,
+    required this.cityChanged,
+    this.currentCity,
     Key? key,
   }) : super(key: key);
 
@@ -31,36 +39,40 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
   final pageSwitcherCubit = PageSwitcherCubit();
 
   late final ShopFilterBloc filterBloc;
+  late final List<Filter> filterList;
 
-  final filterList = const [
-    Filter(
-      id: -1,
-      title: 'Все оптики',
-    ),
-    Filter(
-      id: 0,
-      title: 'ЛинзСервис',
-    ),
-    Filter(
-      id: 1,
-      title: 'Оптика-А',
-    ),
-    Filter(
-      id: 2,
-      title: 'Оптика-Б',
-    ),
-    Filter(
-      id: 3,
-      title: 'Оптика-В',
-    ),
-  ];
+  List<ShopModel> shopList = [];
 
   int currentIndex = 0;
+
+  late AuthWM authWM;
 
   @override
   void initState() {
     super.initState();
-    filterBloc = ShopFilterBloc(defaultFilter: filterList[0]);
+    if (widget.cityList.any((element) => element.name == widget.currentCity)) {
+      shopList = widget.cityList
+          .firstWhere((element) => element.name == widget.currentCity)
+          .shopsRepository
+          .shops;
+    }
+
+    // for (final city in widget.cityList) {
+    //   shopList.addAll(city.shopsRepository.shops);
+    // }
+
+    filterList = Filter.getFiltersFromShopList(
+      shopList,
+    );
+
+    filterBloc = ShopFilterBloc(
+      defaultFilter: filterList[0],
+      allFilters: filterList,
+    );
+    authWM = Provider.of<AuthWM>(context, listen: false);
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) {},
+    );
   }
 
   @override
@@ -96,54 +108,122 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
           ),
 
           // Кнопка выбора города
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              StaticData.sidePadding,
-              0,
-              StaticData.sidePadding,
-              20,
-            ),
-            child: DefaultButton(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
-              onPressed: () {
-                // TODO(Nikolay): Реализовать кнопку.
-                showModalBottomSheet<void>(
-                  context: context,
-                  barrierColor: Colors.transparent,
-                  builder: (context) => BottomSheetContent(
-                    title: 'ЛинзСервис',
-                    subtitle: 'ул. Задарожная, д. 20, к. 2, ТЦ Океания',
-                    phone: '+7 920 325-62-26',
-                    site: 'lensservice.ru',
-                    additionalInfo:
-                        'Скидкой можно воспользоваться в любой из оптик сети.',
-                    onPressed: () {},
-                    btnText: 'Выбрать эту сеть оптик',
+          // StreamedStateBuilder<AuthStatus>(
+          //   streamedState: authWM.authStatus,
+          //   builder: (_, autStatus) => autStatus == AuthStatus.authenticated
+          //       ? Padding(
+          //           padding: const EdgeInsets.fromLTRB(
+          //             StaticData.sidePadding,
+          //             0,
+          //             StaticData.sidePadding,
+          //             20,
+          //           ),
+          //           child: DefaultButton(
+          //             padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+          //             onPressed: () async {
+          //               // Открыть окно со списком городов
+          //               final cityName =
+          //                   await Keys.mainNav.currentState!.push<String>(
+          //                 PageRouteBuilder<String>(
+          //                   pageBuilder:
+          //                       (context, animation, secondaryAnimation) =>
+          //                           CityScreen(
+          //                     citiesWithShops: widget.cityList
+          //                         .map(
+          //                           (e) => e.name,
+          //                         )
+          //                         .toList(),
+          //                   ),
+          //                 ),
+          //               );
+
+          //               if (cityName != null &&
+          //                   cityName != widget.currentCity) {
+          //                 widget.cityChanged(cityName);
+          //               }
+          //             },
+          //             children: [
+          //               Column(
+          //                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                 mainAxisSize: MainAxisSize.min,
+          //                 children: [
+          //                   Text(
+          //                     'Город',
+          //                     style: AppStyles.p1Grey,
+          //                   ),
+          //                   const SizedBox(
+          //                     height: 6,
+          //                   ),
+          //                   Flexible(
+          //                     child: Text(
+          //                       widget.currentCity!,
+          //                       style: AppStyles.h2Bold,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ],
+          //             chevronColor: AppTheme.mineShaft,
+          //           ),
+          //         )
+          //       : Container(),
+          // ),
+          
+          // Кнопка выбора города
+          if (widget.currentCity != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                20,
+              ),
+              child: DefaultButton(
+                padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+                onPressed: () async {
+                  // Открыть окно со списком городов
+                  final cityName =
+                      await Keys.mainNav.currentState!.push<String>(
+                    PageRouteBuilder<String>(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          CityScreen(
+                        citiesWithShops: widget.cityList
+                            .map(
+                              (e) => e.name,
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  );
+
+                  if (cityName != null && cityName != widget.currentCity) {
+                    widget.cityChanged(cityName);
+                  }
+                },
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Город',
+                        style: AppStyles.p1Grey,
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Flexible(
+                        child: Text(
+                          widget.currentCity!,
+                          style: AppStyles.h2Bold,
+                        ),
+                      ),
+                    ],
                   ),
-                );
-              },
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text(
-                      'Город',
-                      style: AppStyles.p1Grey,
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    Text(
-                      'Москва',
-                      style: AppStyles.h2Bold,
-                    ),
-                  ],
-                ),
-              ],
-              chevronColor: AppTheme.mineShaft,
+                ],
+                chevronColor: AppTheme.mineShaft,
+              ),
             ),
-          ),
 
           // Фильтр магазинов
           Padding(
@@ -169,13 +249,20 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                     if (switherState is PageSwitcherShowList) {
                       return ShopListAdapter(
                         containerType: ShopContainer,
-                        shopList: widget.shopList,
+                        shopList: shopList,
                         state: filterState,
                       );
                     } else {
-                      return MapAdapter(
-                        shopList: widget.shopList,
-                        state: filterState,
+                      return MapBody(
+                        shopList: shopList
+                            .where(
+                              (shop) =>
+                                  filterState is! ShopFilterChange ||
+                                  filterState.selectedFilters.any(
+                                    (filter) => filter.title == shop.name,
+                                  ),
+                            )
+                            .toList(),
                       );
                     }
                   },

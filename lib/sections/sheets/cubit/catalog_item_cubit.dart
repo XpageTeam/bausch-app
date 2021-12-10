@@ -62,7 +62,7 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
         emit(CatalogItemFailed(title: 'Ошибка при соединении'));
         debugPrint('Ошибка при соединении');
       }
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseException catch (e) {
       emit(
         CatalogItemFailed(
           title: 'Ошибка при обработке ответа от сервера',

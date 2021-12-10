@@ -11,7 +11,7 @@ import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -90,7 +90,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
             Row(
               children: [
                 Flexible(
-                  child: DefaultTextInput(
+                  child: NativeTextInput(
                     labelText: 'Кв/офис',
                     controller: officeController,
                     inputType: TextInputType.number,
@@ -100,7 +100,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   width: 4,
                 ),
                 Flexible(
-                  child: DefaultTextInput(
+                  child: NativeTextInput(
                     labelText: 'Подъезд',
                     controller: lobbyController,
                     inputType: TextInputType.number,
@@ -110,7 +110,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   width: 4,
                 ),
                 Flexible(
-                  child: DefaultTextInput(
+                  child: NativeTextInput(
                     labelText: 'Этаж',
                     controller: floorController,
                     inputType: TextInputType.number,

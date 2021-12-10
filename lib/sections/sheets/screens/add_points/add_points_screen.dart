@@ -55,9 +55,9 @@ class AddPointsScreen extends StatelessWidget {
                         const SizedBox(
                           width: 4,
                         ),
-                        const Text(
+                        Text(
                           'Добавить ещё',
-                          style: AppStyles.h2,
+                          style: AppStyles.h1,
                         ),
                       ],
                     ),

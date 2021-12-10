@@ -42,17 +42,40 @@ class ShopContainer extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          GestureDetector(
-            onTap: () => Utils.tryLaunchUrl(rawUrl: shop.phone, isPhone: true),
-            child: Text(
-              shop.phone,
-              style: AppStyles.p1.copyWith(
-                decoration: TextDecoration.underline,
-                decorationColor: AppTheme.turquoiseBlue,
-                decorationThickness: 2,
-              ),
-            ),
-          ),
+          // TODO(Nikolay): Номера.
+          ...shop.phones
+              .map(
+                (phone) => GestureDetector(
+                  onTap: () => Utils.tryLaunchUrl(
+                    rawUrl: phone,
+                    isPhone: true,
+                  ),
+                  child: Text(
+                    phone,
+                    style: AppStyles.p1.copyWith(
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppTheme.turquoiseBlue,
+                      decorationThickness: 2,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+          // GestureDetector(
+          //   onTap: () => Utils.tryLaunchUrl(
+          //     rawUrl:
+          //         shop.phone[0],
+          //     isPhone: true,
+          //   ),
+          //   child: Text(
+          //     shop.phone[0],
+          //     style: AppStyles.p1.copyWith(
+          //       decoration: TextDecoration.underline,
+          //       decorationColor: AppTheme.turquoiseBlue,
+          //       decorationThickness: 2,
+          //     ),
+          //   ),
+          // ),
           if (shop.site != null) ...[
             const SizedBox(
               height: 4,

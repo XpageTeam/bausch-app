@@ -35,11 +35,15 @@ class CustomAlertDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 40),
-              child: Text(
-                'Удалить адрес?',
-                style: AppStyles.h1,
+            //TODO(Nikita): не забыть при слиянии
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: Text(
+                  'Удалить адрес?',
+                  style: AppStyles.h1,
+                ),
               ),
             ),
             BlueButtonWithText(
@@ -59,7 +63,7 @@ class CustomAlertDialog extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       'Нет',
                       style: AppStyles.h2,

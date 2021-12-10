@@ -18,8 +18,8 @@ class SupportSection extends StatelessWidget {
     return SliverList(
       delegate: SliverChildListDelegate(
         [
-          const Padding(
-            padding: EdgeInsets.only(
+          Padding(
+            padding: const EdgeInsets.only(
               top: 8,
               bottom: 40,
             ),

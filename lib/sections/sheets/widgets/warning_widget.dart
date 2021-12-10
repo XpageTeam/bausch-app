@@ -33,7 +33,7 @@ class Warning extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              const Flexible(
+              Flexible(
                 child: Text(
                   'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
                   style: AppStyles.h3,
@@ -62,19 +62,19 @@ class Warning extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
                 'Онлайн-кинотеатр',
                 style: AppStyles.h2,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
                 'data',
                 style: AppStyles.p1Underlined,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               Text(

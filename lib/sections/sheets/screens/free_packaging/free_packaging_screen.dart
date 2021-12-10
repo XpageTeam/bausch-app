@@ -8,6 +8,9 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/discount_info.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 
 //catalog_free_packaging
@@ -46,55 +49,65 @@ class FreePackagingScreen extends StatelessWidget
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.packaging(model, key),
+                    TopSection.packaging(
+                      model: model,
+                      key: key,
+                      leftIcon: const PointsInfo(
+                        text: 'Не хватает 2000',
+                      ),
+                    ),
                     const SizedBox(
                       height: 4,
                     ),
                     InfoSection(
                       text: model.previewText,
+                      secondText: model.detailText,
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    LegalInfo(
-                      text: model.detailText,
-                    ),
-                    const SizedBox(
-                      height: 160,
-                    ),
+                    // const SizedBox(
+                    //   height: 12,
+                    // ),
+
+                    // const SizedBox(
+                    //   height: 160,
+                    // ),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
+            const SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                12,
+                StaticData.sidePadding,
+                160,
               ),
-              child: BlueButtonWithText(
-                text: 'Перейти к заказу',
-                onPressed: () {
-                  // Keys.mainNav.currentState!.pop();
-
-                  // Keys.mainContentNav.currentState!
-                  //     .pushNamed('/order_registration');
-
-                  Keys.mainNav.currentState!.push<void>(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const OrderRegistrationScreen();
-                      },
-                    ),
-                  );
-                },
+              sliver: LegalInfo(
+                texts: [
+                  'Адрес доставки должен быть на территории Российской Федерации, за исключением Республики Крым (по правилам программы доставка в Крым и Севастополь не осуществляется).',
+                  'Бесплатная упаковка будет направлена на указанный адрес не позднее 60 рабочих дней с момента заказа.',
+                  'Организатор не несёт ответственность за невозможность доставки в связи с некорректным указанием адреса доставки и в случае невозможности связаться с получателем по указанному номеру телефона. Сроки доставки определяются организацией, осуществляющей доставку.',
+                  'Внешний вид и комплектность подарочных изделий могут отличаться от изображений на сайте.',
+                ],
               ),
             ),
-            const InfoBlock(),
           ],
+        ),
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Перейти к заказу',
+          onPressed: () {
+            // Keys.mainNav.currentState!.pop();
+
+            // Keys.mainContentNav.currentState!
+            //     .pushNamed('/order_registration');
+
+            Keys.mainNav.currentState!.push<void>(
+              MaterialPageRoute(
+                builder: (context) {
+                  return const OrderRegistrationScreen();
+                },
+              ),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

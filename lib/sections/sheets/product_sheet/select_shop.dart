@@ -1,4 +1,6 @@
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
+import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
@@ -40,7 +42,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           'Линз Сервис',
                           style: AppStyles.h3,
@@ -58,12 +60,12 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                       'assets/ochkov-net.png',
                       width: MediaQuery.of(context).size.width / 5,
                     ),
-                    Radio(
+                    CustomRadio(
                       value: i,
                       groupValue: _selectedIndex,
                       onChanged: (v) {
                         setState(() {
-                          _selectedIndex = v as int;
+                          _selectedIndex = i;
                         });
                       },
                     ),

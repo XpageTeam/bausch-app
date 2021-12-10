@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
+import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -36,27 +37,23 @@ class FinalDiscountOptics extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(icon: Container(), key: key),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 40),
+                    CustomSliverAppbar.toPop(
+                      icon: Container(),
+                      key: key,
+                      backgroundColor: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
                         'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
                         style: AppStyles.h2,
                       ),
                     ),
-                    WhiteRoundedContainer(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            model.code,
-                            style: AppStyles.h2,
-                          ),
-                        ],
-                      ),
+                    ContainerWithPromocode(
+                      promocode: model.code,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),
@@ -72,7 +69,9 @@ class FinalDiscountOptics extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(),
+        floatingActionButton: const BottomButtonWithRoundedCorners(
+          text: 'Скопировать и перейти на сайт',
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

@@ -22,7 +22,7 @@ class ProductItemModel extends CatalogItemModel
 
   factory ProductItemModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
-      throw ResponseParseExeption('Не передан идентификатор');
+      throw ResponseParseException('Не передан идентификатор');
     }
 
     // if (map['name'] == null) {
@@ -30,14 +30,14 @@ class ProductItemModel extends CatalogItemModel
     // }
 
     if (map['preview_text'] == null) {
-      throw ResponseParseExeption('Не передан превью текст');
+      throw ResponseParseException('Не передан превью текст');
     }
 
     if (map['detail_text'] == null) {
-      throw ResponseParseExeption('Не передан детаил текст');
+      throw ResponseParseException('Не передан детаил текст');
     }
     if (map['price'] == null) {
-      throw ResponseParseExeption('Не передана цена товара');
+      throw ResponseParseException('Не передана цена товара');
     }
 
     return ProductItemModel(
@@ -46,8 +46,9 @@ class ProductItemModel extends CatalogItemModel
       name: (map['name'] ?? map['title']) as String,
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
-      picture:
-          'https://icdn.lenta.ru/images/2019/12/06/10/20191206104306174/pwa_vertical_1280_4c9fd519bc66e04b4a6eb24307a025ad.jpg',
+      picture: (map['picture'] ??
+              'https://icdn.lenta.ru/images/2019/12/06/10/20191206104306174/pwa_vertical_1280_4c9fd519bc66e04b4a6eb24307a025ad.jpg')
+          as String,
       price: (map['price'] ?? 150) as int,
     );
   }

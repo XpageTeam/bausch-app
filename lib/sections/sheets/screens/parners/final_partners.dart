@@ -36,9 +36,13 @@ class FinalPartners extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(icon: Container(), key: key),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    CustomSliverAppbar.toPop(
+                      icon: Container(),
+                      key: key,
+                      backgroundColor: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 20,
                         bottom: 40,
                       ),
@@ -58,8 +62,8 @@ class FinalPartners extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),
@@ -75,7 +79,10 @@ class FinalPartners extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(),
+        floatingActionButton: const BottomButtonWithRoundedCorners(
+          text: 'Скопировать код и перейти на сайт',
+          withInfo: false,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

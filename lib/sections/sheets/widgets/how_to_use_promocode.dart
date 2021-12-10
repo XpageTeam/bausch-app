@@ -1,4 +1,3 @@
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -9,22 +8,17 @@ class HowToUsePromocode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
           'Как воспользоваться промокодом',
-          style: AppStyles.h2,
+          style: AppStyles.h1,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Text(
           'Положите в корзину выбранный при заказе поощрения продукт. При оформлении заказа введите промокод в поле «Промокод» и нажмите «Применить». Итоговая стоимость со скидкой отобразится в корзине.',
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-            height: 20 / 14,
-            fontSize: 14,
-            color: AppTheme.mineShaft,
-          ),
+          style: AppStyles.p1,
         ),
       ],
     );

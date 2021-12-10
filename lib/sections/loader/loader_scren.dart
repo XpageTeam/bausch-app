@@ -1,5 +1,6 @@
-import 'package:bausch/sections/loader/widgets/animated_loader.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 
 //* Макет:
@@ -11,6 +12,7 @@ class LoaderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const NewEmptyAppBar(),
       body: Container(
         color: AppTheme.mystic,
         child: const Center(

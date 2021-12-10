@@ -6,6 +6,8 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
@@ -41,20 +43,28 @@ class PartnersVerification extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomSliverAppbar.toPop(
-                          icon: Container(),
+                          icon: NormalIconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new_sharp,
+                              size: 20,
+                            ),
+                          ),
                           key: key,
                           backgroundColor: Colors.white,
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
-                          'Подтвердите покупку',
+                        Text(
+                          'Подтвердите заказ',
                           style: AppStyles.h2,
                         ),
                         Column(
-                          children: const [
-                            SizedBox(
+                          children: [
+                            const SizedBox(
                               height: 12,
                             ),
                             Text(
@@ -72,8 +82,8 @@ class PartnersVerification extends StatelessWidget {
                         const SizedBox(
                           height: 12,
                         ),
-                        const Text(
-                          'После покупки у вас останется 100 баллов',
+                        Text(
+                          'После заказа у вас останется 100 баллов',
                           style: AppStyles.p1,
                         ),
                       ],
@@ -84,29 +94,15 @@ class PartnersVerification extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Container(
-          height: 132,
-          color: AppTheme.mystic,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: BlueButtonWithText(
-                  text: 'Потратить ${model.price} б',
-                  onPressed: () {
-                    Keys.bottomSheetItemsNav.currentState!.pushNamed(
-                      '/final_partners',
-                      arguments: SheetScreenArguments(model: model),
-                    );
-                  },
-                ),
-              ),
-              const InfoBlock(),
-            ],
-          ),
+        floatingActionButton: CustomFloatingActionButton(
+          text: 'Потратить ${model.price} б',
+          withInfo: false,
+          onPressed: () {
+            Keys.bottomSheetItemsNav.currentState!.pushNamed(
+              '/final_partners',
+              arguments: SheetScreenArguments(model: model),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

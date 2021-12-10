@@ -261,7 +261,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                 return Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30, top: i == 0 ? 30 : 0),
+                    padding: EdgeInsets.only(bottom: 20, top: i == 0 ? 30 : 10),
                     child: CircleAvatar(
                       child: Text(
                         element.toUpperCase(),

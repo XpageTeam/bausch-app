@@ -19,6 +19,9 @@ class _ShopListCubitProviderState extends State<ShopListCubitProvider> {
   void initState() {
     super.initState();
     shopListCubit.loadShopList();
+    // shopListCubit.loadShopListByCity(
+    //   widget.cityName,
+    // );
   }
 
   @override

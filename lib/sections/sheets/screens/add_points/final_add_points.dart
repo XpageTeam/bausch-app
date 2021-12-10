@@ -31,7 +31,7 @@ class FinalAddPointsScreen extends StatelessWidget {
               CustomSliverAppbar.toPop(
                 icon: Container(),
                 key: key,
-                rightKey: Keys.bottomSheetWithoutItemsNav,
+                rightKey: Keys.simpleBottomSheetNav,
               ),
               Stack(
                 alignment: Alignment.center,
@@ -57,8 +57,8 @@ class FinalAddPointsScreen extends StatelessWidget {
                     ],
                   ),
                   Column(
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         '+500',
                         style: TextStyle(
                           color: AppTheme.mineShaft,
@@ -67,7 +67,7 @@ class FinalAddPointsScreen extends StatelessWidget {
                           height: 80 / 85,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Text(

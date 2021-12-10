@@ -47,34 +47,38 @@ class ShopWidget extends StatelessWidget {
             ),
           ),
 
-          //* Номер
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: GestureDetector(
-                onTap: () async {
-                  final url = 'tel:${shopModel.phone}';
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    await Future<dynamic>.error('Could not launch $url');
-                  }
-                },
-                child: Text(
-                  shopModel.phone,
-                  style: AppStyles.p1.copyWith(
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppTheme.turquoiseBlue,
-                    decorationThickness: 2,
+          //* Номера
+          ...shopModel.phones
+              .map(
+                (phone) => Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: GestureDetector(
+                      onTap: () async {
+                        final url = 'tel:${shopModel.phones}';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          await Future<dynamic>.error('Could not launch $url');
+                        }
+                      },
+                      child: Text(
+                        shopModel.phones[0],
+                        style: AppStyles.p1.copyWith(
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppTheme.turquoiseBlue,
+                          decorationThickness: 2,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
+              )
+              .toList(),
 
           BlueButton(
             onPressed: onPressed,
-            children: const [
+            children: [
               Text(
                 'Выбрать оптику',
                 style: AppStyles.h2Bold,

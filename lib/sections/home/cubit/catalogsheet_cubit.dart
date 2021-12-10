@@ -51,7 +51,7 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
           }).toList(),
         ),
       );
-    } on ResponseParseExeption catch (sheet) {
+    } on ResponseParseException catch (sheet) {
       emit(
         CatalogSheetFailed(
           title: 'Ошибка при обработке ответа от сервера',

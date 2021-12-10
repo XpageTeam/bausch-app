@@ -82,7 +82,7 @@ class AddPointsDetails extends StatelessWidget {
                           CustomSliverAppbar.toPop(
                             icon: Container(),
                             key: key,
-                            rightKey: Keys.bottomSheetWithoutItemsNav,
+                            rightKey: Keys.simpleBottomSheetNav,
                           ),
                         ],
                       ),
@@ -103,7 +103,7 @@ class AddPointsDetails extends StatelessWidget {
                         BlueButtonWithText(
                           text: 'Привязать аккаунт',
                           onPressed: () {
-                            Keys.bottomSheetWithoutItemsNav.currentState!
+                            Keys.simpleBottomSheetNav.currentState!
                                 .pushNamed('/final_addpoints');
                           },
                         ),

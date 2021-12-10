@@ -1,11 +1,15 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bausch/sections/auth/loading/animated_content.dart';
+import 'package:bausch/sections/auth/loading/animation_content.dart';
+import 'package:bausch/sections/auth/loading/loading_animation.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/animated_translate_opacity.dart';
+import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rive/rive.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iphone_has_notch/iphone_has_notch.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -14,102 +18,53 @@ class LoadingScreen extends StatefulWidget {
   State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen>
-    with TickerProviderStateMixin {
-  late Animation positionAnimation;
-  late Animation blurHeightAnimation;
-  late AnimationController controller;
-
-  late RiveAnimationController loadingController;
-  late RiveAnimationController afterController;
-
-  //* Анимация начнется примерно через 2 секунды после initState
-  Interval interval = const Interval(0.4, 0.7, curve: Curves.easeInOut);
-
-  double opacity = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    loadingController = OneShotAnimation(
-      'loading',
-      onStop: () {
-        afterController.isActive = true;
-      },
-      onStart: () {
-        setState(() {
-          afterController.isActive = false;
-        });
-      },
-    );
-
-    afterController = OneShotAnimation('afterLoading');
-
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-
-    positionAnimation = Tween<double>(begin: 250.0, end: 0.0).animate(
-      CurvedAnimation(parent: controller, curve: interval),
-    );
-
-    controller.addListener(() {
-      setState(() {
-        opacity = 1.0;
-      });
-    });
-
-    controller.forward();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-  }
-
+class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
+    final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
+    debugPrint(spaceBetween.toString());
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            //* Анимация, запускается при инициализации экрана
-            RiveAnimation.asset(
-              'assets/loading_2.riv',
-              fit: BoxFit.cover,
-              //animations: const ['loading', 'afterLoading'],
-              controllers: [afterController, loadingController],
-            ),
-            //* В Rive пока не завезли эффекты, в том числе размытие
-            //* Поэтому делаю Blur с помощью BackdropFilter
-            // AnimatedBlur(
-            //   animation: Tween<double>(
-            //     begin: 0.0,
-            //     end: MediaQuery.of(context).size.height * 0.7,
-            //   ).animate(
-            //     CurvedAnimation(parent: controller, curve: interval),
-            //   ),
-            // ),
-            Column(
+      backgroundColor: AppTheme.turquoiseBlue,
+      appBar: const NewEmptyAppBar(
+        appBarBgColor: Colors.white,
+      ),
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          //* Анимация, запускается при инициализации экрана
+          const LoadingAnimation(),
+
+          //* Контент с текстом и кнопкой
+          DelayedAnimatedTranslateOpacity(
+            offsetY: 120,
+            delay: const Duration(milliseconds: 1600),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                AnimatedOpacity(
-                  duration: const Duration(seconds: 3),
-                  opacity: opacity,
-                  curve: interval,
-                  child: AnimatedContent(
-                    animation: positionAnimation as Animation<double>,
+                Container(
+                  child: const AnimationContent(),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                    ),
                   ),
+                  height: MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.bottom -
+                      MediaQuery.of(context).padding.top -
+                      86.sp -
+                      spaceBetween -
+                      80.sp -
+                      114.sp +
+                      (IphoneHasNotch.hasNotch ? 40.sp : 0.sp),
+                  //height: 400.sp,
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

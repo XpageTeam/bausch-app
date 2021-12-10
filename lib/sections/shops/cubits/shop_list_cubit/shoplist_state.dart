@@ -22,7 +22,9 @@ class ShopListFailed extends ShopListState {
 }
 
 class ShopListSuccess extends ShopListState {
-  final List<ShopModel> shopList;
+  final List<CityModel> cityList;
 
-  const ShopListSuccess({required this.shopList});
+  const ShopListSuccess({
+    required this.cityList,
+  });
 }

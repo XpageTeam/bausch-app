@@ -35,7 +35,7 @@ class StoriesCubit extends Cubit<StoriesState> {
       } else {
         emit(StoriesFailed(title: 'title'));
       }
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseException catch (e) {
       emit(
         StoriesFailed(
           title: 'Ошибка при обработке ответа от сервера',

@@ -40,9 +40,13 @@ class _PickerScreenState extends State<PickerScreen> {
                   ),
                 ),
               ),
-              const Text(
-                'Диоптрий',
-                style: AppStyles.h1,
+              //TODO(Nikita): не забыть при слиянии
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Диоптрий',
+                  style: AppStyles.h1,
+                ),
               ),
               //TODO(Nikita): Придумать что-то с оверлеем, чтобы не выглядело так стремно при переходе
               Flexible(

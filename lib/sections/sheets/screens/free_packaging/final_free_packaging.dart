@@ -37,19 +37,23 @@ class FinalFreePackaging extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(icon: Container(), key: key),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20),
+                    CustomSliverAppbar.toPop(
+                      icon: Container(),
+                      key: key,
+                      backgroundColor: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        'Заказ оформлен',
+                        'Заказ успешно оформлен',
                         style: AppStyles.h2,
                       ),
                     ),
                     // DefaultTextInput(
                     //     labelText: 'labelText',
                     //     controller: TextEditingController()),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),
@@ -62,8 +66,10 @@ class FinalFreePackaging extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 12, bottom: 120),
                       child: Column(
-                        children: const [
+                        children: [
                           TextWithPoint(
+                            dotStyle: AppStyles.p1,
+                            textStyle: AppStyles.p1,
                             text:
                                 'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
                           ),

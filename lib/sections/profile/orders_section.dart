@@ -15,13 +15,13 @@ class OrdersSection extends StatelessWidget {
           (context, index) => Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: CatalogItemWidget(
-              model: Models.items[0],
-              deliveryInfo: '',
+              model: Models.items[index],
+              deliveryInfo: '232323',
               orderTitle: 'Заказ № 89088 от 29.06.2021',
               address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
             ),
           ),
-          childCount: 5,
+          childCount: Models.items.length,
         ),
       ),
     );

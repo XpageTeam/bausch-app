@@ -1,5 +1,5 @@
-import 'package:bausch/sections/shops/widgets/current_location_button.dart';
-import 'package:bausch/sections/shops/widgets/zoom_buttons.dart';
+import 'package:bausch/sections/shops/widgets/buttons/current_location_button.dart';
+import 'package:bausch/sections/shops/widgets/buttons/zoom_buttons.dart';
 import 'package:flutter/material.dart';
 
 class MapButtons extends StatelessWidget {

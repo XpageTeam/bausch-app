@@ -33,7 +33,7 @@ class FormsCubit extends Cubit<FormsState> {
               .toList(),
         ),
       );
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseException catch (e) {
       emit(
         FormsFailed(
           title: 'Ошибка при обработке ответа от сервера',

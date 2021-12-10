@@ -1,8 +1,21 @@
+// ignore_for_file: avoid-returning-widgets
+
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
+import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
@@ -17,6 +30,7 @@ class CatalogItemWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  //TODO(Nikita) : Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +39,12 @@ class CatalogItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+        padding: EdgeInsets.fromLTRB(
+          StaticData.sidePadding,
+          20,
+          StaticData.sidePadding,
+          (model is ProductItemModel) ? 20 : 12,
+        ),
         child: Column(
           children: [
             Row(
@@ -72,12 +91,12 @@ class CatalogItemWidget extends StatelessWidget {
                           const SizedBox(
                             width: 4,
                           ),
-                          const PointWidget(),
+                          PointWidget(textStyle: AppStyles.h2),
                         ],
                       ),
 
                       //* Адрес
-                      if (address != null)
+                      if (model is ProductItemModel)
                         Flexible(
                           child: Container(
                             margin: const EdgeInsets.only(top: 2),
@@ -94,7 +113,7 @@ class CatalogItemWidget extends StatelessWidget {
                 //* Изображение товара
                 Expanded(
                   child: Image.asset(
-                    'assets/items/item1.png', //! model.img
+                    img(model), //! model.img
                     scale: 3,
                   ),
                 ),
@@ -102,15 +121,15 @@ class CatalogItemWidget extends StatelessWidget {
             ),
 
             //* Информация о доставке
-            if (deliveryInfo != null)
+            if (model is ProductItemModel)
               Container(
                 margin: const EdgeInsets.only(top: 32),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.battery_charging_full,
-                      color: AppTheme.mineShaft,
+                    Image.asset(
+                      'assets/substract.png',
+                      height: 15,
                     ),
                     const SizedBox(
                       width: 4,
@@ -132,6 +151,116 @@ class CatalogItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
+            if (model is! ProductItemModel)
+              GreyButton(
+                text: txt(model),
+                icon: icon(model),
+                onPressed: () {
+                  callback(model);
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  //* Вывод нужной картинки в зависимости от типа элемента
+  String img(CatalogItemModel _model) {
+    if (_model is WebinarItemModel) {
+      return 'assets/webinar-recordings.png';
+    } else if (_model is ProductItemModel) {
+      return _model.picture;
+    } else if (_model is PartnersItemModel) {
+      return 'assets/offers-from-partners.png';
+    } else {
+      return 'assets/discount-in-optics.png';
+    }
+  }
+}
+
+//* Вывод нужной надписи в зависимости от типа элемента
+String txt(CatalogItemModel _model) {
+  if (_model is WebinarItemModel) {
+    return 'Перейти к просмотру';
+  } else if (_model is PartnersItemModel) {
+    return _model.poolPromoCode;
+  } else {
+    return (_model as PromoItemModel).code;
+  }
+}
+
+Widget icon(CatalogItemModel _model) {
+  if (_model is WebinarItemModel) {
+    return Container();
+  } else if (_model is PartnersItemModel) {
+    return Image.asset(
+      'assets/copy.png',
+      height: 16,
+    );
+  } else {
+    return Image.asset(
+      'assets/icons/preview.png',
+      height: 16,
+    );
+  }
+}
+
+void callback(CatalogItemModel _model) {
+  if (_model is WebinarItemModel) {
+    debugPrint('webinar');
+  } else if (_model is PartnersItemModel) {
+    Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
+    showDefaultNotification(title: 'title');
+  } else {
+    showFlexibleBottomSheet<void>(
+      context: Keys.mainNav.currentContext!,
+      minHeight: 0,
+      initHeight: 0.9,
+      maxHeight: 0.95,
+      anchors: [0, 0.6, 0.95],
+      builder: (context, controller, d) {
+        return FinalDiscountOptics(
+          controller: ScrollController(),
+          model: _model as PromoItemModel,
+        );
+      },
+    );
+  }
+}
+
+class GreyButton extends StatelessWidget {
+  final String text;
+  final Widget icon;
+  final VoidCallback? onPressed;
+  const GreyButton({
+    required this.text,
+    required this.icon,
+    this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.mystic,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              style: AppStyles.h2,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            icon,
           ],
         ),
       ),

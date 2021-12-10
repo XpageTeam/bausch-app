@@ -6,11 +6,15 @@ import 'package:flutter/material.dart';
 class FocusButton extends StatelessWidget {
   final String labelText;
   final String? selectedText;
+  final Widget? icon;
   final VoidCallback? onPressed;
+  final Color? backgroundColor;
   const FocusButton({
     required this.labelText,
     this.selectedText,
+    this.icon,
     this.onPressed,
+    this.backgroundColor = Colors.white,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +23,7 @@ class FocusButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
       ),
       child: Row(
@@ -50,11 +54,13 @@ class FocusButton extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios_sharp,
-            size: 18,
-            color: selectedText == null ? AppTheme.grey : AppTheme.mineShaft,
-          ),
+          icon ??
+              Icon(
+                Icons.arrow_forward_ios_sharp,
+                size: 20,
+                color:
+                    selectedText == null ? AppTheme.grey : AppTheme.mineShaft,
+              ),
         ],
       ),
     );

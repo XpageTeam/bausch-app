@@ -7,6 +7,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/adresses.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/address_button.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
@@ -34,16 +35,16 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
           top: 30,
         ),
         child: Adresses.adresses.isEmpty
-            ? const Text(
+            ? Text(
                 'Пока нет ни одного адреса для доставки ',
-                style: AppStyles.h1,
+                style: AppStyles.h2,
               )
             : ListView.builder(
                 itemCount: Adresses.adresses.length,
                 itemBuilder: (context, i) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 4),
-                    child: FocusButton(
+                    child: AddressButton(
                       labelText: Adresses.adresses[i].street,
                       selectedText:
                           'Кв.${Adresses.adresses[i].office},подъезд ${Adresses.adresses[i].lobby},этаж ${Adresses.adresses[i].floor}',

@@ -15,15 +15,15 @@ class LensParametersSection extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 20),
-            child: const Text(
-              'Параметры линз',
+            child: Text(
+              'Параметры',
               style: AppStyles.h1,
             ),
           ),
           OrderButton(
             onPressed: () {},
             margin: const EdgeInsets.only(bottom: 4),
-            title: const Text(
+            title: Text(
               'Диоптрии',
               style: AppStyles.h2GreyBold,
             ),
@@ -32,7 +32,7 @@ class LensParametersSection extends StatelessWidget {
           OrderButton(
             onPressed: () {},
             margin: const EdgeInsets.only(bottom: 4),
-            title: const Text(
+            title: Text(
               'Цилиндр',
               style: AppStyles.h2GreyBold,
             ),
@@ -41,7 +41,7 @@ class LensParametersSection extends StatelessWidget {
           OrderButton(
             onPressed: () {},
             margin: const EdgeInsets.only(bottom: 4),
-            title: const Text(
+            title: Text(
               'Ось',
               style: AppStyles.h2GreyBold,
             ),
@@ -50,7 +50,7 @@ class LensParametersSection extends StatelessWidget {
           OrderButton(
             onPressed: () {},
             margin: const EdgeInsets.only(bottom: 4),
-            title: const Text(
+            title: Text(
               'Аддидация',
               style: AppStyles.h2GreyBold,
             ),

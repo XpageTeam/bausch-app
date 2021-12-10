@@ -27,7 +27,7 @@ class RulesCubit extends Cubit<RulesState> {
           RulesFailed(title: 'Что-то пошло не так'),
         );
       }
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseException catch (e) {
       emit(
         RulesFailed(
           title: 'Ошибка при обработке ответа от сервера',
