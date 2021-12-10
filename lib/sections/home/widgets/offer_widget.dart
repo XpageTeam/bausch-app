@@ -1,16 +1,23 @@
+import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class OfferWidget extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final Widget? topRightIcon;
+
+  final VoidCallback onClose;
+
   const OfferWidget({
     this.title,
     this.subtitle,
     this.topRightIcon,
+    required this.onClose,
     Key? key,
   }) : super(key: key);
 
@@ -22,6 +29,18 @@ class OfferWidget extends StatelessWidget {
         GestureDetector(
           onTap: () {
             //showSheetWithoutItems(context, Models.sheets[1]);
+            showFlexibleBottomSheet<void>(
+              useRootNavigator: true,
+              minHeight: 0,
+              initHeight: 0.9, //calculatePercentage(model.models!.length),
+              maxHeight: 0.95,
+              anchors: [0, 0.6, 0.95],
+
+              context: context,
+              builder: (_, c, d) => ProgramScreen(
+                controller: c,
+              ),
+            );
           },
           child: Container(
             decoration: BoxDecoration(
@@ -67,7 +86,19 @@ class OfferWidget extends StatelessWidget {
                         width: 45,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () => showFlexibleBottomSheet<void>(
+                          useRootNavigator: true,
+                          minHeight: 0,
+                          initHeight:
+                              0.9, //calculatePercentage(model.models!.length),
+                          maxHeight: 0.95,
+                          anchors: [0, 0.6, 0.95],
+
+                          context: context,
+                          builder: (_, c, d) => ProgramScreen(
+                            controller: c,
+                          ),
+                        ),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -91,7 +122,7 @@ class OfferWidget extends StatelessWidget {
         ),
         topRightIcon ??
             IconButton(
-              onPressed: () {},
+              onPressed: onClose,
               icon: const Icon(Icons.close),
               splashRadius: 5,
             ),
