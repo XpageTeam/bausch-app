@@ -17,7 +17,6 @@ import 'package:bausch/widgets/shop_filter_widget/shop_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ShopsScreenBody extends StatefulWidget {
   final List<CityModel> cityList;

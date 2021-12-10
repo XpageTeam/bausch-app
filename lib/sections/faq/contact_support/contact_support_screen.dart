@@ -1,20 +1,10 @@
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
-import 'package:bausch/sections/faq/attach_files_screen.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
-import 'package:bausch/sections/faq/contact_support/default_forms_section.dart';
-import 'package:bausch/sections/faq/contact_support/extra_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/forms_listener.dart';
 import 'package:bausch/sections/faq/contact_support/forms_provider.dart';
 import 'package:bausch/sections/faq/contact_support/forms_screen.dart';
-import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
-import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactSupportScreenArguments {
   final QuestionModel? question;

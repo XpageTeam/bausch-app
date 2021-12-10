@@ -1,6 +1,5 @@
 import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
-import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_listener.dart';
 import 'package:bausch/sections/profile/profile_settings/picker_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';

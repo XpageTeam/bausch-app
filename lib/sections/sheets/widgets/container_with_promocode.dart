@@ -1,9 +1,6 @@
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ContainerWithPromocode extends StatelessWidget {
   final String promocode;
