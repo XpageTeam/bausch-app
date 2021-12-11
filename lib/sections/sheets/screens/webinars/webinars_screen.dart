@@ -52,7 +52,7 @@ class WebinarsScreen extends StatelessWidget implements SheetScreenArguments {
                       secondText: model.detailText,
                     ),
                     const SizedBox(
-                      height: 132,
+                      height: 30,
                     ),
                   ],
                 ),
@@ -60,7 +60,7 @@ class WebinarsScreen extends StatelessWidget implements SheetScreenArguments {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Перейти к просмотру',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(

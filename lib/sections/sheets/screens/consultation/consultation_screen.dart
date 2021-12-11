@@ -94,7 +94,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                   [
                     Warning.advertisment(),
                     const SizedBox(
-                      height: 160,
+                      height: 30,
                     ),
                   ],
                 ),
@@ -102,7 +102,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Потратить ${model.price} б',
           onPressed: () {
             Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(

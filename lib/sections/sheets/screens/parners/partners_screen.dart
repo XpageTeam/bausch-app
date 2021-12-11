@@ -106,7 +106,7 @@ class PartnersScreen extends StatelessWidget {
                         ),
                         Warning.advertisment(),
                         const SizedBox(
-                          height: 120,
+                          height: 30,
                         ),
                       ],
                     ),
@@ -116,7 +116,7 @@ class PartnersScreen extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Получить поощрение ${model.price} б',
           withInfo: false,
           icon: Container(),

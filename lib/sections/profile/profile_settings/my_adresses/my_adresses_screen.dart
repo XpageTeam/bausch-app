@@ -105,10 +105,33 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 title: 'Мои адреса',
                 backgroundColor: AppTheme.mystic,
               ),
-              body: Text(
-                'Пока нет ни одного адреса для доставки ',
-                style: AppStyles.h1,
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: Text(
+                  'Пока нет ни одного адреса для доставки ',
+                  style: AppStyles.h1,
+                ),
               ),
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: BlueButtonWithText(
+                  text: 'Добавить адрес',
+                  onPressed: () {
+                    Keys.mainContentNav.currentState!
+                        .pushNamed('/add_adress')
+                        .then((v) {
+                      adressesCubit.getAdresses();
+                    });
+                  },
+                ),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
             );
           }
         } else if (state is AdressesFailed) {

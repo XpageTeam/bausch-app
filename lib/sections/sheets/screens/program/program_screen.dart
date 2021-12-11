@@ -266,7 +266,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                       },
                     ),
                     const SizedBox(
-                      height: 160,
+                      height: 30,
                     ),
                   ],
                 ),
@@ -274,7 +274,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Получить сертификат',
           onPressed: () {},
         ),

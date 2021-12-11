@@ -76,7 +76,7 @@ class FreePackagingScreen extends StatelessWidget
                 StaticData.sidePadding,
                 12,
                 StaticData.sidePadding,
-                160,
+                30,
               ),
               sliver: LegalInfo(
                 texts: [
@@ -89,7 +89,7 @@ class FreePackagingScreen extends StatelessWidget
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Перейти к заказу',
           onPressed: () {
             // Keys.mainNav.currentState!.pop();

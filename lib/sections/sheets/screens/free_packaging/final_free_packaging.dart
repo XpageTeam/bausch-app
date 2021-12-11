@@ -82,7 +82,7 @@ class FinalFreePackaging extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(),
+        bottomNavigationBar: const BottomButtonWithRoundedCorners(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

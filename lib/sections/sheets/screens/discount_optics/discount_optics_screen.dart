@@ -151,7 +151,7 @@ class DiscountOpticsScreen extends StatelessWidget
                     ),
                     Warning.warning(),
                     const Padding(
-                      padding: EdgeInsets.only(top: 40, bottom: 160),
+                      padding: EdgeInsets.only(top: 40, bottom: 20),
                       child: HowToUsePromocode(),
                     ),
                   ],
@@ -160,7 +160,7 @@ class DiscountOpticsScreen extends StatelessWidget
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Получить скидку',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
@@ -169,6 +169,7 @@ class DiscountOpticsScreen extends StatelessWidget
             );
           },
         ),
+        
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

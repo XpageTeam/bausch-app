@@ -133,7 +133,7 @@ class DiscountOnlineScreen extends StatelessWidget
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Получить скидку',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
