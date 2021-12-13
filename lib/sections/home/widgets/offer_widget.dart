@@ -1,10 +1,8 @@
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class OfferWidget extends StatelessWidget {
@@ -12,13 +10,10 @@ class OfferWidget extends StatelessWidget {
   final String? subtitle;
   final Widget? topRightIcon;
 
-  final VoidCallback onClose;
-
   const OfferWidget({
     this.title,
     this.subtitle,
     this.topRightIcon,
-    required this.onClose,
     Key? key,
   }) : super(key: key);
 
@@ -108,7 +103,7 @@ class OfferWidget extends StatelessWidget {
         ),
         topRightIcon ??
             IconButton(
-              onPressed: onClose,
+              onPressed: () {},
               icon: const Icon(Icons.close),
               splashRadius: 5,
             ),

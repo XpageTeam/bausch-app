@@ -17,15 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  bool isClosed = false;
   @override
   Widget build(BuildContext context) {
     final authWM = Provider.of<AuthWM>(context);
@@ -106,28 +99,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                if (!isClosed)
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      bottom: 40,
-                      left: StaticData.sidePadding,
-                      right: StaticData.sidePadding,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          DelayedAnimatedTranslateOpacity(
-                            offsetY: 50,
-                            child: OfferWidget(onClose: () {
-                              setState(() {
-                                isClosed = true;
-                              });
-                            }),
-                          ),
-                        ],
-                      ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    bottom: 40,
+                    left: StaticData.sidePadding,
+                    right: StaticData.sidePadding,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        const DelayedAnimatedTranslateOpacity(
+                          offsetY: 50,
+                          child: OfferWidget(),
+                        ),
+                      ],
                     ),
                   ),
+                ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 40,
