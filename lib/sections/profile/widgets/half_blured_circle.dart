@@ -10,10 +10,12 @@ class HalfBluredCircle extends StatelessWidget {
 
   final double height;
   final String? text;
+  final TextStyle? textStyle;
 
   const HalfBluredCircle({
     this.height = 100,
     this.text,
+    this.textStyle,
     Key? key,
   }) : super(key: key);
 
@@ -55,15 +57,17 @@ class HalfBluredCircle extends StatelessWidget {
               ),
             ),
           ),
-          Center(
-            child: text != null
-                ? AutoSizeText(
-                    text!,
-                    maxLines: 1,
-                    style: TextStyle(),
-                  )
-                : null,
-          ),
+          if (text != null)
+            Positioned.fill(
+              child: Align(
+                child: AutoSizeText(
+                  text!,
+                  maxLines: 1,
+                  style: textStyle,
+                ),
+              ),
+            ),
+
           // SizedBox(
           //   height: 50,
           //   child: ClipRRect(
