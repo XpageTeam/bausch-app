@@ -36,10 +36,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
           appBar: NewEmptyAppBar(
             scaffoldBgColor: color,
           ),
-          // const EmptyAppBar(
-          //     overlayStyle: SystemUiOverlayStyle.light,
-          //     ),
-          backgroundColor: color,
+          backgroundColor: color, //color,
           body: SizedBox.expand(
             child: Stack(
               children: [
@@ -108,20 +105,22 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                   ),
                 ),
 
-                DraggableScrollableSheet(
-                  minChildSize: 0.69,
-                  maxChildSize: 0.89,
-                  initialChildSize: 0.69,
-                  builder: (context, controller) {
-                    return Container(
-                      color: AppTheme.mystic,
+                SafeArea(
+                  child: DraggableScrollableSheet(
+                    minChildSize: 0.7,
+                    maxChildSize: 1 - 56 / MediaQuery.of(context).size.height,
+                    initialChildSize: 0.7,
+                    builder: (context, controller) {
+                      return Container(
+                        color: AppTheme.mystic,
 
-                      //* Контент слайдера(заказы, уведомления)
-                      child: ScrollableProfileContent(
-                        controller: controller,
-                      ),
-                    );
-                  },
+                        //* Контент слайдера(заказы, уведомления)
+                        child: ScrollableProfileContent(
+                          controller: controller,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
