@@ -13,8 +13,8 @@ class Offer {
   Offer({
     required this.id,
     required this.title,
-    required this.description,
     required this.isClosable,
+    this.description,
     this.link,
     this.html,
     this.target,

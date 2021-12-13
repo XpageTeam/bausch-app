@@ -3,12 +3,13 @@ import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
-import 'package:bausch/sections/profile/widgets/blured_image.dart';
+import 'package:bausch/sections/profile/widgets/half_blured_circle.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/appbar/appbar_for_bottom_sheet.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/custom_radio_button.dart';
@@ -21,8 +22,10 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //Program
 class ProgramScreen extends CoreMwwmWidget<ProgramScreenWM> {
   final ScrollController controller;
-  ProgramScreen({required this.controller, Key? key})
-      : super(
+  ProgramScreen({
+    required this.controller,
+    Key? key,
+  }) : super(
           key: key,
           widgetModelBuilder: (_) => ProgramScreenWM(),
         );
@@ -53,10 +56,12 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
           ),
           child: Scaffold(
             backgroundColor: AppTheme.mystic,
+            resizeToAvoidBottomInset: true,
+            appBar: const AppBarForBottomSheet(),
             body: Padding(
               padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
-                12,
+                5,
                 StaticData.sidePadding,
                 0,
               ),
@@ -73,11 +78,9 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                             padding: const EdgeInsets.only(bottom: 4.0),
                             child: Stack(
                               children: [
-                                // TODO(Nikolay): Название.
                                 _HeaderContainer(
                                   text: primaryData.title,
                                 ),
-                                // Image.asset('assets/program.png'),
                                 CustomSliverAppbar.toClose(
                                   Container(),
                                   widget.key,
@@ -223,7 +226,6 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 ],
               ),
             ),
-            resizeToAvoidBottomInset: true,
             bottomNavigationBar: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -278,7 +280,15 @@ class _HeaderContainer extends StatelessWidget {
               bottom: 33,
             ),
             // TODO(Nikolay): доделать.
-            child: HalfBluredCircle(),
+            child: const HalfBluredCircle(
+              text: 'X2',
+              textStyle: TextStyle(
+                fontSize: 25,
+                height: 1,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.mineShaft,
+              ),
+            ),
           ),
           AutoSizeText(
             text,

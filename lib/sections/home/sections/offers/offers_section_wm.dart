@@ -13,6 +13,7 @@ class OffersSectionWM extends WidgetModel {
   final OfferType type;
   final int? goodID;
   final offersStreamed = EntityStreamedState<List<Offer>>();
+  final removeOfferAction = StreamedAction<Offer>();
 
   OffersSectionWM({
     required this.type,
@@ -27,16 +28,58 @@ class OffersSectionWM extends WidgetModel {
     super.onLoad();
   }
 
+  @override
+  void onBind() {
+    subscribe<Offer>(
+      removeOfferAction.stream,
+      (value) {
+        _writeRemovedOfferId(value.id);
+
+        offersStreamed.value.data?.remove(value);
+        offersStreamed.accept(offersStreamed.value);
+      },
+    );
+
+    super.onBind();
+  }
+
+  final listTestOffers = <Offer>[
+    Offer(
+      id: 0,
+      title: 'First',
+      isClosable: true,
+      target: 'program',
+    ),
+    Offer(
+      id: 1,
+      title: 'Second',
+      isClosable: true,
+      target: 'add_points',
+    ),
+    Offer(
+      id: 2,
+      title: 'Third',
+      isClosable: false,
+      target: 'html',
+    ),
+  ];
+
   Future<void> _loadData() async {
     unawaited(offersStreamed.loading());
 
     try {
+      // TODO(Nikolay): Доделать.
       final repository = await OffersRepositoryDownloader.load(
         type: _convertEnumToString(type),
         goodID: goodID,
       );
+
+      final filteredOffers = _filterOffers(
+        listTestOffers,
+      );
+
       unawaited(
-        offersStreamed.content(repository.offerList),
+        offersStreamed.content(filteredOffers),
       );
     } on DioError catch (e) {
       unawaited(
@@ -66,6 +109,27 @@ class OffersSectionWM extends WidgetModel {
         ),
       );
     }
+  }
+
+  List<Offer> _filterOffers(List<Offer> offers) {
+    final closedOffersIds = _readRemovedOffersIds();
+    return offers
+      ..removeWhere(
+        (offer) => closedOffersIds.any(
+          (id) => id == offer.id,
+        ),
+      );
+  }
+
+  List<int> _readRemovedOffersIds() {
+    // TODO(Nikolay): Реализовать считывание списка id закрытых баннеров.
+    return <int>[
+      0,
+    ];
+  }
+
+  void _writeRemovedOfferId(int id) {
+    // TODO(Nikolay): Записывать id удаленных баннеров.
   }
 
   String _convertEnumToString(OfferType type) {

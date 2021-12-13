@@ -1,3 +1,4 @@
+import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/profile/notifications_section.dart';
 import 'package:bausch/sections/profile/orders_section.dart';
@@ -108,11 +109,16 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
+                    // TODO(Nikolay): Тут нужно выводить полученное предложение с сервера.
                     OfferWidget(
-                      title: 'Получите двойные баллы за подбор контактных линз',
-                      subtitle:
-                          'После подбора вам будет передан код, зарегистрируйте его течение 14 дней ',
-                      topRightIcon: Container(),
+                      offer: Offer(
+                        id: 0,
+                        isClosable: true,
+                        title:
+                            'Получите двойные баллы за подбор контактных линз',
+                        description:
+                            'После подбора вам будет передан код, зарегистрируйте его течение 14 дней ',
+                      ),
                     ),
                   ],
                 ),

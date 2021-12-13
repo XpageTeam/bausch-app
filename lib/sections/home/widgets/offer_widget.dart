@@ -1,4 +1,3 @@
-
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -30,19 +29,13 @@ enum OfferType {
 }
 
 class OfferWidget extends StatefulWidget {
-  final String? title;
-  final String? subtitle;
-  final Widget? topRightIcon;
-  final Offer? offer;
+  final Offer offer;
 
   final VoidCallback? onClose;
   final VoidCallback? onPressed;
 
   const OfferWidget({
-    this.title,
-    this.subtitle,
-    this.topRightIcon,
-    this.offer,
+    required this.offer,
     this.onClose,
     this.onPressed,
     Key? key,
@@ -62,24 +55,6 @@ class _OfferWidgetState extends State<OfferWidget> {
       children: [
         GestureDetector(
           onTap: widget.onPressed,
-          // () {
-          // showSheetWithoutItems(
-          //   context,
-          //   CatalogSheetModel(
-          //     id: id,
-          //     name: name,
-          //     type: type,
-          //     icon: icon,
-          //     count: count,
-          //   ),
-          //   CatalogItemModel(
-          //     id: id,
-          //     name: name,
-          //     picture: picture,
-          //     price: price,
-          //   ),
-          // );
-          // },
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.sulu,
@@ -98,12 +73,9 @@ class _OfferWidgetState extends State<OfferWidget> {
                     children: [
                       Flexible(
                         child: Text(
-                          widget.offer?.title ?? 'title',
+                          widget.offer.title,
                           style: AppStyles.h1,
                         ),
-                      ),
-                      const SizedBox(
-                        width: 70,
                       ),
                     ],
                   ),
@@ -113,16 +85,15 @@ class _OfferWidgetState extends State<OfferWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (widget.offer != null &&
-                          widget.offer!.description != null) ...[
+                      if (widget.offer.description != null) ...[
                         Flexible(
                           child: Text(
-                            widget.offer!.description!,
+                            widget.offer.description!,
                             style: AppStyles.p1,
                           ),
                         ),
                       ] else ...[
-                        Container(),
+                        const SizedBox(),
                       ],
                       InkWell(
                         onTap: widget.onPressed,
@@ -147,117 +118,13 @@ class _OfferWidgetState extends State<OfferWidget> {
             ),
           ),
         ),
-        if (widget.offer != null && widget.offer!.isClosable)
+        if (widget.offer.isClosable)
           IconButton(
             onPressed: widget.onClose,
             icon: const Icon(Icons.close),
             splashRadius: 5,
           ),
-        // widget.topRightIcon ??
-        //     IconButton(
-        //       onPressed: widget.onClose,
-        //       icon: const Icon(Icons.close),
-        //       splashRadius: 5,
-        //     ),
       ],
     );
   }
 }
-
-
-// class OfferWidget extends StatelessWidget {
-//   final String? title;
-//   final String? subtitle;
-//   final Widget? topRightIcon;
-//   const OfferWidget({
-//     this.title,
-//     this.subtitle,
-//     this.topRightIcon,
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Stack(
-//       alignment: Alignment.topRight,
-//       children: [
-//         GestureDetector(
-//           onTap: () {
-//             //showSheetWithoutItems(context, Models.sheets[1]);
-//           },
-//           child: Container(
-//             decoration: BoxDecoration(
-//               color: AppTheme.sulu,
-//               borderRadius: BorderRadius.circular(5),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.only(
-//                 top: 16,
-//                 right: StaticData.sidePadding,
-//                 left: StaticData.sidePadding,
-//                 bottom: 30,
-//               ),
-//               child: Column(
-//                 children: [
-//                   Row(
-//                     children: [
-//                       Flexible(
-//                         child: Text(
-//                           title ??
-//                               'Бесплатно подберем вам первые линзы в оптике',
-//                           style: AppStyles.h1,
-//                         ),
-//                       ),
-//                       const SizedBox(
-//                         width: 70,
-//                       ),
-//                     ],
-//                   ),
-//                   const SizedBox(
-//                     height: 4,
-//                   ),
-//                   Row(
-//                     children: [
-//                       Flexible(
-//                         child: Text(
-//                           subtitle ??
-//                               'После подбора линз вы сможете получить в два раза больше баллов',
-//                           style: AppStyles.p1,
-//                         ),
-//                       ),
-//                       const SizedBox(
-//                         width: 45,
-//                       ),
-//                       InkWell(
-//                         onTap: () {},
-//                         child: Stack(
-//                           alignment: Alignment.center,
-//                           children: [
-//                             Image.asset(
-//                               'assets/banner-icon.png',
-//                               height: 60,
-//                             ),
-//                             const Positioned(
-//                               child: Icon(Icons.arrow_forward_sharp),
-//                               right: 10,
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//         topRightIcon ??
-//             IconButton(
-//               onPressed: () {},
-//               icon: const Icon(Icons.close),
-//               splashRadius: 5,
-//             ),
-//       ],
-//     );
-//   }
-// }
