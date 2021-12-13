@@ -37,7 +37,8 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
             scaffoldBgColor: color,
           ),
           backgroundColor: color, //color,
-          body: SizedBox.expand(
+          body: 
+          SizedBox.expand(
             child: Stack(
               children: [
                 const ProfileAppBar(),
@@ -193,9 +194,6 @@ class BluredImage extends StatelessWidget {
   }
 }
 
-
-
-
 // class ProfileScreen extends CoreMwwmWidget<ProfileScreenWM> {
 //   ProfileScreen({Key? key})
 //       : super(
@@ -222,10 +220,7 @@ class BluredImage extends StatelessWidget {
 //           appBar: NewEmptyAppBar(
 //             scaffoldBgColor: color,
 //           ),
-//           // const EmptyAppBar(
-//           //     overlayStyle: SystemUiOverlayStyle.light,
-//           //     ),
-//           backgroundColor: color,
+//           backgroundColor: color, //color,
 //           body: SizedBox.expand(
 //             child: Stack(
 //               children: [
@@ -294,26 +289,30 @@ class BluredImage extends StatelessWidget {
 //                   ),
 //                 ),
 
-//                 //* Слайдер, наезжающий на фон
-//                 DraggableScrollableSheet(
-//                   minChildSize: 0.69,
-//                   maxChildSize: 0.89,
-//                   initialChildSize: 0.69,
-//                   builder: (context, controller) {
-//                     return Container(
-//                       color: AppTheme.mystic,
+//                 SafeArea(
+//                   child: DraggableScrollableSheet(
+//                     minChildSize: 0.7,
+//                     maxChildSize: 1 - 56 / MediaQuery.of(context).size.height,
+//                     initialChildSize: 0.7,
+//                     builder: (context, controller) {
+//                       return Container(
+//                         color: AppTheme.mystic,
 
-//                       //* Контент слайдера(заказы, уведомления)
-//                       child: ScrollableProfileContent(
-//                         controller: controller,
-//                       ),
-//                     );
-//                   },
+//                         //* Контент слайдера(заказы, уведомления)
+//                         child: ScrollableProfileContent(
+//                           controller: controller,
+//                         ),
+//                       );
+//                     },
+//                   ),
 //                 ),
 //               ],
 //             ),
 //           ),
-//           bottomSheet: SizedBox(height: 60, child: const InfoBlock()),
+//           bottomSheet: const SizedBox(
+//             height: 60,
+//             child: InfoBlock(),
+//           ),
 //           extendBodyBehindAppBar: true,
 //         ),
 //       ),
@@ -321,3 +320,59 @@ class BluredImage extends StatelessWidget {
 //   }
 // }
 
+// class RankWidget extends StatelessWidget {
+//   final String title;
+//   const RankWidget({
+//     required this.title,
+//     Key? key,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.symmetric(
+//         horizontal: 6,
+//         vertical: 4,
+//       ),
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(5),
+//         color: AppTheme.sulu,
+//       ),
+//       child: Text(
+//         title,
+//         style: AppStyles.h1,
+//       ),
+//     );
+//   }
+// }
+
+// class BluredImage extends StatelessWidget {
+//   const BluredImage({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       alignment: Alignment.bottomCenter,
+//       children: [
+//         Image.asset(
+//           'assets/status.png',
+//           width: 200,
+//         ),
+//         SizedBox(
+//           height: 150,
+//           child: ClipRRect(
+//             child: BackdropFilter(
+//               filter: ImageFilter.blur(
+//                 sigmaX: 20,
+//                 sigmaY: 20,
+//               ),
+//               child: Container(
+//                 color: AppTheme.turquoiseBlue.withOpacity(0.3),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
