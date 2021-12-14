@@ -8,6 +8,7 @@ import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -117,7 +118,7 @@ class OffersSectionWM extends WidgetModel {
 
   Future<List<Offer>> _filterOffers(List<Offer> offers) async {
     final closedOffersIds = (await _readRemovedOffersIds()).map(
-      (e) => int.parse(e),
+      int.parse,
     );
     return offers
       ..removeWhere(
