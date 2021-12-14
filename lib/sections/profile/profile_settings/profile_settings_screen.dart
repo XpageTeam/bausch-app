@@ -52,7 +52,7 @@ class _ProfileSettingsScreenState
         topRightWidget: TextButton(
           style: TextButton.styleFrom(padding: EdgeInsets.zero),
           onPressed: () {
-            wm.sendUserData();
+            //wm.sendUserData();
           },
           child: Text(
             'Готово',

@@ -147,15 +147,15 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
             BlueButtonWithText(
               text: widget.btnText ?? 'Сохранить',
               onPressed: () {
-                final model = AdressModel(
-                  street: widget.adress.street,
-                  house: widget.adress.house,
-                  flat: int.parse(flatController.text),
-                  entry: int.parse(entryController.text),
-                  floor: int.parse(floorController.text),
-                );
+                // final model = AdressModel(
+                //   street: widget.adress.street,
+                //   house: widget.adress.house,
+                //   flat: 1, //int.parse(flatController.text),
+                //   entry: 1, //int.parse(entryController.text),
+                //   floor: 1, //int.parse(floorController.text),
+                // );
 
-                addressesBloc.add(AddressesSend(address: model));
+                //addressesBloc.add(AddressesSend(address: model));
                 //widget.adressesCubit?.getAdresses();
 
                 _navigateBack();
@@ -174,13 +174,13 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       builder: (context) {
                         return CustomAlertDialog(
                           yesCallback: () {
-                            addressesBloc
-                                .add(AddressesDelete(id: widget.adress.id!));
+                            // addressesBloc
+                            //     .add(AddressesDelete(id: widget.adress.id!));
 
                             //widget.adressesCubit?.getAdresses();
 
                             debugPrint('delete');
-                            debugPrint(addressesBloc.state.toString());
+                            // debugPrint(addressesBloc.state.toString());
 
                             _navigateBack();
                           },

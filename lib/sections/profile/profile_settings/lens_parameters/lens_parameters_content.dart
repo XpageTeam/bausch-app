@@ -186,7 +186,7 @@ class _LensParametersScreenState extends State<LensParametersContent> {
                   child: BlueButtonWithText(
                     text: 'Добавить',
                     onPressed: () {
-                      lensBloc.add(LensSend(model: lensBloc.state.model));
+                      //lensBloc.add(LensSend(model: lensBloc.state.model));
                     },
                   ),
                 ),
