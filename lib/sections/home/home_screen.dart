@@ -151,17 +151,7 @@ class HomeScreen extends StatelessWidget {
                   const MayBeInteresting(
                     text: 'Вам может быть интересно',
                   ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        //* Вам может быть интересно
-                        MayBeInteresting(
-                          text: 'Вам может быть интересно',
-                          onTap: () {},
-                        ),
-
-                        //* Текстовые кнопки(Частые вопросы и тд)
-                        const TextButtonsSection(),
+                  
 
                   //* Текстовые кнопки(Частые вопросы и тд)
                   const TextButtonsSection(),
