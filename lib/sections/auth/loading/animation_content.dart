@@ -45,13 +45,13 @@ class AnimationContent extends StatelessWidget {
                   text: 'Войти по номеру телефона',
                   onPressed: () {
                     //* Потом поменяю на pushNamed
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
+                    Navigator.of(context).pushAndRemoveUntil<void>(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) {
                           return const RegistrationScreen();
                         },
                       ),
+                      (route) => false,
                     );
                     // Keys.mainContentNav.currentState!
                     //     .pushNamed('/registration');

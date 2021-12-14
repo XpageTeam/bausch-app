@@ -17,6 +17,8 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
+
+  // TODO(Danil): заменить маску
   final phoneController =
       MaskedTextController(mask: '+0 000 000 00 00'); //TextEditingController();
 

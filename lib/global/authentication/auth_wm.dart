@@ -25,24 +25,13 @@ class AuthWM extends WidgetModel {
   final UserWM userWM;
 
   AuthWM(WidgetModelDependencies baseDependencies, this.userWM)
-      : super(baseDependencies);
-
-  @override
-  void onLoad() {
-    debugPrint('auth-load');
-    super.onLoad();
-  }
-
-  @override
-  void onBind() {
-    debugPrint('auth-bind');
-
-    subscribe(authStatus.stream, (value) {
+      : super(baseDependencies) {
+    authStatus.bind((value) {
       late Widget targetPage;
 
       switch (authStatus.value) {
         case AuthStatus.unknown:
-          targetPage = LoaderScreen();
+          targetPage = const LoaderScreen();
           break;
 
         case AuthStatus.unauthenticated:
@@ -50,7 +39,6 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.authenticated:
-          // TODO(Danil): когда Гоша разберётся - сделать
           if (userWM.userData.value.data?.user.city == null ||
               userWM.userData.value.data?.user.email == null) {
             targetPage = CityAndEmailScreen();
@@ -69,6 +57,8 @@ class AuthWM extends WidgetModel {
       //   ),
       //   (route) => false,
       // );
+
+      if (Keys.mainNav.currentState == null) return;
 
       Keys.mainNav.currentState!.pushAndRemoveUntil(
         PageRouteBuilder<void>(
@@ -89,7 +79,7 @@ class AuthWM extends WidgetModel {
       // }
     });
 
-    subscribe(checkAuthAction.stream, (value) {
+    checkAuthAction.bind((value) {
       if (userWM.userData.value.isLoading) return;
 
       userWM.userData.loading();
@@ -106,7 +96,5 @@ class AuthWM extends WidgetModel {
     });
 
     checkAuthAction();
-
-    super.onBind();
   }
 }

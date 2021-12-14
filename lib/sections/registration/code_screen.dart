@@ -33,7 +33,7 @@ class _CodeScreenState extends State<CodeScreen> {
           ),
         ),
       ),
-      floatingActionButton: StreamedStateBuilder<int>(
+      /*floatingActionButton: StreamedStateBuilder<int>(
         streamedState: loginWM.smsResendSeconds,
         builder: (_, data) {
           if (data > 0) {
@@ -76,6 +76,28 @@ class _CodeScreenState extends State<CodeScreen> {
             );
           }
         },
+      ),*/
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 20,
+        ),
+        //Повторная отправка через ${getTimerBySeconds(data)}',
+        child: RichText(
+          text: TextSpan(
+            style: AppStyles.p1,
+            children: [
+              const TextSpan(
+                text: 'Повторная отправка через',
+              ),
+              TextSpan(
+                text: ' 00:20',
+                style: AppStyles.p1.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

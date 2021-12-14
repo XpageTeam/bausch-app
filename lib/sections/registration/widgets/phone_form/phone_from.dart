@@ -1,11 +1,12 @@
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/login/models/login_text.dart';
+import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class PhoneForm extends StatelessWidget {
@@ -28,16 +29,14 @@ class PhoneForm extends StatelessWidget {
           inputType: TextInputType.phone,
           textStyle: AppStyles.h1,
           autofocus: true,
-          // decoration: const InputDecoration(
-          //   prefix: Text(
-          //     '+7 ',
-          //   ),
-          // ),
           inputFormatters: [
-            MaskTextInputFormatter(mask: '+7 (9##) ###-##-##'),
+            TextInputMask(
+              mask: r'\+7 (\99) 999-99-99',
+            ),
           ],
         ),
         const SizedBox(height: 4),
+        /*
         StreamedStateBuilder<bool>(
           streamedState: wm.sendPhoneBtnActive,
           builder: (_, state) {
@@ -45,6 +44,17 @@ class PhoneForm extends StatelessWidget {
               text: 'Продолжить',
               // ignore: unnecessary_lambdas
               onPressed: state ? () => wm.sendPhoneAction() : null,
+            );
+          },
+        ),*/
+        BlueButtonWithText(
+          text: 'Продолжить',
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil<void>(
+              PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
+                return const CodeScreen();
+              },),
+              (route) => false,
             );
           },
         ),
