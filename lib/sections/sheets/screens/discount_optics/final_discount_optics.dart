@@ -77,7 +77,7 @@ class FinalDiscountOptics extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: BottomButtonWithRoundedCorners(
+        bottomNavigationBar: BottomButtonWithRoundedCorners(
           text: buttonText ?? 'На главную',
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

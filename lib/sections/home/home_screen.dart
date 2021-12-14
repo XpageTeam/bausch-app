@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final authWM = Provider.of<AuthWM>(context);
+    // final authWM = Provider.of<AuthWM>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.mystic,
@@ -34,137 +34,138 @@ class HomeScreen extends StatelessWidget {
         scaffoldBgColor: AppTheme.mystic,
       ),
       // appBar: const EmptyAppBar(),
-      body: SafeArea(
-        child: StreamedStateBuilder<AuthStatus>(
-          streamedState: authWM.authStatus,
-          builder: (_, status) {
-            return CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                if (status == AuthStatus.authenticated)
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
-                      vertical: 14,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          const DelayedAnimatedTranslateOpacity(
-                            offsetY: 20,
-                            child: ProfileStatus(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                if (status == AuthStatus.authenticated)
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      bottom: 20,
-                      left: StaticData.sidePadding,
-                      right: StaticData.sidePadding,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        const [
-                          DelayedAnimatedTranslateOpacity(
-                            offsetY: 30,
-                            child: ScoresSection(
-                              loadingAnimationDuration: Duration(
-                                milliseconds: 2500,
-                              ),
-                              delay: Duration(
-                                milliseconds: 1000,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                if (status == AuthStatus.authenticated)
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      bottom: 20,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          const DelayedAnimatedTranslateOpacity(
-                            offsetY: 40,
-                            child: StoriesSlider(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    bottom: 40,
-                    left: StaticData.sidePadding,
-                    right: StaticData.sidePadding,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        const DelayedAnimatedTranslateOpacity(
-                          offsetY: 50,
-                          child: OfferWidget(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    bottom: 40,
-                    left: StaticData.sidePadding,
-                    right: StaticData.sidePadding,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      const [
-                        //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
-                        DelayedAnimatedTranslateOpacity(
-                          offsetY: 60,
-                          child: SpendScores(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                    bottom: 30,
-                    left: StaticData.sidePadding,
-                    right: StaticData.sidePadding,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        //* Вам может быть интересно
-                        const MayBeInteresting(
-                          text: 'Вам может быть интересно',
-                        ),
+      // body: SafeArea(
+      //   child: StreamedStateBuilder<AuthStatus>(
+      //     streamedState: authWM.authStatus,
+      //     builder: (_, status) {
 
-                        //* Текстовые кнопки(Частые вопросы и тд)
-                        const TextButtonsSection(),
-                        const SizedBox(
-                          height: 100,
-                        ),
-                        Image.asset('assets/logo.png'),
-                        // const SizedBox(
-                        //   height: 60,
-                        // ),
-                      ],
+      //     },
+      //   ),
+      // ),
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          // if (status == AuthStatus.authenticated)
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: StaticData.sidePadding,
+              vertical: 14,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  const DelayedAnimatedTranslateOpacity(
+                    offsetY: 20,
+                    child: ProfileStatus(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // if (status == AuthStatus.authenticated)
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              bottom: 20,
+              left: StaticData.sidePadding,
+              right: StaticData.sidePadding,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                const [
+                  DelayedAnimatedTranslateOpacity(
+                    offsetY: 30,
+                    child: ScoresSection(
+                      loadingAnimationDuration: Duration(
+                        milliseconds: 2500,
+                      ),
+                      delay: Duration(
+                        milliseconds: 1000,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
-        ),
+                ],
+              ),
+            ),
+          ),
+          // if (status == AuthStatus.authenticated)
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              bottom: 20,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  const DelayedAnimatedTranslateOpacity(
+                    offsetY: 40,
+                    child: StoriesSlider(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              bottom: 40,
+              left: StaticData.sidePadding,
+              right: StaticData.sidePadding,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  const DelayedAnimatedTranslateOpacity(
+                    offsetY: 50,
+                    child: OfferWidget(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              bottom: 40,
+              left: StaticData.sidePadding,
+              right: StaticData.sidePadding,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                const [
+                  //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
+                  DelayedAnimatedTranslateOpacity(
+                    offsetY: 60,
+                    child: SpendScores(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              bottom: 30,
+              left: StaticData.sidePadding,
+              right: StaticData.sidePadding,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  //* Вам может быть интересно
+                  const MayBeInteresting(
+                    text: 'Вам может быть интересно',
+                  ),
+
+                  //* Текстовые кнопки(Частые вопросы и тд)
+                  const TextButtonsSection(),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  Image.asset('assets/logo.png'),
+                  const SizedBox(
+                    height: 160,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: DelayedAnimatedTranslateOpacity(
         offsetY: 10,

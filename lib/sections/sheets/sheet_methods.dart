@@ -129,6 +129,7 @@ void showFlushbar(String title) {
       bottomLeft: Radius.circular(5),
       bottomRight: Radius.circular(5),
     ),
+    backgroundColor: Colors.red,
   ).show(Keys.mainNav.currentContext!);
 }
 

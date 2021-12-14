@@ -1,4 +1,5 @@
 import 'package:bausch/global/login/login_wm.dart';
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,11 +32,11 @@ class _GlobalProvidersState extends State<GlobalProviders> {
     
     return MultiProvider(
       providers: [
-        // Provider(
-        //   create: (context) {
-        //     authWM = AuthWM(const WidgetModelDependencies());
-        //   },
-        // ),
+        Provider(
+          create: (context) {
+            return UserWM();
+          },
+        ),
         Provider(
           create: (context) {
             loginWM = LoginWM(

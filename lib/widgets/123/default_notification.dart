@@ -3,17 +3,15 @@ import 'dart:io';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
 
+@Deprecated('поменять на флушбар')
 OverlaySupportEntry showDefaultNotification({
   required String title,
   String? subtitle,
   Duration duration = const Duration(seconds: 3),
 }) {
-  //TODO: Поменять на Flushbar
   return showSimpleNotification(
     Stack(
       children: [
