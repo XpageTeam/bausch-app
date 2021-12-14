@@ -35,8 +35,9 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
         builder: (_, color) => Scaffold(
           appBar: NewEmptyAppBar(
             scaffoldBgColor: color,
+            appBarBgColor: color,
           ),
-          backgroundColor: color, //color,
+          backgroundColor: color, // color, //color,
           body: SizedBox.expand(
             child: Stack(
               children: [
@@ -109,10 +110,10 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                   child: DraggableScrollableSheet(
                     minChildSize: 0.7,
                     maxChildSize: 1 -
-                        56 /
+                        58 /
                             MediaQuery.of(context)
                                 .size
-                                .height, // 56 это высота ProfileAppBar
+                                .height, // 56 это высота ProfileAppBar (48) + высота
                     initialChildSize: 0.7,
                     builder: (context, controller) {
                       return Container(
@@ -133,7 +134,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
             height: 60,
             child: InfoBlock(),
           ),
-          extendBodyBehindAppBar: true,
+          // extendBodyBehindAppBar: true,
         ),
       ),
     );
