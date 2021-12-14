@@ -1,3 +1,4 @@
+import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
@@ -44,16 +45,16 @@ class AnimationContent extends StatelessWidget {
                   text: 'Войти по номеру телефона',
                   onPressed: () {
                     //* Потом поменяю на pushNamed
-                    // Navigator.push<void>(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return const RegistrationScreen();
-                    //     },
-                    //   ),
-                    // );
-                    Keys.mainContentNav.currentState!
-                        .pushNamed('/registration');
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const RegistrationScreen();
+                        },
+                      ),
+                    );
+                    // Keys.mainContentNav.currentState!
+                    //     .pushNamed('/registration');
                   },
                 ),
                 const SizedBox(

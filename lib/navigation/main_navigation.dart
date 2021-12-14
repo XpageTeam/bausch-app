@@ -32,7 +32,7 @@ class MainNavigation extends StatelessWidget {
 
         switch (settings.name) {
           case '/':
-            page = const LoaderScreen();
+            page = const HomeScreen();
             break;
 
           case '/loading':
@@ -47,9 +47,9 @@ class MainNavigation extends StatelessWidget {
             page = const RegistrationScreen();
             break;
 
-          case '/home':
-            page = const HomeScreen();
-            break;
+          // case '/home':
+          //   page = const HomeScreen();
+          //   break;
 
           case '/code':
             page = const CodeScreen();
@@ -94,7 +94,6 @@ class MainNavigation extends StatelessWidget {
             page = ShopsScreen();
             break;
 
-         
           default:
             page = const HomeScreen();
         }

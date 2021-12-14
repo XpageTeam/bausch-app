@@ -1,5 +1,9 @@
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/navigation/main_navigation.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/sections/auth/loading/loading_screen.dart';
+import 'package:bausch/sections/loader/loader_scren.dart';
+import 'package:bausch/sections/registration/screens/city_email/city_and_email_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,24 +38,24 @@ class AuthWM extends WidgetModel {
     debugPrint('auth-bind');
 
     subscribe(authStatus.stream, (value) {
-      late String targetPage;
+      late Widget targetPage;
 
       switch (authStatus.value) {
         case AuthStatus.unknown:
-          targetPage = '/';
+          targetPage = LoaderScreen();
           break;
 
         case AuthStatus.unauthenticated:
-          targetPage = '/loading';
+          targetPage = const LoadingScreen();
           break;
 
         case AuthStatus.authenticated:
           // TODO(Danil): когда Гоша разберётся - сделать
           if (userWM.userData.value.data?.user.city == null ||
               userWM.userData.value.data?.user.email == null) {
-            targetPage = '/city_and_email';
+            targetPage = CityAndEmailScreen();
           } else {
-            targetPage = '/home';
+            targetPage = const MainNavigation();
           }
 
           break;
@@ -66,14 +70,23 @@ class AuthWM extends WidgetModel {
       //   (route) => false,
       // );
 
-      debugPrint(targetPage);
+      Keys.mainNav.currentState!.pushAndRemoveUntil(
+        PageRouteBuilder<void>(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return targetPage;
+          },
+        ),
+        (route) => false,
+      );
 
-      if (Keys.mainContentNav.currentState != null) {
-        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
-          targetPage,
-          (route) => false,
-        );
-      }
+      debugPrint(targetPage.toString());
+
+      // if (Keys.mainContentNav.currentState != null) {
+      //   Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
+      //     targetPage,
+      //     (route) => false,
+      //   );
+      // }
     });
 
     subscribe(checkAuthAction.stream, (value) {

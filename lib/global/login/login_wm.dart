@@ -10,6 +10,7 @@ import 'package:bausch/global/login/requests/login_code_sender.dart';
 import 'package:bausch/global/login/requests/login_phone_sender.dart';
 import 'package:bausch/global/login/requests/login_text_downloader.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -100,16 +101,16 @@ class LoginWM extends WidgetModel {
       }
 
       if (authRequestResult.value.data != null) {
-        // Navigator.push<void>(
-        //   Keys.mainNav.currentContext!,
-        //   MaterialPageRoute(
-        //     builder: (context) {
-        //       return const CodeScreen();
-        //     },
-        //   ),
-        // );
-        debugPrint(context.toString());
-        Keys.mainContentNav.currentState!.pushNamed('/code');
+        Navigator.push<void>(
+          Keys.mainNav.currentContext!,
+          MaterialPageRoute(
+            builder: (context) {
+              return const CodeScreen();
+            },
+          ),
+        );
+        // debugPrint(context.toString());
+        // Keys.mainContentNav.currentState!.pushNamed('/code');
       }
     });
 

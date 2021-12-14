@@ -105,15 +105,9 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 title: 'Мои адреса',
                 backgroundColor: AppTheme.mystic,
               ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: Text(
-                  'Пока нет ни одного адреса для доставки ',
-                  style: AppStyles.h1,
-                ),
+              body: Text(
+                'Пока нет ни одного адреса для доставки ',
+                style: AppStyles.h1,
               ),
               floatingActionButton: Padding(
                 padding: const EdgeInsets.symmetric(
