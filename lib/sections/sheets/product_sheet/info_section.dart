@@ -8,6 +8,7 @@ import 'package:flutter_html/flutter_html.dart';
 class InfoSection extends StatelessWidget {
   final String? text;
   final String? secondText;
+
   const InfoSection({this.text, this.secondText, Key? key}) : super(key: key);
 
   @override
@@ -27,7 +28,7 @@ class InfoSection extends StatelessWidget {
         child: Column(
           children: [
             Html(
-              data: txt(text),
+              data: text,
               style: {
                 'body': Style(
                   padding: const EdgeInsets.symmetric(
@@ -79,15 +80,15 @@ class InfoSection extends StatelessWidget {
   }
 
   //TODO: УБРАТЬ!!!
-  String txt(String? text) {
-    if (text != null) {
-      if (text.isNotEmpty) {
-        return text;
-      } else {
-        return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
-      }
-    } else {
-      return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
-    }
-  }
+  // String txt(String? text) {
+  //   if (text != null) {
+  //     if (text.isNotEmpty) {
+  //       return text;
+  //     } else {
+  //       return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
+  //     }
+  //   } else {
+  //     return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
+  //   }
+  // }
 }

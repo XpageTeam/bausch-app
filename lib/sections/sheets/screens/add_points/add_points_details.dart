@@ -75,7 +75,7 @@ class AddPointsDetails extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                   bottom: 30,
                                 ),
-                                child: ButtonContent(price: model.price),
+                                child: ButtonContent(price: model.priceString),
                               ),
                             ],
                           ),
@@ -90,9 +90,11 @@ class AddPointsDetails extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                    InfoSection(
+                      text: model.htmlText,
+                    ),
                     const SizedBox(
-                      height: 4,
+                      height: 30,
                     ),
                     Column(
                       children: [

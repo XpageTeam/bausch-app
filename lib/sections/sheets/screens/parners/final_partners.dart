@@ -81,7 +81,7 @@ class FinalPartners extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(
+        bottomNavigationBar: const BottomButtonWithRoundedCorners(
           text: 'Скопировать код и перейти на сайт',
           withInfo: false,
         ),

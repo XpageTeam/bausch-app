@@ -61,7 +61,7 @@ class FinalConsultation extends StatelessWidget {
                         bottom: 40,
                       ),
                       child: Text(
-                        'Доступ видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
+                        'Доступ к видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
                         style: AppStyles.p1,
                       ),
                     ),
@@ -72,7 +72,7 @@ class FinalConsultation extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(
+        bottomNavigationBar: const BottomButtonWithRoundedCorners(
           text: 'Скопировать код и перейти на сайт',
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

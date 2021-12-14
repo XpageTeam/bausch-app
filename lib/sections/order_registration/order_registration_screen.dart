@@ -97,7 +97,7 @@ class OrderRegistrationScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomFloatingActionButton(
-        text: 'Потратить 1250 б',
+        text: 'Потратить 1 250 б',
         onPressed: () {
           //* TODO(Nikita): Заменить потом на pushNamed
 

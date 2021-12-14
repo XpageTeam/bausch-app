@@ -27,9 +27,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(MediaQuery.of(context)
-                                .size
-                                .height.toString());
+    debugPrint(MediaQuery.of(context).size.height.toString());
 
     debugPrint(MediaQuery.of(context).padding.top.toString());
 
@@ -121,9 +119,11 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                     minChildSize: 0.7,
                     maxChildSize: 1 -
                         58 /
-                            (MediaQuery.of(context)
-                                .size
-                                .height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom), // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
+                            (MediaQuery.of(context).size.height -
+                                MediaQuery.of(context).padding.top -
+                                MediaQuery.of(context)
+                                    .padding
+                                    .bottom), // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
                     initialChildSize: 0.7,
                     builder: (context, controller) {
                       return Container(

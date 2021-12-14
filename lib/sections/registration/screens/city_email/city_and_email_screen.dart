@@ -30,7 +30,7 @@ class CityAndEmailScreen extends CoreMwwmWidget<CityEmailScreenWM> {
 class _CityAndEmailScreenState
     extends WidgetState<CityAndEmailScreen, CityEmailScreenWM> {
   // final _formKey = GlobalKey<FormState>();
-  // bool isValidated = false;
+  bool isValidated = false;
 
   @override
   void dispose() {
@@ -119,85 +119,88 @@ class _CityAndEmailScreenState
                     ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
-                style: AppStyles.p1,
-              ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // Text(
+              //   'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
+              //   style: AppStyles.p1,
+              // ),
 
-              // if (!isValidated)
-              //   Column(
-              //     children: [
-              //       const SizedBox(
-              //         height: 4,
-              //       ),
-              //       BlueButtonWithText(
-              //         text: 'Продолжить',
-              //         onPressed: () {
-              //           if (_formKey.currentState!.validate()) {
-              //             setState(() {
-              //               isValidated = true;
-              //               FocusScope.of(context).unfocus();
-              //               wm.confirmEmailAction();
-              //             });
-              //           }
-              //         },
-              //       ),
-              //     ],
-              //   ),
+              if (!isValidated)
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    BlueButtonWithText(
+                      text: 'Продолжить',
+                      onPressed: () {
+                        // if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          isValidated = true;
+                          FocusScope.of(context).unfocus();
+                          // wm.confirmEmailAction();
+                        });
+                        // }
+                      },
+                    ),
+                  ],
+                ),
               //* Когда кнопка нажата и письмо отправлено
-              // if (isValidated)
-              //   Column(
-              //     children: const [
-              //       SizedBox(
-              //         height: 20,
-              //       ),
-              //       Text(
-              //         'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
-              //         style: TextStyle(
-              //           fontWeight: FontWeight.w400,
-              //           fontSize: 14,
-              //           height: 20 / 14,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
+              if (isValidated)
+                Column(
+                  children: const [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        height: 20 / 14,
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
       ),
-      floatingActionButton: StreamedStateBuilder<bool>(
-        streamedState: wm.formValidationState,
-        builder: (_, state) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: StaticData.sidePadding,
-            ),
-            child: BlueButtonWithText(
-              text: 'Готово',
-              onPressed: () {
-                Keys.mainNav.currentState!.pushAndRemoveUntil(
-                  PageRouteBuilder<void>(
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      return const MainNavigation();
-                    },
+      floatingActionButton: isValidated
+          ? StreamedStateBuilder<bool>(
+              streamedState: wm.formValidationState,
+              builder: (_, state) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
                   ),
-                  (route) => false,
+                  child: BlueButtonWithText(
+                    text: 'Готово',
+                    onPressed: () {
+                      Keys.mainNav.currentState!.pushAndRemoveUntil(
+                        PageRouteBuilder<void>(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) {
+                            return const MainNavigation();
+                          },
+                        ),
+                        (route) => false,
+                      );
+                    },
+                    // onPressed: state
+                    //     ? () {
+                    //         wm.setUserDataAction();
+
+                    //         // Keys.mainContentNav.currentState!.pushNamed('/home');
+                    //       }
+                    //     : null,
+                  ),
                 );
               },
-              // onPressed: state
-              //     ? () {
-              //         wm.setUserDataAction();
-
-              //         // Keys.mainContentNav.currentState!.pushNamed('/home');
-              //       }
-              //     : null,
-            ),
-          );
-        },
-      ),
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

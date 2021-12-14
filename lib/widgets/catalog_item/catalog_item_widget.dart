@@ -87,7 +87,7 @@ class CatalogItemWidget extends StatelessWidget {
                           children: [
                             Flexible(
                               child: Text(
-                                model.price.toString(),
+                                model.priceToString,
                                 style: AppStyles.h2Bold,
                               ),
                             ),
