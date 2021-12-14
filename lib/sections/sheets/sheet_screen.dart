@@ -86,7 +86,7 @@ class _SheetScreenState extends State<SheetScreen> {
                         Flexible(
                           child: Text(
                             widget.sheetModel.name,
-                            style: AppStyles.h2,
+                            style: AppStyles.h1,
                           ),
                         ),
                       ],

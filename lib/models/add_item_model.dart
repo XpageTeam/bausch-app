@@ -7,7 +7,7 @@ class AddItemModel implements MappableInterface<AddItemModel> {
   final String price;
   final String img;
   final String? type;
-
+  
   final String? htmlText;
 
   // TODO(Nikita): ??????

@@ -9,9 +9,18 @@ import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:flutter/material.dart';
 
+
+class AddPointsDetailsArguments{
+  final AddItemModel model;
+
+  AddPointsDetailsArguments({required this.model});
+
+  
+}
 //* Add_points
 //* add
-class AddPointsDetails extends StatelessWidget {
+class AddPointsDetails extends StatelessWidget implements AddPointsDetailsArguments{
+  @override
   final AddItemModel model;
   final ScrollController controller;
   const AddPointsDetails({
@@ -147,7 +156,7 @@ class AddPointsDetails extends StatelessWidget {
     } else if (type == 'overview_social') {
       return 'Прикрепить скриншот';
     } else if (type == 'overview') {
-      return 'Отправить ссылку';
+      return 'Прикрепить скриншот';
     } else {
       return 'Далее';
     }

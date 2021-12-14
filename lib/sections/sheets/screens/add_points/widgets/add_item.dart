@@ -1,5 +1,6 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/models/add_item_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -19,8 +20,12 @@ class AddItem extends StatelessWidget {
           Keys.simpleBottomSheetNav.currentState!
               .pushNamed('/addpoints_survey');
         } else {
-          Keys.simpleBottomSheetNav.currentState!
-              .pushNamed('/addpoints_details');
+          Keys.simpleBottomSheetNav.currentState!.pushNamed(
+            '/addpoints_details',
+            arguments: AddPointsDetailsArguments(
+              model: model,
+            ),
+          );
         }
       },
       child: Container(
