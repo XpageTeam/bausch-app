@@ -69,8 +69,9 @@ class CityEmailScreenWM extends WidgetModel {
       city: selectedCityName.value,
     ))) {
       unawaited(
-        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
-          '/home',
+        // TODO(Danil): работает непонятно
+        Keys.mainNav.currentState!.pushNamedAndRemoveUntil(
+          '/',
           (route) => false,
         ),
       );

@@ -1,5 +1,7 @@
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/packages/pin_code_fields/lib/pin_code_fields.dart';
+import 'package:bausch/sections/registration/screens/city_email/city_and_email_screen.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,9 @@ class CodeForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'SMS-код был отправлен\nна ${wm.phoneController.text}',
+              // 'SMS-код был отправлен\nна ${wm.phoneController.text}',
+
+              'SMS-код был отправлен\nна +7 (900) 000-00-00',
               style: AppStyles.h1,
             ),
             SizedBox(
@@ -44,7 +48,16 @@ class CodeForm extends StatelessWidget {
                   onCompleted: (str) {
                     // focusNode.unfocus();
 
-                    wm.sendCodeAction();
+                    // wm.sendCodeAction();
+
+                    Keys.mainNav.currentState!.pushAndRemoveUntil(
+                      PageRouteBuilder<void>(
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return CityAndEmailScreen();
+                        },
+                      ),
+                      (route) => false,
+                    );
                   },
                   pinTheme: PinTheme(
                     fieldHeight: 100,

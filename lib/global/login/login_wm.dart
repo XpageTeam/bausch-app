@@ -14,7 +14,6 @@ import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mwwm/mwwm.dart';
@@ -32,10 +31,12 @@ class LoginWM extends WidgetModel {
   final smsResendSeconds = StreamedState<int>(0);
   final smsSendAction = VoidAction();
 
-  final phoneController = MaskedTextController(
-    mask: '+7 (900) 000-00-00',
-    text: '+7 (9',
-  );
+  // final phoneController = MaskedTextController(
+  //   mask: '+7 (900) 000-00-00',
+  //   text: '+7',
+  // );
+
+  final phoneController = TextEditingController()..text = '+7 ';
 
   final codeController = TextEditingController();
 
@@ -56,42 +57,38 @@ class LoginWM extends WidgetModel {
   }) : super(baseDependencies) {
     _loadText();
     debugPrint('loginConstructor');
-  }
 
-  // @override
-  // void dispose() {
-  //   // phoneController.dispose();
-  //   // codeController.dispose();
-  //   super.dispose();
-  // }
+    var prevPhoneValue = '';
 
-  @override
-  void onLoad() {
-    phoneController.addListener(_checkBtnActive);
+    phoneController.addListener(() {
+      if ((phoneController.text == '+7 (97' ||
+              phoneController.text == '+7 (98' ||
+              phoneController.text == '+7 (99') &&
+          (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
+        phoneController
+          ..text = '+7 (9'
+          ..selection = TextSelection.fromPosition(
+            TextPosition(offset: phoneController.text.length),
+          );
+      }
 
-    debugPrint('loginLoad');
+      prevPhoneValue = phoneController.text;
 
-    super.onLoad();
-  }
+      _checkBtnActive();
+    });
 
-  @override
-  void onBind() {
-    debugPrint('loginBind');
-
-    subscribe(loginTextLoadAction.stream, (value) {
+    loginTextLoadAction.bind((value) {
       _loadText();
     });
 
     //* принятие пользовательского соглашения
-    subscribe(
-      policyAcceptAction.stream,
-      (_) {
-        policyAccepted.accept(!policyAccepted.value);
-        _checkBtnActive();
-      },
-    );
 
-    subscribe(authRequestResult.stream, (value) {
+    policyAcceptAction.bind((_) {
+      policyAccepted.accept(!policyAccepted.value);
+      _checkBtnActive();
+    });
+
+    authRequestResult.bind((value) {
       if (authRequestResult.value.isLoading) {
         return;
       }
@@ -115,12 +112,12 @@ class LoginWM extends WidgetModel {
     });
 
     //* подписка на нажатие кнопки
-    subscribe(sendPhoneAction.stream, (_) {
+    sendPhoneAction.bind((_) {
       _sendPhone().then((value) {});
     });
 
     //* переключение состояния кнопки при отправке запроса
-    subscribe(loginProcessedState.stream, (_) {
+    loginProcessedState.bind((_) {
       sendPhoneBtnActive.accept(!loginProcessedState.value);
 
       debugPrint(sendPhoneBtnActive.value.toString());
@@ -128,21 +125,17 @@ class LoginWM extends WidgetModel {
       // TODO(Danil): показывать лоадер
     });
 
-    subscribe(sendCodeAction.stream, (_) {
-      _sendCode().then((_) {
-        Provider.of<AuthWM>(context, listen: false).checkAuthAction();
-      });
+    sendCodeAction.bind((_) {
+      _sendCode();
     });
 
-    subscribe(smsSendCounter.stream, (_) {
+    smsSendCounter.bind((_) {
       if (smsSendCounter.value == 1) {
         _startResendTimer(30);
       } else if (smsSendCounter.value > 1) {
         _startResendTimer(300);
       }
     });
-
-    super.onBind();
   }
 
   void _showTopError(CustomException ex) {
@@ -158,6 +151,10 @@ class LoginWM extends WidgetModel {
     } else {
       sendPhoneBtnActive.accept(false);
     }
+  }
+
+  void _checkAuth() {
+    Provider.of<AuthWM>(context, listen: false).checkAuthAction();
   }
 
   Future<void> _sendPhone() async {
@@ -212,6 +209,8 @@ class LoginWM extends WidgetModel {
       );
 
       await UserWriter.writeToken(res.xApiToken);
+
+      _checkAuth();
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -226,8 +225,7 @@ class LoginWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }

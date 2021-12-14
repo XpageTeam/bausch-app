@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'package:bausch/navigation/main_navigation.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_email_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -172,13 +173,23 @@ class _CityAndEmailScreenState
             ),
             child: BlueButtonWithText(
               text: 'Готово',
-              onPressed: state
-                  ? () {
-                      wm.setUserDataAction();
+              onPressed: () {
+                Keys.mainNav.currentState!.pushAndRemoveUntil(
+                  PageRouteBuilder<void>(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return const MainNavigation();
+                    },
+                  ),
+                  (route) => false,
+                );
+              },
+              // onPressed: state
+              //     ? () {
+              //         wm.setUserDataAction();
 
-                      // Keys.mainContentNav.currentState!.pushNamed('/home');
-                    }
-                  : null,
+              //         // Keys.mainContentNav.currentState!.pushNamed('/home');
+              //       }
+              //     : null,
             ),
           );
         },
