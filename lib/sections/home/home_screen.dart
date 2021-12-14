@@ -83,22 +83,22 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (status == AuthStatus.authenticated)
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      bottom: 20,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          const DelayedAnimatedTranslateOpacity(
-                            offsetY: 40,
-                            child: StoriesSlider(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                // if (status == AuthStatus.authenticated)
+                //   SliverPadding(
+                //     padding: const EdgeInsets.only(
+                //       bottom: 20,
+                //     ),
+                //     sliver: SliverList(
+                //       delegate: SliverChildListDelegate(
+                //         [
+                //           const DelayedAnimatedTranslateOpacity(
+                //             offsetY: 40,
+                //             child: StoriesSlider(),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 40,

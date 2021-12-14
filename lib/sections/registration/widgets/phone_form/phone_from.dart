@@ -5,7 +5,6 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class PhoneForm extends StatelessWidget {
@@ -28,14 +27,7 @@ class PhoneForm extends StatelessWidget {
           inputType: TextInputType.phone,
           textStyle: AppStyles.h1,
           autofocus: true,
-          // decoration: const InputDecoration(
-          //   prefix: Text(
-          //     '+7 ',
-          //   ),
-          // ),
-          inputFormatters: [
-            MaskTextInputFormatter(mask: '+7 (9##) ###-##-##'),
-          ],
+          inputFormatters: wm.phoneInputFormaters,
         ),
         const SizedBox(height: 4),
         StreamedStateBuilder<bool>(
