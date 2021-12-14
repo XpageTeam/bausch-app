@@ -1,6 +1,7 @@
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
+import 'package:bausch/sections/order_registration/address_select_screen.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/lenses_parameters.dart';
@@ -90,6 +91,11 @@ class MainNavigation extends StatelessWidget {
           case '/order_registration':
             page = const OrderRegistrationScreen();
             break;
+
+          case '/order_address':
+            page = const AddressSelectScreen();
+            break;
+
           case '/shops':
             page = ShopsScreen();
             break;

@@ -133,10 +133,6 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: const ProfileSettingsBanner(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<DateTime?>(
                 streamedState: wm.selectedBirthDate,
                 builder: (_, birthDate) {
@@ -156,7 +152,10 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            //*Зеленый виджет, есть в другой ветке
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: const ProfileSettingsBanner(),
+            ),
             Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(

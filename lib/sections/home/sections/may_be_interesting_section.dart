@@ -1,9 +1,10 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/sections/home/widgets/catalog_item.dart';
+
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:flutter/material.dart';
 
 class MayBeInteresting extends StatefulWidget {

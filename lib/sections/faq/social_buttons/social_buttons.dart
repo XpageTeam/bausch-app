@@ -12,59 +12,54 @@ class SocialButtons extends StatefulWidget {
 
 class _SocialButtonsState extends State<SocialButtons> {
   final SocialCubit socialCubit = SocialCubit();
+  List<String> logos = [
+    'assets/logos/vk.png',
+    'assets/logos/tube.png',
+    'assets/logos/inst.png',
+  ];
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SocialCubit, SocialState>(
-      bloc: socialCubit,
-      builder: (context, state) {
-        if (state is SocialSuccess) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 40,
-                  bottom: 14,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 40,
+            bottom: 14,
+          ),
+          child: Text(
+            'Вы можете найти нас здесь',
+            style: AppStyles.p1,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(
+          height: 45,
+          child: ListView.separated(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, i) {
+              return CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 22,
+                child: IconButton(
+                  onPressed: () {},
+                  padding: EdgeInsets.zero,
+                  icon: Image.asset(
+                    logos[i],
+                    height: 16,
+                  ),
                 ),
-                child: Text(
-                  'Вы можете найти нас здесь',
-                  style: AppStyles.p1,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                height: 45,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, i) {
-                    return CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 22,
-                      child: IconButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.zero,
-                        icon: Image.network(
-                          state.models[i].icon,
-                          height: 16,
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, i) {
-                    return const SizedBox(
-                      width: 30,
-                    );
-                  },
-                  itemCount: state.models.length,
-                ),
-              ),
-            ],
-          );
-        }
-        return const SizedBox(
-          height: 99,
-        );
-      },
+              );
+            },
+            separatorBuilder: (context, i) {
+              return const SizedBox(
+                width: 30,
+              );
+            },
+            itemCount: logos.length,
+          ),
+        ),
+      ],
     );
   }
 }

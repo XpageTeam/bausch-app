@@ -75,34 +75,47 @@ class StoriesBottomButtons extends StatelessWidget {
                 children: [
                   Text(
                     buttonTitle ?? 'Участвовать в акции',
-                    style: AppStyles.h3,
+                    style: AppStyles.h2,
                   ),
                   const SizedBox(
                     width: 8,
                   ),
-                  const Icon(
-                    Icons.add,
-                    color: Color(0xFF2D2D2D),
+                  Image.asset(
+                    'assets/icons/link.png',
+                    height: 16,
                   ),
                 ],
               ),
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
-          const SizedBox(
-            height: 60,
-            child: Center(
-              child: Text(
-                'Имеются противопоказания, необходимо проконсультироваться со специалистом',
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 16 / 14,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white,
+          Flexible(
+            child: Text(
+              'Сроки проведения акции с 01.09.21 по 15.12.21. Информация об организаторе, правилах проведения акции, количестве призов, сроках, месте и порядке их получения доступна на renu.ultralinzi.ru',
+              style: AppStyles.n1.copyWith(color: const Color(0xFF797B7C)),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(
+              top: 18,
+              bottom: 6,
+            ),
+            child: SizedBox(
+              //height: 60,
+              child: Center(
+                child: Text(
+                  'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+                  style: TextStyle(
+                    fontSize: 14,
+                    height: 16 / 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontFamily: 'Euclid Circular A',
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
           ),

@@ -17,9 +17,9 @@ class OrderCatalogWidget extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) => CatalogItemWidget(
         model: Models.items[0],
-        orderTitle: 'Заказ № 89088 от 29.06.2021',
-        address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
-        deliveryInfo: '5 дней до получения',
+        //orderTitle: 'Заказ № 89088 от 29.06.2021',
+        //address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
+        //deliveryInfo: '5 дней до получения',
       ),
       separatorBuilder: (context, index) => const SizedBox(height: 4),
       itemCount: 1,

@@ -43,7 +43,7 @@ class Story extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: Image.network(
+                  child: Image.asset(
                     model.content.file,
                     fit: BoxFit.cover,
                   ),
@@ -63,7 +63,9 @@ class Story extends StatelessWidget {
                       ),
                       Text(
                         model.id.toString(),
-                        style: AppStyles.p1,
+                        style: AppStyles.p1.copyWith(
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),

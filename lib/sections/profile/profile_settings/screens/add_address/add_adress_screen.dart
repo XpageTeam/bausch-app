@@ -85,6 +85,8 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                 onTap: () {
                                   //* Если выбрал улицу без номера дома
                                   if (state.models[i].data.house.isNotEmpty) {
+                                    debugPrint(state.models[i].data.house);
+
                                     showModalBottomSheet<void>(
                                       context: context,
                                       shape: RoundedRectangleBorder(

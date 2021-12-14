@@ -6,6 +6,7 @@ import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -80,7 +81,7 @@ class CatalogItemWidget extends StatelessWidget {
                       //* Цена и виджет баллов
                       Padding(
                         padding: const EdgeInsets.only(
-                          bottom: 30,
+                          bottom: 2,
                         ),
                         child: Row(
                           children: [
@@ -99,7 +100,7 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
 
                       //* Адрес
-                      if (model is ProductItemModel)
+                      if ((model is ProductItemModel) && (address != null))
                         Flexible(
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 30),
@@ -127,11 +128,11 @@ class CatalogItemWidget extends StatelessWidget {
             ),
 
             //* Информация о доставке
-            if (model is ProductItemModel)
+            if ((model is ProductItemModel) && (deliveryInfo != null))
               Container(
                 //margin: const EdgeInsets.only(top: 2),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
                       'assets/substract.png',
@@ -143,7 +144,7 @@ class CatalogItemWidget extends StatelessWidget {
                     Flexible(
                       child: Text.rich(
                         TextSpan(
-                          text: 'Ещё пару дней. ',
+                          text: 'Доставлен. ',
                           style: AppStyles.p1,
                           children: [
                             TextSpan(
@@ -176,7 +177,7 @@ class CatalogItemWidget extends StatelessWidget {
     if (_model is WebinarItemModel) {
       return 'assets/webinar-recordings.png';
     } else if (_model is ProductItemModel) {
-      return _model.picture;
+      return 'assets/item.png';
     } else if (_model is PartnersItemModel) {
       return 'assets/offers-from-partners.png';
     } else {
@@ -217,7 +218,8 @@ void callback(CatalogItemModel _model) {
     debugPrint('webinar');
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
-    showDefaultNotification(title: 'title');
+    showDefaultNotification(title: 'Скопировано!');
+    //showFlushbar('Скопировано!');
   } else {
     showFlexibleBottomSheet<void>(
       context: Keys.mainNav.currentContext!,
@@ -229,6 +231,7 @@ void callback(CatalogItemModel _model) {
         return FinalDiscountOptics(
           controller: ScrollController(),
           model: _model as PromoItemModel,
+          rightKey: Keys.mainNav,
           buttonText: 'Готово',
         );
       },

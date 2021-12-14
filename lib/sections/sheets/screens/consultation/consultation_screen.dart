@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
@@ -8,6 +9,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/text/text_with_point.dart';
 import 'package:flutter/material.dart';
 
 //catalog_online_consultation
@@ -80,7 +82,60 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                    WhiteContainerWithRoundedCorners(
+                      padding: const EdgeInsets.fromLTRB(
+                        StaticData.sidePadding,
+                        20,
+                        StaticData.sidePadding,
+                        40,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            model.previewText,
+                            style: AppStyles.p1,
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            'Как воспользоваться промокодом в SmartMed',
+                            style: AppStyles.h2,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: TextWithPoint(
+                              text:
+                                  'В мобильном приложении SmartMed выберите раздел «Еще», затем «Промокоды». Если вы используете сайт, кликните на раздел «Промокоды» в вашем Профиле.',
+                              dotStyle: AppStyles.p1,
+                              textStyle: AppStyles.p1,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: TextWithPoint(
+                              text:
+                                  'Введите промокод и нажмите «Далее», скидка 100% автоматически применится на консультации дежурного врача или врача по предварительной записи. Т',
+                              dotStyle: AppStyles.p1,
+                              textStyle: AppStyles.p1,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: TextWithPoint(
+                              text:
+                                  'Затем переходите к выбору врача и времени консультации в разделе «Онлайн-консультация».',
+                              dotStyle: AppStyles.p1,
+                              textStyle: AppStyles.p1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -92,7 +147,12 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Warning.advertisment(),
+                    Warning.advertisment(
+                      name: 'SmartMed',
+                      link: 'smartmed.pro',
+                      description:
+                          'Скачайте приложение и общайтесь с компетентными врачами МЕДСИ, не выходя из дома.',
+                    ),
                     const SizedBox(
                       height: 30,
                     ),
@@ -103,7 +163,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           ],
         ),
         bottomNavigationBar: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
+          text: 'Получить поощрение ${model.price} б',
           onPressed: () {
             Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
               '/verification_consultation',

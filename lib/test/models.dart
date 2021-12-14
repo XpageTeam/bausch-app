@@ -4,6 +4,10 @@ import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
@@ -17,37 +21,37 @@ class Models {
       duration: Duration(seconds: 5),
       media: MediaType.image,
       content: StoryContentModel(
-        file: 'assets/pic1.png',
-        title: 'Миллион впечатлений с ReNu',
+        file: 'assets/stories/1.png',
+        title: 'Новинка  месяца',
       ),
-      mainText: 'Миллион впечатлений с ReNu',
+      mainText: 'Новинка  месяца',
       secondText:
           'Зарегистрируйте чек и выиграйте путешествия мечты от ReNu. Всем участникам гарантированные призы!',
-      buttonTitle: 'text one',
+      buttonTitle: 'Участвовать в акции',
     ),
     StoryModel(
       id: 1,
       duration: Duration(seconds: 5),
       media: MediaType.image,
       content: StoryContentModel(
-        file: 'assets/pic1.png',
-        title: 'Прояви к глазам уважение',
+        file: 'assets/stories/2.png',
+        title: 'При трате баллов доставка день в день!',
       ),
-      mainText: 'Прояви к глазам уважение',
+      mainText: 'При трате баллов доставка день в день!',
       secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
-      buttonTitle: 'text two',
+      buttonTitle: 'Участвовать в акции',
     ),
     StoryModel(
       id: 2,
       duration: Duration(seconds: 5),
       media: MediaType.image,
       content: StoryContentModel(
-        file: 'assets/pic3.png',
-        title: 'ыаыаыыа',
+        file: 'assets/stories/3.png',
+        title: 'С заботойо себе',
       ),
-      mainText: 'ыаыаыыа',
+      mainText: 'С заботой о себе',
       secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
-      buttonTitle: 'text three',
+      buttonTitle: 'Участвовать в акции',
     ),
   ];
 
@@ -56,7 +60,7 @@ class Models {
       id: 0,
       name: '0. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
-      picture: 'assets/items/item1.png',
+      picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
     ),
@@ -64,7 +68,7 @@ class Models {
       id: 1,
       name: '1. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
-      picture: 'assets/items/item1.png',
+      picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
       vimeoId: '123',
@@ -73,7 +77,7 @@ class Models {
       id: 2,
       name: '2. Biotrue one day (30 линз в упаковке)',
       price: 600,
-      picture: 'assets/items/item2.png',
+      picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
       poolPromoCode: '123',
@@ -83,7 +87,7 @@ class Models {
       id: 0,
       name: '0. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
-      picture: 'assets/items/item1.png',
+      picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
     ),
@@ -91,7 +95,7 @@ class Models {
       id: 1,
       name: '1. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
-      picture: 'assets/items/item1.png',
+      picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
       vimeoId: '123',
@@ -100,10 +104,171 @@ class Models {
       id: 2,
       name: '2. Biotrue one day (30 линз в упаковке)',
       price: 600,
-      picture: 'assets/items/item2.png',
+      picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
       code: '123',
+    ),
+  ];
+
+  static List<CatalogItemModel> discountOptics = [
+    ProductItemModel(
+      id: 0,
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: 13000,
+      picture: 'assets/discountOptics/1.png',
+      detailText: '',
+      previewText: '',
+    ),
+    ProductItemModel(
+      id: 1,
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: 600,
+      picture: 'assets/discountOptics/2.png',
+      detailText: '',
+      previewText: '',
+    ),
+    ProductItemModel(
+      id: 2,
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: 600,
+      picture: 'assets/discountOptics/3.png',
+      detailText: '',
+      previewText: '',
+    ),
+    ProductItemModel(
+      id: 3,
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: 1300,
+      picture: 'assets/discountOptics/4.png',
+      detailText: '',
+      previewText: '',
+    ),
+    ProductItemModel(
+      id: 0,
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: 13000,
+      picture: 'assets/discountOptics/1.png',
+      detailText: '',
+      previewText: '',
+    ),
+    ProductItemModel(
+      id: 1,
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: 600,
+      picture: 'assets/discountOptics/2.png',
+      detailText: '',
+      previewText: '',
+    ),
+  ];
+
+  static List<CatalogItemModel> promo = [
+    PromoItemModel(
+      id: 0,
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: 13000,
+      picture: 'assets/discountOptics/1.png',
+      code: '6СС5165АDF345',
+      previewText:
+          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+      detailText: '',
+    ),
+    PromoItemModel(
+      id: 1,
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: 600,
+      picture: 'assets/discountOptics/2.png',
+      code: '6СС5165АDF345',
+      previewText:
+          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+      detailText: '',
+    ),
+    PromoItemModel(
+      id: 2,
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: 600,
+      picture: 'assets/discountOptics/3.png',
+      code: '6СС5165АDF345',
+      previewText:
+          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+      detailText: '',
+    ),
+    PromoItemModel(
+      id: 3,
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: 1300,
+      picture: 'assets/discountOptics/4.png',
+      code: '6СС5165АDF345',
+      previewText:
+          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+      detailText: '',
+    ),
+    PromoItemModel(
+      id: 0,
+      name: 'Раствор Biotrue универсальный(300 мл)',
+      price: 13000,
+      picture: 'assets/discountOptics/1.png',
+      code: '6СС5165АDF345',
+      previewText:
+          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+      detailText: '',
+    ),
+    PromoItemModel(
+      id: 1,
+      name: 'Biotrue one day (30 линз в упаковке)',
+      price: 600,
+      picture: 'assets/discountOptics/2.png',
+      code: '6СС5165АDF345',
+      previewText:
+          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+      detailText: '',
+    ),
+  ];
+
+  static List<CatalogItemModel> partners = [
+    PartnersItemModel(
+      id: 1,
+      name: 'Подписка на онлайн-кинотеатр ',
+      previewText:
+          'More.TV - онлайн-платформа, предлагающая возможности стриминга эфирного вещания, а также просмотра самого востребованного российского и зарубежного контента как бесплатно по рекламной модели, так и с помощью платной подписки.',
+      detailText: 'detailText',
+      picture: 'assets/partners/1.png',
+      price: 50,
+      poolPromoCode: '6СС5165АDF345',
+      staticPromoCode: '6СС5165АDF345',
+    ),
+    PartnersItemModel(
+      id: 1,
+      name: 'Подписка на онлайн-библиотеку',
+      previewText:
+          'More.TV - онлайн-платформа, предлагающая возможности стриминга эфирного вещания, а также просмотра самого востребованного российского и зарубежного контента как бесплатно по рекламной модели, так и с помощью платной подписки.',
+      detailText: 'detailText',
+      picture: 'assets/partners/2.png',
+      price: 50,
+      poolPromoCode: '6СС5165АDF345',
+      staticPromoCode: '6СС5165АDF345',
+    ),
+    PartnersItemModel(
+      id: 1,
+      name: 'Скидка 500 р. в интернет-оптике Inoptika',
+      previewText:
+          'More.TV - онлайн-платформа, предлагающая возможности стриминга эфирного вещания, а также просмотра самого востребованного российского и зарубежного контента как бесплатно по рекламной модели, так и с помощью платной подписки.',
+      detailText: 'detailText',
+      picture: 'assets/partners/3.png',
+      price: 50,
+      poolPromoCode: '6СС5165АDF345',
+      staticPromoCode: '6СС5165АDF345',
+    ),
+    PartnersItemModel(
+      id: 1,
+      name: 'Скидка 500 р. в интернет-оптике NetOptika',
+      previewText:
+          'More.TV - онлайн-платформа, предлагающая возможности стриминга эфирного вещания, а также просмотра самого востребованного российского и зарубежного контента как бесплатно по рекламной модели, так и с помощью платной подписки.',
+      detailText: 'detailText',
+      picture: 'assets/partners/4.png',
+      price: 50,
+      poolPromoCode: '6СС5165АDF345',
+      staticPromoCode: '6СС5165АDF345',
     ),
   ];
 
@@ -140,21 +305,48 @@ class Models {
     ),
   ];
 
-  static List<SheetModelWithoutItems> sheets = [
-    SheetModelWithoutItems(
-      title: 'Онлайн-консультация',
-      img: 'assets/online-consultations.png',
-      type: SheetWithoutItemsType.consultation,
+  static List<BaseCatalogSheetModel> sheets = [
+    CatalogSheetWithLogosModel(
+      id: 0,
+      name: 'Скидка 500 рублей в оптике',
+      type: 'offline',
+      icon: 'assets/discount-in-optics.png',
+      count: 3,
     ),
-    SheetModelWithoutItems(
-      title: 'Бесплатно подберем вам первые линзы в оптике',
-      img: 'assets/online-consultations.png',
-      type: SheetWithoutItemsType.program,
+    CatalogSheetModel(
+      id: 2,
+      name: 'Предложения от партнеров',
+      type: 'promo_code_immediately',
+      icon: 'assets/offers-from-partners.png',
+      count: 3,
     ),
-    SheetModelWithoutItems(
-      title: 'Добавить баллы',
-      img: 'assets/online-consultations.png',
-      type: SheetWithoutItemsType.addpoints,
+    CatalogSheetModel(
+      id: 2,
+      name: 'Бесплатная упаковка',
+      type: 'free_product',
+      icon: 'assets/free-packaging.png',
+      count: 3,
+    ),
+    CatalogSheetModel(
+      id: 2,
+      name: 'Скидка 500 рублей в интернет-магазине',
+      type: 'onlineShop',
+      icon: 'assets/discount-in-online-store.png',
+      count: 3,
+    ),
+    CatalogSheetModel(
+      id: 2,
+      name: 'Записи вебинаров',
+      type: 'promo_code_video',
+      icon: 'assets/webinar-recordings.png',
+      count: 3,
+    ),
+    CatalogSheetWithoutLogosModel(
+      id: 1,
+      name: 'Онлайн-консультация',
+      type: 'online_consultation',
+      icon: 'assets/online-consultations.png',
+      count: 1,
     ),
   ];
 

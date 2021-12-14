@@ -97,7 +97,7 @@ class _StoriesScreenState extends State<StoriesScreen>
                 //final StoryModel story = widget.stories[i];
                 switch (story.media) {
                   case MediaType.image:
-                    return Image.network(
+                    return Image.asset(
                       story.content.file,
                       fit: BoxFit.cover,
                       //color: Colors.red.withAlpha(10),

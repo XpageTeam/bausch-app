@@ -1,4 +1,5 @@
 import 'package:bausch/models/order_registration/order_item.dart';
+import 'package:bausch/sections/order_registration/address_select_screen.dart';
 import 'package:bausch/sections/order_registration/sections/delivery_address_section.dart';
 import 'package:bausch/sections/order_registration/sections/lens_parameters_section.dart';
 import 'package:bausch/sections/order_registration/sections/order_items_section.dart';
@@ -99,35 +100,7 @@ class OrderRegistrationScreen extends StatelessWidget {
         text: 'Потратить 1250 б',
         onPressed: () {
           //* TODO(Nikita): Заменить потом на pushNamed
-          showFlexibleBottomSheet<void>(
-            context: Keys.mainNav.currentContext!,
-            minHeight: 0,
-            initHeight: 0.7,
-            maxHeight: 0.95,
-            anchors: [0, 0.6, 0.95],
-            builder: (context, controller, d) {
-              return Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  FinalFreePackaging(
-                    controller: controller,
-                    model: Models.items[0],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Container(
-                      height: 4,
-                      width: 38,
-                      decoration: BoxDecoration(
-                        color: AppTheme.mineShaft,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
+
           // showModalBottomSheet<void>(
           //   context: Keys.mainNav.currentContext!,
           //   isScrollControlled: true,
@@ -138,6 +111,10 @@ class OrderRegistrationScreen extends StatelessWidget {
           //     );
           //   },
           // );
+
+          Navigator.of(context).push<void>(MaterialPageRoute(builder: (ctx) {
+            return AddressSelectScreen();
+          }));
         },
       ),
     );
