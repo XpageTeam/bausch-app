@@ -132,17 +132,19 @@ class CatalogItemWidget extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/substract.png',
-                    height: 15,
-                    alignment: Alignment.bottomCenter,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Image.asset(
+                      'assets/substract.png',
+                      height: 15,
+                    ),
                   ),
                   const SizedBox(
                     width: 4,
                   ),
                   Flexible(
-                    child: Text.rich(
-                      TextSpan(
+                    child: RichText(
+                      text: TextSpan(
                         text: 'Доставлен. ',
                         style: AppStyles.p1,
                         children: [
