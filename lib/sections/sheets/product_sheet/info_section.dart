@@ -42,6 +42,13 @@ class InfoSection extends StatelessWidget {
                 'br': Style(
                   padding: EdgeInsets.zero,
                 ),
+                'a': Style(
+                  color: AppTheme.mineShaft,
+                  fontWeight: FontWeight.w400,
+                  fontSize: const FontSize(14),
+                  lineHeight: const LineHeight(20 / 14),
+                  textDecorationColor: AppTheme.turquoiseBlue,
+                ),
               },
             ),
             if (secondText != null)
