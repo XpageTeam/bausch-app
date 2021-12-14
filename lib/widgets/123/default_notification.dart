@@ -14,6 +14,21 @@ OverlaySupportEntry showDefaultNotification({
   Duration duration = const Duration(seconds: 3),
 }) {
   //TODO: Поменять на Flushbar
+  return showOverlayNotification(
+    (c) => Container(
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(15),
+        ),
+        color: AppTheme.mineShaft,
+      ),
+      child: _DefaultNotification(
+        title: title,
+        subtitle: subtitle,
+      ),
+    ),
+  );
   return showSimpleNotification(
     Stack(
       children: [

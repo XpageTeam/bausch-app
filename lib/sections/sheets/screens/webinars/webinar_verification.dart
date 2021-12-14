@@ -218,6 +218,7 @@ class WebinarVerificationWM extends WidgetModel {
         ex: e,
       );
     }
+
     unawaited(buttonState.accept(false));
 
     if (error != null) {
