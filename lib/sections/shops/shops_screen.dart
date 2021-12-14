@@ -28,13 +28,13 @@ class _ShopsScreenState extends State<ShopsScreen> {
   @override
   void initState() {
     super.initState();
-    if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
-        AuthStatus.authenticated) {
-      currentCity = Provider.of<UserWM>(
-        context,
-        listen: false,
-      ).userData.value.data?.user.city;
-    }
+    // if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
+    //     AuthStatus.authenticated) {
+    //   currentCity = Provider.of<UserWM>(
+    //     context,
+    //     listen: false,
+    //   ).userData.value.data?.user.city;
+    // }
   }
 
   @override

@@ -44,7 +44,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
 
   int currentIndex = 0;
 
-  late AuthWM authWM;
+  // late AuthWM authWM;
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
       defaultFilter: filterList[0],
       allFilters: filterList,
     );
-    authWM = Provider.of<AuthWM>(context, listen: false);
+    // authWM = Provider.of<AuthWM>(context, listen: false);
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) {},
     );
