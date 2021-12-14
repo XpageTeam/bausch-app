@@ -82,7 +82,7 @@ class AddPointsDetails extends StatelessWidget {
                           CustomSliverAppbar.toPop(
                             icon: Container(),
                             key: key,
-                            rightKey: Keys.bottomSheetWithoutItemsNav,
+                            rightKey: Keys.mainNav,
                           ),
                         ],
                       ),

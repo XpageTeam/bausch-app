@@ -48,7 +48,7 @@ class ConsultationVerification extends StatelessWidget {
                         ),
                         Text(
                           'Подтвердите заказ',
-                          style: AppStyles.h2,
+                          style: AppStyles.h1,
                         ),
                         Column(
                           children: [
@@ -83,7 +83,7 @@ class ConsultationVerification extends StatelessWidget {
           ],
         ),
         floatingActionButton: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
+          text: 'Потратить ${model.priceToString} б',
           onPressed: () {
             Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
               '/final_consultation',

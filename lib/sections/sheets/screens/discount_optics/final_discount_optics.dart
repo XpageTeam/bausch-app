@@ -54,7 +54,7 @@ class FinalDiscountOptics extends StatelessWidget {
                       child: Text(
                         text ??
                             'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     ContainerWithPromocode(

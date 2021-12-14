@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 class FinalFreePackaging extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
+  final VoidCallback? onPressed;
   const FinalFreePackaging({
     required this.controller,
     required this.model,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -46,7 +48,7 @@ class FinalFreePackaging extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
                         'Заказ успешно оформлен',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     // DefaultTextInput(
@@ -100,7 +102,9 @@ class FinalFreePackaging extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: const BottomButtonWithRoundedCorners(),
+        bottomNavigationBar: BottomButtonWithRoundedCorners(
+          onPressed: onPressed,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

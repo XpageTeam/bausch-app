@@ -132,6 +132,7 @@ class DiscountOpticsScreen extends StatelessWidget
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
+                        padding: EdgeInsets.fromLTRB(16, 26, 16, 28),
                         icon: Padding(
                           padding: const EdgeInsets.only(
                             right: 12,
@@ -152,7 +153,10 @@ class DiscountOpticsScreen extends StatelessWidget
                     Warning.warning(),
                     const Padding(
                       padding: EdgeInsets.only(top: 40, bottom: 20),
-                      child: HowToUsePromocode(),
+                      child: HowToUsePromocode(
+                        text:
+                            'Покажите промокод в оптике при покупке выбранного продукта. Срок действия промокода и количество промокодов ограничены. ',
+                      ),
                     ),
                   ],
                 ),
@@ -169,7 +173,6 @@ class DiscountOpticsScreen extends StatelessWidget
             );
           },
         ),
-        
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

@@ -58,7 +58,7 @@ class FreePackagingScreen extends StatelessWidget
                     ),
                     InfoSection(
                       text: model.previewText,
-                      secondText: model.detailText,
+                      //secondText: model.detailText,
                     ),
                     // const SizedBox(
                     //   height: 12,
@@ -90,7 +90,11 @@ class FreePackagingScreen extends StatelessWidget
           ],
         ),
         bottomNavigationBar: CustomFloatingActionButton(
-          text: 'Перейти к заказу',
+          text: 'Накопить баллы',
+          icon: const Icon(
+            Icons.add,
+            color: AppTheme.mineShaft,
+          ),
           onPressed: () {
             // Keys.mainNav.currentState!.pop();
 

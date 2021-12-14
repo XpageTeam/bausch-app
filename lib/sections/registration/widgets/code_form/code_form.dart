@@ -26,7 +26,7 @@ class CodeForm extends StatelessWidget {
             Text(
               // 'SMS-код был отправлен\nна ${wm.phoneController.text}',
 
-              'SMS-код был отправлен\nна +7 (900) 000-00-00',
+              'Сообщение с кодом было отправлено на +7 985 000 00 00',
               style: AppStyles.h1,
             ),
             SizedBox(

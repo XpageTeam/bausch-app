@@ -112,7 +112,7 @@ class TopSection extends StatelessWidget {
                 ),
                 child: Text(
                   model.name,
-                  style: AppStyles.h2,
+                  style: AppStyles.h1,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -124,7 +124,7 @@ class TopSection extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     bottom: 30,
                   ),
-                  child: ButtonContent(price: model.price.toString()),
+                  child: ButtonContent(price: model.priceToString),
                 ),
             ],
           ),

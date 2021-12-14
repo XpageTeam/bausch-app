@@ -22,7 +22,8 @@ class OrdersSection extends StatelessWidget {
               ),
               child: CatalogItemWidget(
                 model: Models.items[i],
-                deliveryInfo: 'Eсли нет, пишите сюда, разберемся',
+                deliveryInfo:
+                    'Eсли нет, пишите сюда, разберемся\nEсли нет, пишите сюда, разберемся',
                 orderTitle: 'Заказ № 89088 от 29.06.2021',
                 address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
               ),

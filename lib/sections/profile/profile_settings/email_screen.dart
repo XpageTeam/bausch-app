@@ -50,6 +50,7 @@ class _EmailScreenState extends State<EmailScreen> {
           horizontal: StaticData.sidePadding,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(
@@ -62,8 +63,11 @@ class _EmailScreenState extends State<EmailScreen> {
               ),
             ),
             Text(
-              'Для отчёта о баллах',
+              !confirmSended
+                  ? 'Для отчёта о баллах'
+                  : 'Мы отправили инструкцию для  подтверждения. Проверьте почту.',
               style: AppStyles.p1,
+              textAlign: TextAlign.start,
             ),
           ],
         ),

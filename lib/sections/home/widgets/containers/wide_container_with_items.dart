@@ -82,53 +82,53 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
           const SizedBox(
             height: 40,
           ),
-          if (widget.model.logos != null)
-            Center(
-              child: SizedBox(
-                height: 32,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      flex: 3,
-                      child: Image.network(
-                        widget.model.logos![0],
+          //if (widget.model.logos != null)
+          Center(
+            child: SizedBox(
+              height: 32,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: Image.asset(
+                      'assets/logos/logo1.png',
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        color: AppTheme.mystic,
+                        width: 2,
+                        height: 32,
                       ),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: Container(
-                          color: AppTheme.mystic,
-                          width: 2,
-                          height: 32,
-                        ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Image.asset(
+                      'assets/logos/logo2.png',
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        color: AppTheme.mystic,
+                        width: 2,
+                        height: 32,
                       ),
                     ),
-                    Flexible(
-                      flex: 3,
-                      child: Image.network(
-                        widget.model.logos![1],
-                      ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Image.asset(
+                      'assets/logos/logo3.png',
                     ),
-                    Expanded(
-                      child: Center(
-                        child: Container(
-                          color: AppTheme.mystic,
-                          width: 2,
-                          height: 32,
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 3,
-                      child: Image.network(
-                        widget.model.logos![2],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          ),
         ],
       ),
     );

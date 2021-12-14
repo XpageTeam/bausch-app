@@ -49,7 +49,7 @@ class FinalPartners extends StatelessWidget {
                       ),
                       child: Text(
                         'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     // WhiteRoundedContainer(

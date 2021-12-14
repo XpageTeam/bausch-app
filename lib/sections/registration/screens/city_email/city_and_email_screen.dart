@@ -120,7 +120,11 @@ class _CityAndEmailScreenState
                 ],
               ),
               const SizedBox(
-                height: 4,
+                height: 20,
+              ),
+              Text(
+                'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
+                style: AppStyles.p1,
               ),
 
               // if (!isValidated)

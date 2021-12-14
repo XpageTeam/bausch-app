@@ -80,23 +80,37 @@ class _CodeScreenState extends State<CodeScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(
           bottom: 20,
+          left: 12,
         ),
         //Повторная отправка через ${getTimerBySeconds(data)}',
-        child: RichText(
-          text: TextSpan(
-            style: AppStyles.p1,
-            children: [
-              const TextSpan(
-                text: 'Повторная отправка через',
-              ),
-              TextSpan(
-                text: ' 00:20',
-                style: AppStyles.p1.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+        // child: RichText(
+        //   textAlign: TextAlign.left,
+        //   text: TextSpan(
+        //     style: AppStyles.p1,
+        //     children: [
+        //       const TextSpan(
+        //         text: 'Повторная отправка через',
+        //       ),
+        //       TextSpan(
+        //         text: ' 00:20',
+        //         style: AppStyles.p1.copyWith(
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        child: Row(
+          children: [
+            Text(
+              'Повторная отправка через ',
+              style: AppStyles.p1,
+            ),
+            Text(
+              '0:20',
+              style: AppStyles.p1.copyWith(fontWeight: FontWeight.w700),
+            ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

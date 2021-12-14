@@ -89,6 +89,7 @@ class AddressSelectScreen extends StatelessWidget {
                     FinalFreePackaging(
                       controller: controller,
                       model: Models.items[0],
+                      onPressed: () {},
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),

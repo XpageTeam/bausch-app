@@ -60,7 +60,7 @@ class WebinarVerification extends StatelessWidget {
                         ),
                         Text(
                           'Подтвердите заказ',
-                          style: AppStyles.h2,
+                          style: AppStyles.h1,
                         ),
                         Column(
                           children: [
@@ -95,7 +95,7 @@ class WebinarVerification extends StatelessWidget {
           ],
         ),
         floatingActionButton: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
+          text: 'Потратить ${model.priceToString} б',
           icon: Container(),
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(

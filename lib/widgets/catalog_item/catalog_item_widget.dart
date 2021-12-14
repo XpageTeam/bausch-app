@@ -129,34 +129,32 @@ class CatalogItemWidget extends StatelessWidget {
 
             //* Информация о доставке
             if ((model is ProductItemModel) && (deliveryInfo != null))
-              Container(
-                //margin: const EdgeInsets.only(top: 2),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/substract.png',
-                      height: 15,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Flexible(
-                      child: Text.rich(
-                        TextSpan(
-                          text: 'Доставлен. ',
-                          style: AppStyles.p1,
-                          children: [
-                            TextSpan(
-                              text: deliveryInfo,
-                              style: AppStyles.p1Grey,
-                            ),
-                          ],
-                        ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/substract.png',
+                    height: 15,
+                    alignment: Alignment.bottomCenter,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Flexible(
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Доставлен. ',
+                        style: AppStyles.p1,
+                        children: [
+                          TextSpan(
+                            text: deliveryInfo,
+                            style: AppStyles.p1Grey,
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             if (model is! ProductItemModel)
               GreyButton(

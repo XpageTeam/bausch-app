@@ -40,9 +40,10 @@ class CatalogItem extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const SizedBox(
-                    height: 12,
-                  ),
+                  if (model is! WebinarItemModel)
+                    const SizedBox(
+                      height: 12,
+                    ),
                   if (model is! WebinarItemModel)
                     SizedBox(
                       height: 100,
@@ -62,7 +63,10 @@ class CatalogItem extends StatelessWidget {
                   else
                     AspectRatio(
                       aspectRatio: 174 / 112,
-                      child: Image.asset('assets/woman.png'),
+                      child: Image.asset(
+                        'assets/woman.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   const SizedBox(
                     height: 8,
@@ -90,7 +94,7 @@ class CatalogItem extends StatelessWidget {
                   left: StaticData.sidePadding,
                 ),
                 child: ButtonWithPoints(
-                  price: model.price.toString(),
+                  price: model.priceToString,
                   onPressed: () {
                     // TODO: Реализовать onPressed.
                   },

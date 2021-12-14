@@ -24,6 +24,7 @@ class UserWM extends WidgetModel {
           name: 'Саша',
           phone: '89517792313',
           birthDate: DateTime.now(),
+          email: 'sasha@mail.ru',
           isMobilePhoneConfirmed: true,
         ),
       ),

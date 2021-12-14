@@ -83,7 +83,8 @@ class PartnersScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                   bottom: 30,
                                 ),
-                                child: ButtonContent(price: '${model.price}'),
+                                child: ButtonContent(
+                                    price: '${model.priceToString}'),
                               ),
                             ],
                           ),

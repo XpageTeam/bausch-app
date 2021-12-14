@@ -13,8 +13,10 @@ import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:easy_mask/easy_mask.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
   ProfileSettingsScreen({Key? key})
@@ -107,19 +109,19 @@ class _ProfileSettingsScreenState
                       );
                     },
                   ),
-                  if (!wm.isEmailConfirmed)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          DiscountInfo(
-                            color: AppTheme.turquoiseBlue,
-                            text: 'подтвердить',
-                          ),
-                        ],
-                      ), // TODO(Nikita): Вывести статус
-                    ),
+                  //if (!wm.isEmailConfirmed)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        DiscountInfo(
+                          color: AppTheme.turquoiseBlue,
+                          text: 'подтвердить',
+                        ),
+                      ],
+                    ), // TODO(Nikita): Вывести статус
+                  ),
                 ],
               ),
             ),
@@ -129,6 +131,12 @@ class _ProfileSettingsScreenState
                 labelText: 'Мобильный телефон',
                 controller: wm.phoneController,
                 inputType: TextInputType.phone,
+                autofocus: true,
+                //       inputFormatters: [
+                //   TextInputMask(
+                //     mask: r'\+7 (\99) 999-99-99',
+                //   ),
+                // ],
               ),
             ),
             Padding(
@@ -218,3 +226,5 @@ class _ProfileSettingsScreenState
     );
   }
 }
+
+class TextInputMask {}

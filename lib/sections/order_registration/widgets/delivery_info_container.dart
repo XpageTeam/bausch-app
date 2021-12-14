@@ -28,7 +28,7 @@ class DeliveryInfoContainer extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  'Доставка может занять 60 рабочих дней',
+                  'Доставка в течение 60 рабочих дней',
                   style: AppStyles.h2Bold,
                 ),
               ),

@@ -152,6 +152,9 @@ class HomeScreen extends StatelessWidget {
                     text: 'Вам может быть интересно',
                     onTap: () {},
                   ),
+                  const SizedBox(
+                    height: 52,
+                  ),
 
                   //* Текстовые кнопки(Частые вопросы и тд)
                   const TextButtonsSection(),

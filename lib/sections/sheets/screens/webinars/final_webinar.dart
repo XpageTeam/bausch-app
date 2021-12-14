@@ -44,7 +44,7 @@ class FinalWebinar extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
                         'Ваш доступ к записи вебинара',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     Padding(

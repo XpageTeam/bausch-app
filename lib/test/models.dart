@@ -272,6 +272,45 @@ class Models {
     ),
   ];
 
+  static List<CatalogItemModel> webinars = [
+    WebinarItemModel(
+      id: 1,
+      name: 'Контактная коррекция зрения в эпоху цифровизации ',
+      previewText: '',
+      detailText: 'detailText',
+      picture: 'assets/woman.png',
+      price: 50,
+      vimeoId: '123',
+    ),
+    WebinarItemModel(
+      id: 1,
+      name: 'Контактная коррекция зрения в эпоху цифровизации ',
+      previewText: '',
+      detailText: 'detailText',
+      picture: 'assets/woman.png',
+      price: 50,
+      vimeoId: '123',
+    ),
+    WebinarItemModel(
+      id: 1,
+      name: 'Контактная коррекция зрения в эпоху цифровизации ',
+      previewText: '',
+      detailText: 'detailText',
+      picture: 'assets/woman.png',
+      price: 50,
+      vimeoId: '123',
+    ),
+    WebinarItemModel(
+      id: 1,
+      name: 'Контактная коррекция зрения в эпоху цифровизации ',
+      previewText: '',
+      detailText: 'detailText',
+      picture: 'assets/woman.png',
+      price: 50,
+      vimeoId: '123',
+    ),
+  ];
+
   static List<SheetModelWithItems> sheetsWithItems = [
     SheetModelWithItems(
       title: 'Скидка 500р в оптике',
@@ -286,7 +325,7 @@ class Models {
       type: SheetWithItemsType.packaging,
     ),
     SheetModelWithItems(
-      title: 'Предложения от партнеров',
+      title: 'Предложения\nот партнеров',
       img: 'assets/offers-from-partners.png',
       models: items,
       type: SheetWithItemsType.partners,
@@ -398,6 +437,14 @@ class Models {
       price: '50',
       img: 'assets/add_points_vk.png',
       type: 'birthday',
+    ),
+    AddItemModel(
+      title: 'Двойные баллы',
+      subtitle:
+          'Получите двойные баллы при регистрации кода в течение 14 дней после подбора контактных линз.',
+      price: '50',
+      img: 'assets/add_points_vk.png',
+      type: 'double',
     ),
   ];
 

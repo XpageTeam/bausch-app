@@ -53,8 +53,8 @@ class _SmallContainerState extends State<SmallContainer> {
         //showSheetWithItems(context, model);
         if (widget.model.type == 'promo_code_immediately') {
           showSheetWithItems(context, widget.model, Models.partners);
-        } else if (widget.model.type == 'offline') {
-          showSheetWithItems(context, widget.model, Models.promo);
+        } else if (widget.model.type == 'promo_code_video') {
+          showSheetWithItems(context, widget.model, Models.webinars);
         } else if (widget.model.type == 'onlineShop') {
           showSheetWithItems(context, widget.model, Models.promo);
         } else {

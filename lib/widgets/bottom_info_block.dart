@@ -9,14 +9,14 @@ class InfoBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 36,
+        horizontal: 12,
       ),
       //height: 60,
       color: AppTheme.mystic,
       child: SafeArea(
         child: Center(
           child: Text(
-            'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+            'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',
             style: AppStyles.p1Grey,
             textAlign: TextAlign.center,
           ),

@@ -46,7 +46,7 @@ class FinalDiscountOnline extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
                         'Это ваш промокод на скидку 500 ₽ в интернет-магазине ЛинзСервис',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     ContainerWithPromocode(

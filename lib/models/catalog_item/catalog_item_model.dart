@@ -1,3 +1,5 @@
+import 'package:bausch/help/help_functions.dart';
+
 class CatalogItemModel {
   final int id;
 
@@ -15,6 +17,8 @@ class CatalogItemModel {
 
   //* цена товара
   final int price;
+
+  String get priceToString => HelpFunctions.partitionNumber(price);
 
   CatalogItemModel({
     required this.id,
