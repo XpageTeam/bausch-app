@@ -24,7 +24,7 @@ class AnimationContent extends StatelessWidget {
                   child: Text(
                     'Пользуйтесь продукцией Bauch+Lomb и получайте любимые товары и другие привилегии',
                     style: TextStyle(
-                      fontSize: 24.sm,
+                      fontSize:  24.sp, // 24.sm,
                       height: 31 / 24,
                       fontWeight: FontWeight.w500,
                     ),
