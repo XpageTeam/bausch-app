@@ -7,6 +7,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_verification.dart';
@@ -62,6 +63,12 @@ class OverlayNavigationWithItems extends StatelessWidget {
             page = FreePackagingScreen(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model,
+            );
+            break;
+
+          case '/add_points':
+            page = AddPointsScreen(
+              controller: controller,
             );
             break;
 

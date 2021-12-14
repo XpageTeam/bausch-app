@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 OverlaySupportEntry showDefaultNotification({
@@ -15,17 +13,22 @@ OverlaySupportEntry showDefaultNotification({
 }) {
   //TODO: Поменять на Flushbar
   return showOverlayNotification(
-    (c) => Container(
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(15),
-        ),
-        color: AppTheme.mineShaft,
+    (c) => Material(
+      borderRadius: const BorderRadius.vertical(
+        bottom: Radius.circular(15),
       ),
-      child: _DefaultNotification(
-        title: title,
-        subtitle: subtitle,
+      child: Container(
+        width: double.maxFinite,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(15),
+          ),
+          color: AppTheme.mineShaft,
+        ),
+        child: _DefaultNotification(
+          title: title,
+          subtitle: subtitle,
+        ),
       ),
     ),
   );
