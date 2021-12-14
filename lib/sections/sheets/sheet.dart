@@ -1,6 +1,8 @@
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
@@ -13,6 +15,10 @@ class SheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final points =
+        Provider.of<UserWM>(context).userData.value.data?.balance.available ??
+            0;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
@@ -21,16 +27,17 @@ class SheetWidget extends StatelessWidget {
           //* Виджет с количеством баллов
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(12.0),
                 child: PointsInfo(
-                  text: '500',
+                  text: points.toString(),
                   backgoundColor: AppTheme.mystic,
                 ),
               ),
             ],
           ),
+
           Flexible(
             child: Stack(
               alignment: Alignment.topCenter,
