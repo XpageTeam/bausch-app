@@ -35,7 +35,7 @@ class _CityAndEmailScreenState
   @override
   void dispose() {
     super.dispose();
-    FocusScope.of(context).unfocus();
+    //FocusScope.of(context).unfocus();
   }
 
   @override
