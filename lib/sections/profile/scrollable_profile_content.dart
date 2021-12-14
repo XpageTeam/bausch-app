@@ -1,4 +1,3 @@
-
 import 'package:bausch/sections/profile/notifications_section.dart';
 import 'package:bausch/sections/profile/orders_section.dart';
 import 'package:bausch/static/static_data.dart';
@@ -33,7 +32,6 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
             leading: Container(),
             backgroundColor: Colors.transparent,
             toolbarHeight: 80,
-            // expandedHeight: 85,
             excludeHeaderSemantics: true,
             automaticallyImplyLeading: false,
             pinned: true,
@@ -65,20 +63,18 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
               ),
             ),
           ),
-          if (isOrdersEnabled) ...[
-            //* Вкладка с заказами
-            const OrdersSection(),
-          ] else ...[
-            //* Вкладка с уведомлениями (с переключателем)
-            NotificationSection(
-              groupChecked: groupChecked,
-              onChanged: (newGroupChecked) => setState(
-                () {
-                  groupChecked = newGroupChecked;
-                },
-              ),
-            ),
-          ],
+          SliverToBoxAdapter(
+            child: isOrdersEnabled
+                ? const OrdersSection()
+                : NotificationSection(
+                    groupChecked: groupChecked,
+                    onChanged: (newGroupChecked) => setState(
+                      () {
+                        groupChecked = newGroupChecked;
+                      },
+                    ),
+                  ),
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [

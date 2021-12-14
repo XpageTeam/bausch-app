@@ -14,39 +14,37 @@ class NotificationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverPadding(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-      sliver: SliverToBoxAdapter(
-        child: Column(
-          children: [
-            CustomRadio(
-              value: 0,
-              groupValue: groupChecked,
-              text: 'Все уведомления',
-              onChanged: (v) {
-                onChanged?.call(0);
-              },
+      child: Column(
+        children: [
+          CustomRadio(
+            value: 0,
+            groupValue: groupChecked,
+            text: 'Все уведомления',
+            onChanged: (v) {
+              onChanged?.call(0);
+            },
+          ),
+          CustomRadio(
+            value: 1,
+            groupValue: groupChecked,
+            text: 'История баллов',
+            onChanged: (v) {
+              onChanged?.call(1);
+            },
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          ...List.generate(
+            4,
+            (index) => const Padding(
+              padding: EdgeInsets.only(bottom: 4),
+              child: NotificationItem(),
             ),
-            CustomRadio(
-              value: 1,
-              groupValue: groupChecked,
-              text: 'История баллов',
-              onChanged: (v) {
-                onChanged?.call(1);
-              },
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            ...List.generate(
-              4,
-              (index) => const Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: NotificationItem(),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
