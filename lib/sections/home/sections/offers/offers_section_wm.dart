@@ -6,7 +6,9 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class OffersSectionWM extends WidgetModel {
@@ -14,6 +16,8 @@ class OffersSectionWM extends WidgetModel {
   final int? goodID;
   final offersStreamed = EntityStreamedState<List<Offer>>();
   final removeOfferAction = StreamedAction<Offer>();
+
+  late SharedPreferences preferences;
 
   OffersSectionWM({
     required this.type,
@@ -23,8 +27,9 @@ class OffersSectionWM extends WidgetModel {
         );
 
   @override
-  void onLoad() {
-    _loadData();
+  Future<void> onLoad() async {
+    preferences = await SharedPreferences.getInstance();
+    unawaited(_loadData());
     super.onLoad();
   }
 
@@ -79,9 +84,7 @@ class OffersSectionWM extends WidgetModel {
         listTestOffers,
       );
 
-      unawaited(
-        offersStreamed.content(filteredOffers),
-      );
+      unawaited(offersStreamed.content(await filteredOffers));
     } on DioError catch (e) {
       unawaited(
         offersStreamed.error(
@@ -112,8 +115,10 @@ class OffersSectionWM extends WidgetModel {
     }
   }
 
-  List<Offer> _filterOffers(List<Offer> offers) {
-    final closedOffersIds = _readRemovedOffersIds();
+  Future<List<Offer>> _filterOffers(List<Offer> offers) async {
+    final closedOffersIds = (await _readRemovedOffersIds()).map(
+      (e) => int.parse(e),
+    );
     return offers
       ..removeWhere(
         (offer) => closedOffersIds.any(
@@ -122,15 +127,26 @@ class OffersSectionWM extends WidgetModel {
       );
   }
 
-  List<int> _readRemovedOffersIds() {
+  Future<List<String>> _readRemovedOffersIds() async {
     // TODO(Nikolay): Реализовать считывание списка id закрытых баннеров.
-    return <int>[
-      0,
-    ];
+    return preferences.getStringList(StaticData.removedOffersKey) ?? <String>[];
   }
 
-  void _writeRemovedOfferId(int id) {
+  Future<void> _writeRemovedOfferId(int id) async {
     // TODO(Nikolay): Записывать id удаленных баннеров.
+    final removedOffersIds = (await _readRemovedOffersIds())
+      ..add(
+        id.toString(),
+      );
+
+    await preferences.setStringList(
+      StaticData.removedOffersKey,
+      removedOffersIds
+          .map(
+            (e) => e.toString(),
+          )
+          .toList(),
+    );
   }
 
   String _convertEnumToString(OfferType type) {
