@@ -18,20 +18,22 @@ class ProfileScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    subscribe<DraggableScrollableNotification>(
-      notificationStreamed.stream,
+    notificationStreamed.bind(
       (v) {
-        opacity = (v.extent - v.minExtent) /
-            (v.maxExtent - v.minExtent); // Нормализация значения от 0 до 1
+        if (v != null) {
+          opacity = (v.extent - v.minExtent) /
+              (v.maxExtent - v.minExtent); // Нормализация значения от 0 до 1
 
-        colorStreamed.accept(
-          Color.alphaBlend(
-            AppTheme.turquoiseBlue.withOpacity(1 - opacity),
-            AppTheme.mystic,
-          ),
-        );
+          colorStreamed.accept(
+            Color.alphaBlend(
+              AppTheme.turquoiseBlue.withOpacity(1 - opacity),
+              AppTheme.mystic,
+            ),
+          );
+        }
       },
     );
+
     super.onBind();
   }
 }

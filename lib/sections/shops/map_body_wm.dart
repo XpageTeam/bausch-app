@@ -57,42 +57,38 @@ class MapBodyWM extends WidgetModel {
 
   @override
   void onBind() {
-    subscribe<List<ShopModel>>(
-      updateMapObjects.stream,
-      _updateClusterMapObject,
+    updateMapObjects.bind((shopList) {
+      if (shopList != null) {
+        _updateClusterMapObject(shopList);
+      }
+    });
+
+    moveToUserPosition.bind(
+      (value) => _updateUserPosition,
     );
 
-    subscribe<void>(
-      moveToUserPosition.stream,
-      (value) {
-        _updateUserPosition();
-      },
-    );
+    setCenterAction.bind((shopList) {
+      if (shopList != null) {
+        _setCenterOn(shopList);
+      }
+    });
 
-    subscribe<List<ShopModel>>(
-      setCenterAction.stream,
-      _setCenterOn,
-    );
-
-    subscribe(zoomInAction.stream, (value) {
-      // zoomIn
-      mapController?.moveCamera(
+    zoomInAction.bind(
+      (value) => mapController?.moveCamera(
         CameraUpdate.zoomIn(),
         animation: const MapAnimation(
           duration: 0.5,
         ),
-      );
-    });
-
-    subscribe(zoomOutAction.stream, (value) {
-      // zoomOut
-      mapController?.moveCamera(
+      ),
+    );
+    zoomOutAction.bind(
+      (value) => mapController?.moveCamera(
         CameraUpdate.zoomOut(),
         animation: const MapAnimation(
           duration: 0.5,
         ),
-      );
-    });
+      ),
+    );
 
     super.onBind();
   }

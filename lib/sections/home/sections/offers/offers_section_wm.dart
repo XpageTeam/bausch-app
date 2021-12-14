@@ -30,13 +30,14 @@ class OffersSectionWM extends WidgetModel {
 
   @override
   void onBind() {
-    subscribe<Offer>(
-      removeOfferAction.stream,
-      (value) {
-        _writeRemovedOfferId(value.id);
+    removeOfferAction.bind(
+      (offer) {
+        if (offer != null) {
+          _writeRemovedOfferId(offer.id);
 
-        offersStreamed.value.data?.remove(value);
-        offersStreamed.accept(offersStreamed.value);
+          offersStreamed.value.data?.remove(offer);
+          offersStreamed.accept(offersStreamed.value);
+        }
       },
     );
 
