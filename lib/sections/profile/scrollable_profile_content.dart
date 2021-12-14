@@ -79,15 +79,15 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
               ),
             ),
           ],
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                const SizedBox(
-                  height: 100,
-                ),
-              ],
-            ),
-          ),
+          // SliverList(
+          //   delegate: SliverChildListDelegate(
+          //     [
+          //       const SizedBox(
+          //         height: 100,
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

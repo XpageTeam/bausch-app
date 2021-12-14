@@ -130,9 +130,11 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
               ],
             ),
           ),
-          bottomSheet: const SizedBox(
-            height: 60,
-            child: InfoBlock(),
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              InfoBlock(),
+            ],
           ),
           // extendBodyBehindAppBar: true,
         ),

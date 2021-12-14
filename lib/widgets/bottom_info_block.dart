@@ -10,6 +10,7 @@ class InfoBlock extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 36,
+        vertical: 15,
       ),
       //height: 60,
       color: AppTheme.mystic,
