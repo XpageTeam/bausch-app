@@ -16,7 +16,7 @@ class MayBeInteresting extends StatefulWidget {
 }
 
 class _MayBeInterestingState extends State<MayBeInteresting> {
-  late final items = Models.items.take(7).toList();
+  late final items = Models.discountOptics.take(5).toList();
 
   @override
   Widget build(BuildContext context) {

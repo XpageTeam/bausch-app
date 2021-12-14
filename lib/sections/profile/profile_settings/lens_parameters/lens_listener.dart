@@ -1,4 +1,5 @@
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +15,15 @@ class LensListener extends StatelessWidget {
       listener: (context, state) {
         if (state is LensFailed) {
           //TODO(Nikita): поменять на другой
-          showDefaultNotification(
-            title: state.title,
-            subtitle: state.subtitle,
-          );
+          showFlushbar(state.title);
         }
 
         if (state is LensSuccess) {
           //TODO(Nikita): поменять на другой
-          showDefaultNotification(
-            title: 'Параметры успешно изменены',
-          );
+          // showDefaultNotification(
+          //   title: 'Параметры успешно изменены',
+          // );
+          showFlushbar('Параметры успешно изменены');
           Navigator.of(context).pop();
         }
       },

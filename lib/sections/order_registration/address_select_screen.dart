@@ -57,8 +57,11 @@ class AddressSelectScreen extends StatelessWidget {
                     builder: (ctx) {
                       return AddDetailsScreen(
                         adress: AdressModel(
-                            street: 'Александра Чавчавадзе', house: '9'),
+                          street: 'Александра Чавчавадзе',
+                          house: '9',
+                        ),
                         isFirstLaunch: true,
+                        btnText: 'Перейти к заказу',
                       );
                     },
                   ),

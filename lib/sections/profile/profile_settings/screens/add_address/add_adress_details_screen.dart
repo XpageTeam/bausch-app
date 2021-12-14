@@ -145,7 +145,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             BlueButtonWithText(
-              text: 'Сохранить',
+              text: widget.btnText ?? 'Сохранить',
               onPressed: () {
                 final model = AdressModel(
                   street: widget.adress.street,

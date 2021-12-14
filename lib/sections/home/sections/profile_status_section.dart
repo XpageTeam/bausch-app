@@ -37,7 +37,7 @@ class ProfileStatus extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        userData.userName,
+                        'Саша',
                         style: AppStyles.h1,
                       ),
                       //TODO: показать что есть новые уведомления
