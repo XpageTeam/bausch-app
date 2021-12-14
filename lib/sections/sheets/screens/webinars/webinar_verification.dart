@@ -44,18 +44,6 @@ class WebinarVerification extends CoreMwwmWidget<WebinarVerificationWM> {
 
 class _WebinarVerificationState
     extends WidgetState<WebinarVerification, WebinarVerificationWM> {
-  int? points;
-
-  @override
-  void initState() {
-    // points = Provider.of<UserWM>(
-    //   context,
-    //   listen: false,
-    // ).userData.value.data?.balance.available.toInt();
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

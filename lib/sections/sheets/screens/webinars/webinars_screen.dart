@@ -33,9 +33,6 @@ class WebinarsScreen extends CoreMwwmWidget<WebinarsScreenWM>
         );
 
   @override
-  State<WebinarsScreen> createState() => _WebinarsScreenState();
-
-  @override
   WidgetState<CoreMwwmWidget<WebinarsScreenWM>, WebinarsScreenWM>
       createWidgetState() => _WebinarsScreenState();
 }

@@ -144,25 +144,6 @@ class _SheetScreenState extends State<SheetScreen> {
                   ),
                 ),
               ),
-            // SliverList(
-            //   delegate: SliverChildListDelegate(
-            //     [
-            //       const SizedBox(
-            //         height: 60,
-            //         child: Text(
-            //           'Имеются противопоказания, необходимо проконсультироваться со специалистом',
-            //           textAlign: TextAlign.center,
-            //           style: TextStyle(
-            //             fontWeight: FontWeight.w400,
-            //             fontSize: 14,
-            //             height: 16 / 14,
-            //             color: AppTheme.grey,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
         bottomNavigationBar: Column(
@@ -172,10 +153,6 @@ class _SheetScreenState extends State<SheetScreen> {
             InfoBlock(),
           ],
         ),
-        // bottomSheet: const SizedBox(
-        //   height: 60,
-        //   child: InfoBlock(),
-        // ),
       ),
     );
   }

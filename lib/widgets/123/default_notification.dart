@@ -11,17 +11,16 @@ OverlaySupportEntry showDefaultNotification({
   String? subtitle,
   Duration duration = const Duration(seconds: 3),
 }) {
-  //TODO: Поменять на Flushbar
   return showOverlayNotification(
     (c) => Material(
       borderRadius: const BorderRadius.vertical(
-        bottom: Radius.circular(15),
+        bottom: Radius.circular(5),
       ),
       child: Container(
         width: double.maxFinite,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(15),
+            bottom: Radius.circular(5),
           ),
           color: AppTheme.mineShaft,
         ),
@@ -32,26 +31,26 @@ OverlaySupportEntry showDefaultNotification({
       ),
     ),
   );
-  return showSimpleNotification(
-    Stack(
-      children: [
-        // const NewEmptyAppBar(
-        //   overlayStyle: SystemUiOverlayStyle.light,
-        // ),
-        _DefaultNotification(
-          title: title,
-          subtitle: subtitle,
-        ),
-      ],
-    ),
-    elevation: 0,
-    contentPadding: EdgeInsets.zero,
-    duration: duration,
-    background: AppTheme.mineShaft,
-    slideDismissDirection: Platform.isIOS
-        ? DismissDirection.vertical
-        : DismissDirection.horizontal,
-  );
+  // return showSimpleNotification(
+  //   Stack(
+  //     children: [
+  //       // const NewEmptyAppBar(
+  //       //   overlayStyle: SystemUiOverlayStyle.light,
+  //       // ),
+  //       _DefaultNotification(
+  //         title: title,
+  //         subtitle: subtitle,
+  //       ),
+  //     ],
+  //   ),
+  //   elevation: 0,
+  //   contentPadding: EdgeInsets.zero,
+  //   duration: duration,
+  //   background: AppTheme.mineShaft,
+  //   slideDismissDirection: Platform.isIOS
+  //       ? DismissDirection.vertical
+  //       : DismissDirection.horizontal,
+  // );
 }
 
 class _DefaultNotification extends StatelessWidget {
