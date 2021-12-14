@@ -1,4 +1,3 @@
-
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
@@ -71,17 +70,20 @@ class LensBloc extends Bloc<LensEvent, LensState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>(
-          'user/lens/',
-        ))
-            .data!,
-      );
-      debugPrint('get 21212${parsedData.data}');
+      // final parsedData = BaseResponseRepository.fromMap(
+      //   (await rh.get<Map<String, dynamic>>(
+      //     'user/lens/',
+      //   ))
+      //       .data!,
+      // );
+      // debugPrint('get 21212${parsedData.data}');
 
       return LensGetSuccess(
-        model: LensParametersModel.fromMap(
-          parsedData.data as Map<String, dynamic>,
+        model: LensParametersModel(
+          addict: 0,
+          cylinder: 0,
+          diopter: 0,
+          axis: 0,
         ),
       );
     } on ResponseParseException catch (e) {

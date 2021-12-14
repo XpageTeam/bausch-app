@@ -41,7 +41,10 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
               title: 'Частые вопросы',
               onPressed: faqCubit.loadData,
             ),
-            const CustomTextButton(title: 'Библиотека ссылок'),
+            CustomTextButton(
+              title: 'Библиотека ссылок',
+              onPressed: () {},
+            ),
           ],
         ),
       ),

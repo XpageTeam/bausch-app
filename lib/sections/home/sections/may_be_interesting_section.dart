@@ -2,6 +2,8 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
+import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
+import 'package:bausch/sections/sheets/screens/program/goods_screen.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
@@ -9,7 +11,9 @@ import 'package:flutter/material.dart';
 
 class MayBeInteresting extends StatefulWidget {
   final String text;
-  const MayBeInteresting({required this.text, Key? key}) : super(key: key);
+  final VoidCallback? onTap;
+  const MayBeInteresting({required this.text, this.onTap, Key? key})
+      : super(key: key);
 
   @override
   State<MayBeInteresting> createState() => _MayBeInterestingState();
@@ -39,6 +43,19 @@ class _MayBeInterestingState extends State<MayBeInteresting> {
           items: items,
           itemBuilder: (context, model) => CatalogItem(
             model: model,
+            onTap: widget.onTap ??
+                () {
+                  Navigator.of(context).push<void>(
+                    MaterialPageRoute(
+                      builder: (ctx) {
+                        return GoodsScreen(
+                          controller: ScrollController(),
+                          model: model,
+                        );
+                      },
+                    ),
+                  );
+                },
           ),
           indicatorBuilder: (context, isActive) => Indicator(
             isActive: isActive,

@@ -6,9 +6,11 @@ class WhiteButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
   final Widget? icon;
+  final EdgeInsets? padding;
   const WhiteButton({
     required this.text,
     this.icon,
+    this.padding,
     Key? key,
     this.onPressed,
   }) : super(key: key);
@@ -22,7 +24,8 @@ class WhiteButton extends StatelessWidget {
         padding: EdgeInsets.zero,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding:
+            padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
