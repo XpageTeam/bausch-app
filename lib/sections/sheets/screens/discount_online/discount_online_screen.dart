@@ -112,10 +112,14 @@ class DiscountOnlineScreen extends StatelessWidget
                 ),
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
               sliver: SelectShopSection(
+                // TODO(Nikolay): Здесь поменять потом.
                 discountOptics: [],
+                onChanged: (discountOptic) {},
               ),
             ),
             SliverPadding(

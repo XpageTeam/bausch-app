@@ -1,4 +1,6 @@
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -9,16 +11,35 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
-class DiscountOpticsVerification extends StatelessWidget {
+class DiscountOpticsVerification
+    extends CoreMwwmWidget<DiscountOpticsVerificationWM> {
   final ScrollController controller;
-  final PromoItemModel model;
-  const DiscountOpticsVerification({
-    required this.controller,
-    required this.model,
-    Key? key,
-  }) : super(key: key);
 
+  DiscountOpticsVerification({
+    required this.controller,
+    required PromoItemModel model,
+    required DiscountOptic discountOptic,
+    Key? key,
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => DiscountOpticsVerificationWM(
+            context: context,
+            discountOptic: discountOptic,
+            itemModel: model,
+          ),
+        );
+
+  @override
+  WidgetState<CoreMwwmWidget<DiscountOpticsVerificationWM>,
+          DiscountOpticsVerificationWM>
+      createWidgetState() => _DiscountOpticsVerificationState();
+}
+
+class _DiscountOpticsVerificationState extends WidgetState<
+    DiscountOpticsVerification, DiscountOpticsVerificationWM> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -29,7 +50,7 @@ class DiscountOpticsVerification extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppTheme.mystic,
         body: CustomScrollView(
-          controller: controller,
+          controller: widget.controller,
           slivers: [
             SliverList(
               delegate: SliverChildListDelegate(
@@ -47,11 +68,9 @@ class DiscountOpticsVerification extends StatelessWidget {
                               Icons.arrow_back_ios_new_sharp,
                               size: 20,
                             ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
+                            onPressed: Navigator.of(context).pop,
                           ),
-                          key: key,
+                          key: widget.key,
                           backgroundColor: Colors.white,
                         ),
                         const SizedBox(
@@ -83,7 +102,7 @@ class DiscountOpticsVerification extends StatelessWidget {
                               height: 4,
                             ),
                             Text(
-                              'в оптике ЛинзСервис',
+                              'в оптике ${wm.discountOptic.title}',
                               style: AppStyles.h2,
                             ),
                           ],
@@ -92,15 +111,16 @@ class DiscountOpticsVerification extends StatelessWidget {
                           height: 4,
                         ),
                         BigCatalogItem(
-                          model: model,
+                          model: wm.itemModel,
                         ),
                         const SizedBox(
                           height: 12,
                         ),
-                        Text(
-                          'После заказа у вас останется 100 баллов',
-                          style: AppStyles.p1,
-                        ),
+                        if (wm.difference <= 0)
+                          Text(
+                            'После заказа у вас останется ${wm.difference} баллов',
+                            style: AppStyles.p1,
+                          ),
                       ],
                     ),
                   ),
@@ -110,16 +130,65 @@ class DiscountOpticsVerification extends StatelessWidget {
           ],
         ),
         floatingActionButton: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
-          onPressed: () {
-            Keys.bottomSheetItemsNav.currentState!.pushNamed(
-              '/final_discount_optics',
-              arguments: SheetScreenArguments(model: model),
-            );
-          },
+          text: wm.difference >= 0
+              ? 'Потратить ${wm.itemModel.price} б'
+              : 'Нехватает ${wm.difference} б',
+          onPressed: wm.buttonAction,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
+  }
+}
+
+class DiscountOpticsVerificationWM extends WidgetModel {
+  final BuildContext context;
+  final DiscountOptic discountOptic;
+  final PromoItemModel itemModel;
+
+  final buttonAction = VoidAction();
+
+  late int points;
+  late int difference;
+
+  DiscountOpticsVerificationWM({
+    required this.context,
+    required this.discountOptic,
+    required this.itemModel,
+  }) : super(
+          const WidgetModelDependencies(),
+        );
+
+  @override
+  void onLoad() {
+    points = Provider.of<UserWM>(context)
+            .userData
+            .value
+            .data
+            ?.balance
+            .available
+            .toInt() ??
+        0;
+    difference = points - itemModel.price;
+
+    super.onLoad();
+  }
+
+  @override
+  void onBind() {
+    buttonAction.bind((p0) {
+      if (difference < 0) {
+        Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          '/add_points',
+          arguments: SheetScreenArguments(model: itemModel),
+        );
+      } else {
+        Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          '/final_discount_optics',
+          arguments: SheetScreenArguments(model: itemModel),
+        );
+      }
+    });
+    super.onBind();
   }
 }

@@ -1,13 +1,16 @@
 import 'package:bausch/models/discount_optic/discount_optic.dart';
-import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
   final List<DiscountOptic> discountOptics;
+
+  final void Function(DiscountOptic discountOptic) onChanged;
+
   const SelectShopSection({
     required this.discountOptics,
+    required this.onChanged,
     Key? key,
   }) : super(key: key);
 
@@ -16,7 +19,7 @@ class SelectShopSection extends StatefulWidget {
 }
 
 class _SelectShopSectionState extends State<SelectShopSection> {
-  int _selectedIndex = 0;
+  int _selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +36,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                 setState(() {
                   _selectedIndex = i;
                 });
+                widget.onChanged(widget.discountOptics[i]);
               },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -84,6 +88,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                         setState(() {
                           _selectedIndex = i;
                         });
+                        widget.onChanged(widget.discountOptics[i]);
                       },
                     ),
                   ],

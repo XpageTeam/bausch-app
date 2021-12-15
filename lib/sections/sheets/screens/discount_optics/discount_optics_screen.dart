@@ -148,7 +148,7 @@ class _DiscountOpticsScreenState
                   streamedState: wm.discountOpticsStreamed,
                   builder: (_, discountOptics) => SelectShopSection(
                     discountOptics: discountOptics,
-                    onChanged: (discountOptic)=>
+                    onChanged: wm.setCurrentOptic,
                   ),
                 ),
               ),
@@ -196,12 +196,20 @@ class _DiscountOpticsScreenState
             ),
           ],
         ),
-        bottomNavigationBar: CustomFloatingActionButton(
-          text: 'Получить скидку',
-          onPressed: () {
-            Keys.bottomSheetItemsNav.currentState!.pushNamed(
-              '/verification_discount_optics',
-              arguments: VerificationDiscountArguments(model: widget.model, discountOptic: wm.d,),
+        bottomNavigationBar: StreamedStateBuilder<DiscountOptic?>(
+          streamedState: wm.currentDiscountOptic,
+          builder: (_, currentOptic) {
+            return CustomFloatingActionButton(
+              text: 'Получить скидку',
+              onPressed: currentOptic != null
+                  ? () => Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                        '/verification_discount_optics',
+                        arguments: VerificationDiscountArguments(
+                          model: widget.model,
+                          discountOptic: currentOptic,
+                        ),
+                      )
+                  : null,
             );
           },
         ),
@@ -227,17 +235,24 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final String productCode;
 
   final discountOpticsStreamed = EntityStreamedState<List<DiscountOptic>>();
-
-  final DiscountOptic? selectedDiscountOptic;
+  final currentDiscountOptic = StreamedState<DiscountOptic?>(null);
+  final setCurrentOptic = StreamedAction<DiscountOptic>();
 
   DiscountOpticsScreenWM({
     required this.category,
     required this.productCode,
-    required this.selectedDiscountOptic,
   }) : super(
           const WidgetModelDependencies(),
         ) {
     _loadDiscountOptics();
+  }
+
+  @override
+  void onBind() {
+    setCurrentOptic.bind(
+      currentDiscountOptic.accept,
+    );
+    super.onBind();
   }
 
   Future<void> _loadDiscountOptics() async {
