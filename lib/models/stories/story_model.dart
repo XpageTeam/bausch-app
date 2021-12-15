@@ -14,16 +14,16 @@ class StoryModel implements MappableInterface<StoryModel> {
   //final String url;
 
   //* Картинка или видео
-  final MediaType media;
+  //final MediaType media;
 
   //* Продолжительность истории
-  final Duration duration;
+  //final Duration duration;
 
   //* Идентификатр истории
   final int id;
 
   //* Название и ссылка на картинку
-  final StoryContentModel content;
+  final List<StoryContentModel> content;
 
   //* Текст на кнопке с товаром
   final String? buttonTitle;
@@ -33,12 +33,15 @@ class StoryModel implements MappableInterface<StoryModel> {
 
   final String? secondText;
 
+  final int views;
+
   const StoryModel({
     //required this.url,
-    required this.media,
-    required this.duration,
+    //required this.media,
+    //required this.duration,
     required this.id,
     required this.content,
+    required this.views,
     this.buttonTitle,
     this.mainText,
     this.secondText,
@@ -50,12 +53,14 @@ class StoryModel implements MappableInterface<StoryModel> {
     }
 
     return StoryModel(
-      content: StoryContentModel.fromMap(
-        map['content'] as Map<String, dynamic>,
-      ),
-      media: MediaType.image,
+      content: (map['content'] as List<dynamic>)
+          .map((dynamic story) =>
+              StoryContentModel.fromMap(story as Map<String, dynamic>))
+          .toList(),
+      //media: MediaType.image,
       id: map['id'] as int,
-      duration: const Duration(seconds: 5),
+      views: map['views'] as int,
+      //duration: const Duration(seconds: 5),
     );
   }
 

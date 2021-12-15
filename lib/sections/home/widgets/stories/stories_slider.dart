@@ -39,8 +39,8 @@ class _StoriesSliderState extends State<StoriesSlider> {
                         padding: const EdgeInsets.only(right: 4),
                         child: Story(
                           model: item,
-                          models: state.stories,
-                          index: state.stories.indexOf(item),
+                          models: state
+                              .stories[state.stories.indexOf(item)].content,
                         ),
                       ))
                   .toList(),
