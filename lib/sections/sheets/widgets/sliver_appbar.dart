@@ -94,15 +94,10 @@ class CustomSliverAppbar extends StatelessWidget {
               rightKey.currentState!.pop();
             }, //Navigator.of(context).pop,
             backgroundColor: iconColor ?? Colors.white,
-            child: IconButton(
-              onPressed: () {
-                rightKey.currentState!.pop();
-              },
-              icon: const Icon(
-                Icons.close,
-                size: 20,
-                color: AppTheme.mineShaft,
-              ),
+            icon: const Icon(
+              Icons.close_rounded,
+              size: 20,
+              color: AppTheme.mineShaft,
             ),
           ),
         ],

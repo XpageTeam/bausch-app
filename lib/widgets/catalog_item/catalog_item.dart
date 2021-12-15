@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/static/static_data.dart';
@@ -40,9 +41,11 @@ class CatalogItem extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Column(
-                    children: [
-                      if (model is ProductItemModelSlider)
+                  if (model is! WebinarItemModel)
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  if (model is ProductItemModelSlider)
                         SizedBox(
                           height: 100,
                           child: AspectRatio(
@@ -52,26 +55,30 @@ class CatalogItem extends StatelessWidget {
                             ),
                           ),
                         )
-                      else if (model is! WebinarItemModel)
-                        SizedBox(
-                          height: 100,
-                          child: AspectRatio(
-                            aspectRatio: 37 / 12,
-                            child: Image.network(
-                              model.picture,
-                            ),
+                  
+                  else if (model is! WebinarItemModel)
+                    SizedBox(
+                      height: 100,
+                      child: AspectRatio(
+                        aspectRatio: 37 / 12,
+                        child: Padding(
+                          padding: model is PartnersItemModel
+                              ? const EdgeInsets.symmetric(vertical: 20)
+                              : EdgeInsets.zero,
+                          child: Image.network(
+                            model.picture,
+                            fit: BoxFit.fitHeight,
                           ),
-                        )
-                      else
-                        AspectRatio(
-                          aspectRatio: 174 / 112,
                         ),
                       ),
                     )
                   else
                     AspectRatio(
                       aspectRatio: 174 / 112,
-                      child: Image.asset('assets/woman.png'),
+                      child: Image.asset(
+                        'assets/woman.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   const SizedBox(
                     height: 8,
@@ -111,4 +118,6 @@ class CatalogItem extends StatelessWidget {
       ),
     );
   }
+
+
 }
