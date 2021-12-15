@@ -1,5 +1,6 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/mappable_object.dart';
 
 class PromoItemModel extends CatalogItemModel

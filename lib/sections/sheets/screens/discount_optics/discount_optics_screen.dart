@@ -1,4 +1,15 @@
+import 'dart:async';
+
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/discount_optic/discount_optic.dart';
+import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -8,27 +19,44 @@ import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/discount_info.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //catalog_discount_optics
-class DiscountOpticsScreen extends StatelessWidget
+class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
     implements SheetScreenArguments {
   final ScrollController controller;
 
   @override
   final PromoItemModel model;
 
-  const DiscountOpticsScreen({
+  DiscountOpticsScreen({
     required this.controller,
     required this.model,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (_) => DiscountOpticsScreenWM(
+            category: 'offline',
+            productCode: model.code,
+          ),
+        );
 
+  @override
+  WidgetState<CoreMwwmWidget<DiscountOpticsScreenWM>, DiscountOpticsScreenWM>
+      createWidgetState() => _DiscountOpticsScreenState();
+}
+
+class _DiscountOpticsScreenState
+    extends WidgetState<DiscountOpticsScreen, DiscountOpticsScreenWM> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -39,7 +67,7 @@ class DiscountOpticsScreen extends StatelessWidget
       child: Scaffold(
         backgroundColor: AppTheme.mystic,
         body: CustomScrollView(
-          controller: controller,
+          controller: widget.controller,
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.only(
@@ -52,22 +80,19 @@ class DiscountOpticsScreen extends StatelessWidget
                 delegate: SliverChildListDelegate(
                   [
                     TopSection.product(
-                      model,
+                      widget.model,
                       const DiscountInfo(text: 'Скидка 500 ₽ '),
-                      key,
+                      widget.key,
                     ),
                     const SizedBox(
                       height: 4,
                     ),
                     InfoSection(
-                      text: model.previewText,
+                      text: widget.model.previewText,
                     ),
                     const SizedBox(
                       height: 12,
                     ),
-                    // const LegalInfo(
-                    //   texts: [],
-                    // ),
                   ],
                 ),
               ),
@@ -113,10 +138,20 @@ class DiscountOpticsScreen extends StatelessWidget
                 ),
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
               //TODO(Nikita): customCheckBox
-              sliver: SelectShopSection(),
+              sliver: SliverToBoxAdapter(
+                child: EntityStateBuilder<List<DiscountOptic>>(
+                  streamedState: wm.discountOpticsStreamed,
+                  builder: (_, discountOptics) => SelectShopSection(
+                    discountOptics: discountOptics,
+                    onChanged: (discountOptic)=>
+                  ),
+                ),
+              ),
             ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(
@@ -144,6 +179,7 @@ class DiscountOpticsScreen extends StatelessWidget
                         onPressed: () {
                           Keys.mainNav.currentState!
                               .push<void>(MaterialPageRoute(builder: (context) {
+                            // TODO(Nikolay): Передавать список полученных оптик сюда.
                             return ShopsScreen();
                           }));
                         },
@@ -165,13 +201,106 @@ class DiscountOpticsScreen extends StatelessWidget
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
               '/verification_discount_optics',
-              arguments: SheetScreenArguments(model: model),
+              arguments: VerificationDiscountArguments(model: widget.model, discountOptic: wm.d,),
             );
           },
         ),
-        
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
+  }
+}
+
+class VerificationDiscountArguments extends SheetScreenArguments {
+  final DiscountOptic discountOptic;
+
+  VerificationDiscountArguments({
+    required this.discountOptic,
+    required CatalogItemModel model,
+  }) : super(
+          model: model,
+        );
+}
+
+class DiscountOpticsScreenWM extends WidgetModel {
+  final String category;
+  final String productCode;
+
+  final discountOpticsStreamed = EntityStreamedState<List<DiscountOptic>>();
+
+  final DiscountOptic? selectedDiscountOptic;
+
+  DiscountOpticsScreenWM({
+    required this.category,
+    required this.productCode,
+    required this.selectedDiscountOptic,
+  }) : super(
+          const WidgetModelDependencies(),
+        ) {
+    _loadDiscountOptics();
+  }
+
+  Future<void> _loadDiscountOptics() async {
+    unawaited(discountOpticsStreamed.loading());
+
+    try {
+      final repository = await DiscountOpticsLoader.load(category, productCode);
+      unawaited(discountOpticsStreamed.content(repository.discountOptics));
+    } on DioError catch (e) {
+      unawaited(
+        discountOpticsStreamed.error(
+          CustomException(
+            title: 'При отправке запроса произошла ошибка',
+            subtitle: e.message,
+          ),
+        ),
+      );
+    } on ResponseParseException catch (e) {
+      unawaited(
+        discountOpticsStreamed.error(
+          CustomException(
+            title: 'При чтении ответа от сервера произошла ошибка',
+            subtitle: e.toString(),
+          ),
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      unawaited(
+        discountOpticsStreamed.error(
+          CustomException(
+            title: 'Произошла ошибка',
+            subtitle: e.toString(),
+          ),
+        ),
+      );
+    }
+  }
+}
+
+class DiscountOpticsLoader {
+  static Future<DiscountOpticsRepository> load(
+    String category,
+    String productCode,
+  ) async {
+    final rh = RequestHandler();
+
+    final res = BaseResponseRepository.fromMap(
+      (await rh.get<Map<String, dynamic>>(
+        '/order/available-optics/',
+        queryParameters: <String, dynamic>{
+          'category': category,
+          'productCode': productCode,
+        },
+        options: rh.cacheOptions
+            ?.copyWith(
+              maxStale: const Duration(days: 2),
+              policy: CachePolicy.request,
+            )
+            .toOptions(),
+      ))
+          .data!,
+    );
+
+    return DiscountOpticsRepository.fromList(res.data as List<dynamic>);
   }
 }
