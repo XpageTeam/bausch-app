@@ -93,7 +93,7 @@ class PartnersVerification extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Потратить ${model.priceToString} б',
           withInfo: false,
           onPressed: () {

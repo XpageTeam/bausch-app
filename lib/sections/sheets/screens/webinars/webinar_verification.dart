@@ -94,7 +94,7 @@ class WebinarVerification extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Потратить ${model.priceToString} б',
           icon: Container(),
           onPressed: () {

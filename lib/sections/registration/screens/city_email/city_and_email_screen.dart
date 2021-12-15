@@ -45,7 +45,8 @@ class _CityAndEmailScreenState
       extendBody: true,
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+          padding:
+              const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
           child: SafeArea(
             child: Form(
               // key: _formKey,
