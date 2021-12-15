@@ -22,7 +22,7 @@ import 'package:bausch/sections/sheets/screens/parners/partners_verification.dar
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
-import 'package:bausch/sections/sheets/screens/webinars/webinars_screen.dart';
+import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
@@ -97,7 +97,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
             break;
 
           case '/promo_code_video':
-            page = WebinarsScreen(
+            page = WebinarScreen(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
                   as WebinarItemModel,
