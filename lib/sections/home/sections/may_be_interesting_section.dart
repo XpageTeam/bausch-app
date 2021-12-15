@@ -1,8 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
-import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/goods_screen.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
