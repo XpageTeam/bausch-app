@@ -1,6 +1,7 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
@@ -21,8 +22,10 @@ class StoriesCubit extends Cubit<StoriesState> {
 
     try {
       final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>('stories')).data!,
+        (await rh.get<Map<String, dynamic>>('/stories/')).data!,
       );
+
+      debugPrint(parsedData.data.toString());
 
       emit(
         StoriesSuccess(

@@ -1,5 +1,6 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';
+import 'package:bausch/models/stories/story_model.dart';
 
 class StoryContentModel implements MappableInterface<StoryContentModel> {
   //* Текст(отображается на главном экране)
@@ -8,7 +9,17 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
   //* Ссылка на картинку или видео
   final String file;
 
-  StoryContentModel({required this.title, required this.file});
+  final Duration duration;
+
+  //* Картинка или видео
+  final MediaType media;
+
+  StoryContentModel({
+    required this.title,
+    required this.file,
+    this.duration = const Duration(seconds: 3),
+    this.media = MediaType.image,
+  });
 
   factory StoryContentModel.fromMap(Map<String, dynamic> map) {
     if (map['title'] == null) {
