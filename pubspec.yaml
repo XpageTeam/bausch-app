@@ -102,6 +102,8 @@ flutter:
     - assets/loading/
     - assets/temp/
     - assets/temp/logos/
+    
+    - assets/stories/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png
