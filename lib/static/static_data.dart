@@ -18,7 +18,8 @@ class StaticData {
     'Внешний вид и комплектность подарочных изделий могут отличаться от изображений на сайте.',
   ];
 
-  static String apiUrl = 'https://baush-app.xpager.ru/api/';
+  static String apiUrl =
+      'https://bausch.in-progress.ru/api/'; //'https://baush-app.xpager.ru/api/';
 
   //* Названия типов разделов, чтобы не менять во всех местах
   static Map<String, String> types = {

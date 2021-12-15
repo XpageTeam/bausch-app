@@ -11,54 +11,54 @@ import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 
 class Models {
-  static List<StoryModel> stories = [
-    StoryModel(
-      id: 0,
-      // duration: Duration(seconds: 5),
-      // media: MediaType.image,
-      views: 1,
-      content: [
-        StoryContentModel(
-          file: 'assets/pic1.png',
-          title: 'Миллион впечатлений с ReNu',
-        ),
-      ],
-      mainText: 'Миллион впечатлений с ReNu',
-      secondText:
-          'Зарегистрируйте чек и выиграйте путешествия мечты от ReNu. Всем участникам гарантированные призы!',
-      buttonTitle: 'text one',
-    ),
-    StoryModel(
-      id: 1,
-      // duration: Duration(seconds: 5),
-      // media: MediaType.image,
-      views: 1,
-      content: [
-        StoryContentModel(
-          file: 'assets/pic1.png',
-          title: 'Прояви к глазам уважение',
-        ),
-      ],
-      mainText: 'Прояви к глазам уважение',
-      secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
-      buttonTitle: 'text two',
-    ),
-    StoryModel(
-      id: 2,
-      // duration: Duration(seconds: 5),
-      // media: MediaType.image,
-      views: 1,
-      content: [
-        StoryContentModel(
-          file: 'assets/pic3.png',
-          title: 'ыаыаыыа',
-        ),
-      ],
-      mainText: 'ыаыаыыа',
-      secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
-      buttonTitle: 'text three',
-    ),
-  ];
+  // static List<StoryModel> stories = [
+  //   StoryModel(
+  //     id: 0,
+  //     // duration: Duration(seconds: 5),
+  //     // media: MediaType.image,
+  //     views: 1,
+  //     content: [
+  //       StoryContentModel(
+  //         file: 'assets/pic1.png',
+  //         title: 'Миллион впечатлений с ReNu',
+  //       ),
+  //     ],
+  //     mainText: 'Миллион впечатлений с ReNu',
+  //     secondText:
+  //         'Зарегистрируйте чек и выиграйте путешествия мечты от ReNu. Всем участникам гарантированные призы!',
+  //     buttonTitle: 'text one',
+  //   ),
+  //   StoryModel(
+  //     id: 1,
+  //     // duration: Duration(seconds: 5),
+  //     // media: MediaType.image,
+  //     views: 1,
+  //     content: [
+  //       StoryContentModel(
+  //         file: 'assets/pic1.png',
+  //         title: 'Прояви к глазам уважение',
+  //       ),
+  //     ],
+  //     mainText: 'Прояви к глазам уважение',
+  //     secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
+  //     buttonTitle: 'text two',
+  //   ),
+  //   StoryModel(
+  //     id: 2,
+  //     // duration: Duration(seconds: 5),
+  //     // media: MediaType.image,
+  //     views: 1,
+  //     content: [
+  //       StoryContentModel(
+  //         file: 'assets/pic3.png',
+  //         title: 'ыаыаыыа',
+  //       ),
+  //     ],
+  //     mainText: 'ыаыаыыа',
+  //     secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
+  //     buttonTitle: 'text three',
+  //   ),
+  // ];
 
   static List<CatalogItemModel> items = [
     ProductItemModel(
