@@ -14,6 +14,24 @@ import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 
+class ProductItemModelSlider extends CatalogItemModel {
+  ProductItemModelSlider({
+    required int id,
+    required String name,
+    required String picture,
+    required int price,
+    required String detailText,
+    required String previewText,
+  }) : super(
+          id: id,
+          name: name,
+          picture: picture,
+          price: price,
+          detailText: detailText,
+          previewText: previewText,
+        );
+}
+
 class Models {
   static List<StoryModel> stories = [
     StoryModel(
@@ -112,7 +130,7 @@ class Models {
   ];
 
   static List<CatalogItemModel> discountOptics = [
-    ProductItemModel(
+    ProductItemModelSlider(
       id: 0,
       name: 'Раствор Biotrue универсальный(300 мл)',
       price: 13000,
@@ -120,7 +138,7 @@ class Models {
       detailText: '',
       previewText: '',
     ),
-    ProductItemModel(
+    ProductItemModelSlider(
       id: 1,
       name: 'Biotrue one day (30 линз в упаковке)',
       price: 600,
@@ -128,7 +146,7 @@ class Models {
       detailText: '',
       previewText: '',
     ),
-    ProductItemModel(
+    ProductItemModelSlider(
       id: 2,
       name: 'Раствор Biotrue универсальный(300 мл)',
       price: 600,
@@ -136,7 +154,7 @@ class Models {
       detailText: '',
       previewText: '',
     ),
-    ProductItemModel(
+    ProductItemModelSlider(
       id: 3,
       name: 'Biotrue one day (30 линз в упаковке)',
       price: 1300,
@@ -144,7 +162,7 @@ class Models {
       detailText: '',
       previewText: '',
     ),
-    ProductItemModel(
+    ProductItemModelSlider(
       id: 0,
       name: 'Раствор Biotrue универсальный(300 мл)',
       price: 13000,
@@ -152,7 +170,7 @@ class Models {
       detailText: '',
       previewText: '',
     ),
-    ProductItemModel(
+    ProductItemModelSlider(
       id: 1,
       name: 'Biotrue one day (30 линз в упаковке)',
       price: 600,
@@ -396,9 +414,9 @@ class Models {
           'Подпишитесь на группу Bausch+Lomb Россия в социальной сети Вконтакте и получите 50 баллов.',
       price: '100',
       img: 'assets/add_points_vk.png',
-      htmlText: '<p>Для начисления баллов за подписку на группу Bausch+Lomb в социальной сети «Вконтакте» необходимо:</p><br><ul><li>Привязать свой аккаунт в социальной сети «ВКонтакте» к профилю.</li><li>Перейти на станицу группы в социальной сети «ВКонтакте» и подписаться на неё.</li></ul><br><p>50 баллов будут начислены на счёт в течение 2 рабочих дней с момента выполнения всех действий.</p>',
+      htmlText:
+          '<p>Для начисления баллов за подписку на группу Bausch+Lomb в социальной сети «Вконтакте» необходимо:</p><br><ul><li>Привязать свой аккаунт в социальной сети «ВКонтакте» к профилю.</li><li>Перейти на станицу группы в социальной сети «ВКонтакте» и подписаться на неё.</li></ul><br><p>50 баллов будут начислены на счёт в течение 2 рабочих дней с момента выполнения всех действий.</p>',
       type: 'vk',
-      
     ),
     AddItemModel(
       title: 'Пригласите друга',
@@ -407,8 +425,8 @@ class Models {
       price: '100',
       img: 'assets/add_points_friend.png',
       type: 'friend',
-      htmlText: '<p>Баллы будут начислены в том случае, если ваш друг ранее еще не был зарегистрирован в программе лояльности <a href="#">Bausch+Lomb FRIENDS</a>. Начисление баллов произойдет, как только друг зарегистрирует свой первый код с упаковки.</p>',
-      
+      htmlText:
+          '<p>Баллы будут начислены в том случае, если ваш друг ранее еще не был зарегистрирован в программе лояльности <a href="#">Bausch+Lomb FRIENDS</a>. Начисление баллов произойдет, как только друг зарегистрирует свой первый код с упаковки.</p>',
     ),
     AddItemModel(
       title: 'Написать отзыв в соцсетях',
@@ -417,10 +435,9 @@ class Models {
       price: '100',
       img: 'assets/add_points_reviev.png',
       type: 'overview_social',
-      htmlText: '<p>Для начисления баллов за публикацию отзыва о Продукции в социальной сети необходимо:</p><br><ul><li>опубликовать в социальной сети «ВКонтакте», «Facebook», «Одноклассники», «Instagram» или «Tik-Tok» положительный, нейтральный или содержащий конструктивную критику отзыв объёмом не менее 15  слов;</li><li>в разделе «Накопить баллы» выбрать способ накопления «Написать отзыв в соцсетях», в открывшемся окне ввести ссылку и прикрепить скриншот;</li><li>отзыв должен быть опубликован не ранее, чем за 3 месяца до направления отзыва на проверку, и не ранее даты регистрации Участника в Программе.</li></ul><br><p>Если отзыв прошел модерацию, то в течение 30 рабочих дней на счет начисляются 100 баллов.</p>',
-      
+      htmlText:
+          '<p>Для начисления баллов за публикацию отзыва о Продукции в социальной сети необходимо:</p><br><ul><li>опубликовать в социальной сети «ВКонтакте», «Facebook», «Одноклассники», «Instagram» или «Tik-Tok» положительный, нейтральный или содержащий конструктивную критику отзыв объёмом не менее 15  слов;</li><li>в разделе «Накопить баллы» выбрать способ накопления «Написать отзыв в соцсетях», в открывшемся окне ввести ссылку и прикрепить скриншот;</li><li>отзыв должен быть опубликован не ранее, чем за 3 месяца до направления отзыва на проверку, и не ранее даты регистрации Участника в Программе.</li></ul><br><p>Если отзыв прошел модерацию, то в течение 30 рабочих дней на счет начисляются 100 баллов.</p>',
     ),
-    
     AddItemModel(
       title: 'Напишите отзыв',
       subtitle:
@@ -428,8 +445,8 @@ class Models {
       price: '50',
       img: 'assets/add_points_review2.png',
       type: 'overview',
-     
-      htmlText: '<p>Чтобы получить дополнительные баллы за публикацию отзыва о Продукции на указанных Интернет-ресурсах необходимо: </p><br><ul><li>опубликовать на любом Интернет-ресурсе из списка положительный, нейтральный или содержащий конструктивную критику отзыв объёмом не менее 15 слов и содержащий фото продукта; </li><li>в разделе «Накопить баллы» выбрать способ накопления «Написать отзыв», в открывшемся окне ввести ссылку и прикрепить скриншот; </li><li>отзыв должен быть опубликован не позднее, чем за 3 суток до направления отзыва на проверку, но не ранее, чем за 3 месяца до направления отзыва на проверку, и не ранее даты начала действия Программы. Модерация отзыва занимает до 30 рабочих дней. Затем 50 баллов начисляются на Счёт.</li></ul><br><p>Площадки, где вы можете разместить отзыв:</p><br><p><a href="#">irecommend.ru</a></p><p><a href="#">ru.otzyv.com</a></p><p><a href="#">otzovik.com</a></p><p><a href="#">otzyv-pro.ru</a></p><p><a href="#">spasibovsem.ru</a></p><p><a href="#">otzyvov.net</a></p><p><a href="#">market.yandex.ru</a></p><p><a href="#">Ozon.ru</a></p><p><a href="#">Goods.ru</a></p><p><a href="#">Beru.ru</a></p><p><a href="#">wildberries.ru</a></p>',
+      htmlText:
+          '<p>Чтобы получить дополнительные баллы за публикацию отзыва о Продукции на указанных Интернет-ресурсах необходимо: </p><br><ul><li>опубликовать на любом Интернет-ресурсе из списка положительный, нейтральный или содержащий конструктивную критику отзыв объёмом не менее 15 слов и содержащий фото продукта; </li><li>в разделе «Накопить баллы» выбрать способ накопления «Написать отзыв», в открывшемся окне ввести ссылку и прикрепить скриншот; </li><li>отзыв должен быть опубликован не позднее, чем за 3 суток до направления отзыва на проверку, но не ранее, чем за 3 месяца до направления отзыва на проверку, и не ранее даты начала действия Программы. Модерация отзыва занимает до 30 рабочих дней. Затем 50 баллов начисляются на Счёт.</li></ul><br><p>Площадки, где вы можете разместить отзыв:</p><br><p><a href="#">irecommend.ru</a></p><p><a href="#">ru.otzyv.com</a></p><p><a href="#">otzovik.com</a></p><p><a href="#">otzyv-pro.ru</a></p><p><a href="#">spasibovsem.ru</a></p><p><a href="#">otzyvov.net</a></p><p><a href="#">market.yandex.ru</a></p><p><a href="#">Ozon.ru</a></p><p><a href="#">Goods.ru</a></p><p><a href="#">Beru.ru</a></p><p><a href="#">wildberries.ru</a></p>',
     ),
     AddItemModel(
       title: 'Пройти опрос',
