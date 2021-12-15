@@ -1,12 +1,15 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
+import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 class SheetScreenArguments {
@@ -29,6 +32,7 @@ class SheetScreen extends StatefulWidget {
     required this.sheetModel,
     required this.controller,
     required this.items,
+
     // required this.path,
     Key? key,
   }) : super(key: key);
@@ -79,7 +83,7 @@ class _SheetScreenState extends State<SheetScreen> {
                         Flexible(
                           child: Text(
                             widget.sheetModel.name,
-                            style: AppStyles.h2,
+                            style: AppStyles.h1,
                           ),
                         ),
                       ],
@@ -100,28 +104,50 @@ class _SheetScreenState extends State<SheetScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CatalogItem(
-                          model: widget.items[i * 2],
-                          onTap: () {
-                            Keys.bottomSheetItemsNav.currentState!.pushNamed(
-                              '/${widget.sheetModel.type}',
-                              arguments: SheetScreenArguments(
-                                model: widget.items[i * 2],
+                        Stack(
+                          children: [
+                            CatalogItem(
+                              model: widget.items[i * 2],
+                              onTap: () {
+                                Keys.bottomSheetItemsNav.currentState!
+                                    .pushNamed(
+                                  '/${widget.sheetModel.type}',
+                                  arguments: SheetScreenArguments(
+                                    model: widget.items[i * 2],
+                                  ),
+                                );
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: shield(
+                                widget.items[i * 2],
                               ),
-                            );
-                          },
+                            ),
+                          ],
                         ),
                         if (widget.items.asMap().containsKey(i * 2 + 1))
-                          CatalogItem(
-                            model: widget.items[i * 2 + 1],
-                            onTap: () {
-                              Keys.bottomSheetItemsNav.currentState!.pushNamed(
-                                '/${widget.sheetModel.type}',
-                                arguments: SheetScreenArguments(
-                                  model: widget.items[i * 2 + 1],
+                          Stack(
+                            children: [
+                              CatalogItem(
+                                model: widget.items[i * 2 + 1],
+                                onTap: () {
+                                  Keys.bottomSheetItemsNav.currentState!
+                                      .pushNamed(
+                                    '/${widget.sheetModel.type}',
+                                    arguments: SheetScreenArguments(
+                                      model: widget.items[i * 2 + 1],
+                                    ),
+                                  );
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: shield(
+                                  widget.items[i * 2 + 1],
                                 ),
-                              );
-                            },
+                              ),
+                            ],
                           ),
                       ],
                     ),
@@ -132,28 +158,33 @@ class _SheetScreenState extends State<SheetScreen> {
                 ),
               ),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const SizedBox(
-                    height: 60,
-                    child: Text(
-                      'Имеются противопоказания, необходимо проконсультироваться со специалистом',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        height: 16 / 14,
-                        color: AppTheme.grey,
-                      ),
+            if (widget.sheetModel.type != 'promo_code_immediately')
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 6),
+                      child: InfoBlock(),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget shield(CatalogItemModel _model) {
+    if (_model is WebinarItemModel) {
+      return Image.asset(
+        'assets/play-video.png',
+        height: 28,
+      );
+    } else if (_model is PromoItemModel) {
+      return const DiscountInfo(text: '–500 ₽');
+    } else {
+      return Container();
+    }
   }
 }
