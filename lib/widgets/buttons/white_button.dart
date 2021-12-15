@@ -7,8 +7,10 @@ class WhiteButton extends StatelessWidget {
   final String text;
   final Widget? icon;
   final EdgeInsets? padding;
+  final TextStyle? style;
   const WhiteButton({
     required this.text,
+    this.style,
     this.icon,
     this.padding,
     Key? key,
@@ -47,7 +49,7 @@ class WhiteButton extends StatelessWidget {
                   Flexible(
                     child: Text(
                       text,
-                      style: AppStyles.h2,
+                      style: style ?? AppStyles.h2,
                     ),
                   ),
                 ],

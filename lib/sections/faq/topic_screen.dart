@@ -102,6 +102,7 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                       bottom: 4,
                     ),
                     child: WhiteButton(
+                      style: AppStyles.h3,
                       text: topicModel.questions[index].title,
                       icon: Container(),
                       onPressed: () {
