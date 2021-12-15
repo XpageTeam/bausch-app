@@ -54,7 +54,9 @@ class CatalogItem extends StatelessWidget {
                       else
                         AspectRatio(
                           aspectRatio: 174 / 112,
-                          child: Image.asset('assets/woman.png'),
+                          child: Image.network(
+                            model.picture,
+                          ),
                         ),
                       const SizedBox(
                         height: 8,
@@ -84,7 +86,7 @@ class CatalogItem extends StatelessWidget {
                     child: ButtonWithPoints(
                       price: model.price.toString(),
                       onPressed: () {
-                        // TODO: Реализовать onPressed.
+                        onTap?.call();
                       },
                     ),
                   ),

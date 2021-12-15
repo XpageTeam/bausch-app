@@ -52,8 +52,8 @@ class BigCatalogItem extends StatelessWidget {
             ),
             child: AspectRatio(
               aspectRatio: 100 / 100,
-              child: Image.asset(
-                'assets/items/item1.png',
+              child: Image.network(
+                model.picture,
               ),
             ),
           ),
