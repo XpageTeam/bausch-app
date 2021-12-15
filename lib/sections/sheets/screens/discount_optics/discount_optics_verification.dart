@@ -110,7 +110,7 @@ class DiscountOpticsVerification extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Потратить ${model.priceToString} б',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
