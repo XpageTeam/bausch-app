@@ -42,129 +42,145 @@ class _CityAndEmailScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-        child: Form(
-          // key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40),
-                child: Text(
-                  'Отлично, осталось выбрать город и указать электронную почту',
-                  style: AppStyles.h1,
-                ),
-              ),
-              StreamedStateBuilder<String?>(
-                streamedState: wm.selectedCityName,
-                builder: (_, cityName) {
-                  return FocusButton(
-                    labelText: 'Город',
-                    selectedText: cityName,
-                    onPressed: () async {
-                      // Keys.mainNav.currentState!.pushNamed('/city');
-
-                      // TODO: сделать через pushNamed
-                      wm.setCityName(
-                        await Keys.mainNav.currentState!.push<String>(
-                          PageRouteBuilder<String>(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    CityScreen(),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              Stack(
-                alignment: Alignment.centerRight,
+      extendBody: true,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+          child: SafeArea(
+            child: Form(
+              // key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  NativeTextInput(
-                    labelText: 'E-mail',
-                    controller: wm.emailFieldController,
-                    inputType: TextInputType.emailAddress,
+                  const SizedBox(
+                    height: 50,
                   ),
-                  // DefaultTextInput(
-                  //   labelText: 'E-mail',
-                  //   controller: wm.emailFieldController,
-                  //   inputType: TextInputType.emailAddress,
-                  // ),
-                  // DefaultTextFormField(
-                  //   labelText: 'E-mail',
-                  //   controller: wm.emailFieldController,
-                  //   inputType: TextInputType.emailAddress,
-                  //   // validator: (dynamic value) {
-                  //   //   if (value == null || value.toString().isEmpty) {
-                  //   //     return 'Не введён e-mail';
-                  //   //   }
-                  //   //   return null;
-                  //   // },
-                  // ),
-
-                  //* Кнопка с колбеком
-                  if (wm.emailFieldController.text.isEmpty)
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.arrow_forward_ios_sharp,
-                        color: AppTheme.grey,
-                        size: 20,
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 40),
+                        child: Text(
+                          'Отлично, осталось выбрать город и указать электронную почту',
+                          style: AppStyles.h1,
+                        ),
                       ),
-                    ),
+                      StreamedStateBuilder<String?>(
+                        streamedState: wm.selectedCityName,
+                        builder: (_, cityName) {
+                          return FocusButton(
+                            labelText: 'Город',
+                            selectedText: cityName,
+                            onPressed: () async {
+                              // Keys.mainNav.currentState!.pushNamed('/city');
+
+                              // TODO: сделать через pushNamed
+                              wm.setCityName(
+                                await Keys.mainNav.currentState!.push<String>(
+                                  PageRouteBuilder<String>(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        CityScreen(),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          NativeTextInput(
+                            labelText: 'E-mail',
+                            controller: wm.emailFieldController,
+                            inputType: TextInputType.emailAddress,
+                          ),
+                          // DefaultTextInput(
+                          //   labelText: 'E-mail',
+                          //   controller: wm.emailFieldController,
+                          //   inputType: TextInputType.emailAddress,
+                          // ),
+                          // DefaultTextFormField(
+                          //   labelText: 'E-mail',
+                          //   controller: wm.emailFieldController,
+                          //   inputType: TextInputType.emailAddress,
+                          //   // validator: (dynamic value) {
+                          //   //   if (value == null || value.toString().isEmpty) {
+                          //   //     return 'Не введён e-mail';
+                          //   //   }
+                          //   //   return null;
+                          //   // },
+                          // ),
+
+                          //* Кнопка с колбеком
+                          if (wm.emailFieldController.text.isEmpty)
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.arrow_forward_ios_sharp,
+                                color: AppTheme.grey,
+                                size: 20,
+                              ),
+                            ),
+                        ],
+                      ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      // Text(
+                      //   'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
+                      //   style: AppStyles.p1,
+                      // ),
+
+                      if (!isValidated)
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            BlueButtonWithText(
+                              text: 'Продолжить',
+                              onPressed: () {
+                                // if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  isValidated = true;
+                                  FocusScope.of(context).unfocus();
+                                  // wm.confirmEmailAction();
+                                });
+                                // }
+                              },
+                            ),
+                          ],
+                        ),
+                      //* Когда кнопка нажата и письмо отправлено
+                      if (isValidated)
+                        Column(
+                          children: const [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                height: 20 / 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 150,
+                  ),
                 ],
               ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // Text(
-              //   'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
-              //   style: AppStyles.p1,
-              // ),
-
-              if (!isValidated)
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    BlueButtonWithText(
-                      text: 'Продолжить',
-                      onPressed: () {
-                        // if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          isValidated = true;
-                          FocusScope.of(context).unfocus();
-                          // wm.confirmEmailAction();
-                        });
-                        // }
-                      },
-                    ),
-                  ],
-                ),
-              //* Когда кнопка нажата и письмо отправлено
-              if (isValidated)
-                Column(
-                  children: const [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Мы почти у цели! На указанный E-mail отправлена ссылка, по которой необходимо перейти для подтверждения регистрации. Если письма нет, рекомендуем проверить папку «Спам».',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        height: 20 / 14,
-                      ),
-                    ),
-                  ],
-                ),
-            ],
+            ),
           ),
         ),
       ),
