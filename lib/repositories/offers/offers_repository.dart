@@ -29,12 +29,14 @@ class OffersRepositoryDownloader {
     int? goodID,
   }) async {
     final rh = RequestHandler();
-    final requestString =
-        '/banner/?type=$type${goodID != null ? '&good=123' : ''}';
 
     final res = BaseResponseRepository.fromMap(
       (await rh.get<Map<String, dynamic>>(
-        requestString,
+        '/banner/',
+        queryParameters: <String, dynamic>{
+          'type': type,
+          'good': goodID,
+        },
         options: rh.cacheOptions
             ?.copyWith(
               maxStale: const Duration(days: 1),

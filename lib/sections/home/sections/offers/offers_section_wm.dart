@@ -8,7 +8,6 @@ import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -50,39 +49,17 @@ class OffersSectionWM extends WidgetModel {
     super.onBind();
   }
 
-  final listTestOffers = <Offer>[
-    Offer(
-      id: 0,
-      title: 'First',
-      isClosable: true,
-      target: 'program',
-    ),
-    Offer(
-      id: 1,
-      title: 'Second',
-      isClosable: true,
-      target: 'add_points',
-    ),
-    Offer(
-      id: 2,
-      title: 'Third',
-      isClosable: false,
-      target: 'html',
-    ),
-  ];
-
   Future<void> _loadData() async {
     unawaited(offersStreamed.loading());
 
     try {
-      // TODO(Nikolay): Доделать.
       final repository = await OffersRepositoryDownloader.load(
         type: _convertEnumToString(type),
         goodID: goodID,
       );
 
       final filteredOffers = _filterOffers(
-        listTestOffers,
+        repository.offerList,
       );
 
       unawaited(offersStreamed.content(await filteredOffers));
@@ -129,12 +106,10 @@ class OffersSectionWM extends WidgetModel {
   }
 
   Future<List<String>> _readRemovedOffersIds() async {
-    // TODO(Nikolay): Реализовать считывание списка id закрытых баннеров.
     return preferences.getStringList(StaticData.removedOffersKey) ?? <String>[];
   }
 
   Future<void> _writeRemovedOfferId(int id) async {
-    // TODO(Nikolay): Записывать id удаленных баннеров.
     final removedOffersIds = (await _readRemovedOffersIds())
       ..add(
         id.toString(),
