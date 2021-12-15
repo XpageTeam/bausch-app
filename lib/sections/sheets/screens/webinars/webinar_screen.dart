@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 //catalog_webinar
-class WebinarScreen extends CoreMwwmWidget<WebinarsScreenWM>
+class WebinarScreen extends CoreMwwmWidget<WebinarScreenWM>
     implements SheetScreenArguments {
   final ScrollController controller;
 
@@ -23,19 +23,19 @@ class WebinarScreen extends CoreMwwmWidget<WebinarsScreenWM>
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (context) => WebinarsScreenWM(
+          widgetModelBuilder: (context) => WebinarScreenWM(
             context: context,
             itemModel: model,
           ),
         );
 
   @override
-  WidgetState<CoreMwwmWidget<WebinarsScreenWM>, WebinarsScreenWM>
+  WidgetState<CoreMwwmWidget<WebinarScreenWM>, WebinarScreenWM>
       createWidgetState() => _WebinarsScreenState();
 }
 
 class _WebinarsScreenState
-    extends WidgetState<WebinarScreen, WebinarsScreenWM> {
+    extends WidgetState<WebinarScreen, WebinarScreenWM> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

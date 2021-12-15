@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-class WebinarsScreenWM extends WidgetModel {
+class WebinarScreenWM extends WidgetModel {
   final BuildContext context;
   final CatalogItemModel itemModel;
 
@@ -16,7 +16,7 @@ class WebinarsScreenWM extends WidgetModel {
   late int points;
   late int difference;
 
-  WebinarsScreenWM({
+  WebinarScreenWM({
     required this.context,
     required this.itemModel,
   }) : super(
