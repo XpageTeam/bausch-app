@@ -168,6 +168,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
+                      barrierColor: Colors.black.withOpacity(0.8),
                       builder: (context) {
                         return CustomAlertDialog(
                           yesCallback: () {

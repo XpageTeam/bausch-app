@@ -45,6 +45,7 @@ class TopSection extends StatelessWidget {
           withPrice: false,
           key: key,
           appBar: CustomSliverAppbar.toPop(
+            backgroundColor: Colors.white,
             icon: Padding(
               padding: const EdgeInsets.all(6.0),
               child: Image.asset(
@@ -120,7 +121,7 @@ class TopSection extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     bottom: 30,
                   ),
-                  child: ButtonContent(price: model.price.toString()),
+                  child: ButtonContent(price: model.priceToString),
                 ),
             ],
           ),

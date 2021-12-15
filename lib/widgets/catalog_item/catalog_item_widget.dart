@@ -78,24 +78,19 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
 
                       //* Цена и виджет баллов
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 30,
-                        ),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                model.price.toString(),
-                                style: AppStyles.h2Bold,
-                              ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              model.priceToString,
+                              style: AppStyles.h2Bold,
                             ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            PointWidget(textStyle: AppStyles.h2),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          PointWidget(textStyle: AppStyles.h2),
+                        ],
                       ),
 
                       //* Адрес
@@ -217,7 +212,7 @@ void callback(CatalogItemModel _model) {
     debugPrint('webinar');
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
-    showDefaultNotification(title: 'title');
+    showDefaultNotification(title: 'Скопировано!');
   } else {
     showFlexibleBottomSheet<void>(
       context: Keys.mainNav.currentContext!,

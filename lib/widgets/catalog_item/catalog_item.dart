@@ -34,84 +34,62 @@ class CatalogItem extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(5),
           ),
-          child: Stack(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      if (model is! WebinarItemModel)
-                        SizedBox(
-                          height: 100,
-                          child: AspectRatio(
-                            aspectRatio: 37 / 12,
-                            child: Image.network(
-                              model.picture,
-                            ),
-                          ),
-                        )
-                      else
-                        AspectRatio(
-                          aspectRatio: 174 / 112,
-                          child: Image.asset('assets/woman.png'),
-                        ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: StaticData.sidePadding,
-                        ),
-                        child: Text(
-                          model.name,
-                          style: AppStyles.p1,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
+                  if (model is! WebinarItemModel)
+                    SizedBox(
+                      height: 100,
+                      child: AspectRatio(
+                        aspectRatio: 37 / 12,
+                        child: Image.network(
+                          model.picture,
                         ),
                       ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
+                    )
+                  else
+                    AspectRatio(
+                      aspectRatio: 174 / 112,
+                      child: Image.asset('assets/woman.png'),
+                    ),
+                  const SizedBox(
+                    height: 8,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: StaticData.sidePadding,
-                      right: StaticData.sidePadding,
-                      left: StaticData.sidePadding,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
                     ),
-                    child: ButtonWithPoints(
-                      price: model.price.toString(),
-                      onPressed: () {
-                        // TODO: Реализовать onPressed.
-                      },
+                    child: Text(
+                      model.name,
+                      style: AppStyles.p1,
+                      textAlign: TextAlign.center,
+                      maxLines: 3,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 16,
                   ),
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(12),
-                child: shield(model),
+                padding: const EdgeInsets.only(
+                  bottom: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
+                  left: StaticData.sidePadding,
+                ),
+                child: ButtonWithPoints(
+                  price: model.priceToString,
+                  onPressed: () {
+                    // TODO: Реализовать onPressed.
+                  },
+                ),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  //* Вывод нужного виджета в зависимости от типа
-  Widget shield(CatalogItemModel _model) {
-    if (_model is WebinarItemModel) {
-      return Image.asset(
-        'assets/play-video.png',
-        height: 28,
-      );
-    } else if (_model is PromoItemModel) {
-      return const DiscountInfo(text: '–500 ₽');
-    } else {
-      return Container();
-    }
   }
 }

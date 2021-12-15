@@ -44,7 +44,7 @@ class CustomFloatingActionButton extends StatelessWidget {
             if (withInfo)
               Container(
                 padding: const EdgeInsets.only(
-                  bottom: 8,
+                  bottom: 0,
                 ),
                 color: AppTheme.mystic,
                 child: const InfoBlock(),

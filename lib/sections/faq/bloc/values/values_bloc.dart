@@ -37,7 +37,7 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
             .data!,
       );
 
-      debugPrint(parsedData.data.toString());
+      //debugPrint(parsedData.data.toString());
       return ValuesSuccess(
         values: (parsedData.data as List<dynamic>)
             .map((dynamic value) =>

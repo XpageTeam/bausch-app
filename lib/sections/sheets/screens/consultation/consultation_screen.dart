@@ -103,7 +103,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           ],
         ),
         bottomNavigationBar: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
+          text: 'Потратить ${model.priceToString} б',
           onPressed: () {
             Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
               '/verification_consultation',

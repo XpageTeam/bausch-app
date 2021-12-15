@@ -86,6 +86,7 @@ class CustomSliverAppbar extends StatelessWidget {
               },
               icon: const Icon(
                 Icons.close,
+                size: 20,
                 color: AppTheme.mineShaft,
               ),
             ),

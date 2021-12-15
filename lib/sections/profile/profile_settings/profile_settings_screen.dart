@@ -107,19 +107,19 @@ class _ProfileSettingsScreenState
                       );
                     },
                   ),
-                  if (!wm.isEmailConfirmed)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          DiscountInfo(
-                            color: AppTheme.turquoiseBlue,
-                            text: 'подтвердить',
-                          ),
-                        ],
-                      ), // TODO(Nikita): Вывести статус
-                    ),
+                  //if (!wm.isEmailConfirmed)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        DiscountInfo(
+                          color: AppTheme.turquoiseBlue,
+                          text: 'подтвердить',
+                        ),
+                      ],
+                    ), // TODO(Nikita): Вывести статус
+                  ),
                 ],
               ),
             ),
@@ -133,17 +133,13 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: const ProfileSettingsBanner(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<DateTime?>(
                 streamedState: wm.selectedBirthDate,
                 builder: (_, birthDate) {
                   return FocusButton(
                     labelText: 'Дата рождения',
                     selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
-                    // icon: Container(),
+                    icon: Container(),
                     onPressed: () async {
                       wm.setBirthDate(await showDatePicker(
                         context: context,
@@ -156,7 +152,10 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            //*Зеленый виджет, есть в другой ветке
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: const ProfileSettingsBanner(),
+            ),
             Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(

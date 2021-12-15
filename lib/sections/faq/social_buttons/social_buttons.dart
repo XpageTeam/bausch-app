@@ -3,6 +3,12 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+List<String> logos = [
+  'assets/logos/vk.png',
+  'assets/logos/tube.png',
+  'assets/logos/inst.png',
+];
+
 class SocialButtons extends StatefulWidget {
   const SocialButtons({Key? key}) : super(key: key);
 

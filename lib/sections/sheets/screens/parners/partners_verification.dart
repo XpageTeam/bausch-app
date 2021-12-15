@@ -44,10 +44,11 @@ class PartnersVerification extends StatelessWidget {
                           icon: NormalIconButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                            },
+                            }, //Navigator.of(context).pop,
                             icon: const Icon(
-                              Icons.arrow_back_ios_new_sharp,
+                              Icons.chevron_left_rounded,
                               size: 20,
+                              color: AppTheme.mineShaft,
                             ),
                           ),
                           key: key,
@@ -93,7 +94,7 @@ class PartnersVerification extends StatelessWidget {
           ],
         ),
         floatingActionButton: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
+          text: 'Потратить ${model.priceToString} б',
           withInfo: false,
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(

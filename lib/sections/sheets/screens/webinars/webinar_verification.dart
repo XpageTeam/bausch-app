@@ -42,13 +42,14 @@ class WebinarVerification extends StatelessWidget {
                       children: [
                         CustomSliverAppbar.toPop(
                           icon: NormalIconButton(
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new_sharp,
-                              size: 20,
-                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
-                            },
+                            }, //Navigator.of(context).pop,
+                            icon: const Icon(
+                              Icons.chevron_left_rounded,
+                              size: 20,
+                              color: AppTheme.mineShaft,
+                            ),
                           ),
                           key: key,
                           backgroundColor: Colors.white,
@@ -59,7 +60,7 @@ class WebinarVerification extends StatelessWidget {
                         ),
                         Text(
                           'Подтвердите заказ',
-                          style: AppStyles.h2,
+                          style: AppStyles.h1,
                         ),
                         Column(
                           children: [
@@ -67,7 +68,7 @@ class WebinarVerification extends StatelessWidget {
                               height: 12,
                             ),
                             Text(
-                              'После подтверждения мы спишем баллы, и вы получите промокод',
+                              'После подтверждения мы спишем баллы, и вы получите доступ к записи',
                               style: AppStyles.p1,
                             ),
                           ],

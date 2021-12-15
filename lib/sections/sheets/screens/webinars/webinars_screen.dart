@@ -43,7 +43,10 @@ class WebinarsScreen extends StatelessWidget implements SheetScreenArguments {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    TopSection.webinar(model, key),
+                    TopSection.webinar(
+                      model,
+                      key,
+                    ),
                     const SizedBox(
                       height: 4,
                     ),

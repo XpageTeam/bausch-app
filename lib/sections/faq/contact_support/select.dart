@@ -41,10 +41,14 @@ class _SelectState extends State<Select> {
 
     _value = widget.model.name;
 
+    //debugPrint(widget.model.values.toString() + 'azaz');
+
     if (widget.model.xmlId == 'category') {
       if (fieldsBloc.state.topic != 0) {
         final ValueModel value = widget.model.values!
             .firstWhere((element) => element.id == fieldsBloc.state.topic);
+        valuesBloc.add(UpdateValues(id: fieldsBloc.state.topic));
+
         _value = value.name;
       } else {
         _value = widget.model.name;
@@ -53,9 +57,18 @@ class _SelectState extends State<Select> {
 
     if (widget.model.xmlId == 'question') {
       if (fieldsBloc.state.question != 0) {
-        final ValueModel value = widget.model.values!
-            .firstWhere((element) => element.id == fieldsBloc.state.question);
-        _value = value.name;
+        // final ValueModel value = widget.model.values!
+        //     .firstWhere((element) => element.id == fieldsBloc.state.question);
+        // _value = value.name;
+        fieldsBloc.add(
+          FieldsSetQuestion(fieldsBloc.state.question),
+        );
+
+        formsExtraBloc.add(
+          FormsExtraChangeId(id: fieldsBloc.state.question),
+        );
+
+        //debugPrint('${valuesBloc.state}');
       } else {
         _value = widget.model.name;
       }

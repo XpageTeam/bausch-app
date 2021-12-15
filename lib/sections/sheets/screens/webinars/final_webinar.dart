@@ -44,7 +44,7 @@ class FinalWebinar extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
                         'Ваш доступ к записи вебинара',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     Padding(
@@ -53,7 +53,7 @@ class FinalWebinar extends StatelessWidget {
                         bottom: 40,
                       ),
                       child: Text(
-                        'Доступ видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
+                        'Доступ к видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
                         style: AppStyles.p1,
                       ),
                     ),
