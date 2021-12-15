@@ -28,12 +28,11 @@ class TopSection extends StatelessWidget {
           appBar: CustomSliverAppbar.toPop(icon: leftIcon, key: key),
         );
 
-  TopSection.packaging(
-      {required CatalogItemModel model,
-      required Widget leftIcon,
-      GlobalKey<NavigatorState>? rightKey,
-      Key? key})
-      : this(
+  TopSection.packaging({
+    required CatalogItemModel model,
+    required Widget leftIcon,
+    Key? key,
+  }) : this(
           model: model,
           isFull: false,
           withPrice: true,

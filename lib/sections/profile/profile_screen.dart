@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_app_bar.dart';
 import 'package:bausch/sections/profile/profile_screen_wm.dart';
 import 'package:bausch/sections/profile/scrollable_profile_content.dart';
@@ -8,6 +10,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileScreen extends CoreMwwmWidget<ProfileScreenWM> {
@@ -23,10 +26,12 @@ class ProfileScreen extends CoreMwwmWidget<ProfileScreenWM> {
 }
 
 class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
-  final Key appBarKey = const Key('appbar');
+  late UserWM userWM;
 
   @override
   Widget build(BuildContext context) {
+    userWM = Provider.of<UserWM>(context);
+
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: (notification) {
         wm.notificationStreamed(notification);
@@ -40,9 +45,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
         body: SizedBox.expand(
           child: Stack(
             children: [
-              ProfileAppBar(
-                key: appBarKey,
-              ),
+              const ProfileAppBar(),
 
               //* Фон со статусом и именем пользователя
               SafeArea(
@@ -52,10 +55,16 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                   ),
                   child: Column(
                     children: [
-                      Text(
-                        'Саша',
-                        style: AppStyles.h1,
+                      EntityStateBuilder<UserRepository>(
+                        streamedState: userWM.userData,
+                        builder: (_, userRepo) {
+                          return Text(
+                            userRepo.userName,
+                            style: AppStyles.h1,
+                          );
+                        },
                       ),
+                      /*
                       StreamedStateBuilder<double>(
                         streamedState: wm.opacityStreamed,
                         builder: (_, opacity) => Column(
@@ -80,7 +89,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                             ),
                           ],
                         ),
-                      ),
+                      ),*/
                       const SizedBox(
                         height: 17,
                       ),

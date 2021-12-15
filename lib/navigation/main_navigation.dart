@@ -18,9 +18,11 @@ import 'package:flutter/material.dart';
 
 //* Навигатор для страниц приложения
 class MainNavigation extends StatelessWidget {
-  const MainNavigation({
+  MainNavigation({
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key){
+    debugPrint('MainNavigation-Create');
+  }
 
   @override
   Widget build(BuildContext context) {

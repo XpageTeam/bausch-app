@@ -21,19 +21,8 @@ class AuthWM extends WidgetModel {
   final UserWM userWM;
 
   AuthWM(WidgetModelDependencies baseDependencies, this.userWM)
-      : super(baseDependencies);
-
-  @override
-  void onLoad() {
-    debugPrint('auth-load');
-    super.onLoad();
-  }
-
-  @override
-  void onBind() {
-    debugPrint('auth-bind');
-
-    subscribe(authStatus.stream, (value) {
+      : super(baseDependencies) {
+    authStatus.bind((value) {
       late String targetPage;
 
       switch (authStatus.value) {
@@ -67,16 +56,17 @@ class AuthWM extends WidgetModel {
       // );
 
       debugPrint(targetPage);
+      debugPrint('context ${Keys.mainContentNav.currentState}');
 
-      if (Keys.mainContentNav.currentState != null) {
+      // if (Keys.mainContentNav.currentState != null) {
         Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
           targetPage,
           (route) => false,
         );
-      }
+      // }
     });
 
-    subscribe(checkAuthAction.stream, (value) {
+    checkAuthAction.bind((value) {
       if (userWM.userData.value.isLoading) return;
 
       userWM.userData.loading();
@@ -93,7 +83,5 @@ class AuthWM extends WidgetModel {
     });
 
     checkAuthAction();
-
-    super.onBind();
   }
 }

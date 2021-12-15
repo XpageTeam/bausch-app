@@ -75,6 +75,14 @@ class LoginWM extends WidgetModel {
           );
       }
 
+      if (phoneController.text == '') {
+        phoneController
+          ..text = '+7 '
+          ..selection = TextSelection.fromPosition(
+            TextPosition(offset: phoneController.text.length),
+          );
+      }
+
       prevPhoneValue = phoneController.text;
 
       _checkBtnActive();
@@ -145,7 +153,6 @@ class LoginWM extends WidgetModel {
     Provider.of<AuthWM>(context, listen: false).checkAuthAction();
   }
 
-
   void _showTopError(CustomException ex) {
     showDefaultNotification(
       title: ex.title,
@@ -215,7 +222,6 @@ class LoginWM extends WidgetModel {
       await UserWriter.writeToken(res.xApiToken);
 
       _checkAuth();
-      
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',

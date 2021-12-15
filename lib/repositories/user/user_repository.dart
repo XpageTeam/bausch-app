@@ -8,7 +8,7 @@ class UserRepository {
 
   String get userName => user.name ?? 'Новый друг';
 
-  num get userScrore => balance.total;
+  String get userScrore => HelpFunctions.partitionNumber(balance.total);
 
   int? get daysRemain => balance.nearestExpiration?.date
       ?.difference(

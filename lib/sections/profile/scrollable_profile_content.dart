@@ -63,25 +63,23 @@ class _ScrollableProfileContentState extends State<ScrollableProfileContent> {
               ),
             ),
           ),
-          if (isOrdersEnabled) ...[
-            //* Вкладка с заказами
-            const OrdersSection(),
-          ] else ...[
-            //* Вкладка с уведомлениями (с переключателем)
-            NotificationSection(
-              groupChecked: groupChecked,
-              onChanged: (newGroupChecked) => setState(
-                () {
-                  groupChecked = newGroupChecked;
-                },
-              ),
-            ),
-          ],
+          SliverToBoxAdapter(
+            child: isOrdersEnabled
+                ? const OrdersSection()
+                : NotificationSection(
+                    groupChecked: groupChecked,
+                    onChanged: (newGroupChecked) => setState(
+                      () {
+                        groupChecked = newGroupChecked;
+                      },
+                    ),
+                  ),
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
               ],
             ),

@@ -80,7 +80,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
               title: 'Bausch + Lomb',
               navigatorKey: Keys.mainNav,
               theme: AppTheme.currentAppTheme,
-              home: const MainNavigation(),
+              home: MainNavigation(),
             ),
           ),
         ),
