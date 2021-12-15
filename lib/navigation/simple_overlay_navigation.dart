@@ -108,7 +108,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
 
           case '/addpoints_details':
             page = AddPointsDetails(
-              model: Models.addItems[0],
+              model: (settings.arguments as AddPointsDetailsArguments).model,
               controller: controller,
             );
             break;

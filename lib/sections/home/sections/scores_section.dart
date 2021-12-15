@@ -64,52 +64,33 @@ class ScoresSection extends StatelessWidget {
             ],
           ),
         ),
-        // EntityStateBuilder<UserRepository>(
-        //   streamedState: userWM.userData,
-        //   builder: (_, repo) {
-        //     if (repo.canPrintLineLoadingText) {
-        //       final daysRemain = 3;
-        //       return FutureBuilder<void>(
-        //         future: Future.delayed(delay),
-        //         builder: (_, s) {
-        //           return Padding(
-        //             padding: const EdgeInsets.only(
-        //               top: 20,
-        //             ),
-        //             child: CustomLineLoadingIndicator(
-        //               text: repo.lineLoadingText,
-        //               // TODO(Nikolay): Откуда берется максимальное количество дней?.
-        //               maxDays: 30,
-        // daysRemain: s.connectionState == ConnectionState.done
-        //     ? daysRemain
-        //     : 6, // TODO(Nikolay): Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
-        //               animationDuration: loadingAnimationDuration,
-        //             ),
-        //           );
-        //         },
-        //       );
-        //     } else {
-        //       return Container();
-        //     }
-        //   },
-        // ),
-        FutureBuilder<void>(
-          future: Future.delayed(delay),
-          builder: (_, s) {
-            return Padding(
-              padding: const EdgeInsets.only(
-                top: 20,
-              ),
-              child: CustomLineLoadingIndicator(
-                text: '130 баллов сгорят через 10 дней',
-                // TODO(Nikolay): Откуда берется максимальное количество дней?.
-                maxDays: 30,
-                daysRemain: s.connectionState == ConnectionState.done
-                    ? 3
-                    : 6, // TODO(Nikolay): Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
-                animationDuration: loadingAnimationDuration,
-              ),
-            );
+        EntityStateBuilder<UserRepository>(
+          streamedState: userWM.userData,
+          builder: (_, repo) {
+            if (repo.canPrintLineLoadingText) {
+              final daysRemain = 3;
+              return FutureBuilder<void>(
+                future: Future.delayed(delay),
+                builder: (_, s) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                    ),
+                    child: CustomLineLoadingIndicator(
+                      text: repo.lineLoadingText,
+                      // TODO(Nikolay): Откуда берется максимальное количество дней?.
+                      maxDays: 30,
+                      daysRemain: s.connectionState == ConnectionState.done
+                          ? daysRemain
+                          : 6, // TODO(Nikolay): Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
+                      animationDuration: loadingAnimationDuration,
+                    ),
+                  );
+                },
+              );
+            } else {
+              return Container();
+            }
           },
         ),
       ],

@@ -26,6 +26,7 @@ class ProfileScreen extends CoreMwwmWidget<ProfileScreenWM> {
 }
 
 class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
+  final Key appBarKey = const Key('appbar');
   late UserWM userWM;
 
   @override
@@ -45,7 +46,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
         body: SizedBox.expand(
           child: Stack(
             children: [
-              const ProfileAppBar(),
+               ProfileAppBar(key: appBarKey),
 
               //* Фон со статусом и именем пользователя
               SafeArea(
@@ -139,12 +140,12 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                 child: DraggableScrollableSheet(
                   minChildSize: 0.7,
                   maxChildSize: 1 -
-                      58 /
-                          (MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).padding.top -
-                              MediaQuery.of(context)
-                                  .padding
-                                  .bottom), // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
+                        58 /
+                           (MediaQuery.of(context).size.height -
+                                MediaQuery.of(context).padding.top -
+                                MediaQuery.of(context)
+                                    .padding
+                                    .bottom),  // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
                   initialChildSize: 0.7,
                   builder: (context, controller) {
                     return Container(

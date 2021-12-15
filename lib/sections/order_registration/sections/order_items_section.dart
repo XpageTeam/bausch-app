@@ -25,7 +25,7 @@ class OrderItemsSection extends StatelessWidget {
             height: 12,
           ),
           Text(
-            'После подтверждения заказа у вас останется $points баллов',
+            'После оформления заказа у вас останется $points баллов',
             style: AppStyles.p1,
           ),
         ],

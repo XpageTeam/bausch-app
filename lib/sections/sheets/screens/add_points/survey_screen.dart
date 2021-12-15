@@ -88,7 +88,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                             CustomSliverAppbar.toPop(
                               icon: Container(),
                               key: widget.key,
-                              rightKey: Keys.bottomSheetWithoutItemsNav,
+                              rightKey: Keys.simpleBottomSheetNav,
                             ),
                           ],
                         ),

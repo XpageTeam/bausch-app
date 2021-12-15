@@ -48,7 +48,7 @@ class ConsultationVerification extends StatelessWidget {
                         ),
                         Text(
                           'Подтвердите заказ',
-                          style: AppStyles.h2,
+                          style: AppStyles.h1,
                         ),
                         Column(
                           children: [

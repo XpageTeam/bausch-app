@@ -122,7 +122,7 @@ class CatalogItemWidget extends StatelessWidget {
             ),
 
             //* Информация о доставке
-            if (model is ProductItemModel)
+            if ((model is ProductItemModel) && deliveryInfo != null)
               Container(
                 //margin: const EdgeInsets.only(top: 2),
                 child: Row(
@@ -136,8 +136,8 @@ class CatalogItemWidget extends StatelessWidget {
                       width: 4,
                     ),
                     Flexible(
-                      child: Text.rich(
-                        TextSpan(
+                      child: RichText(
+                        text: TextSpan(
                           text: 'Ещё пару дней. ',
                           style: AppStyles.p1,
                           children: [

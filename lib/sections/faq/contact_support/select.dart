@@ -60,6 +60,8 @@ class _SelectState extends State<Select> {
         // final ValueModel value = widget.model.values!
         //     .firstWhere((element) => element.id == fieldsBloc.state.question);
         // _value = value.name;
+
+        //valuesBloc.loadData(fieldsBloc.state.topic);
         fieldsBloc.add(
           FieldsSetQuestion(fieldsBloc.state.question),
         );
@@ -68,7 +70,7 @@ class _SelectState extends State<Select> {
           FormsExtraChangeId(id: fieldsBloc.state.question),
         );
 
-        //debugPrint('${valuesBloc.state}');
+        debugPrint('${valuesBloc.state}');
       } else {
         _value = widget.model.name;
       }
@@ -86,6 +88,7 @@ class _SelectState extends State<Select> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: BlocBuilder<FieldsBloc, FieldsState>(
+        bloc: fieldsBloc,
         builder: (context, state) {
           if (widget.model.xmlId == 'question') {
             if (state.question == 0) {

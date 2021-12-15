@@ -29,18 +29,18 @@ class SmallContainer extends StatefulWidget implements ContainerInterface {
 }
 
 class _SmallContainerState extends State<SmallContainer> {
-  //late CatalogItemCubit catalogItemCubit;
+  late CatalogItemCubit catalogItemCubit;
 
   @override
   void initState() {
     super.initState();
-    //catalogItemCubit = CatalogItemCubit(section: widget.model.type);
+    catalogItemCubit = CatalogItemCubit(section: widget.model.type);
   }
 
   @override
   void dispose() {
     super.dispose();
-    //catalogItemCubit.close();
+    catalogItemCubit.close();
   }
 
   @override
@@ -48,56 +48,53 @@ class _SmallContainerState extends State<SmallContainer> {
     final _width =
         MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
 
-    return WhiteContainerWithRoundedCorners(
-      onTap: () {
-        //showSheetWithItems(context, model);
-        if (widget.model.type == 'promo_code_immediately') {
-          showSheetWithItems(context, widget.model, Models.partners);
-        } else if (widget.model.type == 'promo_code_video') {
-          showSheetWithItems(context, widget.model, Models.webinars);
-        } else if (widget.model.type == 'onlineShop') {
-          showSheetWithItems(context, widget.model, Models.promo);
-        } else {
-          showSheetWithItems(context, widget.model, Models.discountOptics);
-        }
-      },
-      heigth: _width,
-      width: _width,
-      padding: const EdgeInsets.only(
-        top: 20,
-        bottom: 14,
-        left: StaticData.sidePadding,
-        right: StaticData.sidePadding,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          AutoSizeText(
-            widget.model.name,
-            style: AppStyles.h2Bold,
-            maxLines: 3,
-            overflow: TextOverflow.visible,
+    return BlocProvider(
+      create: (context) => catalogItemCubit,
+      child: SheetListener(
+        model: widget.model,
+        child: WhiteContainerWithRoundedCorners(
+          onTap: () {
+            //showSheetWithItems(context, model);
+            catalogItemCubit.loadData();
+          },
+          heigth: _width,
+          width: _width,
+          padding: const EdgeInsets.only(
+            top: 20,
+            bottom: 14,
+            left: StaticData.sidePadding,
+            right: StaticData.sidePadding,
           ),
-          Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                widget.model.count.toString(),
-                style: AppStyles.p1,
+              AutoSizeText(
+                widget.model.name,
+                style: AppStyles.h1,
+                maxLines: 3,
+                overflow: TextOverflow.visible,
               ),
-              Padding(
-                padding: const EdgeInsets.all(6.6),
-                child: Image.asset(
-                  //setTheImg(widget.model.type),
-                  widget.model.icon,
-                  height: 53,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    widget.model.count.toString(),
+                    style: AppStyles.p1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6.6),
+                    child: Image.asset(
+                      setTheImg(widget.model.type),
+                      height: 53,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

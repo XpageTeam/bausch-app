@@ -60,7 +60,7 @@ class DiscountOpticsScreen extends StatelessWidget
                       height: 4,
                     ),
                     InfoSection(
-                      text: model.previewText,
+                      text: 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
                     ),
                     const SizedBox(
                       height: 12,
@@ -132,6 +132,7 @@ class DiscountOpticsScreen extends StatelessWidget
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
+                        padding: const EdgeInsets.fromLTRB(16, 26, 16, 28),
                         icon: Padding(
                           padding: const EdgeInsets.only(
                             right: 12,
@@ -152,7 +153,7 @@ class DiscountOpticsScreen extends StatelessWidget
                     Warning.warning(),
                     const Padding(
                       padding: EdgeInsets.only(top: 40, bottom: 20),
-                      child: HowToUsePromocode(),
+                      child: HowToUsePromocode(text: 'Покажите промокод в оптике при покупке выбранного продукта. Срок действия промокода и количество промокодов ограничены. '),
                     ),
                   ],
                 ),

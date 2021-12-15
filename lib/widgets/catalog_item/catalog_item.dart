@@ -42,43 +42,19 @@ class CatalogItem extends StatelessWidget {
               Column(
                 children: [
                   if (model is! WebinarItemModel)
-                    const SizedBox(
-                      height: 12,
-                    ),
-                  if (model is ProductItemModelSlider)
-                        SizedBox(
-                          height: 100,
-                          child: AspectRatio(
-                            aspectRatio: 37 / 12,
-                            child: Image.asset(
-                              model.picture,
-                            ),
-                          ),
-                        )
-                  
-                  else if (model is! WebinarItemModel)
                     SizedBox(
                       height: 100,
                       child: AspectRatio(
                         aspectRatio: 37 / 12,
-                        child: Padding(
-                          padding: model is PartnersItemModel
-                              ? const EdgeInsets.symmetric(vertical: 20)
-                              : EdgeInsets.zero,
-                          child: Image.network(
-                            model.picture,
-                            fit: BoxFit.fitHeight,
-                          ),
+                        child: Image.network(
+                          model.picture,
                         ),
                       ),
                     )
                   else
                     AspectRatio(
                       aspectRatio: 174 / 112,
-                      child: Image.asset(
-                        'assets/woman.png',
-                        fit: BoxFit.cover,
-                      ),
+                      child: Image.asset('assets/woman.png'),
                     ),
                   const SizedBox(
                     height: 8,
@@ -118,6 +94,4 @@ class CatalogItem extends StatelessWidget {
       ),
     );
   }
-
-
 }

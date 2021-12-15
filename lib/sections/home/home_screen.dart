@@ -1,3 +1,4 @@
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
@@ -13,12 +14,14 @@ import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // final authWM = Provider.of<AuthWM>(context);
+    final authWM = Provider.of<AuthWM>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.mystic,
@@ -31,142 +34,141 @@ class HomeScreen extends StatelessWidget {
         scaffoldBgColor: AppTheme.mystic,
       ),
       // appBar: const EmptyAppBar(),
-      // body: SafeArea(
-      //   child: StreamedStateBuilder<AuthStatus>(
-      //     streamedState: authWM.authStatus,
-      //     builder: (_, status) {
-
-      //     },
-      //   ),
-      // ),
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          // if (status == AuthStatus.authenticated)
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: StaticData.sidePadding,
-              vertical: 14,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const DelayedAnimatedTranslateOpacity(
-                    offsetY: 20,
-                    child: ProfileStatus(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // if (status == AuthStatus.authenticated)
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              bottom: 20,
-              left: StaticData.sidePadding,
-              right: StaticData.sidePadding,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                const [
-                  DelayedAnimatedTranslateOpacity(
-                    offsetY: 30,
-                    child: ScoresSection(
-                      loadingAnimationDuration: Duration(
-                        milliseconds: 2500,
-                      ),
-                      delay: Duration(
-                        milliseconds: 1000,
+      body: SafeArea(
+        child: StreamedStateBuilder<AuthStatus>(
+          streamedState: authWM.authStatus,
+          builder: (_, status) {
+            return CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                if (status == AuthStatus.authenticated)
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                      vertical: 14,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          const DelayedAnimatedTranslateOpacity(
+                            offsetY: 20,
+                            child: ProfileStatus(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          // if (status == AuthStatus.authenticated)
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              bottom: 20,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const DelayedAnimatedTranslateOpacity(
-                    offsetY: 40,
-                    child: StoriesSlider(),
+                if (status == AuthStatus.authenticated)
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 20,
+                      left: StaticData.sidePadding,
+                      right: StaticData.sidePadding,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        const [
+                          DelayedAnimatedTranslateOpacity(
+                            offsetY: 30,
+                            child: ScoresSection(
+                              loadingAnimationDuration: Duration(
+                                milliseconds: 2500,
+                              ),
+                              delay: Duration(
+                                milliseconds: 1000,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              bottom: 40,
-              left: StaticData.sidePadding,
-              right: StaticData.sidePadding,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const DelayedAnimatedTranslateOpacity(
-                    offsetY: 50,
-                    child: OfferWidget(),
+                if (status == AuthStatus.authenticated)
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 20,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          const DelayedAnimatedTranslateOpacity(
+                            offsetY: 40,
+                            child: StoriesSlider(),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              bottom: 40,
-              left: StaticData.sidePadding,
-              right: StaticData.sidePadding,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                const [
-                  //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
-                  DelayedAnimatedTranslateOpacity(
-                    offsetY: 60,
-                    child: SpendScores(),
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    bottom: 40,
+                    left: StaticData.sidePadding,
+                    right: StaticData.sidePadding,
                   ),
-                ],
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              bottom: 30,
-              left: StaticData.sidePadding,
-              right: StaticData.sidePadding,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  //* Вам может быть интересно
-                  MayBeInteresting(
-                    text: 'Вам может быть интересно',
-                    onTap: () {},
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        const DelayedAnimatedTranslateOpacity(
+                          offsetY: 50,
+                          child: OfferWidget(),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    bottom: 40,
+                    left: StaticData.sidePadding,
+                    right: StaticData.sidePadding,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      const [
+                        //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
+                        DelayedAnimatedTranslateOpacity(
+                          offsetY: 60,
+                          child: SpendScores(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    bottom: 30,
+                    left: StaticData.sidePadding,
+                    right: StaticData.sidePadding,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        //* Вам может быть интересно
+                         MayBeInteresting(
+                          text: 'Вам может быть интересно',
+                          onTap: (){},
+                        ),
+                        const SizedBox(
                     height: 52,
                   ),
 
-                  //* Текстовые кнопки(Частые вопросы и тд)
-                  const TextButtonsSection(),
-                  const SizedBox(
-                    height: 100,
+                        //* Текстовые кнопки(Частые вопросы и тд)
+                        const TextButtonsSection(),
+                        const SizedBox(
+                          height: 100,
+                        ),
+                        Image.asset('assets/logo.png'),
+                        // const SizedBox(
+                        //   height: 60,
+                        // ),
+                      ],
+                    ),
                   ),
-                  Image.asset('assets/logo.png'),
-                  const SizedBox(
-                    height: 160,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+                ),
+              ],
+            );
+          },
+        ),
       ),
       bottomNavigationBar: DelayedAnimatedTranslateOpacity(
         offsetY: 10,

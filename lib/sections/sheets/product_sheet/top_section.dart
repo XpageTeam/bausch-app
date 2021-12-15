@@ -99,7 +99,7 @@ class TopSection extends StatelessWidget {
                 const SizedBox(
                   height: 64,
                 ),
-              Image.asset(
+              Image.network(
                 model.picture,
                 height: !isFull ? MediaQuery.of(context).size.height / 5 : null,
                 fit: BoxFit.cover,

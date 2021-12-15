@@ -28,6 +28,8 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
   Future<ValuesState> loadData(int id) async {
     final rh = RequestHandler();
 
+    
+
     try {
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.get<Map<String, dynamic>>(
@@ -37,7 +39,7 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
             .data!,
       );
 
-      //debugPrint(parsedData.data.toString());
+      //debugPrint('topic is ${parsedData.data}');
       return ValuesSuccess(
         values: (parsedData.data as List<dynamic>)
             .map((dynamic value) =>

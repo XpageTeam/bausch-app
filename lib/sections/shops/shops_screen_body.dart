@@ -1,3 +1,4 @@
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -15,6 +16,7 @@ import 'package:bausch/widgets/shop_filter_widget/bloc/shop_filter_bloc.dart';
 import 'package:bausch/widgets/shop_filter_widget/shop_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class ShopsScreenBody extends StatefulWidget {
   final List<CityModel> cityList;
@@ -42,7 +44,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
 
   int currentIndex = 0;
 
-  // late AuthWM authWM;
+  late AuthWM authWM;
 
   @override
   void initState() {
@@ -66,7 +68,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
       defaultFilter: filterList[0],
       allFilters: filterList,
     );
-    // authWM = Provider.of<AuthWM>(context, listen: false);
+    authWM = Provider.of<AuthWM>(context, listen: false);
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) {},
     );

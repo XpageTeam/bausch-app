@@ -58,7 +58,7 @@ class DiscountOnlineScreen extends StatelessWidget
                       height: 4,
                     ),
                     InfoSection(
-                      text: model.previewText,
+                      text: 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
                     ),
                     const SizedBox(
                       height: 12,
@@ -107,7 +107,7 @@ class DiscountOnlineScreen extends StatelessWidget
                   [
                     Text(
                       'Выбрать интернет-магазин',
-                      style: AppStyles.h2,
+                      style: AppStyles.h1,
                     ),
                   ],
                 ),

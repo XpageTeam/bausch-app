@@ -37,7 +37,7 @@ class Warning extends StatelessWidget {
               Flexible(
                 child: Text(
                   'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
-                  style: AppStyles.h3,
+                  style: AppStyles.h2,
                 ),
               ),
             ],

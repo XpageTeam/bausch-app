@@ -60,7 +60,7 @@ class DiscountOpticsVerification extends StatelessWidget {
                         ),
                         Text(
                           'Подтвердите заказ',
-                          style: AppStyles.h2,
+                          style: AppStyles.h1,
                         ),
                         Column(
                           children: [
@@ -90,7 +90,7 @@ class DiscountOpticsVerification extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: 4,
+                          height: 20,
                         ),
                         BigCatalogItem(
                           model: model,

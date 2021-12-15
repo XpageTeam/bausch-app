@@ -11,24 +11,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 // TODO: выход необходимо реализовывать тут
 class UserWM extends WidgetModel {
-  final userData = EntityStreamedState<UserRepository>()
-    ..content(
-      UserRepository(
-        balance: const Balance(
-          total: 5000,
-          available: 5000,
-        ),
-        user: User(
-          id: 1,
-          city: 'Москва',
-          name: 'Саша',
-          phone: '89517792313',
-          birthDate: DateTime.now(),
-          email: 'sasha@mail.ru',
-          isMobilePhoneConfirmed: true,
-        ),
-      ),
-    );
+  final userData = EntityStreamedState<UserRepository>();
 
   UserWM() : super(const WidgetModelDependencies());
 

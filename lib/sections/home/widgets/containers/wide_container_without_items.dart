@@ -32,70 +32,59 @@ class WideContainerWithoutItems extends StatefulWidget
 }
 
 class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
-  //late CatalogItemCubit catalogItemCubit;
+  late CatalogItemCubit catalogItemCubit;
 
   @override
   void initState() {
     super.initState();
-    //catalogItemCubit = CatalogItemCubit(section: widget.model.type);
+    catalogItemCubit = CatalogItemCubit(section: widget.model.type);
   }
 
   @override
   void dispose() {
     super.dispose();
-    //catalogItemCubit.close();
+    catalogItemCubit.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WhiteContainerWithRoundedCorners(
-      onTap: () {
-        showSheetWithoutItems(
-          context,
-          widget.model,
-          ConsultationItemModel(
-            id: 0,
-            name: 'Онлайн-консультация у офтальмолога',
-            previewText:
-                'Не выходя из дома можно будет проконсультироваться со специалистом из клиники МЕДСИ. Время консультации, как и время очного приёма в клинике занимает 20 минут',
-            detailText: 'detailText',
-            picture: 'assets/consultation_logo.png',
-            price: 50,
-            length: 20,
-          ),
-        );
-      },
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.model.name,
-            style: AppStyles.h2Bold,
-          ),
-          Row(
+    return BlocProvider(
+      create: (context) => catalogItemCubit,
+      child: SheetListener(
+        model: widget.model,
+        child: WhiteContainerWithRoundedCorners(
+          onTap: () {
+            catalogItemCubit.loadData();
+          },
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                child: Text(
-                  widget.subtitle ??
-                      'Любые вопросы офтальмологу из клиники Медси',
-                  style: AppStyles.p1,
-                ),
+              Text(
+                widget.model.name,
+                style: AppStyles.h2Bold,
+              ),
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      widget.subtitle ??
+                          'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
+                      style: AppStyles.p1,
+                    ),
+                  ),
+                  Image.asset(
+                    setTheImg(widget.model.type),
+                    height: 45,
+                  ),
+                ],
               ),
               const SizedBox(
-                width: 40,
-              ),
-              Image.asset(
-                //setTheImg(widget.model.type),
-                widget.model.icon,
-                height: 45,
+                height: 40,
               ),
             ],
           ),
-          const SizedBox(
-            height: 40,
-          ),
-        ],
+        ),
       ),
     );
   }

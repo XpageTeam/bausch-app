@@ -50,7 +50,7 @@ class ConsultationItemModel extends CatalogItemModel
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
       picture:
-          'https://icdn.lenta.ru/images/2019/12/06/10/20191206104306174/pwa_vertical_1280_4c9fd519bc66e04b4a6eb24307a025ad.jpg',
+          'https://i.ibb.co/89NPJqb/4.png',
       price: (map['price'] ?? 150) as int,
       length: map['length'] as int,
     );
