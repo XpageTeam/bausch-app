@@ -14,4 +14,13 @@ class HelpFunctions {
 
     return prefix;
   }
+
+  static String partitionNumber(num number) {
+    final parts = number.toString().split('.');
+    final reg = RegExp(r'\B(?=(\d{3})+(?!\d))');
+
+    parts[0] = parts[0].replaceAll(reg, ' ');
+
+    return parts.join('.');
+  }
 }

@@ -30,9 +30,12 @@ class BlueButtonWithText extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             icon ?? Container(),
-            Text(
-              text,
-              style: AppStyles.h2,
+            Padding(
+              padding: EdgeInsets.only(left: icon == null ? 0 : 9),
+              child: Text(
+                text,
+                style: AppStyles.h2,
+              ),
             ),
           ],
         ),

@@ -33,9 +33,12 @@ class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
   final bool isFirstLaunch;
   @override
   final AdressModel adress;
+
+  final String? btnText;
   const AddDetailsScreen({
     required this.adress,
     required this.isFirstLaunch,
+    this.btnText,
     Key? key,
   }) : super(key: key);
 
@@ -142,17 +145,17 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             BlueButtonWithText(
-              text: 'Сохранить',
+              text: widget.btnText ?? 'Сохранить',
               onPressed: () {
-                final model = AdressModel(
-                  street: widget.adress.street,
-                  house: widget.adress.house,
-                  flat: int.parse(flatController.text),
-                  entry: int.parse(entryController.text),
-                  floor: int.parse(floorController.text),
-                );
+                // final model = AdressModel(
+                //   street: widget.adress.street,
+                //   house: widget.adress.house,
+                //   flat: 1, //int.parse(flatController.text),
+                //   entry: 1, //int.parse(entryController.text),
+                //   floor: 1, //int.parse(floorController.text),
+                // );
 
-                addressesBloc.add(AddressesSend(address: model));
+                //addressesBloc.add(AddressesSend(address: model));
                 //widget.adressesCubit?.getAdresses();
 
                 _navigateBack();
@@ -168,16 +171,18 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
+                      backgroundColor: AppTheme.mystic,
+                      barrierColor: Colors.black.withOpacity(0.8),
                       builder: (context) {
                         return CustomAlertDialog(
                           yesCallback: () {
-                            addressesBloc
-                                .add(AddressesDelete(id: widget.adress.id!));
+                            // addressesBloc
+                            //     .add(AddressesDelete(id: widget.adress.id!));
 
                             //widget.adressesCubit?.getAdresses();
 
                             debugPrint('delete');
-                            debugPrint(addressesBloc.state.toString());
+                            // debugPrint(addressesBloc.state.toString());
 
                             _navigateBack();
                           },

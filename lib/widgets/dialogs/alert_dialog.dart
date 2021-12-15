@@ -43,7 +43,7 @@ class CustomAlertDialog extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 40),
                 child: Text(
-                  'Удалить адрес?',
+                  text ?? 'Удалить адрес?',
                   style: AppStyles.h1,
                 ),
               ),

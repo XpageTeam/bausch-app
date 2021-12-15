@@ -6,10 +6,12 @@ import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
+import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
@@ -78,6 +80,7 @@ class DiscountOnlineScreen extends StatelessWidget
                 ),
               ),
             ),
+            
             const SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
@@ -115,6 +118,37 @@ class DiscountOnlineScreen extends StatelessWidget
               sliver: SelectShopSection(),
             ),
             SliverPadding(
+              padding: const EdgeInsets.only(
+                top: 30,
+                left: StaticData.sidePadding,
+                right: StaticData.sidePadding,
+                bottom: 4,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  WhiteButton(
+                    text: 'Адреса оптик',
+                    padding: const EdgeInsets.fromLTRB(16, 26, 16, 28),
+                    icon: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 12,
+                      ),
+                      child: Image.asset(
+                        'assets/icons/map-marker.png',
+                        height: 16,
+                      ),
+                    ),
+                    onPressed: () {
+                      Keys.mainNav.currentState!
+                          .push<void>(MaterialPageRoute(builder: (context) {
+                        return const ShopsScreen();
+                      }));
+                    },
+                  ),
+                ]),
+              ),
+            ),
+            SliverPadding(
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
               ),
@@ -123,7 +157,7 @@ class DiscountOnlineScreen extends StatelessWidget
                   [
                     Warning.warning(),
                     const Padding(
-                      padding: EdgeInsets.only(top: 40, bottom: 160),
+                      padding: EdgeInsets.only(top: 40, bottom: 30),
                       //TODO(Nikita): это приходит с бэка или в приложении
                       child: HowToUsePromocode(),
                     ),

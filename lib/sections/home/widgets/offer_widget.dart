@@ -10,10 +10,13 @@ class OfferWidget extends StatelessWidget {
   final String? subtitle;
   final Widget? topRightIcon;
 
+  final VoidCallback? onTap;
+
   const OfferWidget({
     this.title,
     this.subtitle,
     this.topRightIcon,
+    this.onTap,
     Key? key,
   }) : super(key: key);
 
@@ -23,15 +26,16 @@ class OfferWidget extends StatelessWidget {
       alignment: Alignment.topRight,
       children: [
         GestureDetector(
-          onTap: () {
-            showSimpleSheet(
-              context,
-              SimpleSheetModel(
-                title: 'Программа подбора',
-                type: SimpleSheetType.program,
-              ),
-            );
-          },
+          onTap: onTap ??
+              () {
+                showSimpleSheet(
+                  context,
+                  SimpleSheetModel(
+                    title: 'Программа подбора',
+                    type: SimpleSheetType.program,
+                  ),
+                );
+              },
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.sulu,
@@ -51,7 +55,7 @@ class OfferWidget extends StatelessWidget {
                       Flexible(
                         child: Text(
                           title ??
-                              'Получите двойные баллы за подбор контактных линз',
+                              'Бесплатно подберем вам первые линзы в оптике',
                           style: AppStyles.h1,
                         ),
                       ),
@@ -68,7 +72,7 @@ class OfferWidget extends StatelessWidget {
                       Flexible(
                         child: Text(
                           subtitle ??
-                              'Успейте зарегистрировать код с упаковки в течение 14 дней и мы начислим вам баллы',
+                              'После подбора линз вы сможете получить в два раза больше баллов',
                           style: AppStyles.p1,
                         ),
                       ),

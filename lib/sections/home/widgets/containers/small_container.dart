@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -9,6 +10,7 @@ import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,18 +29,18 @@ class SmallContainer extends StatefulWidget implements ContainerInterface {
 }
 
 class _SmallContainerState extends State<SmallContainer> {
-  late CatalogItemCubit catalogItemCubit;
+  //late CatalogItemCubit catalogItemCubit;
 
   @override
   void initState() {
     super.initState();
-    catalogItemCubit = CatalogItemCubit(section: widget.model.type);
+    //catalogItemCubit = CatalogItemCubit(section: widget.model.type);
   }
 
   @override
   void dispose() {
     super.dispose();
-    catalogItemCubit.close();
+    //catalogItemCubit.close();
   }
 
   @override
@@ -46,53 +48,56 @@ class _SmallContainerState extends State<SmallContainer> {
     final _width =
         MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
 
-    return BlocProvider(
-      create: (context) => catalogItemCubit,
-      child: SheetListener(
-        model: widget.model,
-        child: WhiteContainerWithRoundedCorners(
-          onTap: () {
-            //showSheetWithItems(context, model);
-            catalogItemCubit.loadData();
-          },
-          heigth: _width,
-          width: _width,
-          padding: const EdgeInsets.only(
-            top: 20,
-            bottom: 14,
-            left: StaticData.sidePadding,
-            right: StaticData.sidePadding,
+    return WhiteContainerWithRoundedCorners(
+      onTap: () {
+        //showSheetWithItems(context, model);
+        if (widget.model.type == 'promo_code_immediately') {
+          showSheetWithItems(context, widget.model, Models.partners);
+        } else if (widget.model.type == 'promo_code_video') {
+          showSheetWithItems(context, widget.model, Models.webinars);
+        } else if (widget.model.type == 'onlineShop') {
+          showSheetWithItems(context, widget.model, Models.promo);
+        } else {
+          showSheetWithItems(context, widget.model, Models.discountOptics);
+        }
+      },
+      heigth: _width,
+      width: _width,
+      padding: const EdgeInsets.only(
+        top: 20,
+        bottom: 14,
+        left: StaticData.sidePadding,
+        right: StaticData.sidePadding,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AutoSizeText(
+            widget.model.name,
+            style: AppStyles.h2Bold,
+            maxLines: 3,
+            overflow: TextOverflow.visible,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              AutoSizeText(
-                widget.model.name,
-                style: AppStyles.h1,
-                maxLines: 3,
-                overflow: TextOverflow.visible,
+              Text(
+                widget.model.count.toString(),
+                style: AppStyles.p1,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    widget.model.count.toString(),
-                    style: AppStyles.p1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.6),
-                    child: Image.asset(
-                      setTheImg(widget.model.type),
-                      height: 53,
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(6.6),
+                child: Image.asset(
+                  //setTheImg(widget.model.type),
+                  widget.model.icon,
+                  height: 53,
+                ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
