@@ -1,5 +1,6 @@
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class CustomSliverAppbar extends StatelessWidget {
@@ -64,21 +65,34 @@ class CustomSliverAppbar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           icon ??
-              CircleAvatar(
-                radius: 22,
+              // CircleAvatar(
+              //   radius: 22,
+              //   backgroundColor: iconColor ?? Colors.white,
+              //   child: IconButton(
+              //     onPressed: () {
+              //       leftKey.currentState!.pop();
+              //     },
+              //     icon: const Icon(
+              //       Icons.arrow_back_ios_new,
+              //       color: AppTheme.mineShaft,
+              //     ),
+              //   ),
+              // ),
+              NormalIconButton(
+                onPressed: () {
+                  leftKey.currentState!.pop();
+                }, //Navigator.of(context).pop,
                 backgroundColor: iconColor ?? Colors.white,
-                child: IconButton(
-                  onPressed: () {
-                    leftKey.currentState!.pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: AppTheme.mineShaft,
-                  ),
+                icon: const Icon(
+                  Icons.chevron_left_rounded,
+                  size: 20,
+                  color: AppTheme.mineShaft,
                 ),
               ),
-          CircleAvatar(
-            radius: 22,
+          NormalIconButton(
+            onPressed: () {
+              rightKey.currentState!.pop();
+            }, //Navigator.of(context).pop,
             backgroundColor: iconColor ?? Colors.white,
             child: IconButton(
               onPressed: () {

@@ -6,6 +6,7 @@ import 'package:bausch/sections/home/widgets/containers/white_container_with_rou
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -30,109 +31,105 @@ class WideContainerWithItems extends StatefulWidget
 }
 
 class _WideContainerWithItemsState extends State<WideContainerWithItems> {
-  late CatalogItemCubit catalogItemCubit;
+  //late CatalogItemCubit catalogItemCubit;
 
   @override
   void initState() {
     super.initState();
-    catalogItemCubit = CatalogItemCubit(section: widget.model.type);
+    //catalogItemCubit = CatalogItemCubit(section: widget.model.type);
   }
 
   @override
   void dispose() {
     super.dispose();
-    catalogItemCubit.close();
+    //catalogItemCubit.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => catalogItemCubit,
-      child: SheetListener(
-        model: widget.model,
-        child: WhiteContainerWithRoundedCorners(
-          onTap: () {
-            catalogItemCubit.loadData();
-          },
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return WhiteContainerWithRoundedCorners(
+      onTap: () {
+        //catalogItemCubit.loadData();
+        showSheetWithItems(context, widget.model, Models.promo);
+      },
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.model.name,
+            style: AppStyles.h2Bold,
+          ),
+          Row(
             children: [
-              Text(
-                widget.model.name,
-                style: AppStyles.h2Bold,
+              Flexible(
+                child: Text(
+                  widget.subtitle ??
+                      'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
+                  style: AppStyles.p1,
+                ),
               ),
-              Row(
+              const SizedBox(
+                width: 20,
+              ),
+              Image.asset(
+                //setTheImg(widget.model.type),
+                widget.model.icon,
+                height: 45,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          //if (widget.model.logos != null)
+          Center(
+            child: SizedBox(
+              height: 32,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text(
-                      widget.subtitle ??
-                          'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
-                      style: AppStyles.p1,
+                    flex: 3,
+                    child: Image.asset(
+                      'assets/logos/logo1.png',
                     ),
                   ),
-                  const SizedBox(
-                    width: 20,
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        color: AppTheme.mystic,
+                        width: 2,
+                        height: 32,
+                      ),
+                    ),
                   ),
-                  Image.asset(
-                    setTheImg(widget.model.type),
-                    height: 45,
+                  Flexible(
+                    flex: 3,
+                    child: Image.asset(
+                      'assets/logos/logo2.png',
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        color: AppTheme.mystic,
+                        width: 2,
+                        height: 32,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Image.asset(
+                      'assets/logos/logo3.png',
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              if (widget.model.logos != null)
-                Center(
-                  child: SizedBox(
-                    height: 32,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          flex: 3,
-                          child: Image.network(
-                            widget.model.logos![0],
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Container(
-                              color: AppTheme.mystic,
-                              width: 2,
-                              height: 32,
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 3,
-                          child: Image.network(
-                            widget.model.logos![1],
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Container(
-                              color: AppTheme.mystic,
-                              width: 2,
-                              height: 32,
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 3,
-                          child: Image.network(
-                            widget.model.logos![2],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

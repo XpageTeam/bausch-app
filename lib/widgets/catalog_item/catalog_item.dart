@@ -2,6 +2,7 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
 import 'package:bausch/widgets/discount_info.dart';
@@ -39,13 +40,31 @@ class CatalogItem extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  if (model is! WebinarItemModel)
-                    SizedBox(
-                      height: 100,
-                      child: AspectRatio(
-                        aspectRatio: 37 / 12,
-                        child: Image.network(
-                          model.picture,
+                  Column(
+                    children: [
+                      if (model is ProductItemModelSlider)
+                        SizedBox(
+                          height: 100,
+                          child: AspectRatio(
+                            aspectRatio: 37 / 12,
+                            child: Image.asset(
+                              model.picture,
+                            ),
+                          ),
+                        )
+                      else if (model is! WebinarItemModel)
+                        SizedBox(
+                          height: 100,
+                          child: AspectRatio(
+                            aspectRatio: 37 / 12,
+                            child: Image.network(
+                              model.picture,
+                            ),
+                          ),
+                        )
+                      else
+                        AspectRatio(
+                          aspectRatio: 174 / 112,
                         ),
                       ),
                     )

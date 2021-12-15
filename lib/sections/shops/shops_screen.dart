@@ -1,5 +1,3 @@
-import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/providers/shop_list_bloc_provider.dart';
@@ -10,7 +8,6 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/default_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 //* Макет:
 //* Program
@@ -28,13 +25,13 @@ class _ShopsScreenState extends State<ShopsScreen> {
   @override
   void initState() {
     super.initState();
-    if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
-        AuthStatus.authenticated) {
-      currentCity = Provider.of<UserWM>(
-        context,
-        listen: false,
-      ).userData.value.data?.user.city;
-    }
+    // if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
+    //     AuthStatus.authenticated) {
+    //   currentCity = Provider.of<UserWM>(
+    //     context,
+    //     listen: false,
+    //   ).userData.value.data?.user.city;
+    // }
   }
 
   @override
@@ -90,7 +87,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
               return Center(
                 child: DefaultInfoWidget(
                   title: 'Ошибка',
-                  subtitle: 'Описание ошибки',
+                  // subtitle: 'Описание ошибки',
                   onPressed:
                       BlocProvider.of<ShopListCubit>(context).loadShopList,
                 ),

@@ -33,9 +33,12 @@ class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
   final bool isFirstLaunch;
   @override
   final AdressModel adress;
+
+  final String? btnText;
   const AddDetailsScreen({
     required this.adress,
     required this.isFirstLaunch,
+    this.btnText,
     Key? key,
   }) : super(key: key);
 
@@ -168,6 +171,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
+                      backgroundColor: AppTheme.mystic,
                       barrierColor: Colors.black.withOpacity(0.8),
                       builder: (context) {
                         return CustomAlertDialog(

@@ -97,11 +97,15 @@ flutter:
   assets:
     - assets/
     - assets/logos/
+    - assets/stories/
     - assets/items/
     - assets/icons/
     - assets/loading/
     - assets/temp/
     - assets/temp/logos/
+
+    - assets/discountOptics/
+    - assets/partners/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png

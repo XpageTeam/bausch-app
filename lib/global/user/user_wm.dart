@@ -1,6 +1,7 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/models/user/user_model/balance.dart';
 import 'package:bausch/models/user/user_model/user.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
@@ -10,7 +11,24 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 // TODO: выход необходимо реализовывать тут
 class UserWM extends WidgetModel {
-  final userData = EntityStreamedState<UserRepository>();
+  final userData = EntityStreamedState<UserRepository>()
+    ..content(
+      UserRepository(
+        balance: const Balance(
+          total: 5000,
+          available: 5000,
+        ),
+        user: User(
+          id: 1,
+          city: 'Москва',
+          name: 'Саша',
+          phone: '89517792313',
+          birthDate: DateTime.now(),
+          email: 'sasha@mail.ru',
+          isMobilePhoneConfirmed: true,
+        ),
+      ),
+    );
 
   UserWM() : super(const WidgetModelDependencies());
 

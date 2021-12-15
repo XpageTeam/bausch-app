@@ -29,13 +29,17 @@ class TopSection extends StatelessWidget {
         );
 
   TopSection.packaging(
-      {required CatalogItemModel model, required Widget leftIcon, Key? key})
+      {required CatalogItemModel model,
+      required Widget leftIcon,
+      GlobalKey<NavigatorState>? rightKey,
+      Key? key})
       : this(
           model: model,
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(icon: leftIcon, key: key),
+          appBar: CustomSliverAppbar.toPop(
+              icon: leftIcon, rightKey: rightKey, key: key),
         );
 
   TopSection.webinar(CatalogItemModel model, Key? key)
@@ -95,7 +99,7 @@ class TopSection extends StatelessWidget {
                 const SizedBox(
                   height: 64,
                 ),
-              Image.network(
+              Image.asset(
                 model.picture,
                 height: !isFull ? MediaQuery.of(context).size.height / 5 : null,
                 fit: BoxFit.cover,
@@ -109,7 +113,7 @@ class TopSection extends StatelessWidget {
                 ),
                 child: Text(
                   model.name,
-                  style: AppStyles.h2,
+                  style: AppStyles.h1,
                   textAlign: TextAlign.center,
                 ),
               ),

@@ -55,7 +55,7 @@ class OfferWidget extends StatelessWidget {
                       Flexible(
                         child: Text(
                           title ??
-                              'Получите двойные баллы за подбор контактных линз',
+                              'Бесплатно подберем вам первые линзы в оптике',
                           style: AppStyles.h1,
                         ),
                       ),
@@ -72,7 +72,7 @@ class OfferWidget extends StatelessWidget {
                       Flexible(
                         child: Text(
                           subtitle ??
-                              'Успейте зарегистрировать код с упаковки в течение 14 дней и мы начислим вам баллы',
+                              'После подбора линз вы сможете получить в два раза больше баллов',
                           style: AppStyles.p1,
                         ),
                       ),

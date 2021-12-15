@@ -1,8 +1,7 @@
 import 'package:bausch/sections/home/widgets/stories/story.dart';
-import 'package:bausch/sections/stories/cubit/stories_cubit.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StoriesSlider extends StatefulWidget {
   const StoriesSlider({Key? key}) : super(key: key);
@@ -12,12 +11,9 @@ class StoriesSlider extends StatefulWidget {
 }
 
 class _StoriesSliderState extends State<StoriesSlider> {
-  final StoriesCubit storiesCubit = StoriesCubit();
-
   @override
   void dispose() {
     super.dispose();
-    storiesCubit.close();
   }
 
   @override

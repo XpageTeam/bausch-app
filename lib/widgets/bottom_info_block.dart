@@ -20,7 +20,7 @@ class InfoBlock extends StatelessWidget {
       child: SafeArea(
         child: Center(
           child: Text(
-            'Имеются противопоказания, необходимо проконсультироваться со специалистом',
+            'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',
             style: AppStyles.p1Grey,
             textAlign: TextAlign.center,
           ),

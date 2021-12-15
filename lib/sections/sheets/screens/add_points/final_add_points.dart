@@ -81,7 +81,7 @@ class FinalAddPointsScreen extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: const CustomFloatingActionButton(
+        bottomNavigationBar: const CustomFloatingActionButton(
           text: 'Потратить баллы',
           topPadding: 12,
         ),

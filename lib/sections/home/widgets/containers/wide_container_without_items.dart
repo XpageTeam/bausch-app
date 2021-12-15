@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
@@ -7,6 +8,7 @@ import 'package:bausch/sections/home/widgets/containers/white_container_with_rou
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,59 +32,70 @@ class WideContainerWithoutItems extends StatefulWidget
 }
 
 class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
-  late CatalogItemCubit catalogItemCubit;
+  //late CatalogItemCubit catalogItemCubit;
 
   @override
   void initState() {
     super.initState();
-    catalogItemCubit = CatalogItemCubit(section: widget.model.type);
+    //catalogItemCubit = CatalogItemCubit(section: widget.model.type);
   }
 
   @override
   void dispose() {
     super.dispose();
-    catalogItemCubit.close();
+    //catalogItemCubit.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => catalogItemCubit,
-      child: SheetListener(
-        model: widget.model,
-        child: WhiteContainerWithRoundedCorners(
-          onTap: () {
-            catalogItemCubit.loadData();
-          },
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return WhiteContainerWithRoundedCorners(
+      onTap: () {
+        showSheetWithoutItems(
+          context,
+          widget.model,
+          ConsultationItemModel(
+            id: 0,
+            name: 'Онлайн-консультация у офтальмолога',
+            previewText:
+                'Не выходя из дома можно будет проконсультироваться со специалистом из клиники МЕДСИ. Время консультации, как и время очного приёма в клинике занимает 20 минут',
+            detailText: 'detailText',
+            picture: 'assets/consultation_logo.png',
+            price: 50,
+            length: 20,
+          ),
+        );
+      },
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.model.name,
+            style: AppStyles.h2Bold,
+          ),
+          Row(
             children: [
-              Text(
-                widget.model.name,
-                style: AppStyles.h2Bold,
-              ),
-              Row(
-                children: [
-                  Flexible(
-                    child: Text(
-                      widget.subtitle ??
-                          'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
-                      style: AppStyles.p1,
-                    ),
-                  ),
-                  Image.asset(
-                    setTheImg(widget.model.type),
-                    height: 45,
-                  ),
-                ],
+              Flexible(
+                child: Text(
+                  widget.subtitle ??
+                      'Любые вопросы офтальмологу из клиники Медси',
+                  style: AppStyles.p1,
+                ),
               ),
               const SizedBox(
-                height: 40,
+                width: 40,
+              ),
+              Image.asset(
+                //setTheImg(widget.model.type),
+                widget.model.icon,
+                height: 45,
               ),
             ],
           ),
-        ),
+          const SizedBox(
+            height: 40,
+          ),
+        ],
       ),
     );
   }
