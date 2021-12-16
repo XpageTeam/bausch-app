@@ -112,7 +112,8 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
 
                 //* Изображение товара
-                Expanded(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Image.asset(
                     img(model), //! model.img
                     scale: 3,
@@ -153,12 +154,15 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
               ),
             if (model is! ProductItemModel)
-              GreyButton(
-                text: txt(model),
-                icon: icon(model),
-                onPressed: () {
-                  callback(model);
-                },
+              Container(
+                margin: const EdgeInsets.only(top: 30),
+                child: GreyButton(
+                  text: txt(model),
+                  icon: icon(model),
+                  onPressed: () {
+                    callback(model);
+                  },
+                ),
               ),
           ],
         ),

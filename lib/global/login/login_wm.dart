@@ -110,9 +110,9 @@ class LoginWM extends WidgetModel {
 
       if (authRequestResult.value.data != null) {
         Navigator.push<void>(
-          Keys.mainNav.currentContext!,
-          MaterialPageRoute(
-            builder: (context) {
+          Keys.mainContentNav.currentContext!,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) {
               return const CodeScreen();
             },
           ),
