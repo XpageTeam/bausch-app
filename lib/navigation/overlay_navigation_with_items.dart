@@ -9,6 +9,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_verification.dart';
@@ -23,7 +24,8 @@ import 'package:bausch/sections/sheets/screens/parners/partners_verification.dar
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
-import 'package:bausch/sections/sheets/screens/webinars/webinars_screen.dart';
+import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
+import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_verification_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
@@ -68,6 +70,12 @@ class OverlayNavigationWithItems extends StatelessWidget {
             );
             break;
 
+          case '/add_points':
+            page = AddPointsScreen(
+              controller: controller,
+            );
+            break;
+
           case '/offline':
             page = DiscountOpticsScreen(
               controller: controller,
@@ -93,7 +101,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
             break;
 
           case '/promo_code_video':
-            page = WebinarsScreen(
+            page = WebinarScreen(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
                   as WebinarItemModel,
@@ -134,7 +142,8 @@ class OverlayNavigationWithItems extends StatelessWidget {
           case '/final_webinar':
             page = FinalWebinar(
               controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
+              model: (settings.arguments as FinalWebinarArguments).model,
+              videoId: (settings.arguments as FinalWebinarArguments).videoId,
             );
             break;
 

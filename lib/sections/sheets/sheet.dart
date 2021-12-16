@@ -17,7 +17,7 @@ class SheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userWM = Provider.of<UserWM>(context);
+    final userWm = Provider.of<UserWM>(context);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -31,10 +31,10 @@ class SheetWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: EntityStateBuilder<UserRepository>(
-                  streamedState: userWM.userData,
-                  builder: (_, userRepo) {
+                  streamedState: userWm.userData,
+                  builder: (_, userData) {
                     return PointsInfo(
-                      text: userRepo.userScrore,
+                      text: userData.balance.available.toString(),
                       backgoundColor: AppTheme.mystic,
                     );
                   },
@@ -42,6 +42,7 @@ class SheetWidget extends StatelessWidget {
               ),
             ],
           ),
+
           Flexible(
             child: Stack(
               alignment: Alignment.topCenter,
