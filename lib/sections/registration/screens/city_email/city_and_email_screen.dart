@@ -28,7 +28,6 @@ class CityAndEmailScreen extends CoreMwwmWidget<CityEmailScreenWM> {
 
 class _CityAndEmailScreenState
     extends WidgetState<CityAndEmailScreen, CityEmailScreenWM> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +86,7 @@ class _CityAndEmailScreenState
                     IconButton(
                       onPressed: () {},
                       icon: const Icon(
-                        Icons.arrow_forward_ios_sharp,
+                        Icons.chevron_right_sharp,
                         color: AppTheme.grey,
                         size: 20,
                       ),
