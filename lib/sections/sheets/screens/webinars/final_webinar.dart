@@ -6,6 +6,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -112,78 +113,90 @@ class _YoutubePopupState extends WidgetState<YoutubePopup, YoutubePopupWM> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          YoutubePlayerBuilder(
-            onEnterFullScreen: () => setState(() {
-              width = MediaQuery.of(context).size.height;
-            }),
-            onExitFullScreen: () => setState(() {
-              width = MediaQuery.of(context).size.width;
-            }),
-            player: YoutubePlayer(
-              width: width,
-              controller: wm.controller,
-              showVideoProgressIndicator: true,
-              progressIndicatorColor: Colors.blueAccent,
-              onReady: wm.onReady,
-              onEnded: (data) => wm.onEnded(data),
-            ),
-            builder: (context, player) => Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                player,
-                EntityStateBuilder<YoutubePlayerController>(
-                  streamedState: wm.controllerStreamed,
-                  builder: (context, controller) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  controller.value.isPlaying
-                                      ? Icons.pause
-                                      : Icons.play_arrow,
-                                ),
-                                onPressed: wm.isPlayerReady
-                                    ? () => wm.onPause()
-                                    : null,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  wm.muted ? Icons.volume_off : Icons.volume_up,
-                                ),
-                                onPressed:
-                                    wm.isPlayerReady ? () => wm.onMute() : null,
-                              ),
-                              Expanded(
-                                child: Slider(
-                                  inactiveColor: Colors.transparent,
-                                  value: wm.volume,
-                                  max: 100.0,
-                                  divisions: 10,
-                                  label: '${(wm.volume).round()}',
-                                  onChanged: wm.isPlayerReady
-                                      ? (value) => wm.onVolumeChanged(value)
-                                      : null,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+          StreamedStateBuilder<double>(
+            streamedState: wm.widthStreamed,
+            builder: (context, width) {
+              return YoutubePlayerBuilder(
+                onEnterFullScreen: wm.onFullScreen,
+
+                // () => setState(() {
+                //   width = MediaQuery.of(context).size.width;
+                // }),
+                onExitFullScreen: wm.onFullScreen,
+                //  () => setState(() {
+                //   width = MediaQuery.of(context).size.width;
+                // }),
+                player: YoutubePlayer(
+                  width: width,
+                  controller: wm.controller,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.blueAccent,
+                  onReady: wm.onReady,
+                  onEnded: (data) => wm.onEnded(data),
                 ),
-              ],
-            ),
+                builder: (context, player) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    player,
+                    // EntityStateBuilder<YoutubePlayerController>(
+                    //   streamedState: wm.controllerStreamed,
+                    //   builder: (context, controller) {
+                    //     return Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.stretch,
+                    //         children: [
+                    //           Row(
+                    //             mainAxisAlignment:
+                    //                 MainAxisAlignment.spaceEvenly,
+                    //             children: [
+                    //               IconButton(
+                    //                 icon: Icon(
+                    //                   controller.value.isPlaying
+                    //                       ? Icons.pause
+                    //                       : Icons.play_arrow,
+                    //                 ),
+                    //                 onPressed: wm.isPlayerReady
+                    //                     ? () => wm.onPause()
+                    //                     : null,
+                    //               ),
+                    //             ],
+                    //           ),
+                    //           Row(
+                    //             children: <Widget>[
+                    //               IconButton(
+                    //                 icon: Icon(
+                    //                   wm.muted
+                    //                       ? Icons.volume_off
+                    //                       : Icons.volume_up,
+                    //                 ),
+                    //                 onPressed: wm.isPlayerReady
+                    //                     ? () => wm.onMute()
+                    //                     : null,
+                    //               ),
+                    //               Expanded(
+                    //                 child: Slider(
+                    //                   inactiveColor: Colors.transparent,
+                    //                   value: wm.volume,
+                    //                   max: 100.0,
+                    //                   divisions: 10,
+                    //                   label: '${(wm.volume).round()}',
+                    //                   onChanged: wm.isPlayerReady
+                    //                       ? (value) => wm.onVolumeChanged(value)
+                    //                       : null,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -200,11 +213,13 @@ class YoutubePopupWM extends WidgetModel {
 
   final onMute = VoidAction();
   final onPause = VoidAction();
-  // final onEnter = VoidAction();
-  // final onPause = VoidAction();
+  final onFullScreen = VoidAction();
   final onVolumeChanged = StreamedAction<double>();
 
-  double width = 0;
+  late final widthStreamed =
+      StreamedState<double>(MediaQuery.of(context).size.width);
+
+  late double width;
 
   double volume = 100;
   double oldVolume = 100;
@@ -244,6 +259,10 @@ class YoutubePopupWM extends WidgetModel {
 
     onEnded.bind((data) {
       Navigator.of(context).pop();
+    });
+
+    onFullScreen.bind((_) {
+      widthStreamed.accept(MediaQuery.of(context).size.width);
     });
 
     onVolumeChanged.bind((value) {
