@@ -1,5 +1,6 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
   //final emailController = TextEditingController();
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
-  final phoneController = TextEditingController();
+  final phoneController = MaskedTextController(mask: '+0 000 000 00 00');
 
   late bool isEmailConfirmed;
 

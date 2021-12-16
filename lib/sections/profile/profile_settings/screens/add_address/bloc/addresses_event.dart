@@ -9,6 +9,12 @@ class AddressesSend extends AddressesEvent {
   AddressesSend({required this.address});
 }
 
+class AddressUpdate extends AddressesEvent {
+  final AdressModel address;
+
+  AddressUpdate({required this.address});
+}
+
 class AddressesDelete extends AddressesEvent {
   final int id;
 

@@ -40,7 +40,7 @@ class _CodeScreenState extends State<CodeScreen> {
             return Container(
               padding: const EdgeInsets.only(
                 bottom: 20,
-                left: StaticData.sidePadding,
+                //left: StaticData.sidePadding,
                 right: StaticData.sidePadding,
               ),
               width: MediaQuery.of(context).size.width,

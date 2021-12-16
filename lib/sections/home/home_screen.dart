@@ -136,7 +136,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
-                    bottom: 30,
+                    bottom: 20,
                     left: StaticData.sidePadding,
                     right: StaticData.sidePadding,
                   ),

@@ -143,7 +143,7 @@ class CatalogItemWidget extends StatelessWidget {
                     Flexible(
                       child: RichText(
                         text: TextSpan(
-                          text: 'Ещё пару дней. ',
+                          text: 'Доставлен. ',
                           style: AppStyles.p1,
                           children: [
                             TextSpan(
@@ -233,6 +233,7 @@ void callback(CatalogItemModel _model) {
           controller: ScrollController(),
           model: _model as PromoItemModel,
           buttonText: 'Готово',
+          rightKey: Keys.mainNav,
         );
       },
     );

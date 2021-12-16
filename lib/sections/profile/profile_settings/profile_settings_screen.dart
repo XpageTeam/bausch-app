@@ -143,7 +143,6 @@ class _ProfileSettingsScreenState
                     labelText: 'Дата рождения',
                     selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
                     icon: Container(),
-                    //TODO: исправить
                     onPressed: wm.selectedBirthDate.value == null
                         ? () {
                             DatePicker.showDatePicker(
