@@ -131,7 +131,7 @@ class Models {
       id: 2,
       name: '2. Biotrue one day (30 линз в упаковке)',
       price: 600,
-      picture: 'assets/discountOptics/1.png',
+      picture: 'https://i.ibb.co/YtS92L4/1.png',
       detailText: '',
       previewText: '',
       code: '123',
