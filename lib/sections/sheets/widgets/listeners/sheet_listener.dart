@@ -31,11 +31,7 @@ class SheetListener extends StatelessWidget {
         }
 
         if (state is CatalogItemSuccess) {
-            // * закрывает всплывашку с лоадером
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            }
-
+          Keys.mainNav.currentState!.pop();
           if (model.type == StaticData.types['consultation']) {
             showSheetWithoutItems(context, model, state.items[0]);
           } else {

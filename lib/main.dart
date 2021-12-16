@@ -78,7 +78,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
                 GlobalCupertinoLocalizations.delegate,
               ],
               title: 'Bausch + Lomb',
-              key: Keys.mainNav,
+              navigatorKey: Keys.mainNav,
               theme: AppTheme.currentAppTheme,
               home: MainNavigation(),
             ),
