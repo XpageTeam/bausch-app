@@ -22,7 +22,9 @@ class CatalogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: model is WebinarItemModel
+          ? () => onWebinarClick(context, model as WebinarItemModel)
+          : () => onTap?.call(),
       child: Padding(
         padding: const EdgeInsets.only(
           //right: 4,
@@ -39,10 +41,10 @@ class CatalogItem extends StatelessWidget {
           ),
           child: Column(
             children: [
-            if (model is! WebinarItemModel)
-                    const SizedBox(
-                      height: 12,
-                    ),
+              if (model is! WebinarItemModel)
+                const SizedBox(
+                  height: 12,
+                ),
               if (model is! WebinarItemModel)
                 SizedBox(
                   height: 100,
@@ -90,16 +92,10 @@ class CatalogItem extends StatelessWidget {
                           price: (model as WebinarItemModel).canWatch
                               ? 'Просмотр'
                               : model.price.toString(),
-                          onPressed: (model as WebinarItemModel).canWatch
-                              ? () => showDialog<void>(
-                                    context: context,
-                                    builder: (context) => YoutubePopup(
-                                      videoId: (model as WebinarItemModel)
-                                          .videoId
-                                          .first,
-                                    ),
-                                  )
-                              : () => onTap?.call(),
+                          onPressed: () => onWebinarClick(
+                            context,
+                            model as WebinarItemModel,
+                          ),
                         )
                       : ButtonWithPoints(
                           price: model.price.toString(),
@@ -117,5 +113,18 @@ class CatalogItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onWebinarClick(BuildContext context, WebinarItemModel model) {
+    if (model.canWatch) {
+      showDialog<void>(
+        context: context,
+        builder: (context) => YoutubePopup(
+          videoId: model.videoId.first,
+        ),
+      );
+    } else {
+      onTap?.call();
+    }
   }
 }
