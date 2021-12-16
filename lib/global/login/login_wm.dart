@@ -37,7 +37,7 @@ class LoginWM extends WidgetModel {
 
   final phoneInputFormaters = <TextInputFormatter>[
     TextInputMask(
-      mask: r'\+7 \99 999-99-99',
+      mask: r'\+7 \99 999 99 99',
     ),
   ];
 
