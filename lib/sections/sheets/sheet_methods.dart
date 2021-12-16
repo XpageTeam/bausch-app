@@ -96,7 +96,7 @@ void showLoader(BuildContext context) {
   showDialog<void>(
     context: context,
     barrierDismissible: false,
-    useRootNavigator: false,
+    // useRootNavigator: false,
     builder: (context) {
       return Center(
         child: Container(
