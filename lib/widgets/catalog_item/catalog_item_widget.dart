@@ -78,28 +78,23 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
 
                       //* Цена и виджет баллов
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 30,
-                        ),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                model.price.toString(),
-                                style: AppStyles.h2Bold,
-                              ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              model.priceToString,
+                              style: AppStyles.h2Bold,
                             ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            PointWidget(textStyle: AppStyles.h2),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          PointWidget(textStyle: AppStyles.h2),
+                        ],
                       ),
 
                       //* Адрес
-                      if (model is ProductItemModel)
+                      if (model is ProductItemModel && address != null)
                         Flexible(
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 30),
@@ -117,7 +112,12 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
 
                 //* Изображение товара
-                Expanded(
+                Container(
+                  width: 100,
+                  // constraints: const BoxConstraints(
+                  //   minHeight: 100,
+                  // ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Image.asset(
                     img(model), //! model.img
                     scale: 3,
@@ -127,7 +127,7 @@ class CatalogItemWidget extends StatelessWidget {
             ),
 
             //* Информация о доставке
-            if (model is ProductItemModel)
+            if ((model is ProductItemModel) && deliveryInfo != null)
               Container(
                 //margin: const EdgeInsets.only(top: 2),
                 child: Row(
@@ -141,8 +141,8 @@ class CatalogItemWidget extends StatelessWidget {
                       width: 4,
                     ),
                     Flexible(
-                      child: Text.rich(
-                        TextSpan(
+                      child: RichText(
+                        text: TextSpan(
                           text: 'Ещё пару дней. ',
                           style: AppStyles.p1,
                           children: [
@@ -158,12 +158,15 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
               ),
             if (model is! ProductItemModel)
-              GreyButton(
-                text: txt(model),
-                icon: icon(model),
-                onPressed: () {
-                  callback(model);
-                },
+              Container(
+                margin: const EdgeInsets.only(top: 30),
+                child: GreyButton(
+                  text: txt(model),
+                  icon: icon(model),
+                  onPressed: () {
+                    callback(model);
+                  },
+                ),
               ),
           ],
         ),
@@ -217,7 +220,7 @@ void callback(CatalogItemModel _model) {
     debugPrint('webinar');
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
-    showDefaultNotification(title: 'title');
+    showDefaultNotification(title: 'Скопировано!');
   } else {
     showFlexibleBottomSheet<void>(
       context: Keys.mainNav.currentContext!,

@@ -36,7 +36,7 @@ class BigCatalogItem extends StatelessWidget {
                   height: 4,
                 ),
                 ButtonContent(
-                  price: model.price.toString(),
+                  price: model.priceToString,
                   alignment: MainAxisAlignment.start,
                 ),
               ],

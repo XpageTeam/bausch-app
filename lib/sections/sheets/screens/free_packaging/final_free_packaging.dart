@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 class FinalFreePackaging extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
+  final VoidCallback? onPressed;
   const FinalFreePackaging({
     required this.controller,
     required this.model,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -37,16 +39,15 @@ class FinalFreePackaging extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(
-                      icon: Container(),
-                      key: key,
-                      backgroundColor: Colors.white,
+                    CustomSliverAppbar.toClose(
+                      Container(),
+                      key,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
                         'Заказ успешно оформлен',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     // DefaultTextInput(
@@ -73,6 +74,24 @@ class FinalFreePackaging extends StatelessWidget {
                             text:
                                 'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextWithPoint(
+                            dotStyle: AppStyles.p1,
+                            textStyle: AppStyles.p1,
+                            text:
+                                'Когда груз будет скомплектован, на указанные в профиле номер телефона и e-mail придет трек-номер. ',
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextWithPoint(
+                            dotStyle: AppStyles.p1,
+                            textStyle: AppStyles.p1,
+                            text:
+                                'Обращаем внимание, что в общей сложности обработка и доставка заказа осуществляются в течение 60 рабочих дней.',
+                          ),
                         ],
                       ),
                     ),
@@ -82,7 +101,9 @@ class FinalFreePackaging extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: const BottomButtonWithRoundedCorners(),
+        bottomNavigationBar: BottomButtonWithRoundedCorners(
+          onPressed: onPressed,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

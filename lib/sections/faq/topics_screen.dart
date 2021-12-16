@@ -86,6 +86,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                       bottom: 4,
                     ),
                     child: WhiteButton(
+                      style: AppStyles.h3,
                       text: widget.topics[index].title,
                       icon: Container(),
                       onPressed: () {

@@ -13,12 +13,14 @@ class FinalDiscountOptics extends StatelessWidget {
   final PromoItemModel model;
   final String? text;
   final String? buttonText;
+  final GlobalKey<NavigatorState>? rightKey;
 
   const FinalDiscountOptics({
     required this.controller,
     required this.model,
     this.buttonText,
     this.text,
+    this.rightKey,
     Key? key,
   }) : super(key: key);
 
@@ -44,6 +46,7 @@ class FinalDiscountOptics extends StatelessWidget {
                     CustomSliverAppbar.toPop(
                       icon: Container(),
                       key: key,
+                      rightKey: rightKey,
                       backgroundColor: Colors.white,
                     ),
                     Padding(
@@ -51,7 +54,7 @@ class FinalDiscountOptics extends StatelessWidget {
                       child: Text(
                         text ??
                             'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     ContainerWithPromocode(
@@ -74,7 +77,7 @@ class FinalDiscountOptics extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: BottomButtonWithRoundedCorners(
+        bottomNavigationBar: BottomButtonWithRoundedCorners(
           text: buttonText ?? 'На главную',
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

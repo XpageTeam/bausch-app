@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
@@ -13,6 +15,7 @@ import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для bottomSheet'а без элементов каталога
@@ -108,7 +111,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
 
           case '/addpoints_details':
             page = AddPointsDetails(
-              model: Models.addItems[0],
+              model: (settings.arguments as AddPointsDetailsArguments).model,
               controller: controller,
             );
             break;
@@ -130,20 +133,31 @@ class SimpleOverlayNavigation extends StatelessWidget {
             page = Container();
             break;
         }
-        return PageRouteBuilder<dynamic>(
-          pageBuilder: (_, __, ___) => page,
-          transitionsBuilder: (context, animation, anotherAnimation, child) {
-            animation =
-                CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
-            return SlideTransition(
-              position: Tween(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: page,
-            );
-          },
-        );
+
+        if (Platform.isIOS){
+          return CupertinoPageRoute<void>(builder: (context) {
+            return page;
+          });
+        } else {
+          return MaterialPageRoute<void>(builder: (context) {
+            return page;
+          });
+        }
+
+        // return PageRouteBuilder<dynamic>(
+        //   pageBuilder: (_, __, ___) => page,
+        //   transitionsBuilder: (context, animation, anotherAnimation, child) {
+        //     animation =
+        //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
+        //     return SlideTransition(
+        //       position: Tween(
+        //         begin: const Offset(1.0, 0.0),
+        //         end: Offset.zero,
+        //       ).animate(animation),
+        //       child: page,
+        //     );
+        //   },
+        // );
       },
     );
   }

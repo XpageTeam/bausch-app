@@ -80,7 +80,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-                    const InfoSection(),
+                     InfoSection(text: model.previewText,secondText: model.detailText,),
                   ],
                 ),
               ),
@@ -92,7 +92,10 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Warning.advertisment(),
+                    Warning.advertisment(name: 'SmartMed',
+                      link: 'smartmed.pro',
+                      description:
+                          'Скачайте приложение и общайтесь с компетентными врачами МЕДСИ, не выходя из дома.',),
                     const SizedBox(
                       height: 30,
                     ),
@@ -103,7 +106,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           ],
         ),
         bottomNavigationBar: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
+          text: 'Получить поощрение ${model.priceToString} б',
           onPressed: () {
             Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
               '/verification_consultation',

@@ -42,6 +42,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
       ),
       child: Scaffold(
         backgroundColor: AppTheme.mystic,
+        resizeToAvoidBottomInset: false,
         body: CustomScrollView(
           controller: widget.controller,
           physics: const BouncingScrollPhysics(),
@@ -249,6 +250,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                     ),
                     WhiteButton(
                       text: 'Выбрать оптику',
+                      padding: const EdgeInsets.fromLTRB(16, 26, 16, 28),
                       icon: Padding(
                         padding: const EdgeInsets.only(
                           right: 12,

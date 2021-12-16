@@ -60,161 +60,158 @@ class _ProfileSettingsScreenState
           ),
         ),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,
         ),
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4, top: 30),
-              child: NativeTextInput(
-                labelText: 'Имя',
-                controller: wm.nameController,
-              ),
+        physics: const BouncingScrollPhysics(),
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4, top: 30),
+            child: NativeTextInput(
+              labelText: 'Имя',
+              controller: wm.nameController,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: NativeTextInput(
-                labelText: 'Фамилия',
-                controller: wm.lastNameController,
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: NativeTextInput(
+              labelText: 'Фамилия',
+              controller: wm.lastNameController,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  StreamedStateBuilder<String?>(
-                    streamedState: wm.enteredEmail,
-                    builder: (_, email) {
-                      return FocusButton(
-                        labelText: 'E-mail',
-                        selectedText: email,
-                        icon: Container(),
-                        onPressed: () async {
-                          wm.setEmail(
-                            await Keys.mainNav.currentState!.push<String>(
-                              PageRouteBuilder<String>(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        EmailScreen(),
-                              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Stack(
+              alignment: Alignment.topRight,
+              children: [
+                StreamedStateBuilder<String?>(
+                  streamedState: wm.enteredEmail,
+                  builder: (_, email) {
+                    return FocusButton(
+                      labelText: 'E-mail',
+                      selectedText: email,
+                      icon: Container(),
+                      onPressed: () async {
+                        wm.setEmail(
+                          await Keys.mainNav.currentState!.push<String>(
+                            PageRouteBuilder<String>(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      EmailScreen(),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  if (!wm.isEmailConfirmed)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          DiscountInfo(
-                            color: AppTheme.turquoiseBlue,
-                            text: 'подтвердить',
                           ),
-                        ],
-                      ), // TODO(Nikita): Вывести статус
-                    ),
-                ],
-              ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                //if (!wm.isEmailConfirmed)
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      DiscountInfo(
+                        color: AppTheme.turquoiseBlue,
+                        text: 'подтвердить',
+                      ),
+                    ],
+                  ), // TODO(Nikita): Вывести статус
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: NativeTextInput(
-                labelText: 'Мобильный телефон',
-                controller: wm.phoneController,
-                inputType: TextInputType.phone,
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: NativeTextInput(
+              labelText: 'Мобильный телефон',
+              controller: wm.phoneController,
+              inputType: TextInputType.phone,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: const ProfileSettingsBanner(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: StreamedStateBuilder<DateTime?>(
+              streamedState: wm.selectedBirthDate,
+              builder: (_, birthDate) {
+                return FocusButton(
+                  labelText: 'Дата рождения',
+                  selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
+                  icon: Container(),
+                  onPressed: () async {
+                    wm.setBirthDate(await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900, 8),
+                      lastDate: DateTime(2101),
+                    ));
+                  },
+                );
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: StreamedStateBuilder<DateTime?>(
-                streamedState: wm.selectedBirthDate,
-                builder: (_, birthDate) {
-                  return FocusButton(
-                    labelText: 'Дата рождения',
-                    selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
-                    // icon: Container(),
-                    onPressed: () async {
-                      wm.setBirthDate(await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900, 8),
-                        lastDate: DateTime(2101),
-                      ));
-                    },
-                  );
-                },
-              ),
-            ),
-            //*Зеленый виджет, есть в другой ветке
-            Padding(
-              padding: EdgeInsets.only(bottom: 4),
-              child: StreamedStateBuilder<String?>(
-                streamedState: wm.selectedCityName,
-                builder: (_, cityName) {
-                  return FocusButton(
-                    labelText: 'Город',
-                    selectedText: cityName,
-                    onPressed: () async {
-                      wm.setCityName(
-                        await Keys.mainNav.currentState!.push<String>(
-                          PageRouteBuilder<String>(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    CityScreen(),
-                          ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: const ProfileSettingsBanner(),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 4),
+            child: StreamedStateBuilder<String?>(
+              streamedState: wm.selectedCityName,
+              builder: (_, cityName) {
+                return FocusButton(
+                  labelText: 'Город',
+                  selectedText: cityName,
+                  onPressed: () async {
+                    wm.setCityName(
+                      await Keys.mainNav.currentState!.push<String>(
+                        PageRouteBuilder<String>(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  CityScreen(),
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 4),
-              child: FocusButton(
-                labelText: 'Мои адреса',
-                onPressed: () {
-                  Keys.mainContentNav.currentState!.pushNamed('/my_adresses');
-                },
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 4),
+            child: FocusButton(
+              labelText: 'Мои адреса',
+              onPressed: () {
+                Keys.mainContentNav.currentState!.pushNamed('/my_adresses');
+              },
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 4),
-              child: FocusButton(
-                labelText: 'Параметры контактных линз',
-                onPressed: () {
-                  Keys.mainContentNav.currentState!
-                      .pushNamed('/lenses_parameters');
-                },
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 4),
+            child: FocusButton(
+              labelText: 'Параметры контактных линз',
+              onPressed: () {
+                Keys.mainContentNav.currentState!
+                    .pushNamed('/lenses_parameters');
+              },
             ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 40),
-              child: FocusButton(
-                labelText: 'Привязать аккаунт',
-              ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 40),
+            child: FocusButton(
+              labelText: 'Привязать аккаунт',
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 40),
-              child: Text(
-                'Версия приложения 10.6',
-                style: AppStyles.p1Grey,
-                textAlign: TextAlign.center,
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 40),
+            child: Text(
+              'Версия приложения 0.0.1 (15)',
+              style: AppStyles.p1Grey,
+              textAlign: TextAlign.center,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

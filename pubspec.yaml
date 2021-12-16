@@ -30,41 +30,41 @@ dependencies:
   after_layout: ^1.1.0
   flutter:
     sdk: flutter
-  another_flushbar: ^1.10.25
+  another_flushbar: ^1.10.28
   cookie_jar: ^3.0.1
-  dio: ^4.0.3
-  dio_cache_interceptor: ^3.0.2
+  dio: ^4.0.4
+  dio_cache_interceptor: ^3.0.3
   dio_cache_interceptor_db_store: ^3.0.2
   dio_cookie_manager: ^2.0.0
-  file_picker: ^4.2.3
+  file_picker: ^4.2.7
   flutter_bloc: ^7.3.3
-  flutter_html: ^2.1.5
+  flutter_html: ^2.2.1
   flutter_localizations:
     sdk: flutter
   flutter_keyboard_visibility: ^5.1.0
-  flutter_screenutil: ^5.0.0+2
+  flutter_screenutil: ^5.0.1
   flutter_svg: ^0.23.0+1
   extended_masked_text: ^2.3.1
-  mask_text_input_formatter: ^2.0.0
+  # mask_text_input_formatter: ^2.0.0
   intl: ^0.17.0
   iphone_has_notch: ^1.0.0
   menu_button: ^1.4.2+1
   video_player: ^2.2.7
   pin_code_fields: ^7.3.0
-  shared_preferences: ^2.0.8
-  sqlite3_flutter_libs: ^0.5.1
+  shared_preferences: ^2.0.11
+  sqlite3_flutter_libs: ^0.5.2
   vimeoplayer_trinity: ^0.2.1+1
   youtube_player_flutter: ^8.0.0
   auto_size_text_pk: ^3.0.0
   geolocator: ^7.7.1
   overlay_support: ^1.2.1
-  url_launcher: ^6.0.13
+  url_launcher: ^6.0.17
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
 
-  bottom_sheet: ^1.0.4
+  bottom_sheet: ^1.0.5
   surf_mwwm: ^2.0.2
   provider: ^6.0.1
   auto_size_text: ^3.0.0
@@ -72,6 +72,7 @@ dependencies:
   yandex_mapkit:
     git:
       url: https://github.com/Unact/yandex_mapkit.git
+  easy_mask: ^2.0.1
 
 
 dev_dependencies:
@@ -96,11 +97,14 @@ flutter:
   assets:
     - assets/
     - assets/logos/
+    - assets/stories/
     - assets/items/
     - assets/icons/
     - assets/loading/
     - assets/temp/
     - assets/temp/logos/
+
+    - assets/discountOptics/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png

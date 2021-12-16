@@ -12,6 +12,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 //* Функция вывода bottomSheet с эементами каталога
@@ -28,6 +29,7 @@ void showSheetWithItems(
     anchors: [0, 0.6, 0.95],
     context: context,
     builder: (context, controller, d) {
+      debugPrint(model.type);
       return SheetWidget(
         child: OverlayNavigationWithItems(
           sheetModel: model,
@@ -93,6 +95,8 @@ void showSheetWithoutItems(
 void showLoader(BuildContext context) {
   showDialog<void>(
     context: context,
+    barrierDismissible: false,
+    // useRootNavigator: false,
     builder: (context) {
       return Center(
         child: Container(
@@ -122,10 +126,12 @@ void showFlushbar(String title) {
       seconds: 3,
     ),
     flushbarPosition: FlushbarPosition.TOP,
+    flushbarStyle: FlushbarStyle.GROUNDED,
     borderRadius: const BorderRadius.only(
       bottomLeft: Radius.circular(5),
       bottomRight: Radius.circular(5),
     ),
+    backgroundColor: Colors.red,
   ).show(Keys.mainNav.currentContext!);
 }
 

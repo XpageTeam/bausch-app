@@ -1,8 +1,11 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/stories_buttons.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -11,11 +14,10 @@ import 'package:video_player/video_player.dart';
 //откуда всё взял: https://github.com/MarcusNg/flutter_instagram_stories
 
 class StoriesScreen extends StatefulWidget {
-  final List<StoryModel> stories;
-  final int currentIndex;
+  final List<StoryContentModel> stories;
   const StoriesScreen({
     required this.stories,
-    required this.currentIndex,
+    //required this.currentIndex,
     Key? key,
   }) : super(key: key);
 
@@ -32,7 +34,7 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   @override
   void initState() {
-    _currentIndex = widget.currentIndex;
+    _currentIndex = 0;
     _pageController = PageController();
     _animController = AnimationController(vsync: this);
     _videoPlayerController = VideoPlayerController.network(
@@ -95,14 +97,14 @@ class _StoriesScreenState extends State<StoriesScreen>
               itemCount: widget.stories.length,
               itemBuilder: (context, i) {
                 //final StoryModel story = widget.stories[i];
-                switch (story.media) {
-                  case MediaType.image:
+                switch (story.isVideo) {
+                  case false:
                     return Image.network(
-                      story.content.file,
+                      story.file,
                       fit: BoxFit.cover,
                       //color: Colors.red.withAlpha(10),
                     );
-                  case MediaType.video:
+                  case true:
                     if (_videoPlayerController.value.isInitialized) {
                       return FittedBox(
                         fit: BoxFit.cover,
@@ -158,37 +160,83 @@ class _StoriesScreenState extends State<StoriesScreen>
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    widget.stories[_currentIndex].mainText ?? '',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 41,
-                      height: 42 / 41,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    widget.stories[_currentIndex].secondText ?? '',
-                    style: AppStyles.h2WhiteBold,
-                  ),
+                  // Text(
+                  //   widget.stories[_currentIndex].title ?? '',
+                  //   style: const TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 41,
+                  //     height: 42 / 41,
+                  //     fontWeight: FontWeight.w500,
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Text(
+                  //   widget.stories[_currentIndex].secondText ?? '',
+                  //   style: AppStyles.h2WhiteBold,
+                  // ),
                 ],
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: StoriesBottomButtons(
-        buttonTitle: widget.stories[_currentIndex].buttonTitle,
-        upperTitle: 'Раствор Biotrue универсальный(300 мл)',
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () {
+                HelpFunctions.launchURL(widget.stories[_currentIndex].link);
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.stories[_currentIndex].textBtn,
+                    style: AppStyles.h2,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Image.asset(
+                    'assets/icons/link.png',
+                    height: 15,
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 10,
+                bottom: 6,
+              ),
+              child: Text(
+                'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 16 / 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
-  void _onTapUp(TapUpDetails details, StoryModel story) {
+  void _onTapUp(TapUpDetails details, StoryContentModel story) {
     final screenWidth = MediaQuery.of(context).size.width;
     final dx = details.globalPosition.dx;
 
@@ -218,47 +266,52 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void _onLongPressStart(LongPressStartDetails details, StoryModel story) {
+  void _onLongPressStart(
+    LongPressStartDetails details,
+    StoryContentModel story,
+  ) {
     _animController.stop();
-    if (story.media == MediaType.video) {
+    if (story.isVideo) {
       if (_videoPlayerController.value.isPlaying) {
         _videoPlayerController.pause();
       }
     }
   }
 
-  void _onLongPressEnd(LongPressEndDetails details, StoryModel story) {
+  void _onLongPressEnd(LongPressEndDetails details, StoryContentModel story) {
     _animController.forward();
-    if (story.media == MediaType.video) {
+    if (story.isVideo) {
       _videoPlayerController.play();
     }
   }
 
-  void _loadStory({required StoryModel story, bool animateToPage = true}) {
+  void _loadStory({
+    required StoryContentModel story,
+    bool animateToPage = true,
+  }) {
     _animController.stop();
     _animController.reset();
 
-    switch (story.media) {
-      case MediaType.image:
+    switch (story.isVideo) {
+      case false:
         _animController.duration = story.duration;
         _animController.forward();
         break;
-      case MediaType.video:
+      case true:
         //_videoPlayerController = null;
         _videoPlayerController.dispose();
-        _videoPlayerController =
-            VideoPlayerController.network(story.content.file)
-              ..initialize().then(
-                (_) {
-                  setState(() {});
-                  if (_videoPlayerController.value.isInitialized) {
-                    _animController.duration =
-                        _videoPlayerController.value.duration;
-                    _videoPlayerController.play();
-                    _animController.forward();
-                  }
-                },
-              );
+        _videoPlayerController = VideoPlayerController.network(story.file)
+          ..initialize().then(
+            (_) {
+              setState(() {});
+              if (_videoPlayerController.value.isInitialized) {
+                _animController.duration =
+                    _videoPlayerController.value.duration;
+                _videoPlayerController.play();
+                _animController.forward();
+              }
+            },
+          );
         break;
     }
     if (animateToPage) {

@@ -43,13 +43,14 @@ class DiscountOnlineVerification extends StatelessWidget {
                       children: [
                         CustomSliverAppbar.toPop(
                           icon: NormalIconButton(
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new_sharp,
-                              size: 20,
-                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
-                            },
+                            }, //Navigator.of(context).pop,
+                            icon: const Icon(
+                              Icons.chevron_left_rounded,
+                              size: 20,
+                              color: AppTheme.mineShaft,
+                            ),
                           ),
                           key: key,
                           backgroundColor: Colors.white,
@@ -59,7 +60,7 @@ class DiscountOnlineVerification extends StatelessWidget {
                         ),
                         Text(
                           'Подтвердите заказ',
-                          style: AppStyles.h2,
+                          style: AppStyles.h1,
                         ),
                         Column(
                           children: [
@@ -89,7 +90,7 @@ class DiscountOnlineVerification extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: 4,
+                          height: 20,
                         ),
                         BigCatalogItem(
                           model: model,
@@ -109,8 +110,8 @@ class DiscountOnlineVerification extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
-          text: 'Потратить ${model.price} б',
+        bottomNavigationBar: CustomFloatingActionButton(
+          text: 'Потратить ${model.priceToString} б',
           onPressed: () {
             Keys.bottomSheetItemsNav.currentState!.pushNamed(
               '/final_discount_online',

@@ -83,7 +83,7 @@ class _WebinarsScreenState
           streamedState: wm.isEnough,
           builder: (_, isEnough) => CustomFloatingActionButton(
             text:
-                isEnough ? 'Перейти к заказу' : 'Нехватает ${wm.difference} б',
+                isEnough ? 'Перейти к заказу' : 'Не хватает ${wm.difference} б',
             // '${HelpFunctions.wordByCount(
             //     wm.difference,
             //     [

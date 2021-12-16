@@ -102,7 +102,7 @@ class OrderRegistrationScreen extends StatelessWidget {
           showFlexibleBottomSheet<void>(
             context: Keys.mainNav.currentContext!,
             minHeight: 0,
-            initHeight: 0.7,
+            initHeight: 0.9,
             maxHeight: 0.95,
             anchors: [0, 0.6, 0.95],
             builder: (context, controller, d) {
@@ -110,8 +110,8 @@ class OrderRegistrationScreen extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 children: [
                   FinalFreePackaging(
-                    controller: controller,
-                    model: Models.items[0],
+                    controller: ScrollController(),
+                    model: Models.discountOptics[0],
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 5),

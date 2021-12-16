@@ -1,5 +1,7 @@
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/white_rounded_container.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +18,8 @@ class ContainerWithPromocode extends StatelessWidget {
       onTap: () {
         //TODO(Nikita): Скопировать и показать уведомление
         Clipboard.setData(ClipboardData(text: promocode));
+        //showFlushbar('title');
+        showDefaultNotification(title: 'Скопировано!');
       },
       child: WhiteRoundedContainer(
         child: Row(

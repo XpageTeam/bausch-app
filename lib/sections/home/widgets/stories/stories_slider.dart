@@ -1,6 +1,7 @@
 import 'package:bausch/sections/home/widgets/stories/story.dart';
 import 'package:bausch/sections/stories/cubit/stories_cubit.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,8 +13,7 @@ class StoriesSlider extends StatefulWidget {
 }
 
 class _StoriesSliderState extends State<StoriesSlider> {
-  final StoriesCubit storiesCubit = StoriesCubit();
-
+  final storiesCubit = StoriesCubit();
   @override
   void dispose() {
     super.dispose();
@@ -39,8 +39,8 @@ class _StoriesSliderState extends State<StoriesSlider> {
                         padding: const EdgeInsets.only(right: 4),
                         child: Story(
                           model: item,
-                          models: state.stories,
-                          index: state.stories.indexOf(item),
+                          models: state
+                              .stories[state.stories.indexOf(item)].content,
                         ),
                       ))
                   .toList(),

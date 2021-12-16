@@ -117,7 +117,7 @@ class PartnersScreen extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: CustomFloatingActionButton(
-          text: 'Получить поощрение ${model.price} б',
+          text: 'Получить поощрение ${model.priceToString} б',
           withInfo: false,
           icon: Container(),
           onPressed: () {
