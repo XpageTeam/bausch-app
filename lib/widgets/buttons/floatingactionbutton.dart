@@ -24,6 +24,7 @@ class CustomFloatingActionButton extends StatelessWidget {
     return Container(
       color: AppTheme.mystic,
       child: SafeArea(
+        bottom: false,
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
@@ -43,9 +44,6 @@ class CustomFloatingActionButton extends StatelessWidget {
             ),
             if (withInfo)
               Container(
-                padding: const EdgeInsets.only(
-                  bottom: 0,
-                ),
                 color: AppTheme.mystic,
                 child: const InfoBlock(),
               ),
