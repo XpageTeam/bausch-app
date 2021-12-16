@@ -53,13 +53,13 @@ class Story extends StatelessWidget {
                     vertical: 10,
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Text(
-                      //   model.content.first.title,
-                      //   style: AppStyles.h2WhiteBold,
-                      // ),
+                      Text(
+                        model.content.first.title,
+                        style: AppStyles.h2WhiteBold,
+                      ),
                       Text(
                         model.id.toString(),
                         style: AppStyles.p1.copyWith(color: Colors.white),
