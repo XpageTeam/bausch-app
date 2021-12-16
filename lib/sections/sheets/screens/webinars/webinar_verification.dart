@@ -117,8 +117,7 @@ class _WebinarVerificationState
             ),
           ],
         ),
-<<<<<<< HEAD
-        floatingActionButton: StreamedStateBuilder<bool>(
+        bottomNavigationBar: StreamedStateBuilder<bool>(
           streamedState: wm.loadingState,
           builder: (_, isLoading) {
             return isLoading

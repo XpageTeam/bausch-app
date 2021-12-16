@@ -103,14 +103,24 @@ class YoutubePopup extends CoreMwwmWidget<YoutubePopupWM> {
 }
 
 class _YoutubePopupState extends WidgetState<YoutubePopup, YoutubePopupWM> {
+  double width = 300;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      insetPadding: EdgeInsets.zero,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           YoutubePlayerBuilder(
+            onEnterFullScreen: () => setState(() {
+              width = MediaQuery.of(context).size.height;
+            }),
+            onExitFullScreen: () => setState(() {
+              width = MediaQuery.of(context).size.width;
+            }),
             player: YoutubePlayer(
+              width: width,
               controller: wm.controller,
               showVideoProgressIndicator: true,
               progressIndicatorColor: Colors.blueAccent,
@@ -190,7 +200,11 @@ class YoutubePopupWM extends WidgetModel {
 
   final onMute = VoidAction();
   final onPause = VoidAction();
+  // final onEnter = VoidAction();
+  // final onPause = VoidAction();
   final onVolumeChanged = StreamedAction<double>();
+
+  double width = 0;
 
   double volume = 100;
   double oldVolume = 100;

@@ -38,75 +38,38 @@ class CatalogItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  if (model is! WebinarItemModel)
-                    SizedBox(
-                      height: 100,
-                      child: AspectRatio(
-                        aspectRatio: 37 / 12,
-                        child: Image.network(
-                          model.picture,
-                        ),
-                      ),
-                    )
-                  else
-                    AspectRatio(
-                      aspectRatio: 174 / 112,
-                      child: Image.asset('assets/woman.png'),
+              if (model is! WebinarItemModel)
+                SizedBox(
+                  height: 100,
+                  child: AspectRatio(
+                    aspectRatio: 37 / 12,
+                    child: Image.network(
+                      model.picture,
                     ),
-                  const SizedBox(
-                    height: 8,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
-                    ),
-                    child: Text(
-                          model.name,
-                          style: AppStyles.p1,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: StaticData.sidePadding,
-                      right: StaticData.sidePadding,
-                      left: StaticData.sidePadding,
-                    ),
-                    child: model is WebinarItemModel
-                        ? ButtonWithPoints(
-                            withIcon: !(model as WebinarItemModel).canWatch,
-                            price: (model as WebinarItemModel).canWatch
-                                ? 'Просмотр'
-                                : model.price.toString(),
-                            onPressed: (model as WebinarItemModel).canWatch
-                                ? () => showDialog<void>(
-                                      context: context,
-                                      builder: (context) => YoutubePopup(
-                                        videoId: (model as WebinarItemModel)
-                                            .videoId
-                                            .first,
-                                      ),
-                                    )
-                                : () => onTap?.call(),
-                          )
-                        : ButtonWithPoints(
-                            price: model.price.toString(),
-                            onPressed: () {
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                ],
+                )
+              else
+                AspectRatio(
+                  aspectRatio: 174 / 112,
+                  child: Image.asset('assets/woman.png'),
+                ),
+              const SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: Text(
+                  model.name,
+                  style: AppStyles.p1,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -114,12 +77,32 @@ class CatalogItem extends StatelessWidget {
                   right: StaticData.sidePadding,
                   left: StaticData.sidePadding,
                 ),
-                child: ButtonWithPoints(
-                  price: model.priceToString,
-                  onPressed: () {
-                    // TODO: Реализовать onPressed.
-                  },
-                ),
+                child: model is WebinarItemModel
+                    ? ButtonWithPoints(
+                        withIcon: !(model as WebinarItemModel).canWatch,
+                        price: (model as WebinarItemModel).canWatch
+                            ? 'Просмотр'
+                            : model.price.toString(),
+                        onPressed: (model as WebinarItemModel).canWatch
+                            ? () => showDialog<void>(
+                                  context: context,
+                                  builder: (context) => YoutubePopup(
+                                    videoId: (model as WebinarItemModel)
+                                        .videoId
+                                        .first,
+                                  ),
+                                )
+                            : () => onTap?.call(),
+                      )
+                    : ButtonWithPoints(
+                        price: model.price.toString(),
+                        onPressed: () {
+                          onTap?.call();
+                        },
+                      ),
+              ),
+              const SizedBox(
+                height: 16,
               ),
             ],
           ),

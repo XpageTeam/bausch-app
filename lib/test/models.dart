@@ -303,7 +303,7 @@ class Models {
     ),
   ];
 
-  static List<CatalogItemModel> webinars = [
+  /*static List<CatalogItemModel> webinars = [
     WebinarItemModel(
       id: 1,
       name: 'Контактная коррекция зрения в эпоху цифровизации ',
@@ -340,7 +340,7 @@ class Models {
       price: 50,
       vimeoId: '123',
     ),
-  ];
+  ];*/
 
   static List<SheetModelWithItems> sheetsWithItems = [
     SheetModelWithItems(
