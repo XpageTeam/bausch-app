@@ -10,6 +10,7 @@ class CityEmailScreenWM extends WidgetModel {
   final BuildContext context;
 
   final selectedCityName = StreamedState<String?>(null);
+  final codeScreenAuthTrue = StreamedState<bool>(false);
 
   final emailFieldController = TextEditingController();
   // final emailConfirmText = EntityStreamedState<String>();
@@ -68,12 +69,8 @@ class CityEmailScreenWM extends WidgetModel {
       email: emailFieldController.text,
       city: selectedCityName.value,
     ))) {
-      unawaited(
-        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
-          '/home',
-          (route) => false,
-        ),
-      );
+
+      await codeScreenAuthTrue.accept(true);
     }
   }
 
