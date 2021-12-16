@@ -9,6 +9,8 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
   //* Ссылка на картинку или видео
   final String file;
 
+  final String preview;
+
   final Duration duration;
 
   final String textBtn;
@@ -20,6 +22,7 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
   StoryContentModel({
     required this.title,
     required this.file,
+    required this.preview,
     required this.textBtn,
     required this.link,
     required this.isVideo,
@@ -46,6 +49,7 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
     return StoryContentModel(
       title: (map['title'] ?? 'Title') as String,
       file: map['file'] as String,
+      preview: map['preview'] as String,
       link: map['link'] as String,
       textBtn: map['textBtn'] as String,
       isVideo: map['isVideo'] as bool,

@@ -26,7 +26,6 @@ class ProfileScreen extends CoreMwwmWidget<ProfileScreenWM> {
 }
 
 class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
-  final Key appBarKey = const Key('appbar');
   late UserWM userWM;
 
   @override
@@ -46,7 +45,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
         body: SizedBox.expand(
           child: Stack(
             children: [
-               ProfileAppBar(key: appBarKey),
+              const ProfileAppBar(),
 
               //* Фон со статусом и именем пользователя
               SafeArea(
@@ -65,14 +64,15 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                           );
                         },
                       ),
-                      /*
+                      
                       StreamedStateBuilder<double>(
                         streamedState: wm.opacityStreamed,
                         builder: (_, opacity) => Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Opacity(
-                              opacity: 1 - opacity,
+                              // opacity: 1 - opacity,
+                              opacity: 0,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 6,
@@ -90,7 +90,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                             ),
                           ],
                         ),
-                      ),*/
+                      ),
                       const SizedBox(
                         height: 17,
                       ),

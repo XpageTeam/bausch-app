@@ -37,10 +37,13 @@ class _CodeScreenState extends State<CodeScreen> {
         streamedState: loginWM.smsResendSeconds,
         builder: (_, data) {
           if (data > 0) {
-            return Padding(
+            return Container(
               padding: const EdgeInsets.only(
                 bottom: 20,
+                left: StaticData.sidePadding,
+                right: StaticData.sidePadding,
               ),
+              width: MediaQuery.of(context).size.width,
               //Повторная отправка через ${getTimerBySeconds(data)}',
               child: RichText(
                 //textAlign: TextAlign.left,

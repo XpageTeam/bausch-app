@@ -50,6 +50,7 @@ class LoginWM extends WidgetModel {
   final authRequestResult = EntityStreamedState<AuthResponseModel>()..loading();
 
   final sendPhoneAction = VoidAction();
+
   final sendCodeAction = VoidAction();
 
   final policyAcceptAction = VoidAction();
@@ -109,14 +110,16 @@ class LoginWM extends WidgetModel {
       }
 
       if (authRequestResult.value.data != null) {
-        Navigator.push<void>(
-          Keys.mainContentNav.currentContext!,
-          MaterialPageRoute(
-            builder: (context) {
-              return const CodeScreen();
-            },
-          ),
-        );
+        if (smsSendCounter.value == 0) {
+          Navigator.push<void>(
+            Keys.mainContentNav.currentContext!,
+            MaterialPageRoute(
+              builder: (context) {
+                return const CodeScreen();
+              },
+            ),
+          );
+        }
         // debugPrint(context.toString());
         // Keys.mainContentNav.currentState!.pushNamed('/code');
       }
@@ -124,7 +127,7 @@ class LoginWM extends WidgetModel {
 
     //* подписка на нажатие кнопки
     sendPhoneAction.bind((_) {
-      _sendPhone().then((value) {});
+      _sendPhone();
     });
 
     //* переключение состояния кнопки при отправке запроса

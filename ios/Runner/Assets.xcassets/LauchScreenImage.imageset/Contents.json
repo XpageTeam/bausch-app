@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "BL Corporate Logo основной 1.png",
+      "filename" : "BL Corporate Logo основной 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "BL Corporate Logo основной 1@2x.png",
+      "filename" : "BL Corporate Logo основной 1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "BL Corporate Logo основной 1@3x.png",
+      "filename" : "BL Corporate Logo основной 1@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -43,7 +43,7 @@ class Story extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: Image.network(
-                    model.content.first.file,
+                    model.content.first.preview,
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -18,6 +18,7 @@ class InfoBlock extends StatelessWidget {
       //height: 60,
       color: AppTheme.mystic,
       child: SafeArea(
+        bottom: false,
         child: Center(
           child: Text(
             'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',

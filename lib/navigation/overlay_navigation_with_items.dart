@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import
 
+import 'dart:io';
+
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
@@ -25,6 +27,7 @@ import 'package:bausch/sections/sheets/screens/webinars/webinars_screen.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для bottomSheet'а с элементами каталога
@@ -184,20 +187,31 @@ class OverlayNavigationWithItems extends StatelessWidget {
               //path: path(sheetModel.type),
             );
         }
-        return PageRouteBuilder<dynamic>(
-          pageBuilder: (_, __, ___) => page,
-          transitionsBuilder: (context, animation, anotherAnimation, child) {
-            animation =
-                CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
-            return SlideTransition(
-              position: Tween(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: page,
-            );
-          },
-        );
+
+        if (Platform.isIOS){
+          return CupertinoPageRoute<void>(builder: (context) {
+            return page;
+          });
+        } else {
+          return MaterialPageRoute<void>(builder: (context) {
+            return page;
+          });
+        }
+
+        // return PageRouteBuilder<dynamic>(
+        //   pageBuilder: (_, __, ___) => page,
+        //   transitionsBuilder: (context, animation, anotherAnimation, child) {
+        //     animation =
+        //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
+        //     return SlideTransition(
+        //       position: Tween(
+        //         begin: const Offset(1.0, 0.0),
+        //         end: Offset.zero,
+        //       ).animate(animation),
+        //       child: page,
+        //     );
+        //   },
+        // );
       },
     );
   }

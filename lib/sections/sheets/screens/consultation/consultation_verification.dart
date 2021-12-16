@@ -82,7 +82,7 @@ class ConsultationVerification extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: CustomFloatingActionButton(
+        bottomNavigationBar: CustomFloatingActionButton(
           text: 'Потратить ${model.price} б',
           onPressed: () {
             Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
