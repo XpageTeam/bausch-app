@@ -58,12 +58,12 @@ class AuthWM extends WidgetModel {
       debugPrint(targetPage);
       debugPrint('context ${Keys.mainContentNav.currentState}');
 
-      // if (Keys.mainContentNav.currentState != null) {
+      if (Keys.mainContentNav.currentState != null) {
         Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
           targetPage,
           (route) => false,
         );
-      // }
+      }
     });
 
     checkAuthAction.bind((value) {
