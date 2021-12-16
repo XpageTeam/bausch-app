@@ -34,7 +34,7 @@ class SheetWidget extends StatelessWidget {
                   streamedState: userWm.userData,
                   builder: (_, userData) {
                     return PointsInfo(
-                      text: userData.balance.available.toString(),
+                      text: userData.userScrore,
                       backgoundColor: AppTheme.mystic,
                     );
                   },

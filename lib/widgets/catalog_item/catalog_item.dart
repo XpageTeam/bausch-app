@@ -72,38 +72,42 @@ class CatalogItem extends StatelessWidget {
                   maxLines: 3,
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: StaticData.sidePadding,
-                  right: StaticData.sidePadding,
-                  left: StaticData.sidePadding,
+              const Expanded(
+                child: SizedBox(
+                  height: 16,
                 ),
-                child: model is WebinarItemModel
-                    ? ButtonWithPoints(
-                        withIcon: !(model as WebinarItemModel).canWatch,
-                        price: (model as WebinarItemModel).canWatch
-                            ? 'Просмотр'
-                            : model.price.toString(),
-                        onPressed: (model as WebinarItemModel).canWatch
-                            ? () => showDialog<void>(
-                                  context: context,
-                                  builder: (context) => YoutubePopup(
-                                    videoId: (model as WebinarItemModel)
-                                        .videoId
-                                        .first,
-                                  ),
-                                )
-                            : () => onTap?.call(),
-                      )
-                    : ButtonWithPoints(
-                        price: model.price.toString(),
-                        onPressed: () {
-                          onTap?.call();
-                        },
-                      ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: StaticData.sidePadding,
+                    right: StaticData.sidePadding,
+                    left: StaticData.sidePadding,
+                  ),
+                  child: model is WebinarItemModel
+                      ? ButtonWithPoints(
+                          withIcon: !(model as WebinarItemModel).canWatch,
+                          price: (model as WebinarItemModel).canWatch
+                              ? 'Просмотр'
+                              : model.price.toString(),
+                          onPressed: (model as WebinarItemModel).canWatch
+                              ? () => showDialog<void>(
+                                    context: context,
+                                    builder: (context) => YoutubePopup(
+                                      videoId: (model as WebinarItemModel)
+                                          .videoId
+                                          .first,
+                                    ),
+                                  )
+                              : () => onTap?.call(),
+                        )
+                      : ButtonWithPoints(
+                          price: model.price.toString(),
+                          onPressed: () {
+                            onTap?.call();
+                          },
+                        ),
+                ),
               ),
               const SizedBox(
                 height: 16,
