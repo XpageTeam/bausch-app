@@ -112,7 +112,11 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
 
                 //* Изображение товара
-                Padding(
+                Container(
+                  width: 100,
+                  // constraints: const BoxConstraints(
+                  //   minHeight: 100,
+                  // ),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Image.asset(
                     img(model), //! model.img
