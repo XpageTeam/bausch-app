@@ -5,8 +5,14 @@ import 'package:flutter/material.dart';
 class ButtonContent extends StatelessWidget {
   final String price;
   final MainAxisAlignment? alignment;
-  const ButtonContent({required this.price, this.alignment, Key? key})
-      : super(key: key);
+  final bool withIcon;
+
+  const ButtonContent({
+    required this.price,
+    this.alignment,
+    this.withIcon = true,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +23,23 @@ class ButtonContent extends StatelessWidget {
           price,
           style: AppStyles.h2,
         ),
-        const SizedBox(
-          width: 4,
-        ),
-        const CircleAvatar(
-          child: Text(
-            'б',
-            style: TextStyle(
-              color: AppTheme.mineShaft,
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-              height: 20 / 17,
+        if (withIcon)
+          const Padding(
+            padding: EdgeInsets.only(left: 4),
+            child: CircleAvatar(
+              child: Text(
+                'б',
+                style: TextStyle(
+                  color: AppTheme.mineShaft,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  height: 20 / 17,
+                ),
+              ),
+              radius: 14,
+              backgroundColor: AppTheme.turquoiseBlue,
             ),
           ),
-          radius: 14,
-          backgroundColor: AppTheme.turquoiseBlue,
-        ),
       ],
     );
   }

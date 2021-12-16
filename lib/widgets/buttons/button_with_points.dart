@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 class ButtonWithPoints extends StatelessWidget {
   final String price;
   final VoidCallback onPressed;
+
+  final bool withIcon;
+
   const ButtonWithPoints({
     required this.price,
     required this.onPressed,
+    this.withIcon = true,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +23,10 @@ class ButtonWithPoints extends StatelessWidget {
         primary: AppTheme.grey,
         backgroundColor: AppTheme.mystic,
       ),
-      child: ButtonContent(price: price),
+      child: ButtonContent(
+        price: price,
+        withIcon: withIcon,
+      ),
     );
   }
 }
