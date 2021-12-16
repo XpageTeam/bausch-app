@@ -40,6 +40,7 @@ class CatalogItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (model is! WebinarItemModel)
                 const SizedBox(
@@ -74,11 +75,7 @@ class CatalogItem extends StatelessWidget {
                   maxLines: 3,
                 ),
               ),
-              const Expanded(
-                child: SizedBox(
-                  height: 16,
-                ),
-              ),
+<<<<<<< HEAD
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -86,6 +83,31 @@ class CatalogItem extends StatelessWidget {
                     right: StaticData.sidePadding,
                     left: StaticData.sidePadding,
                   ),
+                  child: model is WebinarItemModel
+                      ? ButtonWithPoints(
+                          withIcon: !(model as WebinarItemModel).canWatch,
+                          price: (model as WebinarItemModel).canWatch
+                              ? 'Просмотр'
+                              : model.price.toString(),
+                          onPressed: () => onWebinarClick(
+                            context,
+                            model as WebinarItemModel,
+                          ),
+                        )
+                      : ButtonWithPoints(
+                          price: model.price.toString(),
+                          onPressed: () {
+                            onTap?.call();
+                          },
+                        ),
+=======
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
+                  left: StaticData.sidePadding,
+>>>>>>> origin/develop
+               
                   child: model is WebinarItemModel
                       ? ButtonWithPoints(
                           withIcon: !(model as WebinarItemModel).canWatch,

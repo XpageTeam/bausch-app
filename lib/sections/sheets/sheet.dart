@@ -1,4 +1,5 @@
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
@@ -34,7 +35,9 @@ class SheetWidget extends StatelessWidget {
                   streamedState: userWm.userData,
                   builder: (_, userData) {
                     return PointsInfo(
-                      text: userData.userScrore,
+                      text: HelpFunctions.partitionNumber(
+                        userData.balance.available,
+                      ),
                       backgoundColor: AppTheme.mystic,
                     );
                   },
