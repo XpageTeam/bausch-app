@@ -115,29 +115,46 @@ class _SheetScreenState extends State<SheetScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CatalogItem(
-                            model: widget.items[i * 2],
-                            onTap: () {
-                              Keys.bottomSheetItemsNav.currentState!.pushNamed(
-                                '/${widget.sheetModel.type}',
-                                arguments: SheetScreenArguments(
-                                  model: widget.items[i * 2],
-                                ),
-                              );
-                            },
+                          Stack(
+                            children: [
+                              CatalogItem(
+                                model: widget.items[i * 2],
+                                onTap: () {
+                                  Keys.bottomSheetItemsNav.currentState!
+                                      .pushNamed(
+                                    '/${widget.sheetModel.type}',
+                                    arguments: SheetScreenArguments(
+                                      model: widget.items[i * 2],
+                                    ),
+                                  );
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: shield(widget.items[i * 2]),
+                              ),
+                            ],
                           ),
                           if (widget.items.asMap().containsKey(i * 2 + 1))
-                            CatalogItem(
-                              model: widget.items[i * 2 + 1],
-                              onTap: () {
-                                Keys.bottomSheetItemsNav.currentState!
-                                    .pushNamed(
-                                  '/${widget.sheetModel.type}',
-                                  arguments: SheetScreenArguments(
-                                    model: widget.items[i * 2 + 1],
-                                  ),
-                                );
-                              },
+                            Stack(
+                              children: [
+                                CatalogItem(
+                                  model: widget.items[i * 2 + 1],
+                                  onTap: () {
+                                    Keys.bottomSheetItemsNav.currentState!
+                                        .pushNamed(
+                                      '/${widget.sheetModel.type}',
+                                      arguments: SheetScreenArguments(
+                                        model: widget.items[i * 2 + 1],
+                                      ),
+                                    );
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: shield(widget.items[i * 2 + 1]),
+                                ),
+                              ],
                             ),
                         ],
                       ),
@@ -159,5 +176,18 @@ class _SheetScreenState extends State<SheetScreen> {
         ),
       ),
     );
+  }
+}
+
+Widget shield(CatalogItemModel _model) {
+  if (_model is WebinarItemModel) {
+    return Image.asset(
+      'assets/play-video.png',
+      height: 20,
+    );
+  } else if (_model is PromoItemModel) {
+    return DiscountInfo(text: '–500 ₽');
+  } else {
+    return Container();
   }
 }

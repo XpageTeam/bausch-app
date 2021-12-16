@@ -24,7 +24,8 @@ class FormsListener extends StatelessWidget {
 
             if (state is FieldsSended) {
               //TODO(Nikita): поменять на тот, что у Данила
-              showFlushbar('Успех');
+              showFlushbar('Ваше сообщение успешно отправлено!');
+              Navigator.of(context).pop();
             }
           },
         ),

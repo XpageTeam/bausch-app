@@ -38,11 +38,12 @@ class CatalogItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            if (model is! WebinarItemModel)
-                    const SizedBox(
-                      height: 12,
-                    ),
+              if (model is! WebinarItemModel)
+                const SizedBox(
+                  height: 12,
+                ),
               if (model is! WebinarItemModel)
                 SizedBox(
                   height: 100,
@@ -99,7 +100,7 @@ class CatalogItem extends StatelessWidget {
                             : () => onTap?.call(),
                       )
                     : ButtonWithPoints(
-                        price: model.price.toString(),
+                        price: model.priceToString,
                         onPressed: () {
                           onTap?.call();
                         },
