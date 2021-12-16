@@ -22,6 +22,9 @@ class UserWM extends WidgetModel {
 
     try {
       await this.userData.content(await UserWriter.updateUserData(userData));
+
+      showDefaultNotification(title: 'Данные успешно обновлены!');
+
       return true;
     } on DioError catch (e) {
       ex = CustomException(

@@ -2,15 +2,21 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
-class SelectShopSection extends StatefulWidget {
-  const SelectShopSection({Key? key}) : super(key: key);
+class SelectOpticsSection extends StatefulWidget {
+  const SelectOpticsSection({Key? key}) : super(key: key);
 
   @override
-  State<SelectShopSection> createState() => _SelectShopSectionState();
+  State<SelectOpticsSection> createState() => _SelectOpticsSectionState();
 }
 
-class _SelectShopSectionState extends State<SelectShopSection> {
+class _SelectOpticsSectionState extends State<SelectOpticsSection> {
   int _selectedIndex = 0;
+  List<String> optics = [
+    'ЛинзСервис',
+    'Оптика-А',
+    'Мой взгляд',
+    'Медиком',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +49,8 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Линз Сервис',
+                          optics[i],
                           style: AppStyles.h2,
-                        ),
-                        Text(
-                          'lensservice.ru',
-                          style: AppStyles.p1Underlined,
                         ),
                       ],
                     ),
@@ -74,7 +76,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
             ),
           ),
         ),
-        childCount: 4,
+        childCount: optics.length,
       ),
     );
   }

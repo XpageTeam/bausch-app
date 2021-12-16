@@ -1,10 +1,10 @@
 import 'package:bausch/models/mappable_object.dart';
 
 class LensParametersModel implements MappableInterface<LensParametersModel> {
-  final int cylinder;
-  final int diopter;
-  final int axis;
-  final int addict;
+  final num cylinder;
+  final num diopter;
+  final num axis;
+  final num addict;
 
   LensParametersModel({
     required this.cylinder,
@@ -15,10 +15,10 @@ class LensParametersModel implements MappableInterface<LensParametersModel> {
 
   factory LensParametersModel.fromMap(Map<String, dynamic> map) {
     return LensParametersModel(
-      cylinder: map['cyl'] as int,
-      diopter: map['diopter'] as int,
-      axis: map['axis'] as int,
-      addict: map['addict'] as int,
+      cylinder: map['cyl'] as num,
+      diopter: map['diopter'] as num,
+      axis: map['axis'] as num,
+      addict: map['addict'] as num,
     );
   }
 

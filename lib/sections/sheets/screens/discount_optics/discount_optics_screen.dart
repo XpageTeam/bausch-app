@@ -1,6 +1,7 @@
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
+import 'package:bausch/sections/sheets/product_sheet/select_optics.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
@@ -60,7 +61,8 @@ class DiscountOpticsScreen extends StatelessWidget
                       height: 4,
                     ),
                     InfoSection(
-                      text: 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+                      text:
+                          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
                     ),
                     const SizedBox(
                       height: 12,
@@ -116,7 +118,7 @@ class DiscountOpticsScreen extends StatelessWidget
             const SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
               //TODO(Nikita): customCheckBox
-              sliver: SelectShopSection(),
+              sliver: SelectOpticsSection(),
             ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(
@@ -128,7 +130,7 @@ class DiscountOpticsScreen extends StatelessWidget
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 30,
-                        bottom: 10,
+                        bottom: 4,
                       ),
                       child: WhiteButton(
                         text: 'Адреса оптик',
@@ -153,7 +155,10 @@ class DiscountOpticsScreen extends StatelessWidget
                     Warning.warning(),
                     const Padding(
                       padding: EdgeInsets.only(top: 40, bottom: 20),
-                      child: HowToUsePromocode(text: 'Покажите промокод в оптике при покупке выбранного продукта. Срок действия промокода и количество промокодов ограничены. '),
+                      child: HowToUsePromocode(
+                        text:
+                            'Покажите промокод в оптике при покупке выбранного продукта. Срок действия промокода и количество промокодов ограничены. ',
+                      ),
                     ),
                   ],
                 ),
@@ -170,7 +175,6 @@ class DiscountOpticsScreen extends StatelessWidget
             );
           },
         ),
-        
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );

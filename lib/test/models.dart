@@ -107,7 +107,7 @@ class Models {
       picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
-      poolPromoCode: '123',
+      poolPromoCode: '6СС5165АDF345',
       staticPromoCode: 'jij',
     ),
     ProductItemModel(

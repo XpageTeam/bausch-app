@@ -43,6 +43,7 @@ class _CodeScreenState extends State<CodeScreen> {
               ),
               //Повторная отправка через ${getTimerBySeconds(data)}',
               child: RichText(
+                //textAlign: TextAlign.left,
                 text: TextSpan(
                   style: AppStyles.p1,
                   children: [
@@ -60,24 +61,24 @@ class _CodeScreenState extends State<CodeScreen> {
               ),
             );
           } else {
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: BlueButtonWithText(
-                  text: 'Отправить заново',
-                  // ignore: unnecessary_lambdas
-                  onPressed: () {
-                    loginWM.sendPhoneAction();
-                  },
-                ),
+            return TextButton(
+              child: Text(
+                'Отправить новый код',
+                style: AppStyles.h2,
               ),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                //alignment: Alignment.centerLeft,
+              ),
+              // ignore: unnecessary_lambdas
+              onPressed: () {
+                loginWM.sendPhoneAction();
+              },
             );
           }
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

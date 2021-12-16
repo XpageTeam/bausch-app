@@ -1,6 +1,8 @@
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -81,7 +83,10 @@ class ProfileSettingsScreenWM extends WidgetModel {
   void setBirthDate(DateTime? birthDate) {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
-    selectedBirthDate
-        .accept(birthDate ?? userWM.userData.value.data!.user.birthDate);
+    debugPrint('date was changed');
+
+    selectedBirthDate.accept(
+      birthDate ?? userWM.userData.value.data!.user.birthDate,
+    );
   }
 }

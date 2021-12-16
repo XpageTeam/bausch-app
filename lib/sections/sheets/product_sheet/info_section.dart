@@ -38,7 +38,7 @@ class InfoSection extends StatelessWidget {
                     color: AppTheme.mineShaft,
                     fontWeight: FontWeight.w400,
                     fontSize: const FontSize(14),
-                    lineHeight: const LineHeight(20 / 14),
+                    lineHeight: const LineHeight(20 / 17),
                   ),
                   'br': Style(
                     padding: EdgeInsets.zero,

@@ -7,8 +7,10 @@ import 'package:flutter/services.dart';
 
 class ContainerWithPromocode extends StatelessWidget {
   final String promocode;
+  final bool withIcon;
   const ContainerWithPromocode({
     required this.promocode,
+    this.withIcon = true,
     Key? key,
   }) : super(key: key);
 
@@ -29,13 +31,18 @@ class ContainerWithPromocode extends StatelessWidget {
               promocode,
               style: AppStyles.h2,
             ),
-            const SizedBox(
-              width: 9,
-            ),
-            Image.asset(
-              'assets/copy.png',
-              height: 15,
-            ),
+            if (withIcon == true)
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 9,
+                  ),
+                  Image.asset(
+                    'assets/copy.png',
+                    height: 15,
+                  ),
+                ],
+              ),
           ],
         ),
       ),

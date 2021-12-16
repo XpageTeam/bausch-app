@@ -17,7 +17,8 @@ class PickerScreen extends StatefulWidget {
 }
 
 class _PickerScreenState extends State<PickerScreen> {
-  int selectedItem = 0;
+  int selectedNumber = 0;
+  int selectedHundred = 0;
 
   List<String> numbers = [
     '-8',
@@ -29,14 +30,21 @@ class _PickerScreenState extends State<PickerScreen> {
     '-2',
     '-1',
     '0',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
+    '+1',
+    '+2',
+    '+3',
+    '+4',
+    '+5',
+    '+6',
+    '+7',
+    '+8',
+  ];
+
+  List<String> hundreds = [
+    '0',
+    '25',
+    '50',
+    '75',
   ];
 
   @override
@@ -68,48 +76,83 @@ class _PickerScreenState extends State<PickerScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Диоптрий',
+                  widget.title,
                   style: AppStyles.h1,
                 ),
               ),
               //TODO(Nikita): Придумать что-то с оверлеем, чтобы не выглядело так стремно при переходе
               Flexible(
-                //height: 300,
-                child: CupertinoPicker.builder(
-                  childCount: numbers.length,
-                  itemExtent: 40,
-                  onSelectedItemChanged: (i) {
-                    setState(() {
-                      selectedItem = i;
-                    });
-                  },
-                  selectionOverlay: null,
-                  itemBuilder: (context, i) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 130,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: selectedItem == i
-                            ? Colors.white
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            numbers[i],
-                            style: AppStyles.h2,
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          //height: 300,
+                          child: CupertinoPicker.builder(
+                            childCount: numbers.length,
+                            itemExtent: 40,
+                            offAxisFraction: -0.5,
+                            onSelectedItemChanged: (i) {
+                              setState(() {
+                                selectedNumber = i;
+                              });
+                            },
+                            selectionOverlay: null,
+                            itemBuilder: (context, i) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    numbers[i],
+                                    style: AppStyles.h2,
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                          Text(
-                            '${int.parse(numbers[i]) * 25}',
-                            style: AppStyles.h2,
+                        ),
+                        Flexible(
+                          //height: 300,
+                          child: CupertinoPicker.builder(
+                            childCount: hundreds.length,
+                            itemExtent: 40,
+                            offAxisFraction: 0.5,
+                            onSelectedItemChanged: (i) {
+                              setState(() {
+                                selectedHundred = i;
+                              });
+                            },
+                            selectionOverlay: null,
+                            itemBuilder: (context, i) {
+                              return Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    hundreds[i],
+                                    style: AppStyles.h2,
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                        ],
-                      ),
-                    );
-                  },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -119,7 +162,19 @@ class _PickerScreenState extends State<PickerScreen> {
                 child: BlueButtonWithText(
                   text: 'Добавить',
                   onPressed: () {
-                    Navigator.of(context).pop(int.parse(numbers[selectedItem]));
+                    if (double.parse(numbers[selectedNumber]) < 0) {
+                      Navigator.of(context).pop(
+                        double.parse(numbers[selectedNumber]) -
+                            double.parse(hundreds[selectedHundred]) / 100,
+                      );
+                    } else {
+                      Navigator.of(context).pop(
+                        double.parse(numbers[selectedNumber]) +
+                            double.parse(hundreds[selectedHundred]) / 100,
+                      );
+                    }
+                    // debugPrint(
+                    //     double.parse(hundreds[selectedHundred]).toString());
                   },
                 ),
               ),

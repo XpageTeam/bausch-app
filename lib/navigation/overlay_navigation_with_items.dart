@@ -151,13 +151,10 @@ class OverlayNavigationWithItems extends StatelessWidget {
             );
             break;
           case '/final_discount_online':
-            page = FinalDiscountOptics(
+            page = FinalDiscountOnline(
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
                   as PromoItemModel,
-              text:
-                  'Это ваш промокод на скидку 500 ₽ в интернет-магазине ЛинзСервис',
-              buttonText: 'Скопировать и перейти на сайт',
             );
             break;
 

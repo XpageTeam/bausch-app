@@ -23,11 +23,12 @@ class LensParametersSection extends StatelessWidget {
           OrderButton(
             onPressed: () {},
             margin: const EdgeInsets.only(bottom: 4),
+
             title: Text(
               'Диоптрии',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.mineShaft,
           ),
           OrderButton(
             onPressed: () {},
@@ -36,7 +37,7 @@ class LensParametersSection extends StatelessWidget {
               'Цилиндр',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.grey,
           ),
           OrderButton(
             onPressed: () {},
@@ -45,7 +46,7 @@ class LensParametersSection extends StatelessWidget {
               'Ось',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.grey,
           ),
           OrderButton(
             onPressed: () {},
@@ -54,7 +55,7 @@ class LensParametersSection extends StatelessWidget {
               'Аддидация',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.grey,
           ),
         ],
       ),

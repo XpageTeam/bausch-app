@@ -42,6 +42,10 @@ class CatalogItem extends StatelessWidget {
               Column(
                 children: [
                   if (model is! WebinarItemModel)
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  if (model is! WebinarItemModel)
                     SizedBox(
                       height: 100,
                       child: AspectRatio(
@@ -68,6 +72,7 @@ class CatalogItem extends StatelessWidget {
                       style: AppStyles.p1,
                       textAlign: TextAlign.center,
                       maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(

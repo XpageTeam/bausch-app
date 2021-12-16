@@ -53,12 +53,13 @@ class FinalDiscountOptics extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
                         text ??
-                            'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
+                            'Это ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
                         style: AppStyles.h1,
                       ),
                     ),
                     ContainerWithPromocode(
                       promocode: model.code,
+                      withIcon: false,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(

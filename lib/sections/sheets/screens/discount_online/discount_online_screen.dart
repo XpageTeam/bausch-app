@@ -58,7 +58,8 @@ class DiscountOnlineScreen extends StatelessWidget
                       height: 4,
                     ),
                     InfoSection(
-                      text: 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
+                      text:
+                          'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
                     ),
                     const SizedBox(
                       height: 12,
@@ -80,7 +81,7 @@ class DiscountOnlineScreen extends StatelessWidget
                 ),
               ),
             ),
-            
+
             const SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
@@ -117,37 +118,37 @@ class DiscountOnlineScreen extends StatelessWidget
               padding: EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
               sliver: SelectShopSection(),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                top: 30,
-                left: StaticData.sidePadding,
-                right: StaticData.sidePadding,
-                bottom: 4,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  WhiteButton(
-                    text: 'Адреса оптик',
-                    padding: const EdgeInsets.fromLTRB(16, 26, 16, 28),
-                    icon: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 12,
-                      ),
-                      child: Image.asset(
-                        'assets/icons/map-marker.png',
-                        height: 16,
-                      ),
-                    ),
-                    onPressed: () {
-                      Keys.mainNav.currentState!
-                          .push<void>(MaterialPageRoute(builder: (context) {
-                        return const ShopsScreen();
-                      }));
-                    },
-                  ),
-                ]),
-              ),
-            ),
+            // SliverPadding(
+            //   padding: const EdgeInsets.only(
+            //     top: 30,
+            //     left: StaticData.sidePadding,
+            //     right: StaticData.sidePadding,
+            //     bottom: 4,
+            //   ),
+            //   sliver: SliverList(
+            //     delegate: SliverChildListDelegate([
+            //       WhiteButton(
+            //         text: 'Адреса оптик',
+            //         padding: const EdgeInsets.fromLTRB(16, 26, 16, 28),
+            //         icon: Padding(
+            //           padding: const EdgeInsets.only(
+            //             right: 12,
+            //           ),
+            //           child: Image.asset(
+            //             'assets/icons/map-marker.png',
+            //             height: 16,
+            //           ),
+            //         ),
+            //         onPressed: () {
+            //           Keys.mainNav.currentState!
+            //               .push<void>(MaterialPageRoute(builder: (context) {
+            //             return const ShopsScreen();
+            //           }));
+            //         },
+            //       ),
+            //     ]),
+            //   ),
+            // ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,

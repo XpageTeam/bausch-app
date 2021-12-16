@@ -65,13 +65,17 @@ class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
                 style: AppStyles.h2Bold,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
                     child: Text(
                       widget.subtitle ??
-                          'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
+                          'Любые вопросы офтальмологу из клиники Медси',
                       style: AppStyles.p1,
                     ),
+                  ),
+                  const SizedBox(
+                    width: 20,
                   ),
                   Image.asset(
                     setTheImg(widget.model.type),

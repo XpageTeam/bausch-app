@@ -1,6 +1,8 @@
+import 'package:bausch/sections/order_registration/address_select_screen.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_container.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_widget.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,13 @@ class DeliveryAddressSection extends StatelessWidget {
 
         OrderButton(
           // TODO(Nikolay): В адрес доставки.
+          onPressed: () => Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (ctx) {
+                return AddressSelectScreen();
+              },
+            ),
+          ),
 
           title: Flexible(
             child: Text(
@@ -35,8 +44,13 @@ class DeliveryAddressSection extends StatelessWidget {
         ),
         // TODO(Nikolay): В создание адреса доставки.
         OrderButton(
-          onPressed: () =>
-              Keys.mainContentNav.currentState?.pushNamed('/test_address_add'),
+          onPressed: () => Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (ctx) {
+                return AddressSelectScreen();
+              },
+            ),
+          ),
           title: Text(
             'Добавить новый адрес',
             style: AppStyles.h2Bold,

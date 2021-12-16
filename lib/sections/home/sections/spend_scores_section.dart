@@ -32,43 +32,53 @@ class _SpendScoresState extends State<SpendScores> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Потратить баллы',
-          style: AppStyles.h1,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Flexible(
-          child: Wrap(
-            //mainAxisSize: MainAxisSize.min,
-            spacing: 4,
-            runSpacing: 4,
-            children: List.generate(
-              Models.sheets.length,
-              (i) {
-                if (Models.sheets[i].type == 'offline') {
-                  return WideContainerWithItems(
-                    model: Models.sheets[i] as CatalogSheetWithLogosModel,
-                  );
-                } else if (Models.sheets[i].type == 'online_consultation') {
-                  return WideContainerWithoutItems(
-                    model: Models.sheets[i] as CatalogSheetWithoutLogosModel,
-                  );
-                } else {
-                  return SmallContainer(
-                    model: Models.sheets[i] as CatalogSheetModel,
-                  );
-                }
-              },
-            ),
-          ),
-        ),
-      ],
+    return BlocBuilder<CatalogSheetCubit, CatalogSheetState>(
+      bloc: catalogSheetCubit,
+      builder: (context, state) {
+        if (state is CatalogSheetSuccess) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Потратить баллы',
+                style: AppStyles.h1,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Flexible(
+                child: Wrap(
+                  //mainAxisSize: MainAxisSize.min,
+                  spacing: 4,
+                  runSpacing: 4,
+                  children: List.generate(
+                    Models.sheets.length,
+                    (i) {
+                      if (state.models[i].type == 'offline') {
+                        return WideContainerWithItems(
+                          model: state.models[i] as CatalogSheetWithLogosModel,
+                        );
+                      } else if (state.models[i].type ==
+                          'online_consultation') {
+                        return WideContainerWithoutItems(
+                          model:
+                              state.models[i] as CatalogSheetWithoutLogosModel,
+                        );
+                      } else {
+                        return SmallContainer(
+                          model: state.models[i] as CatalogSheetModel,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 }

@@ -9,10 +9,12 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:intl/intl.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -56,7 +58,7 @@ class _ProfileSettingsScreenState
           },
           child: Text(
             'Готово',
-            style: AppStyles.p1Grey,
+            style: AppStyles.p1,
           ),
         ),
       ),
@@ -129,6 +131,7 @@ class _ProfileSettingsScreenState
                 labelText: 'Мобильный телефон',
                 controller: wm.phoneController,
                 inputType: TextInputType.phone,
+                enabled: false,
               ),
             ),
             Padding(
@@ -140,14 +143,44 @@ class _ProfileSettingsScreenState
                     labelText: 'Дата рождения',
                     selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
                     icon: Container(),
-                    onPressed: () async {
-                      wm.setBirthDate(await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900, 8),
-                        lastDate: DateTime(2101),
-                      ));
-                    },
+                    //TODO: исправить
+                    onPressed: wm.selectedBirthDate.value == null
+                        ? () {
+                            DatePicker.showDatePicker(
+                              context,
+                              initialDateTime: DateTime.now(),
+                              minDateTime: DateTime(1900, 8),
+                              maxDateTime: DateTime(2101),
+                              locale: DateTimePickerLocale.ru,
+                              onCancel: () {},
+                              onConfirm: (date, i) {
+                                debugPrint('onchanged');
+
+                                showModalBottomSheet<void>(
+                                  context: Keys.mainNav.currentContext!,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  builder: (context) {
+                                    return CustomAlertDialog(
+                                      yesText: 'Продолжить',
+                                      noText: 'Отмена',
+                                      text:
+                                          'После установки сменить дату рождения будет невозможно!',
+                                      yesCallback: () {
+                                        wm.setBirthDate(date);
+                                        Navigator.of(context).pop();
+                                      },
+                                      noCallback: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          }
+                        : null,
                   );
                 },
               ),
