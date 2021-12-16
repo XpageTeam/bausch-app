@@ -102,7 +102,13 @@ class FinalFreePackaging extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomButtonWithRoundedCorners(
-          onPressed: onPressed,
+          onPressed: () {
+            Keys.mainNav.currentState!.pushNamedAndRemoveUntil(
+              '/',
+              (route) => route.isCurrent,
+            );
+            // Keys.mainNav.currentState!.pop();
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

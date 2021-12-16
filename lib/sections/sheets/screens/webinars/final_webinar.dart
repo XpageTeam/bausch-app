@@ -4,6 +4,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -130,9 +131,22 @@ class _YoutubePopupState extends WidgetState<YoutubePopup, YoutubePopupWM> {
                   width: width,
                   controller: wm.controller,
                   showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.blueAccent,
+                  progressIndicatorColor: AppTheme.turquoiseBlue,
                   onReady: wm.onReady,
                   onEnded: (data) => wm.onEnded(data),
+                  topActions: [
+                    NormalIconButton(
+                      icon: const Icon(
+                        Icons.close,
+                      ),
+                      onPressed: () {
+                        SystemChrome.setPreferredOrientations(
+                          [DeviceOrientation.portraitUp],
+                        );
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
                 ),
                 builder: (context, player) => Column(
                   mainAxisSize: MainAxisSize.min,
