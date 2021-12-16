@@ -25,14 +25,14 @@ class DiscountOptic {
   final String shopCode;
   final String? logo;
   final String link;
-  final List<DiscountOpticShop> discountOpticShop;
+  final List<DiscountOpticShop> disountOpticShops;
 
   DiscountOptic({
     required this.id,
     required this.title,
     required this.shopCode,
     required this.link,
-    required this.discountOpticShop,
+    required this.disountOpticShops,
     this.logo,
   });
 
@@ -46,7 +46,7 @@ class DiscountOptic {
       shopCode: json['shopCode'] as String,
       logo: json['logo'] as String?,
       link: json['link'] as String,
-      discountOpticShop: List<DiscountOpticShop>.from(
+      disountOpticShops: List<DiscountOpticShop>.from(
         (json['shop_data'] as List<dynamic>).map<DiscountOpticShop>(
           (dynamic x) => DiscountOpticShop.fromJson(
             x as Map<String, dynamic>,

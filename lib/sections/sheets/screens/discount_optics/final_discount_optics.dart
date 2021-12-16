@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -14,9 +15,12 @@ class FinalDiscountOptics extends StatelessWidget {
   final String? text;
   final String? buttonText;
 
+  final DiscountOptic? discountOptic;
+
   const FinalDiscountOptics({
     required this.controller,
     required this.model,
+    this.discountOptic,
     this.buttonText,
     this.text,
     Key? key,
@@ -50,7 +54,7 @@ class FinalDiscountOptics extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
                         text ??
-                            'Вот ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
+                            'Вот ваш промокод на скидку 500 ₽ ${discountOptic != null ? 'в оптике ${discountOptic!.title}' : ''}',
                         style: AppStyles.h2,
                       ),
                     ),

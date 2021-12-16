@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -73,10 +72,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
         itemModel,
       );
 
-      // final userRepository = await UserWriter.checkUserToken();
-      // if (userRepository == null) return;
+      final userRepository = await UserWriter.checkUserToken();
+      if (userRepository == null) return;
 
-      // await userWm.userData.content(userRepository);
+      await userWm.userData.content(userRepository);
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -103,8 +102,11 @@ class DiscountOpticsVerificationWM extends WidgetModel {
       _showTopError(error);
     } else {
       await Keys.bottomSheetItemsNav.currentState!.pushNamed(
-        '/final_webinar',
-        arguments: SheetScreenArguments(model: itemModel),
+        '/final_discount_optics',
+        arguments: FinalDiscountOpticsArguments(
+          model: itemModel,
+          discountOptic: discountOptic,
+        ),
       );
     }
   }
@@ -115,6 +117,16 @@ class DiscountOpticsVerificationWM extends WidgetModel {
       subtitle: ex.subtitle,
     );
   }
+}
+
+class FinalDiscountOpticsArguments extends SheetScreenArguments {
+  final DiscountOptic discountOptic;
+  FinalDiscountOpticsArguments({
+    required PromoItemModel model,
+    required this.discountOptic,
+  }) : super(
+          model: model,
+        );
 }
 
 class OrderDiscountSaver {
@@ -128,7 +140,8 @@ class OrderDiscountSaver {
       data: FormData.fromMap(
         <String, dynamic>{
           'productId': model.id,
-          'price': model.price,
+          // TODO(Nikolay): Поменять цену.
+          'price': 1,
           // 'addressId':optic.,
           // 'diopters':model.,
           // 'color':,

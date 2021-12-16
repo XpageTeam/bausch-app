@@ -15,6 +15,7 @@ import 'package:bausch/sections/sheets/screens/discount_online/final_discount_on
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_verification_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
@@ -152,10 +153,11 @@ class OverlayNavigationWithItems extends StatelessWidget {
             break;
 
           case '/final_discount_optics':
+            final args = settings.arguments as FinalDiscountOpticsArguments;
             page = FinalDiscountOptics(
               controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
+              model: args.model as PromoItemModel,
+              discountOptic: args.discountOptic,
             );
             break;
           case '/final_discount_online':

@@ -16,7 +16,9 @@ import 'package:provider/provider.dart';
 //* Program
 //* list
 class ShopsScreen extends StatefulWidget {
-  const ShopsScreen({Key? key}) : super(key: key);
+  const ShopsScreen(
+    Key? key,
+  ) : super(key: key);
 
   @override
   State<ShopsScreen> createState() => _ShopsScreenState();
