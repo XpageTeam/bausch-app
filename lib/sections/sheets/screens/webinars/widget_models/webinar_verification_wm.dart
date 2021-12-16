@@ -62,11 +62,14 @@ class WebinarVerificationWM extends WidgetModel {
     unawaited(loadingState.accept(true));
 
     CustomException? error;
+    String? videoId;
 
     try {
-      await OrderWebinarSaver.save(
+      final repository = await OrderWebinarSaver.save(
         itemModel,
       );
+
+      videoId = repository.videoIds.first;
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
@@ -99,7 +102,12 @@ class WebinarVerificationWM extends WidgetModel {
     } else {
       await Keys.bottomSheetItemsNav.currentState!.pushNamed(
         '/final_webinar',
-        arguments: SheetScreenArguments(model: itemModel),
+        arguments: FinalWebinarArguments(
+          model: itemModel,
+          videoId: videoId!,
+        ),
+
+        //  SheetScreenArguments(model: itemModel),
       );
     }
   }
@@ -112,15 +120,25 @@ class WebinarVerificationWM extends WidgetModel {
   }
 }
 
+class FinalWebinarArguments extends SheetScreenArguments {
+  final String videoId;
+  FinalWebinarArguments({
+    required CatalogItemModel model,
+    required this.videoId,
+  }) : super(model: model);
+}
+
 class OrderWebinarSaver {
-  static Future<BaseResponseRepository> save(CatalogItemModel model) async {
+  static Future<WebinarsRepository> save(CatalogItemModel model) async {
     final rh = RequestHandler();
-    final resp = await rh.put<Map<String, dynamic>>(
+    final response =
+        BaseResponseRepository.fromMap((await rh.put<Map<String, dynamic>>(
       '/order/webinar/',
       data: FormData.fromMap(
         <String, dynamic>{
           'productId': model.id,
-          'price': model.price,
+          // TODO(Nikolay): Изменить цену.
+          'price': 1,
         },
       ),
       options: rh.cacheOptions
@@ -129,10 +147,24 @@ class OrderWebinarSaver {
             policy: CachePolicy.request,
           )
           .toOptions(),
+    ))
+            .data!);
+
+    return WebinarsRepository.fromJson(
+      response.data as Map<String, dynamic>,
     );
-
-    final data = resp.data!;
-
-    return BaseResponseRepository.fromMap(data);
   }
+}
+
+class WebinarsRepository {
+  final List<String> videoIds;
+
+  WebinarsRepository(this.videoIds);
+
+  factory WebinarsRepository.fromJson(Map<String, dynamic> json) =>
+      WebinarsRepository(
+        (json['videoIds'] as List<dynamic>)
+            .map((dynamic e) => e as String)
+            .toList(),
+      );
 }

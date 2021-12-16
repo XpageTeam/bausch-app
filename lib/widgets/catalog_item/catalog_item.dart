@@ -1,6 +1,7 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
@@ -83,12 +84,29 @@ class CatalogItem extends StatelessWidget {
                       right: StaticData.sidePadding,
                       left: StaticData.sidePadding,
                     ),
-                    child: ButtonWithPoints(
-                      price: model.price.toString(),
-                      onPressed: () {
-                        onTap?.call();
-                      },
-                    ),
+                    child: model is WebinarItemModel
+                        ? ButtonWithPoints(
+                            withIcon: !(model as WebinarItemModel).canWatch,
+                            price: (model as WebinarItemModel).canWatch
+                                ? 'Просмотр'
+                                : model.price.toString(),
+                            onPressed: (model as WebinarItemModel).canWatch
+                                ? () => showDialog<void>(
+                                      context: context,
+                                      builder: (context) => YoutubePopup(
+                                        videoId: (model as WebinarItemModel)
+                                            .videoId
+                                            .first,
+                                      ),
+                                    )
+                                : () => onTap?.call(),
+                          )
+                        : ButtonWithPoints(
+                            price: model.price.toString(),
+                            onPressed: () {
+                              onTap?.call();
+                            },
+                          ),
                   ),
                 ],
               ),

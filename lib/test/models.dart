@@ -67,7 +67,9 @@ class Models {
       picture: 'assets/items/item1.png',
       detailText: '',
       previewText: '',
-      vimeoId: '123',
+      videoId: [''],
+      availability: true,
+      isBought: true,
     ),
     PartnersItemModel(
       id: 2,
@@ -94,7 +96,9 @@ class Models {
       picture: 'assets/items/item1.png',
       detailText: '',
       previewText: '',
-      vimeoId: '123',
+      videoId: [''],
+      availability: true,
+      isBought: false,
     ),
     PromoItemModel(
       id: 2,

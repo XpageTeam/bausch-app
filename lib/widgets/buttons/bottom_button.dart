@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 class BottomButtonWithRoundedCorners extends StatelessWidget {
   final String text;
   final bool withInfo;
+  final VoidCallback? onPressed;
+
   const BottomButtonWithRoundedCorners({
     this.text = 'На главную',
     this.withInfo = true,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -22,9 +25,7 @@ class BottomButtonWithRoundedCorners extends StatelessWidget {
           text: text,
           topPadding: 20,
           withInfo: withInfo,
-          onPressed: () {
-            Keys.mainNav.currentState!.pop();
-          },
+          onPressed: onPressed ?? Keys.mainNav.currentState!.pop,
         ),
         Container(
           height: 8,

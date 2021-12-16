@@ -1,8 +1,10 @@
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
@@ -15,9 +17,7 @@ class SheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final points =
-        Provider.of<UserWM>(context).userData.value.data?.balance.available ??
-            0;
+    final userWm = Provider.of<UserWM>(context);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -30,9 +30,14 @@ class SheetWidget extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: PointsInfo(
-                  text: points.toString(),
-                  backgoundColor: AppTheme.mystic,
+                child: EntityStateBuilder<UserRepository>(
+                  streamedState: userWm.userData,
+                  builder: (_, userData) {
+                    return PointsInfo(
+                      text: userData.balance.available.toString(),
+                      backgoundColor: AppTheme.mystic,
+                    );
+                  },
                 ),
               ),
             ],

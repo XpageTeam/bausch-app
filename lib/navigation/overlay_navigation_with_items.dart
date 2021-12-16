@@ -23,6 +23,7 @@ import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
+import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_verification_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
@@ -138,7 +139,8 @@ class OverlayNavigationWithItems extends StatelessWidget {
           case '/final_webinar':
             page = FinalWebinar(
               controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
+              model: (settings.arguments as FinalWebinarArguments).model,
+              videoId: (settings.arguments as FinalWebinarArguments).videoId,
             );
             break;
 
