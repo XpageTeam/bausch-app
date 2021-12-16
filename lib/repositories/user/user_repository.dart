@@ -17,10 +17,10 @@ class UserRepository {
       .inDays;
 
   String get lineLoadingText {
-    final amount = balance.nearestExpiration?.amount;
+    final amount = balance.nearestExpiration?.amount ?? 0;
     if (canPrintLineLoadingText) {
-      return '$amount ${HelpFunctions.wordByCount(
-        amount!.toInt(),
+      return '${HelpFunctions.partitionNumber(amount)} ${HelpFunctions.wordByCount(
+        amount.toInt(),
         [
           'баллов сгорят',
           'балл сгорит',

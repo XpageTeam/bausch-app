@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/sections/profile/content/scrollable_profile_content.dart';
 import 'package:bausch/sections/profile/profile_app_bar.dart';
 import 'package:bausch/sections/profile/profile_screen_wm.dart';
-import 'package:bausch/sections/profile/scrollable_profile_content.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
