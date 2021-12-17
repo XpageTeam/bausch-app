@@ -50,6 +50,10 @@ class MyApp extends StatelessWidget {
       ),
     );
 
+    final mainNavigation = MainNavigation(
+      authWM: wm,
+    );
+
     return OverlaySupport(
       toastTheme: ToastThemeData(
         background: AppTheme.mineShaft,
@@ -90,14 +94,14 @@ class MyApp extends StatelessWidget {
                   ],
                   child: Builder(builder: (context) {
                     RequestHandler.setContext(context);
-                    
+
                     return Provider(
                       create: (context) => LoginWM(
                         baseDependencies: const WidgetModelDependencies(),
                         context: context,
                       ),
                       lazy: false,
-                      child: const MainNavigation(),
+                      child: mainNavigation,
                     );
                   }),
                 );

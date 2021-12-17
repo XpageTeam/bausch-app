@@ -11,6 +11,7 @@ import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityAndEmailScreen extends CoreMwwmWidget<CityEmailScreenWM> {
@@ -141,13 +142,16 @@ class _CityAndEmailScreenState
           ),
         ),
       ),
-      floatingActionButton: StreamedStateBuilder<bool>(
+      bottomNavigationBar: StreamedStateBuilder<bool>(
         streamedState: wm.codeScreenAuthTrue,
         builder: (_, state) {
           if (state) {
             return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
+              padding: EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                41.sp,
               ),
               child: BlueButtonWithText(
                 text: 'Готово',
@@ -167,7 +171,33 @@ class _CityAndEmailScreenState
           return const SizedBox();
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: StreamedStateBuilder<bool>(
+      //   streamedState: wm.codeScreenAuthTrue,
+      //   builder: (_, state) {
+      //     if (state) {
+      //       return Padding(
+      //         padding: const EdgeInsets.symmetric(
+      //           horizontal: StaticData.sidePadding,
+      //         ),
+      //         child: BlueButtonWithText(
+      //           text: 'Готово',
+      //           onPressed: state
+      //               ? () {
+      //                   Keys.mainContentNav.currentState!
+      //                       .pushNamedAndRemoveUntil(
+      //                     '/home',
+      //                     (route) => false,
+      //                   );
+      //                 }
+      //               : null,
+      //         ),
+      //       );
+      //     }
+
+      //     return const SizedBox();
+      //   },
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
