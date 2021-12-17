@@ -11,13 +11,15 @@ class LoadingAnimation extends StatelessWidget {
     return ColumnWithDynamicDuration(
       children: [
         Container(
-          height: 86.sp,
           color: Colors.white,
-          padding: EdgeInsets.symmetric(
-            //vertical: 30.sp,
-            horizontal: 18.sp,
+          padding: const EdgeInsets.only(
+            top: 20,
+            left: 18,
+            right: 18,
           ),
-          child: Image.asset('assets/loading/logo.png'),
+          child: SafeArea(
+            child: Image.asset('assets/loading/logo.png'),
+          ),
         ),
         const ImageRow(
           firstImg: 'assets/loading/1.png',
