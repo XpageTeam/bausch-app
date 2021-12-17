@@ -1,4 +1,5 @@
 import 'package:bausch/sections/auth/loading/widget_conveyor.dart';
+import 'package:bausch/widgets/animated_reverse_opacity.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ class ColumnWithDynamicDuration extends StatelessWidget {
           if (i == 1) {
             return DelayedAnimatedTranslateOpacity(
               offsetY: 20,
+              //animationDuration: const Duration(milliseconds: 800),
               delay: Duration(milliseconds: 200 + i * 400),
               child: WidgetConveyor(
                 children: [
@@ -44,9 +46,17 @@ class ColumnWithDynamicDuration extends StatelessWidget {
                 ],
               ),
             );
-          } else {
+          } else if (i == 0) {
             return DelayedAnimatedTranslateOpacity(
+              offsetY: 0,
+              //animationDuration: const Duration(milliseconds: 600),
+              child: children[i],
+              delay: Duration(milliseconds: 200 + i * 400),
+            );
+          } else {
+            return AnimatedReverseOpacity(
               offsetY: 20,
+              //animationDuration: const Duration(milliseconds: 600),
               child: children[i],
               delay: Duration(milliseconds: 200 + i * 400),
             );

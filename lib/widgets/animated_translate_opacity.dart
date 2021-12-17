@@ -32,8 +32,9 @@ class DelayedAnimatedTranslateOpacity extends StatelessWidget {
           ).transform,
           child: AnimatedOpacity(
             curve: Curves.easeOutSine,
-            duration: animationDuration ,
+            duration: animationDuration,
             opacity: snapshot.hasData ? 1 : 0,
+            onEnd: onEnd,
             child: child,
           ),
         );

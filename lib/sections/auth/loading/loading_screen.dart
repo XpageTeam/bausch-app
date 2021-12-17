@@ -36,7 +36,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
           //* Контент с текстом и кнопкой
           DelayedAnimatedTranslateOpacity(
             offsetY: 120,
-            delay: const Duration(milliseconds: 1600),
+            delay: const Duration(milliseconds: 1800),
+            animationDuration: const Duration(milliseconds: 500),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
