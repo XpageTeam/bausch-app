@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info/package_info.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
@@ -239,10 +240,19 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 40),
-              child: Text(
-                'Версия приложения 10.6',
-                style: AppStyles.p1Grey,
-                textAlign: TextAlign.center,
+              child: FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (_, snapshot) {
+                  if (!snapshot.hasData){
+                    return const SizedBox();
+                  }
+
+                  return Text(
+                    'Версия приложения ${snapshot.data?.version} (${snapshot.data?.buildNumber})',
+                    style: AppStyles.p1Grey,
+                    textAlign: TextAlign.center,
+                  );
+                },
               ),
             ),
           ],
