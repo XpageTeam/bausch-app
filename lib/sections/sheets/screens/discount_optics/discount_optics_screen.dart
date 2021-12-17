@@ -1,4 +1,3 @@
-
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
@@ -101,33 +100,33 @@ class _DiscountOpticsScreenState
                 ],
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                left: StaticData.sidePadding,
-                right: StaticData.sidePadding,
-                //top: 20,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Text(
-                      'Выбрать сеть оптик',
-                      style: AppStyles.h1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        bottom: 20,
-                      ),
-                      child: Text(
-                        'Скидкой можно воспользоваться в любой из оптик сети.',
-                        style: AppStyles.p1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // SliverPadding(
+            //   padding: const EdgeInsets.only(
+            //     left: StaticData.sidePadding,
+            //     right: StaticData.sidePadding,
+            //     //top: 20,
+            //   ),
+            //   sliver: SliverList(
+            //     delegate: SliverChildListDelegate(
+            //       [
+            //         Text(
+            //           'Выбрать сеть оптик',
+            //           style: AppStyles.h1,
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(
+            //             top: 12,
+            //             bottom: 20,
+            //           ),
+            //           child: Text(
+            //             'Скидкой можно воспользоваться в любой из оптик сети.',
+            //             style: AppStyles.p1,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
@@ -136,10 +135,66 @@ class _DiscountOpticsScreenState
               sliver: SliverToBoxAdapter(
                 child: EntityStateBuilder<List<DiscountOptic>>(
                   streamedState: wm.discountOpticsStreamed,
-                  builder: (_, discountOptics) => SelectShopSection(
-                    discountOptics: discountOptics,
-                    onChanged: wm.setCurrentOptic,
+                  loadingChild: const Center(
+                    child: CircularProgressIndicator.adaptive(),
                   ),
+                  builder: (_, discountOptics) => discountOptics.isEmpty
+                      ? Text(
+                          'Нет доступных для выбора оптик',
+                          style: AppStyles.h1,
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Выбрать сеть оптик',
+                              style: AppStyles.h1,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 12,
+                                bottom: 20,
+                              ),
+                              child: Text(
+                                'Скидкой можно воспользоваться в любой из оптик сети.',
+                                style: AppStyles.p1,
+                              ),
+                            ),
+                            SelectShopSection(
+                              discountOptics: discountOptics,
+                              onChanged: wm.setCurrentOptic,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 30,
+                                bottom: 10,
+                              ),
+                              child: WhiteButton(
+                                text: 'Адреса оптик',
+                                icon: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 12,
+                                  ),
+                                  child: Image.asset(
+                                    'assets/icons/map-marker.png',
+                                    height: 16,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Keys.mainNav.currentState!.push<void>(
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
+                                              ShopsScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Warning.warning(),
+                          ],
+                        ),
                 ),
               ),
             ),
@@ -150,32 +205,6 @@ class _DiscountOpticsScreenState
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 30,
-                        bottom: 10,
-                      ),
-                      child: WhiteButton(
-                        text: 'Адреса оптик',
-                        icon: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 12,
-                          ),
-                          child: Image.asset(
-                            'assets/icons/map-marker.png',
-                            height: 16,
-                          ),
-                        ),
-                        onPressed: () {
-                          Keys.mainNav.currentState!
-                              .push<void>(MaterialPageRoute(builder: (context) {
-                            // TODO(Nikolay): Передавать список полученных оптик сюда.
-                            return ShopsScreen();
-                          }));
-                        },
-                      ),
-                    ),
-                    Warning.warning(),
                     const Padding(
                       padding: EdgeInsets.only(top: 40, bottom: 20),
                       child: HowToUsePromocode(),
@@ -207,10 +236,10 @@ class _DiscountOpticsScreenState
   }
 }
 
-class VerificationDiscountArguments extends SheetScreenArguments {
+class VerificationDiscountOpticsArguments extends SheetScreenArguments {
   final DiscountOptic discountOptic;
 
-  VerificationDiscountArguments({
+  VerificationDiscountOpticsArguments({
     required this.discountOptic,
     required CatalogItemModel model,
   }) : super(

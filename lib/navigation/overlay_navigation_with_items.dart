@@ -106,7 +106,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
             break;
 
           case '/verification_discount_optics':
-            final args = settings.arguments as VerificationDiscountArguments;
+            final args = settings.arguments as VerificationDiscountOpticsArguments;
             page = DiscountOpticsVerification(
               controller: controller,
               model: args.model as PromoItemModel,

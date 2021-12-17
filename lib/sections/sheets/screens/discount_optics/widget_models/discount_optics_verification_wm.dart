@@ -9,7 +9,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/sections/sheets/sheet_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -117,16 +117,6 @@ class DiscountOpticsVerificationWM extends WidgetModel {
       subtitle: ex.subtitle,
     );
   }
-}
-
-class FinalDiscountOpticsArguments extends SheetScreenArguments {
-  final DiscountOptic discountOptic;
-  FinalDiscountOpticsArguments({
-    required PromoItemModel model,
-    required this.discountOptic,
-  }) : super(
-          model: model,
-        );
 }
 
 class OrderDiscountSaver {

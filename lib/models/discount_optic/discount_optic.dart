@@ -2,22 +2,7 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-class DiscountOpticsRepository {
-  final List<DiscountOptic> discountOptics;
 
-  DiscountOpticsRepository({
-    required this.discountOptics,
-  });
-
-  factory DiscountOpticsRepository.fromList(List<dynamic> json) =>
-      DiscountOpticsRepository(
-        discountOptics: List<DiscountOptic>.from(
-          json.map<DiscountOptic>(
-            (dynamic x) => DiscountOptic.fromJson(x as Map<String, dynamic>),
-          ),
-        ),
-      );
-}
 
 class DiscountOptic {
   final int id;

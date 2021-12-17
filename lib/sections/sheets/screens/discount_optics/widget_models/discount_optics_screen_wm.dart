@@ -8,6 +8,7 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
@@ -62,7 +63,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
         } else {
           Keys.bottomSheetItemsNav.currentState!.pushNamed(
             '/verification_discount_optics',
-            arguments: VerificationDiscountArguments(
+            arguments: VerificationDiscountOpticsArguments(
               model: itemModel,
               discountOptic: currentDiscountOptic.value!,
             ),
@@ -81,7 +82,11 @@ class DiscountOpticsScreenWM extends WidgetModel {
         'offline',
         itemModel.code,
       );
-      unawaited(discountOpticsStreamed.content(repository.discountOptics));
+      unawaited(
+        discountOpticsStreamed.content(
+            repository.discountOptics,
+            ),
+      );
     } on DioError catch (e) {
       unawaited(
         discountOpticsStreamed.error(
