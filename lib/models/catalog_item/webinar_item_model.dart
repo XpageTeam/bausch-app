@@ -58,9 +58,9 @@ class WebinarItemModel extends CatalogItemModel
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
       picture: map['picture'] as String,
-      price: (map['price'] ?? 150) as int,
-      videoId: map['video_youtube_id'] != null
-          ? (map['video_youtube_id'] as List<dynamic>)
+      price: map['price'] as int,
+      videoId: map['video_vimeo_id'] != null
+          ? (map['video_vimeo_id'] as List<dynamic>)
               .map((dynamic e) => e as String)
               .toList()
           : [''],

@@ -20,57 +20,63 @@ class ColumnWithDynamicDuration extends StatelessWidget {
           offsetY: 0,
           child: children[0],
         ),
-        IgnorePointer(
-          child: ListView.separated(
-            shrinkWrap: true,
+        Expanded(
+          child: IgnorePointer(
+            child: ListView.separated(
+              shrinkWrap: true,
 
-            itemBuilder: (context, i) {
-              final j = i +1;
+              itemBuilder: (context, i) {
+                final j = i;
 
-              if (j == 1) {
-                return DelayedAnimatedTranslateOpacity(
-                  offsetY: 20,
-                  //animationDuration: const Duration(milliseconds: 800),
-                  delay: Duration(milliseconds: 200 + j * 400),
-                  child: WidgetConveyor(
-                    children: [
-                      SizedBox(
-                        width: spaceBetween,
-                      ),
-                      IntrinsicWidth(child: children[1]),
-                      SizedBox(
-                        width: spaceBetween,
-                      ),
-                      IntrinsicWidth(child: children[2]),
-                      SizedBox(
-                        width: spaceBetween,
-                      ),
-                      IntrinsicWidth(child: children[3]),
-                      SizedBox(
-                        width: spaceBetween,
-                      ),
-                      IntrinsicWidth(child: children[1]),
-                      SizedBox(
-                        width: spaceBetween,
-                      ),
-                    ],
-                  ),
+                if (j==0){
+                  return const SizedBox();
+                }
+
+                if (j == 1) {
+                  return DelayedAnimatedTranslateOpacity(
+                    offsetY: 20,
+                    //animationDuration: const Duration(milliseconds: 800),
+                    delay: Duration(milliseconds: 200 + j * 400),
+                    child: WidgetConveyor(
+                      children: [
+                        SizedBox(
+                          width: spaceBetween,
+                        ),
+                        IntrinsicWidth(child: children[1]),
+                        SizedBox(
+                          width: spaceBetween,
+                        ),
+                        IntrinsicWidth(child: children[2]),
+                        SizedBox(
+                          width: spaceBetween,
+                        ),
+                        IntrinsicWidth(child: children[3]),
+                        SizedBox(
+                          width: spaceBetween,
+                        ),
+                        IntrinsicWidth(child: children[1]),
+                        SizedBox(
+                          width: spaceBetween,
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return AnimatedReverseOpacity(
+                    offsetY: 20,
+                    //animationDuration: const Duration(milliseconds: 600),
+                    child: children[j],
+                    delay: Duration(milliseconds: 200 + j * 400),
+                  );
+                }
+              },
+              separatorBuilder: (context, i) {
+                return SizedBox(
+                  height: i == 0 ? 40 : spaceBetween,
                 );
-              } else {
-                return AnimatedReverseOpacity(
-                  offsetY: 20,
-                  //animationDuration: const Duration(milliseconds: 600),
-                  child: children[j],
-                  delay: Duration(milliseconds: 200 + j * 400),
-                );
-              }
-            },
-            separatorBuilder: (context, i) {
-              return SizedBox(
-                height: i == 0 ? 80.sp : spaceBetween,
-              );
-            },
-            itemCount: children.length - 1,
+              },
+              itemCount: children.length,
+            ),
           ),
         ),
       ],

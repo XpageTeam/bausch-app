@@ -30,108 +30,113 @@ class OverlayNavigationWithoutItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: Keys.bottomSheetWithoutItemsNav,
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        Widget page;
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        textScaleFactor: 1.0,
+      ),
+      child: Navigator(
+        key: Keys.bottomSheetWithoutItemsNav,
+        initialRoute: '/',
+        onGenerateRoute: (settings) {
+          Widget page;
 
-        switch (settings.name) {
-          case '/':
-            if (model.type == StaticData.types['consultation']) {
+          switch (settings.name) {
+            case '/':
+              if (model.type == StaticData.types['consultation']) {
+                page = ConsultationScreen(
+                  controller: controller,
+                  item: item,
+                );
+              } else {
+                page = AddPointsScreen(
+                  controller: controller,
+                );
+              }
+              break;
+
+            case '/consultation':
               page = ConsultationScreen(
                 controller: controller,
                 item: item,
               );
-            } else {
-              page = AddPointsScreen(
+              break;
+
+            case '/program':
+              page = ProgramScreen(controller: controller);
+              break;
+
+            // case '/addpoints_details':
+            //   page = AddPointsDetails(
+            //     model: Models.addItems[0],
+            //     controller: controller,
+            //   );
+            //   break;
+
+            case '/addpoints_details':
+              page = AddPointsDetails(
+                model: Models.addItems[0],
                 controller: controller,
               );
-            }
-            break;
+              break;
 
-          case '/consultation':
-            page = ConsultationScreen(
-              controller: controller,
-              item: item,
-            );
-            break;
+            case '/addpoints_survey':
+              page = SurveyScreen(
+                controller: controller,
+                model: Models.addItems[3],
+              );
+              break;
 
-          case '/program':
-            page = ProgramScreen(controller: controller);
-            break;
+            case '/final_addpoints':
+              page = FinalAddPointsScreen(
+                controller: controller,
+              );
+              break;
 
-          // case '/addpoints_details':
-          //   page = AddPointsDetails(
-          //     model: Models.addItems[0],
-          //     controller: controller,
-          //   );
-          //   break;
+            case '/verification_consultation':
+              page = ConsultationVerification(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model,
+              );
+              break;
 
-          case '/addpoints_details':
-            page = AddPointsDetails(
-              model: Models.addItems[0],
-              controller: controller,
-            );
-            break;
+            case '/final_consultation':
+              page = FinalConsultation(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model,
+              );
+              break;
 
-          case '/addpoints_survey':
-            page = SurveyScreen(
-              controller: controller,
-              model: Models.addItems[3],
-            );
-            break;
+            default:
+              page = Container();
+          }
 
-          case '/final_addpoints':
-            page = FinalAddPointsScreen(
-              controller: controller,
-            );
-            break;
-
-          case '/verification_consultation':
-            page = ConsultationVerification(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
-            );
-            break;
-
-          case '/final_consultation':
-            page = FinalConsultation(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
-            );
-            break;
-
-          default:
-            page = Container();
-        }
-
-        if (Platform.isIOS){
-          return CupertinoPageRoute<void>(builder: (context) {
-            return page;
-          });
-        } else {
-          return MaterialPageRoute<void>(builder: (context) {
-            return page;
-          });
-        }
+          if (Platform.isIOS){
+            return CupertinoPageRoute<void>(builder: (context) {
+              return page;
+            });
+          } else {
+            return MaterialPageRoute<void>(builder: (context) {
+              return page;
+            });
+          }
 
 
-        // return PageRouteBuilder<dynamic>(
-        //   pageBuilder: (_, __, ___) => page,
-        //   transitionsBuilder: (context, animation, anotherAnimation, child) {
-        //     animation =
-        //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
-        //     return SlideTransition(
-        //       position: Tween(
-        //         begin: const Offset(1.0, 0.0),
-        //         end: Offset.zero,
-        //       ).animate(animation),
-        //       child: page,
-        //     );
-        //   },
-        // );
-      },
+          // return PageRouteBuilder<dynamic>(
+          //   pageBuilder: (_, __, ___) => page,
+          //   transitionsBuilder: (context, animation, anotherAnimation, child) {
+          //     animation =
+          //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
+          //     return SlideTransition(
+          //       position: Tween(
+          //         begin: const Offset(1.0, 0.0),
+          //         end: Offset.zero,
+          //       ).animate(animation),
+          //       child: page,
+          //     );
+          //   },
+          // );
+        },
+      ),
     );
   }
 }

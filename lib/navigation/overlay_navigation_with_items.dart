@@ -46,182 +46,187 @@ class OverlayNavigationWithItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: Keys.bottomSheetItemsNav,
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        Widget page;
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        textScaleFactor: 1.0,
+      ),
+      child: Navigator(
+        key: Keys.bottomSheetItemsNav,
+        initialRoute: '/',
+        onGenerateRoute: (settings) {
+          Widget page;
 
-        switch (settings.name) {
-          case '/':
-            page = SheetScreen(
-              sheetModel: sheetModel,
-              controller: controller,
-              items: items,
-              //path: path(sheetModel.type),
-            );
+          switch (settings.name) {
+            case '/':
+              page = SheetScreen(
+                sheetModel: sheetModel,
+                controller: controller,
+                items: items,
+                //path: path(sheetModel.type),
+              );
 
-            break;
+              break;
 
-          case '/free_product':
-            page = FreePackagingScreen(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
-            );
-            break;
+            case '/free_product':
+              page = FreePackagingScreen(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model,
+              );
+              break;
 
-          case '/add_points':
-            page = AddPointsScreen(
-              controller: controller,
-            );
-            break;
+            case '/add_points':
+              page = AddPointsScreen(
+                controller: controller,
+              );
+              break;
 
-          case '/offline':
-            page = DiscountOpticsScreen(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
-            );
-            break;
+            case '/offline':
+              page = DiscountOpticsScreen(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PromoItemModel,
+              );
+              break;
 
-          case '/onlineShop':
-            page = DiscountOnlineScreen(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
-            );
-            break;
+            case '/onlineShop':
+              page = DiscountOnlineScreen(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PromoItemModel,
+              );
+              break;
 
-          case '/promo_code_immediately':
-            page = PartnersScreen(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PartnersItemModel,
-            );
-            break;
+            case '/promo_code_immediately':
+              page = PartnersScreen(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PartnersItemModel,
+              );
+              break;
 
-          case '/promo_code_video':
-            page = WebinarScreen(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as WebinarItemModel,
-            );
-            break;
+            case '/promo_code_video':
+              page = WebinarScreen(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as WebinarItemModel,
+              );
+              break;
 
-          case '/verification_discount_optics':
-            page = DiscountOpticsVerification(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
-            );
-            break;
+            case '/verification_discount_optics':
+              page = DiscountOpticsVerification(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PromoItemModel,
+              );
+              break;
 
-          case '/verification_discount_online':
-            page = DiscountOnlineVerification(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
-            );
-            break;
+            case '/verification_discount_online':
+              page = DiscountOnlineVerification(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PromoItemModel,
+              );
+              break;
 
-          case '/verification_webinar':
-            page = WebinarVerification(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model,
-            );
-            break;
+            case '/verification_webinar':
+              page = WebinarVerification(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model,
+              );
+              break;
 
-          case '/verification_partners':
-            page = PartnersVerification(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PartnersItemModel,
-            );
-            break;
+            case '/verification_partners':
+              page = PartnersVerification(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PartnersItemModel,
+              );
+              break;
 
-          case '/final_webinar':
-            page = FinalWebinar(
-              controller: controller,
-              model: (settings.arguments as FinalWebinarArguments).model,
-              videoId: (settings.arguments as FinalWebinarArguments).videoId,
-            );
-            break;
+            case '/final_webinar':
+              page = FinalWebinar(
+                controller: controller,
+                model: (settings.arguments as FinalWebinarArguments).model,
+                videoId: (settings.arguments as FinalWebinarArguments).videoId,
+              );
+              break;
 
-          case '/final_partners':
-            page = FinalPartners(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PartnersItemModel,
-            );
-            break;
+            case '/final_partners':
+              page = FinalPartners(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PartnersItemModel,
+              );
+              break;
 
-          case '/final_discount_optics':
-            page = FinalDiscountOptics(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
-            );
-            break;
-          case '/final_discount_online':
-            page = FinalDiscountOnline(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
-            );
-            break;
+            case '/final_discount_optics':
+              page = FinalDiscountOptics(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PromoItemModel,
+              );
+              break;
+            case '/final_discount_online':
+              page = FinalDiscountOnline(
+                controller: controller,
+                model: (settings.arguments as SheetScreenArguments).model
+                    as PromoItemModel,
+              );
+              break;
 
-          // case '/final_free_packaging':
-          //   page = FinalWebinar(
-          //     controller: controller,
-          //     model: Models.items[2],
-          //   );
-          //   break;
+            // case '/final_free_packaging':
+            //   page = FinalWebinar(
+            //     controller: controller,
+            //     model: Models.items[2],
+            //   );
+            //   break;
 
-          // case '/program':
-          //   page = ProgramScreen(controller: controller);
-          //   break;
+            // case '/program':
+            //   page = ProgramScreen(controller: controller);
+            //   break;
 
-          // case '/addpoints':
-          //   page = FinalWebinar(
-          //     controller: controller,
-          //     model: Models.items[2],
-          //   );
-          //   break;
+            // case '/addpoints':
+            //   page = FinalWebinar(
+            //     controller: controller,
+            //     model: Models.items[2],
+            //   );
+            //   break;
 
-          default:
-            page = SheetScreen(
-              sheetModel: sheetModel,
-              controller: controller,
-              items: items,
-              //path: path(sheetModel.type),
-            );
-        }
+            default:
+              page = SheetScreen(
+                sheetModel: sheetModel,
+                controller: controller,
+                items: items,
+                //path: path(sheetModel.type),
+              );
+          }
 
-        if (Platform.isIOS){
-          return CupertinoPageRoute<void>(builder: (context) {
-            return page;
-          });
-        } else {
-          return MaterialPageRoute<void>(builder: (context) {
-            return page;
-          });
-        }
+          if (Platform.isIOS){
+            return CupertinoPageRoute<void>(builder: (context) {
+              return page;
+            });
+          } else {
+            return MaterialPageRoute<void>(builder: (context) {
+              return page;
+            });
+          }
 
-        // return PageRouteBuilder<dynamic>(
-        //   pageBuilder: (_, __, ___) => page,
-        //   transitionsBuilder: (context, animation, anotherAnimation, child) {
-        //     animation =
-        //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
-        //     return SlideTransition(
-        //       position: Tween(
-        //         begin: const Offset(1.0, 0.0),
-        //         end: Offset.zero,
-        //       ).animate(animation),
-        //       child: page,
-        //     );
-        //   },
-        // );
-      },
+          // return PageRouteBuilder<dynamic>(
+          //   pageBuilder: (_, __, ___) => page,
+          //   transitionsBuilder: (context, animation, anotherAnimation, child) {
+          //     animation =
+          //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
+          //     return SlideTransition(
+          //       position: Tween(
+          //         begin: const Offset(1.0, 0.0),
+          //         end: Offset.zero,
+          //       ).animate(animation),
+          //       child: page,
+          //     );
+          //   },
+          // );
+        },
+      ),
     );
   }
 

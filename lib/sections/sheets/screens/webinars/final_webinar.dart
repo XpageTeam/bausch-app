@@ -97,6 +97,8 @@ class VimeoPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('id: $videoId');
+
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,

@@ -33,12 +33,14 @@ class CityEmailScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    // subscribe(confirmEmailAction.stream, (value) {
-    //   _confirmUserEmail();
-    // });
 
     subscribe(setUserDataAction.stream, (value) {
       _setUserCityAndEmail();
+      final currentFocus = FocusScope.of(context);
+
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
     });
 
     subscribe<String?>(selectedCityName.stream, (value) {
@@ -69,7 +71,6 @@ class CityEmailScreenWM extends WidgetModel {
       email: emailFieldController.text,
       city: selectedCityName.value,
     ))) {
-
       await codeScreenAuthTrue.accept(true);
     }
   }

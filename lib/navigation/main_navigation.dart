@@ -31,118 +31,123 @@ class MainNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: Keys.mainContentNav,
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        Widget page;
-        bool showAnimation = true;
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        textScaleFactor: 1.0,
+      ),
+      child: Navigator(
+        key: Keys.mainContentNav,
+        initialRoute: '/loading',
+        onGenerateRoute: (settings) {
+          Widget page;
+          var showAnimation = true;
 
-        authWM.context = Keys.mainContentNav.currentContext!;
+          authWM.context = Keys.mainContentNav.currentContext;
 
-        switch (settings.name) {
-          case '/':
-            page = const LoaderScreen();
-            showAnimation = false;
-            break;
+          switch (settings.name) {
+            case '/':
+              page = const LoaderScreen();
+              showAnimation = false;
+              break;
 
-          case '/loading':
-            page = const LoadingScreen();
-            showAnimation = false;
-            break;
+            case '/loading':
+              page = const LoadingScreen();
+              showAnimation = false;
+              break;
 
-          case '/city_and_email':
-            page = CityAndEmailScreen();
-            showAnimation = false;
-            break;
+            case '/city_and_email':
+              page = CityAndEmailScreen();
+              showAnimation = false;
+              break;
 
-          case '/registration':
-            page = const RegistrationScreen();
-            showAnimation = false;
-            break;
+            case '/registration':
+              page = const RegistrationScreen();
+              showAnimation = false;
+              break;
 
-          case '/code':
-            page = const CodeScreen();
-            break;
+            case '/code':
+              page = const CodeScreen();
+              break;
 
-          case '/profile':
-            page = ProfileScreen();
-            break;
+            case '/profile':
+              page = ProfileScreen();
+              break;
 
-          case '/profile_settings':
-            page = ProfileSettingsScreen();
-            break;
+            case '/profile_settings':
+              page = ProfileSettingsScreen();
+              break;
 
-          case '/my_adresses':
-            page = const MyAdressesScreen();
-            break;
+            case '/my_adresses':
+              page = const MyAdressesScreen();
+              break;
 
-          case '/city':
-            page = CityScreen();
-            break;
+            case '/city':
+              page = CityScreen();
+              break;
 
-          case '/lenses_parameters':
-            page = const LensesParametersScreen();
-            break;
+            case '/lenses_parameters':
+              page = const LensesParametersScreen();
+              break;
 
-          case '/add_details':
-            page = AddDetailsScreen(
-              adress: (settings.arguments as AddDetailsArguments).adress,
-              isFirstLaunch:
-                  (settings.arguments as AddDetailsArguments).isFirstLaunch,
-            );
-            break;
+            case '/add_details':
+              page = AddDetailsScreen(
+                adress: (settings.arguments as AddDetailsArguments).adress,
+                isFirstLaunch:
+                    (settings.arguments as AddDetailsArguments).isFirstLaunch,
+              );
+              break;
 
-          case '/add_adress':
-            page = const AddAdressScreen();
-            break;
+            case '/add_adress':
+              page = const AddAdressScreen();
+              break;
 
-          case '/order_registration':
-            page = const OrderRegistrationScreen();
-            break;
+            case '/order_registration':
+              page = const OrderRegistrationScreen();
+              break;
 
-          case '/shops':
-            page = const ShopsScreen();
-            break;
+            case '/shops':
+              page = const ShopsScreen();
+              break;
 
-          case '/home':
-          default:
-            page = const HomeScreen();
-            showAnimation = false;
-        }
-
-        if (showAnimation){
-          if (Platform.isIOS){
-            return CupertinoPageRoute<void>(builder: (context) {
-              return page;
-            });
-          } else {
-            return MaterialPageRoute<void>(builder: (context) {
-              return page;
-            });
+            case '/home':
+            default:
+              page = const HomeScreen();
+              showAnimation = false;
           }
-        } else {
-          return PageRouteBuilder<void>(pageBuilder: (context, animation, secondaryAnimation) {
-            return page;
-          },);
-        }
+
+          if (showAnimation){
+            if (Platform.isIOS){
+              return CupertinoPageRoute<void>(builder: (context) {
+                return page;
+              });
+            } else {
+              return MaterialPageRoute<void>(builder: (context) {
+                return page;
+              });
+            }
+          } else {
+            return PageRouteBuilder<void>(pageBuilder: (context, animation, secondaryAnimation) {
+              return page;
+            },);
+          }
 
 
-        // return PageRouteBuilder<dynamic>(
-        //   pageBuilder: (_, __, ___) => page,
-        //   transitionsBuilder: (context, animation, anotherAnimation, child) {
-        //     animation =
-        //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
-        //     return SlideTransition(
-        //       position: Tween(
-        //         begin: const Offset(1.0, 0.0),
-        //         end: Offset.zero,
-        //       ).animate(animation),
-        //       child: page,
-        //     );
-        //   },
-        // );
-      },
+          // return PageRouteBuilder<dynamic>(
+          //   pageBuilder: (_, __, ___) => page,
+          //   transitionsBuilder: (context, animation, anotherAnimation, child) {
+          //     animation =
+          //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
+          //     return SlideTransition(
+          //       position: Tween(
+          //         begin: const Offset(1.0, 0.0),
+          //         end: Offset.zero,
+          //       ).animate(animation),
+          //       child: page,
+          //     );
+          //   },
+          // );
+        },
+      ),
     );
   }
 }

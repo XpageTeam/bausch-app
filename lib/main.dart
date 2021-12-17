@@ -77,33 +77,38 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.currentAppTheme,
             home: Builder(
               builder: (context) {
-                return MultiProvider(
-                  providers: [
-                    Provider(
-                      create: (context) {
-                        return wm.userWM;
-                      },
-                      lazy: false,
-                    ),
-                    Provider(
-                      create: (context) {
-                        return wm;
-                      },
-                      lazy: false,
-                    ),
-                  ],
-                  child: Builder(builder: (context) {
-                    RequestHandler.setContext(context);
-
-                    return Provider(
-                      create: (context) => LoginWM(
-                        baseDependencies: const WidgetModelDependencies(),
-                        context: context,
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: 1.0,
+                  ),
+                  child: MultiProvider(
+                    providers: [
+                      Provider(
+                        create: (context) {
+                          return wm.userWM;
+                        },
+                        lazy: false,
                       ),
-                      lazy: false,
-                      child: mainNavigation,
-                    );
-                  }),
+                      Provider(
+                        create: (context) {
+                          return wm;
+                        },
+                        lazy: false,
+                      ),
+                    ],
+                    child: Builder(builder: (context) {
+                      RequestHandler.setContext(context);
+
+                      return Provider(
+                        create: (context) => LoginWM(
+                          baseDependencies: const WidgetModelDependencies(),
+                          context: context,
+                        ),
+                        lazy: false,
+                        child: mainNavigation,
+                      );
+                    }),
+                  ),
                 );
               },
             ),

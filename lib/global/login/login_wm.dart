@@ -87,6 +87,14 @@ class LoginWM extends WidgetModel {
 
       prevPhoneValue = phoneController.text;
 
+      if (phoneController.text.length >= 16) {
+        final currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      }
+
       _checkBtnActive();
     });
 
