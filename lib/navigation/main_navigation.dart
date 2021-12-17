@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
@@ -21,7 +22,10 @@ import 'package:flutter/material.dart';
 
 //* Навигатор для страниц приложения
 class MainNavigation extends StatelessWidget {
+  final AuthWM authWM;
+
   const MainNavigation({
+    required this.authWM,
     Key? key,
   }) : super(key: key);
 
@@ -32,6 +36,8 @@ class MainNavigation extends StatelessWidget {
       initialRoute: '/',
       onGenerateRoute: (settings) {
         Widget page;
+
+        authWM.context = Keys.mainContentNav.currentContext!;
 
         switch (settings.name) {
           case '/':

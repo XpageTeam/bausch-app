@@ -65,12 +65,13 @@ class LoginWM extends WidgetModel {
     var prevPhoneValue = '';
 
     phoneController.addListener(() {
-      if ((phoneController.text == '+7 (97' ||
-              phoneController.text == '+7 (98' ||
-              phoneController.text == '+7 (99') &&
+      debugPrint(phoneController.text);
+      if ((phoneController.text == '+7 97' ||
+              phoneController.text == '+7 98' ||
+              phoneController.text == '+7 99') &&
           (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
         phoneController
-          ..text = '+7 (9'
+          ..text = '+7 9'
           ..selection = TextSelection.fromPosition(
             TextPosition(offset: phoneController.text.length),
           );
