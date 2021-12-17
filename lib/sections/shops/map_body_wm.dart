@@ -34,6 +34,8 @@ class MapBodyWM extends WidgetModel {
   final zoomOutAction = VoidAction();
   final moveToUserPosition = VoidAction();
 
+  bool isModalBottomSheetOpen = false;
+
   YandexMapController? mapController;
 
   void Function(ShopModel shop)? onPlacemarkPressed;
@@ -143,7 +145,7 @@ class MapBodyWM extends WidgetModel {
               PlacemarkIconStyle(
                 scale: indexOfPressedShop != null
                     ? indexOfPressedShop == i
-                        ? 2.5
+                        ? 2
                         : 1
                     : 1,
                 image: BitmapDescriptor.fromAssetImage(
@@ -221,7 +223,7 @@ class MapBodyWM extends WidgetModel {
           zoom: 16,
           target: Point(
             latitude: point.latitude -
-                0.001, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
+                0.0015, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
             longitude: point.longitude,
           ),
         ),

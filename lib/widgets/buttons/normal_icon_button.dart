@@ -2,7 +2,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class NormalIconButton extends StatelessWidget {
-  final Icon icon;
+  final Widget icon;
   final Color backgroundColor;
   final VoidCallback? onPressed;
   const NormalIconButton({
