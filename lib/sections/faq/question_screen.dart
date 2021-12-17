@@ -72,7 +72,7 @@ class QuestionScreen extends StatelessWidget
                       right: 12,
                       left: 12,
                       top: 31,
-                      bottom: 100,
+                      bottom: 92,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +87,14 @@ class QuestionScreen extends StatelessWidget
                         Html(
                           data: question.answer,
                           style: {
-                            'body': Style(margin: EdgeInsets.zero),
+                            'body': Style(
+                              margin: EdgeInsets.zero,
+                              fontSize: const FontSize(14),
+                              lineHeight: LineHeight(20 / 14),
+                              color: AppTheme.mineShaft,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Euclid Circular A',
+                            ),
                           },
                         ),
                       ],

@@ -7,19 +7,19 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
-
-class AddPointsDetailsArguments{
+class AddPointsDetailsArguments {
   final AddItemModel model;
 
   AddPointsDetailsArguments({required this.model});
-
-  
 }
+
 //* Add_points
 //* add
-class AddPointsDetails extends StatelessWidget implements AddPointsDetailsArguments{
+class AddPointsDetails extends StatelessWidget
+    implements AddPointsDetailsArguments {
   @override
   final AddItemModel model;
   final ScrollController controller;
@@ -73,7 +73,7 @@ class AddPointsDetails extends StatelessWidget implements AddPointsDetailsArgume
                                 ),
                                 child: Text(
                                   model.title,
-                                  style: AppStyles.h2,
+                                  style: AppStyles.h1,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -84,12 +84,25 @@ class AddPointsDetails extends StatelessWidget implements AddPointsDetailsArgume
                                 padding: const EdgeInsets.only(
                                   bottom: 30,
                                 ),
-                                child: ButtonContent(price: model.priceString),
+                                child: ButtonContent(
+                                  price: model.priceString,
+                                  textStyle: AppStyles.h1,
+                                ),
                               ),
                             ],
                           ),
                           CustomSliverAppbar.toPop(
-                            icon: Container(),
+                            icon: NormalIconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              }, //Navigator.of(context).pop,
+                              backgroundColor: AppTheme.mystic,
+                              icon: const Icon(
+                                Icons.chevron_left_rounded,
+                                size: 20,
+                                color: AppTheme.mineShaft,
+                              ),
+                            ),
                             key: key,
                             rightKey: Keys.simpleBottomSheetNav,
                           ),
@@ -150,7 +163,7 @@ class AddPointsDetails extends StatelessWidget implements AddPointsDetailsArgume
 
   String buttonText(String type) {
     if (type == 'vk') {
-      return 'Привязать аккаунт';
+      return 'Подписаться на группу';
     } else if (type == 'friend') {
       return 'Отправить ссылку';
     } else if (type == 'overview_social') {

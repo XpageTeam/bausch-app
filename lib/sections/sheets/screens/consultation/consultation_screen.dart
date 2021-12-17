@@ -80,7 +80,10 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-                     InfoSection(text: model.previewText,secondText: model.detailText,),
+                    InfoSection(
+                      text: model.previewText,
+                      secondText: model.detailText,
+                    ),
                   ],
                 ),
               ),
@@ -92,10 +95,12 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Warning.advertisment(name: 'SmartMed',
+                    Warning.advertisment(
+                      name: 'SmartMed',
                       link: 'smartmed.pro',
                       description:
-                          'Скачайте приложение и общайтесь с компетентными врачами МЕДСИ, не выходя из дома.',),
+                          'Скачайте приложение и общайтесь с компетентными врачами МЕДСИ, не выходя из дома.',
+                    ),
                     const SizedBox(
                       height: 30,
                     ),

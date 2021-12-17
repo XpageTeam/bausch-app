@@ -131,6 +131,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
                               textStyle: AppStyles.p1,
                               dotStyle: AppStyles.p1,
                             ),
+                            const SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
                       ),
@@ -155,21 +158,21 @@ class _ProgramScreenState extends State<ProgramScreen> {
                     ),
                     NativeTextInput(
                       labelText: 'Имя',
-                      controller: nameController,
+                      controller: TextEditingController(),
                     ),
                     const SizedBox(
                       height: 4,
                     ),
                     NativeTextInput(
                       labelText: 'Фамилия',
-                      controller: nameController,
+                      controller: TextEditingController(),
                     ),
                     const SizedBox(
                       height: 4,
                     ),
                     NativeTextInput(
                       labelText: 'E-mail',
-                      controller: nameController,
+                      controller: TextEditingController(),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -280,7 +283,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
           text: 'Получить сертификат',
           onPressed: () {},
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

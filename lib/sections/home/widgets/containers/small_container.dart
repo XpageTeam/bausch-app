@@ -69,9 +69,9 @@ class _SmallContainerState extends State<SmallContainer> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AutoSizeText(
+              Text(
                 widget.model.name,
-                style: AppStyles.h1,
+                style: AppStyles.h2,
                 maxLines: 3,
                 overflow: TextOverflow.visible,
               ),

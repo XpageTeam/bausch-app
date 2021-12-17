@@ -62,7 +62,7 @@ class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
             children: [
               Text(
                 widget.model.name,
-                style: AppStyles.h2Bold,
+                style: AppStyles.h2,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

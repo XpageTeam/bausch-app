@@ -57,7 +57,7 @@ class DiscountOnlineScreen extends StatelessWidget
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection(
+                    const InfoSection(
                       text:
                           'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
                     ),
@@ -85,13 +85,13 @@ class DiscountOnlineScreen extends StatelessWidget
             const SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
-                12,
+                0,
                 StaticData.sidePadding,
                 40,
               ),
               sliver: LegalInfo(
                 texts: [
-                  'Перед заказом промокода на скидку необходимо проверить наличие продукта (на сайте и / или по контактному номеру телефона оптики).',
+                  'Перед заказом промокода на скидку необходимо проверить наличие продукта, а также условия доставки (на сайте и / или по контактному номеру телефона интернет-магазина).',
                   'Срок действия промокода и количество промокодов ограничены. ',
                 ],
               ),

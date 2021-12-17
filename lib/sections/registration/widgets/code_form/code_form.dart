@@ -33,6 +33,7 @@ class CodeForm extends StatelessWidget {
               child: Center(
                 child: PinCodeTextField(
                   controller: wm.codeController,
+                  animationType: AnimationType.none,
                   appContext: context,
                   length: 4,
                   autoFocus: true,

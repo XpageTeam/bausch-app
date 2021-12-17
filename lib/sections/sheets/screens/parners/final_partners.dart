@@ -48,7 +48,7 @@ class FinalPartners extends StatelessWidget {
                       ),
                       child: Text(
                         'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
-                        style: AppStyles.h2,
+                        style: AppStyles.h1,
                       ),
                     ),
                     // WhiteRoundedContainer(
@@ -69,7 +69,7 @@ class FinalPartners extends StatelessWidget {
                         bottom: 40,
                       ),
                       child: Text(
-                        'Доступ видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
+                        'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
                         style: AppStyles.p1,
                       ),
                     ),

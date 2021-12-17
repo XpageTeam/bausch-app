@@ -125,7 +125,10 @@ class TopSection extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     bottom: 30,
                   ),
-                  child: ButtonContent(price: model.priceToString),
+                  child: ButtonContent(
+                    price: model.priceToString,
+                    textStyle: AppStyles.h1,
+                  ),
                 ),
             ],
           ),

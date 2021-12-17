@@ -69,7 +69,7 @@ class PartnersScreen extends StatelessWidget {
                                 ),
                                 child: Text(
                                   model.name,
-                                  style: AppStyles.h2,
+                                  style: AppStyles.h1,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
