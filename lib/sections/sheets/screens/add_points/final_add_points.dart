@@ -92,7 +92,7 @@ class FinalAddPointsScreen extends StatelessWidget {
                       ),
                       AutoSizeText(
                         'Спасибо, что вы с нами!',
-                        maxLines: 1,
+                        maxLines: 2,
                         style: AppStyles.h1,
                       ),
                     ],
