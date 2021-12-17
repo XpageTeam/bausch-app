@@ -37,6 +37,7 @@ class _SelectOpticsSectionState extends State<SelectOpticsSection> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
+                splashFactory: NoSplash.splashFactory,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
