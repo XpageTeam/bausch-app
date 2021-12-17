@@ -12,7 +12,8 @@ class OrdersSection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
           StaticData.sidePadding,
-          40,
+          20,
+          // 40,
           StaticData.sidePadding,
           0,
         ),

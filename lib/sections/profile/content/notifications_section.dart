@@ -16,7 +16,12 @@ class NotificationSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
+      padding: const EdgeInsets.fromLTRB(
+        StaticData.sidePadding,
+        20,
+        StaticData.sidePadding,
+        0,
+      ),
       sliver: SliverToBoxAdapter(
         child: Column(
           children: [
