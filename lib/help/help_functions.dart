@@ -29,3 +29,7 @@ class HelpFunctions {
     return parts.join('.');
   }
 }
+
+extension NumberPartition on int {
+  String get formatString => HelpFunctions.partitionNumber(this);
+}

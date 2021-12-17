@@ -1,4 +1,6 @@
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -9,17 +11,33 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //catalog_partners
-class PartnersScreen extends StatelessWidget {
+class PartnersScreen extends CoreMwwmWidget<PartnersScreenWM> {
   final ScrollController controller;
-  final CatalogItemModel model;
-  const PartnersScreen({
+  final PartnersItemModel model;
+
+  PartnersScreen({
     required this.controller,
     required this.model,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => PartnersScreenWM(
+            context: context,
+            itemModel: model,
+          ),
+        );
 
+  @override
+  WidgetState<CoreMwwmWidget<PartnersScreenWM>, PartnersScreenWM>
+      createWidgetState() => _PartnersScreenState();
+}
+
+class _PartnersScreenState
+    extends WidgetState<PartnersScreen, PartnersScreenWM> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -30,7 +48,7 @@ class PartnersScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppTheme.mystic,
         body: CustomScrollView(
-          controller: controller,
+          controller: widget.controller,
           slivers: [
             SliverList(
               delegate: SliverChildListDelegate(
@@ -55,7 +73,7 @@ class PartnersScreen extends StatelessWidget {
                                   topRight: Radius.circular(5),
                                 ),
                                 child: Image.network(
-                                  model.picture,
+                                  widget.model.picture,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -67,7 +85,7 @@ class PartnersScreen extends StatelessWidget {
                                   horizontal: StaticData.sidePadding,
                                 ),
                                 child: Text(
-                                  model.name,
+                                  widget.model.name,
                                   style: AppStyles.h1,
                                   textAlign: TextAlign.center,
                                 ),
@@ -81,13 +99,16 @@ class PartnersScreen extends StatelessWidget {
                                   bottom: 30,
                                 ),
                                 child: ButtonContent(
-                                  price: '${model.price}',
+                                  price: '${widget.model.price}',
                                   textStyle: AppStyles.h1,
                                 ),
                               ),
                             ],
                           ),
-                          CustomSliverAppbar.toPop(icon: Container(), key: key),
+                          CustomSliverAppbar.toPop(
+                            icon: Container(),
+                            key: widget.key,
+                          ),
                         ],
                       ),
                     ),
@@ -100,12 +121,13 @@ class PartnersScreen extends StatelessWidget {
                           height: 4,
                         ),
                         InfoSection(
-                          text: model.previewText,
-                          secondText: model.detailText,
+                          text: widget.model.previewText,
+                          secondText: widget.model.detailText,
                         ),
                         const SizedBox(
                           height: 4,
                         ),
+                        // TODO(Nikolay): Информация для вывода рекламы.
                         Warning.advertisment(),
                         const SizedBox(
                           height: 30,
@@ -119,18 +141,60 @@ class PartnersScreen extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: CustomFloatingActionButton(
-          text: 'Получить поощрение ${model.priceToString} б',
+          text: wm.isEnough
+              ? 'Получить поощрение ${widget.model.priceToString} б'
+              : 'Нехватает ${wm.difference.formatString} б',
           withInfo: false,
           icon: Container(),
-          onPressed: () {
-            Keys.bottomSheetItemsNav.currentState!.pushNamed(
-              '/verification_partners',
-              arguments: SheetScreenArguments(model: model),
-            );
-          },
+          onPressed: wm.buttonAction,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
+  }
+}
+
+class PartnersScreenWM extends WidgetModel {
+  final BuildContext context;
+  final PartnersItemModel itemModel;
+
+  final buttonAction = VoidAction();
+  bool isEnough = false;
+  int difference = 0;
+
+  PartnersScreenWM({
+    required this.context,
+    required this.itemModel,
+  }) : super(
+          const WidgetModelDependencies(),
+        );
+
+  @override
+  void onLoad() {
+    final points = Provider.of<UserWM>(
+          context,
+          listen: false,
+        ).userData.value.data?.balance.available.toInt() ??
+        0;
+    difference = itemModel.price - points;
+    isEnough = difference <= 0;
+
+    super.onLoad();
+  }
+
+  @override
+  void onBind() {
+    buttonAction.bind((p0) {
+      if (isEnough) {
+        Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          '/verification_partners',
+          arguments: SheetScreenArguments(model: itemModel),
+        );
+      } else {
+        Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          '/add_points',
+        );
+      }
+    });
   }
 }

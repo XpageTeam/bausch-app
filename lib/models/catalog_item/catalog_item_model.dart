@@ -18,7 +18,8 @@ class CatalogItemModel {
   //* цена товара
   final int price;
 
-  String get priceToString => HelpFunctions.partitionNumber(price);
+  String get priceToString => price.formatString; // Это геттер из extension
+  //  HelpFunctions.partitionNumber(price);
 
   CatalogItemModel({
     required this.id,

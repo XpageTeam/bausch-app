@@ -4,9 +4,11 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FinalPartners extends StatelessWidget {
   final ScrollController controller;
@@ -36,16 +38,16 @@ class FinalPartners extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    CustomSliverAppbar.toPop(
-                      icon: Container(),
-                      key: key,
-                      backgroundColor: Colors.white,
+                    CustomSliverAppbar.toClose(
+                      Container(),
+                      key,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 20,
                         bottom: 40,
                       ),
+                      // TODO(Nikolay): Где брать?.
                       child: Text(
                         'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
                         style: AppStyles.h1,
@@ -62,12 +64,16 @@ class FinalPartners extends StatelessWidget {
                     //     ],
                     //   ),
                     // ),
-                    const ContainerWithPromocode(promocode: '6СС5165АDF345'),
+                    ContainerWithPromocode(
+                      promocode: model.poolPromoCode,
+                      onPressed: copyCode,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 12,
                         bottom: 40,
                       ),
+                      // TODO(Nikolay): Где брать?.
                       child: Text(
                         'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
                         style: AppStyles.p1,
@@ -80,12 +86,21 @@ class FinalPartners extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(
+        floatingActionButton: BottomButtonWithRoundedCorners(
           text: 'Скопировать код и перейти на сайт',
           withInfo: false,
+          onPressed: () {
+            copyCode();
+            // TODO(Nikolay): Переход на сайт.
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
+  }
+
+  void copyCode() {
+    Clipboard.setData(ClipboardData(text: model.poolPromoCode));
+    showDefaultNotification(title: 'Скопировано!');
   }
 }
