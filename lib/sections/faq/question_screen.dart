@@ -3,6 +3,7 @@ import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
@@ -86,16 +87,7 @@ class QuestionScreen extends StatelessWidget
                         ),
                         Html(
                           data: question.answer,
-                          style: {
-                            'body': Style(
-                              margin: EdgeInsets.zero,
-                              fontSize: const FontSize(14),
-                              lineHeight: LineHeight(20 / 14),
-                              color: AppTheme.mineShaft,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'Euclid Circular A',
-                            ),
-                          },
+                          style: htmlStyles,
                         ),
                       ],
                     ),

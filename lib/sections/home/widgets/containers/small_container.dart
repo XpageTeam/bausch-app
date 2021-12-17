@@ -65,32 +65,38 @@ class _SmallContainerState extends State<SmallContainer> {
             left: StaticData.sidePadding,
             right: StaticData.sidePadding,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
+            fit: StackFit.expand,
             children: [
               Text(
                 widget.model.name,
                 style: AppStyles.h2,
-                maxLines: 3,
                 overflow: TextOverflow.visible,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    widget.model.count.toString(),
-                    style: AppStyles.p1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.6),
-                    child: Image.asset(
-                      setTheImg(widget.model.type),
-                      height: 53,
+              Positioned(
+                left: 0,
+                bottom: 0,
+                child: Text(
+                  widget.model.count.toString(),
+                  style: AppStyles.p1,
+                ),
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(6.6),
+                      child: Image.asset(
+                        setTheImg(widget.model.type),
+                        height: 53,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

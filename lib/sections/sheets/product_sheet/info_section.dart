@@ -2,6 +2,7 @@
 
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/html_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -30,39 +31,7 @@ class InfoSection extends StatelessWidget {
             children: [
               Html(
                 data: text,
-                style: {
-                  'body': Style(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal:
-                          StaticData.sidePadding, //StaticData.sidePadding,
-                    ),
-                    color: AppTheme.mineShaft,
-                    fontWeight: FontWeight.w400,
-                    fontSize: const FontSize(14),
-                    lineHeight: const LineHeight(20 / 17),
-                    margin: const EdgeInsets.all(0),
-                  ),
-                  'br': Style(
-                    padding: EdgeInsets.zero,
-                    //margin: const EdgeInsets.all(0),
-                  ),
-                  'p': Style(
-                    padding: EdgeInsets.zero,
-                    //margin: EdgeInsets.zero,
-                  ),
-                  'li': Style(
-                    padding: EdgeInsets.zero,
-                    //margin: EdgeInsets.zero,
-                  ),
-                  'a': Style(
-                    color: AppTheme.mineShaft,
-                    fontWeight: FontWeight.w400,
-                    fontSize: const FontSize(14),
-                    lineHeight: const LineHeight(20 / 14),
-                    textDecorationColor: AppTheme.turquoiseBlue,
-                    //margin: const EdgeInsets.all(0),
-                  ),
-                },
+                style: htmlStyles,
               ),
               if (secondText != null)
                 const SizedBox(
@@ -71,30 +40,7 @@ class InfoSection extends StatelessWidget {
               if (secondText != null)
                 Html(
                   data: secondText,
-                  style: {
-                    'body': Style(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: StaticData.sidePadding,
-                      ),
-                      margin: const EdgeInsets.all(0),
-                      color: AppTheme.mineShaft,
-                      fontWeight: FontWeight.w400,
-                      fontSize: const FontSize(14),
-                      lineHeight: const LineHeight(20 / 14),
-                    ),
-                    'b': Style(
-                      padding: EdgeInsets.zero,
-                      color: AppTheme.mineShaft,
-                      fontWeight: FontWeight.w500,
-                      fontSize: const FontSize(17),
-                      lineHeight: const LineHeight(20 / 17),
-                      margin: const EdgeInsets.all(0),
-                    ),
-                    'div': Style(
-                      padding: EdgeInsets.zero,
-                      margin: const EdgeInsets.all(0),
-                    ),
-                  },
+                  style: htmlStyles,
                 ),
             ],
           ),
