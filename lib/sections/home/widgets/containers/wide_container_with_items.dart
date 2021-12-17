@@ -61,7 +61,7 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
             children: [
               Text(
                 widget.model.name,
-                style: AppStyles.h2Bold,
+                style: AppStyles.h2,
               ),
               Row(
                 children: [

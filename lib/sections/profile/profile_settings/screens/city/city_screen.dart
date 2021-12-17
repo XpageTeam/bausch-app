@@ -8,6 +8,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
@@ -64,6 +65,14 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                         }).toList(),
                         selectedTextStyle: AppStyles.h1,
                         unselectedTextStyle: AppStyles.h2,
+                        // selectedLetterTextStyle: AppStyles.p1,
+                        // unselectedLetterTextStyle: TextStyle(
+                        //   color: AppTheme.mineShaft,
+                        //   fontWeight: FontWeight.w400,
+                        //   fontSize: 12.sp,
+                        //   height: 16 / 12,
+                        //   fontFamily: 'Euclid Circular A',
+                        // ),
                         itemBuilder: (context, i, cityName) {
                           return InkWell(
                             onTap: () {

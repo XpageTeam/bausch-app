@@ -47,8 +47,7 @@ class PromoItemModel extends CatalogItemModel
       name: (map['name'] ?? map['title']) as String,
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
-      picture:
-          'https://i.ibb.co/89NPJqb/4.png',
+      picture: 'https://i.ibb.co/89NPJqb/4.png',
       price: (map['price'] ?? 150) as int,
       code: map['code'] as String,
     );

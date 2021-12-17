@@ -7,6 +7,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
+import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,10 @@ class _CityAndEmailScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
+      appBar: const DefaultAppBar(
+        title: '',
+        backgroundColor: AppTheme.mystic,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
         child: Form(

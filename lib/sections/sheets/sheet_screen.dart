@@ -170,8 +170,9 @@ class _SheetScreenState extends State<SheetScreen> {
         bottomNavigationBar: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            InfoBlock(),
+          children: [
+            if (widget.sheetModel.type != 'promo_code_immediately')
+              const InfoBlock(),
           ],
         ),
       ),

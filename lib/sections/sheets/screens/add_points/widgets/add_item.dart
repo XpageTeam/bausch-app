@@ -71,7 +71,10 @@ class AddItem extends StatelessWidget {
             ),
             if (model.type == 'birthday')
               Padding(
-                padding: const EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.only(
+                  top: 30,
+                  bottom: 12,
+                ),
                 child: TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
