@@ -21,9 +21,7 @@ class ShopFilterButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
-      child: InkWell(
-        splashColor: AppTheme.turquoiseBlue,
-        hoverColor: AppTheme.grey,
+      child: GestureDetector(
         onTap: onPressed,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
