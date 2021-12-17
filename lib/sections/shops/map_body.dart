@@ -46,12 +46,12 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
           top: Radius.circular(5),
         ),
       ),
-      child: Stack(
-        children: [
-          StreamedStateBuilder<List<MapObject>>(
-            streamedState: wm.mapObjectsStreamed,
-            builder: (context, mapObjects) {
-              return YandexMap(
+      child: StreamedStateBuilder<List<MapObject>>(
+        streamedState: wm.mapObjectsStreamed,
+        builder: (context, mapObjects) {
+          return Stack(
+            children: [
+              YandexMap(
                 mapObjects: mapObjects,
                 onMapCreated: (yandexMapController) {
                   wm.mapController = yandexMapController;
@@ -64,45 +64,52 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                       ..onGetUserPositionError = (exception) {
                         showDefaultNotification(title: exception.title);
                       }
-                      ..onPlacemarkPressed =
-                          (shop) => showModalBottomSheet<void>(
-                                context: context,
-                                barrierColor: Colors.transparent,
-                                builder: (context) => BottomSheetContent(
-                                  title: shop.name,
-                                  subtitle: shop.address,
-                                  phones: shop.phones,
-                                  site: shop.site,
-                                  // additionalInfo:
-                                  //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                                  onPressed: () {
-                                    // TODO(Nikolay): Реализовать onPressed.
-                                  },
-                                  btnText: 'Выбрать эту сеть оптик',
-                                ),
-                              ).whenComplete(
-                                () => wm.updateMapObjects(widget.shopList),
-                              );
+                      ..onPlacemarkPressed = (shop) {
+                        wm.isModalBottomSheetOpen = true;
+
+                        showModalBottomSheet<void>(
+                          context: context,
+                          barrierColor: Colors.transparent,
+                          builder: (context) => BottomSheetContent(
+                            title: shop.name,
+                            subtitle: shop.address,
+                            phones: shop.phones,
+                            site: shop.site,
+                            // additionalInfo:
+                            //     'Скидкой можно воспользоваться в любой из оптик сети.',
+                            onPressed: () {
+                              // TODO(Nikolay): Реализовать onPressed.
+                            },
+                            btnText: 'Выбрать эту сеть оптик',
+                          ),
+                        ).whenComplete(
+                          () {
+                            wm.isModalBottomSheetOpen = false;
+                            wm.updateMapObjects(widget.shopList);
+                          },
+                        );
+                      };
                   }
                 },
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: 15,
-                bottom: 60,
               ),
-              child: MapButtons(
-                onZoomIn: wm.zoomInAction,
-                onZoomOut: wm.zoomOutAction,
-                onCurrentLocation: wm.moveToUserPosition,
-              ),
-            ),
-          ),
-        ],
+              if (!wm.isModalBottomSheetOpen)
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 15,
+                      bottom: 60,
+                    ),
+                    child: MapButtons(
+                      onZoomIn: wm.zoomInAction,
+                      onZoomOut: wm.zoomOutAction,
+                      onCurrentLocation: wm.moveToUserPosition,
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }

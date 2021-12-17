@@ -4,7 +4,6 @@ import 'package:bausch/sections/auth/loading/animation_content.dart';
 import 'package:bausch/sections/auth/loading/loading_animation.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
-import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -22,16 +21,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
-    debugPrint(spaceBetween.toString());
 
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
-      appBar: const EmptyAppBar(),
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           //* Анимация, запускается при инициализации экрана
-          const LoadingAnimation(),
+          const Positioned.fill(
+            child: LoadingAnimation(),
+          ),
 
           //* Контент с текстом и кнопкой
           DelayedAnimatedTranslateOpacity(
@@ -57,7 +58,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       spaceBetween -
                       80.sp -
                       114.sp +
-                      (IphoneHasNotch.hasNotch ? 40.sp : 0.sp),
+                      (IphoneHasNotch.hasNotch ? 70.sp : 0.sp),
                   //height: 400.sp,
                 ),
               ],

@@ -8,6 +8,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -123,7 +124,8 @@ class _WebinarVerificationState
             return isLoading
                 ? const CustomFloatingActionButton(
                     text: '',
-                    icon: CircularProgressIndicator.adaptive(),
+                    // icon: CircularProgressIndicator.adaptive(),
+                    icon: AnimatedLoader(),
                   )
                 : CustomFloatingActionButton(
                     text: 'Потратить ${widget.model.price} б',

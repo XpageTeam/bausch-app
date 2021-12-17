@@ -8,6 +8,7 @@ import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/default_info_widget.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -28,13 +29,14 @@ class _ShopsScreenState extends State<ShopsScreen> {
   @override
   void initState() {
     super.initState();
-    if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
-        AuthStatus.authenticated) {
-      currentCity = Provider.of<UserWM>(
-        context,
-        listen: false,
-      ).userData.value.data?.user.city;
-    }
+    // TODO(Nikolay): Вернуть проверку авторизации пользователя.
+    // if (Provider.of<AuthWM>(context, listen: false).authStatus.value ==
+    //     AuthStatus.authenticated) {
+    currentCity = Provider.of<UserWM>(
+      context,
+      listen: false,
+    ).userData.value.data?.user.city;
+    // }
   }
 
   @override
@@ -98,9 +100,10 @@ class _ShopsScreenState extends State<ShopsScreen> {
             }
 
             return const Center(
-              child: CircularProgressIndicator.adaptive(
-                backgroundColor: AppTheme.turquoiseBlue,
-              ),
+              // child: CircularProgressIndicator.adaptive(
+              //   backgroundColor: AppTheme.turquoiseBlue,
+              // ),
+              child: AnimatedLoader(),
             );
           },
         ),

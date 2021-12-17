@@ -65,7 +65,7 @@ class FinalFreePackaging extends StatelessWidget {
                     ),
                     BigCatalogItem(model: model),
                     Padding(
-                      padding: const EdgeInsets.only(top: 12, bottom: 120),
+                      padding: const EdgeInsets.only(top: 12, bottom: 30),
                       child: Column(
                         children: [
                           TextWithPoint(
@@ -102,7 +102,13 @@ class FinalFreePackaging extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomButtonWithRoundedCorners(
-          onPressed: onPressed,
+          onPressed: () {
+            Keys.mainNav.currentState!.pushNamedAndRemoveUntil(
+              '/',
+              (route) => route.isCurrent,
+            );
+            // Keys.mainNav.currentState!.pop();
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),

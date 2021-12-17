@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
@@ -21,7 +22,10 @@ import 'package:flutter/material.dart';
 
 //* Навигатор для страниц приложения
 class MainNavigation extends StatelessWidget {
+  final AuthWM authWM;
+
   const MainNavigation({
+    required this.authWM,
     Key? key,
   }) : super(key: key);
 
@@ -32,22 +36,29 @@ class MainNavigation extends StatelessWidget {
       initialRoute: '/',
       onGenerateRoute: (settings) {
         Widget page;
+        bool showAnimation = true;
+
+        authWM.context = Keys.mainContentNav.currentContext!;
 
         switch (settings.name) {
           case '/':
             page = const LoaderScreen();
+            showAnimation = false;
             break;
 
           case '/loading':
             page = const LoadingScreen();
+            showAnimation = false;
             break;
 
           case '/city_and_email':
             page = CityAndEmailScreen();
+            showAnimation = false;
             break;
 
           case '/registration':
             page = const RegistrationScreen();
+            showAnimation = false;
             break;
 
           case '/code':
@@ -97,16 +108,23 @@ class MainNavigation extends StatelessWidget {
           case '/home':
           default:
             page = const HomeScreen();
+            showAnimation = false;
         }
 
-        if (Platform.isIOS){
-          return CupertinoPageRoute<void>(builder: (context) {
-            return page;
-          });
+        if (showAnimation){
+          if (Platform.isIOS){
+            return CupertinoPageRoute<void>(builder: (context) {
+              return page;
+            });
+          } else {
+            return MaterialPageRoute<void>(builder: (context) {
+              return page;
+            });
+          }
         } else {
-          return MaterialPageRoute<void>(builder: (context) {
+          return PageRouteBuilder<void>(pageBuilder: (context, animation, secondaryAnimation) {
             return page;
-          });
+          },);
         }
 
 

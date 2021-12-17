@@ -31,6 +31,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
+                splashFactory: NoSplash.splashFactory,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),

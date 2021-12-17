@@ -14,6 +14,7 @@ import 'package:bausch/widgets/point_widget.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
@@ -147,8 +148,22 @@ class CatalogItemWidget extends StatelessWidget {
                           style: AppStyles.p1,
                           children: [
                             TextSpan(
-                              text: deliveryInfo,
                               style: AppStyles.p1Grey,
+                              // TODO сделать открытие всплывашки
+                              children: [
+                                const TextSpan(
+                                  text: 'Eсли нет, пишите ',
+                                ),
+                                TextSpan(
+                                  text: 'сюда',
+                                  style: AppStyles.p1Grey.copyWith(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: ', разберемся',
+                                ),
+                              ],
                             ),
                           ],
                         ),

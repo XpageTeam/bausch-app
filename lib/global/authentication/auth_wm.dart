@@ -1,6 +1,5 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -19,6 +18,8 @@ class AuthWM extends WidgetModel {
   final checkAuthAction = VoidAction();
 
   final UserWM userWM;
+
+  BuildContext? context;
 
   AuthWM(WidgetModelDependencies baseDependencies, this.userWM)
       : super(baseDependencies) {
@@ -56,10 +57,10 @@ class AuthWM extends WidgetModel {
       // );
 
       debugPrint(targetPage);
-      debugPrint('context ${Keys.mainContentNav.currentState}');
+      debugPrint('context $context');
 
-      if (Keys.mainContentNav.currentState != null) {
-        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
+      if (context != null) {
+        Navigator.of(context!).pushNamedAndRemoveUntil(
           targetPage,
           (route) => false,
         );
