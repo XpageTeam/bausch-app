@@ -54,9 +54,8 @@ class PartnersScreen extends StatelessWidget {
                                   topLeft: Radius.circular(5),
                                   topRight: Radius.circular(5),
                                 ),
-                                child: Image.asset(
-                                  'assets/temp/image.png',
-                                  //height: null,
+                                child: Image.network(
+                                  model.picture,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -81,7 +80,10 @@ class PartnersScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                   bottom: 30,
                                 ),
-                                child: ButtonContent(price: '${model.price}'),
+                                child: ButtonContent(
+                                  price: '${model.price}',
+                                  textStyle: AppStyles.h1,
+                                ),
                               ),
                             ],
                           ),

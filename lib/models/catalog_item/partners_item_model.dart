@@ -6,6 +6,7 @@ class PartnersItemModel extends CatalogItemModel
     implements MappableInterface<PartnersItemModel> {
   final String poolPromoCode;
   final String staticPromoCode;
+  
   PartnersItemModel({
     required int id,
     required String name,
