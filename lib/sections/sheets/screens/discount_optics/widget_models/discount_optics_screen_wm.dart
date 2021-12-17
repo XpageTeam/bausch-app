@@ -21,6 +21,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final BuildContext context;
   final PromoItemModel itemModel;
 
+  final DiscountType discountType;
+
   final discountOpticsStreamed = EntityStreamedState<List<DiscountOptic>>();
   final currentDiscountOptic = StreamedState<DiscountOptic?>(null);
   final setCurrentOptic = StreamedAction<DiscountOptic>();
@@ -29,12 +31,19 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   late int difference;
 
+  late List<String> legalInfoTexts;
+  late String selectHeaderText;
+  late String warningText;
+  late String howToUseText;
+
   DiscountOpticsScreenWM({
     required this.context,
     required this.itemModel,
+    required this.discountType,
   }) : super(
           const WidgetModelDependencies(),
         ) {
+    _initTexts();
     _loadDiscountOptics();
   }
 
@@ -84,8 +93,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
       );
       unawaited(
         discountOpticsStreamed.content(
-            repository.discountOptics,
-            ),
+          repository.discountOptics,
+        ),
       );
     } on DioError catch (e) {
       unawaited(
@@ -114,6 +123,35 @@ class DiscountOpticsScreenWM extends WidgetModel {
           ),
         ),
       );
+    }
+  }
+
+  void _initTexts() {
+    if (discountType == DiscountType.offline) {
+      legalInfoTexts = [
+        'Перед заказом промокода на скидку необходимо проверить наличие продукта ' +
+            '(на сайте и / или по контактному номеру телефона оптики).',
+        'Срок действия промокода и количество промокодов ограничены.',
+      ];
+      selectHeaderText = 'Выбрать сеть оптик';
+      warningText =
+          'Перед тем, как оформить заказ, свяжитесь с оптикой и узнайте о наличии продукта.';
+      howToUseText =
+          'Покажите промокод в оптике при покупке выбранного продукта. '
+          'Срок действия промокода и количество промокодов ограничены. ';
+    } else {
+      legalInfoTexts = [
+        'Перед заказом промокода на скидку необходимо проверить наличие продукта, а также условия доставки ' +
+            '(на сайте и / или по контактному номеру телефона интернет-магазина).',
+        'Срок действия промокода и количество промокодов ограничены.',
+      ];
+      selectHeaderText = 'Выбрать интернет-магазин';
+      warningText =
+          'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине';
+      howToUseText =
+          'Положите в корзину выбранный при заказе поощрения продукт. '
+          'При оформлении заказа введите промокод в поле «Промокод» и нажмите «Применить». '
+          'Итоговая стоимость со скидкой отобразится в корзине.';
     }
   }
 }

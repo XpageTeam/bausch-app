@@ -19,6 +19,11 @@ import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
+enum DiscountType {
+  offline,
+  onlineShop,
+}
+
 //catalog_discount_optics
 class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
     implements SheetScreenArguments {
@@ -30,12 +35,14 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
+    required DiscountType discountType,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => DiscountOpticsScreenWM(
             context: context,
             itemModel: model,
+            discountType: discountType,
           ),
         );
 
@@ -86,47 +93,17 @@ class _DiscountOpticsScreenState
                 ),
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.fromLTRB(
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
                 12,
                 StaticData.sidePadding,
                 40,
               ),
               sliver: LegalInfo(
-                texts: [
-                  'Перед заказом промокода на скидку необходимо проверить наличие продукта (на сайте и / или по контактному номеру телефона оптики).',
-                  'Срок действия промокода и количество промокодов ограничены. ',
-                ],
+                texts: wm.legalInfoTexts,
               ),
             ),
-            // SliverPadding(
-            //   padding: const EdgeInsets.only(
-            //     left: StaticData.sidePadding,
-            //     right: StaticData.sidePadding,
-            //     //top: 20,
-            //   ),
-            //   sliver: SliverList(
-            //     delegate: SliverChildListDelegate(
-            //       [
-            //         Text(
-            //           'Выбрать сеть оптик',
-            //           style: AppStyles.h1,
-            //         ),
-            //         Padding(
-            //           padding: const EdgeInsets.only(
-            //             top: 12,
-            //             bottom: 20,
-            //           ),
-            //           child: Text(
-            //             'Скидкой можно воспользоваться в любой из оптик сети.',
-            //             style: AppStyles.p1,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
@@ -140,7 +117,7 @@ class _DiscountOpticsScreenState
                   ),
                   builder: (_, discountOptics) => discountOptics.isEmpty
                       ? Text(
-                          'Нет доступных для выбора оптик',
+                          'Нет доступных скидок',
                           style: AppStyles.h1,
                         )
                       : Column(
@@ -148,51 +125,54 @@ class _DiscountOpticsScreenState
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              'Выбрать сеть оптик',
+                              wm.selectHeaderText,
                               style: AppStyles.h1,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 12,
-                                bottom: 20,
+                            if (wm.discountType == DiscountType.offline)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 12,
+                                  bottom: 20,
+                                ),
+                                child: Text(
+                                  'Скидкой можно воспользоваться в любой из оптик сети.',
+                                  style: AppStyles.p1,
+                                ),
                               ),
-                              child: Text(
-                                'Скидкой можно воспользоваться в любой из оптик сети.',
-                                style: AppStyles.p1,
-                              ),
-                            ),
                             SelectShopSection(
                               discountOptics: discountOptics,
                               onChanged: wm.setCurrentOptic,
+                              discountType: wm.discountType,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 30,
-                                bottom: 10,
-                              ),
-                              child: WhiteButton(
-                                text: 'Адреса оптик',
-                                icon: Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 12,
-                                  ),
-                                  child: Image.asset(
-                                    'assets/icons/map-marker.png',
-                                    height: 16,
-                                  ),
+                            if (wm.discountType == DiscountType.offline)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 30,
+                                  bottom: 10,
                                 ),
-                                onPressed: () {
-                                  Keys.mainNav.currentState!.push<void>(
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                              ShopsScreen(),
+                                child: WhiteButton(
+                                  text: 'Адреса оптик',
+                                  icon: Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 12,
                                     ),
-                                  );
-                                },
+                                    child: Image.asset(
+                                      'assets/icons/map-marker.png',
+                                      height: 16,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Keys.mainNav.currentState!.push<void>(
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
+                                                ShopsScreen(),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                            Warning.warning(),
+                            Warning.warning(wm.warningText),
                           ],
                         ),
                 ),
@@ -205,9 +185,9 @@ class _DiscountOpticsScreenState
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 40, bottom: 20),
-                      child: HowToUsePromocode(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40, bottom: 20),
+                      child: HowToUsePromocode(text: wm.howToUseText),
                     ),
                   ],
                 ),

@@ -7,14 +7,17 @@ import 'package:flutter/material.dart';
 
 class Warning extends StatelessWidget {
   final Widget view;
-  const Warning({required this.view, Key? key}) : super(key: key);
+  const Warning({
+    required this.view,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return view;
   }
 
-  static Warning warning() {
+  static Warning warning([String? text]) {
     return Warning(
       view: Container(
         decoration: BoxDecoration(
@@ -35,7 +38,8 @@ class Warning extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
+                  text ??
+                      'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
                   style: AppStyles.h3,
                 ),
               ),

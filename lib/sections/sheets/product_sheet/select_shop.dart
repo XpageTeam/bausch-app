@@ -1,15 +1,18 @@
 import 'package:bausch/models/discount_optic/discount_optic.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
   final List<DiscountOptic> discountOptics;
+  final DiscountType discountType;
 
   final void Function(DiscountOptic discountOptic) onChanged;
 
   const SelectShopSection({
     required this.discountOptics,
+    required this.discountType,
     required this.onChanged,
     Key? key,
   }) : super(key: key);
@@ -62,7 +65,8 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                               style: AppStyles.h2,
                             ),
                           ),
-                          if (widget.discountOptics[i].link.isNotEmpty)
+                          if (widget.discountOptics[i].link.isNotEmpty &&
+                              widget.discountType == DiscountType.onlineShop)
                             Text(
                               widget.discountOptics[i].link,
                               style: AppStyles.p1Underlined,

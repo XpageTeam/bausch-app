@@ -75,19 +75,28 @@ class OverlayNavigationWithItems extends StatelessWidget {
 
           case '/offline':
             page = DiscountOpticsScreen(
+              discountType: DiscountType.offline,
+              controller: controller,
+              model: (settings.arguments as SheetScreenArguments).model
+                  as PromoItemModel,
+            );
+            break;
+          case '/onlineShop':
+            page = DiscountOpticsScreen(
+              discountType: DiscountType.offline,
               controller: controller,
               model: (settings.arguments as SheetScreenArguments).model
                   as PromoItemModel,
             );
             break;
 
-          case '/onlineShop':
-            page = DiscountOnlineScreen(
-              controller: controller,
-              model: (settings.arguments as SheetScreenArguments).model
-                  as PromoItemModel,
-            );
-            break;
+          // case '/onlineShop':
+          //   page = DiscountOnlineScreen(
+          //     controller: controller,
+          //     model: (settings.arguments as SheetScreenArguments).model
+          //         as PromoItemModel,
+          //   );
+          //   break;
 
           case '/promo_code_immediately':
             page = PartnersScreen(
@@ -106,7 +115,8 @@ class OverlayNavigationWithItems extends StatelessWidget {
             break;
 
           case '/verification_discount_optics':
-            final args = settings.arguments as VerificationDiscountOpticsArguments;
+            final args =
+                settings.arguments as VerificationDiscountOpticsArguments;
             page = DiscountOpticsVerification(
               controller: controller,
               model: args.model as PromoItemModel,

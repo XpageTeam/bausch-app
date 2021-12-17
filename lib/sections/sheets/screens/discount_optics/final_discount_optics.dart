@@ -10,6 +10,8 @@ import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 
+
+
 class FinalDiscountOptics extends StatelessWidget {
   final ScrollController controller;
   final PromoItemModel model;
@@ -53,7 +55,10 @@ class FinalDiscountOptics extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 40),
-                      child: Text(
+                      child: 
+                      
+                      
+                      Text(
                         text ??
                             'Вот ваш промокод на скидку 500 ₽ ${discountOptic != null ? 'в оптике ${discountOptic!.title}' : ''}',
                         style: AppStyles.h2,
