@@ -27,7 +27,7 @@ class _GlobalProvidersState extends State<GlobalProviders> {
 
   @override
   Widget build(BuildContext ctx) {
-    RequestHandler.setContext(ctx);
+    
     
     return MultiProvider(
       providers: [
@@ -38,10 +38,7 @@ class _GlobalProvidersState extends State<GlobalProviders> {
         // ),
         Provider(
           create: (context) {
-            loginWM = LoginWM(
-              baseDependencies: const WidgetModelDependencies(),
-              context: context,
-            );
+            // loginWM = ;
 
             return loginWM;
           },

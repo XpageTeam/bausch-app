@@ -22,7 +22,7 @@ class CodeForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'SMS-код был отправлен\nна ${wm.phoneController.text}',
+              'Сообщение с кодом\nбыло отправлено на\n${wm.phoneController.text}',
               style: AppStyles.h1,
             ),
             SizedBox(

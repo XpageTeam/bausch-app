@@ -10,8 +10,11 @@ class OrdersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: StaticData.sidePadding,
+        padding: const EdgeInsets.fromLTRB(
+          StaticData.sidePadding,
+          40,
+          StaticData.sidePadding,
+          0,
         ),
         child: Column(
           children: List.generate(

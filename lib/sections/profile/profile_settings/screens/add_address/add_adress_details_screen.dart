@@ -8,6 +8,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/adresses.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:bausch/widgets/buttons/text_button_icon.dart';
@@ -85,120 +86,142 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const DefaultAppBar(
-        title: 'Адрес доставки',
-        backgroundColor: AppTheme.mystic,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          top: 30,
-          left: StaticData.sidePadding,
-          right: StaticData.sidePadding,
-        ),
-        child: Column(
-          children: [
-            Text(
-              '${widget.adress.street}, ${widget.adress.house}',
-              style: AppStyles.h1,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  child: NativeTextInput(
-                    labelText: 'Кв/офис',
-                    controller: flatController,
-                    inputType: TextInputType.number,
-                  ),
+    return BlocProvider(
+      create: (context) => AddressesBloc(),
+      child: BlocListener<AddressesBloc, AddressesState>(
+        listener: (context, state) {
+          if (state is AddressesFailed) {
+            showDefaultNotification(title: state.title);
+          }
+        },
+        child: BlocBuilder<AddressesBloc, AddressesState>(
+          bloc: addressesBloc,
+          builder: (context, state) {
+            return Scaffold(
+              appBar: const DefaultAppBar(
+                title: 'Адрес доставки',
+                backgroundColor: AppTheme.mystic,
+              ),
+              body: Padding(
+                padding: const EdgeInsets.only(
+                  top: 30,
+                  left: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Flexible(
-                  child: NativeTextInput(
-                    labelText: 'Подъезд',
-                    controller: entryController,
-                    inputType: TextInputType.number,
-                  ),
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Flexible(
-                  child: NativeTextInput(
-                    labelText: 'Этаж',
-                    controller: floorController,
-                    inputType: TextInputType.number,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            BlueButtonWithText(
-              text: 'Сохранить',
-              onPressed: () {
-                final model = AdressModel(
-                  street: widget.adress.street,
-                  house: widget.adress.house,
-                  flat: int.parse(flatController.text),
-                  entry: int.parse(entryController.text),
-                  floor: int.parse(floorController.text),
-                );
-
-                addressesBloc.add(AddressesSend(address: model));
-                //widget.adressesCubit?.getAdresses();
-
-                _navigateBack();
-              },
-            ),
-            if (!widget.isFirstLaunch)
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: CustomTextButtonIcon(
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      backgroundColor: AppTheme.mystic,
-                      barrierColor: Colors.black.withOpacity(0.8),
-                      builder: (context) {
-                        return CustomAlertDialog(
-                          yesCallback: () {
-                            addressesBloc
-                                .add(AddressesDelete(id: widget.adress.id!));
-
-                            //widget.adressesCubit?.getAdresses();
-
-                            debugPrint('delete');
-                            debugPrint(addressesBloc.state.toString());
-
-                            _navigateBack();
-                          },
-                          noCallback: () {
-                            Navigator.of(context).pop();
-                          },
-                        );
-                      },
-                    );
-                  },
+                child: Column(
+                  children: [
+                    Text(
+                      '${widget.adress.street}, ${widget.adress.house}',
+                      style: AppStyles.h1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: NativeTextInput(
+                            labelText: 'Кв/офис',
+                            controller: flatController,
+                            inputType: TextInputType.number,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Flexible(
+                          child: NativeTextInput(
+                            labelText: 'Подъезд',
+                            controller: entryController,
+                            inputType: TextInputType.number,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Flexible(
+                          child: NativeTextInput(
+                            labelText: 'Этаж',
+                            controller: floorController,
+                            inputType: TextInputType.number,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-          ],
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    BlueButtonWithText(
+                      text: 'Сохранить',
+                      onPressed: () {
+                        final model = AdressModel(
+                          street: widget.adress.street,
+                          house: widget.adress.house,
+                          flat: int.parse(flatController.text),
+                          entry: int.parse(entryController.text),
+                          floor: int.parse(floorController.text),
+                        );
+
+                        if (widget.isFirstLaunch) {
+                          addressesBloc.add(AddressesSend(address: model));
+                          _navigateBack();
+                        } else {
+                          addressesBloc.add(AddressUpdate(address: model));
+                          Navigator.of(context).pop();
+                        }
+                        //widget.adressesCubit?.getAdresses();
+                      },
+                    ),
+                    if (!widget.isFirstLaunch)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: CustomTextButtonIcon(
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: AppTheme.mystic,
+                              barrierColor: Colors.black.withOpacity(0.8),
+                              builder: (context) {
+                                return CustomAlertDialog(
+                                  yesCallback: () {
+                                    addressesBloc.add(
+                                        AddressesDelete(id: widget.adress.id!));
+
+                                    //widget.adressesCubit?.getAdresses();
+
+                                    debugPrint('delete');
+                                    debugPrint(addressesBloc.state.toString());
+
+                                    _navigateBack();
+                                  },
+                                  noCallback: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+            );
+          },
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

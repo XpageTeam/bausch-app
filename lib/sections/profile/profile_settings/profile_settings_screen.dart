@@ -141,9 +141,9 @@ class _ProfileSettingsScreenState
                 builder: (_, birthDate) {
                   return FocusButton(
                     labelText: 'Дата рождения',
-                    selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
+                    selectedText: DateFormat('yyyy.MM.dd')
+                        .format(birthDate ?? DateTime.now()),
                     icon: Container(),
-                    //TODO: исправить
                     onPressed: wm.selectedBirthDate.value == null
                         ? () {
                             DatePicker.showDatePicker(

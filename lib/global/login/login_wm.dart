@@ -37,7 +37,7 @@ class LoginWM extends WidgetModel {
 
   final phoneInputFormaters = <TextInputFormatter>[
     TextInputMask(
-      mask: r'\+7 (\99) 999-99-99',
+      mask: r'\+7 \99 999 99 99',
     ),
   ];
 
@@ -164,7 +164,7 @@ class LoginWM extends WidgetModel {
   }
 
   void _checkBtnActive() {
-    if (phoneController.text.length == 18 && policyAccepted.value) {
+    if (phoneController.text.length == 16 && policyAccepted.value) {
       sendPhoneBtnActive.accept(true);
     } else {
       sendPhoneBtnActive.accept(false);

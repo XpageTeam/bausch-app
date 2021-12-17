@@ -83,8 +83,11 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 ),
               ),
               floatingActionButton: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  0,
+                  StaticData.sidePadding,
+                  47,
                 ),
                 child: BlueButtonWithText(
                   text: 'Добавить адрес',
@@ -117,8 +120,11 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 ),
               ),
               floatingActionButton: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  0,
+                  StaticData.sidePadding,
+                  47,
                 ),
                 child: BlueButtonWithText(
                   text: 'Добавить адрес',

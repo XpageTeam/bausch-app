@@ -28,6 +28,10 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     if (event is AddressesDelete) {
       yield await deleteAddress(event.id);
     }
+
+    if (event is AddressUpdate) {
+      yield await updateAddress(event.address);
+    }
   }
 
   Future<AddressesState> sendAddress(AdressModel address) async {
@@ -73,6 +77,39 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
         ))
             .data!,
       );
+
+      return AddressesSended();
+    } on ResponseParseException catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при обработке ответа от сервера',
+        subtitle: e.toString(),
+      );
+    } on DioError catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при отправке запроса',
+        subtitle: e.toString(),
+      );
+    } on SuccessFalse catch (e) {
+      return AddressesFailed(
+        title: 'Ошибка при обработке запроса',
+        subtitle: e.toString(),
+      );
+    }
+  }
+
+  Future<AddressesState> updateAddress(AdressModel address) async {
+    final rh = RequestHandler();
+
+    try {
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.put<Map<String, dynamic>>(
+          '/user/address/:${address.id}/',
+          data: FormData.fromMap(address.toMap()),
+        ))
+            .data!,
+      );
+
+      debugPrint(parsedData.data.toString());
 
       return AddressesSended();
     } on ResponseParseException catch (e) {

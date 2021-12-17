@@ -21,11 +21,9 @@ import 'package:flutter/material.dart';
 
 //* Навигатор для страниц приложения
 class MainNavigation extends StatelessWidget {
-  MainNavigation({
+  const MainNavigation({
     Key? key,
-  }) : super(key: key){
-    debugPrint('MainNavigation-Create');
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +48,6 @@ class MainNavigation extends StatelessWidget {
 
           case '/registration':
             page = const RegistrationScreen();
-            break;
-
-          case '/home':
-            page = const HomeScreen();
             break;
 
           case '/code':
@@ -95,11 +89,12 @@ class MainNavigation extends StatelessWidget {
           case '/order_registration':
             page = const OrderRegistrationScreen();
             break;
+
           case '/shops':
-            page = ShopsScreen();
+            page = const ShopsScreen();
             break;
 
-         
+          case '/home':
           default:
             page = const HomeScreen();
         }
