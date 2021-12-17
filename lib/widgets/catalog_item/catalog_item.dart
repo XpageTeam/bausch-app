@@ -86,7 +86,7 @@ class CatalogItem extends StatelessWidget {
                         onPressed: (model as WebinarItemModel).canWatch
                             ? () => showDialog<void>(
                                   context: context,
-                                  builder: (context) => YoutubePopup(
+                                  builder: (context) => VimeoPopup(
                                     videoId: (model as WebinarItemModel)
                                         .videoId
                                         .first,

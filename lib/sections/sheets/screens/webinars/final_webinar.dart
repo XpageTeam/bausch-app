@@ -7,6 +7,7 @@ import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class FinalWebinar extends StatelessWidget {
@@ -75,7 +76,7 @@ class FinalWebinar extends StatelessWidget {
 
             showDialog<void>(
               context: Keys.mainNav.currentContext!,
-              builder: (context) => YoutubePopup(videoId: videoId),
+              builder: (context) => VimeoPopup(videoId: videoId),
             );
           },
         ),
@@ -85,8 +86,8 @@ class FinalWebinar extends StatelessWidget {
   }
 }
 
-class YoutubePopup extends CoreMwwmWidget<YoutubePopupWM> {
-  YoutubePopup({
+class VimeoPopup extends CoreMwwmWidget<YoutubePopupWM> {
+  VimeoPopup({
     required String videoId,
     Key? key,
   }) : super(
@@ -99,92 +100,98 @@ class YoutubePopup extends CoreMwwmWidget<YoutubePopupWM> {
 
   @override
   WidgetState<CoreMwwmWidget<YoutubePopupWM>, YoutubePopupWM>
-      createWidgetState() => _YoutubePopupState();
+      createWidgetState() => _VimeoPopupState();
 }
 
-class _YoutubePopupState extends WidgetState<YoutubePopup, YoutubePopupWM> {
+class _VimeoPopupState extends WidgetState<VimeoPopup, YoutubePopupWM> {
   double width = 300;
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          YoutubePlayerBuilder(
-            onEnterFullScreen: () => setState(() {
-              width = MediaQuery.of(context).size.height;
-            }),
-            onExitFullScreen: () => setState(() {
-              width = MediaQuery.of(context).size.width;
-            }),
-            player: YoutubePlayer(
-              width: width,
-              controller: wm.controller,
-              showVideoProgressIndicator: true,
-              progressIndicatorColor: Colors.blueAccent,
-              onReady: wm.onReady,
-              onEnded: (data) => wm.onEnded(data),
-            ),
-            builder: (context, player) => Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                player,
-                EntityStateBuilder<YoutubePlayerController>(
-                  streamedState: wm.controllerStreamed,
-                  builder: (context, controller) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  controller.value.isPlaying
-                                      ? Icons.pause
-                                      : Icons.play_arrow,
-                                ),
-                                onPressed: wm.isPlayerReady
-                                    ? () => wm.onPause()
-                                    : null,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  wm.muted ? Icons.volume_off : Icons.volume_up,
-                                ),
-                                onPressed:
-                                    wm.isPlayerReady ? () => wm.onMute() : null,
-                              ),
-                              Expanded(
-                                child: Slider(
-                                  inactiveColor: Colors.transparent,
-                                  value: wm.volume,
-                                  max: 100.0,
-                                  divisions: 10,
-                                  label: '${(wm.volume).round()}',
-                                  onChanged: wm.isPlayerReady
-                                      ? (value) => wm.onVolumeChanged(value)
-                                      : null,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+          VimeoPlayer(
+            id: '395212534',
+            autoPlay: true,
+            loaderColor: AppTheme.turquoiseBlue,
           ),
+          // YoutubePlayerBuilder(
+          //   onEnterFullScreen: () => setState(() {
+          //     width = MediaQuery.of(context).size.height;
+          //   }),
+          //   onExitFullScreen: () => setState(() {
+          //     width = MediaQuery.of(context).size.width;
+          //   }),
+          //   player: YoutubePlayer(
+          //     width: width,
+          //     controller: wm.controller,
+          //     showVideoProgressIndicator: true,
+          //     progressIndicatorColor: Colors.blueAccent,
+          //     onReady: wm.onReady,
+          //     onEnded: (data) => wm.onEnded(data),
+          //   ),
+          //   builder: (context, player) => Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       player,
+          //       EntityStateBuilder<YoutubePlayerController>(
+          //         streamedState: wm.controllerStreamed,
+          //         builder: (context, controller) {
+          //           return Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.stretch,
+          //               children: [
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //                   children: [
+          //                     IconButton(
+          //                       icon: Icon(
+          //                         controller.value.isPlaying
+          //                             ? Icons.pause
+          //                             : Icons.play_arrow,
+          //                       ),
+          //                       onPressed: wm.isPlayerReady
+          //                           ? () => wm.onPause()
+          //                           : null,
+          //                     ),
+          //                   ],
+          //                 ),
+          //                 Row(
+          //                   children: <Widget>[
+          //                     IconButton(
+          //                       icon: Icon(
+          //                         wm.muted ? Icons.volume_off : Icons.volume_up,
+          //                       ),
+          //                       onPressed:
+          //                           wm.isPlayerReady ? () => wm.onMute() : null,
+          //                     ),
+          //                     Expanded(
+          //                       child: Slider(
+          //                         inactiveColor: Colors.transparent,
+          //                         value: wm.volume,
+          //                         max: 100.0,
+          //                         divisions: 10,
+          //                         label: '${(wm.volume).round()}',
+          //                         onChanged: wm.isPlayerReady
+          //                             ? (value) => wm.onVolumeChanged(value)
+          //                             : null,
+          //                       ),
+          //                     ),
+          //                   ],
+          //                 ),
+          //               ],
+          //             ),
+          //           );
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
