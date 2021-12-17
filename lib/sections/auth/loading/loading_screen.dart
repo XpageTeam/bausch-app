@@ -4,7 +4,6 @@ import 'package:bausch/sections/auth/loading/animation_content.dart';
 import 'package:bausch/sections/auth/loading/loading_animation.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
-import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -25,7 +24,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
-      // appBar: const EmptyAppBar(),
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: Stack(
