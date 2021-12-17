@@ -66,16 +66,8 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
       defaultFilter: filterList[0],
       allFilters: filterList,
     );
-
   }
-
-  @override
-  void dispose() {
-    pageSwitcherCubit.close();
-    filterBloc.close();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -101,68 +93,6 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
             ),
           ),
 
-          // Кнопка выбора города
-          // StreamedStateBuilder<AuthStatus>(
-          //   streamedState: authWM.authStatus,
-          //   builder: (_, autStatus) => autStatus == AuthStatus.authenticated
-          //       ? Padding(
-          //           padding: const EdgeInsets.fromLTRB(
-          //             StaticData.sidePadding,
-          //             0,
-          //             StaticData.sidePadding,
-          //             20,
-          //           ),
-          //           child: DefaultButton(
-          //             padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
-          //             onPressed: () async {
-          //               // Открыть окно со списком городов
-          //               final cityName =
-          //                   await Keys.mainNav.currentState!.push<String>(
-          //                 PageRouteBuilder<String>(
-          //                   pageBuilder:
-          //                       (context, animation, secondaryAnimation) =>
-          //                           CityScreen(
-          //                     citiesWithShops: widget.cityList
-          //                         .map(
-          //                           (e) => e.name,
-          //                         )
-          //                         .toList(),
-          //                   ),
-          //                 ),
-          //               );
-
-          //               if (cityName != null &&
-          //                   cityName != widget.currentCity) {
-          //                 widget.cityChanged(cityName);
-          //               }
-          //             },
-          //             children: [
-          //               Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.start,
-          //                 mainAxisSize: MainAxisSize.min,
-          //                 children: [
-          //                   Text(
-          //                     'Город',
-          //                     style: AppStyles.p1Grey,
-          //                   ),
-          //                   const SizedBox(
-          //                     height: 6,
-          //                   ),
-          //                   Flexible(
-          //                     child: Text(
-          //                       widget.currentCity!,
-          //                       style: AppStyles.h2Bold,
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //             ],
-          //             chevronColor: AppTheme.mineShaft,
-          //           ),
-          //         )
-          //       : Container(),
-          // ),
-          
           // Кнопка выбора города
           if (widget.currentCity != null)
             Padding(

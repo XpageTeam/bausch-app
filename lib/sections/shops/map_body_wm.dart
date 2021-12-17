@@ -30,11 +30,12 @@ class MapBodyWM extends WidgetModel {
   final setCenterAction = StreamedAction<List<ShopModel>>();
   final updateMapObjects = StreamedAction<List<ShopModel>>();
 
+  final isModalBottomSheetOpen = StreamedState<bool>(false);
+
   final zoomInAction = VoidAction();
   final zoomOutAction = VoidAction();
   final moveToUserPosition = VoidAction();
 
-  bool isModalBottomSheetOpen = false;
 
   YandexMapController? mapController;
 
@@ -55,6 +56,12 @@ class MapBodyWM extends WidgetModel {
       () => updateMapObjects(initShopList),
     );
     super.onLoad();
+  }
+
+  @override
+  void dispose() {
+    mapController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -164,6 +171,9 @@ class MapBodyWM extends WidgetModel {
   }
 
   void _setCenterOn<T>(List<T> list) {
+    // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
+    if (list.isEmpty) return;
+
     ExtremePoints? extremePoints;
 
     if (list is List<Point>) {

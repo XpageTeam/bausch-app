@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -17,9 +19,7 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (_) => MapBodyWM(
-            initShopList: shopList,
-          ),
+          widgetModelBuilder: (_) => MapBodyWM(initShopList: shopList),
         );
 
   @override
@@ -46,12 +46,12 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
           top: Radius.circular(5),
         ),
       ),
-      child: StreamedStateBuilder<List<MapObject>>(
-        streamedState: wm.mapObjectsStreamed,
-        builder: (context, mapObjects) {
-          return Stack(
-            children: [
-              YandexMap(
+      child: Stack(
+        children: [
+          StreamedStateBuilder<List<MapObject>>(
+            streamedState: wm.mapObjectsStreamed,
+            builder: (context, mapObjects) {
+              return YandexMap(
                 mapObjects: mapObjects,
                 onMapCreated: (yandexMapController) {
                   wm.mapController = yandexMapController;
@@ -65,7 +65,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                         showDefaultNotification(title: exception.title);
                       }
                       ..onPlacemarkPressed = (shop) {
-                        wm.isModalBottomSheetOpen = true;
+                        wm.isModalBottomSheetOpen.accept(true);
 
                         showModalBottomSheet<void>(
                           context: context,
@@ -84,32 +84,48 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                           ),
                         ).whenComplete(
                           () {
-                            wm.isModalBottomSheetOpen = false;
+                            wm.isModalBottomSheetOpen.accept(false);
                             wm.updateMapObjects(widget.shopList);
                           },
                         );
                       };
+                  } else {
+                    // showModalBottomSheet<dynamic>(
+                    //   barrierColor: Colors.transparent,
+                    //   context: context,
+                    //   builder: (context) => BottomSheetContent(
+                    //     title: 'Поблизости нет оптик',
+                    //     subtitle:
+                    //         'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                    //     btnText: 'Хорошо',
+                    //     onPressed: Navigator.of(context).pop,
+                    //   ),
+                    // );
+
+                    // BlocProvider.of<ShopListCubit>(context).loadShopList();
                   }
                 },
-              ),
-              if (!wm.isModalBottomSheetOpen)
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 15,
-                      bottom: 60,
-                    ),
-                    child: MapButtons(
-                      onZoomIn: wm.zoomInAction,
-                      onZoomOut: wm.zoomOutAction,
-                      onCurrentLocation: wm.moveToUserPosition,
-                    ),
-                  ),
+              );
+            },
+          ),
+          StreamedStateBuilder(
+            streamedState: wm.isModalBottomSheetOpen,
+            builder: (_, isModalBottomSheetOpen) => Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 15,
+                  bottom: 60,
                 ),
-            ],
-          );
-        },
+                child: MapButtons(
+                  onZoomIn: wm.zoomInAction,
+                  onZoomOut: wm.zoomOutAction,
+                  onCurrentLocation: wm.moveToUserPosition,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

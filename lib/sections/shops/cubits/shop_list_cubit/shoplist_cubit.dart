@@ -11,6 +11,8 @@ part 'shoplist_state.dart';
 class ShopListCubit extends Cubit<ShopListState> {
   ShopListCubit() : super(ShopListInitial());
 
+  CitiesRepository citiesRepository = CitiesRepository(cities: []);
+
   Future<void> loadShopList() async {
     emit(ShopListLoading());
     emit(await _loadShopList());
@@ -23,7 +25,7 @@ class ShopListCubit extends Cubit<ShopListState> {
 
   Future<ShopListState> _loadShopList() async {
     try {
-      final citiesRepository = await CitiesWithShopsDownloader.load();
+      citiesRepository = await CitiesWithShopsDownloader.load();
       return ShopListSuccess(
         cityList: citiesRepository.cities,
       );
