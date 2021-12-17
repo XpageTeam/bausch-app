@@ -119,7 +119,7 @@ class CatalogItem extends StatelessWidget {
     if (model.canWatch) {
       showDialog<void>(
         context: context,
-        builder: (context) => YoutubePopup(
+        builder: (context) => VimeoPopup(
           videoId: model.videoId.first,
         ),
       );
