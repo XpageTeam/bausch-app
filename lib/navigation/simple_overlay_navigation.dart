@@ -125,7 +125,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
           case '/addpoints_survey':
             page = SurveyScreen(
               controller: controller,
-              model: Models.addItems[3],
+              model: Models.addItems[4],
             );
             break;
 
@@ -134,7 +134,7 @@ class SimpleOverlayNavigation extends StatelessWidget {
             break;
         }
 
-        if (Platform.isIOS){
+        if (Platform.isIOS) {
           return CupertinoPageRoute<void>(builder: (context) {
             return page;
           });

@@ -94,4 +94,12 @@ class AppStyles {
     height: 14 / 12,
     fontFamily: 'Euclid Circular A',
   );
+
+  static final n1 = TextStyle(
+    color: AppTheme.mineShaft,
+    fontWeight: FontWeight.w400,
+    fontSize: 12.sp,
+    height: 14 / 12,
+    fontFamily: 'Euclid Circular A',
+  );
 }

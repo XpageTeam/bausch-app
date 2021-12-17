@@ -6,11 +6,13 @@ class ButtonContent extends StatelessWidget {
   final String price;
   final MainAxisAlignment? alignment;
   final bool withIcon;
+  final TextStyle? textStyle;
 
   const ButtonContent({
     required this.price,
     this.alignment,
     this.withIcon = true,
+    this.textStyle,
     Key? key,
   }) : super(key: key);
 
@@ -21,7 +23,7 @@ class ButtonContent extends StatelessWidget {
       children: [
         Text(
           price,
-          style: AppStyles.h2,
+          style: textStyle ?? AppStyles.h2,
         ),
         if (withIcon)
           const Padding(

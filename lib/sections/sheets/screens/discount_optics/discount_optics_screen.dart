@@ -60,7 +60,7 @@ class DiscountOpticsScreen extends StatelessWidget
                     const SizedBox(
                       height: 4,
                     ),
-                    InfoSection(
+                    const InfoSection(
                       text:
                           'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.',
                     ),
@@ -77,7 +77,7 @@ class DiscountOpticsScreen extends StatelessWidget
             const SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
-                12,
+                0,
                 StaticData.sidePadding,
                 40,
               ),

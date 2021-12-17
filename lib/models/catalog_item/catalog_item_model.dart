@@ -23,8 +23,8 @@ class CatalogItemModel {
   CatalogItemModel({
     required this.id,
     required this.name,
-    this.previewText = 'test',
-    this.detailText = 'test',
+    required this.previewText,
+    required this.detailText,
     required this.picture,
     required this.price,
   });

@@ -33,15 +33,26 @@ class InfoSection extends StatelessWidget {
                 style: {
                   'body': Style(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
+                      horizontal:
+                          StaticData.sidePadding, //StaticData.sidePadding,
                     ),
                     color: AppTheme.mineShaft,
                     fontWeight: FontWeight.w400,
                     fontSize: const FontSize(14),
                     lineHeight: const LineHeight(20 / 17),
+                    margin: const EdgeInsets.all(0),
                   ),
                   'br': Style(
                     padding: EdgeInsets.zero,
+                    //margin: const EdgeInsets.all(0),
+                  ),
+                  'p': Style(
+                    padding: EdgeInsets.zero,
+                    //margin: EdgeInsets.zero,
+                  ),
+                  'li': Style(
+                    padding: EdgeInsets.zero,
+                    //margin: EdgeInsets.zero,
                   ),
                   'a': Style(
                     color: AppTheme.mineShaft,
@@ -49,6 +60,7 @@ class InfoSection extends StatelessWidget {
                     fontSize: const FontSize(14),
                     lineHeight: const LineHeight(20 / 14),
                     textDecorationColor: AppTheme.turquoiseBlue,
+                    //margin: const EdgeInsets.all(0),
                   ),
                 },
               ),
@@ -64,6 +76,7 @@ class InfoSection extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                         horizontal: StaticData.sidePadding,
                       ),
+                      margin: const EdgeInsets.all(0),
                       color: AppTheme.mineShaft,
                       fontWeight: FontWeight.w400,
                       fontSize: const FontSize(14),
@@ -75,9 +88,11 @@ class InfoSection extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontSize: const FontSize(17),
                       lineHeight: const LineHeight(20 / 17),
+                      margin: const EdgeInsets.all(0),
                     ),
                     'div': Style(
                       padding: EdgeInsets.zero,
+                      margin: const EdgeInsets.all(0),
                     ),
                   },
                 ),

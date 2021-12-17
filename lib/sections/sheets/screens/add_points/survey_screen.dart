@@ -1,9 +1,11 @@
 import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +71,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                   ),
                                   child: Text(
                                     widget.model.title,
-                                    style: AppStyles.h2,
+                                    style: AppStyles.h1,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -80,13 +82,25 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                   padding: const EdgeInsets.only(
                                     bottom: 30,
                                   ),
-                                  child:
-                                      ButtonContent(price: widget.model.price),
+                                  child: ButtonContent(
+                                    price: widget.model.priceString,
+                                    textStyle: AppStyles.h1,
+                                  ),
                                 ),
                               ],
                             ),
                             CustomSliverAppbar.toPop(
-                              icon: Container(),
+                              icon: NormalIconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                }, //Navigator.of(context).pop,
+                                backgroundColor: AppTheme.mystic,
+                                icon: const Icon(
+                                  Icons.chevron_left_rounded,
+                                  size: 20,
+                                  color: AppTheme.mineShaft,
+                                ),
+                              ),
                               key: widget.key,
                               rightKey: Keys.simpleBottomSheetNav,
                             ),
@@ -170,7 +184,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
             ),
             SliverPadding(
               padding: const EdgeInsets.only(
-                top: 18,
+                top: 0,
                 left: 12,
                 right: 12,
               ),
