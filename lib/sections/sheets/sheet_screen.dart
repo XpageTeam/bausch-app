@@ -109,6 +109,7 @@ class _SheetScreenState extends State<SheetScreen> {
                   right: 12,
                   bottom: 40,
                 ),
+                // TODO(Nikita): очень громоздко
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, i) => IntrinsicHeight(

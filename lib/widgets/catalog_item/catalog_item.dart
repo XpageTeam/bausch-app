@@ -1,13 +1,9 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/catalog_item/partners_item_model.dart';
-import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
-import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 class CatalogItem extends StatelessWidget {
@@ -58,7 +54,7 @@ class CatalogItem extends StatelessWidget {
               else
                 AspectRatio(
                   aspectRatio: 174 / 112,
-                  child: Image.asset('assets/woman.png'),
+                  child: Image.network(model.picture),
                 ),
               const SizedBox(
                 height: 8,
@@ -71,7 +67,6 @@ class CatalogItem extends StatelessWidget {
                   model.name,
                   style: AppStyles.p1,
                   textAlign: TextAlign.center,
-                  maxLines: 3,
                 ),
               ),
               const Expanded(

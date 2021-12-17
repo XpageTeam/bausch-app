@@ -17,15 +17,20 @@ class ButtonWithPoints extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        primary: AppTheme.grey,
-        backgroundColor: AppTheme.mystic,
+    return Container(
+      constraints: const BoxConstraints(
+        minHeight: 44,
       ),
-      child: ButtonContent(
-        price: price,
-        withIcon: withIcon,
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          primary: AppTheme.grey,
+          backgroundColor: AppTheme.mystic,
+        ),
+        child: ButtonContent(
+          price: price,
+          withIcon: withIcon,
+        ),
       ),
     );
   }
