@@ -57,13 +57,7 @@ class MapBodyWM extends WidgetModel {
     );
     super.onLoad();
   }
-
-  @override
-  void dispose() {
-    mapController?.dispose();
-    super.dispose();
-  }
-
+  
   @override
   void onBind() {
     subscribe<List<ShopModel>>(
