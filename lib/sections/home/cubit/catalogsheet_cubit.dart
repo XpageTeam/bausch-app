@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
@@ -63,6 +64,12 @@ class CatalogSheetCubit extends Cubit<CatalogSheetState> {
         CatalogSheetFailed(
           title: 'Ошибка при отправке запроса',
           subtitle: sheet.toString(),
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      emit(
+        CatalogSheetFailed(
+          title: e.toString(),
         ),
       );
     }

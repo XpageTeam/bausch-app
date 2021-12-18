@@ -68,9 +68,9 @@ class _RulesScreenState extends State<RulesScreen> {
                 },
               ),
             ),
-            CustomSliverAppbar.toPop(
-              icon: Container(),
-            ),
+            // CustomSliverAppbar.toPop(
+            //   icon: Container(),
+            // ),
           ],
         ),
       ),

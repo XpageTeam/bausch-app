@@ -68,6 +68,8 @@ class CatalogItem extends StatelessWidget {
                   model.name,
                   style: AppStyles.p1,
                   textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const Expanded(
@@ -101,9 +103,9 @@ class CatalogItem extends StatelessWidget {
                         ),
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              // const SizedBox(
+              //   height: 16,
+              // ),
             ],
           ),
         ),

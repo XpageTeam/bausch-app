@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -26,62 +27,57 @@ class FinalDiscountOptics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
+    return CustomSheetScaffold(
+      backgroundColor: AppTheme.sulu,
+      controller: controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        icon: Container(height: 1),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.sulu,
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    CustomSliverAppbar.toPop(
-                      icon: Container(),
-                      key: key,
-                      rightKey: rightKey,
-                      backgroundColor: Colors.white,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 40),
-                      child: Text(
-                        text ??
-                            'Это ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
-                        style: AppStyles.h1,
-                      ),
-                    ),
-                    ContainerWithPromocode(
-                      promocode: model.code,
-                      withIcon: false,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        bottom: 40,
-                      ),
-                      child: Text(
-                        'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в личном кабинете.',
-                        style: AppStyles.p1,
-                      ),
-                    ),
-                    BigCatalogItem(model: model),
-                  ],
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
+          ),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                // CustomSliverAppbar.toPop(
+                //   icon: Container(),
+                //   key: key,
+                //   rightKey: rightKey,
+                //   backgroundColor: Colors.white,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 78, bottom: 40),
+                  child: Text(
+                    text ??
+                        'Это ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
+                    style: AppStyles.h1,
+                  ),
                 ),
-              ),
+                ContainerWithPromocode(
+                  promocode: model.code,
+                  withIcon: false,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    bottom: 40,
+                  ),
+                  child: Text(
+                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в личном кабинете.',
+                    style: AppStyles.p1,
+                  ),
+                ),
+                BigCatalogItem(model: model),
+              ],
             ),
-          ],
+          ),
         ),
-        bottomNavigationBar: BottomButtonWithRoundedCorners(
-          text: buttonText ?? 'На главную',
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ],
+      bottomButton: BottomButtonWithRoundedCorners(
+        text: buttonText ?? 'На главную',
       ),
     );
   }

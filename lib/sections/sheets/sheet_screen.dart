@@ -4,6 +4,7 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -54,128 +55,119 @@ class _SheetScreenState extends State<SheetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
-      ),
-      child: Scaffold(
-        body: CustomScrollView(
-          controller: widget.controller,
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 20,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Row(
-                      children: [
-                        Image.asset(
-                          setTheImg(widget.sheetModel.type),
-                          height: 60,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          child: Text(
-                            widget.sheetModel.name,
-                            style: AppStyles.h1,
-                          ),
-                        ),
-                      ],
+    return CustomSheetScaffold(
+      controller: widget.controller,
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 20,
+          ),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Row(
+                  children: [
+                    Image.asset(
+                      setTheImg(widget.sheetModel.type),
+                      height: 60,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: Text(
+                        widget.sheetModel.name,
+                        style: AppStyles.h1,
+                      ),
                     ),
                   ],
                 ),
+              ],
+            ),
+          ),
+        ),
+        if (widget.items.isEmpty)
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: Text(
+                'Пусто',
+                style: AppStyles.h2,
               ),
             ),
-            if (widget.items.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: Text(
-                    'Пусто',
-                    style: AppStyles.h2,
-                  ),
-                ),
-              ),
-            if (widget.items.isNotEmpty)
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  left: 12,
-                  right: 12,
-                  bottom: 40,
-                ),
-                // TODO(Nikita): очень громоздко
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, i) => IntrinsicHeight(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+        if (widget.items.isNotEmpty)
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+              bottom: 40,
+            ),
+            // TODO(Nikita): очень громоздко
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, i) => IntrinsicHeight(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Stack(
                         children: [
-                          Stack(
-                            children: [
-                              CatalogItem(
-                                model: widget.items[i * 2],
-                                onTap: () {
-                                  Keys.bottomSheetItemsNav.currentState!
-                                      .pushNamed(
-                                    '/${widget.sheetModel.type}',
-                                    arguments: SheetScreenArguments(
-                                      model: widget.items[i * 2],
-                                    ),
-                                  );
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: shield(widget.items[i * 2]),
-                              ),
-                            ],
+                          CatalogItem(
+                            model: widget.items[i * 2],
+                            onTap: () {
+                              Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                                '/${widget.sheetModel.type}',
+                                arguments: SheetScreenArguments(
+                                  model: widget.items[i * 2],
+                                ),
+                              );
+                            },
                           ),
-                          if (widget.items.asMap().containsKey(i * 2 + 1))
-                            Stack(
-                              children: [
-                                CatalogItem(
-                                  model: widget.items[i * 2 + 1],
-                                  onTap: () {
-                                    Keys.bottomSheetItemsNav.currentState!
-                                        .pushNamed(
-                                      '/${widget.sheetModel.type}',
-                                      arguments: SheetScreenArguments(
-                                        model: widget.items[i * 2 + 1],
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: shield(widget.items[i * 2 + 1]),
-                                ),
-                              ],
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: shield(widget.items[i * 2]),
+                          ),
                         ],
                       ),
-                    ),
-                    childCount: (widget.items.length % 2) == 0
-                        ? widget.items.length ~/ 2
-                        : widget.items.length ~/ 2 + 1,
+                      if (widget.items.asMap().containsKey(i * 2 + 1))
+                        Stack(
+                          children: [
+                            CatalogItem(
+                              model: widget.items[i * 2 + 1],
+                              onTap: () {
+                                Keys.bottomSheetItemsNav.currentState!
+                                    .pushNamed(
+                                  '/${widget.sheetModel.type}',
+                                  arguments: SheetScreenArguments(
+                                    model: widget.items[i * 2 + 1],
+                                  ),
+                                );
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: shield(widget.items[i * 2 + 1]),
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
                 ),
+                childCount: (widget.items.length % 2) == 0
+                    ? widget.items.length ~/ 2
+                    : widget.items.length ~/ 2 + 1,
               ),
-          ],
-        ),
-        bottomNavigationBar: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.sheetModel.type != 'promo_code_immediately')
-              const InfoBlock(),
-          ],
-        ),
+            ),
+          ),
+      ],
+      bottomButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.sheetModel.type != 'promo_code_immediately')
+            const InfoBlock(),
+        ],
       ),
     );
   }
@@ -185,7 +177,7 @@ Widget shield(CatalogItemModel _model) {
   if (_model is WebinarItemModel) {
     return Image.asset(
       'assets/play-video.png',
-      height: 20,
+      height: 28,
     );
   } else if (_model is PromoItemModel) {
     return DiscountInfo(text: '–500 ₽');
