@@ -465,6 +465,7 @@ class Models {
       price: '100',
       img: 'assets/add_points_vk.png',
       type: 'survey',
+      htmlText: '',
     ),
     AddItemModel(
       title: 'Баллы в день рождения',
@@ -473,6 +474,7 @@ class Models {
       price: '50',
       img: 'assets/add_points_pool.png',
       type: 'birthday',
+      htmlText: '',
     ),
     AddItemModel(
       title: 'Двойные баллы',
@@ -481,6 +483,7 @@ class Models {
       price: '50',
       img: 'assets/add_points_vk.png',
       type: 'double',
+      htmlText: '',
     ),
   ];
 

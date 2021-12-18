@@ -30,11 +30,11 @@ class FinalAddPointsScreen extends StatelessWidget {
           controller: controller,
           child: Column(
             children: [
-              CustomSliverAppbar.toPop(
-                icon: Container(),
-                key: key,
-                rightKey: Keys.simpleBottomSheetNav,
-              ),
+              // CustomSliverAppbar.toPop(
+              //   icon: Container(),
+              //   key: key,
+              //   rightKey: Keys.simpleBottomSheetNav,
+              // ),
               Stack(
                 alignment: Alignment.center,
                 children: [

@@ -7,18 +7,19 @@ class AddItemModel implements MappableInterface<AddItemModel> {
   final String price;
   final String img;
   final String? type;
-  
-  final String? htmlText;
+
+  final String htmlText;
 
   // TODO(Nikita): ??????
-  String get priceString => '+ ${HelpFunctions.partitionNumber(num.parse(price))}';
+  String get priceString =>
+      '+ ${HelpFunctions.partitionNumber(num.parse(price))}';
 
   AddItemModel({
     required this.title,
     required this.subtitle,
     required this.price,
     required this.img,
-    this.htmlText,
+    required this.htmlText,
     this.type = 'add',
   });
 

@@ -34,7 +34,7 @@ class ProfileStatus extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         userData.userName,
@@ -55,15 +55,15 @@ class ProfileStatus extends StatelessWidget {
                       const SizedBox(width: 5),
                       const Icon(
                         Icons.arrow_forward_ios,
-                        size: 12,
+                        size: 18,
                       ),
                     ],
                   ),
                   //! статус пользователя пока не выводим
-                  // Text(
-                  //   'Классный друг',
-                  //   style: AppStyles.p1,
-                  // ),
+                  Text(
+                    'Классный друг',
+                    style: AppStyles.p1,
+                  ),
                 ],
               ),
             ],
