@@ -48,6 +48,9 @@ class _StoriesSliderState extends State<StoriesSlider> {
             ),
           );
         }
+        if (state is StoriesFailed) {
+          debugPrint(state.title);
+        }
         return const Center(
           // child: CircularProgressIndicator.adaptive(),
           child: AnimatedLoader(),

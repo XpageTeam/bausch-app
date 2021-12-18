@@ -3,6 +3,7 @@
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
+import 'package:bausch/sections/stories/stories_bottom_button.dart';
 import 'package:bausch/sections/stories/stories_buttons.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -31,6 +32,8 @@ class _StoriesScreenState extends State<StoriesScreen>
   late AnimationController _animController;
   late VideoPlayerController _videoPlayerController;
   late int _currentIndex;
+
+  //bool isContentLoaded = false;
 
   @override
   void initState() {
@@ -100,9 +103,8 @@ class _StoriesScreenState extends State<StoriesScreen>
                 switch (story.isVideo) {
                   case false:
                     return Image.network(
-                      story.file,
+                      story.file ?? story.preview,
                       fit: BoxFit.cover,
-                      //color: Colors.red.withAlpha(10),
                     );
                   case true:
                     if (_videoPlayerController.value.isInitialized) {
@@ -116,7 +118,11 @@ class _StoriesScreenState extends State<StoriesScreen>
                       );
                     }
                 }
-                return const SizedBox.shrink();
+                return Image.network(
+                  story.preview,
+                  fit: BoxFit.cover,
+                  //color: Colors.red.withAlpha(10),
+                );
               },
             ),
             Positioned(
@@ -182,55 +188,11 @@ class _StoriesScreenState extends State<StoriesScreen>
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton(
-              onPressed: () {
-                HelpFunctions.launchURL(widget.stories[_currentIndex].link);
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.stories[_currentIndex].textBtn,
-                    style: AppStyles.h2,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Image.asset(
-                    'assets/icons/link.png',
-                    height: 15,
-                  ),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 10,
-                bottom: 6,
-              ),
-              child: Text(
-                'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 16 / 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
+      floatingActionButton: StoriesBottommButton(
+        link: story.link,
+        buttonText: story.textBtn,
+        productModel: story.productModel,
+        textAfter: story.textAfter,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
@@ -300,7 +262,7 @@ class _StoriesScreenState extends State<StoriesScreen>
       case true:
         //_videoPlayerController = null;
         _videoPlayerController.dispose();
-        _videoPlayerController = VideoPlayerController.network(story.file)
+        _videoPlayerController = VideoPlayerController.network(story.file!)
           ..initialize().then(
             (_) {
               setState(() {});
