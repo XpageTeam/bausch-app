@@ -1,8 +1,8 @@
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/drm_init_data.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/format.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/playlist.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/rendition.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/variant.dart';
+import 'drm_init_data.dart';
+import 'format.dart';
+import 'playlist.dart';
+import 'rendition.dart';
+import 'variant.dart';
 
 class HlsMasterPlaylist extends HlsPlaylist {
   HlsMasterPlaylist({

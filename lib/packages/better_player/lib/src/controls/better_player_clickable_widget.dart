@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BetterPlayerMaterialClickableWidget extends StatelessWidget {
@@ -7,9 +6,9 @@ class BetterPlayerMaterialClickableWidget extends StatelessWidget {
   final void Function() onTap;
 
   const BetterPlayerMaterialClickableWidget({
+    Key? key,
     required this.onTap,
     required this.child,
-    Key? key,
   }) : super(key: key);
 
   @override
@@ -19,8 +18,7 @@ class BetterPlayerMaterialClickableWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       clipBehavior: Clip.hardEdge,
-      color: AppTheme.mystic,
-      //  Colors.transparent,
+      color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
         child: child,

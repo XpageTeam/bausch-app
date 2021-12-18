@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'package:bausch/packages/better_player/lib/better_player.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_controller_event.dart';
-import 'package:bausch/packages/better_player/lib/src/controls/better_player_cupertino_controls.dart';
-import 'package:bausch/packages/better_player/lib/src/controls/better_player_material_controls.dart';
-import 'package:bausch/packages/better_player/lib/src/core/better_player_controller.dart';
-import 'package:bausch/packages/better_player/lib/src/core/better_player_utils.dart';
-import 'package:bausch/packages/better_player/lib/src/subtitles/better_player_subtitles_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/subtitles/better_player_subtitles_drawer.dart';
-import 'package:bausch/packages/better_player/lib/src/video_player/video_player.dart';
+import 'package:better_player/better_player.dart';
+import 'package:better_player/src/configuration/better_player_controller_event.dart';
+import 'package:better_player/src/controls/better_player_cupertino_controls.dart';
+import 'package:better_player/src/controls/better_player_material_controls.dart';
+import 'package:better_player/src/core/better_player_controller.dart';
+import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/subtitles/better_player_subtitles_configuration.dart';
+import 'package:better_player/src/subtitles/better_player_subtitles_drawer.dart';
+import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
 class BetterPlayerWithControls extends StatefulWidget {

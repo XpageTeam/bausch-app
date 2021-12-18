@@ -1,8 +1,6 @@
 import 'package:bausch/global/login/login_wm.dart';
-import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
 
 class GlobalProviders extends StatefulWidget {
   final Widget child;

@@ -5,14 +5,13 @@
 // Dart imports:
 import 'dart:async';
 import 'dart:io';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_buffering_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/video_player/video_player_platform_interface.dart';
+import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
+import 'package:better_player/src/video_player/video_player_platform_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-
-// import 'package:pedantic/pedantic.dart';
+import 'package:pedantic/pedantic.dart';
 
 final VideoPlayerPlatform _videoPlayerPlatform = VideoPlayerPlatform.instance
 // This will clear all open videos on the platform when a full restart is
@@ -20,9 +19,9 @@ final VideoPlayerPlatform _videoPlayerPlatform = VideoPlayerPlatform.instance
   ..init();
 
 /// The duration, current position, buffering state, error state and settings
-/// of a VideoPlayerController.
+/// of a [VideoPlayerController].
 class VideoPlayerValue {
-  /// Constructs a video with the given values. Only duration is required. The
+  /// Constructs a video with the given values. Only [duration] is required. The
   /// rest will initialize with default values when unset.
   VideoPlayerValue({
     required this.duration,
@@ -39,17 +38,17 @@ class VideoPlayerValue {
     this.isPip = false,
   });
 
-  /// Returns an instance with a `null` Duration.
+  /// Returns an instance with a `null` [Duration].
   VideoPlayerValue.uninitialized() : this(duration: null);
 
-  /// Returns an instance with a `null` Duration and the given
-  /// errorDescription.
+  /// Returns an instance with a `null` [Duration] and the given
+  /// [errorDescription].
   VideoPlayerValue.erroneous(String errorDescription)
       : this(duration: null, errorDescription: errorDescription);
 
   /// The total duration of the video.
   ///
-  /// Is null when initialized is false.
+  /// Is null when [initialized] is false.
   final Duration? duration;
 
   /// The current playback position.
@@ -80,12 +79,12 @@ class VideoPlayerValue {
 
   /// A description of the error if present.
   ///
-  /// If hasError is false this is null.
+  /// If [hasError] is false this is [null].
   final String? errorDescription;
 
-  /// The size of the currently loaded video.
+  /// The [size] of the currently loaded video.
   ///
-  /// Is null when initialized is false.
+  /// Is null when [initialized] is false.
   final Size? size;
 
   ///Is in Picture in Picture Mode
@@ -95,10 +94,10 @@ class VideoPlayerValue {
   bool get initialized => duration != null;
 
   /// Indicates whether or not the video is in an error state. If this is true
-  /// errorDescription should have information about the problem.
+  /// [errorDescription] should have information about the problem.
   bool get hasError => errorDescription != null;
 
-  /// Returns size.width / size.height when size is non-null, or `1.0.` when
+  /// Returns [size.width] / [size.height] when size is non-null, or `1.0.` when
   /// size is null or the aspect ratio would be less than or equal to 0.0.
   double get aspectRatio {
     if (size == null) {
@@ -112,7 +111,7 @@ class VideoPlayerValue {
   }
 
   /// Returns a new instance that has the same values as this current instance,
-  /// except for any overrides passed in as arguments to copyWidth.
+  /// except for any overrides passed in as arguments to [copyWidth].
   VideoPlayerValue copyWith({
     Duration? duration,
     Size? size,
@@ -151,7 +150,7 @@ class VideoPlayerValue {
         'size: $size, '
         'position: $position, '
         'absolutePosition: $absolutePosition, '
-        'buffered: ${buffered.join(', ')}, '
+        'buffered: [${buffered.join(', ')}], '
         'isPlaying: $isPlaying, '
         'isLooping: $isLooping, '
         'isBuffering: $isBuffering, '
@@ -165,15 +164,15 @@ class VideoPlayerValue {
 ///
 /// Instances must be initialized with initialize.
 ///
-/// The video is displayed in a Flutter app by creating a VideoPlayer widget.
+/// The video is displayed in a Flutter app by creating a [VideoPlayer] widget.
 ///
-/// To reclaim the resources used by the player call dispose.
+/// To reclaim the resources used by the player call [dispose].
 ///
-/// After dispose all further calls are ignored.
+/// After [dispose] all further calls are ignored.
 class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   final BetterPlayerBufferingConfiguration bufferingConfiguration;
 
-  /// Constructs a VideoPlayerController and creates video controller on platform side.
+  /// Constructs a [VideoPlayerController] and creates video controller on platform side.
   VideoPlayerController({
     this.bufferingConfiguration = const BetterPlayerBufferingConfiguration(),
     bool autoCreate = true,
@@ -201,7 +200,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   @visibleForTesting
   int? get textureId => _textureId;
 
-  /// Attempts to open the given dataSource and load metadata about the video.
+  /// Attempts to open the given [dataSource] and load metadata about the video.
   Future<void> _create() async {
     _textureId = await _videoPlayerPlatform.create(
       bufferingConfiguration: bufferingConfiguration,
@@ -281,8 +280,8 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
 
   /// Set data source for playing a video from an asset.
   ///
-  /// The name of the asset is given by the dataSource argument and must not be
-  /// null. The package argument must be non-null when the asset comes from a
+  /// The name of the asset is given by the [dataSource] argument and must not be
+  /// null. The [package] argument must be non-null when the asset comes from a
   /// package and null otherwise.
   Future<void> setAssetDataSource(
     String dataSource, {
@@ -314,9 +313,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   /// Set data source for playing a video from obtained from
   /// the network.
   ///
-  /// The URI for the video is given by the dataSource argument and must not be
+  /// The URI for the video is given by the [dataSource] argument and must not be
   /// null.
-  /// **Android only**: The formatHint option allows the caller to override
+  /// **Android only**: The [formatHint] option allows the caller to override
   /// the video format detection code.
   /// ClearKey DRM only supported on Android.
   Future<void> setNetworkDataSource(
@@ -440,7 +439,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   }
 
   /// Sets whether or not the video should loop after playing once. See also
-  /// VideoPlayerValue.isLooping.
+  /// [VideoPlayerValue.isLooping].
   Future<void> setLooping(bool looping) async {
     value = value.copyWith(isLooping: looping);
     await _applyLooping();
@@ -524,10 +523,10 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     return _videoPlayerPlatform.getAbsolutePosition(_textureId);
   }
 
-  /// Sets the video's current timestamp to be at moment. The next
-  /// time the video is played it will resume from the given moment.
+  /// Sets the video's current timestamp to be at [moment]. The next
+  /// time the video is played it will resume from the given [moment].
   ///
-  /// If moment is outside of the video's full range it will be automatically
+  /// If [moment] is outside of the video's full range it will be automatically
   /// and silently clamped.
   Future<void> seekTo(Duration? position) async {
     _timer?.cancel();
@@ -560,18 +559,18 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     }
   }
 
-  /// Sets the audio volume of this.
+  /// Sets the audio volume of [this].
   ///
-  /// volume indicates a value between 0.0 (silent) and 1.0 (full volume) on a
+  /// [volume] indicates a value between 0.0 (silent) and 1.0 (full volume) on a
   /// linear scale.
   Future<void> setVolume(double volume) async {
     value = value.copyWith(volume: volume.clamp(0.0, 1.0));
     await _applyVolume();
   }
 
-  /// Sets the speed of this.
+  /// Sets the speed of [this].
   ///
-  /// speed indicates a value between 0.0 and 2.0 on a linear scale.
+  /// [speed] indicates a value between 0.0 and 2.0 on a linear scale.
   Future<void> setSpeed(double speed) async {
     final double previousSpeed = value.speed;
     try {
@@ -583,11 +582,11 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     }
   }
 
-  /// Sets the video track parameters of this
+  /// Sets the video track parameters of [this]
   ///
-  /// width specifies width of the selected track
-  /// height specifies height of the selected track
-  /// bitrate specifies bitrate of the selected track
+  /// [width] specifies width of the selected track
+  /// [height] specifies height of the selected track
+  /// [bitrate] specifies bitrate of the selected track
   Future<void> setTrackParameters(int? width, int? height, int? bitrate) async {
     await _videoPlayerPlatform.setTrackParameters(
         _textureId, width, height, bitrate);
@@ -642,12 +641,12 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   }
 }
 
-/// Widget that displays the video controlled by controller.
+/// Widget that displays the video controlled by [controller].
 class VideoPlayer extends StatefulWidget {
-  /// Uses the given controller for all video rendered in this widget.
+  /// Uses the given [controller] for all video rendered in this widget.
   const VideoPlayer(this.controller, {Key? key}) : super(key: key);
 
-  /// The VideoPlayerController responsible for the video being rendered in
+  /// The [VideoPlayerController] responsible for the video being rendered in
   /// this widget.
   final VideoPlayerController? controller;
 
@@ -701,23 +700,23 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 }
 
-/// Used to configure the VideoProgressIndicator widget's colors for how it
+/// Used to configure the [VideoProgressIndicator] widget's colors for how it
 /// describes the video's status.
 ///
 /// The widget uses default colors that are customizeable through this class.
 class VideoProgressColors {
   /// Any property can be set to any color. They each have defaults.
   ///
-  /// playedColor defaults to red at 70% opacity. This fills up a portion of
-  /// the VideoProgressIndicator to represent how much of the video has played
+  /// [playedColor] defaults to red at 70% opacity. This fills up a portion of
+  /// the [VideoProgressIndicator] to represent how much of the video has played
   /// so far.
   ///
-  /// bufferedColor defaults to blue at 20% opacity. This fills up a portion
-  /// of VideoProgressIndicator to represent how much of the video has
+  /// [bufferedColor] defaults to blue at 20% opacity. This fills up a portion
+  /// of [VideoProgressIndicator] to represent how much of the video has
   /// buffered so far.
   ///
-  /// backgroundColor defaults to gray at 50% opacity. This is the background
-  /// color behind both playedColor and bufferedColor to denote the total
+  /// [backgroundColor] defaults to gray at 50% opacity. This is the background
+  /// color behind both [playedColor] and [bufferedColor] to denote the total
   /// size of the video compared to either of those values.
   VideoProgressColors({
     this.playedColor = const Color.fromRGBO(255, 0, 0, 0.7),
@@ -725,18 +724,18 @@ class VideoProgressColors {
     this.backgroundColor = const Color.fromRGBO(200, 200, 200, 0.5),
   });
 
-  /// playedColor defaults to red at 70% opacity. This fills up a portion of
-  /// the VideoProgressIndicator to represent how much of the video has played
+  /// [playedColor] defaults to red at 70% opacity. This fills up a portion of
+  /// the [VideoProgressIndicator] to represent how much of the video has played
   /// so far.
   final Color playedColor;
 
-  /// bufferedColor defaults to blue at 20% opacity. This fills up a portion
-  /// of VideoProgressIndicator to represent how much of the video has
+  /// [bufferedColor] defaults to blue at 20% opacity. This fills up a portion
+  /// of [VideoProgressIndicator] to represent how much of the video has
   /// buffered so far.
   final Color bufferedColor;
 
-  /// backgroundColor defaults to gray at 50% opacity. This is the background
-  /// color behind both playedColor and bufferedColor to denote the total
+  /// [backgroundColor] defaults to gray at 50% opacity. This is the background
+  /// color behind both [playedColor] and [bufferedColor] to denote the total
   /// size of the video compared to either of those values.
   final Color backgroundColor;
 }
@@ -805,19 +804,19 @@ class _VideoScrubberState extends State<_VideoScrubber> {
   }
 }
 
-/// Displays the play/buffering status of the video controlled by controller.
+/// Displays the play/buffering status of the video controlled by [controller].
 ///
-/// If allowScrubbing is true, this widget will detect taps and drags and
+/// If [allowScrubbing] is true, this widget will detect taps and drags and
 /// seek the video accordingly.
 ///
-/// padding allows to specify some extra padding around the progress indicator
+/// [padding] allows to specify some extra padding around the progress indicator
 /// that will also detect the gestures.
 class VideoProgressIndicator extends StatefulWidget {
   /// Construct an instance that displays the play/buffering status of the video
-  /// controlled by controller.
+  /// controlled by [controller].
   ///
-  /// Defaults will be used for everything except controller if they're not
-  /// provided. allowScrubbing defaults to false, and padding will default
+  /// Defaults will be used for everything except [controller] if they're not
+  /// provided. [allowScrubbing] defaults to false, and [padding] will default
   /// to `top: 5.0`.
   VideoProgressIndicator(
     this.controller, {
@@ -828,13 +827,13 @@ class VideoProgressIndicator extends StatefulWidget {
   })  : colors = colors ?? VideoProgressColors(),
         super(key: key);
 
-  /// The VideoPlayerController that actually associates a video with this
+  /// The [VideoPlayerController] that actually associates a video with this
   /// widget.
   final VideoPlayerController controller;
 
   /// The default colors used throughout the indicator.
   ///
-  /// See VideoProgressColors for default values.
+  /// See [VideoProgressColors] for default values.
   final VideoProgressColors colors;
 
   /// When true, the widget will detect touch input and try to seek the video
@@ -844,7 +843,7 @@ class VideoProgressIndicator extends StatefulWidget {
   final bool? allowScrubbing;
 
   /// This allows for visual padding around the progress indicator that can
-  /// still detect gestures via allowScrubbing.
+  /// still detect gestures via [allowScrubbing].
   ///
   /// Defaults to `top: 5.0`.
   final EdgeInsets padding;
@@ -934,13 +933,13 @@ class _VideoProgressIndicatorState extends State<VideoProgressIndicator> {
 
 /// Widget for displaying closed captions on top of a video.
 ///
-/// If text is null, this widget will not display anything.
+/// If [text] is null, this widget will not display anything.
 ///
-/// If textStyle is supplied, it will be used to style the text in the closed
+/// If [textStyle] is supplied, it will be used to style the text in the closed
 /// caption.
 ///
 /// Note: in order to have closed captions, you need to specify a
-/// VideoPlayerController.closedCaptionFile.
+/// [VideoPlayerController.closedCaptionFile].
 ///
 /// Usage:
 ///
@@ -952,9 +951,9 @@ class _VideoProgressIndicatorState extends State<VideoProgressIndicator> {
 /// ```
 class ClosedCaption extends StatelessWidget {
   /// Creates a a new closed caption, designed to be used with
-  /// VideoPlayerValue.caption.
+  /// [VideoPlayerValue.caption].
   ///
-  /// If text is null, nothing will be displayed.
+  /// If [text] is null, nothing will be displayed.
   const ClosedCaption({Key? key, this.text, this.textStyle}) : super(key: key);
 
   /// The text that will be shown in the closed caption, or null if no caption
@@ -963,7 +962,7 @@ class ClosedCaption extends StatelessWidget {
 
   /// Specifies how the text in the closed caption should look.
   ///
-  /// If null, defaults to DefaultTextStyle.of(context).style with size 36
+  /// If null, defaults to [DefaultTextStyle.of(context).style] with size 36
   /// font colored white.
   final TextStyle? textStyle;
 

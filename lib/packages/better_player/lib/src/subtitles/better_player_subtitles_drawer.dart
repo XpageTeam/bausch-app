@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:bausch/packages/better_player/lib/better_player.dart';
-import 'package:bausch/packages/better_player/lib/src/subtitles/better_player_subtitle.dart';
-import 'package:bausch/packages/better_player/lib/src/subtitles/better_player_subtitles_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/video_player/video_player.dart';
+import 'package:better_player/better_player.dart';
+import 'package:better_player/src/subtitles/better_player_subtitle.dart';
+import 'package:better_player/src/subtitles/better_player_subtitles_configuration.dart';
+import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 

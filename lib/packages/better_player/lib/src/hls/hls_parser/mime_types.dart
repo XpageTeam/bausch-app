@@ -1,4 +1,4 @@
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/util.dart';
+import 'util.dart';
 
 class MimeTypes {
   static const String baseTypeVideo = 'video';

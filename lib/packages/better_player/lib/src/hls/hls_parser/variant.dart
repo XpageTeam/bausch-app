@@ -1,4 +1,4 @@
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/format.dart';
+import 'package:better_player/src/hls/hls_parser/format.dart';
 
 class Variant {
   Variant({

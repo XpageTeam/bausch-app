@@ -1,8 +1,6 @@
-
-
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/drm_init_data.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/metadata.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/util.dart';
+import 'drm_init_data.dart';
+import 'metadata.dart';
+import 'util.dart';
 
 /// Representation of a media format.
 class Format {

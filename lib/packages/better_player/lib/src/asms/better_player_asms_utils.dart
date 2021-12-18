@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/dash/better_player_dash_utils.dart';
+import 'package:better_player/src/hls/better_player_hls_utils.dart';
 
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_data_holder.dart';
-import 'package:bausch/packages/better_player/lib/src/core/better_player_utils.dart';
-import 'package:bausch/packages/better_player/lib/src/dash/better_player_dash_utils.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/better_player_hls_utils.dart';
+import 'better_player_asms_data_holder.dart';
 
 ///Base helper class for ASMS parsing.
 class BetterPlayerAsmsUtils {
@@ -26,9 +26,7 @@ class BetterPlayerAsmsUtils {
 
   ///Parse playlist based on type of stream.
   static Future<BetterPlayerAsmsDataHolder> parse(
-    String data,
-    String masterPlaylistUrl,
-  ) async {
+      String data, String masterPlaylistUrl) async {
     return isDataSourceDash(masterPlaylistUrl)
         ? BetterPlayerDashUtils.parse(data, masterPlaylistUrl)
         : BetterPlayerHlsUtils.parse(data, masterPlaylistUrl);

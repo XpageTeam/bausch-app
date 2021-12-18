@@ -7,12 +7,14 @@ import 'dart:async';
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_buffering_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/video_player/method_channel_video_player.dart';
+import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+
 // Package imports:
 import 'package:meta/meta.dart' show visibleForTesting;
+
+import 'method_channel_video_player.dart';
 
 /// The interface that implementations of video_player must implement.
 ///
@@ -232,7 +234,7 @@ class DataSource {
     this.videoExtension,
   }) : assert(uri == null || asset == null);
 
-  /// Describes the type of data source this VideoPlayerController
+  /// Describes the type of data source this [VideoPlayerController]
   /// is constructed with.
   ///
   /// The way in which the video was originally loaded.

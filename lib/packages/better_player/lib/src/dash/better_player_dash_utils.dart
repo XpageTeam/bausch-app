@@ -1,9 +1,9 @@
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_audio_track.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_data_holder.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_subtitle.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_track.dart';
-import 'package:bausch/packages/better_player/lib/src/core/better_player_utils.dart';
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/mime_types.dart';
+import 'package:better_player/src/asms/better_player_asms_audio_track.dart';
+import 'package:better_player/src/asms/better_player_asms_data_holder.dart';
+import 'package:better_player/src/asms/better_player_asms_subtitle.dart';
+import 'package:better_player/src/asms/better_player_asms_track.dart';
+import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/hls/hls_parser/mime_types.dart';
 import 'package:xml/xml.dart';
 
 ///DASH helper class

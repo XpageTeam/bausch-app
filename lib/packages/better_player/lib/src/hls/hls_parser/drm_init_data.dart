@@ -1,6 +1,7 @@
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/scheme_data.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'scheme_data.dart';
 
 class DrmInitData {
   DrmInitData({this.schemeType, this.schemeData = const []});

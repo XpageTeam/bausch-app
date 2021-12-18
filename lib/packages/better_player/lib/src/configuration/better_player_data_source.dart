@@ -1,11 +1,12 @@
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_buffering_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_cache_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_data_source_type.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_drm_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_notification_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_video_format.dart';
-import 'package:bausch/packages/better_player/lib/src/subtitles/better_player_subtitles_source.dart';
+import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
+import 'package:better_player/src/configuration/better_player_data_source_type.dart';
+import 'package:better_player/src/configuration/better_player_drm_configuration.dart';
+import 'package:better_player/src/configuration/better_player_notification_configuration.dart';
+import 'package:better_player/src/configuration/better_player_video_format.dart';
+import 'package:better_player/src/subtitles/better_player_subtitles_source.dart';
 import 'package:flutter/widgets.dart';
+
+import 'better_player_cache_configuration.dart';
 
 ///Representation of data source which will be played in Better Player. Allows
 ///to setup all necessary configuration connected to video source.

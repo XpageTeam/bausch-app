@@ -1,4 +1,4 @@
-import 'package:bausch/packages/better_player/lib/better_player.dart';
+import 'package:better_player/better_player.dart';
 
 ///UI configuration of Vimeo Player. Allows to change colors/icons/behavior
 ///of controls. Used in BetterPlayerConfiguration. Configuration applies only

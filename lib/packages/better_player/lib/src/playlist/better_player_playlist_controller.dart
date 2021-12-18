@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:bausch/packages/better_player/lib/better_player.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_data_source.dart';
-import 'package:bausch/packages/better_player/lib/src/core/better_player_controller.dart';
+import 'package:better_player/better_player.dart';
+import 'package:better_player/src/configuration/better_player_data_source.dart';
+import 'package:better_player/src/core/better_player_controller.dart';
 
 ///Controller used to manage playlist player.
 class BetterPlayerPlaylistController {

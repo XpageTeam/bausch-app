@@ -1,39 +1,38 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:bausch/packages/better_player/lib/better_player.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_audio_track.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_data_holder.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_subtitle.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_track.dart';
-import 'package:bausch/packages/better_player/lib/src/asms/better_player_asms_utils.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_configuration.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_controller_event.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_drm_type.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_event.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_event_type.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_translations.dart';
-import 'package:bausch/packages/better_player/lib/src/configuration/better_player_video_format.dart';
-import 'package:bausch/packages/better_player/lib/src/core/better_player_controller_provider.dart';
-import 'package:bausch/packages/better_player/lib/src/core/better_player_utils.dart';
-import 'package:bausch/packages/better_player/lib/src/subtitles/better_player_subtitle.dart';
-import 'package:bausch/packages/better_player/lib/src/subtitles/better_player_subtitles_factory.dart';
-import 'package:bausch/packages/better_player/lib/src/video_player/video_player.dart';
-import 'package:bausch/packages/better_player/lib/src/video_player/video_player_platform_interface.dart';
+import 'package:better_player/better_player.dart';
+import 'package:better_player/src/asms/better_player_asms_audio_track.dart';
+import 'package:better_player/src/asms/better_player_asms_data_holder.dart';
+import 'package:better_player/src/asms/better_player_asms_subtitle.dart';
+import 'package:better_player/src/asms/better_player_asms_track.dart';
+import 'package:better_player/src/asms/better_player_asms_utils.dart';
+import 'package:better_player/src/configuration/better_player_configuration.dart';
+import 'package:better_player/src/configuration/better_player_controller_event.dart';
+import 'package:better_player/src/configuration/better_player_drm_type.dart';
+import 'package:better_player/src/configuration/better_player_event.dart';
+import 'package:better_player/src/configuration/better_player_event_type.dart';
+import 'package:better_player/src/configuration/better_player_translations.dart';
+import 'package:better_player/src/configuration/better_player_video_format.dart';
+import 'package:better_player/src/core/better_player_controller_provider.dart';
+import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/subtitles/better_player_subtitle.dart';
+import 'package:better_player/src/subtitles/better_player_subtitles_factory.dart';
+import 'package:better_player/src/video_player/video_player.dart';
+import 'package:better_player/src/video_player/video_player_platform_interface.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
-// TODO(Nikolay): path_provider.
 import 'package:path_provider/path_provider.dart';
 
 ///Class used to control overall Better Player behavior. Main class to change
 ///state of Better Player.
 class BetterPlayerController {
-  static const String _durationParameter = 'duration';
-  static const String _progressParameter = 'progress';
-  static const String _bufferedParameter = 'buffered';
-  static const String _volumeParameter = 'volume';
-  static const String _speedParameter = 'speed';
-  static const String _dataSourceParameter = 'dataSource';
-  static const String _authorizationHeader = 'Authorization';
+  static const String _durationParameter = "duration";
+  static const String _progressParameter = "progress";
+  static const String _bufferedParameter = "buffered";
+  static const String _volumeParameter = "volume";
+  static const String _speedParameter = "speed";
+  static const String _dataSourceParameter = "dataSource";
+  static const String _authorizationHeader = "Authorization";
 
   ///General configuration used in controller instance.
   final BetterPlayerConfiguration betterPlayerConfiguration;
@@ -415,7 +414,7 @@ class BetterPlayerController {
       }
       _asmsSegmentsLoading = false;
     } catch (exception) {
-      BetterPlayerUtils.log('Load ASMS subtitle segments failed: $exception');
+      BetterPlayerUtils.log("Load ASMS subtitle segments failed: $exception");
     }
   }
 
@@ -480,7 +479,7 @@ class BetterPlayerController {
           BetterPlayerUtils.log(
               "File ${file.path} doesn't exists. This may be because "
               "you're acessing file from native path and Flutter doesn't "
-              'recognize this path.');
+              "recognize this path.");
         }
 
         await videoPlayerController?.setFileDataSource(
@@ -525,7 +524,7 @@ class BetterPlayerController {
 
       default:
         throw UnimplementedError(
-            '${betterPlayerDataSource.type} is not implemented');
+            "${betterPlayerDataSource.type} is not implemented");
     }
     await _initializeVideo();
   }
@@ -533,11 +532,10 @@ class BetterPlayerController {
   ///Create file from provided list of bytes. File will be created in temporary
   ///directory.
   Future<File> _createFile(List<int> bytes,
-      {String? extension = 'temp'}) async {
+      {String? extension = "temp"}) async {
     final String dir = (await getTemporaryDirectory()).path;
     final File temp = File(
-      '$dir/better_player_${DateTime.now().millisecondsSinceEpoch}.$extension',
-    );
+        '$dir/better_player_${DateTime.now().millisecondsSinceEpoch}.$extension');
     await temp.writeAsBytes(bytes);
     return temp;
   }
@@ -614,7 +612,7 @@ class BetterPlayerController {
   ///is resumed.
   Future<void> play() async {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
 
     if (_appLifecycleState == AppLifecycleState.resumed) {
@@ -629,7 +627,7 @@ class BetterPlayerController {
   ///Enables/disables looping (infinity playback) mode.
   Future<void> setLooping(bool looping) async {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
 
     await videoPlayerController!.setLooping(looping);
@@ -638,7 +636,7 @@ class BetterPlayerController {
   ///Stop video playback.
   Future<void> pause() async {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
 
     await videoPlayerController!.pause();
@@ -648,10 +646,10 @@ class BetterPlayerController {
   ///Move player to specific position/moment of the video.
   Future<void> seekTo(Duration moment) async {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
     if (videoPlayerController?.value.duration == null) {
-      throw StateError('The video has not been initialized yet.');
+      throw StateError("The video has not been initialized yet.");
     }
 
     await videoPlayerController!.seekTo(moment);
@@ -673,12 +671,12 @@ class BetterPlayerController {
   ///Set volume of player. Allows values from 0.0 to 1.0.
   Future<void> setVolume(double volume) async {
     if (volume < 0.0 || volume > 1.0) {
-      BetterPlayerUtils.log('Volume must be between 0.0 and 1.0');
-      throw ArgumentError('Volume must be between 0.0 and 1.0');
+      BetterPlayerUtils.log("Volume must be between 0.0 and 1.0");
+      throw ArgumentError("Volume must be between 0.0 and 1.0");
     }
     if (videoPlayerController == null) {
-      BetterPlayerUtils.log('The data source has not been initialized');
-      throw StateError('The data source has not been initialized');
+      BetterPlayerUtils.log("The data source has not been initialized");
+      throw StateError("The data source has not been initialized");
     }
     await videoPlayerController!.setVolume(volume);
     _postEvent(BetterPlayerEvent(
@@ -690,12 +688,12 @@ class BetterPlayerController {
   ///Set playback speed of video. Allows to set speed value between 0 and 2.
   Future<void> setSpeed(double speed) async {
     if (speed <= 0 || speed > 2) {
-      BetterPlayerUtils.log('Speed must be between 0 and 2');
-      throw ArgumentError('Speed must be between 0 and 2');
+      BetterPlayerUtils.log("Speed must be between 0 and 2");
+      throw ArgumentError("Speed must be between 0 and 2");
     }
     if (videoPlayerController == null) {
-      BetterPlayerUtils.log('The data source has not been initialized');
-      throw StateError('The data source has not been initialized');
+      BetterPlayerUtils.log("The data source has not been initialized");
+      throw StateError("The data source has not been initialized");
     }
     await videoPlayerController?.setSpeed(speed);
     _postEvent(
@@ -711,7 +709,7 @@ class BetterPlayerController {
   ///Flag which determines whenever player is playing or not.
   bool? isPlaying() {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
     return videoPlayerController!.value.isPlaying;
   }
@@ -719,7 +717,7 @@ class BetterPlayerController {
   ///Flag which determines whenever player is loading video data or not.
   bool? isBuffering() {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
     return videoPlayerController!.value.isBuffering;
   }
@@ -771,7 +769,7 @@ class BetterPlayerController {
         BetterPlayerEvent(
           BetterPlayerEventType.exception,
           parameters: <String, dynamic>{
-            'exception': currentVideoPlayerValue.errorDescription
+            "exception": currentVideoPlayerValue.errorDescription
           },
         ),
       );
@@ -828,8 +826,8 @@ class BetterPlayerController {
   ///Flag which determines whenever player is playing live data source.
   bool isLiveStream() {
     if (_betterPlayerDataSource == null) {
-      BetterPlayerUtils.log('The data source has not been initialized');
-      throw StateError('The data source has not been initialized');
+      BetterPlayerUtils.log("The data source has not been initialized");
+      throw StateError("The data source has not been initialized");
     }
     return _betterPlayerDataSource!.liveStream == true;
   }
@@ -837,8 +835,8 @@ class BetterPlayerController {
   ///Flag which determines whenever player data source has been initialized.
   bool? isVideoInitialized() {
     if (videoPlayerController == null) {
-      BetterPlayerUtils.log('The data source has not been initialized');
-      throw StateError('The data source has not been initialized');
+      BetterPlayerUtils.log("The data source has not been initialized");
+      throw StateError("The data source has not been initialized");
     }
     return videoPlayerController?.value.initialized;
   }
@@ -849,9 +847,9 @@ class BetterPlayerController {
     if (_nextVideoTimer == null) {
       if (betterPlayerPlaylistConfiguration == null) {
         BetterPlayerUtils.log(
-            'BettterPlayerPlaylistConifugration has not been set!');
+            "BettterPlayerPlaylistConifugration has not been set!");
         throw StateError(
-            'BettterPlayerPlaylistConifugration has not been set!');
+            "BettterPlayerPlaylistConifugration has not been set!");
       }
 
       _nextVideoTime =
@@ -895,17 +893,17 @@ class BetterPlayerController {
   ///data source.
   void setTrack(BetterPlayerAsmsTrack track) {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
     _postEvent(BetterPlayerEvent(BetterPlayerEventType.changedTrack,
         parameters: <String, dynamic>{
-          'id': track.id,
-          'width': track.width,
-          'height': track.height,
-          'bitrate': track.bitrate,
-          'frameRate': track.frameRate,
-          'codecs': track.codecs,
-          'mimeType': track.mimeType,
+          "id": track.id,
+          "width": track.width,
+          "height": track.height,
+          "bitrate": track.bitrate,
+          "frameRate": track.frameRate,
+          "codecs": track.codecs,
+          "mimeType": track.mimeType,
         }));
 
     videoPlayerController!
@@ -954,7 +952,7 @@ class BetterPlayerController {
   ///Set different resolution (quality) for video
   void setResolution(String url) async {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
     final position = await videoPlayerController!.position;
     final wasPlayingBeforeChange = isPlaying()!;
@@ -966,7 +964,7 @@ class BetterPlayerController {
     }
     _postEvent(BetterPlayerEvent(
       BetterPlayerEventType.changedResolution,
-      parameters: <String, dynamic>{'url': url},
+      parameters: <String, dynamic>{"url": url},
     ));
   }
 
@@ -989,18 +987,20 @@ class BetterPlayerController {
   BetterPlayerTranslations _getDefaultTranslations(Locale locale) {
     final String languageCode = locale.languageCode;
     switch (languageCode) {
-      case 'pl':
+      case "pl":
         return BetterPlayerTranslations.polish();
-      case 'zh':
+      case "zh":
         return BetterPlayerTranslations.chinese();
-      case 'hi':
+      case "hi":
         return BetterPlayerTranslations.hindi();
-      case 'tr':
+      case "tr":
         return BetterPlayerTranslations.turkish();
-      case 'vi':
+      case "vi":
         return BetterPlayerTranslations.vietnamese();
-      case 'es':
+      case "es":
         return BetterPlayerTranslations.spanish();
+      case 'ru':
+        return BetterPlayerTranslations.russian();
       default:
         return BetterPlayerTranslations();
     }
@@ -1046,7 +1046,7 @@ class BetterPlayerController {
   ///open.
   Future<void>? enablePictureInPicture(GlobalKey betterPlayerGlobalKey) async {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
 
     final bool isPipSupported =
@@ -1065,15 +1065,12 @@ class BetterPlayerController {
         return;
       }
       if (Platform.isIOS) {
-        final renderBox = await Future.delayed(
-          Duration.zero,
-          () => betterPlayerGlobalKey.currentContext!.findRenderObject()
-              as RenderBox?,
-        );
+        final RenderBox? renderBox = betterPlayerGlobalKey.currentContext!
+            .findRenderObject() as RenderBox?;
         if (renderBox == null) {
           BetterPlayerUtils.log(
               "Can't show PiP. RenderBox is null. Did you provide valid global"
-              ' key?',);
+              " key?");
           return;
         }
         final Offset position = renderBox.localToGlobal(Offset.zero);
@@ -1084,20 +1081,20 @@ class BetterPlayerController {
           height: renderBox.size.height,
         );
       } else {
-        BetterPlayerUtils.log('Unsupported PiP in current platform.');
+        BetterPlayerUtils.log("Unsupported PiP in current platform.");
       }
     } else {
       BetterPlayerUtils.log(
           "Picture in picture is not supported in this device. If you're "
           "using Android, please check if you're using activity v2 "
-          'embedding.');
+          "embedding.");
     }
   }
 
   ///Disable Picture in Picture mode if it's enabled.
   Future<void>? disablePictureInPicture() {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
     return videoPlayerController!.disablePictureInPicture();
   }
@@ -1111,7 +1108,7 @@ class BetterPlayerController {
   ///Check if picture in picture mode is supported in this device.
   Future<bool> isPictureInPictureSupported() async {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
 
     final bool isPipSupported =
@@ -1183,7 +1180,7 @@ class BetterPlayerController {
   ///Set [audioTrack] in player. Works only for HLS or DASH streams.
   void setAudioTrack(BetterPlayerAsmsAudioTrack audioTrack) {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
 
     if (audioTrack.language == null) {
@@ -1198,7 +1195,7 @@ class BetterPlayerController {
   ///Enable or disable audio mixing with other sound within device.
   void setMixWithOthers(bool mixWithOthers) {
     if (videoPlayerController == null) {
-      throw StateError('The data source has not been initialized');
+      throw StateError("The data source has not been initialized");
     }
 
     videoPlayerController!.setMixWithOthers(mixWithOthers);
@@ -1227,7 +1224,7 @@ class BetterPlayerController {
   ///the requested size, specified in
   ///[BetterPlayerCacheConfiguration.preCacheSize], is downloaded or when the
   ///complete file is downloaded if the file is smaller than the requested size.
-  ///On iOS, the whole file will be downloaded, since maxCacheFileSize is
+  ///On iOS, the whole file will be downloaded, since [maxCacheFileSize] is
   ///currently not supported on iOS. On iOS, the video format must be in this
   ///list: https://github.com/sendyhalim/Swime/blob/master/Sources/MimeType.swift
   Future<void> preCache(BetterPlayerDataSource betterPlayerDataSource) async {

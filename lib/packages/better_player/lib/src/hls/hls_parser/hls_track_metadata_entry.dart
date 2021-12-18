@@ -1,4 +1,4 @@
-import 'package:bausch/packages/better_player/lib/src/hls/hls_parser/variant_info.dart';
+import 'package:better_player/src/hls/hls_parser/variant_info.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/rendering.dart';
 

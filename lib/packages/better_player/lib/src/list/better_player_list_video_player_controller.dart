@@ -1,4 +1,4 @@
-import 'package:bausch/packages/better_player/lib/better_player.dart';
+import 'package:better_player/better_player.dart';
 
 ///Controller of Better Player List Video Player.
 class BetterPlayerListVideoPlayerController {

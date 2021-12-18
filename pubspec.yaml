@@ -51,16 +51,21 @@ dependencies:
   intl: ^0.17.0
   iphone_has_notch: ^1.0.0
   menu_button: ^1.4.2+1
-  video_player: ^2.2.7
+  # video_player: ^2.2.7
   pin_code_fields: ^7.3.0
   shared_preferences: ^2.0.11
   sqlite3_flutter_libs: ^0.5.2
   
+  # better_player:
+  #   path: lib/packages/better_player
+  vimeoplayer_trinity:
+    path: lib/packages/vimeoplayer_trinity
+
   # better_player: ^0.0.79
   
   http: ^0.13.4
-  flutter_widget_from_html_core: ^0.8.4
-  visibility_detector: ^0.2.2
+  # flutter_widget_from_html_core: ^0.8.4
+  # visibility_detector: ^0.2.2
 
   # vimeoplayer_trinity: ^0.2.1+1
   # youtube_player_flutter: ^8.0.0
