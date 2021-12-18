@@ -9,9 +9,6 @@ import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
-import 'package:bausch/models/sheets/folder/sheet_without_items_model.dart';
-import 'package:bausch/models/stories/story_content_model.dart';
-import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 
 class ProductItemModelSlider extends CatalogItemModel {
