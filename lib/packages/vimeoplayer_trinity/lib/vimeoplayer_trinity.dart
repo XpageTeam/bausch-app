@@ -1,9 +1,11 @@
 library vimeoplayer;
 
+import 'dart:collection';
+
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:vimeoplayer_trinity/src/controls_config.dart';
-import 'src/quality_links.dart';
+import 'package:vimeoplayer_trinity/src/quality_links.dart';
 
 //Video player class
 class VimeoPlayer extends StatefulWidget {
@@ -28,7 +30,7 @@ class VimeoPlayer extends StatefulWidget {
   /// Progress indicator background color
   final Color? loaderBackgroundColor;
 
-  VimeoPlayer({
+  const VimeoPlayer({
     required this.id,
     this.autoPlay = false,
     this.looping = false,
@@ -37,7 +39,7 @@ class VimeoPlayer extends StatefulWidget {
     this.loaderBackgroundColor,
     this.allowFullScreen = false,
     Key? key,
-  })  : assert(id != null && allowFullScreen != null),
+  })  : assert(id != null),
         super(key: key);
 
   @override
@@ -50,7 +52,7 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
 
   //Quality Class
   late QualityLinks _quality;
-  var _qualityValue;
+  String? _qualityValue;
   BetterPlayerController? _betterPlayerController;
 
   @override
@@ -62,30 +64,35 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
 
     //Initializing video controllers when receiving data from Vimeo
     _quality.getQualitiesSync().then((value) {
+      value as SplayTreeMap<String, String>;
+
       _qualityValue = value[value.lastKey()];
 
       // Create resolutions map
-      Map<String, String> resolutionsMap = {};
-      value.keys.forEach((key) {
-        String processedKey = key.split(" ")[0];
-        resolutionsMap[processedKey] = value[key];
-      });
+      final resolutionsMap = SplayTreeMap<String, String>();
+      for (final key in value.keys) {
+        final processedKey = key.split(' ')[0];
+        resolutionsMap[processedKey] = value[key]!;
+      }
 
-      BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network, _qualityValue,
-          resolutions: resolutionsMap);
+      final betterPlayerDataSource = BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network,
+        _qualityValue!,
+        resolutions: resolutionsMap,
+      );
 
       setState(() {
         _betterPlayerController = BetterPlayerController(
-            BetterPlayerConfiguration(
-              autoPlay: widget.autoPlay,
-              looping: widget.looping,
-              fullScreenByDefault: fullScreen,
-              controlsConfiguration: widget.controlsConfig == null
-                  ? ControlsConfig()
-                  : widget.controlsConfig!,
-            ),
-            betterPlayerDataSource: betterPlayerDataSource);
+          BetterPlayerConfiguration(
+            autoPlay: widget.autoPlay,
+            looping: widget.looping,
+            fullScreenByDefault: fullScreen,
+            controlsConfiguration: widget.controlsConfig == null
+                ? ControlsConfig()
+                : widget.controlsConfig!,
+          ),
+          betterPlayerDataSource: betterPlayerDataSource,
+        );
       });
 
       //Update orientation and rebuilding page
@@ -110,7 +117,8 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
       child: _betterPlayerController == null
           ? CircularProgressIndicator(
               color: widget.loaderColor,
-              backgroundColor: widget.loaderBackgroundColor)
+              backgroundColor: widget.loaderBackgroundColor,
+            )
           : AspectRatio(
               aspectRatio: 16 / 9,
               child: BetterPlayer(
