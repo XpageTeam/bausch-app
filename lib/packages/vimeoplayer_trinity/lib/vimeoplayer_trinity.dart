@@ -1,9 +1,11 @@
 library vimeoplayer;
 
+import 'dart:collection';
+
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:vimeoplayer_trinity/src/controls_config.dart';
-import 'src/quality_links.dart';
+import 'package:vimeoplayer_trinity/src/quality_links.dart';
 
 //Video player class
 class VimeoPlayer extends StatefulWidget {
@@ -30,15 +32,15 @@ class VimeoPlayer extends StatefulWidget {
 
   final Widget? loaderWidget;
 
-  VimeoPlayer({
+  const VimeoPlayer({
     required this.id,
     this.autoPlay = false,
     this.looping = false,
     this.controlsConfig,
     this.loaderColor,
     this.loaderBackgroundColor,
-    this.loaderWidget,
     this.allowFullScreen = false,
+    this.loaderWidget,
     Key? key,
   })  : assert(id != null),
         super(key: key);
@@ -53,7 +55,7 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
 
   //Quality Class
   late QualityLinks _quality;
-  var _qualityValue;
+  String? _qualityValue;
   BetterPlayerController? _betterPlayerController;
 
   @override
@@ -64,31 +66,38 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
     _quality = QualityLinks(widget.id);
 
     //Initializing video controllers when receiving data from Vimeo
-    _quality.getQualitiesSync().then((value) {
-      _qualityValue = value![value.lastKey()];
+    _quality.getQualitiesSync().then((dynamic value) {
+      value as SplayTreeMap<String, String>?;
+      
+      _qualityValue = value != null ? value[value.lastKey()] : null;
 
       // Create resolutions map
-      Map<String, String> resolutionsMap = {};
-      value.keys.forEach((key) {
-        String processedKey = key.split(" ")[0];
-        resolutionsMap[processedKey] = value[key];
-      });
+      final resolutionsMap = SplayTreeMap<String, String>();
+      if (value != null)
+      // ignore: curly_braces_in_flow_control_structures
+      for (final key in value.keys) {
+        final processedKey = key.split(' ')[0];
+        resolutionsMap[processedKey] = value[key]!;
+      }
 
-      BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network, _qualityValue,
-          resolutions: resolutionsMap);
+      final betterPlayerDataSource = BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network,
+        _qualityValue!,
+        resolutions: resolutionsMap,
+      );
 
       setState(() {
         _betterPlayerController = BetterPlayerController(
-            BetterPlayerConfiguration(
-              autoPlay: widget.autoPlay,
-              looping: widget.looping,
-              fullScreenByDefault: fullScreen,
-              controlsConfiguration: widget.controlsConfig == null
-                  ? ControlsConfig()
-                  : widget.controlsConfig!,
-            ),
-            betterPlayerDataSource: betterPlayerDataSource);
+          BetterPlayerConfiguration(
+            autoPlay: widget.autoPlay,
+            looping: widget.looping,
+            fullScreenByDefault: fullScreen,
+            controlsConfiguration: widget.controlsConfig == null
+                ? ControlsConfig()
+                : widget.controlsConfig!,
+          ),
+          betterPlayerDataSource: betterPlayerDataSource,
+        );
       });
 
       //Update orientation and rebuilding page
@@ -119,13 +128,5 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
               ),
             ),
     );
-  }
-
-  @override
-  void dispose() {
-    // _controller.dispose();
-    // initFuture = null;
-
-    super.dispose();
   }
 }
