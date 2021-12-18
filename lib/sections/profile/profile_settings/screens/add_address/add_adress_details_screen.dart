@@ -195,7 +195,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                 return CustomAlertDialog(
                                   yesCallback: () {
                                     addressesBloc.add(
-                                        AddressesDelete(id: widget.adress.id!));
+                                      AddressesDelete(id: widget.adress.id!),
+                                    );
 
                                     //widget.adressesCubit?.getAdresses();
 
