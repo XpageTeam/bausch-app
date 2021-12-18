@@ -11,6 +11,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
+import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -232,7 +233,11 @@ Widget icon(CatalogItemModel _model) {
 
 void callback(CatalogItemModel _model) {
   if (_model is WebinarItemModel) {
-    debugPrint('webinar');
+    showDialog<void>(
+      context: Keys.mainNav.currentContext!,
+      // TODO(Danil): массив id
+      builder: (context) => VimeoPopup(videoId: _model.videoId.first),
+    );
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
     showDefaultNotification(title: 'Скопировано!');
