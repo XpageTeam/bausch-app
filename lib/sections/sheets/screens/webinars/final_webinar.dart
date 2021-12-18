@@ -5,6 +5,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
@@ -81,36 +82,6 @@ class FinalWebinar extends StatelessWidget {
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      ),
-    );
-  }
-}
-
-class VimeoPopup extends StatelessWidget {
-  final String videoId;
-  const VimeoPopup({
-    required this.videoId,
-    Key? key,
-  }) : super(
-          key: key,
-        );
-
-  @override
-  Widget build(BuildContext context) {
-    debugPrint('id: $videoId');
-
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          VimeoPlayer(
-            id: videoId,
-            autoPlay: true,
-            loaderColor: AppTheme.turquoiseBlue,
-          ),
-        ],
       ),
     );
   }
