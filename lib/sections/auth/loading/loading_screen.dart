@@ -3,7 +3,6 @@
 import 'package:bausch/sections/auth/loading/animation_content.dart';
 import 'package:bausch/sections/auth/loading/column_with_dynamic_duration.dart';
 import 'package:bausch/sections/auth/loading/image_row.dart';
-import 'package:bausch/sections/auth/loading/loading_animation.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:flutter/cupertino.dart';

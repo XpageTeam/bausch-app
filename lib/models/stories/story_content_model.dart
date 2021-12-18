@@ -1,6 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';
-import 'package:bausch/models/stories/story_model.dart';
 
 class StoryContentModel implements MappableInterface<StoryContentModel> {
   //* Текст(отображается на главном экране)

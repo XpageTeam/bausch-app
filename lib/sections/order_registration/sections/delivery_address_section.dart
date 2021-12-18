@@ -2,8 +2,6 @@ import 'package:bausch/sections/order_registration/address_select_screen.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_container.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_widget.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
-import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 

@@ -1,12 +1,10 @@
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/notifications_section.dart';
 import 'package:bausch/sections/profile/content/orders_section.dart';
 import 'package:bausch/sections/profile/content/wm/profile_content_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/error_page.dart';
-import 'package:bausch/widgets/info_widget.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/select_widgets/select_widget.dart';
 import 'package:flutter/material.dart';

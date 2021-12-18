@@ -1,6 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
-import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
@@ -118,11 +117,7 @@ class CatalogItem extends StatelessWidget {
       showDialog<void>(
         context: context,
         builder: (context) => VimeoPopup(
-<<<<<<< HEAD
           // TODO(Danil): массив id
-=======
-          // TODO: массив id
->>>>>>> feature/add_player
           videoId: model.videoId.first,
         ),
       );

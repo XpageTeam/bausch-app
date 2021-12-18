@@ -1,7 +1,5 @@
 import 'package:bausch/global/user/user_wm.dart';
-import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

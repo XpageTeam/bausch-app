@@ -1,5 +1,4 @@
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,3 @@
-import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -9,9 +8,6 @@ import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class FinalWebinar extends StatelessWidget {
   final ScrollController controller;

@@ -1,8 +1,6 @@
-import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
-import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/sections/shops/providers/shop_list_bloc_provider.dart';
 import 'package:bausch/sections/shops/shops_screen_body.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
