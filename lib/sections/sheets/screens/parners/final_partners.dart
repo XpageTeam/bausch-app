@@ -47,7 +47,7 @@ class FinalPartners extends StatelessWidget {
                         top: 20,
                         bottom: 40,
                       ),
-                      // TODO(Nikolay): Где брать?.
+                      // TODO(Nikolay): Брать с сервера.
                       child: Text(
                         'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
                         style: AppStyles.h1,
@@ -73,7 +73,7 @@ class FinalPartners extends StatelessWidget {
                         top: 12,
                         bottom: 40,
                       ),
-                      // TODO(Nikolay): Где брать?.
+                      // TODO(Nikolay): Брать с сервера.
                       child: Text(
                         'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
                         style: AppStyles.p1,

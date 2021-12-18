@@ -71,13 +71,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
-  better_player:
-    dependency: transitive
-    description:
-      name: better_player
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.79"
   bloc:
     dependency: transitive
     description:
@@ -321,13 +314,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  flutter_inappwebview:
-    dependency: transitive
-    description:
-      name: flutter_inappwebview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.3.2"
   flutter_keyboard_visibility:
     dependency: "direct main"
     description:
@@ -407,12 +393,19 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_widget_from_html_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_widget_from_html_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0"
+    version: "0.8.4"
+  fwfh_text_style:
+    dependency: transitive
+    description:
+      name: fwfh_text_style
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.5.1"
   geolocator:
     dependency: "direct main"
     description:
@@ -463,7 +456,7 @@ packages:
     source: hosted
     version: "0.15.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -596,7 +589,7 @@ packages:
     source: hosted
     version: "0.2.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -644,13 +637,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.11.1"
   petitparser:
     dependency: transitive
     description:
@@ -964,15 +950,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
-  vimeoplayer_trinity:
-    dependency: "direct main"
-    description:
-      name: vimeoplayer_trinity
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1+1"
   visibility_detector:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: visibility_detector
       url: "https://pub.dartlang.org"
@@ -1085,13 +1064,6 @@ packages:
       url: "https://github.com/Unact/yandex_mapkit.git"
     source: git
     version: "1.1.1"
-  youtube_player_flutter:
-    dependency: "direct main"
-    description:
-      name: youtube_player_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "8.0.0"
 sdks:
   dart: ">=2.14.0 <3.0.0"
   flutter: ">=2.5.0"

@@ -1,14 +1,13 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/packages/vimeo_player/lib/vimeoplayer_trinity.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/packages/better_player/lib/better_player.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class FinalWebinar extends StatelessWidget {
   final ScrollController controller;
@@ -106,12 +105,27 @@ class VimeoPopup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           VimeoPlayer(
-            id: videoId,
+            id: '649960173',
             autoPlay: true,
             loaderColor: AppTheme.turquoiseBlue,
+            controlsConfig: BauschControlsConfig(),
           ),
         ],
       ),
     );
   }
+}
+
+class BauschControlsConfig extends BetterPlayerControlsConfiguration {
+  BauschControlsConfig()
+      : super(
+          controlBarColor: AppTheme.turquoiseBlue,
+          overflowMenuCustomItems: [
+            BetterPlayerOverflowMenuItem(
+              Icons.close,
+              'Закрыть',
+              () {},
+            ),
+          ],
+        );
 }
