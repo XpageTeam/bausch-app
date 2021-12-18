@@ -115,6 +115,7 @@ class CatalogItem extends StatelessWidget {
       showDialog<void>(
         context: context,
         builder: (context) => VimeoPopup(
+          // TODO: массив id
           videoId: model.videoId.first,
         ),
       );
