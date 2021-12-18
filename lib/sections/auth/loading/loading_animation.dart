@@ -1,6 +1,7 @@
 import 'package:bausch/sections/auth/loading/column_with_dynamic_duration.dart';
 import 'package:bausch/sections/auth/loading/image_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoadingAnimation extends StatelessWidget {
   const LoadingAnimation({Key? key}) : super(key: key);
@@ -19,7 +20,9 @@ class LoadingAnimation extends StatelessWidget {
           ),
           child: SafeArea(
             bottom: false,
-            child: Image.asset('assets/loading/logo.png'),
+            child: Image.asset(
+              'assets/loading/logo.png',
+            ),
           ),
         ),
         const ImageRow(

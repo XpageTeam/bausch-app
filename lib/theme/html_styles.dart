@@ -28,7 +28,6 @@ final Map<String, Style> htmlStyles = {
   ),
   'li': Style(
     padding: const EdgeInsets.only(left: 6),
-    
     listStylePosition: ListStylePosition.OUTSIDE,
     markerContent: const CircleAvatar(
       radius: 10,

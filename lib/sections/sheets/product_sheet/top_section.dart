@@ -10,12 +10,13 @@ class TopSection extends StatelessWidget {
   final CatalogItemModel model;
   final bool isFull;
   final bool withPrice;
-  final Widget appBar;
+  final Widget leftIcon;
+
   const TopSection({
     required this.model,
     required this.isFull,
     required this.withPrice,
-    required this.appBar,
+    required this.leftIcon,
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +26,13 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(icon: leftIcon, key: key),
+          leftIcon: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              top: 16,
+            ),
+            child: leftIcon,
+          ),
         );
 
   TopSection.packaging({
@@ -38,8 +45,13 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(
-              icon: leftIcon, rightKey: rightKey, key: key),
+          leftIcon: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              top: 16,
+            ),
+            child: leftIcon,
+          ),
         );
 
   TopSection.webinar(CatalogItemModel model, Key? key)
@@ -48,16 +60,12 @@ class TopSection extends StatelessWidget {
           isFull: true,
           withPrice: false,
           key: key,
-          appBar: CustomSliverAppbar.toPop(
-            backgroundColor: Colors.white,
-            icon: Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Image.asset(
-                'assets/play-video.png',
-                height: 28,
-              ),
+          leftIcon: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Image.asset(
+              'assets/play-video.png',
+              height: 28,
             ),
-            key: key,
           ),
         );
 
@@ -70,17 +78,23 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toClose(leftIcon, key),
+          leftIcon: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              top: 20,
+            ),
+            child: leftIcon,
+          ),
         );
 
   // ignore: avoid_unused_constructor_parameters
-  TopSection.partners(CatalogItemModel model, Widget leftIcon, Key? key)
+  TopSection.partners(CatalogItemModel model, Key? key)
       : this(
           model: model,
           isFull: true,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(icon: Container(), key: key),
+          leftIcon: Container(),
         );
 
   @override
@@ -132,7 +146,7 @@ class TopSection extends StatelessWidget {
                 ),
             ],
           ),
-          appBar,
+          leftIcon,
         ],
       ),
     );

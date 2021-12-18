@@ -7,14 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class InfoSection extends StatelessWidget {
-  final String? text;
-  final String? secondText;
+  final String text;
+  final String secondText;
 
-  const InfoSection({this.text, this.secondText, Key? key}) : super(key: key);
+  const InfoSection({
+    required this.text,
+    required this.secondText,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (text != null) {
+    if (text.isNotEmpty) {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -33,11 +37,11 @@ class InfoSection extends StatelessWidget {
                 data: text,
                 style: htmlStyles,
               ),
-              if (secondText != null)
+              if (secondText.isNotEmpty)
                 const SizedBox(
                   height: 40,
                 ),
-              if (secondText != null)
+              if (secondText.isNotEmpty)
                 Html(
                   data: secondText,
                   style: htmlStyles,
