@@ -47,8 +47,11 @@ class Warning extends StatelessWidget {
     );
   }
 
-  static Warning advertisment(
-      {String? name, String? link, String? description}) {
+  static Warning advertisment({
+    String? name,
+    String? link,
+    String? description,
+  }) {
     return Warning(
       view: Container(
         decoration: BoxDecoration(
