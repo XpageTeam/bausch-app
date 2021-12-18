@@ -10,6 +10,7 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //* FAQ
 //* Answer
@@ -88,6 +89,22 @@ class QuestionScreen extends StatelessWidget
                         Html(
                           data: question.answer,
                           style: htmlStyles,
+                          onLinkTap: (url, context, attributes, element) async  {
+                            if (url != null){
+                              if (await canLaunch(url)){
+                                try {
+                                  await launch(url);
+
+                                  return;
+                                // ignore: avoid_catches_without_on_clauses
+                                } catch (e) {
+                                  debugPrint('url: $url - не может быть открыт');
+                                }
+                              }
+                            }
+
+                            debugPrint('url: $url - не может быть открыт');
+                          },
                         ),
                       ],
                     ),
