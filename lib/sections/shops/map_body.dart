@@ -75,9 +75,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                             site: shop.site,
                             // additionalInfo:
                             //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                            onPressed: () {
-                              // TODO(Nikolay): Реализовать onPressed.
-                            },
+                            onPressed: Navigator.of(context).pop,
                             btnText: 'Выбрать эту сеть оптик',
                           ),
                         ).whenComplete(
@@ -106,9 +104,11 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
               );
             },
           ),
-          StreamedStateBuilder(
+          StreamedStateBuilder<bool>(
             streamedState: wm.isModalBottomSheetOpen,
-            builder: (_, isModalBottomSheetOpen) => Align(
+            builder: (_, isModalBottomSheetOpen) => 
+            isModalBottomSheetOpen ? const SizedBox():
+            Align(
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(
