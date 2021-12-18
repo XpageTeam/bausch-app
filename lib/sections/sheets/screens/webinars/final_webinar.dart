@@ -1,3 +1,4 @@
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -5,6 +6,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
 import 'package:better_player/src/controls/better_player_overflow_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -99,34 +101,57 @@ class VimeoPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('id: $videoId');
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          VimeoPlayer(
-            id: '649960173',
-            autoPlay: true,
-            loaderColor: AppTheme.turquoiseBlue,
-            controlsConfig: BauschControlsConfig(),
-          ),
-        ],
-      ),
-    );
+    try {
+      return Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.zero,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            VimeoPlayer(
+              id: '809202',
+              autoPlay: true,
+              loaderColor: AppTheme.turquoiseBlue,
+              controlsConfig: BauschControlsConfig(
+                onClose: Navigator.of(context).pop,
+              ),
+              loaderWidget: const AnimatedLoader(),
+            ),
+          ],
+        ),
+      );
+    } on ResponseParseException catch (e) {
+      return Dialog(
+        elevation: 0,
+        backgroundColor: AppTheme.mystic,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                'Ошибка воспроизведения видео',
+                textAlign: TextAlign.center,
+                style: AppStyles.h1,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
 
 class BauschControlsConfig extends BetterPlayerControlsConfiguration {
-  BauschControlsConfig()
-      : super(
+  BauschControlsConfig({
+    required VoidCallback onClose,
+  }) : super(
           overflowModalColor: AppTheme.mystic,
-         
           overflowMenuCustomItems: [
             BetterPlayerOverflowMenuItem(
               Icons.close,
-              'Закрыть',
-              () {},
+              'Закрыть видео',
+              onClose,
             ),
           ],
         );

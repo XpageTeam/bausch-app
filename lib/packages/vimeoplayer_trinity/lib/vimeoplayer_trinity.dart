@@ -28,6 +28,8 @@ class VimeoPlayer extends StatefulWidget {
   /// Progress indicator background color
   final Color? loaderBackgroundColor;
 
+  final Widget? loaderWidget;
+
   VimeoPlayer({
     required this.id,
     this.autoPlay = false,
@@ -35,6 +37,7 @@ class VimeoPlayer extends StatefulWidget {
     this.controlsConfig,
     this.loaderColor,
     this.loaderBackgroundColor,
+    this.loaderWidget,
     this.allowFullScreen = false,
     Key? key,
   })  : assert(id != null && allowFullScreen != null),
@@ -108,9 +111,7 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
   Widget build(BuildContext context) {
     return Center(
       child: _betterPlayerController == null
-          ? CircularProgressIndicator(
-              color: widget.loaderColor,
-              backgroundColor: widget.loaderBackgroundColor)
+          ? widget.loaderWidget
           : AspectRatio(
               aspectRatio: 16 / 9,
               child: BetterPlayer(
