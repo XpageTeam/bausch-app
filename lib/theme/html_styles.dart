@@ -1,4 +1,4 @@
-import 'package:bausch/static/static_data.dart';
+
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
@@ -12,9 +12,7 @@ final Map<String, Style> htmlStyles = {
   ),
   'body': Style(
     padding: EdgeInsets.zero,
-    margin: const EdgeInsets.symmetric(
-      horizontal: StaticData.sidePadding,
-    ),
+    margin: EdgeInsets.zero,
     color: AppTheme.mineShaft,
     fontWeight: FontWeight.w400,
     fontSize: FontSize.medium,
@@ -28,12 +26,7 @@ final Map<String, Style> htmlStyles = {
   ),
   'li': Style(
     padding: const EdgeInsets.only(left: 6),
-    
     listStylePosition: ListStylePosition.OUTSIDE,
-    markerContent: const CircleAvatar(
-      radius: 10,
-      backgroundColor: Colors.black,
-    ),
   ),
 };
 

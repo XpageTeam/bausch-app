@@ -1,10 +1,7 @@
-// ignore_for_file: use_named_constants
-
-import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InfoSection extends StatelessWidget {
   final String? text;
@@ -32,6 +29,22 @@ class InfoSection extends StatelessWidget {
               Html(
                 data: text,
                 style: htmlStyles,
+                onLinkTap: (url, context, attributes, element) async {
+                  if (url != null) {
+                    if (await canLaunch(url)) {
+                      try {
+                        await launch(url);
+
+                        return;
+                        // ignore: avoid_catches_without_on_clauses
+                      } catch (e) {
+                        debugPrint('url: $url - не может быть открыт');
+                      }
+                    }
+                  }
+
+                  debugPrint('url: $url - не может быть открыт');
+                },
               ),
               if (secondText != null)
                 const SizedBox(
@@ -41,6 +54,22 @@ class InfoSection extends StatelessWidget {
                 Html(
                   data: secondText,
                   style: htmlStyles,
+                  onLinkTap: (url, context, attributes, element) async {
+                  if (url != null) {
+                    if (await canLaunch(url)) {
+                      try {
+                        await launch(url);
+
+                        return;
+                        // ignore: avoid_catches_without_on_clauses
+                      } catch (e) {
+                        debugPrint('url: $url - не может быть открыт');
+                      }
+                    }
+                  }
+
+                  debugPrint('url: $url - не может быть открыт');
+                },
                 ),
             ],
           ),
@@ -48,19 +77,6 @@ class InfoSection extends StatelessWidget {
       );
     }
 
-    return Container();
+    return const SizedBox();
   }
-
-  //TODO: УБРАТЬ!!!
-  // String txt(String? text) {
-  //   if (text != null) {
-  //     if (text.isNotEmpty) {
-  //       return text;
-  //     } else {
-  //       return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
-  //     }
-  //   } else {
-  //     return 'Однодневные контактные линзы из инновационного материала гипергель53, влагосодержание которого соответствует количеству воды в роговице глаза человека — 78%52.';
-  //   }
-  // }
 }

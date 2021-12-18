@@ -39,7 +39,10 @@ class TopSection extends StatelessWidget {
           withPrice: true,
           key: key,
           appBar: CustomSliverAppbar.toPop(
-              icon: leftIcon, rightKey: rightKey, key: key),
+            icon: leftIcon,
+            rightKey: rightKey,
+            key: key,
+          ),
         );
 
   TopSection.webinar(CatalogItemModel model, Key? key)
