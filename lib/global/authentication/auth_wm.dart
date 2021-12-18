@@ -21,9 +21,11 @@ class AuthWM extends WidgetModel {
 
   BuildContext? context;
 
-  AuthWM(WidgetModelDependencies baseDependencies, this.userWM)
-      : super(baseDependencies) {
-    authStatus.bind((value) {
+  AuthWM(this.userWM) : super(const WidgetModelDependencies());
+
+  @override
+  void onLoad() {
+    subscribe(authStatus.stream, (value) {
       late String targetPage;
 
       switch (authStatus.value) {
@@ -36,7 +38,6 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.authenticated:
-          // TODO(Danil): когда Гоша разберётся - сделать
           if (userWM.userData.value.data?.user.city == null ||
               userWM.userData.value.data?.user.email == null) {
             targetPage = '/city_and_email';
@@ -83,6 +84,6 @@ class AuthWM extends WidgetModel {
       });
     });
 
-    checkAuthAction();
+    super.onLoad();
   }
 }

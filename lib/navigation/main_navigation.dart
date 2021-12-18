@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
@@ -21,7 +22,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //* Навигатор для страниц приложения
-class MainNavigation extends StatelessWidget {
+class MainNavigation extends StatefulWidget {
   final AuthWM authWM;
 
   const MainNavigation({
@@ -30,19 +31,26 @@ class MainNavigation extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<MainNavigation> createState() => _MainNavigationState();
+}
+
+class _MainNavigationState extends State<MainNavigation>
+    with AfterLayoutMixin<MainNavigation> {
+  @override
   Widget build(BuildContext context) {
+
+
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(
         textScaleFactor: 1.0,
       ),
       child: Navigator(
         key: Keys.mainContentNav,
-        initialRoute: '/loading',
+        initialRoute: '/',
         onGenerateRoute: (settings) {
           Widget page;
           var showAnimation = true;
-
-          authWM.context = Keys.mainContentNav.currentContext;
 
           switch (settings.name) {
             case '/':
@@ -115,8 +123,8 @@ class MainNavigation extends StatelessWidget {
               showAnimation = false;
           }
 
-          if (showAnimation){
-            if (Platform.isIOS){
+          if (showAnimation) {
+            if (Platform.isIOS) {
               return CupertinoPageRoute<void>(builder: (context) {
                 return page;
               });
@@ -126,11 +134,12 @@ class MainNavigation extends StatelessWidget {
               });
             }
           } else {
-            return PageRouteBuilder<void>(pageBuilder: (context, animation, secondaryAnimation) {
-              return page;
-            },);
+            return PageRouteBuilder<void>(
+              pageBuilder: (context, animation, secondaryAnimation) {
+                return page;
+              },
+            );
           }
-
 
           // return PageRouteBuilder<dynamic>(
           //   pageBuilder: (_, __, ___) => page,
@@ -149,5 +158,22 @@ class MainNavigation extends StatelessWidget {
         },
       ),
     );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    void authStart() {
+      debugPrint('authStart');
+
+      if (Keys.mainContentNav.currentContext != null) {
+        widget.authWM.context = Keys.mainContentNav.currentContext;
+        widget.authWM.checkAuthAction();
+      } else {
+        debugPrint('authRestart');
+        Future.delayed(const Duration(milliseconds: 50), authStart);
+      }
+    }
+
+    authStart();
   }
 }

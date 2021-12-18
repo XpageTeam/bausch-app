@@ -1,3 +1,4 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
@@ -17,15 +18,11 @@ void main() {
   runApp(MyApp());
 }
 
-/*
 class MyApp extends CoreMwwmWidget<AuthWM> {
   MyApp({
     Key? key,
   }) : super(
-          widgetModelBuilder: (context) => AuthWM(
-            const WidgetModelDependencies(),
-            UserWM(),
-          ),
+          widgetModelBuilder: (context) => AuthWM(UserWM()),
           key: key,
         );
 
@@ -33,25 +30,14 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
   WidgetState<CoreMwwmWidget<AuthWM>, AuthWM> createWidgetState() =>
       _MyAppState();
 }
-*/
-class MyApp extends StatelessWidget {
-  final wm = AuthWM(
-    const WidgetModelDependencies(),
-    UserWM(),
-  );
 
-  MyApp({Key? key}) : super(key: key);
-
+class _MyAppState extends WidgetState<MyApp, AuthWM> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
-    );
-
-    final mainNavigation = MainNavigation(
-      authWM: wm,
     );
 
     return OverlaySupport(
@@ -105,7 +91,9 @@ class MyApp extends StatelessWidget {
                           context: context,
                         ),
                         lazy: false,
-                        child: mainNavigation,
+                        child: MainNavigation(
+                          authWM: wm,
+                        ),
                       );
                     }),
                   ),
