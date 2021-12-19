@@ -1,6 +1,7 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
+import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
@@ -19,6 +20,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final authWM = Provider.of<AuthWM>(context);
@@ -33,7 +35,6 @@ class HomeScreen extends StatelessWidget {
       appBar: const NewEmptyAppBar(
         scaffoldBgColor: AppTheme.mystic,
       ),
-      // appBar: const EmptyAppBar(),
       body: SafeArea(
         child: StreamedStateBuilder<AuthStatus>(
           streamedState: authWM.authStatus,
@@ -101,16 +102,19 @@ class HomeScreen extends StatelessWidget {
                   ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
-                    bottom: 40,
+                    bottom: 20,
                     left: StaticData.sidePadding,
                     right: StaticData.sidePadding,
                   ),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(
                       [
-                        const DelayedAnimatedTranslateOpacity(
+                        DelayedAnimatedTranslateOpacity(
                           offsetY: 50,
-                          child: OfferWidget(),
+                          child: OffersSection(
+                            type: OfferType.homeScreen,
+                          ),
+                          //  OfferWidget(),
                         ),
                       ],
                     ),
@@ -136,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
-                    bottom: 20,
+                    bottom: 30,
                     left: StaticData.sidePadding,
                     right: StaticData.sidePadding,
                   ),
@@ -144,12 +148,8 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        MayBeInteresting(
+                        const MayBeInteresting(
                           text: 'Вам может быть интересно',
-                          onTap: () {},
-                        ),
-                        const SizedBox(
-                          height: 40,
                         ),
 
                         //* Текстовые кнопки(Частые вопросы и тд)
@@ -181,10 +181,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             showSimpleSheet(
               context,
-              SimpleSheetModel(
-                title: 'title',
-                type: SimpleSheetType.addpoints,
-              ),
+              SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
             );
           },
         ),

@@ -357,7 +357,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     );
     _offsetAnimation = Tween<Offset>(
       begin: Offset.zero,
-      end: const Offset(.0, 0.0),
+      end:  Offset.zero,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.elasticIn,
@@ -497,9 +497,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       });
     }
   }
-
+	
   @override
-  void dispose() {
+  void dispose() {/*
     if (widget.autoDisposeControllers) {
       _textEditingController!.dispose();
       _focusNode!.dispose();
@@ -509,11 +509,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       // }
     }
 
-    _errorAnimationSubscription?.cancel();
+    _controller.dispose();
 
+		*/
     _cursorController.dispose();
 
-    _controller.dispose();
+    _errorAnimationSubscription?.cancel();
+
     super.dispose();
   }
 

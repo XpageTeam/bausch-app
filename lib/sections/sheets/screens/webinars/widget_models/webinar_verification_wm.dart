@@ -137,8 +137,7 @@ class OrderWebinarSaver {
       data: FormData.fromMap(
         <String, dynamic>{
           'productId': model.id,
-          // TODO(Nikolay): Изменить цену.
-          'price': 1,
+          'price': model.price,
         },
       ),
       options: rh.cacheOptions

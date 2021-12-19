@@ -1,16 +1,13 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
-import 'package:bausch/models/user/user_model/balance.dart';
 import 'package:bausch/models/user/user_model/user.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-// TODO: выход необходимо реализовывать тут
 class UserWM extends WidgetModel {
   final userData = EntityStreamedState<UserRepository>();
 
@@ -19,12 +16,12 @@ class UserWM extends WidgetModel {
   /// Метод изменения данных пользователя
   /// обработка и отображение ошибок уже содержатся в нём
   Future<bool> updateUserData(User userData) async {
-    late CustomException ex;
+    CustomException? ex;
 
     try {
       await this.userData.content(await UserWriter.updateUserData(userData));
 
-      showDefaultNotification(title: 'Данные успешно обновлены!');
+      showDefaultNotification(title: 'Данные успешно обновлены');
 
       return true;
     } on DioError catch (e) {
@@ -35,22 +32,26 @@ class UserWM extends WidgetModel {
       );
     } on ResponseParseException catch (e) {
       ex = CustomException(
-        title: 'При чтении ответа от сервера произошла ошибка',
+        title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
       );
     } on SuccessFalse catch (e) {
       ex = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
 
-    _showTopError(ex);
+		
+		_showTopError(ex);
 
     return false;
   }
+
+  Future<void> logout() async {
+		await UserWriter.removeUser();
+	}
 
   void _showTopError(CustomException ex) {
     showDefaultNotification(

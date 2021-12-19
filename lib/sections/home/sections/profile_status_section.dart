@@ -60,10 +60,10 @@ class ProfileStatus extends StatelessWidget {
                     ],
                   ),
                   //! статус пользователя пока не выводим
-                  Text(
-                    'Классный друг',
-                    style: AppStyles.p1,
-                  ),
+                  // Text(
+                  //   'Классный друг',
+                  //   style: AppStyles.p1,
+                  // ),
                 ],
               ),
             ],

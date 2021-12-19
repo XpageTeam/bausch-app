@@ -86,4 +86,10 @@ class AuthWM extends WidgetModel {
 
     super.onLoad();
   }
+
+	/// выход
+  void logout(){
+		userWM.logout();
+		authStatus.accept(AuthStatus.unauthenticated);
+  }
 }

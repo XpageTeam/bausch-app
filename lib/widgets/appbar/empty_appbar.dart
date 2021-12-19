@@ -19,7 +19,7 @@ class NewEmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final color = scaffoldBgColor ??
-        Scaffold.of(context).widget.backgroundColor ??
+        // Scaffold.of(context).widget.backgroundColor ??
         Colors.white;
     final value = color.red * 0.3 + color.green * 0.59 + color.blue * 0.11;
 

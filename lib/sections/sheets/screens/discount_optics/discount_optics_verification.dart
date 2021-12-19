@@ -3,10 +3,8 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +22,8 @@ class DiscountOpticsVerification extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: controller,
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
+      appBar: const CustomSliverAppbar(
+        padding: EdgeInsets.all(18),
       ),
       slivers: [
         SliverList(

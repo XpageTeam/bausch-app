@@ -1,40 +1,77 @@
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class OrdersSection extends StatelessWidget {
-  const OrdersSection({Key? key}) : super(key: key);
+  final List<BaseOrderModel?> ordersList;
+
+  const OrdersSection({
+    required this.ordersList,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          StaticData.sidePadding,
-          20,
-          // 40,
-          StaticData.sidePadding,
-          0,
-        ),
-        child: Column(
-          children: List.generate(
-            Models.items.length,
-            (i) => Padding(
-              padding: EdgeInsets.only(
-                bottom: i != Models.items.length - 1 ? 4 : 0,
-              ),
-              child: CatalogItemWidget(
-                model: Models.items[i],
-                // TODO(Nikita): этот текст передвать не так
-                deliveryInfo: 'Eсли нет, пишите сюда, разберемся',
-                orderTitle: 'Заказ № 89088 от 29.06.2021',
-                address: 'Aдрес: г. Москва, ул. Задарожная, д. 20, к. 2 ',
-              ),
-            ),
-          ),
-        ),
+    debugPrint(ordersList.length.toString());
+
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: StaticData.sidePadding,
       ),
+      sliver: ordersList.isNotEmpty
+          ? SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (_, index) {
+                  final order = ordersList[index];
+
+                  if (order == null) return null;
+
+                  if (order.category == 'webinar') {
+                    order as WebinarOrderModel;
+                    final orderDate =
+                        DateFormat('dd.MM.yyyy').format(order.date);
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      child: CatalogItemWidget(
+                        model: WebinarItemModel(
+                          availability: true,
+                          isBought: true,
+                          videoId: order.videoList,
+                          id: order.id,
+                          name: order.title,
+                          previewText: '',
+                          detailText: '',
+                          picture: '',
+                          price: order.price,
+                        ),
+                        deliveryInfo: order.status,
+                        orderTitle: 'Заказ №${order.id} от $orderDate',
+                      ),
+                    );
+                  }
+
+                  return null;
+                },
+                childCount: ordersList.length,
+              ),
+            )
+          : SliverList(
+              delegate: SliverChildListDelegate([
+                Center(
+                  child: Text(
+                    'История заказов пуста :(',
+                    textAlign: TextAlign.center,
+                    style: AppStyles.p1Grey,
+                  ),
+                ),
+              ]),
+            ),
     );
   }
 }

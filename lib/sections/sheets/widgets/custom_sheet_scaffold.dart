@@ -1,4 +1,3 @@
-import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:flutter/material.dart';
 
 class CustomSheetScaffold extends StatelessWidget {

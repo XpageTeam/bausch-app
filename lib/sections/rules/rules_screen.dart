@@ -1,5 +1,4 @@
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
-import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';

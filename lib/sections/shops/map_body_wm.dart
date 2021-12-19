@@ -36,7 +36,6 @@ class MapBodyWM extends WidgetModel {
   final zoomOutAction = VoidAction();
   final moveToUserPosition = VoidAction();
 
-
   YandexMapController? mapController;
 
   void Function(ShopModel shop)? onPlacemarkPressed;
@@ -57,12 +56,17 @@ class MapBodyWM extends WidgetModel {
     );
     super.onLoad();
   }
-  
+
   @override
   void onBind() {
     subscribe<List<ShopModel>>(
       updateMapObjects.stream,
-      _updateClusterMapObject,
+      (shopList) {
+        _updateClusterMapObject(shopList);
+        if (mapController != null) {
+          _setCenterOn(shopList);
+        }
+      },
     );
 
     subscribe<void>(
@@ -164,7 +168,7 @@ class MapBodyWM extends WidgetModel {
     mapObjectsStreamed.accept(mapObjectsStreamed.value);
   }
 
-  void _setCenterOn<T>(List<T> list) {
+  Future<void> _setCenterOn<T>(List<T> list) async {
     // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
     if (list.isEmpty) return;
 
@@ -184,11 +188,16 @@ class MapBodyWM extends WidgetModel {
       return;
     }
 
-    mapController?.moveCamera(
-      CameraUpdate.newBounds(
-        BoundingBox(
-          southWest: extremePoints.southWest,
-          northEast: extremePoints.northEast,
+    await Future.delayed(
+      const Duration(
+        milliseconds: 500,
+      ),
+      () async => mapController?.moveCamera(
+        CameraUpdate.newBounds(
+          BoundingBox(
+            southWest: extremePoints!.southWest,
+            northEast: extremePoints.northEast,
+          ),
         ),
       ),
     );
@@ -294,6 +303,11 @@ class MapBodyWM extends WidgetModel {
       if (point.longitude < west) west = point.longitude;
       if (point.longitude > east) east = point.longitude;
     }
+
+    debugPrint('north: $north');
+    debugPrint('south: $south');
+    debugPrint('west: $west');
+    debugPrint('east: $east');
 
     final distance = sqrt(
       pow(south - north, 2) + pow(west - east, 2),

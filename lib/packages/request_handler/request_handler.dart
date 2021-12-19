@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -164,11 +165,10 @@ class RequestHandler {
 
       debugPrint('statusCode: ${result?.statusCode}');
 
-      // TODO(Danil): реализовать логаут пользователя.
-
-      // if (result?.statusCode == 401 && globalContext != null)
-      // 	BlocProvider.of<AuthBloc>(globalContext!)
-      // 		.add(AuthLogoutRequested("Необходима авторизация"));
+      if ((result?.statusCode == 401 || result?.statusCode == 403) &&
+          globalContext != null) {
+        Provider.of<AuthWM>(globalContext!, listen: false).logout();
+      }
 
       rethrow;
     }
@@ -224,11 +224,10 @@ class RequestHandler {
 
       debugPrint('statusCode: ${result?.statusCode}');
 
-      // TODO(Danil): реализовать логаут пользователя.
-
-      // if (result?.statusCode == 401 && globalContext != null)
-      // 	BlocProvider.of<AuthBloc>(globalContext!)
-      // 		.add(AuthLogoutRequested("Необходима авторизация"));
+      if ((result?.statusCode == 401 || result?.statusCode == 403) &&
+          globalContext != null) {
+        Provider.of<AuthWM>(globalContext!, listen: false).logout();
+      }
 
       rethrow;
     }
@@ -280,11 +279,10 @@ class RequestHandler {
 
       debugPrint('statusCode: ${result?.statusCode}');
 
-      // TODO(Danil): реализовать логаут пользователя.
-
-      // if (result?.statusCode == 401 && globalContext != null)
-      // 	BlocProvider.of<AuthBloc>(globalContext!)
-      // 		.add(AuthLogoutRequested("Необходима авторизация"));
+      if ((result?.statusCode == 401 || result?.statusCode == 403) &&
+          globalContext != null) {
+        Provider.of<AuthWM>(globalContext!, listen: false).logout();
+      }
 
       rethrow;
     }
@@ -332,11 +330,10 @@ class RequestHandler {
 
       debugPrint('statusCode: ${result?.statusCode}');
 
-      // TODO(Danil): реализовать логаут пользователя.
-
-      // if (result?.statusCode == 401 && globalContext != null)
-      // 	BlocProvider.of<AuthBloc>(globalContext!)
-      // 		.add(AuthLogoutRequested("Необходима авторизация"));
+      if ((result?.statusCode == 401 || result?.statusCode == 403) &&
+          globalContext != null) {
+        Provider.of<AuthWM>(globalContext!, listen: false).logout();
+      }
 
       rethrow;
     }

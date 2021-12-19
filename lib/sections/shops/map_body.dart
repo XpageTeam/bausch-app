@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
@@ -13,9 +14,11 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final List<ShopModel> shopList;
+  final List<CityModel> cityList;
 
   MapBody({
     required this.shopList,
+    required this.cityList,
     Key? key,
   }) : super(
           key: key,
@@ -52,81 +55,91 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
             streamedState: wm.mapObjectsStreamed,
             builder: (context, mapObjects) {
               return YandexMap(
+                liteModeEnabled: true,
+                mode2DEnabled: true,
                 mapObjects: mapObjects,
                 onMapCreated: (yandexMapController) {
                   wm.mapController = yandexMapController;
+                  wm
+                    ..setCenterAction(
+                      widget.shopList.where((s) => s.coords != null).toList(),
+                    )
+                    ..onGetUserPositionError = (exception) {
+                      showDefaultNotification(title: exception.title);
+                    }
+                    ..onPlacemarkPressed = (shop) {
+                      wm.isModalBottomSheetOpen.accept(true);
 
-                  if (widget.shopList.isNotEmpty) {
-                    wm
-                      ..setCenterAction(
-                        widget.shopList.where((s) => s.coords != null).toList(),
-                      )
-                      ..onGetUserPositionError = (exception) {
-                        showDefaultNotification(title: exception.title);
-                      }
-                      ..onPlacemarkPressed = (shop) {
-                        wm.isModalBottomSheetOpen.accept(true);
+                      showModalBottomSheet<void>(
+                        context: context,
+                        barrierColor: Colors.transparent,
+                        builder: (context) => BottomSheetContent(
+                          title: shop.name,
+                          subtitle: shop.address,
+                          phones: shop.phones,
+                          site: shop.site,
+                          // additionalInfo:
+                          //     'Скидкой можно воспользоваться в любой из оптик сети.',
+                          onPressed: Navigator.of(context).pop,
+                          btnText: 'Выбрать эту сеть оптик',
+                        ),
+                      ).whenComplete(
+                        () {
+                          wm.isModalBottomSheetOpen.accept(false);
+                          wm.updateMapObjects(widget.shopList);
+                        },
+                      );
+                    };
+                  if (widget.shopList.isEmpty) {
+                    wm.isModalBottomSheetOpen.accept(true);
+                    showModalBottomSheet<dynamic>(
+                      barrierColor: Colors.transparent,
+                      context: context,
+                      builder: (context) => BottomSheetContent(
+                        title: 'Поблизости нет оптик',
+                        subtitle:
+                            'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                        btnText: 'Хорошо',
+                        onPressed: Navigator.of(context).pop,
+                      ),
+                    ).whenComplete(() {
+                      wm.isModalBottomSheetOpen.accept(false);
 
-                        showModalBottomSheet<void>(
-                          context: context,
-                          barrierColor: Colors.transparent,
-                          builder: (context) => BottomSheetContent(
-                            title: shop.name,
-                            subtitle: shop.address,
-                            phones: shop.phones,
-                            site: shop.site,
-                            // additionalInfo:
-                            //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                            onPressed: () {
-                              // TODO(Nikolay): Реализовать onPressed.
-                            },
-                            btnText: 'Выбрать эту сеть оптик',
-                          ),
-                        ).whenComplete(
-                          () {
-                            wm.isModalBottomSheetOpen.accept(false);
-                            wm.updateMapObjects(widget.shopList);
-                          },
-                        );
-                      };
-                  } else {
-                    // showModalBottomSheet<dynamic>(
-                    //   barrierColor: Colors.transparent,
-                    //   context: context,
-                    //   builder: (context) => BottomSheetContent(
-                    //     title: 'Поблизости нет оптик',
-                    //     subtitle:
-                    //         'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
-                    //     btnText: 'Хорошо',
-                    //     onPressed: Navigator.of(context).pop,
-                    //   ),
-                    // );
-
-                    // BlocProvider.of<ShopListCubit>(context).loadShopList();
+                      BlocProvider.of<ShopListCubit>(context)
+                        ..city = sort(widget.cityList)?[0].name ?? 'Москва'
+                        ..loadShopList();
+                    });
                   }
                 },
               );
             },
           ),
-          StreamedStateBuilder(
+          StreamedStateBuilder<bool>(
             streamedState: wm.isModalBottomSheetOpen,
-            builder: (_, isModalBottomSheetOpen) => Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 15,
-                  bottom: 60,
-                ),
-                child: MapButtons(
-                  onZoomIn: wm.zoomInAction,
-                  onZoomOut: wm.zoomOutAction,
-                  onCurrentLocation: wm.moveToUserPosition,
-                ),
-              ),
-            ),
+            builder: (_, isModalBottomSheetOpen) => isModalBottomSheetOpen
+                ? const SizedBox()
+                : Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 15,
+                        bottom: 60,
+                      ),
+                      child: MapButtons(
+                        onZoomIn: wm.zoomInAction,
+                        onZoomOut: wm.zoomOutAction,
+                        onCurrentLocation: wm.moveToUserPosition,
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),
     );
+  }
+
+  List<CityModel>? sort(List<CityModel> cities) {
+    if (cities.isEmpty) return null;
+    return cities..sort((a, b) => a.name.compareTo(b.name));
   }
 }
