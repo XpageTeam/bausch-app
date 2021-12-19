@@ -4,8 +4,8 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
@@ -180,7 +180,7 @@ Widget shield(CatalogItemModel _model) {
       height: 28,
     );
   } else if (_model is PromoItemModel) {
-    return DiscountInfo(text: '–500 ₽');
+    return const DiscountInfo(text: '–500 ₽');
   } else {
     return Container();
   }
