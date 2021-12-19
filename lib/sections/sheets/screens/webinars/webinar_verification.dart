@@ -105,7 +105,6 @@ class _WebinarVerificationState
           return isLoading
               ? const CustomFloatingActionButton(
                   text: '',
-                  // icon: CircularProgressIndicator.adaptive(),
                   icon: AnimatedLoader(),
                 )
               : CustomFloatingActionButton(

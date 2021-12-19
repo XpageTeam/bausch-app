@@ -5,6 +5,7 @@ import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -237,14 +238,14 @@ void callback(CatalogItemModel _model) {
       context: Keys.mainNav.currentContext!,
       // TODO(Danil): массив id
       builder: (context) => VimeoPopup(
-        videoId: '112836958',
-        // videoId: _model.videoId.first,
+        videoId: _model.videoId.first,
       ),
     );
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
     showDefaultNotification(title: 'Скопировано!');
   } else {
+    // TODO(Nikolay): Тут.
     showFlexibleBottomSheet<void>(
       context: Keys.mainNav.currentContext!,
       minHeight: 0,
@@ -253,10 +254,11 @@ void callback(CatalogItemModel _model) {
       anchors: [0, 0.6, 0.95],
       builder: (context, controller, d) {
         return FinalDiscountOptics(
+          // TODO(Nikolay): Здесь.
+          discountType: DiscountTypeClass.offline,
           controller: ScrollController(),
           model: _model as PromoItemModel,
           buttonText: 'Готово',
-          rightKey: Keys.mainNav,
         );
       },
     );

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class HowToUsePromocode extends StatelessWidget {
   final String? text;
   const HowToUsePromocode({
-    Key? key,
     this.text,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,8 @@ class HowToUsePromocode extends StatelessWidget {
         ),
         Text(
           text ??
-              'Положите в корзину выбранный при заказе поощрения продукт. При оформлении заказа введите промокод в поле «Промокод» и нажмите «Применить». Итоговая стоимость со скидкой отобразится в корзине.',
+              'Положите в корзину выбранный при заказе поощрения продукт. При оформлении заказа введите промокод '
+                  'в поле «Промокод» и нажмите «Применить». Итоговая стоимость со скидкой отобразится в корзине.',
           style: AppStyles.p1,
         ),
       ],

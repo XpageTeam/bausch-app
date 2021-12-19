@@ -48,7 +48,6 @@ class _StoriesSliderState extends State<StoriesSlider> {
           );
         }
         return const Center(
-          // child: CircularProgressIndicator.adaptive(),
           child: AnimatedLoader(),
         );
       },

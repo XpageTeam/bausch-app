@@ -1,4 +1,3 @@
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -40,19 +39,20 @@ class BulletedRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppTheme.mineShaft,
-            borderRadius: BorderRadius.circular(180),
-          ),
-          width: 4,
-          height: 4,
-        ),
-        // Text(
-        //   '.',
-        //   style: AppStyles.p1,
+        // Container(
+        //   decoration: BoxDecoration(
+        //     color: AppTheme.mineShaft,
+        //     borderRadius: BorderRadius.circular(180),
+        //   ),
+        //   width: 4,
+        //   height: 4,
         // ),
+        Text(
+          '•',
+          style: AppStyles.p1,
+        ),
         const SizedBox(
           width: 14,
         ),
