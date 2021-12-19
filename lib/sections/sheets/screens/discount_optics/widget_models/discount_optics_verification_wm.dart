@@ -23,7 +23,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final BuildContext context;
   final PromoItemModel itemModel;
   final DiscountOptic discountOptic;
-  final DiscountTypeClass discountType;
+  final DiscountType discountType;
 
   final loadingState = StreamedState<bool>(false);
   final spendPointsAction = VoidAction();

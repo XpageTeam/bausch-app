@@ -18,7 +18,7 @@ class FinalDiscountOptics extends StatelessWidget {
   final String? buttonText;
 
   final DiscountOptic? discountOptic;
-  final DiscountTypeClass discountType;
+  final DiscountType discountType;
 
   const FinalDiscountOptics({
     required this.controller,
@@ -47,24 +47,20 @@ class FinalDiscountOptics extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                const SizedBox(
-                  height: 58,
-                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 40),
+                  padding: const EdgeInsets.only(top: 80, bottom: 40),
                   child: Text(
                     text ??
-                        'Вот ваш промокод на скидку 500 ₽ '
-                            'в ${discountType == DiscountTypeClass.offline ? 'оптике' : 'интернет-магазине'} '
+                        'Это ваш промокод на скидку 500 ₽ '
+                            'в ${discountType == DiscountType.offline ? 'оптике' : 'интернет-магазине'} '
                             ' ${discountOptic != null ? discountOptic!.title : ''}',
                     // 'Вот ваш промокод на скидку 500 ₽ '
                     // '${discountOptic != null ? 'в ${discountType == DiscountTypeClass.offline ? 'оптике' : 'интернет-магазине'} ${discountOptic!.title}' : ''}',
-                    style: AppStyles.h1,
+                    style: AppStyles.h2,
                   ),
                 ),
                 ContainerWithPromocode(
                   promocode: model.code,
-                  withIcon: false,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -72,7 +68,7 @@ class FinalDiscountOptics extends StatelessWidget {
                     bottom: 40,
                   ),
                   child: Text(
-                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в личном кабинете.',
+                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
                     style: AppStyles.p1,
                   ),
                 ),
@@ -82,7 +78,7 @@ class FinalDiscountOptics extends StatelessWidget {
           ),
         ),
       ],
-      bottomNavBar: BottomButtonWithRoundedCorners(
+      bottomButton: BottomButtonWithRoundedCorners(
         text: buttonText ?? 'На главную',
       ),
     );

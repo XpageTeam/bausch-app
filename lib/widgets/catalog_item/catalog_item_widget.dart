@@ -255,7 +255,7 @@ void callback(CatalogItemModel _model) {
       builder: (context, controller, d) {
         return FinalDiscountOptics(
           // TODO(Nikolay): Здесь.
-          discountType: DiscountTypeClass.offline,
+          discountType: DiscountType.offline,
           controller: ScrollController(),
           model: _model as PromoItemModel,
           buttonText: 'Готово',

@@ -22,7 +22,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final BuildContext context;
   final PromoItemModel itemModel;
 
-  final DiscountTypeClass discountType;
+  final DiscountType discountType;
 
   final discountOpticsStreamed = EntityStreamedState<List<DiscountOptic>>();
   final currentDiscountOptic = StreamedState<DiscountOptic?>(null);
@@ -129,7 +129,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   }
 
   void _initTexts() {
-    if (discountType == DiscountTypeClass.offline) {
+    if (discountType == DiscountType.offline) {
       legalInfoTexts = [
         'Перед заказом промокода на скидку необходимо проверить наличие продукта ' +
             '(на сайте и / или по контактному номеру телефона оптики).',

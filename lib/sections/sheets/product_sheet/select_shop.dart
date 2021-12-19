@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
   final List<DiscountOptic> discountOptics;
-  final DiscountTypeClass discountType;
+  final DiscountType discountType;
 
   final void Function(DiscountOptic discountOptic) onChanged;
 
@@ -69,7 +69,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                           ),
                           if (widget.discountOptics[i].link.isNotEmpty &&
                               widget.discountType ==
-                                  DiscountTypeClass.onlineShop)
+                                  DiscountType.onlineShop)
                             GestureDetector(
                               onTap: () {
                                 // TODO(Nikolay): Переход на сайт.
