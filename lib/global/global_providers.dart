@@ -18,12 +18,6 @@ class _GlobalProvidersState extends State<GlobalProviders> {
   late LoginWM loginWM;
 
   @override
-  void dispose() {
-    loginWM.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext ctx) {
     
     
