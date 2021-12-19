@@ -32,7 +32,7 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
-    required DiscountTypeClass discountType,
+    required DiscountType discountType,
     Key? key,
   }) : super(
           key: key,
@@ -126,7 +126,7 @@ class _DiscountOpticsScreenState
                               wm.selectHeaderText,
                               style: AppStyles.h1,
                             ),
-                            if (wm.discountType == DiscountTypeClass.offline)
+                            if (wm.discountType == DiscountType.offline)
                               Padding(
                                 padding: const EdgeInsets.only(
                                   top: 12,
@@ -144,7 +144,7 @@ class _DiscountOpticsScreenState
                                 discountType: wm.discountType,
                               ),
                             ),
-                            if (wm.discountType == DiscountTypeClass.offline)
+                            if (wm.discountType == DiscountType.offline)
                               Padding(
                                 padding: const EdgeInsets.only(
                                   top: 30,
@@ -220,7 +220,7 @@ class _DiscountOpticsScreenState
 
 class DiscountOpticsArguments extends SheetScreenArguments {
   final DiscountOptic discountOptic;
-  final DiscountTypeClass discountType;
+  final DiscountType discountType;
 
   DiscountOpticsArguments({
     required this.discountOptic,

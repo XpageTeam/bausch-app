@@ -120,7 +120,7 @@ class DiscountOnlineScreen extends StatelessWidget
                 // TODO(Nikolay): Здесь поменять потом.
                 discountOptics: [],
                 onChanged: (discountOptic) {},
-                discountType: DiscountTypeClass.onlineShop,
+                discountType: DiscountType.onlineShop,
               ),
             ),
             SliverPadding(

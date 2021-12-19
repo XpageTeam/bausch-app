@@ -21,7 +21,7 @@ class DiscountOpticsVerification
     required this.controller,
     required PromoItemModel model,
     required DiscountOptic discountOptic,
-    required DiscountTypeClass discountType,
+    required DiscountType discountType,
     Key? key,
   }) : super(
           key: key,
@@ -95,7 +95,7 @@ class _DiscountOpticsVerificationState extends WidgetState<
                               height: 4,
                             ),
                             Text(
-                              'в ${wm.discountType == DiscountTypeClass.offline ? 'оптике' : 'онлайн-магазине'} ${wm.discountOptic.title}',
+                              'в ${wm.discountType == DiscountType.offline ? 'оптике' : 'онлайн-магазине'} ${wm.discountOptic.title}',
                               style: AppStyles.h2,
                             ),
                           ],
