@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/models/discount_optic/discount_optic.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -14,14 +15,17 @@ class FinalDiscountOptics extends StatelessWidget {
   final PromoItemModel model;
   final String? text;
   final String? buttonText;
-  final GlobalKey<NavigatorState>? rightKey;
+
+  final DiscountOptic? discountOptic;
+  final DiscountTypeClass discountType;
 
   const FinalDiscountOptics({
     required this.controller,
     required this.model,
+    required this.discountType,
+    this.discountOptic,
     this.buttonText,
     this.text,
-    this.rightKey,
     Key? key,
   }) : super(key: key);
 
@@ -49,13 +53,17 @@ class FinalDiscountOptics extends StatelessWidget {
                 //   backgroundColor: Colors.white,
                 // ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 78, bottom: 40),
-                  child: Text(
-                    text ??
-                        'Это ваш промокод на скидку 500 ₽ в оптике ЛинзСервис',
-                    style: AppStyles.h1,
-                  ),
-                ),
+                      padding: const EdgeInsets.only(top: 20, bottom: 40),
+                      child: Text(
+                        text ??
+                            'Вот ваш промокод на скидку 500 ₽ '
+                                'в ${discountType == DiscountTypeClass.offline ? 'оптике' : 'интернет-магазине'} '
+                                ' ${discountOptic != null ? discountOptic!.title : ''}',
+                        // 'Вот ваш промокод на скидку 500 ₽ '
+                        // '${discountOptic != null ? 'в ${discountType == DiscountTypeClass.offline ? 'оптике' : 'интернет-магазине'} ${discountOptic!.title}' : ''}',
+                        style: AppStyles.h2,
+                      ),
+                    ),
                 ContainerWithPromocode(
                   promocode: model.code,
                   withIcon: false,

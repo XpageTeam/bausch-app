@@ -2,11 +2,9 @@ import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/offers/offers_section_wm.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
-import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -58,22 +56,37 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
     );
   }
 
-  void showTargetBottomSheet(Offer offer) {
+  Future<void> showTargetBottomSheet(Offer offer) async {
     switch (offer.target) {
       case 'program':
-      // TODO(Nikolay): Под html надо отдельный таргет, если его нет.
-      case 'html':
-        showFlexibleBottomSheet<void>(
-          useRootNavigator: true,
-          minHeight: 0,
-          initHeight: 0.95,
-          maxHeight: 0.95,
-          anchors: [0, 0.6, 0.95],
-          context: context,
-          builder: (context, controller, d) => ProgramScreen(
-            controller: controller,
+        showSimpleSheet(
+          context,
+          SimpleSheetModel(
+            title: 'title',
+            type: SimpleSheetType.program,
           ),
         );
+        break;
+
+      case 'profile':
+        await Keys.mainContentNav.currentState!.pushNamed(
+          '/profile',
+        );
+        break;
+
+      // TODO(Nikolay): Под html надо отдельный таргет, если его нет.
+      case 'html':
+        // showFlexibleBottomSheet<void>(
+        //   useRootNavigator: true,
+        //   minHeight: 0,
+        //   initHeight: 0.95,
+        //   maxHeight: 0.95,
+        //   anchors: [0, 0.6, 0.95],
+        //   context: context,
+        //   builder: (context, controller, d) => ProgramScreen(
+        //     controller: controller,
+        //   ),
+        // );
         break;
       // TODO(Nikolay): Уточнить add_point.
       case 'add_points':
@@ -82,15 +95,7 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
           SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
         );
         break;
-        // TODO(Nikolay): убрать.
-      default:
-        showSimpleSheet(
-          context,
-          SimpleSheetModel(
-            title: 'title',
-            type: SimpleSheetType.program,
-          ),
-        );
+
       // showFlexibleBottomSheet<void>(
       //   useRootNavigator: true,
       //   minHeight: 0,

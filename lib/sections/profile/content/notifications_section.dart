@@ -52,7 +52,7 @@ class NotificationSection extends StatelessWidget {
                 child: NotificationItem(),
               ),
             ),
-            // TODO(Nikolay): Переделать.
+            // TODO: Переделать.
             OfferWidget(
               offer: Offer(
                 id: 42,

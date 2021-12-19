@@ -56,7 +56,6 @@ class _StoriesSliderState extends State<StoriesSlider> {
           debugPrint(state.title);
         }
         return const Center(
-          // child: CircularProgressIndicator.adaptive(),
           child: AnimatedLoader(),
         );
       },
