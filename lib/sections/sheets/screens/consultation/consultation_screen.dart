@@ -12,9 +12,19 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
+class ConsultationScreenArguments {
+  final CatalogItemModel item;
+
+  ConsultationScreenArguments({
+    required this.item,
+  });
+}
+
 //catalog_online_consultation
-class ConsultationScreen extends StatefulWidget {
+class ConsultationScreen extends StatefulWidget
+    implements ConsultationScreenArguments {
   final ScrollController controller;
+  @override
   final CatalogItemModel item;
   const ConsultationScreen({
     required this.controller,
@@ -109,12 +119,12 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Получить поощрение ${model.priceToString} б',
         onPressed: () {
-          Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/verification_consultation',
-            arguments: SheetScreenArguments(model: model),
+            arguments: ItemSheetScreenArguments(model: model),
           );
         },
       ),

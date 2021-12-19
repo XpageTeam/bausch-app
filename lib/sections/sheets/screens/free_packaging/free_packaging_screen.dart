@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 
 //catalog_free_packaging
 class FreePackagingScreen extends StatelessWidget
-    implements SheetScreenArguments {
+    implements ItemSheetScreenArguments {
   final ScrollController controller;
 
   @override
@@ -91,7 +91,7 @@ class FreePackagingScreen extends StatelessWidget
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Перейти к заказу',
         onPressed: () {
           // Keys.mainNav.currentState!.pop();

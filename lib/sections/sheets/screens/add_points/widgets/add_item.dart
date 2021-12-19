@@ -17,10 +17,9 @@ class AddItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (model.type == 'survey') {
-          Keys.simpleBottomSheetNav.currentState!
-              .pushNamed('/addpoints_survey');
+          Navigator.of(context).pushNamed('/addpoints_survey');
         } else {
-          Keys.simpleBottomSheetNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/addpoints_details',
             arguments: AddPointsDetailsArguments(
               model: model,

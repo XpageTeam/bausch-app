@@ -100,7 +100,7 @@ class WebinarVerificationWM extends WidgetModel {
     if (error != null) {
       _showTopError(error);
     } else {
-      await Keys.bottomSheetItemsNav.currentState!.pushNamed(
+      await Keys.bottomNav.currentState!.pushNamed(
         '/final_webinar',
         arguments: FinalWebinarArguments(
           model: itemModel,
@@ -120,7 +120,7 @@ class WebinarVerificationWM extends WidgetModel {
   }
 }
 
-class FinalWebinarArguments extends SheetScreenArguments {
+class FinalWebinarArguments extends ItemSheetScreenArguments {
   final String videoId;
   FinalWebinarArguments({
     required CatalogItemModel model,

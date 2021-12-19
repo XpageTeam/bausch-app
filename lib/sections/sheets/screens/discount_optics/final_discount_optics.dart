@@ -31,27 +31,28 @@ class FinalDiscountOptics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
+    return CustomSheetScaffold(
+      backgroundColor: AppTheme.sulu,
+      controller: controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        icon: Container(height: 1),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.sulu,
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    CustomSliverAppbar(
-                      key: key,
-                    ),
-                    Padding(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
+          ),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                // CustomSliverAppbar.toPop(
+                //   icon: Container(),
+                //   key: key,
+                //   rightKey: rightKey,
+                //   backgroundColor: Colors.white,
+                // ),
+                Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 40),
                       child: Text(
                         text ??
@@ -63,30 +64,28 @@ class FinalDiscountOptics extends StatelessWidget {
                         style: AppStyles.h2,
                       ),
                     ),
-                    ContainerWithPromocode(
-                      promocode: model.code,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        bottom: 40,
-                      ),
-                      child: Text(
-                        'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
-                        style: AppStyles.p1,
-                      ),
-                    ),
-                    BigCatalogItem(model: model),
-                  ],
+                ContainerWithPromocode(
+                  promocode: model.code,
+                  withIcon: false,
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    bottom: 40,
+                  ),
+                  child: Text(
+                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в личном кабинете.',
+                    style: AppStyles.p1,
+                  ),
+                ),
+                BigCatalogItem(model: model),
+              ],
             ),
-          ],
+          ),
         ),
-        floatingActionButton: BottomButtonWithRoundedCorners(
-          text: buttonText ?? 'На главную',
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ],
+      bottomNavBar: BottomButtonWithRoundedCorners(
+        text: buttonText ?? 'На главную',
       ),
     );
   }

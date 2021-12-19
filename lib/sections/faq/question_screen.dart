@@ -1,6 +1,8 @@
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/sections/faq/support_section.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
@@ -43,87 +45,80 @@ class QuestionScreen extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
-      ),
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  DefaultAppBar(
-                    title: 'Частые вопросы',
-                    backgroundColor: AppTheme.mystic,
-                    topRightWidget: NormalIconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        Keys.mainNav.currentState!.pop();
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      right: 12,
-                      left: 12,
-                      top: 31,
-                      bottom: 92,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          question.title,
-                          style: AppStyles.h2,
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Html(
-                          data: question.answer,
-                          style: htmlStyles,
-                          onLinkTap: (url, context, attributes, element) async  {
-                            if (url != null){
-                              if (await canLaunch(url)){
-                                try {
-                                  await launch(url);
-
-                                  return;
-                                // ignore: avoid_catches_without_on_clauses
-                                } catch (e) {
-                                  debugPrint('url: $url - не может быть открыт');
-                                }
-                              }
-                            }
-
-                            debugPrint('url: $url - не может быть открыт');
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SupportSection(
-                question: question,
-                topic: topic,
-              ),
-            ),
-          ],
+    return CustomSheetScaffold(
+      controller: controller,
+      appBar: const CustomSliverAppbar(
+        padding: EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 14,
         ),
       ),
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              const SizedBox(
+                height: 26,
+              ),
+              Center(
+                child: Text(
+                  'Частые вопросы',
+                  style: AppStyles.h2,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 12,
+                  left: 12,
+                  top: 43,
+                  bottom: 92,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      question.title,
+                      style: AppStyles.h2,
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Html(
+                      data: question.answer,
+                      style: htmlStyles,
+                      onLinkTap: (url, context, attributes, element) async {
+                        if (url != null) {
+                          if (await canLaunch(url)) {
+                            try {
+                              await launch(url);
+
+                              return;
+                              // ignore: avoid_catches_without_on_clauses
+                            } catch (e) {
+                              debugPrint('url: $url - не может быть открыт');
+                            }
+                          }
+                        }
+
+                        debugPrint('url: $url - не может быть открыт');
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
+          ),
+          sliver: SupportSection(
+            question: question,
+            topic: topic,
+          ),
+        ),
+      ],
     );
   }
 }

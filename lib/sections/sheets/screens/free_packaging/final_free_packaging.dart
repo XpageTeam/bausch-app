@@ -94,7 +94,7 @@ class FinalFreePackaging extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: BottomButtonWithRoundedCorners(
+      bottomNavBar: BottomButtonWithRoundedCorners(
         onPressed: () {
           Keys.mainNav.currentState!.pushNamedAndRemoveUntil(
             '/',

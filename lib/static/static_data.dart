@@ -61,15 +61,9 @@ class Keys {
   //* Ключ для навигации между страницами приложения
   static GlobalKey<NavigatorState> mainContentNav = GlobalKey();
 
-  //* Ключ для навигации между страницами bottomSheet'а, на которых есть элементы каталога(CatalogItem)
-  static GlobalKey<NavigatorState> bottomSheetItemsNav = GlobalKey();
-
-  //* Ключ для навигации между страницами bottomSheet'а, на которых нет элементов каталога
-  //* Т.е. сразу открывается нужная страница
-  static GlobalKey<NavigatorState> bottomSheetWithoutItemsNav = GlobalKey();
-
-  static GlobalKey<NavigatorState> simpleBottomSheetNav = GlobalKey();
-
   //* Ключ для контроля всяких всплывающих виджетов
   static GlobalKey<NavigatorState> mainNav = GlobalKey();
+
+  //* Ключ для навигации в bottomSheet'ах
+  static GlobalKey<NavigatorState> bottomNav = GlobalKey();
 }

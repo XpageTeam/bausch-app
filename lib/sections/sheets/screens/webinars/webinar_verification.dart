@@ -99,7 +99,7 @@ class _WebinarVerificationState
           ),
         ),
       ],
-      bottomButton: StreamedStateBuilder<bool>(
+      bottomNavBar: StreamedStateBuilder<bool>(
         streamedState: wm.loadingState,
         builder: (_, isLoading) {
           return isLoading

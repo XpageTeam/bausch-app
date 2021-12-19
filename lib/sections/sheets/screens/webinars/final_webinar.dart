@@ -62,7 +62,7 @@ class FinalWebinar extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: BottomButtonWithRoundedCorners(
+      bottomNavBar: BottomButtonWithRoundedCorners(
         text: 'Перейти к просмотру',
         onPressed: () {
           Keys.mainNav.currentState!.pop();

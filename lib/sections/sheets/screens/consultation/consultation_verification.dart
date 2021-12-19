@@ -75,12 +75,12 @@ class ConsultationVerification extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить ${model.price} б',
         onPressed: () {
-          Keys.bottomSheetWithoutItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/final_consultation',
-            arguments: SheetScreenArguments(model: model),
+            arguments: ItemSheetScreenArguments(model: model),
           );
         },
       ),

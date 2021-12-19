@@ -121,7 +121,7 @@ class _PartnersVerificationState
       //   onPressed: wm.buttonAction,
       // ),
 
-      bottomButton: StreamedStateBuilder<bool>(
+      bottomNavBar: StreamedStateBuilder<bool>(
         streamedState: wm.loadingState,
         builder: (_, isLoading) {
           return isLoading
@@ -215,9 +215,9 @@ class PartnersVerificationWM extends WidgetModel {
       _showTopError(error);
     } else {
       unawaited(
-        Keys.bottomSheetItemsNav.currentState!.pushNamed(
+        Keys.bottomNav.currentState!.pushNamed(
           '/final_partners',
-          arguments: SheetScreenArguments(
+          arguments: ItemSheetScreenArguments(
             model: itemModel,
           ),
         ),

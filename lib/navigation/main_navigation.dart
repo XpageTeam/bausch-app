@@ -38,124 +38,127 @@ class _MainNavigationState extends State<MainNavigation>
     with AfterLayoutMixin<MainNavigation> {
   @override
   Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        await Keys.mainContentNav.currentState!.maybePop();
+        return false;
+      },
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          textScaleFactor: 1.0,
+        ),
+        child: Navigator(
+          key: Keys.mainContentNav,
+          initialRoute: '/',
+          onGenerateRoute: (settings) {
+            Widget page;
+            var showAnimation = true;
 
+            switch (settings.name) {
+              case '/':
+                page = const LoaderScreen();
+                showAnimation = false;
+                break;
 
+              case '/loading':
+                page = const LoadingScreen();
+                showAnimation = false;
+                break;
 
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(
-        textScaleFactor: 1.0,
-      ),
-      child: Navigator(
-        key: Keys.mainContentNav,
-        initialRoute: '/',
-        onGenerateRoute: (settings) {
-          Widget page;
-          var showAnimation = true;
+              case '/city_and_email':
+                page = CityAndEmailScreen();
+                showAnimation = false;
+                break;
 
-          switch (settings.name) {
-            case '/':
-              page = const LoaderScreen();
-              showAnimation = false;
-              break;
+              case '/registration':
+                page = const RegistrationScreen();
+                showAnimation = false;
+                break;
 
-            case '/loading':
-              page = const LoadingScreen();
-              showAnimation = false;
-              break;
+              case '/code':
+                page = const CodeScreen();
+                break;
 
-            case '/city_and_email':
-              page = CityAndEmailScreen();
-              showAnimation = false;
-              break;
+              case '/profile':
+                page = ProfileScreen();
+                break;
 
-            case '/registration':
-              page = const RegistrationScreen();
-              showAnimation = false;
-              break;
+              case '/profile_settings':
+                page = ProfileSettingsScreen();
+                break;
 
-            case '/code':
-              page = const CodeScreen();
-              break;
+              case '/my_adresses':
+                page = const MyAdressesScreen();
+                break;
 
-            case '/profile':
-              page = ProfileScreen();
-              break;
+              case '/city':
+                page = CityScreen();
+                break;
 
-            case '/profile_settings':
-              page = ProfileSettingsScreen();
-              break;
+              case '/lenses_parameters':
+                page = const LensesParametersScreen();
+                break;
 
-            case '/my_adresses':
-              page = const MyAdressesScreen();
-              break;
+              case '/add_details':
+                page = AddDetailsScreen(
+                  adress: (settings.arguments as AddDetailsArguments).adress,
+                  isFirstLaunch:
+                      (settings.arguments as AddDetailsArguments).isFirstLaunch,
+                );
+                break;
 
-            case '/city':
-              page = CityScreen();
-              break;
+              case '/add_adress':
+                page = const AddAdressScreen();
+                break;
 
-            case '/lenses_parameters':
-              page = const LensesParametersScreen();
-              break;
+              case '/order_registration':
+                page = const OrderRegistrationScreen();
+                break;
 
-            case '/add_details':
-              page = AddDetailsScreen(
-                adress: (settings.arguments as AddDetailsArguments).adress,
-                isFirstLaunch:
-                    (settings.arguments as AddDetailsArguments).isFirstLaunch,
-              );
-              break;
+              case '/shops':
+                page = const ShopsScreen();
+                break;
 
-            case '/add_adress':
-              page = const AddAdressScreen();
-              break;
-
-            case '/order_registration':
-              page = const OrderRegistrationScreen();
-              break;
-
-            case '/shops':
-              page = const ShopsScreen();
-              break;
-
-            case '/home':
-            default:
-              page = const HomeScreen();
-              showAnimation = false;
-          }
-
-          if (showAnimation) {
-            if (Platform.isIOS) {
-              return CupertinoPageRoute<void>(builder: (context) {
-                return page;
-              });
-            } else {
-              return MaterialPageRoute<void>(builder: (context) {
-                return page;
-              });
+              case '/home':
+              default:
+                page = const HomeScreen();
+                showAnimation = false;
             }
-          } else {
-            return PageRouteBuilder<void>(
-              pageBuilder: (context, animation, secondaryAnimation) {
-                return page;
-              },
-            );
-          }
 
-          // return PageRouteBuilder<dynamic>(
-          //   pageBuilder: (_, __, ___) => page,
-          //   transitionsBuilder: (context, animation, anotherAnimation, child) {
-          //     animation =
-          //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
-          //     return SlideTransition(
-          //       position: Tween(
-          //         begin: const Offset(1.0, 0.0),
-          //         end: Offset.zero,
-          //       ).animate(animation),
-          //       child: page,
-          //     );
-          //   },
-          // );
-        },
+            if (showAnimation) {
+              if (Platform.isIOS) {
+                return CupertinoPageRoute<void>(builder: (context) {
+                  return page;
+                });
+              } else {
+                return MaterialPageRoute<void>(builder: (context) {
+                  return page;
+                });
+              }
+            } else {
+              return PageRouteBuilder<void>(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return page;
+                },
+              );
+            }
+
+            // return PageRouteBuilder<dynamic>(
+            //   pageBuilder: (_, __, ___) => page,
+            //   transitionsBuilder: (context, animation, anotherAnimation, child) {
+            //     animation =
+            //         CurvedAnimation(parent: animation, curve: Curves.easeInOutExpo);
+            //     return SlideTransition(
+            //       position: Tween(
+            //         begin: const Offset(1.0, 0.0),
+            //         end: Offset.zero,
+            //       ).animate(animation),
+            //       child: page,
+            //     );
+            //   },
+            // );
+          },
+        ),
       ),
     );
   }
