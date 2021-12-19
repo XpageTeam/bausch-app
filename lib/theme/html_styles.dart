@@ -1,4 +1,3 @@
-
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
@@ -26,6 +25,34 @@ final Map<String, Style> htmlStyles = {
   ),
   'li': Style(
     padding: const EdgeInsets.only(left: 6),
+    listStylePosition: ListStylePosition.OUTSIDE,
+  ),
+};
+
+final Map<String, Style> storyStyles = {
+  'a': Style(
+    color: AppTheme.mineShaft,
+    display: Display.INLINE,
+    textDecoration: TextDecoration.underline,
+    textDecorationColor: AppTheme.turquoiseBlue,
+  ),
+  'body': Style(
+    padding: EdgeInsets.zero,
+    margin: EdgeInsets.zero,
+    color: Colors.white,
+    fontWeight: FontWeight.w500,
+    fontSize: const FontSize(17),
+    lineHeight: const LineHeight(20 / 17),
+  ),
+  'ul': Style(
+    padding: EdgeInsets.zero,
+  ),
+  // 'li:not(:first-child)': Style(
+  //   margin: const EdgeInsets.only(top: 10),
+  // ),
+  'li': Style(
+    padding: const EdgeInsets.only(left: 6),
+    margin: const EdgeInsets.only(top: 10),
     listStylePosition: ListStylePosition.OUTSIDE,
   ),
 };

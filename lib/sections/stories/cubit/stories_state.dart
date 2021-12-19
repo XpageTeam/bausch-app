@@ -15,7 +15,7 @@ class StoriesFailed extends StoriesState {
 class StoriesLoading extends StoriesState {}
 
 class StoriesSuccess extends StoriesState {
-  final List<StoryModel> stories;
+  final List<StoryModel?> stories;
 
   StoriesSuccess({required this.stories});
 }

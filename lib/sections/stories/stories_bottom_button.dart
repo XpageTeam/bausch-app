@@ -3,10 +3,10 @@ import 'package:bausch/models/stories/product_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StoriesBottommButton extends StatelessWidget {
   final String? link;
@@ -39,6 +39,7 @@ class StoriesBottommButton extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
                       child: Text(
@@ -51,7 +52,7 @@ class StoriesBottommButton extends StatelessWidget {
                     ),
                     Flexible(
                       child: SizedBox(
-                        height: 100,
+                        height: 100.sp,
                         child: AspectRatio(
                           aspectRatio: 100 / 100,
                           child: Image.network(
