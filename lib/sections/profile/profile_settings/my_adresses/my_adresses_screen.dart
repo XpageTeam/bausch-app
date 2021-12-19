@@ -9,6 +9,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/adresses.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/address_button.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
@@ -58,7 +59,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   itemBuilder: (context, i) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 4),
-                      child: FocusButton(
+                      child: AddressButton(
                         labelText:
                             '${state.adresses[i].street}, ${state.adresses[i].house}',
                         selectedText:
@@ -82,8 +83,11 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 ),
               ),
               floatingActionButton: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  0,
+                  StaticData.sidePadding,
+                  47,
                 ),
                 child: BlueButtonWithText(
                   text: 'Добавить адрес',
@@ -116,8 +120,11 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 ),
               ),
               floatingActionButton: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  0,
+                  StaticData.sidePadding,
+                  47,
                 ),
                 child: BlueButtonWithText(
                   text: 'Добавить адрес',

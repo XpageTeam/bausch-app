@@ -81,7 +81,7 @@ class _LensParametersScreenState extends State<LensParametersContent> {
                             addict: state.model.addict,
                             cylinder: state.model.cylinder,
                             axis: state.model.axis,
-                            diopter: await showModalBottomSheet<int>(
+                            diopter: await showModalBottomSheet<num>(
                                   context: context,
                                   builder: (context) {
                                     return const PickerScreen(
@@ -107,7 +107,7 @@ class _LensParametersScreenState extends State<LensParametersContent> {
                         LensUpdate(
                           model: LensParametersModel(
                             addict: state.model.addict,
-                            cylinder: await showModalBottomSheet<int>(
+                            cylinder: await showModalBottomSheet<num>(
                                   context: context,
                                   builder: (context) {
                                     return const PickerScreen(
@@ -136,7 +136,7 @@ class _LensParametersScreenState extends State<LensParametersContent> {
                           model: LensParametersModel(
                             addict: state.model.addict,
                             cylinder: state.model.cylinder,
-                            axis: await showModalBottomSheet<int>(
+                            axis: await showModalBottomSheet<num>(
                                   context: context,
                                   builder: (context) {
                                     return const PickerScreen(
@@ -162,7 +162,7 @@ class _LensParametersScreenState extends State<LensParametersContent> {
                       lensBloc.add(
                         LensUpdate(
                           model: LensParametersModel(
-                            addict: await showModalBottomSheet<int>(
+                            addict: await showModalBottomSheet<num>(
                                   context: context,
                                   builder: (context) {
                                     return const PickerScreen(

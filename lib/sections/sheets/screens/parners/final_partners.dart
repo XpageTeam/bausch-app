@@ -1,13 +1,15 @@
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
-import 'package:bausch/sections/sheets/white_rounded_container.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FinalPartners extends StatelessWidget {
   final ScrollController controller;
@@ -20,73 +22,78 @@ class FinalPartners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
+    return CustomSheetScaffold(
+      backgroundColor: AppTheme.sulu,
+      controller: controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        icon: Container(height: 1),
+        //iconColor: AppTheme.mystic,
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.sulu,
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    CustomSliverAppbar.toPop(
-                      icon: Container(),
-                      key: key,
-                      backgroundColor: Colors.white,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20,
-                        bottom: 40,
-                      ),
-                      child: Text(
-                        'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
-                        style: AppStyles.h2,
-                      ),
-                    ),
-                    // WhiteRoundedContainer(
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       Text(
-                    //         model.poolPromoCode,
-                    //         style: AppStyles.h2,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    const ContainerWithPromocode(promocode: '6СС5165АDF345'),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        bottom: 40,
-                      ),
-                      child: Text(
-                        'Доступ видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
-                        style: AppStyles.p1,
-                      ),
-                    ),
-                    BigCatalogItem(model: model),
-                  ],
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
+          ),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 78,
+                    bottom: 40,
+                  ),
+                  // TODO(Nikolay): Где брать?.
+                  child: Text(
+                    'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
+                    style: AppStyles.h1,
+                  ),
                 ),
-              ),
+                // WhiteRoundedContainer(
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Text(
+                //         model.poolPromoCode,
+                //         style: AppStyles.h2,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                ContainerWithPromocode(
+                  promocode: model.poolPromoCode,
+                  onPressed: copyCode,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    bottom: 40,
+                  ),
+                  // TODO(Nikolay): Где брать?.
+                  child: Text(
+                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
+                    style: AppStyles.p1,
+                  ),
+                ),
+                BigCatalogItem(model: model),
+              ],
             ),
-          ],
+          ),
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(
-          text: 'Скопировать код и перейти на сайт',
-          withInfo: false,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ],
+      bottomButton: BottomButtonWithRoundedCorners(
+        text: 'Скопировать код и перейти на сайт',
+        withInfo: false,
+        onPressed: () {
+          copyCode();
+          // TODO(Nikolay): Переход на сайт.
+        },
       ),
     );
+  }
+
+  void copyCode() {
+    Clipboard.setData(ClipboardData(text: model.poolPromoCode));
+    showDefaultNotification(title: 'Скопировано!');
   }
 }

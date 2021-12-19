@@ -1,6 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
-import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
@@ -10,12 +9,13 @@ class TopSection extends StatelessWidget {
   final CatalogItemModel model;
   final bool isFull;
   final bool withPrice;
-  final Widget appBar;
+  final Widget leftIcon;
+
   const TopSection({
     required this.model,
     required this.isFull,
     required this.withPrice,
-    required this.appBar,
+    required this.leftIcon,
     Key? key,
   }) : super(key: key);
 
@@ -25,17 +25,32 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(icon: leftIcon, key: key),
+          leftIcon: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              top: 16,
+            ),
+            child: leftIcon,
+          ),
         );
 
-  TopSection.packaging(
-      {required CatalogItemModel model, required Widget leftIcon, Key? key})
-      : this(
+  TopSection.packaging({
+    required CatalogItemModel model,
+    required Widget leftIcon,
+    GlobalKey<NavigatorState>? rightKey,
+    Key? key,
+  }) : this(
           model: model,
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(icon: leftIcon, key: key),
+          leftIcon: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              top: 16,
+            ),
+            child: leftIcon,
+          ),
         );
 
   TopSection.webinar(CatalogItemModel model, Key? key)
@@ -44,15 +59,12 @@ class TopSection extends StatelessWidget {
           isFull: true,
           withPrice: false,
           key: key,
-          appBar: CustomSliverAppbar.toPop(
-            icon: Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Image.asset(
-                'assets/play-video.png',
-                height: 28,
-              ),
+          leftIcon: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Image.asset(
+              'assets/play-video.png',
+              height: 28,
             ),
-            key: key,
           ),
         );
 
@@ -65,17 +77,23 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toClose(leftIcon, key),
+          leftIcon: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              top: 20,
+            ),
+            child: leftIcon,
+          ),
         );
 
   // ignore: avoid_unused_constructor_parameters
-  TopSection.partners(CatalogItemModel model, Widget leftIcon, Key? key)
+  TopSection.partners(CatalogItemModel model, Key? key)
       : this(
           model: model,
           isFull: true,
           withPrice: true,
           key: key,
-          appBar: CustomSliverAppbar.toPop(icon: Container(), key: key),
+          leftIcon: Container(),
         );
 
   @override
@@ -108,7 +126,7 @@ class TopSection extends StatelessWidget {
                 ),
                 child: Text(
                   model.name,
-                  style: AppStyles.h2,
+                  style: AppStyles.h1,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -120,11 +138,14 @@ class TopSection extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     bottom: 30,
                   ),
-                  child: ButtonContent(price: model.price.toString()),
+                  child: ButtonContent(
+                    price: model.priceToString,
+                    textStyle: AppStyles.h1,
+                  ),
                 ),
             ],
           ),
-          appBar,
+          leftIcon,
         ],
       ),
     );

@@ -6,12 +6,14 @@ class WhiteContainerWithRoundedCorners extends StatelessWidget {
   final double? heigth;
   final double? width;
   final EdgeInsets? padding;
+  final Color color;
   const WhiteContainerWithRoundedCorners({
     required this.child,
     this.heigth,
     this.width,
     this.onTap,
     this.padding,
+    this.color = Colors.white,
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +27,7 @@ class WhiteContainerWithRoundedCorners extends StatelessWidget {
         padding: padding,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Colors.white,
+          color: color,
         ),
         child: child,
       ),

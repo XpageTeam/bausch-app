@@ -3,12 +3,14 @@ import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //* FAQ
 //* Answer
@@ -72,7 +74,7 @@ class QuestionScreen extends StatelessWidget
                       right: 12,
                       left: 12,
                       top: 31,
-                      bottom: 100,
+                      bottom: 92,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,8 +88,22 @@ class QuestionScreen extends StatelessWidget
                         ),
                         Html(
                           data: question.answer,
-                          style: {
-                            'body': Style(margin: EdgeInsets.zero),
+                          style: htmlStyles,
+                          onLinkTap: (url, context, attributes, element) async  {
+                            if (url != null){
+                              if (await canLaunch(url)){
+                                try {
+                                  await launch(url);
+
+                                  return;
+                                // ignore: avoid_catches_without_on_clauses
+                                } catch (e) {
+                                  debugPrint('url: $url - не может быть открыт');
+                                }
+                              }
+                            }
+
+                            debugPrint('url: $url - не может быть открыт');
                           },
                         ),
                       ],

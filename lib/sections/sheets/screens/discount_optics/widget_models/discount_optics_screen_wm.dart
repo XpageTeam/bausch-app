@@ -10,6 +10,7 @@ import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
@@ -21,7 +22,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final BuildContext context;
   final PromoItemModel itemModel;
 
-  final DiscountType discountType;
+  final DiscountTypeClass discountType;
 
   final discountOpticsStreamed = EntityStreamedState<List<DiscountOptic>>();
   final currentDiscountOptic = StreamedState<DiscountOptic?>(null);
@@ -72,9 +73,10 @@ class DiscountOpticsScreenWM extends WidgetModel {
         } else {
           Keys.bottomSheetItemsNav.currentState!.pushNamed(
             '/verification_discount_optics',
-            arguments: VerificationDiscountOpticsArguments(
+            arguments: DiscountOpticsArguments(
               model: itemModel,
               discountOptic: currentDiscountOptic.value!,
+              discountType: discountType,
             ),
           );
         }
@@ -88,7 +90,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
     try {
       final repository = await DiscountOpticsLoader.load(
-        'offline',
+        discountType.asString,
         itemModel.code,
       );
       unawaited(
@@ -127,7 +129,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   }
 
   void _initTexts() {
-    if (discountType == DiscountType.offline) {
+    if (discountType == DiscountTypeClass.offline) {
       legalInfoTexts = [
         'Перед заказом промокода на скидку необходимо проверить наличие продукта ' +
             '(на сайте и / или по контактному номеру телефона оптики).',
@@ -147,7 +149,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       ];
       selectHeaderText = 'Выбрать интернет-магазин';
       warningText =
-          'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине';
+          'Перед тем как оформить заказ, узнайте о наличии продукта в интернет-магазине';
       howToUseText =
           'Положите в корзину выбранный при заказе поощрения продукт. '
           'При оформлении заказа введите промокод в поле «Промокод» и нажмите «Применить». '
@@ -167,7 +169,7 @@ class DiscountOpticsLoader {
       (await rh.get<Map<String, dynamic>>(
         '/order/available-optics/',
         queryParameters: <String, dynamic>{
-          'category': 'offline',
+          'category': category,
           'productCode': productCode,
         },
         options: rh.cacheOptions

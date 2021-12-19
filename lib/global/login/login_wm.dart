@@ -37,7 +37,7 @@ class LoginWM extends WidgetModel {
 
   final phoneInputFormaters = <TextInputFormatter>[
     TextInputMask(
-      mask: r'\+7 (\99) 999-99-99',
+      mask: r'\+7 \99 999 99 99',
     ),
   ];
 
@@ -50,6 +50,7 @@ class LoginWM extends WidgetModel {
   final authRequestResult = EntityStreamedState<AuthResponseModel>()..loading();
 
   final sendPhoneAction = VoidAction();
+
   final sendCodeAction = VoidAction();
 
   final policyAcceptAction = VoidAction();
@@ -64,18 +65,35 @@ class LoginWM extends WidgetModel {
     var prevPhoneValue = '';
 
     phoneController.addListener(() {
-      if ((phoneController.text == '+7 (97' ||
-              phoneController.text == '+7 (98' ||
-              phoneController.text == '+7 (99') &&
+      debugPrint(phoneController.text);
+      if ((phoneController.text == '+7 97' ||
+              phoneController.text == '+7 98' ||
+              phoneController.text == '+7 99') &&
           (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
         phoneController
-          ..text = '+7 (9'
+          ..text = '+7 9'
+          ..selection = TextSelection.fromPosition(
+            TextPosition(offset: phoneController.text.length),
+          );
+      }
+
+      if (phoneController.text == '') {
+        phoneController
+          ..text = '+7 '
           ..selection = TextSelection.fromPosition(
             TextPosition(offset: phoneController.text.length),
           );
       }
 
       prevPhoneValue = phoneController.text;
+
+      if (phoneController.text.length >= 16) {
+        final currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      }
 
       _checkBtnActive();
     });
@@ -101,14 +119,16 @@ class LoginWM extends WidgetModel {
       }
 
       if (authRequestResult.value.data != null) {
-        Navigator.push<void>(
-          Keys.mainNav.currentContext!,
-          MaterialPageRoute(
-            builder: (context) {
-              return const CodeScreen();
-            },
-          ),
-        );
+        if (smsSendCounter.value == 0) {
+          Navigator.push<void>(
+            Keys.mainContentNav.currentContext!,
+            MaterialPageRoute(
+              builder: (context) {
+                return const CodeScreen();
+              },
+            ),
+          );
+        }
         // debugPrint(context.toString());
         // Keys.mainContentNav.currentState!.pushNamed('/code');
       }
@@ -116,7 +136,9 @@ class LoginWM extends WidgetModel {
 
     //* подписка на нажатие кнопки
     sendPhoneAction.bind((_) {
-      _sendPhone().then((value) {});
+			smsSendCounter.accept(0);
+
+      _sendPhone();
     });
 
     //* переключение состояния кнопки при отправке запроса
@@ -141,10 +163,17 @@ class LoginWM extends WidgetModel {
     });
   }
 
+	@override
+	void dispose(){
+
+		// phoneController.dispose();
+		// codeController.dispose();
+		super.dispose();
+	}
+
   void _checkAuth() {
     Provider.of<AuthWM>(context, listen: false).checkAuthAction();
   }
-
 
   void _showTopError(CustomException ex) {
     showDefaultNotification(
@@ -154,7 +183,7 @@ class LoginWM extends WidgetModel {
   }
 
   void _checkBtnActive() {
-    if (phoneController.text.length == 18 && policyAccepted.value) {
+    if (phoneController.text.length == 16 && policyAccepted.value) {
       sendPhoneBtnActive.accept(true);
     } else {
       sendPhoneBtnActive.accept(false);
@@ -215,7 +244,6 @@ class LoginWM extends WidgetModel {
       await UserWriter.writeToken(res.xApiToken);
 
       _checkAuth();
-      
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',

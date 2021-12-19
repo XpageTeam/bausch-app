@@ -1,8 +1,5 @@
-
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-
-
 
 class DiscountOptic {
   final int id;
@@ -10,7 +7,7 @@ class DiscountOptic {
   final String shopCode;
   final String? logo;
   final String link;
-  final List<DiscountOpticShop> disountOpticShops;
+  final List<DiscountOpticShop>? disountOpticShops;
 
   DiscountOptic({
     required this.id,
@@ -31,13 +28,15 @@ class DiscountOptic {
       shopCode: json['shopCode'] as String,
       logo: json['logo'] as String?,
       link: json['link'] as String,
-      disountOpticShops: List<DiscountOpticShop>.from(
-        (json['shop_data'] as List<dynamic>).map<DiscountOpticShop>(
-          (dynamic x) => DiscountOpticShop.fromJson(
-            x as Map<String, dynamic>,
-          ),
-        ),
-      ),
+      disountOpticShops: json['shop_data'] != null
+          ? List<DiscountOpticShop>.from(
+              (json['shop_data'] as List<dynamic>).map<DiscountOpticShop>(
+                (dynamic x) => DiscountOpticShop.fromJson(
+                  x as Map<String, dynamic>,
+                ),
+              ),
+            )
+          : null,
     );
   }
 }

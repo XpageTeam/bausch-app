@@ -8,10 +8,14 @@ class CustomAlertDialog extends StatelessWidget {
   final VoidCallback yesCallback;
   final VoidCallback? noCallback;
   final String? text;
+  final String? yesText;
+  final String? noText;
   const CustomAlertDialog({
     required this.yesCallback,
     this.noCallback,
     this.text,
+    this.yesText,
+    this.noText,
     Key? key,
   }) : super(key: key);
 
@@ -43,13 +47,13 @@ class CustomAlertDialog extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 40),
                 child: Text(
-                  'Удалить адрес?',
+                  text ?? 'Удалить адрес?',
                   style: AppStyles.h1,
                 ),
               ),
             ),
             BlueButtonWithText(
-              text: 'Да',
+              text: yesText ?? 'Да',
               onPressed: yesCallback,
             ),
             const SizedBox(
@@ -68,7 +72,7 @@ class CustomAlertDialog extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Нет',
+                        noText ?? 'Нет',
                         style: AppStyles.h2,
                       ),
                     ],

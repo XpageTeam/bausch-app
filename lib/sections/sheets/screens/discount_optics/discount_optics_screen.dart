@@ -5,6 +5,7 @@ import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
@@ -16,13 +17,9 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/discount_info.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-
-enum DiscountType {
-  offline,
-  onlineShop,
-}
 
 //catalog_discount_optics
 class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
@@ -35,7 +32,7 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
-    required DiscountType discountType,
+    required DiscountTypeClass discountType,
     Key? key,
   }) : super(
           key: key,
@@ -85,6 +82,7 @@ class _DiscountOpticsScreenState
                     ),
                     InfoSection(
                       text: widget.model.previewText,
+                      secondText: '',
                     ),
                     const SizedBox(
                       height: 12,
@@ -113,7 +111,7 @@ class _DiscountOpticsScreenState
                 child: EntityStateBuilder<List<DiscountOptic>>(
                   streamedState: wm.discountOpticsStreamed,
                   loadingChild: const Center(
-                    child: CircularProgressIndicator.adaptive(),
+                    child: AnimatedLoader(),
                   ),
                   builder: (_, discountOptics) => discountOptics.isEmpty
                       ? Text(
@@ -128,33 +126,37 @@ class _DiscountOpticsScreenState
                               wm.selectHeaderText,
                               style: AppStyles.h1,
                             ),
-                            if (wm.discountType == DiscountType.offline)
+                            if (wm.discountType == DiscountTypeClass.offline)
                               Padding(
                                 padding: const EdgeInsets.only(
                                   top: 12,
-                                  bottom: 20,
                                 ),
                                 child: Text(
                                   'Скидкой можно воспользоваться в любой из оптик сети.',
                                   style: AppStyles.p1,
                                 ),
                               ),
-                            SelectShopSection(
-                              discountOptics: discountOptics,
-                              onChanged: wm.setCurrentOptic,
-                              discountType: wm.discountType,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: SelectShopSection(
+                                discountOptics: discountOptics,
+                                onChanged: wm.setCurrentOptic,
+                                discountType: wm.discountType,
+                              ),
                             ),
-                            if (wm.discountType == DiscountType.offline)
+                            if (wm.discountType == DiscountTypeClass.offline)
                               Padding(
                                 padding: const EdgeInsets.only(
                                   top: 30,
-                                  bottom: 10,
+                                  bottom: 4,
                                 ),
                                 child: WhiteButton(
                                   text: 'Адреса оптик',
                                   icon: Padding(
                                     padding: const EdgeInsets.only(
                                       right: 12,
+                                      top: 16,
+                                      bottom: 16,
                                     ),
                                     child: Image.asset(
                                       'assets/icons/map-marker.png',
@@ -216,11 +218,13 @@ class _DiscountOpticsScreenState
   }
 }
 
-class VerificationDiscountOpticsArguments extends SheetScreenArguments {
+class DiscountOpticsArguments extends SheetScreenArguments {
   final DiscountOptic discountOptic;
+  final DiscountTypeClass discountType;
 
-  VerificationDiscountOpticsArguments({
+  DiscountOpticsArguments({
     required this.discountOptic,
+    required this.discountType,
     required CatalogItemModel model,
   }) : super(
           model: model,

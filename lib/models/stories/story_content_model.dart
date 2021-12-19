@@ -8,7 +8,25 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
   //* Ссылка на картинку или видео
   final String file;
 
-  StoryContentModel({required this.title, required this.file});
+  final String preview;
+
+  final Duration duration;
+
+  final String textBtn;
+
+  final String link;
+
+  final bool isVideo;
+
+  StoryContentModel({
+    required this.title,
+    required this.file,
+    required this.preview,
+    required this.textBtn,
+    required this.link,
+    required this.isVideo,
+    this.duration = const Duration(seconds: 3),
+  });
 
   factory StoryContentModel.fromMap(Map<String, dynamic> map) {
     if (map['title'] == null) {
@@ -19,11 +37,21 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
       throw ResponseParseException('Не передана ссылка на файл');
     }
 
+    if (map['textBtn'] == null) {
+      throw ResponseParseException('Не передан текст кнопки');
+    }
+
+    if (map['link'] == null) {
+      throw ResponseParseException('Не передана ссылка для кнопки');
+    }
+
     return StoryContentModel(
-      title: (map['title'] ?? 'kek') as String,
-      file: (map['file'] ??
-              'https://baush-app.xpager.ru/upload/uf/e0e/ge4ml2lkuiwovx8yyclujb9l7pda3jm1.jpg')
-          as String,
+      title: (map['title'] ?? 'Title') as String,
+      file: map['file'] as String,
+      preview: map['preview'] as String,
+      link: map['link'] as String,
+      textBtn: map['textBtn'] as String,
+      isVideo: map['isVideo'] as bool,
     );
   }
 

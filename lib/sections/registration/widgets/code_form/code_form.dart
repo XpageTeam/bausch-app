@@ -22,7 +22,7 @@ class CodeForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'SMS-код был отправлен\nна ${wm.phoneController.text}',
+              'Сообщение с кодом\nбыло отправлено на\n${wm.phoneController.text}',
               style: AppStyles.h1,
             ),
             SizedBox(
@@ -33,6 +33,7 @@ class CodeForm extends StatelessWidget {
               child: Center(
                 child: PinCodeTextField(
                   controller: wm.codeController,
+                  animationType: AnimationType.none,
                   appContext: context,
                   length: 4,
                   autoFocus: true,

@@ -1,12 +1,13 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
   final List<DiscountOptic> discountOptics;
-  final DiscountType discountType;
+  final DiscountTypeClass discountType;
 
   final void Function(DiscountOptic discountOptic) onChanged;
 
@@ -46,6 +47,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
+                splashFactory: NoSplash.splashFactory,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -66,19 +68,30 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                             ),
                           ),
                           if (widget.discountOptics[i].link.isNotEmpty &&
-                              widget.discountType == DiscountType.onlineShop)
-                            Text(
-                              widget.discountOptics[i].link,
-                              style: AppStyles.p1Underlined,
+                              widget.discountType ==
+                                  DiscountTypeClass.onlineShop)
+                            GestureDetector(
+                              onTap: () {
+                                // TODO(Nikolay): Переход на сайт.
+                              },
+                              child: AutoSizeText(
+                                widget.discountOptics[i].link
+                                    .replaceFirst('https://', ''),
+                                style: AppStyles.p1Underlined,
+                                maxLines: 1,
+                              ),
                             ),
                         ],
                       ),
                     ),
                     Expanded(
                       child: widget.discountOptics[i].logo != null
-                          ? Image.network(
-                              widget.discountOptics[i].logo!,
-                              width: MediaQuery.of(context).size.width / 5,
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Image.network(
+                                widget.discountOptics[i].logo!,
+                                width: MediaQuery.of(context).size.width / 5,
+                              ),
                             )
                           : const SizedBox(),
                     ),
@@ -103,72 +116,5 @@ class _SelectShopSectionState extends State<SelectShopSection> {
         ),
       ),
     );
-
-    // SliverList(
-    //   delegate: SliverChildBuilderDelegate(
-    //     (context, i) => Padding(
-    //       padding: const EdgeInsets.only(bottom: 4),
-    //       child: SizedBox(
-    //         height: 74,
-    //         child: TextButton(
-    //           onPressed: () {
-    //             setState(() {
-    //               _selectedIndex = i;
-    //             });
-    //           },
-    //           style: TextButton.styleFrom(
-    //             backgroundColor: Colors.white,
-    //             shape: RoundedRectangleBorder(
-    //               borderRadius: BorderRadius.circular(5),
-    //             ),
-    //           ),
-    //           child: Padding(
-    //             padding: const EdgeInsets.symmetric(horizontal: 12),
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               //crossAxisAlignment: CrossAxisAlignment.center,
-    //               children: [
-    //                 Column(
-    //                   crossAxisAlignment: CrossAxisAlignment.start,
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     Text(
-    //                       widget.discountOptics[i].title,
-    //                       style: AppStyles.h3,
-    //                     ),
-    //                     if (widget.discountOptics[i].link.isNotEmpty)
-    //                       Text(
-    //                         widget.discountOptics[i].link,
-    //                         style: AppStyles.p1Underlined,
-    //                       ),
-    //                   ],
-    //                 ),
-
-    //                 const SizedBox(
-    //                   width: 20,
-    //                 ),
-    //                 if (widget.discountOptics[i].logo != null)
-    //                   Image.asset(
-    //                     widget.discountOptics[i].logo!,
-    //                     width: MediaQuery.of(context).size.width / 5,
-    //                   ),
-    //                 CustomRadio(
-    //                   value: i,
-    //                   groupValue: _selectedIndex,
-    //                   onChanged: (v) {
-    //                     setState(() {
-    //                       _selectedIndex = i;
-    //                     });
-    //                   },
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //     childCount: widget.discountOptics.length,
-    //   ),
-    // );
   }
 }

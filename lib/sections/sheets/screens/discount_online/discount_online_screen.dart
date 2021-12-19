@@ -1,11 +1,9 @@
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -60,6 +58,7 @@ class DiscountOnlineScreen extends StatelessWidget
                     ),
                     InfoSection(
                       text: model.previewText,
+                      secondText: '',
                     ),
                     const SizedBox(
                       height: 12,
@@ -121,7 +120,7 @@ class DiscountOnlineScreen extends StatelessWidget
                 // TODO(Nikolay): Здесь поменять потом.
                 discountOptics: [],
                 onChanged: (discountOptic) {},
-                discountType: DiscountType.onlineShop,
+                discountType: DiscountTypeClass.onlineShop,
               ),
             ),
             SliverPadding(

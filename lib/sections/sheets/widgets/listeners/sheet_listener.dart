@@ -21,6 +21,7 @@ class SheetListener extends StatelessWidget {
     return BlocListener<CatalogItemCubit, CatalogItemState>(
       listener: (context, state) {
         if (state is CatalogItemFailed) {
+          Keys.mainNav.currentState!.pop();
           showDefaultNotification(
             title: state.title,
           );

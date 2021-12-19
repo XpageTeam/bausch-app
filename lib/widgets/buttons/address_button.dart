@@ -50,8 +50,8 @@ class AddressButton extends StatelessWidget {
             ),
           ),
           const Icon(
-            Icons.arrow_forward_ios_sharp,
-            size: 18,
+            Icons.chevron_right_sharp,
+            size: 20,
             color: AppTheme.mineShaft,
           ),
         ],

@@ -13,10 +13,17 @@ class CurrentLocationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NormalIconButton(
-      icon: const Icon(
-        Icons.location_on,
-        color: AppTheme.mineShaft,
+      icon: Padding(
+        padding: const EdgeInsets.fromLTRB(14, 15, 15, 14),
+        child: Image.asset(
+          'assets/icons/location.png',
+          fit: BoxFit.fill,
+        ),
       ),
+      // const Icon(
+      //   Icons.location_on,
+      //   color: AppTheme.mineShaft,
+      // ),
       onPressed: onPressed,
       backgroundColor: AppTheme.turquoiseBlue,
     );

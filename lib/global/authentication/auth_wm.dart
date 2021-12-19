@@ -1,6 +1,5 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -20,19 +19,12 @@ class AuthWM extends WidgetModel {
 
   final UserWM userWM;
 
-  AuthWM(WidgetModelDependencies baseDependencies, this.userWM)
-      : super(baseDependencies);
+  BuildContext? context;
+
+  AuthWM(this.userWM) : super(const WidgetModelDependencies());
 
   @override
   void onLoad() {
-    debugPrint('auth-load');
-    super.onLoad();
-  }
-
-  @override
-  void onBind() {
-    debugPrint('auth-bind');
-
     subscribe(authStatus.stream, (value) {
       late String targetPage;
 
@@ -46,7 +38,6 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.authenticated:
-          // TODO(Danil): когда Гоша разберётся - сделать
           if (userWM.userData.value.data?.user.city == null ||
               userWM.userData.value.data?.user.email == null) {
             targetPage = '/city_and_email';
@@ -67,16 +58,17 @@ class AuthWM extends WidgetModel {
       // );
 
       debugPrint(targetPage);
+      debugPrint('context $context');
 
-      if (Keys.mainContentNav.currentState != null) {
-        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
+      if (context != null) {
+        Navigator.of(context!).pushNamedAndRemoveUntil(
           targetPage,
           (route) => false,
         );
       }
     });
 
-    subscribe(checkAuthAction.stream, (value) {
+    checkAuthAction.bind((value) {
       if (userWM.userData.value.isLoading) return;
 
       userWM.userData.loading();
@@ -92,8 +84,12 @@ class AuthWM extends WidgetModel {
       });
     });
 
-    checkAuthAction();
+    super.onLoad();
+  }
 
-    super.onBind();
+	/// выход
+  void logout(){
+		userWM.logout();
+		authStatus.accept(AuthStatus.unauthenticated);
   }
 }

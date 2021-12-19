@@ -7,7 +7,11 @@ import 'package:bausch/models/mappable_object.dart';
 class WebinarItemModel extends CatalogItemModel
     implements MappableInterface<WebinarItemModel> {
   //* Идентификатор ролика
-  final String vimeoId;
+  final List<String> videoId;
+  final bool availability;
+  final bool? isBought;
+
+  bool get canWatch => isBought != null && isBought!;
 
   WebinarItemModel({
     required int id,
@@ -16,7 +20,9 @@ class WebinarItemModel extends CatalogItemModel
     required String detailText,
     required String picture,
     required int price,
-    required this.vimeoId,
+    required this.videoId,
+    required this.availability,
+    required this.isBought,
   }) : super(
           id: id,
           name: name,
@@ -51,14 +57,15 @@ class WebinarItemModel extends CatalogItemModel
       name: map['name'] as String,
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
-      picture:
-          'https://icdn.lenta.ru/images/2019/12/06/10/20191206104306174/pwa_vertical_1280_4c9fd519bc66e04b4a6eb24307a025ad.jpg',
-      price: (map['price'] ?? 150) as int,
-      vimeoId: map['video_vimeo_id'] != null
+      picture: map['picture'] as String,
+      price: map['price'] as int,
+      videoId: map['video_vimeo_id'] != null
           ? (map['video_vimeo_id'] as List<dynamic>)
               .map((dynamic e) => e as String)
-              .toList()[0]
-          : '123',
+              .toList()
+          : [''],
+      availability: map['availability'] as bool,
+      isBought: map['isBought'] as bool?,
     );
   }
 

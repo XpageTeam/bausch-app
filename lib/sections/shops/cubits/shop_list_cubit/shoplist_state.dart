@@ -28,3 +28,6 @@ class ShopListSuccess extends ShopListState {
     required this.cityList,
   });
 }
+class ShopListEmpty extends ShopListState {
+   const ShopListEmpty();
+}

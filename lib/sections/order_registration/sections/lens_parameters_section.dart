@@ -1,5 +1,4 @@
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -23,11 +22,12 @@ class LensParametersSection extends StatelessWidget {
           OrderButton(
             onPressed: () {},
             margin: const EdgeInsets.only(bottom: 4),
+
             title: Text(
               'Диоптрии',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.mineShaft,
           ),
           OrderButton(
             onPressed: () {},
@@ -36,7 +36,7 @@ class LensParametersSection extends StatelessWidget {
               'Цилиндр',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.grey,
           ),
           OrderButton(
             onPressed: () {},
@@ -45,7 +45,7 @@ class LensParametersSection extends StatelessWidget {
               'Ось',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.grey,
           ),
           OrderButton(
             onPressed: () {},
@@ -54,7 +54,7 @@ class LensParametersSection extends StatelessWidget {
               'Аддидация',
               style: AppStyles.h2GreyBold,
             ),
-            textColor: AppTheme.grey,
+            //textColor: AppTheme.grey,
           ),
         ],
       ),

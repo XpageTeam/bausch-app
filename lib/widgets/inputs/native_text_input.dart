@@ -21,6 +21,7 @@ class NativeTextInput extends StatefulWidget {
   final bool autofocus;
   final AlignmentGeometry? labelAlignment;
   final Color? cursorColor;
+  final bool? enabled;
 
   const NativeTextInput({
     required this.labelText,
@@ -35,6 +36,7 @@ class NativeTextInput extends StatefulWidget {
     this.inputFormatters,
     this.cursorColor,
     this.autofocus = false,
+    this.enabled,
     Key? key,
   }) : super(key: key);
 
@@ -112,8 +114,10 @@ class _NativeTextInputState extends State<NativeTextInput>
                     maxLines: widget.maxLines,
                     inputFormatters: widget.inputFormatters,
                     autofocus: widget.autofocus,
+                    enabled: widget.enabled,
                   )
                 : TextField(
+                    enabled: widget.enabled,
                     onChanged: widget.onChanged,
                     controller: widget.controller,
                     focusNode: focusNode,

@@ -1,7 +1,8 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/global/global_providers.dart';
+import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/navigation/main_navigation.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -13,19 +14,14 @@ import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 void main() {
-  runApp(
-    MyApp(),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends CoreMwwmWidget<AuthWM> {
   MyApp({
     Key? key,
   }) : super(
-          widgetModelBuilder: (context) => AuthWM(
-            const WidgetModelDependencies(),
-            UserWM(),
-          ),
+          widgetModelBuilder: (context) => AuthWM(UserWM()),
           key: key,
         );
 
@@ -40,7 +36,6 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        // statusBarIconBrightness: Brightness.dark,
       ),
     );
 
@@ -49,38 +44,60 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
         background: AppTheme.mineShaft,
         textColor: Colors.white,
       ),
-      child: MultiProvider(
-        providers: [
-          Provider(
-            create: (context) {
-              return wm.userWM;
-            },
-            lazy: false,
-          ),
-          Provider(
-            create: (context) {
-              return wm;
-            },
-            lazy: false,
-          ),
-        ],
-        child: GlobalProviders(
-          child: ScreenUtilInit(
-            designSize: const Size(375, 799),
-            builder: () => MaterialApp(
-              supportedLocales: const [
-                Locale('ru', ''),
-              ],
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                // Без этого не работает выделение текста. Очень странно.
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              title: 'Bausch + Lomb',
-              navigatorKey: Keys.mainNav,
-              theme: AppTheme.currentAppTheme,
-              home: const MainNavigation(),
+      child: Provider(
+        create: (context) => wm.userWM,
+        child: ScreenUtilInit(
+          designSize: const Size(375, 799),
+          builder: () => MaterialApp(
+            supportedLocales: const [
+              Locale('ru', ''),
+            ],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            title: 'Bausch + Lomb',
+            navigatorKey: Keys.mainNav,
+            theme: AppTheme.currentAppTheme,
+            home: Builder(
+              builder: (context) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: 1.0,
+                  ),
+                  child: MultiProvider(
+                    providers: [
+                      Provider(
+                        create: (context) {
+                          return wm.userWM;
+                        },
+                        lazy: false,
+                      ),
+                      Provider(
+                        create: (context) {
+                          return wm;
+                        },
+                        lazy: false,
+                      ),
+                    ],
+                    child: Builder(builder: (context) {
+                      RequestHandler.setContext(context);
+
+                      return Provider(
+                        create: (context) => LoginWM(
+                          baseDependencies: const WidgetModelDependencies(),
+                          context: context,
+                        ),
+                        lazy: false,
+                        child: MainNavigation(
+                          authWM: wm,
+                        ),
+                      );
+                    }),
+                  ),
+                );
+              },
             ),
           ),
         ),

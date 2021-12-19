@@ -20,6 +20,8 @@ class AlphabetScrollView extends StatefulWidget {
     this.overlayWidget,
     required this.selectedTextStyle,
     required this.unselectedTextStyle,
+    //required this.selectedLetterTextStyle, //= const TextStyle(fontSize: 12,height: 16/12,fontWeight: FontWeight.w500,fontFamily: 'Euclid Circular A',),
+    //required this.unselectedLetterTextStyle, // =  AppStyles.p1,
     this.itemExtent = 40,
     required this.itemBuilder,
   }) : super(key: key);
@@ -90,6 +92,10 @@ class AlphabetScrollView extends StatefulWidget {
   /// ```
 
   final TextStyle selectedTextStyle;
+
+  //final TextStyle selectedLetterTextStyle;
+
+  //final TextStyle unselectedLetterTextStyle;
 
   // ignore: member-ordering-extended
   /// Text styling for the unselected alphabet by which
@@ -205,7 +211,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     final index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
 
     //* Сложные математические расчеты - не трогать!
-    final scrollToPostion = widget.itemExtent * index + x * 74;
+    final scrollToPostion = widget.itemExtent * index + x * 75;
     listController.animateTo(
       scrollToPostion,
       duration: const Duration(milliseconds: 300),

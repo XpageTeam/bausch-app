@@ -64,6 +64,14 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                         }).toList(),
                         selectedTextStyle: AppStyles.h1,
                         unselectedTextStyle: AppStyles.h2,
+                        // selectedLetterTextStyle: AppStyles.p1,
+                        // unselectedLetterTextStyle: TextStyle(
+                        //   color: AppTheme.mineShaft,
+                        //   fontWeight: FontWeight.w400,
+                        //   fontSize: 12.sp,
+                        //   height: 16 / 12,
+                        //   fontFamily: 'Euclid Circular A',
+                        // ),
                         itemBuilder: (context, i, cityName) {
                           return InkWell(
                             onTap: () {

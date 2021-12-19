@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bausch/global/user/user_wm.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -10,6 +9,7 @@ class CityEmailScreenWM extends WidgetModel {
   final BuildContext context;
 
   final selectedCityName = StreamedState<String?>(null);
+  final codeScreenAuthTrue = StreamedState<bool>(false);
 
   final emailFieldController = TextEditingController();
   // final emailConfirmText = EntityStreamedState<String>();
@@ -32,12 +32,14 @@ class CityEmailScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    // subscribe(confirmEmailAction.stream, (value) {
-    //   _confirmUserEmail();
-    // });
 
     subscribe(setUserDataAction.stream, (value) {
       _setUserCityAndEmail();
+      final currentFocus = FocusScope.of(context);
+
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
     });
 
     subscribe<String?>(selectedCityName.stream, (value) {
@@ -68,12 +70,7 @@ class CityEmailScreenWM extends WidgetModel {
       email: emailFieldController.text,
       city: selectedCityName.value,
     ))) {
-      unawaited(
-        Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
-          '/home',
-          (route) => false,
-        ),
-      );
+      await codeScreenAuthTrue.accept(true);
     }
   }
 

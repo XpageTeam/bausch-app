@@ -1,15 +1,15 @@
-
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_verification_wm.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/discount_info.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -21,6 +21,7 @@ class DiscountOpticsVerification
     required this.controller,
     required PromoItemModel model,
     required DiscountOptic discountOptic,
+    required DiscountTypeClass discountType,
     Key? key,
   }) : super(
           key: key,
@@ -28,6 +29,7 @@ class DiscountOpticsVerification
             context: context,
             discountOptic: discountOptic,
             itemModel: model,
+            discountType: discountType,
           ),
         );
 
@@ -61,16 +63,8 @@ class _DiscountOpticsVerificationState extends WidgetState<
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomSliverAppbar.toPop(
-                          icon: NormalIconButton(
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new_sharp,
-                              size: 20,
-                            ),
-                            onPressed: Navigator.of(context).pop,
-                          ),
+                        CustomSliverAppbar(
                           key: widget.key,
-                          backgroundColor: Colors.white,
                         ),
                         const SizedBox(
                           height: 20,
@@ -101,7 +95,7 @@ class _DiscountOpticsVerificationState extends WidgetState<
                               height: 4,
                             ),
                             Text(
-                              'в оптике ${wm.discountOptic.title}',
+                              'в ${wm.discountType == DiscountTypeClass.offline ? 'оптике' : 'онлайн-магазине'} ${wm.discountOptic.title}',
                               style: AppStyles.h2,
                             ),
                           ],
@@ -132,9 +126,7 @@ class _DiscountOpticsVerificationState extends WidgetState<
           builder: (_, isLoading) {
             return isLoading
                 ? const CustomFloatingActionButton(
-                    text: '',
-                    icon: CircularProgressIndicator.adaptive(),
-                  )
+                    text: '', icon: AnimatedLoader())
                 : CustomFloatingActionButton(
                     text: 'Потратить ${wm.itemModel.price} б',
                     icon: Container(),

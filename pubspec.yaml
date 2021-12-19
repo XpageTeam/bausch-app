@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.0.1+10
+version: 0.0.1+18
 
 environment:
   sdk: ">=2.14.0 <3.0.0"
@@ -38,27 +38,42 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   file_picker: ^4.2.7
   flutter_bloc: ^7.3.3
+  flutter_cupertino_date_picker_fork: ^1.0.6
   flutter_html: ^2.2.1
   flutter_localizations:
     sdk: flutter
   flutter_keyboard_visibility: ^5.1.0
   flutter_screenutil: ^5.0.1
   flutter_svg: ^0.23.0+1
+  path_provider: ^2.0.8
   extended_masked_text: ^2.3.1
   # mask_text_input_formatter: ^2.0.0
   intl: ^0.17.0
   iphone_has_notch: ^1.0.0
   menu_button: ^1.4.2+1
-  video_player: ^2.2.7
+  # video_player: ^2.2.7
   pin_code_fields: ^7.3.0
   shared_preferences: ^2.0.11
   sqlite3_flutter_libs: ^0.5.2
-  vimeoplayer_trinity: ^0.2.1+1
-  youtube_player_flutter: ^8.0.0
+  
+  # better_player:
+  #   path: lib/packages/better_player
+  vimeoplayer_trinity:
+    path: lib/packages/vimeoplayer_trinity
+
+  # better_player: ^0.0.79
+  
+  http: ^0.13.4
+  # flutter_widget_from_html_core: ^0.8.4
+  # visibility_detector: ^0.2.2
+
+  # vimeoplayer_trinity: ^0.2.1+1
+  # youtube_player_flutter: ^8.0.0
   auto_size_text_pk: ^3.0.0
   geolocator: ^7.7.1
   overlay_support: ^1.2.1
   url_launcher: ^6.0.17
+  flutter_cupertino_date_picker: ^1.0.26+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -73,6 +88,7 @@ dependencies:
     git:
       url: https://github.com/Unact/yandex_mapkit.git
   easy_mask: ^2.0.1
+  package_info: ^2.0.2
 
 
 dev_dependencies:
@@ -97,11 +113,14 @@ flutter:
   assets:
     - assets/
     - assets/logos/
+    - assets/stories/
     - assets/items/
     - assets/icons/
     - assets/loading/
     - assets/temp/
     - assets/temp/logos/
+
+    - assets/discountOptics/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png

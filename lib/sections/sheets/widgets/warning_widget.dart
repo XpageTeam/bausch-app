@@ -7,17 +7,15 @@ import 'package:flutter/material.dart';
 
 class Warning extends StatelessWidget {
   final Widget view;
-  const Warning({
-    required this.view,
-    Key? key,
-  }) : super(key: key);
+
+  const Warning({required this.view, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return view;
   }
 
-  static Warning warning([String? text]) {
+  static Warning warning() {
     return Warning(
       view: Container(
         decoration: BoxDecoration(
@@ -38,9 +36,8 @@ class Warning extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  text ??
-                      'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
-                  style: AppStyles.h3,
+                  'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
+                  style: AppStyles.h2,
                 ),
               ),
             ],
@@ -50,7 +47,11 @@ class Warning extends StatelessWidget {
     );
   }
 
-  static Warning advertisment() {
+  static Warning advertisment({
+    String? name,
+    String? link,
+    String? description,
+  }) {
     return Warning(
       view: Container(
         decoration: BoxDecoration(
@@ -68,21 +69,22 @@ class Warning extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Онлайн-кинотеатр',
-                style: AppStyles.h2,
+                name ?? 'Онлайн-кинотеатр',
+                style: AppStyles.h1,
               ),
               const SizedBox(
                 height: 5,
               ),
               Text(
-                'data',
+                link ?? 'more.tv',
                 style: AppStyles.p1Underlined,
               ),
               const SizedBox(
                 height: 12,
               ),
               Text(
-                'Скачайте приложение и смотрите любимые фильмы в любое время',
+                description ??
+                    'Скачайте приложение и смотрите любимые фильмы в любое время',
                 style: AppStyles.p1,
               ),
             ],

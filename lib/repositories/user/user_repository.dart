@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/user/user_model/balance.dart';
 import 'package:bausch/models/user/user_model/user.dart';
@@ -8,7 +11,7 @@ class UserRepository {
 
   String get userName => user.name ?? 'Новый друг';
 
-  num get userScrore => balance.total;
+  String get userScrore => HelpFunctions.partitionNumber(balance.total);
 
   int? get daysRemain => balance.nearestExpiration?.date
       ?.difference(
@@ -17,10 +20,10 @@ class UserRepository {
       .inDays;
 
   String get lineLoadingText {
-    final amount = balance.nearestExpiration?.amount;
+    final amount = balance.nearestExpiration?.amount ?? 0;
     if (canPrintLineLoadingText) {
-      return '$amount ${HelpFunctions.wordByCount(
-        amount!.toInt(),
+      return '${HelpFunctions.partitionNumber(amount)} ${HelpFunctions.wordByCount(
+        amount.toInt(),
         [
           'баллов сгорят',
           'балл сгорит',
@@ -53,10 +56,18 @@ class UserRepository {
     required this.user,
   });
 
-  factory UserRepository.fromJson(Map<String, dynamic> json) => UserRepository(
-        balance: Balance.fromJson(json['balance'] as Map<String, dynamic>),
-        user: User.fromJson(json['user'] as Map<String, dynamic>),
-      );
+  factory UserRepository.fromJson(Map<String, dynamic> json) {
+		try {
+			return UserRepository(
+				balance: Balance.fromJson(json['balance'] as Map<String, dynamic>),
+				user: User.fromJson(json['user'] as Map<String, dynamic>),
+			);
+		} on ResponseParseException{
+			rethrow;
+		} catch (e){
+			throw ResponseParseException(e.toString());
+		}
+  }
 
   @override
   String toString() => 'UserModel(balance: $balance, user: $user)';

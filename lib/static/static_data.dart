@@ -18,6 +18,8 @@ class StaticData {
     'Внешний вид и комплектность подарочных изделий могут отличаться от изображений на сайте.',
   ];
 
+  static const removedOffersKey = 'removed_offers';
+  
   static String apiUrl = 'https://bausch.in-progress.ru/api/';
 
   //* Названия типов разделов, чтобы не менять во всех местах

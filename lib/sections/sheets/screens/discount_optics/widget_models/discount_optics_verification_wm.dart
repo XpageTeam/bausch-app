@@ -9,7 +9,8 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -22,6 +23,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final BuildContext context;
   final PromoItemModel itemModel;
   final DiscountOptic discountOptic;
+  final DiscountTypeClass discountType;
 
   final loadingState = StreamedState<bool>(false);
   final spendPointsAction = VoidAction();
@@ -35,6 +37,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     required this.context,
     required this.itemModel,
     required this.discountOptic,
+    required this.discountType,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -70,6 +73,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
       await OrderDiscountSaver.save(
         discountOptic,
         itemModel,
+        discountType.asString,
       );
 
       final userRepository = await UserWriter.checkUserToken();
@@ -103,9 +107,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     } else {
       await Keys.bottomSheetItemsNav.currentState!.pushNamed(
         '/final_discount_optics',
-        arguments: FinalDiscountOpticsArguments(
+        arguments: DiscountOpticsArguments(
           model: itemModel,
           discountOptic: discountOptic,
+          discountType: discountType,
         ),
       );
     }
@@ -123,6 +128,7 @@ class OrderDiscountSaver {
   static Future<BaseResponseRepository> save(
     DiscountOptic optic,
     PromoItemModel model,
+    String category,
   ) async {
     final rh = RequestHandler();
     final resp = await rh.put<Map<String, dynamic>>(
@@ -130,14 +136,13 @@ class OrderDiscountSaver {
       data: FormData.fromMap(
         <String, dynamic>{
           'productId': model.id,
-          // TODO(Nikolay): Поменять цену.
-          'price': 1,
+          'price': model.price,
           // 'addressId':optic.,
           // 'diopters':model.,
           // 'color':,
           // 'cylinder':,
           // 'axis':,
-          'category': 'offline',
+          'category': category,
           'shopCode': optic.shopCode,
           'productCode': model.code,
         },

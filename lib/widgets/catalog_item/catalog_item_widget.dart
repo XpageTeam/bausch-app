@@ -11,9 +11,11 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
+import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
@@ -78,28 +80,23 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
 
                       //* Цена и виджет баллов
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 30,
-                        ),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                model.price.toString(),
-                                style: AppStyles.h2Bold,
-                              ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              model.priceToString,
+                              style: AppStyles.h2Bold,
                             ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            PointWidget(textStyle: AppStyles.h2),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          PointWidget(textStyle: AppStyles.h2),
+                        ],
                       ),
 
                       //* Адрес
-                      if (model is ProductItemModel)
+                      if (model is ProductItemModel && address != null)
                         Flexible(
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 30),
@@ -117,7 +114,12 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
 
                 //* Изображение товара
-                Expanded(
+                Container(
+                  width: 100,
+                  // constraints: const BoxConstraints(
+                  //   minHeight: 100,
+                  // ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Image.asset(
                     img(model), //! model.img
                     scale: 3,
@@ -127,7 +129,7 @@ class CatalogItemWidget extends StatelessWidget {
             ),
 
             //* Информация о доставке
-            if (model is ProductItemModel)
+            if ((model is ProductItemModel) && deliveryInfo != null)
               Container(
                 //margin: const EdgeInsets.only(top: 2),
                 child: Row(
@@ -141,14 +143,28 @@ class CatalogItemWidget extends StatelessWidget {
                       width: 4,
                     ),
                     Flexible(
-                      child: Text.rich(
-                        TextSpan(
-                          text: 'Ещё пару дней. ',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Доставлен. ',
                           style: AppStyles.p1,
                           children: [
                             TextSpan(
-                              text: deliveryInfo,
                               style: AppStyles.p1Grey,
+                              // TODO сделать открытие всплывашки
+                              children: [
+                                const TextSpan(
+                                  text: 'Eсли нет, пишите ',
+                                ),
+                                TextSpan(
+                                  text: 'сюда',
+                                  style: AppStyles.p1Grey.copyWith(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: ', разберемся',
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -158,12 +174,15 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
               ),
             if (model is! ProductItemModel)
-              GreyButton(
-                text: txt(model),
-                icon: icon(model),
-                onPressed: () {
-                  callback(model);
-                },
+              Container(
+                margin: const EdgeInsets.only(top: 30),
+                child: GreyButton(
+                  text: txt(model),
+                  icon: icon(model),
+                  onPressed: () {
+                    callback(model);
+                  },
+                ),
               ),
           ],
         ),
@@ -214,10 +233,17 @@ Widget icon(CatalogItemModel _model) {
 
 void callback(CatalogItemModel _model) {
   if (_model is WebinarItemModel) {
-    debugPrint('webinar');
+    showDialog<void>(
+      context: Keys.mainNav.currentContext!,
+      // TODO(Danil): массив id
+      builder: (context) => VimeoPopup(
+        videoId: '112836958',
+        // videoId: _model.videoId.first,
+      ),
+    );
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
-    showDefaultNotification(title: 'title');
+    showDefaultNotification(title: 'Скопировано!');
   } else {
     showFlexibleBottomSheet<void>(
       context: Keys.mainNav.currentContext!,
@@ -230,6 +256,7 @@ void callback(CatalogItemModel _model) {
           controller: ScrollController(),
           model: _model as PromoItemModel,
           buttonText: 'Готово',
+          rightKey: Keys.mainNav,
         );
       },
     );

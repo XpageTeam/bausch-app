@@ -34,7 +34,7 @@ class ProfileStatus extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         userData.userName,
@@ -45,10 +45,17 @@ class ProfileStatus extends StatelessWidget {
                       //   radius: 5,
                       //   backgroundColor: AppTheme.turquoiseBlue,
                       // ),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: CircleAvatar(
+                          radius: 5,
+                          backgroundColor: AppTheme.turquoiseBlue,
+                        ),
+                      ),
                       const SizedBox(width: 5),
                       const Icon(
                         Icons.arrow_forward_ios,
-                        size: 12,
+                        size: 18,
                       ),
                     ],
                   ),

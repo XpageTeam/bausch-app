@@ -6,22 +6,26 @@ import 'package:flutter/services.dart';
 
 class ContainerWithPromocode extends StatelessWidget {
   final String promocode;
+  final bool withIcon;
+  final VoidCallback? onPressed;
+
   const ContainerWithPromocode({
     required this.promocode,
+    this.withIcon = true,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Clipboard.setData(ClipboardData(text: promocode)).then(
-          //TODO(Nikolay): Проверить как выводится уведомление
-          (value) => showDefaultNotification(
-            title: 'Промокод скопирован',
-          ),
-        );
-      },
+      onTap: onPressed ??
+          () {
+            //TODO(Nikita): Скопировать и показать уведомление
+            Clipboard.setData(ClipboardData(text: promocode));
+            //showFlushbar('title');
+            showDefaultNotification(title: 'Скопировано!');
+          },
       child: WhiteRoundedContainer(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,13 +34,18 @@ class ContainerWithPromocode extends StatelessWidget {
               promocode,
               style: AppStyles.h2,
             ),
-            const SizedBox(
-              width: 9,
-            ),
-            Image.asset(
-              'assets/copy.png',
-              height: 15,
-            ),
+            if (withIcon == true)
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 9,
+                  ),
+                  Image.asset(
+                    'assets/copy.png',
+                    height: 15,
+                  ),
+                ],
+              ),
           ],
         ),
       ),

@@ -3,7 +3,6 @@ import 'package:bausch/sections/registration/widgets/code_form/code_form.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -37,12 +36,16 @@ class _CodeScreenState extends State<CodeScreen> {
         streamedState: loginWM.smsResendSeconds,
         builder: (_, data) {
           if (data > 0) {
-            return Padding(
+            return Container(
               padding: const EdgeInsets.only(
                 bottom: 20,
+                //left: StaticData.sidePadding,
+                right: StaticData.sidePadding,
               ),
+              width: MediaQuery.of(context).size.width,
               //Повторная отправка через ${getTimerBySeconds(data)}',
               child: RichText(
+                //textAlign: TextAlign.left,
                 text: TextSpan(
                   style: AppStyles.p1,
                   children: [
@@ -60,24 +63,24 @@ class _CodeScreenState extends State<CodeScreen> {
               ),
             );
           } else {
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: BlueButtonWithText(
-                  text: 'Отправить заново',
-                  // ignore: unnecessary_lambdas
-                  onPressed: () {
-                    loginWM.sendPhoneAction();
-                  },
-                ),
+            return TextButton(
+              child: Text(
+                'Отправить новый код',
+                style: AppStyles.h2,
               ),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                //alignment: Alignment.centerLeft,
+              ),
+              // ignore: unnecessary_lambdas
+              onPressed: () {
+                loginWM.sendPhoneAction();
+              },
             );
           }
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

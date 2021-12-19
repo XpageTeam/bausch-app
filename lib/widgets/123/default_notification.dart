@@ -1,11 +1,8 @@
-import 'dart:io';
 
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 OverlaySupportEntry showDefaultNotification({
@@ -13,27 +10,46 @@ OverlaySupportEntry showDefaultNotification({
   String? subtitle,
   Duration duration = const Duration(seconds: 3),
 }) {
-  //TODO: Поменять на Flushbar
-  return showSimpleNotification(
-    Stack(
-      children: [
-        // const NewEmptyAppBar(
-        //   overlayStyle: SystemUiOverlayStyle.light,
-        // ),
-        _DefaultNotification(
+  return showOverlayNotification(
+    (c) => Material(
+      borderRadius: const BorderRadius.vertical(
+        bottom: Radius.circular(5),
+      ),
+      child: Container(
+        width: double.maxFinite,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(5),
+          ),
+          color: AppTheme.mineShaft,
+        ),
+        child: _DefaultNotification(
           title: title,
           subtitle: subtitle,
         ),
-      ],
+      ),
     ),
-    elevation: 0,
-    contentPadding: EdgeInsets.zero,
-    duration: duration,
-    background: AppTheme.mineShaft,
-    slideDismissDirection: Platform.isIOS
-        ? DismissDirection.vertical
-        : DismissDirection.horizontal,
   );
+  // return showSimpleNotification(
+  //   Stack(
+  //     children: [
+  //       // const NewEmptyAppBar(
+  //       //   overlayStyle: SystemUiOverlayStyle.light,
+  //       // ),
+  //       _DefaultNotification(
+  //         title: title,
+  //         subtitle: subtitle,
+  //       ),
+  //     ],
+  //   ),
+  //   elevation: 0,
+  //   contentPadding: EdgeInsets.zero,
+  //   duration: duration,
+  //   background: AppTheme.mineShaft,
+  //   slideDismissDirection: Platform.isIOS
+  //       ? DismissDirection.vertical
+  //       : DismissDirection.horizontal,
+  // );
 }
 
 class _DefaultNotification extends StatelessWidget {

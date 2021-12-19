@@ -21,8 +21,10 @@ class StoriesCubit extends Cubit<StoriesState> {
 
     try {
       final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>('stories')).data!,
+        (await rh.get<Map<String, dynamic>>('/stories/')).data!,
       );
+
+      debugPrint(parsedData.data.toString());
 
       emit(
         StoriesSuccess(

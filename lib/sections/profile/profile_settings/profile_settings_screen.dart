@@ -9,11 +9,16 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
+// import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info/package_info.dart';
+// import 'package:package_info/package_info.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
@@ -25,14 +30,8 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
         );
 
   @override
-  State<ProfileSettingsScreen> createState() => _ProfileSettingsScreenState();
-
-  @override
   WidgetState<CoreMwwmWidget<ProfileSettingsScreenWM>, ProfileSettingsScreenWM>
-      createWidgetState() {
-    // TODO: implement createWidgetState
-    throw UnimplementedError();
-  }
+      createWidgetState() => _ProfileSettingsScreenState();
 }
 
 class _ProfileSettingsScreenState
@@ -56,7 +55,7 @@ class _ProfileSettingsScreenState
           },
           child: Text(
             'Готово',
-            style: AppStyles.p1Grey,
+            style: AppStyles.p1,
           ),
         ),
       ),
@@ -107,19 +106,19 @@ class _ProfileSettingsScreenState
                       );
                     },
                   ),
-                  if (!wm.isEmailConfirmed)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          DiscountInfo(
-                            color: AppTheme.turquoiseBlue,
-                            text: 'подтвердить',
-                          ),
-                        ],
-                      ), // TODO(Nikita): Вывести статус
-                    ),
+                  //if (!wm.isEmailConfirmed)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        DiscountInfo(
+                          color: AppTheme.turquoiseBlue,
+                          text: 'подтвердить',
+                        ),
+                      ],
+                    ), // TODO(Nikita): Вывести статус
+                  ),
                 ],
               ),
             ),
@@ -129,11 +128,8 @@ class _ProfileSettingsScreenState
                 labelText: 'Мобильный телефон',
                 controller: wm.phoneController,
                 inputType: TextInputType.phone,
+                enabled: false,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: const ProfileSettingsBanner(),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
@@ -142,21 +138,54 @@ class _ProfileSettingsScreenState
                 builder: (_, birthDate) {
                   return FocusButton(
                     labelText: 'Дата рождения',
-                    selectedText: DateFormat('yyyy.MM.dd').format(birthDate!),
-                    // icon: Container(),
-                    onPressed: () async {
-                      wm.setBirthDate(await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900, 8),
-                        lastDate: DateTime(2101),
-                      ));
-                    },
+                    selectedText: DateFormat('yyyy.MM.dd')
+                        .format(birthDate ?? DateTime.now()),
+                    icon: Container(),
+                    onPressed: wm.selectedBirthDate.value == null
+                        ? () {
+                            DatePicker.showDatePicker(
+                              context,
+                              initialDateTime: DateTime.now(),
+                              minDateTime: DateTime(1900, 8),
+                              maxDateTime: DateTime(2101),
+                              locale: DateTimePickerLocale.ru,
+                              onCancel: () {},
+                              onConfirm: (date, i) {
+                                debugPrint('onchanged');
+
+                                showModalBottomSheet<void>(
+                                  context: Keys.mainNav.currentContext!,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  builder: (context) {
+                                    return CustomAlertDialog(
+                                      yesText: 'Продолжить',
+                                      noText: 'Отмена',
+                                      text:
+                                          'После установки сменить дату рождения будет невозможно!',
+                                      yesCallback: () {
+                                        wm.setBirthDate(date);
+                                        Navigator.of(context).pop();
+                                      },
+                                      noCallback: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          }
+                        : null,
                   );
                 },
               ),
             ),
-            //*Зеленый виджет, есть в другой ветке
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: const ProfileSettingsBanner(),
+            ),
             Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(
@@ -207,10 +236,19 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 40),
-              child: Text(
-                'Версия приложения 10.6',
-                style: AppStyles.p1Grey,
-                textAlign: TextAlign.center,
+              child: FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (_, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const SizedBox();
+                  }
+
+                  return Text(
+                    'Версия приложения ${snapshot.data?.version} (${snapshot.data?.buildNumber})',
+                    style: AppStyles.p1Grey,
+                    textAlign: TextAlign.center,
+                  );
+                },
               ),
             ),
           ],

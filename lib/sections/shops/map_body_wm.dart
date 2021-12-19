@@ -30,6 +30,8 @@ class MapBodyWM extends WidgetModel {
   final setCenterAction = StreamedAction<List<ShopModel>>();
   final updateMapObjects = StreamedAction<List<ShopModel>>();
 
+  final isModalBottomSheetOpen = StreamedState<bool>(false);
+
   final zoomInAction = VoidAction();
   final zoomOutAction = VoidAction();
   final moveToUserPosition = VoidAction();
@@ -59,7 +61,12 @@ class MapBodyWM extends WidgetModel {
   void onBind() {
     subscribe<List<ShopModel>>(
       updateMapObjects.stream,
-      _updateClusterMapObject,
+      (shopList) {
+        _updateClusterMapObject(shopList);
+        if (mapController != null) {
+          _setCenterOn(shopList);
+        }
+      },
     );
 
     subscribe<void>(
@@ -143,7 +150,7 @@ class MapBodyWM extends WidgetModel {
               PlacemarkIconStyle(
                 scale: indexOfPressedShop != null
                     ? indexOfPressedShop == i
-                        ? 2.5
+                        ? 2
                         : 1
                     : 1,
                 image: BitmapDescriptor.fromAssetImage(
@@ -161,7 +168,10 @@ class MapBodyWM extends WidgetModel {
     mapObjectsStreamed.accept(mapObjectsStreamed.value);
   }
 
-  void _setCenterOn<T>(List<T> list) {
+  Future<void> _setCenterOn<T>(List<T> list) async {
+    // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
+    if (list.isEmpty) return;
+
     ExtremePoints? extremePoints;
 
     if (list is List<Point>) {
@@ -178,11 +188,16 @@ class MapBodyWM extends WidgetModel {
       return;
     }
 
-    mapController?.moveCamera(
-      CameraUpdate.newBounds(
-        BoundingBox(
-          southWest: extremePoints.southWest,
-          northEast: extremePoints.northEast,
+    await Future.delayed(
+      const Duration(
+        milliseconds: 500,
+      ),
+      () async => mapController?.moveCamera(
+        CameraUpdate.newBounds(
+          BoundingBox(
+            southWest: extremePoints!.southWest,
+            northEast: extremePoints.northEast,
+          ),
         ),
       ),
     );
@@ -221,7 +236,7 @@ class MapBodyWM extends WidgetModel {
           zoom: 16,
           target: Point(
             latitude: point.latitude -
-                0.001, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
+                0.0015, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
             longitude: point.longitude,
           ),
         ),
@@ -288,6 +303,11 @@ class MapBodyWM extends WidgetModel {
       if (point.longitude < west) west = point.longitude;
       if (point.longitude > east) east = point.longitude;
     }
+
+    debugPrint('north: $north');
+    debugPrint('south: $south');
+    debugPrint('west: $west');
+    debugPrint('east: $east');
 
     final distance = sqrt(
       pow(south - north, 2) + pow(west - east, 2),

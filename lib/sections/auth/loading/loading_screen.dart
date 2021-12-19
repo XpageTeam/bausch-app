@@ -1,14 +1,13 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bausch/sections/auth/loading/animation_content.dart';
-import 'package:bausch/sections/auth/loading/loading_animation.dart';
+import 'package:bausch/sections/auth/loading/column_with_dynamic_duration.dart';
+import 'package:bausch/sections/auth/loading/image_row.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
-import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iphone_has_notch/iphone_has_notch.dart';
 
@@ -23,21 +22,54 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
-    debugPrint(spaceBetween.toString());
 
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
-      appBar: const EmptyAppBar(),
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           //* Анимация, запускается при инициализации экрана
-          const LoadingAnimation(),
+          Positioned.fill(
+            child: ColumnWithDynamicDuration(
+              children: [
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    left: 18,
+                    right: 18,
+                    bottom: 30,
+                  ),
+                  child: SafeArea(
+                    bottom: false,
+                    child: Image.asset(
+                      'assets/loading/logo.png',
+                    ),
+                  ),
+                ),
+                const ImageRow(
+                  firstImg: 'assets/loading/1.png',
+                  secondImg: 'assets/loading/2.png',
+                ),
+                const ImageRow(
+                  firstImg: 'assets/loading/3.png',
+                  secondImg: 'assets/loading/4.png',
+                ),
+                const ImageRow(
+                  firstImg: 'assets/loading/5.png',
+                  secondImg: 'assets/loading/6.png',
+                ),
+              ],
+            ),
+          ),
 
           //* Контент с текстом и кнопкой
           DelayedAnimatedTranslateOpacity(
             offsetY: 120,
-            delay: const Duration(milliseconds: 1600),
+            delay: const Duration(milliseconds: 1800),
+            animationDuration: const Duration(milliseconds: 500),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -57,7 +89,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       spaceBetween -
                       80.sp -
                       114.sp +
-                      (IphoneHasNotch.hasNotch ? 40.sp : 0.sp),
+                      (IphoneHasNotch.hasNotch ? 70.sp : 0.sp),
                   //height: 400.sp,
                 ),
               ],

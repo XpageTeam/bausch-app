@@ -126,6 +126,7 @@ class _ItemsRowState<T> extends State<ItemsRow<T>> {
               SingleChildScrollView(
                 controller: scrollController,
                 scrollDirection: Axis.horizontal,
+                clipBehavior: Clip.none,
                 child: IntrinsicHeight(
                   child: Row(
                     children: List.generate(

@@ -1,10 +1,9 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
-import 'package:bausch/widgets/discount_info.dart';
+import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:flutter/material.dart';
 
 class CatalogItem extends StatelessWidget {
@@ -19,7 +18,9 @@ class CatalogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: model is WebinarItemModel
+          ? () => onWebinarClick(context, model as WebinarItemModel)
+          : () => onTap?.call(),
       child: Padding(
         padding: const EdgeInsets.only(
           //right: 4,
@@ -34,66 +35,76 @@ class CatalogItem extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(5),
           ),
-          child: Stack(
+          child: Column(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      if (model is! WebinarItemModel)
-                        SizedBox(
-                          height: 100,
-                          child: AspectRatio(
-                            aspectRatio: 37 / 12,
-                            child: Image.network(
-                              model.picture,
-                            ),
-                          ),
-                        )
-                      else
-                        AspectRatio(
-                          aspectRatio: 174 / 112,
-                          child: Image.asset('assets/woman.png'),
-                        ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: StaticData.sidePadding,
-                        ),
-                        child: Text(
-                          model.name,
-                          style: AppStyles.p1,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: StaticData.sidePadding,
-                      right: StaticData.sidePadding,
-                      left: StaticData.sidePadding,
-                    ),
-                    child: ButtonWithPoints(
-                      price: model.price.toString(),
-                      onPressed: () {
-                        // TODO: Реализовать onPressed.
-                      },
+              if (model is! WebinarItemModel)
+                const SizedBox(
+                  height: 12,
+                ),
+              if (model is! WebinarItemModel)
+                SizedBox(
+                  height: 100,
+                  child: AspectRatio(
+                    aspectRatio: 37 / 12,
+                    child: Image.network(
+                      model.picture,
                     ),
                   ),
-                ],
+                )
+              else
+                AspectRatio(
+                  aspectRatio: 174 / 112,
+                  child: Image.network(model.picture),
+                ),
+              const SizedBox(
+                height: 8,
               ),
               Padding(
-                padding: const EdgeInsets.all(12),
-                child: shield(model),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: Text(
+                  model.name,
+                  style: AppStyles.p1,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              const Expanded(
+                child: SizedBox(
+                  height: 16,
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: StaticData.sidePadding,
+                    right: StaticData.sidePadding,
+                    left: StaticData.sidePadding,
+                  ),
+                  child: model is WebinarItemModel
+                      ? ButtonWithPoints(
+                          withIcon: !(model as WebinarItemModel).canWatch,
+                          price: (model as WebinarItemModel).canWatch
+                              ? 'Просмотр'
+                              : model.price.toString(),
+                          onPressed: () => onWebinarClick(
+                            context,
+                            model as WebinarItemModel,
+                          ),
+                        )
+                      : ButtonWithPoints(
+                          price: model.price.toString(),
+                          onPressed: () {
+                            onTap?.call();
+                          },
+                        ),
+                ),
+              ),
+              // const SizedBox(
+              //   height: 16,
+              // ),
             ],
           ),
         ),
@@ -101,17 +112,18 @@ class CatalogItem extends StatelessWidget {
     );
   }
 
-  //* Вывод нужного виджета в зависимости от типа
-  Widget shield(CatalogItemModel _model) {
-    if (_model is WebinarItemModel) {
-      return Image.asset(
-        'assets/play-video.png',
-        height: 28,
+  void onWebinarClick(BuildContext context, WebinarItemModel model) {
+    if (model.canWatch) {
+      showDialog<void>(
+        context: context,
+        builder: (context) => VimeoPopup(
+          // TODO(Danil): массив id
+          // videoId: model.videoId.first,
+          videoId: '112836958',
+        ),
       );
-    } else if (_model is PromoItemModel) {
-      return const DiscountInfo(text: '–500 ₽');
     } else {
-      return Container();
+      onTap?.call();
     }
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -9,6 +10,7 @@ import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,32 +65,38 @@ class _SmallContainerState extends State<SmallContainer> {
             left: StaticData.sidePadding,
             right: StaticData.sidePadding,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              AutoSizeText(
+              Text(
                 widget.model.name,
-                style: AppStyles.h1,
-                maxLines: 3,
+                style: AppStyles.h2,
                 overflow: TextOverflow.visible,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    widget.model.count.toString(),
-                    style: AppStyles.p1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.6),
-                    child: Image.asset(
-                      setTheImg(widget.model.type),
-                      height: 53,
+              Positioned(
+                left: 0,
+                bottom: 0,
+                child: Text(
+                  widget.model.count.toString(),
+                  style: AppStyles.p1,
+                ),
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(6.6),
+                      child: Image.asset(
+                        setTheImg(widget.model.type),
+                        height: 53,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
