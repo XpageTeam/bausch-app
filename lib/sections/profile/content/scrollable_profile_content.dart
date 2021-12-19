@@ -76,8 +76,8 @@ class _ScrollableProfileContentState
                     child: SelectWidget(
                       items: [
                         if (wm.orderHistoryList.value.data != null)
-                          'Заказы ${wm.orderHistoryList.value.data!.length}',
-                        // 'Уведомления 8',
+                          'Заказы ${wm.orderHistoryList.value.data!.isNotEmpty ? wm.orderHistoryList.value.data!.length : ''}',
+                        'Уведомления 8',
                       ],
                       onChanged: (i) {
                         if (i == 0) {
