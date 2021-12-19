@@ -9,13 +9,25 @@ import 'package:meta/meta.dart';
 part 'shoplist_state.dart';
 
 class ShopListCubit extends Cubit<ShopListState> {
-  ShopListCubit() : super(ShopListInitial());
+  String? city;
 
-  CitiesRepository citiesRepository = CitiesRepository(cities: []);
+  ShopListCubit({
+    this.city,
+  }) : super(ShopListInitial());
+
+  CitiesRepository? citiesRepository;
 
   Future<void> loadShopList() async {
-    emit(ShopListLoading());
-    emit(await _loadShopList());
+    if (citiesRepository == null) {
+      emit(ShopListLoading());
+      emit(await _loadShopList());
+    } else {
+      emit(
+        ShopListSuccess(
+          cityList: citiesRepository!.cities,
+        ),
+      );
+    }
   }
 
   // Future<void> loadShopListByCity(String city) async {
@@ -26,22 +38,32 @@ class ShopListCubit extends Cubit<ShopListState> {
   Future<ShopListState> _loadShopList() async {
     try {
       citiesRepository = await CitiesWithShopsDownloader.load();
+
+      // if (!citiesRepository.cities.any(
+      //   (element) => element.name == city,
+      // )) {
+      //   return ShopListEmpty();
+      // } else {
+      //   return ShopListSuccess(
+      //     cityList: citiesRepository.cities,
+      //   );
+      // }
       return ShopListSuccess(
-        cityList: citiesRepository.cities,
+        cityList: citiesRepository!.cities,
       );
     } on DioError catch (e) {
       return ShopListFailed(
-        title: 'Problems???? (интернет)',
+        title: 'Ошибка при отправке запроса на сервер',
         text: e.message,
       );
     } on ResponseParseException catch (e) {
       return ShopListFailed(
-        title: 'Problems???? (парсинг)',
+        title: 'Ошибка при получении ответа с сервера',
         text: e.toString(),
       );
     } on SuccessFalse catch (e) {
       return ShopListFailed(
-        title: 'Problems???? (суксес фолс)',
+        title: 'Произошла ошибка',
         text: e.toString(),
       );
     }
