@@ -34,7 +34,11 @@ class BlueButtonWithText extends StatelessWidget {
               padding: EdgeInsets.only(left: icon == null ? 0 : 9),
               child: Text(
                 text,
-                style: AppStyles.h2,
+                style: AppStyles.h2.copyWith(
+                  color: onPressed == null
+                      ? AppTheme.mineShaft.withOpacity(0.5)
+                      : AppTheme.mineShaft,
+                ),
               ),
             ),
           ],

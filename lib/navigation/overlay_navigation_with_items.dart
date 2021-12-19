@@ -16,6 +16,7 @@ import 'package:bausch/sections/sheets/screens/discount_online/discount_online_v
 import 'package:bausch/sections/sheets/screens/discount_online/final_discount_online.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
@@ -82,6 +83,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
 
             case '/offline':
               page = DiscountOpticsScreen(
+                discountType: DiscountTypeClass.offline,
                 controller: controller,
                 model: (settings.arguments as SheetScreenArguments).model
                     as PromoItemModel,
@@ -89,7 +91,8 @@ class OverlayNavigationWithItems extends StatelessWidget {
               break;
 
             case '/onlineShop':
-              page = DiscountOnlineScreen(
+              page = DiscountOpticsScreen(
+                discountType: DiscountTypeClass.onlineShop,
                 controller: controller,
                 model: (settings.arguments as SheetScreenArguments).model
                     as PromoItemModel,
@@ -113,10 +116,12 @@ class OverlayNavigationWithItems extends StatelessWidget {
               break;
 
             case '/verification_discount_optics':
+              final args = settings.arguments as DiscountOpticsArguments;
               page = DiscountOpticsVerification(
                 controller: controller,
-                model: (settings.arguments as SheetScreenArguments).model
-                    as PromoItemModel,
+                model: args.model as PromoItemModel,
+                discountOptic: args.discountOptic,
+                discountType: args.discountType,
               );
               break;
 
@@ -160,10 +165,12 @@ class OverlayNavigationWithItems extends StatelessWidget {
               break;
 
             case '/final_discount_optics':
+              final arg = settings.arguments as DiscountOpticsArguments;
               page = FinalDiscountOptics(
                 controller: controller,
-                model: (settings.arguments as SheetScreenArguments).model
-                    as PromoItemModel,
+                model: arg.model as PromoItemModel,
+                discountType: arg.discountType,
+                discountOptic: arg.discountOptic,
               );
               break;
             case '/final_discount_online':
@@ -201,7 +208,7 @@ class OverlayNavigationWithItems extends StatelessWidget {
               );
           }
 
-          if (Platform.isIOS){
+          if (Platform.isIOS) {
             return CupertinoPageRoute<void>(builder: (context) {
               return page;
             });
