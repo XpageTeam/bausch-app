@@ -1,4 +1,5 @@
-import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -29,11 +30,20 @@ class TextButtonsListener extends StatelessWidget {
             if (state is FaqSuccess) {
               Keys.mainNav.currentState!.pop();
 
-              showSimpleSheet(
+              // showSimpleSheet(
+              //   context,
+              //   SimpleSheetModel(
+              //     title: 'Частые вопросы',
+              //     type: SimpleSheetType.faq,
+              //   ),
+              //   state.topics,
+              // );
+
+              showSheet<List<TopicModel>>(
                 context,
                 SimpleSheetModel(
-                  title: 'Частые вопросы',
-                  type: SimpleSheetType.faq,
+                  name: 'Частые вопросы',
+                  type: 'faq',
                 ),
                 state.topics,
               );
@@ -54,13 +64,13 @@ class TextButtonsListener extends StatelessWidget {
 
             if (state is RulesSuccess) {
               Keys.mainNav.currentState!.pop();
-
-              showSimpleSheet(
+              showSheet<String>(
                 context,
                 SimpleSheetModel(
-                  title: 'Rules',
-                  type: SimpleSheetType.rules,
+                  name: 'Частые вопросы',
+                  type: 'rules',
                 ),
+                state.data,
               );
             }
           },

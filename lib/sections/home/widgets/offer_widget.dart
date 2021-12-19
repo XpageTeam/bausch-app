@@ -1,4 +1,3 @@
-import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -26,16 +25,7 @@ class OfferWidget extends StatelessWidget {
       alignment: Alignment.topRight,
       children: [
         GestureDetector(
-          onTap: onTap ??
-              () {
-                showSimpleSheet(
-                  context,
-                  SimpleSheetModel(
-                    title: 'Программа подбора',
-                    type: SimpleSheetType.program,
-                  ),
-                );
-              },
+          onTap: onTap ?? () {},
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.sulu,
@@ -80,10 +70,7 @@ class OfferWidget extends StatelessWidget {
                         width: 45,
                       ),
                       InkWell(
-                        onTap: () => SimpleSheetModel(
-                          title: 'Программа подбора',
-                          type: SimpleSheetType.program,
-                        ),
+                        onTap: () {},
                         child: Stack(
                           alignment: Alignment.center,
                           children: [

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class CustomSheetScaffold extends StatelessWidget {
   final ScrollController controller;
   final List<Widget> slivers;
-  final Widget? bottomButton;
+  final Widget? bottomNavBar;
+  final Widget? floatingActionButton;
   final Color? backgroundColor;
   //final bool withAppBar;
   final Widget? appBar;
@@ -11,8 +12,9 @@ class CustomSheetScaffold extends StatelessWidget {
     required this.controller,
     required this.slivers,
     this.appBar,
-    this.bottomButton,
+    this.bottomNavBar,
     this.backgroundColor,
+    this.floatingActionButton,
     Key? key,
   }) : super(key: key);
 
@@ -42,7 +44,9 @@ class CustomSheetScaffold extends StatelessWidget {
               ),
           ],
         ),
-        bottomNavigationBar: bottomButton,
+        bottomNavigationBar: bottomNavBar,
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

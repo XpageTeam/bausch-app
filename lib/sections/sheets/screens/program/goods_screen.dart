@@ -10,7 +10,7 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
 //catalog_free_packaging
-class GoodsScreen extends StatelessWidget implements SheetScreenArguments {
+class GoodsScreen extends StatelessWidget implements ItemSheetScreenArguments {
   final ScrollController controller;
 
   @override
@@ -86,7 +86,7 @@ class GoodsScreen extends StatelessWidget implements SheetScreenArguments {
           ),
         ),
       ],
-      //bottomButton: Container(),
+      //wbottomButton: Container(),
     );
   }
 }

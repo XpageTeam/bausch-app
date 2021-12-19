@@ -8,7 +8,6 @@ import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
-import 'package:bausch/models/sheets/folder/sheet_with_items_model.dart';
 import 'package:bausch/static/static_data.dart';
 
 class ProductItemModelSlider extends CatalogItemModel {
@@ -339,38 +338,38 @@ class Models {
     ),
   ];*/
 
-  static List<SheetModelWithItems> sheetsWithItems = [
-    SheetModelWithItems(
-      title: 'Скидка 500р в оптике',
-      img: 'assets/discount-in-optics.png',
-      models: items,
-      type: SheetWithItemsType.discountOptics,
-    ),
-    SheetModelWithItems(
-      title: 'Бесплатная упаковка',
-      img: 'assets/free-packaging.png',
-      models: items,
-      type: SheetWithItemsType.packaging,
-    ),
-    SheetModelWithItems(
-      title: 'Предложения\nот партнеров',
-      img: 'assets/offers-from-partners.png',
-      models: items,
-      type: SheetWithItemsType.partners,
-    ),
-    SheetModelWithItems(
-      title: 'Скидки в онлайн-магазинах',
-      img: 'assets/discount-in-online-store.png',
-      models: items,
-      type: SheetWithItemsType.discountOnline,
-    ),
-    SheetModelWithItems(
-      title: 'Записи вебинаров',
-      img: 'assets/webinar-rec.png',
-      models: items,
-      type: SheetWithItemsType.webinar,
-    ),
-  ];
+  // static List<SheetModelWithItems> sheetsWithItems = [
+  //   SheetModelWithItems(
+  //     title: 'Скидка 500р в оптике',
+  //     img: 'assets/discount-in-optics.png',
+  //     models: items,
+  //     type: SheetWithItemsType.discountOptics,
+  //   ),
+  //   SheetModelWithItems(
+  //     title: 'Бесплатная упаковка',
+  //     img: 'assets/free-packaging.png',
+  //     models: items,
+  //     type: SheetWithItemsType.packaging,
+  //   ),
+  //   SheetModelWithItems(
+  //     title: 'Предложения\nот партнеров',
+  //     img: 'assets/offers-from-partners.png',
+  //     models: items,
+  //     type: SheetWithItemsType.partners,
+  //   ),
+  //   SheetModelWithItems(
+  //     title: 'Скидки в онлайн-магазинах',
+  //     img: 'assets/discount-in-online-store.png',
+  //     models: items,
+  //     type: SheetWithItemsType.discountOnline,
+  //   ),
+  //   SheetModelWithItems(
+  //     title: 'Записи вебинаров',
+  //     img: 'assets/webinar-rec.png',
+  //     models: items,
+  //     type: SheetWithItemsType.webinar,
+  //   ),
+  // ];
 
   static List<BaseCatalogSheetModel> sheets = [
     CatalogSheetWithLogosModel(

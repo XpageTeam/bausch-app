@@ -66,7 +66,7 @@ class FinalConsultation extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: const BottomButtonWithRoundedCorners(
+      bottomNavBar: const BottomButtonWithRoundedCorners(
         text: 'Скопировать код и перейти на сайт',
       ),
     );

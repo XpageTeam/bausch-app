@@ -43,13 +43,13 @@ class WebinarScreenWM extends WidgetModel {
     buttonAction.bind(
       (_) {
         if (isEnough.value) {
-          Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/verification_webinar',
-            arguments: SheetScreenArguments(model: itemModel),
+            arguments: ItemSheetScreenArguments(model: itemModel),
           );
         } else {
           // TODO(Nikolay): Здесь возможны проблемы.
-          Keys.bottomSheetItemsNav.currentState!.pushReplacementNamed(
+          Navigator.of(context).pushReplacementNamed(
             '/add_points',
           );
         }

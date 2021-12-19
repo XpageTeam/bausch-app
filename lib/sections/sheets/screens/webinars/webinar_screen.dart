@@ -11,7 +11,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 //catalog_webinar
 class WebinarScreen extends CoreMwwmWidget<WebinarScreenWM>
-    implements SheetScreenArguments {
+    implements ItemSheetScreenArguments {
   final ScrollController controller;
 
   @override
@@ -74,7 +74,7 @@ class _WebinarsScreenState extends WidgetState<WebinarScreen, WebinarScreenWM> {
           ),
         ),
       ],
-      bottomButton: StreamedStateBuilder<bool>(
+      bottomNavBar: StreamedStateBuilder<bool>(
         streamedState: wm.isEnough,
         builder: (_, isEnough) => CustomFloatingActionButton(
           text: isEnough ? 'Перейти к заказу' : 'Не хватает ${wm.difference} б',

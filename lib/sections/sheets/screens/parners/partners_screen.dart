@@ -83,7 +83,7 @@ class _PartnersScreenState
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: wm.isEnough
             ? 'Получить поощрение ${widget.model.priceToString} б'
             : 'Нехватает ${wm.difference.formatString} б',
@@ -127,12 +127,12 @@ class PartnersScreenWM extends WidgetModel {
   void onBind() {
     buttonAction.bind((p0) {
       if (isEnough) {
-        Keys.bottomSheetItemsNav.currentState!.pushNamed(
+        Navigator.of(context).pushNamed(
           '/verification_partners',
-          arguments: SheetScreenArguments(model: itemModel),
+          arguments: ItemSheetScreenArguments(model: itemModel),
         );
       } else {
-        Keys.bottomSheetItemsNav.currentState!.pushNamed(
+        Navigator.of(context).pushNamed(
           '/add_points',
         );
       }

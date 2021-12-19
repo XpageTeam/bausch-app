@@ -81,7 +81,7 @@ class FinalPartners extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: BottomButtonWithRoundedCorners(
+      bottomNavBar: BottomButtonWithRoundedCorners(
         text: 'Скопировать код и перейти на сайт',
         withInfo: false,
         onPressed: () {

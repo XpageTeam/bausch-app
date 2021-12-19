@@ -1,5 +1,5 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -108,9 +108,19 @@ class HomeScreen extends StatelessWidget {
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(
                       [
-                        const DelayedAnimatedTranslateOpacity(
+                        DelayedAnimatedTranslateOpacity(
                           offsetY: 50,
-                          child: OfferWidget(),
+                          child: OfferWidget(
+                            onTap: () {
+                              showSheet<void>(
+                                context,
+                                SimpleSheetModel(
+                                  name: 'Программа подбора',
+                                  type: 'program',
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -179,12 +189,10 @@ class HomeScreen extends StatelessWidget {
             color: AppTheme.mineShaft,
           ),
           onPressed: () {
-            showSimpleSheet(
+            debugPrint(context.toString());
+            showSheet<void>(
               context,
-              SimpleSheetModel(
-                title: 'title',
-                type: SimpleSheetType.addpoints,
-              ),
+              SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
             );
           },
         ),

@@ -273,7 +273,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Получить сертификат',
         onPressed: () {},
       ),

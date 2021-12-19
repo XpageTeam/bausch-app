@@ -31,7 +31,7 @@ class SupportSection extends StatelessWidget {
           BlueButtonWithText(
             text: 'Написать в поддержку',
             onPressed: () {
-              Keys.simpleBottomSheetNav.currentState!.pushNamed(
+              Navigator.of(context).pushNamed(
                 '/support',
                 arguments: ContactSupportScreenArguments(
                   question: question,

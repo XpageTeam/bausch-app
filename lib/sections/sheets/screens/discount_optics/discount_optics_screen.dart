@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 
 //catalog_discount_optics
 class DiscountOpticsScreen extends StatelessWidget
-    implements SheetScreenArguments {
+    implements ItemSheetScreenArguments {
   final ScrollController controller;
 
   @override
@@ -166,12 +166,12 @@ class DiscountOpticsScreen extends StatelessWidget
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Получить скидку',
         onPressed: () {
-          Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/verification_discount_optics',
-            arguments: SheetScreenArguments(model: model),
+            arguments: ItemSheetScreenArguments(model: model),
           );
         },
       ),

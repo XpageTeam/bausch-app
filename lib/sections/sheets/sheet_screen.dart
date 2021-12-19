@@ -13,19 +13,31 @@ import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
-class SheetScreenArguments {
+class ItemSheetScreenArguments {
   final CatalogItemModel model;
 
-  SheetScreenArguments({required this.model});
+  ItemSheetScreenArguments({required this.model});
+}
+
+class SheetScreenArguments {
+  final BaseCatalogSheetModel sheetModel;
+  final List<CatalogItemModel> items;
+
+  SheetScreenArguments({
+    required this.sheetModel,
+    required this.items,
+  });
 }
 
 //* Главный экран с элементами каталога
 //* С него происходит переход в нужные секции
-class SheetScreen extends StatefulWidget {
+class SheetScreen extends StatefulWidget implements SheetScreenArguments {
   final ScrollController controller;
 
+  @override
   final BaseCatalogSheetModel sheetModel;
 
+  @override
   final List<CatalogItemModel> items;
 
   //final String path;
@@ -116,9 +128,9 @@ class _SheetScreenState extends State<SheetScreen> {
                           CatalogItem(
                             model: widget.items[i * 2],
                             onTap: () {
-                              Keys.bottomSheetItemsNav.currentState!.pushNamed(
+                              Navigator.of(context).pushNamed(
                                 '/${widget.sheetModel.type}',
-                                arguments: SheetScreenArguments(
+                                arguments: ItemSheetScreenArguments(
                                   model: widget.items[i * 2],
                                 ),
                               );
@@ -136,10 +148,9 @@ class _SheetScreenState extends State<SheetScreen> {
                             CatalogItem(
                               model: widget.items[i * 2 + 1],
                               onTap: () {
-                                Keys.bottomSheetItemsNav.currentState!
-                                    .pushNamed(
+                                Navigator.of(context).pushNamed(
                                   '/${widget.sheetModel.type}',
-                                  arguments: SheetScreenArguments(
+                                  arguments: ItemSheetScreenArguments(
                                     model: widget.items[i * 2 + 1],
                                   ),
                                 );
@@ -161,7 +172,7 @@ class _SheetScreenState extends State<SheetScreen> {
             ),
           ),
       ],
-      bottomButton: Column(
+      bottomNavBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [

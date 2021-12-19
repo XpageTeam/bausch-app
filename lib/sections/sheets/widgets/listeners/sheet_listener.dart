@@ -1,3 +1,4 @@
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -33,11 +34,11 @@ class SheetListener extends StatelessWidget {
 
         if (state is CatalogItemSuccess) {
           Keys.mainNav.currentState!.pop();
-          if (model.type == StaticData.types['consultation']) {
-            showSheetWithoutItems(context, model, state.items[0]);
-          } else {
-            showSheetWithItems(context, model, state.items);
-          }
+          showSheet<List<CatalogItemModel>>(
+            context,
+            model,
+            state.items,
+          );
         }
       },
       child: child,

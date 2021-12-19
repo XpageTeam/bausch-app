@@ -35,18 +35,12 @@ class ContactSupportScreen extends StatefulWidget
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
-      ),
-      child: FormsProvider(
-        child: FormsListener(
-          child: FormsScreen(
-            controller: widget.controller,
-            topic: widget.topic,
-            question: widget.question,
-          ),
+    return FormsProvider(
+      child: FormsListener(
+        child: FormsScreen(
+          controller: widget.controller,
+          topic: widget.topic,
+          question: widget.question,
         ),
       ),
     );

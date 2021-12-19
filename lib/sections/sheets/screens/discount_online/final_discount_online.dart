@@ -63,7 +63,7 @@ class FinalDiscountOnline extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: const BottomButtonWithRoundedCorners(
+      bottomNavBar: const BottomButtonWithRoundedCorners(
         text: 'Скопировать и перейти на сайт',
       ),
     );

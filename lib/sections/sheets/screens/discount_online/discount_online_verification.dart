@@ -92,12 +92,12 @@ class DiscountOnlineVerification extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить ${model.priceToString} б',
         onPressed: () {
-          Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/final_discount_online',
-            arguments: SheetScreenArguments(model: model),
+            arguments: ItemSheetScreenArguments(model: model),
           );
         },
       ),

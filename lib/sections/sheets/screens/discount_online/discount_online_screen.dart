@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 
 //catalog_discount_online_store
 class DiscountOnlineScreen extends StatelessWidget
-    implements SheetScreenArguments {
+    implements ItemSheetScreenArguments {
   final ScrollController controller;
   @override
   final PromoItemModel model;
@@ -165,12 +165,12 @@ class DiscountOnlineScreen extends StatelessWidget
           ),
         ),
       ],
-      bottomButton: CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Получить скидку',
         onPressed: () {
-          Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/verification_discount_online',
-            arguments: SheetScreenArguments(model: model),
+            arguments: ItemSheetScreenArguments(model: model),
           );
         },
       ),

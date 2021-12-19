@@ -98,7 +98,6 @@ class OrderRegistrationScreen extends StatelessWidget {
       bottomNavigationBar: CustomFloatingActionButton(
         text: 'Потратить 1250 б',
         onPressed: () {
-          //* TODO(Nikita): Заменить потом на pushNamed
           showFlexibleBottomSheet<void>(
             context: Keys.mainNav.currentContext!,
             minHeight: 0,
@@ -128,16 +127,6 @@ class OrderRegistrationScreen extends StatelessWidget {
               );
             },
           );
-          // showModalBottomSheet<void>(
-          //   context: Keys.mainNav.currentContext!,
-          //   isScrollControlled: true,
-          //   builder: (context) {
-          //     return FinalFreePackaging(
-          //       controller: ScrollController(),
-          //       model: Models.items[0],
-          //     );
-          //   },
-          // );
         },
       ),
     );
