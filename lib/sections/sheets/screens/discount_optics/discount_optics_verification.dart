@@ -2,6 +2,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_verification_wm.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -43,98 +44,85 @@ class _DiscountOpticsVerificationState extends WidgetState<
     DiscountOpticsVerification, DiscountOpticsVerificationWM> {
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
-      ),
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        body: CustomScrollView(
-          controller: widget.controller,
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
+    return CustomSheetScaffold(
+      controller: widget.controller,
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 78,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Text(
+                      'Подтвердите заказ',
+                      style: AppStyles.h1,
+                    ),
+                    Column(
                       children: [
-                        CustomSliverAppbar(
-                          key: widget.key,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Подтвердите заказ',
-                          style: AppStyles.h2,
-                        ),
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Text(
-                              'После подтверждения мы спишем баллы, и вы получите промокод',
-                              style: AppStyles.p1,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const DiscountInfo(text: 'Скидка 500 ₽'),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              'в ${wm.discountType == DiscountTypeClass.offline ? 'оптике' : 'онлайн-магазине'} ${wm.discountOptic.title}',
-                              style: AppStyles.h2,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        BigCatalogItem(
-                          model: wm.itemModel,
-                        ),
                         const SizedBox(
                           height: 12,
                         ),
                         Text(
-                          'После заказа у вас останется ${wm.remains} баллов',
+                          'После подтверждения мы спишем баллы, и вы получите промокод',
                           style: AppStyles.p1,
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const DiscountInfo(text: 'Скидка 500 ₽'),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'в ${wm.discountType == DiscountTypeClass.offline ? 'оптике' : 'онлайн-магазине'} ${wm.discountOptic.title}',
+                          style: AppStyles.h2,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    BigCatalogItem(
+                      model: wm.itemModel,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      'После заказа у вас останется ${wm.remains} баллов',
+                      style: AppStyles.p1,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        bottomNavigationBar: StreamedStateBuilder<bool>(
-          streamedState: wm.loadingState,
-          builder: (_, isLoading) {
-            return isLoading
-                ? const CustomFloatingActionButton(
-                    text: '', icon: AnimatedLoader())
-                : CustomFloatingActionButton(
-                    text: 'Потратить ${wm.itemModel.price} б',
-                    icon: Container(),
-                    onPressed: wm.spendPointsAction,
-                  );
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ],
+      bottomNavBar: StreamedStateBuilder<bool>(
+        streamedState: wm.loadingState,
+        builder: (_, isLoading) {
+          return isLoading
+              ? const CustomFloatingActionButton(
+                  text: '', icon: AnimatedLoader())
+              : CustomFloatingActionButton(
+                  text: 'Потратить ${wm.itemModel.price} б',
+                  icon: Container(),
+                  onPressed: wm.spendPointsAction,
+                );
+        },
       ),
     );
   }

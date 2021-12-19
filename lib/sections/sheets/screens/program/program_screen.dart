@@ -67,7 +67,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
             padding: const EdgeInsets.all(18),
             icon: Container(),
           ),
-          bottomButton: CustomFloatingActionButton(
+          bottomNavBar: CustomFloatingActionButton(
             text: 'Получить сертификат',
             onPressed: () {},
           ),

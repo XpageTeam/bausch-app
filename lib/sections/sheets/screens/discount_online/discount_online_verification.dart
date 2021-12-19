@@ -22,10 +22,8 @@ class DiscountOnlineVerification extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: controller,
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        //icon: Container(height: 1),
-        //iconColor: AppTheme.mystic,
+      appBar: const CustomSliverAppbar(
+        padding: EdgeInsets.all(18),
       ),
       slivers: [
         SliverList(

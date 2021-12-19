@@ -1,5 +1,5 @@
 import 'package:bausch/models/offer/offer.dart';
-import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+
 import 'package:bausch/sections/home/sections/offers/offers_section_wm.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -59,13 +59,13 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
   Future<void> showTargetBottomSheet(Offer offer) async {
     switch (offer.target) {
       case 'program':
-        showSimpleSheet(
-          context,
-          SimpleSheetModel(
-            title: 'title',
-            type: SimpleSheetType.program,
-          ),
-        );
+        // showSimpleSheet(
+        //   context,
+        //   SimpleSheetModel(
+        //     title: 'title',
+        //     type: SimpleSheetType.program,
+        //   ),
+        // );
         break;
 
       case 'profile':
@@ -90,10 +90,10 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
         break;
       // TODO(Nikolay): Уточнить add_point.
       case 'add_points':
-        showSimpleSheet(
-          context,
-          SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
-        );
+        // showSimpleSheet(
+        //   context,
+        //   SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
+        // );
         break;
 
       // showFlexibleBottomSheet<void>(

@@ -67,11 +67,11 @@ class DiscountOpticsScreenWM extends WidgetModel {
     buttonAction.bind(
       (_) {
         if (difference > 0) {
-          Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/add_points',
           );
         } else {
-          Keys.bottomSheetItemsNav.currentState!.pushNamed(
+          Navigator.of(context).pushNamed(
             '/verification_discount_optics',
             arguments: DiscountOpticsArguments(
               model: itemModel,

@@ -25,6 +25,7 @@ import 'package:bausch/sections/sheets/screens/discount_online/discount_online_v
 import 'package:bausch/sections/sheets/screens/discount_online/final_discount_online.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
@@ -118,14 +119,16 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (settings.arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
+                discountType: DiscountTypeClass.offline,
               );
               break;
 
             case '/onlineShop':
-              page = DiscountOnlineScreen(
+              page = DiscountOpticsScreen(
                 controller: controller,
                 model: (settings.arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
+                discountType: DiscountTypeClass.onlineShop,
               );
               break;
 
@@ -148,8 +151,12 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/verification_discount_optics':
               page = DiscountOpticsVerification(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (settings.arguments as DiscountOpticsArguments).model
                     as PromoItemModel,
+                discountType: (settings.arguments as DiscountOpticsArguments)
+                    .discountType,
+                discountOptic: (settings.arguments as DiscountOpticsArguments)
+                    .discountOptic,
               );
               break;
 
@@ -195,8 +202,12 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/final_discount_optics':
               page = FinalDiscountOptics(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (settings.arguments as DiscountOpticsArguments).model
                     as PromoItemModel,
+                discountType: (settings.arguments as DiscountOpticsArguments)
+                    .discountType,
+                discountOptic: (settings.arguments as DiscountOpticsArguments)
+                    .discountOptic,
               );
               break;
             case '/final_discount_online':
