@@ -7,6 +7,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'stories_state.dart';
 
@@ -16,6 +17,7 @@ class StoriesCubit extends Cubit<StoriesState> {
   }
 
   Future<void> loadData() async {
+    var prefs = await SharedPreferences.getInstance();
     emit(StoriesLoading());
     final rh = RequestHandler();
 
@@ -28,9 +30,17 @@ class StoriesCubit extends Cubit<StoriesState> {
 
       emit(
         StoriesSuccess(
-          stories: (parsedData.data as List<dynamic>)
-              .map((dynamic e) => StoryModel.fromMap(e as Map<String, dynamic>))
-              .toList(),
+          stories: (parsedData.data as List<dynamic>).map((dynamic e) {
+            StoryModel model = StoryModel.fromMap(e as Map<String, dynamic>);
+
+            if (prefs.containsKey('story[${model.id}]')) {
+              if (prefs.getInt('story[${model.id}]')! <= model.views) {
+                return model;
+              }
+            } else {
+              return model;
+            }
+          }).toList(),
         ),
       );
     } on ResponseParseException catch (e) {

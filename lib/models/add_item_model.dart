@@ -10,7 +10,6 @@ class AddItemModel implements MappableInterface<AddItemModel> {
 
   final String htmlText;
 
-  // TODO(Nikita): ??????
   String get priceString =>
       '+ ${HelpFunctions.partitionNumber(num.parse(price))}';
 

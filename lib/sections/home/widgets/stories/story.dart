@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 class Story extends StatelessWidget {
   final StoryModel model;
 
-  final List<StoryContentModel> models;
+  //final List<StoryContentModel> models;
 
   const Story({
     required this.model,
-    required this.models,
+    //required this.models,
     Key? key,
   }) : super(key: key);
 
@@ -29,7 +29,7 @@ class Story extends StatelessWidget {
             MaterialPageRoute<dynamic>(
               builder: (context) {
                 return StoriesScreen(
-                  stories: models,
+                  storyModel: model,
                 );
               },
             ),
