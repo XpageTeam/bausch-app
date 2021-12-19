@@ -1,4 +1,5 @@
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
 
@@ -13,7 +14,7 @@ class VimeoPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('id: $videoId');
+    debugPrint('videoId: $videoId');
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -24,7 +25,7 @@ class VimeoPopup extends StatelessWidget {
           VimeoPlayer(
             id: videoId,
             autoPlay: true,
-            loaderColor: AppTheme.turquoiseBlue,
+            loaderWidget: const AnimatedLoader(),
           ),
         ],
       ),

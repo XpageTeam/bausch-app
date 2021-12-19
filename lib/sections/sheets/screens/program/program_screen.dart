@@ -1,29 +1,41 @@
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
-import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
-import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
-import 'package:bausch/sections/sheets/white_rounded_container.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bausch/models/program/primary_data.dart';
+import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/slider/indicator.dart';
+import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
+import 'package:bausch/sections/profile/widgets/half_blured_circle.dart';
+import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/sections/shops/shops_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/appbar/appbar_for_bottom_sheet.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
+import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/custom_radio_button.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:bausch/widgets/select_widgets/custom_radio.dart';
-import 'package:bausch/widgets/text/text_with_point.dart';
+import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //Program
-class ProgramScreen extends StatefulWidget {
+class ProgramScreen extends CoreMwwmWidget<ProgramScreenWM> {
   final ScrollController controller;
-  const ProgramScreen({required this.controller, Key? key}) : super(key: key);
+  ProgramScreen({
+    required this.controller,
+    Key? key,
+  }) : super(
+          key: key,
+          widgetModelBuilder: (_) => ProgramScreenWM(),
+        );
 
   @override
-  State<ProgramScreen> createState() => _ProgramScreenState();
+  WidgetState<CoreMwwmWidget<ProgramScreenWM>, ProgramScreenWM>
+      createWidgetState() => _ProgramScreenState();
 }
 
-class _ProgramScreenState extends State<ProgramScreen> {
+class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   TextEditingController nameController = TextEditingController();
   int gValue = 0;
 
@@ -35,249 +47,337 @@ class _ProgramScreenState extends State<ProgramScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomSheetScaffold(
+    return EntityStateBuilder<PrimaryData>(
+      streamedState: wm.primaryDataStreamed,
+      builder: (context, primaryData) {
+        return  CustomSheetScaffold(
       controller: widget.controller,
       appBar: CustomSliverAppbar(
         padding: EdgeInsets.all(18),
         icon: Container(),
       ),
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.only(
-            top: StaticData.sidePadding,
-            left: StaticData.sidePadding,
-            right: StaticData.sidePadding,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Column(
-                  children: [
-                    Image.asset('assets/program.png'),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    const InfoSection(
-                      text:
-                          'Получите сертификат на бесплатную диагностику зрения и первую пару контактных линз Bausch+Lomb. Специалисты салона оптики также научат вас надевать контактные линзы и ухаживать за ними.\nЕсли вам подойдут подобранные контактные линзы и вы захотите их приобрести, то за регистрацию кода с упаковки вы получите в два раза больше баллов. Главное, успеть сделать это в течение 14 дней после активации сертификата в оптике.',
-                      secondText: '',
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 40,
+      bottomButton:  Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
+                  ),
+                  child: BlueButtonWithText(
+                    text: 'Получить сертификат',
+                    onPressed: () {},
+                  ),
+                ),
+                const SizedBox(
+                  height: 60,
+                  child: InfoBlock(),
+                ),
+                // Container(
+                //   padding: const EdgeInsets.only(
+                //     top: 8,
+                //     bottom: 19,
+                //   ),
+                //   //height: 60,
+                //   color: AppTheme.mystic,
+                //   child: const InfoBlock(),
+                // ),
+              ],
+            ),
+      slivers:  [
+                  SliverPadding(
+                    padding: const EdgeInsets.only(bottom: 40.0),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4.0),
+                            child: Stack(
+                              children: [
+                                _HeaderContainer(
+                                  text: primaryData.title,
+                                ),
+                                CustomSliverAppbar.toClose(
+                                  Container(),
+                                  widget.key,
+                                ),
+                              ],
+                            ),
+                          ),
+                          _InfoBlock(
+                            isWhiteContainerOnBackground: true,
+                            content: Text(
+                              primaryData.description,
+                              style: AppStyles.p1,
+                            ),
+                          ),
+                        ],
                       ),
-                      child: MayBeInteresting(
-                        text: 'В программе участвуют: ',
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        headerText: 'В программе участвуют',
+                        content: ItemSlider<Product>(
+                          items: primaryData.products,
+                          itemBuilder: (context, product) => _ProductItem(
+                            product: product,
+                          ),
+                          indicatorBuilder: (context, isActive) => Indicator(
+                            isActive: isActive,
+                            animationDuration:
+                                const Duration(milliseconds: 300),
+                          ),
+                        ),
                       ),
                     ),
-                    Text(
-                      'Важно знать перед подбором',
-                      style: AppStyles.h1,
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 40,
-                        top: 20,
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        isWhiteContainerOnBackground: true,
+                        headerText: 'Важно знать перед подбором',
+                        content: BulletedList(
+                          list: primaryData.importantToKnow,
+                        ),
                       ),
-                      child: WhiteRoundedContainer(
-                        child: Column(
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        headerText: 'Ваши данные',
+                        content: Column(
                           children: [
-                            TextWithPoint(
-                              text:
-                                  'Перед подбором контактных линз проверка зрения обязательна.',
-                              textStyle: AppStyles.p1,
-                              dotStyle: AppStyles.p1,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 20,
+                              ),
+                              child: NativeTextInput(
+                                labelText: 'Имя',
+                                controller: nameController,
+                              ),
                             ),
-                            const SizedBox(
-                              height: 10,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 20,
+                              ),
+                              child: NativeTextInput(
+                                labelText: 'Фамилия',
+                                controller: nameController,
+                              ),
                             ),
-                            TextWithPoint(
-                              text:
-                                  'Бесплатная пара выдается оптикой при отсутствии медицинских противопоказаний.',
-                              textStyle: AppStyles.p1,
-                              dotStyle: AppStyles.p1,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextWithPoint(
-                              text:
-                                  'Надеть первую бесплатную пару линз вам поможет специалист. Подарочные линзы не выдаются в блистерной упаковке.',
-                              textStyle: AppStyles.p1,
-                              dotStyle: AppStyles.p1,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextWithPoint(
-                              text:
-                                  'Бесплатная пара выдается оптикой в случае наличия подходящих диоптрий.Если вы младше 18 лет, может потребоваться присутствие родителя.',
-                              textStyle: AppStyles.p1,
-                              dotStyle: AppStyles.p1,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextWithPoint(
-                              text:
-                                  'Дополнительные услуги, не входящие в сертификат, могут быть платными, уточняйте условия в оптике.',
-                              textStyle: AppStyles.p1,
-                              dotStyle: AppStyles.p1,
-                            ),
-                            const SizedBox(
-                              height: 20,
+                            NativeTextInput(
+                              labelText: 'E-mail',
+                              controller: nameController,
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Text(
-                  'Ваши данные',
-                  style: AppStyles.h1,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                NativeTextInput(
-                  labelText: 'Имя',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                NativeTextInput(
-                  labelText: 'Фамилия',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                NativeTextInput(
-                  labelText: 'E-mail',
-                  controller: TextEditingController(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 40,
-                    bottom: 20,
                   ),
-                  child: Text(
-                    'Чем пользуетесь для коррекции зрения',
-                    style: AppStyles.h1,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      gValue = index;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding,
-                      vertical: 16,
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 40,
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            Models.whatYouUse[index],
-                            style: AppStyles.h3,
-                            maxLines: 3,
+                    sliver: SliverToBoxAdapter(
+                      child: _InfoBlock(
+                        headerText: 'Чем пользуетесь для коррекции зрения',
+                        content: Column(
+                          children: List.generate(
+                            primaryData.whatDoYouUse.length,
+                            (i) => Padding(
+                              padding: EdgeInsets.only(
+                                bottom: i != primaryData.whatDoYouUse.length - 1
+                                    ? 4
+                                    : 0,
+                              ),
+                              child: CustomRadioButton(
+                                text: primaryData.whatDoYouUse[i],
+                                onPressed: () => debugPrint(
+                                  primaryData.whatDoYouUse[i],
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        CustomRadio(
-                          value: index,
-                          groupValue: gValue,
-                          onChanged: (v) {
-                            setState(
-                              () {
-                                gValue = index;
-                              },
-                            );
-                          },
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              childCount: Models.whatYouUse.length,
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                const SizedBox(
-                  height: 24,
-                ),
-                WhiteButton(
-                  text: 'Выбрать оптику',
-                  padding: const EdgeInsets.fromLTRB(16, 26, 16, 28),
-                  icon: Padding(
+                  SliverPadding(
                     padding: const EdgeInsets.only(
-                      right: 12,
+                      bottom: 40,
                     ),
-                    child: Image.asset(
-                      'assets/icons/map-marker.png',
-                      height: 16,
+                    sliver: SliverToBoxAdapter(
+                      child: WhiteButton(
+                        text: 'Выбрать оптику',
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 12,
+                            top: 10,
+                            bottom: 12,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/map-marker.png',
+                            height: 16,
+                          ),
+                        ),
+                        onPressed: () {
+                          Keys.mainNav.currentState!.pop();
+                          Keys.mainContentNav.currentState!.pushNamed('/shops');
+                        },
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    Keys.mainNav.currentState!
-                        .push<void>(MaterialPageRoute(builder: (context) {
-                      return const ShopsScreen();
-                    }));
-                  },
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
+                ],
+              ),
+              ;
+          
+        
+      },
+    );
+  }
+}
+
+class _HeaderContainer extends StatelessWidget {
+  final String text;
+  const _HeaderContainer({
+    required this.text,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return WhiteContainerWithRoundedCorners(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.only(
+              bottom: 33,
+            ),
+            // TODO(Nikolay): доделать.
+            child: const HalfBluredCircle(
+              text: 'X2',
+              textStyle: TextStyle(
+                fontSize: 25,
+                height: 1,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.mineShaft,
+              ),
             ),
           ),
-        ),
-      ],
-      bottomButton: CustomFloatingActionButton(
-        text: 'Получить сертификат',
-        onPressed: () {},
+          AutoSizeText(
+            text,
+            style: AppStyles.h1,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
+        ],
       ),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      padding: const EdgeInsets.fromLTRB(
+        12,
+        27,
+        12,
+        31,
+      ),
+      color: AppTheme.sulu,
+    );
+  }
+}
+
+class _ProductItem extends StatelessWidget {
+  final Product product;
+  const _ProductItem({
+    required this.product,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return WhiteContainerWithRoundedCorners(
+      padding: const EdgeInsets.fromLTRB(
+        10,
+        12,
+        10,
+        16,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Image.network(
+              product.picture,
+              height: 100,
+              width: 100,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              product.name,
+              textAlign: TextAlign.center,
+              softWrap: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InfoBlock extends StatelessWidget {
+  final String? headerText;
+  final Widget content;
+  final bool isWhiteContainerOnBackground;
+  const _InfoBlock({
+    required this.content,
+    this.isWhiteContainerOnBackground = false,
+    this.headerText,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (headerText != null)
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Text(
+                headerText!,
+                style: AppStyles.h1,
+              ),
+            ),
+          ),
+        if (isWhiteContainerOnBackground) ...[
+          WhiteContainerWithRoundedCorners(
+            padding: const EdgeInsets.fromLTRB(
+              StaticData.sidePadding,
+              20,
+              StaticData.sidePadding,
+              40,
+            ),
+            child: content,
+          ),
+        ] else ...[
+          content,
+        ],
+      ],
     );
   }
 }

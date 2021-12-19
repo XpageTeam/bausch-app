@@ -6,7 +6,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
-import 'package:bausch/widgets/text/text_with_point.dart';
+import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:flutter/material.dart';
 
 class FinalFreePackaging extends StatelessWidget {
@@ -65,28 +65,24 @@ class FinalFreePackaging extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 12, bottom: 30),
                   child: Column(
-                    children: [
-                      TextWithPoint(
-                        dotStyle: AppStyles.p1,
-                        textStyle: AppStyles.p1,
+                    children: const [
+                      BulletedRow(
                         text:
-                            'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
+                            'После того, как данные заказа будут переданы логистической компании, мы позвоним для подтверждения адреса доставки '
+                            'и данных получателя по указанному в профиле номеру телефона. Обычно это происходит в течение 2-3 недель. '
+                            'Если нам не удастся дозвониться, мы будем вынуждены отменить заказ.',
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
-                      TextWithPoint(
-                        dotStyle: AppStyles.p1,
-                        textStyle: AppStyles.p1,
+                      BulletedRow(
                         text:
                             'Когда груз будет скомплектован, на указанные в профиле номер телефона и e-mail придет трек-номер. ',
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
-                      TextWithPoint(
-                        dotStyle: AppStyles.p1,
-                        textStyle: AppStyles.p1,
+                      BulletedRow(
                         text:
                             'Обращаем внимание, что в общей сложности обработка и доставка заказа осуществляются в течение 60 рабочих дней.',
                       ),

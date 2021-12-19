@@ -1,10 +1,13 @@
+import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileScreenWM extends WidgetModel {
   final notificationStreamed =
       StreamedAction<DraggableScrollableNotification>();
-  late final opacityStreamed = StreamedState<double>(opacity);
+  final colorStreamed = StreamedState<Color>(
+    Color.alphaBlend(AppTheme.turquoiseBlue, AppTheme.mystic),
+  );
 
   double opacity = 0.0;
 
@@ -15,15 +18,22 @@ class ProfileScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    subscribe<DraggableScrollableNotification>(
-      notificationStreamed.stream,
+    notificationStreamed.bind(
       (v) {
-        opacity = (v.extent - v.minExtent) /
-            (v.maxExtent - v.minExtent); // Нормализация значения от 0 до 1
+        if (v != null) {
+          opacity = (v.extent - v.minExtent) /
+              (v.maxExtent - v.minExtent); // Нормализация значения от 0 до 1
 
-        opacityStreamed.accept(opacity);
+          colorStreamed.accept(
+            Color.alphaBlend(
+              AppTheme.turquoiseBlue.withOpacity(1 - opacity),
+              AppTheme.mystic,
+            ),
+          );
+        }
       },
     );
+
     super.onBind();
   }
 }
