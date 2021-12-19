@@ -1,8 +1,8 @@
 import 'dart:ui';
 
+import 'package:bausch/sections/profile/content/scrollable_profile_content.dart';
 import 'package:bausch/sections/profile/profile_app_bar.dart';
 import 'package:bausch/sections/profile/profile_screen_wm.dart';
-import 'package:bausch/sections/profile/scrollable_profile_content.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
@@ -127,7 +127,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
               ],
             ),
           ),
-          bottomSheet: SizedBox(height: 60, child: const InfoBlock()),
+          bottomSheet: const SizedBox(height: 60, child: InfoBlock()),
           extendBodyBehindAppBar: true,
         ),
       ),

@@ -55,9 +55,9 @@ class HtmlScreen extends StatelessWidget {
                           //   ),
                           //   color: AppTheme.sulu,
                           // ),
-                          CustomSliverAppbar.toClose(
-                            Container(),
-                            key,
+                          CustomSliverAppbar(
+                            icon: Container(),
+                            key: key,
                           ),
                         ],
                       ),
