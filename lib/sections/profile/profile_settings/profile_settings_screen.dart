@@ -15,8 +15,10 @@ import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
+// import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
+// import 'package:package_info/package_info.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
@@ -28,14 +30,8 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
         );
 
   @override
-  State<ProfileSettingsScreen> createState() => _ProfileSettingsScreenState();
-
-  @override
   WidgetState<CoreMwwmWidget<ProfileSettingsScreenWM>, ProfileSettingsScreenWM>
-      createWidgetState() {
-    // TODO: implement createWidgetState
-    throw UnimplementedError();
-  }
+      createWidgetState() => _ProfileSettingsScreenState();
 }
 
 class _ProfileSettingsScreenState
@@ -243,7 +239,7 @@ class _ProfileSettingsScreenState
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
                 builder: (_, snapshot) {
-                  if (!snapshot.hasData){
+                  if (!snapshot.hasData) {
                     return const SizedBox();
                   }
 

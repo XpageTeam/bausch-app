@@ -118,7 +118,8 @@ class CatalogItem extends StatelessWidget {
         context: context,
         builder: (context) => VimeoPopup(
           // TODO(Danil): массив id
-          videoId: model.videoId.first,
+          // videoId: model.videoId.first,
+          videoId: '112836958',
         ),
       );
     } else {

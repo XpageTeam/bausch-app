@@ -236,7 +236,10 @@ void callback(CatalogItemModel _model) {
     showDialog<void>(
       context: Keys.mainNav.currentContext!,
       // TODO(Danil): массив id
-      builder: (context) => VimeoPopup(videoId: _model.videoId.first),
+      builder: (context) => VimeoPopup(
+        videoId: '112836958',
+        // videoId: _model.videoId.first,
+      ),
     );
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));

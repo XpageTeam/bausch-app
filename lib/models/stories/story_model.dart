@@ -11,27 +11,11 @@ enum MediaType {
 }
 
 class StoryModel implements MappableInterface<StoryModel> {
-  //final String url;
-
-  //* Картинка или видео
-  //final MediaType media;
-
-  //* Продолжительность истории
-  //final Duration duration;
-
   //* Идентификатр истории
   final int id;
 
   //* Название и ссылка на картинку
   final List<StoryContentModel> content;
-
-  //* Текст на кнопке с товаром
-  final String? buttonTitle;
-
-  //* Текст вверху страницы
-  final String? mainText;
-
-  final String? secondText;
 
   final int views;
 
@@ -42,9 +26,6 @@ class StoryModel implements MappableInterface<StoryModel> {
     required this.id,
     required this.content,
     required this.views,
-    this.buttonTitle,
-    this.mainText,
-    this.secondText,
   });
 
   factory StoryModel.fromMap(Map<String, dynamic> map) {

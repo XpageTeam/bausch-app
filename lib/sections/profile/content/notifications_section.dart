@@ -1,3 +1,4 @@
+import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/profile/notification_item.dart';
 import 'package:bausch/static/static_data.dart';
@@ -51,10 +52,16 @@ class NotificationSection extends StatelessWidget {
                 child: NotificationItem(),
               ),
             ),
+            // TODO(Nikolay): Переделать.
             OfferWidget(
-              title: 'Получите двойные баллы за подбор контактных линз',
-              subtitle:
-                  'После подбора вам будет передан код, зарегистрируйте его течение 14 дней ',
+              offer: Offer(
+                id: 42,
+                title: 'Получите двойные баллы за подбор контактных линз',
+                description:
+                    'После подбора вам будет передан код, зарегистрируйте его течение 14 дней ',
+                isClosable: true,
+              ),
+
               //onTap: () {},
             ),
           ],

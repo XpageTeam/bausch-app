@@ -1,31 +1,60 @@
-import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
-class OfferWidget extends StatelessWidget {
-  final String? title;
-  final String? subtitle;
-  final Widget? topRightIcon;
+/*
+homeScreen - главный экран, (index) 
+notificationsScreen - Экран с уведомлениями (notifications)
+offline - раздел Скидка 500 рублей в оптике
+promoCodeImmediately - Предложения от партнеров (promo_code_immediately)
+freeProduct - Бесплатная упаковка (free_product)
+onlineShop - Скидка 500 рублей в интернет-магазине
+promoCodeVideo - Записи вебинаров (promo_code_video)
+onlineConsultation - Онлайн-консультация (online_consultation)
+good - баннер у товара 
+*/
 
-  final VoidCallback? onTap;
+enum OfferType {
+  homeScreen,
+  notificationsScreen,
+  offline,
+  promoCodeImmediately,
+  freeProduct,
+  onlineShop,
+  promoCodeVideo,
+  onlineConsultation,
+  good,
+}
+
+class OfferWidget extends StatefulWidget {
+  final Offer offer;
+
+  final VoidCallback? onClose;
+  final VoidCallback? onPressed;
 
   const OfferWidget({
-    this.title,
-    this.subtitle,
-    this.topRightIcon,
-    this.onTap,
+    required this.offer,
+    this.onClose,
+    this.onPressed,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+        );
 
+  @override
+  State<StatefulWidget> createState() => _OfferWidgetState();
+}
+
+class _OfferWidgetState extends State<OfferWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.topRight,
       children: [
         GestureDetector(
-          onTap: onTap ?? () {},
+          onTap: widget.onPressed,
           child: Container(
             decoration: BoxDecoration(
               color: AppTheme.sulu,
@@ -44,13 +73,9 @@ class OfferWidget extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          title ??
-                              'Бесплатно подберем вам первые линзы в оптике',
+                          widget.offer.title,
                           style: AppStyles.h1,
                         ),
-                      ),
-                      const SizedBox(
-                        width: 20,
                       ),
                     ],
                   ),
@@ -58,19 +83,20 @@ class OfferWidget extends StatelessWidget {
                     height: 4,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
-                        child: Text(
-                          subtitle ??
-                              'После подбора линз вы сможете получить в два раза больше баллов',
-                          style: AppStyles.p1,
+                      if (widget.offer.description != null) ...[
+                        Flexible(
+                          child: Text(
+                            widget.offer.description!,
+                            style: AppStyles.p1,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 45,
-                      ),
+                      ] else ...[
+                        const SizedBox(),
+                      ],
                       InkWell(
-                        onTap: () {},
+                        onTap: widget.onPressed,
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -92,12 +118,12 @@ class OfferWidget extends StatelessWidget {
             ),
           ),
         ),
-        topRightIcon ??
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.close),
-              splashRadius: 5,
-            ),
+        if (widget.offer.isClosable)
+          IconButton(
+            onPressed: widget.onClose,
+            icon: const Icon(Icons.close),
+            splashRadius: 5,
+          ),
       ],
     );
   }

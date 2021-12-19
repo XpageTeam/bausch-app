@@ -64,7 +64,6 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                           );
                         },
                       ),
-                      
                       StreamedStateBuilder<double>(
                         streamedState: wm.opacityStreamed,
                         builder: (_, opacity) => Column(
@@ -140,12 +139,12 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                 child: DraggableScrollableSheet(
                   minChildSize: 0.7,
                   maxChildSize: 1 -
-                        58 /
-                           (MediaQuery.of(context).size.height -
-                                MediaQuery.of(context).padding.top -
-                                MediaQuery.of(context)
-                                    .padding
-                                    .bottom),  // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
+                      58 /
+                          (MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              MediaQuery.of(context)
+                                  .padding
+                                  .bottom), // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
                   initialChildSize: 0.7,
                   builder: (context, controller) {
                     return Container(
@@ -162,71 +161,9 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
             ],
           ),
         ),
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            InfoBlock(),
-          ],
-        ),
-        // extendBodyBehindAppBar: true,
+        bottomSheet: const SizedBox(height: 60, child: InfoBlock()),
+        extendBodyBehindAppBar: true,
       ),
-    );
-  }
-}
-
-class RankWidget extends StatelessWidget {
-  final String title;
-  const RankWidget({
-    required this.title,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 4,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: AppTheme.sulu,
-      ),
-      child: Text(
-        title,
-        style: AppStyles.h1,
-      ),
-    );
-  }
-}
-
-class BluredImage extends StatelessWidget {
-  const BluredImage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Image.asset(
-          'assets/status.png',
-          width: 200,
-        ),
-        SizedBox(
-          height: 150,
-          child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 20,
-                sigmaY: 20,
-              ),
-              child: Container(
-                color: AppTheme.turquoiseBlue.withOpacity(0.3),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
