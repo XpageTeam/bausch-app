@@ -119,7 +119,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (settings.arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
-                discountType: DiscountTypeClass.offline,
+                discountType: DiscountType.offline,
               );
               break;
 
@@ -128,7 +128,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (settings.arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
-                discountType: DiscountTypeClass.onlineShop,
+                discountType: DiscountType.onlineShop,
               );
               break;
 

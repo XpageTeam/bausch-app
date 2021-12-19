@@ -23,7 +23,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 //catalog_discount_optics
 class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
-    implements SheetScreenArguments {
+    implements ItemSheetScreenArguments {
   final ScrollController controller;
 
   @override
@@ -218,7 +218,7 @@ class _DiscountOpticsScreenState
   }
 }
 
-class DiscountOpticsArguments extends SheetScreenArguments {
+class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final DiscountOptic discountOptic;
   final DiscountType discountType;
 

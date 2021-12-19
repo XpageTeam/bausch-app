@@ -78,7 +78,7 @@ class FinalDiscountOptics extends StatelessWidget {
           ),
         ),
       ],
-      bottomButton: BottomButtonWithRoundedCorners(
+      bottomNavBar: BottomButtonWithRoundedCorners(
         text: buttonText ?? 'На главную',
       ),
     );
