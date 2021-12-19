@@ -64,7 +64,6 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                           );
                         },
                       ),
-                      
                       StreamedStateBuilder<double>(
                         streamedState: wm.opacityStreamed,
                         builder: (_, opacity) => Column(
@@ -140,12 +139,12 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                 child: DraggableScrollableSheet(
                   minChildSize: 0.7,
                   maxChildSize: 1 -
-                        58 /
-                           (MediaQuery.of(context).size.height -
-                                MediaQuery.of(context).padding.top -
-                                MediaQuery.of(context)
-                                    .padding
-                                    .bottom),  // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
+                      58 /
+                          (MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              MediaQuery.of(context)
+                                  .padding
+                                  .bottom), // 58 это высота ProfileAppBar (56) + высота отступа (это в ProfileAppBar) сверху (2)
                   initialChildSize: 0.7,
                   builder: (context, controller) {
                     return Container(
@@ -161,9 +160,9 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
               ),
             ],
           ),
-          bottomSheet: const SizedBox(height: 60, child: InfoBlock()),
-          extendBodyBehindAppBar: true,
         ),
+        bottomSheet: const SizedBox(height: 60, child: InfoBlock()),
+        extendBodyBehindAppBar: true,
       ),
     );
   }
