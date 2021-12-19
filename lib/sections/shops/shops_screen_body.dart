@@ -35,8 +35,8 @@ class ShopsScreenBody extends StatefulWidget {
 class _ShopsScreenBodyState extends State<ShopsScreenBody> {
   final pageSwitcherCubit = PageSwitcherCubit();
 
-  late final ShopFilterBloc filterBloc;
-  late final List<Filter> filterList;
+  late ShopFilterBloc filterBloc;
+  late List<Filter> filterList;
 
   List<ShopModel> shopList = [];
 
@@ -45,6 +45,30 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
   @override
   void initState() {
     super.initState();
+    if (widget.cityList.any((element) => element.name == widget.currentCity)) {
+      shopList = widget.cityList
+          .firstWhere((element) => element.name == widget.currentCity)
+          .shopsRepository
+          .shops;
+    }
+
+    // for (final city in widget.cityList) {
+    //   shopList.addAll(city.shopsRepository.shops);
+    // }
+
+    filterList = Filter.getFiltersFromShopList(
+      shopList,
+    );
+
+    filterBloc = ShopFilterBloc(
+      defaultFilter: filterList[0],
+      allFilters: filterList,
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant ShopsScreenBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
     if (widget.cityList.any((element) => element.name == widget.currentCity)) {
       shopList = widget.cityList
           .firstWhere((element) => element.name == widget.currentCity)
@@ -176,6 +200,7 @@ class _ShopsScreenBodyState extends State<ShopsScreenBody> {
                       );
                     } else {
                       return MapBody(
+                        cityList: widget.cityList,
                         shopList: shopList
                             .where(
                               (shop) =>
