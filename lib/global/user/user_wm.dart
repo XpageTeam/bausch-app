@@ -8,7 +8,6 @@ import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-// TODO: выход необходимо реализовывать тут
 class UserWM extends WidgetModel {
   final userData = EntityStreamedState<UserRepository>();
 

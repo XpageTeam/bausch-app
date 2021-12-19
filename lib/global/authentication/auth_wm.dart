@@ -86,4 +86,8 @@ class AuthWM extends WidgetModel {
 
     super.onLoad();
   }
+
+  void logout(){
+    
+  }
 }
