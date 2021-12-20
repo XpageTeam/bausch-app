@@ -111,7 +111,8 @@ class CityModel {
   }
 }
 
-class CitiesWithShopsDownloader {
+class AllOpticsDownloader{
+  
   static Future<CitiesRepository> load() async {
     final rh = RequestHandler();
 

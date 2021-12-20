@@ -1,28 +1,30 @@
 import 'dart:ui';
 
+import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
-import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final List<ShopModel> shopList;
-  final List<CityModel> cityList;
+  final List<DiscountOptic> optics;
 
   MapBody({
     required this.shopList,
-    required this.cityList,
+    required this.optics,
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (_) => MapBodyWM(initShopList: shopList),
+          widgetModelBuilder: (_) => MapBodyWM(
+            initShopList: shopList,
+            initOptics: optics,
+          ),
         );
 
   @override
@@ -41,13 +43,10 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(5),
-        ),
+    return ClipRRect(
+      clipBehavior: Clip.hardEdge,
+      borderRadius: const BorderRadius.vertical(
+        top: Radius.circular(5),
       ),
       child: Stack(
         children: [
@@ -105,9 +104,9 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                     ).whenComplete(() {
                       wm.isModalBottomSheetOpen.accept(false);
 
-                      BlocProvider.of<ShopListCubit>(context)
-                        ..city = sort(widget.cityList)?[0].name ?? 'Москва'
-                        ..loadShopList();
+                      // BlocProvider.of<ShopListCubit>(context)
+                      //   ..city = sort(widget.cityList)?[0].name ?? 'Москва'
+                      //   ..loadShopList();
                     });
                   }
                 },

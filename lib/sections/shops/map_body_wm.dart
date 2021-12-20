@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -14,6 +15,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBodyWM extends WidgetModel {
   final List<ShopModel> initShopList;
+  final List<DiscountOptic> initOptics;
 
   final MapObjectId clusterMapId = const MapObjectId(
     'cluster',
@@ -43,6 +45,7 @@ class MapBodyWM extends WidgetModel {
 
   MapBodyWM({
     required this.initShopList,
+    required this.initOptics,
   }) : super(
           const WidgetModelDependencies(),
         );

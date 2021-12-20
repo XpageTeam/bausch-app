@@ -1,6 +1,7 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -10,7 +11,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
-import 'package:bausch/sections/shops/shops_screen.dart';
+import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -164,11 +165,20 @@ class _DiscountOpticsScreenState
                                     ),
                                   ),
                                   onPressed: () {
+                                    // TODO(Nikolay): Передавать список полученных оптик сюда.
+                                    // Keys.bottomNav.currentState?.pushNamed(
+                                    //   '/shops',
+                                    //   arguments: <CityModel>[],
+                                    // );
+
                                     Keys.mainNav.currentState!.push<void>(
                                       MaterialPageRoute(
                                         builder:
                                             (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                                const ShopsScreen(),
+                                                SelectOpticScreen(
+                                          optics: wm.discountOpticsStreamed
+                                              .value.data,
+                                        ),
                                       ),
                                     );
                                   },

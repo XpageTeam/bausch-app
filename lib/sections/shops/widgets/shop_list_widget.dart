@@ -9,11 +9,10 @@ import 'package:flutter/material.dart';
 class ShopListWidget extends StatelessWidget {
   final List<ShopModel> shopList;
   final Type containerType;
-  final ShopFilterState? state;
+
   const ShopListWidget({
     required this.shopList,
     required this.containerType,
-    this.state,
     Key? key,
   }) : super(key: key);
 
