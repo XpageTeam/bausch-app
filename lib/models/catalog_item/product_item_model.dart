@@ -9,7 +9,7 @@ class ProductItemModel extends CatalogItemModel
     required String name,
     required String previewText,
     required String detailText,
-    required String picture,
+    required String? picture,
     required int price,
   }) : super(
           id: id,
@@ -46,9 +46,7 @@ class ProductItemModel extends CatalogItemModel
       name: (map['name'] ?? map['title']) as String,
       previewText: map['preview_text'] as String,
       detailText: map['detail_text'] as String,
-      picture: (map['picture'] ??
-              'https://i.ibb.co/89NPJqb/4.png')
-          as String,
+      picture: map['picture'] as String?,
       price: (map['price'] ?? 150) as int,
     );
   }

@@ -86,6 +86,7 @@ class QuestionScreen extends StatelessWidget
                     Html(
                       data: question.answer,
                       style: htmlStyles,
+                      customRender: htmlCustomRender,
                       onLinkTap: (url, context, attributes, element) async {
                         if (url != null) {
                           if (await canLaunch(url)) {

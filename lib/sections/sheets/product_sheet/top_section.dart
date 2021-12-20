@@ -112,14 +112,16 @@ class TopSection extends StatelessWidget {
                 const SizedBox(
                   height: 64,
                 ),
-              Image.network(
-                model.picture,
-                height: !isFull ? MediaQuery.of(context).size.height / 5 : null,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
+              if (model.picture != null)
+                Container(
+                  margin: const EdgeInsets.only(bottom: 30),
+                  child: Image.network(
+                    model.picture!,
+                    height:
+                        !isFull ? MediaQuery.of(context).size.height / 5 : null,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: StaticData.sidePadding,

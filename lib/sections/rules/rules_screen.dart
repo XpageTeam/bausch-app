@@ -38,7 +38,8 @@ class RulesScreen extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 Html(
-                  data: data,
+                  /// TODO(Nikita): вывести данные
+                  data: 'state.data',
                   onLinkTap: (url, context, attributes, element) async {
                     if (url != null) {
                       if (await canLaunch(url)) {
@@ -52,20 +53,10 @@ class RulesScreen extends StatelessWidget {
                         }
                       }
                     }
-
                     debugPrint('url: $url - не может быть открыт');
                   },
+                  customRender: htmlCustomRender,
                   style: htmlStyles,
-                  customRender: {
-                    'table': (context, child) {
-                      return SingleChildScrollView(
-                        clipBehavior: Clip.none,
-                        child: (context.tree as TableLayoutElement)
-                            .toWidget(context),
-                        scrollDirection: Axis.horizontal,
-                      );
-                    },
-                  },
                 ),
               ],
             ),

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
@@ -17,7 +19,7 @@ class StoriesCubit extends Cubit<StoriesState> {
   }
 
   Future<void> loadData() async {
-    var prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     emit(StoriesLoading());
     final rh = RequestHandler();
 
@@ -31,7 +33,7 @@ class StoriesCubit extends Cubit<StoriesState> {
       emit(
         StoriesSuccess(
           stories: (parsedData.data as List<dynamic>).map((dynamic e) {
-            StoryModel model = StoryModel.fromMap(e as Map<String, dynamic>);
+            final model = StoryModel.fromMap(e as Map<String, dynamic>);
 
             if (prefs.containsKey('story[${model.id}]')) {
               if (prefs.getInt('story[${model.id}]')! <= model.views) {

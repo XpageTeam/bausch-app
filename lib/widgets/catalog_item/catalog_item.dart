@@ -46,15 +46,19 @@ class CatalogItem extends StatelessWidget {
                   height: 100,
                   child: AspectRatio(
                     aspectRatio: 37 / 12,
-                    child: Image.network(
-                      model.picture,
-                    ),
+                    child: model.picture != null
+                        ? Image.network(
+                            model.picture!,
+                          )
+                        : null,
                   ),
                 )
               else
                 AspectRatio(
                   aspectRatio: 174 / 112,
-                  child: Image.network(model.picture),
+                  child: model.picture != null
+                      ? Image.network(model.picture!)
+                      : null,
                 ),
               const SizedBox(
                 height: 8,

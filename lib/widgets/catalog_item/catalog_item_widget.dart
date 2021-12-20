@@ -121,10 +121,12 @@ class CatalogItemWidget extends StatelessWidget {
                   //   minHeight: 100,
                   // ),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Image.asset(
-                    img(model), //! model.img
-                    scale: 3,
-                  ),
+                  child: model.picture != null
+                      ? Image.asset(
+                          img(model)!, //! model.img
+                          scale: 3,
+                        )
+                      : null,
                 ),
               ],
             ),
@@ -192,7 +194,7 @@ class CatalogItemWidget extends StatelessWidget {
   }
 
   //* Вывод нужной картинки в зависимости от типа элемента
-  String img(CatalogItemModel _model) {
+  String? img(CatalogItemModel _model) {
     if (_model is WebinarItemModel) {
       return 'assets/webinar-recordings.png';
     } else if (_model is ProductItemModel) {

@@ -2,7 +2,7 @@ import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/stories/product_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -24,6 +24,8 @@ class StoriesBottommButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(textAfter);
+  
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: StaticData.sidePadding,
@@ -69,7 +71,7 @@ class StoriesBottommButton extends StatelessWidget {
             height: 10,
           ),
           //* Если пришла ссылка для кнопки
-          if (link != null)
+          if (link != null && buttonText != null)
             TextButton(
               onPressed: () {
                 HelpFunctions.launchURL(link!);
@@ -101,20 +103,11 @@ class StoriesBottommButton extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
-                horizontal: StaticData.sidePadding,
               ),
               child: Html(
                 data: textAfter,
-                style: {
-                  'body': Style(
-                    padding: EdgeInsets.zero,
-                    margin: EdgeInsets.zero,
-                    color: AppTheme.grey,
-                    fontWeight: FontWeight.w400,
-                    fontSize: const FontSize(12),
-                    lineHeight: const LineHeight(14 / 12),
-                  ),
-                },
+                style: storyTextAfterHtmlStyles,
+                customRender: htmlCustomRender,
               ),
             ),
           const Padding(
