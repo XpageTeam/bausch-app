@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
@@ -17,22 +20,22 @@ class FinalAddPointsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
+    return CustomSheetScaffold(
+      backgroundColor: AppTheme.sulu,
+      controller: controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.only(
+          top: 14,
+          right: StaticData.sidePadding,
+        ),
+        icon: Container(
+          height: 1,
+        ),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.sulu,
-        body: SingleChildScrollView(
-          controller: controller,
-          child: Column(
-            children: [
-              // CustomSliverAppbar.toPop(
-              //   icon: Container(),
-              //   key: key,
-              //   rightKey: Keys.simpleBottomSheetNav,
-              // ),
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -100,11 +103,10 @@ class FinalAddPointsScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: const CustomFloatingActionButton(
-          text: 'Потратить баллы',
-          topPadding: 12,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ],
+      bottomNavBar: const CustomFloatingActionButton(
+        text: 'Потратить баллы',
+        topPadding: 12,
       ),
     );
   }
