@@ -7,7 +7,14 @@ import 'package:flutter/material.dart';
 
 class LegalInfo extends StatelessWidget {
   final List<String> texts;
-  const LegalInfo({required this.texts, Key? key}) : super(key: key);
+  final TextStyle? dotStyle;
+  final TextStyle? textStyle;
+  const LegalInfo({
+    required this.texts,
+    this.dotStyle,
+    this.textStyle,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +27,8 @@ class LegalInfo extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: BulletedList(
                   list: [texts[i]],
-                  dotStyle: AppStyles.p1.copyWith(
-                    color: AppTheme.mineShaft,
-                  ),
+                  dotStyle: dotStyle,
+                  textStyle: textStyle,
                 ),
               ),
             ],

@@ -1,14 +1,14 @@
-import 'package:bausch/models/order_registration/order_item.dart';
-import 'package:bausch/sections/order_registration/widgets/order_catalog_widget.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/sections/order_registration/widgets/order_item.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class OrderItemsSection extends StatelessWidget {
-  final List<OrderItem> orderItemList;
+  final ProductItemModel model;
   final int points;
   const OrderItemsSection({
-    required this.orderItemList,
-    this.points = 100,
+    required this.model,
+    required this.points,
     Key? key,
   }) : super(key: key);
 
@@ -20,7 +20,9 @@ class OrderItemsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //* Список заказанных продуктов
-          OrderCatalogWidget(orderItemList: orderItemList),
+          OrderItem(
+            model: model,
+          ),
           const SizedBox(
             height: 12,
           ),

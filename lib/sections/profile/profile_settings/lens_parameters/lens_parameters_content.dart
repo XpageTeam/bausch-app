@@ -1,5 +1,6 @@
 import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_parameters_buttons_section.dart';
 import 'package:bausch/sections/profile/profile_settings/picker_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -61,126 +62,15 @@ class _LensParametersScreenState extends State<LensParametersContent> {
             backgroundColor: AppTheme.mystic,
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: StaticData.sidePadding,
+            padding: const EdgeInsets.fromLTRB(
+              StaticData.sidePadding,
+              30,
+              StaticData.sidePadding,
+              0,
             ),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                    bottom: 4,
-                  ),
-                  child: FocusButton(
-                    labelText: 'Диоптрии',
-                    selectedText: '${state.model.diopter}',
-                    onPressed: () async {
-                      lensBloc.add(
-                        LensUpdate(
-                          model: LensParametersModel(
-                            addict: state.model.addict,
-                            cylinder: state.model.cylinder,
-                            axis: state.model.axis,
-                            diopter: await showModalBottomSheet<num>(
-                                  context: context,
-                                  builder: (context) {
-                                    return const PickerScreen(
-                                      title: 'Диоптрий',
-                                    );
-                                  },
-                                  barrierColor: Colors.black.withOpacity(0.8),
-                                ) ??
-                                state.model.diopter,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: FocusButton(
-                    labelText: 'Цилиндр',
-                    selectedText: '${state.model.cylinder}',
-                    onPressed: () async {
-                      lensBloc.add(
-                        LensUpdate(
-                          model: LensParametersModel(
-                            addict: state.model.addict,
-                            cylinder: await showModalBottomSheet<num>(
-                                  context: context,
-                                  builder: (context) {
-                                    return const PickerScreen(
-                                      title: 'Цилиндр',
-                                    );
-                                  },
-                                  barrierColor: Colors.black.withOpacity(0.8),
-                                ) ??
-                                state.model.cylinder,
-                            axis: state.model.axis,
-                            diopter: state.model.diopter,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: FocusButton(
-                    labelText: 'Ось',
-                    selectedText: '${state.model.axis}',
-                    onPressed: () async {
-                      lensBloc.add(
-                        LensUpdate(
-                          model: LensParametersModel(
-                            addict: state.model.addict,
-                            cylinder: state.model.cylinder,
-                            axis: await showModalBottomSheet<num>(
-                                  context: context,
-                                  builder: (context) {
-                                    return const PickerScreen(
-                                      title: 'Ось',
-                                    );
-                                  },
-                                  barrierColor: Colors.black.withOpacity(0.8),
-                                ) ??
-                                state.model.axis,
-                            diopter: state.model.diopter,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: FocusButton(
-                    labelText: 'Аддидация',
-                    selectedText: '${state.model.addict}',
-                    onPressed: () async {
-                      lensBloc.add(
-                        LensUpdate(
-                          model: LensParametersModel(
-                            addict: await showModalBottomSheet<num>(
-                                  context: context,
-                                  builder: (context) {
-                                    return const PickerScreen(
-                                      title: 'Аддидация',
-                                    );
-                                  },
-                                  barrierColor: Colors.black.withOpacity(0.8),
-                                ) ??
-                                state.model.addict,
-                            cylinder: state.model.cylinder,
-                            axis: state.model.axis,
-                            diopter: state.model.diopter,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                LensParametersButtonsSection(),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 4),
                   child: BlueButtonWithText(

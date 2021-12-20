@@ -1,8 +1,10 @@
-import 'package:bausch/models/order_registration/order_item.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+
 import 'package:bausch/sections/order_registration/sections/delivery_address_section.dart';
 import 'package:bausch/sections/order_registration/sections/lens_parameters_section.dart';
 import 'package:bausch/sections/order_registration/sections/order_items_section.dart';
 import 'package:bausch/sections/order_registration/sections/recipient_section.dart';
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
@@ -11,13 +13,39 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Макет
 //* Catalog_free packaging:
 //* order
-class OrderRegistrationScreen extends StatelessWidget {
-  const OrderRegistrationScreen({Key? key}) : super(key: key);
 
+class OrderRegistrationScreenArguments {
+  final ProductItemModel model;
+
+  OrderRegistrationScreenArguments({required this.model});
+}
+
+class OrderRegistrationScreen extends CoreMwwmWidget<OrderRegistrationScreenWM>
+    implements OrderRegistrationScreenArguments {
+  @override
+  final ProductItemModel model;
+  OrderRegistrationScreen({required this.model, Key? key})
+      : super(
+          key: key,
+          widgetModelBuilder: (context) => OrderRegistrationScreenWM(
+            context: context,
+            productItemModel: model,
+          ),
+        );
+
+  @override
+  WidgetState<CoreMwwmWidget<OrderRegistrationScreenWM>,
+          OrderRegistrationScreenWM>
+      createWidgetState() => _OrderRegistrationScreenState();
+}
+
+class _OrderRegistrationScreenState
+    extends WidgetState<OrderRegistrationScreen, OrderRegistrationScreenWM> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,46 +53,6 @@ class OrderRegistrationScreen extends StatelessWidget {
       appBar: const DefaultAppBar(
         backgroundColor: AppTheme.mystic,
         title: 'Оформление заказа',
-
-        //* Кнопка "Настройки"
-        // topRightWidget: NormalIconButton(
-        //   onPressed: () {},
-        //   icon: const Icon(
-        //     Icons.settings,
-        //     color: AppTheme.mineShaft,
-        //   ),
-        // ),
-
-        //* Кнопка "Готово"
-        // topRightWidget: TextButton(
-        //   style: ButtonStyle(
-        //     overlayColor: MaterialStateColor.resolveWith(
-        //       (states) => AppTheme.turquoiseBlue,
-        //     ),
-        //     padding: MaterialStateProperty.resolveWith<EdgeInsets>(
-        //       (states) => const EdgeInsets.symmetric(horizontal: 5),
-        //     ),
-        //     minimumSize: MaterialStateProperty.resolveWith<Size>(
-        //       (states) => Size.zero,
-        //     ),
-        //   ),
-        //   onPressed: () {},
-        //   child: const Text(
-        //     'Готово',
-        //     style: AppStyles.p1,
-        //   ),
-        // ),
-
-        //* Кнопка "Готово" (другая)
-        // topRightWidget: GestureDetector(
-        //   onTap: () {
-        //     debugPrint('statement');
-        //   },
-        //   child: Container(
-        //     padding: EdgeInsets.all(5),
-        //     child: Text('Готово'),
-        //   ),
-        // ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -80,11 +68,14 @@ class OrderRegistrationScreen extends StatelessWidget {
             children: [
               //* Область со списком заказанных продуктов
               OrderItemsSection(
-                orderItemList: OrderItem.generateList(),
+                model: wm.productItemModel,
+                points: wm.difference,
               ),
 
               //* Область "Получатель"
-              const RecipientSection(),
+              RecipientSection(
+                wm: wm,
+              ),
 
               //* Область "Параметры линз"
               const LensParametersSection(),

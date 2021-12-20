@@ -4,7 +4,13 @@ import 'package:flutter/material.dart';
 
 class OrderFormFields extends StatefulWidget {
   final VoidCallback? onPressed;
+  final TextEditingController nameController;
+  final TextEditingController lastNameController;
+  final TextEditingController phoneController;
   const OrderFormFields({
+    required this.nameController,
+    required this.lastNameController,
+    required this.phoneController,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -14,41 +20,41 @@ class OrderFormFields extends StatefulWidget {
 }
 
 class _OrderFormFieldsState extends State<OrderFormFields> {
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
+  //final firstNameController = TextEditingController();
+  //final lastNameController = TextEditingController();
   final emailController = TextEditingController();
 
   // TODO(Danil): заменить маску
-  final phoneController =
-      MaskedTextController(mask: '+0 000 000 00 00'); //TextEditingController();
+  // final phoneController =
+  //     MaskedTextController(mask: '+0 000 000 00 00'); //TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    firstNameController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-    lastNameController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-    emailController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-    phoneController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   firstNameController.addListener(() {
+  //     //  formCubit.update( Controller.value);
+  //   });
+  //   lastNameController.addListener(() {
+  //     //  formCubit.update( Controller.value);
+  //   });
+  //   emailController.addListener(() {
+  //     //  formCubit.update( Controller.value);
+  //   });
+  //   phoneController.addListener(() {
+  //     //  formCubit.update( Controller.value);
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
+  // @override
+  // void dispose() {
+  //   firstNameController.dispose();
+  //   lastNameController.dispose();
+  //   emailController.dispose();
+  //   phoneController.dispose();
 
-    // formCubit.close();
-    super.dispose();
-  }
+  //   // formCubit.close();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +65,14 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
           margin: const EdgeInsets.only(bottom: 4),
           child: NativeTextInput(
             labelText: 'Имя',
-            controller: firstNameController,
+            controller: widget.nameController,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 4),
           child: NativeTextInput(
             labelText: 'Фамилия',
-            controller: lastNameController,
+            controller: widget.lastNameController,
           ),
         ),
         Container(
@@ -81,7 +87,7 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
           margin: const EdgeInsets.only(bottom: 4),
           child: NativeTextInput(
             labelText: 'Мобильный телефон',
-            controller: phoneController,
+            controller: widget.phoneController,
             inputType: TextInputType.phone,
           ),
         ),
