@@ -7,6 +7,9 @@ class ConsultationItemModel extends CatalogItemModel
   //* Продолжительность консультации в минутах
   final int length;
 
+  final String poolPromoCode;
+  final String staticPromoCode;
+
   ConsultationItemModel({
     required int id,
     required String name,
@@ -15,6 +18,8 @@ class ConsultationItemModel extends CatalogItemModel
     required String? picture,
     required int price,
     required this.length,
+    required this.poolPromoCode,
+    required this.staticPromoCode,
   }) : super(
           id: id,
           name: name,
@@ -51,6 +56,8 @@ class ConsultationItemModel extends CatalogItemModel
       detailText: map['detail_text'] as String,
       picture: map['picture'] as String?,
       price: (map['price'] ?? 150) as int,
+      poolPromoCode: map['pool_promo_code'] as String,
+      staticPromoCode: map['static_promo_code'] as String,
       length: map['length'] as int,
     );
   }

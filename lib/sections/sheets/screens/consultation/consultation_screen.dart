@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/home/sections/offers/offer_type.dart';
 import 'package:bausch/sections/home/sections/offers/offers_section.dart';
@@ -14,10 +14,10 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
 class ConsultationScreenArguments {
-  final CatalogItemModel item;
+  final ConsultationItemModel model;
 
   ConsultationScreenArguments({
-    required this.item,
+    required this.model,
   });
 }
 
@@ -26,10 +26,11 @@ class ConsultationScreen extends StatefulWidget
     implements ConsultationScreenArguments {
   final ScrollController controller;
   @override
-  final CatalogItemModel item;
+  final ConsultationItemModel model;
+
   const ConsultationScreen({
     required this.controller,
-    required this.item,
+    required this.model,
     Key? key,
   }) : super(key: key);
 
@@ -43,7 +44,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
   @override
   void initState() {
     super.initState();
-    model = widget.item as ConsultationItemModel;
+    model = widget.model;
   }
 
   @override
@@ -70,7 +71,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
             delegate: SliverChildListDelegate(
               [
                 TopSection.consultation(
-                  widget.item as ConsultationItemModel,
+                  widget.model,
                   Row(
                     children: [
                       Image.asset(
@@ -81,7 +82,14 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                         width: 4,
                       ),
                       Text(
-                        '${model.length} минут',
+                        '${model.length} ${HelpFunctions.wordByCount(
+                          model.length,
+                          [
+                            'минут',
+                            'минута',
+                            'минуты',
+                          ],
+                        )}',
                         style: AppStyles.p1,
                       ),
                     ],
@@ -111,6 +119,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
+        // TODO(Nikolay): Вопрос.
         text: 'Получить поощрение ${model.priceToString} б',
         onPressed: () {
           Navigator.of(context).pushNamed(

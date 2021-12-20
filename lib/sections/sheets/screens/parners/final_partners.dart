@@ -3,13 +3,12 @@ import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class FinalPartners extends StatelessWidget {
   final ScrollController controller;
@@ -51,7 +50,8 @@ class FinalPartners extends StatelessWidget {
                 ),
                 ContainerWithPromocode(
                   promocode: model.poolPromoCode,
-                  onPressed: copyCode,
+                  onPressed: () =>
+                      Utils.copyStringToClipboard(model.poolPromoCode),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -74,7 +74,10 @@ class FinalPartners extends StatelessWidget {
         text: 'Скопировать код и перейти на сайт',
         withInfo: false,
         onPressed: () {
-          copyCode();
+          Utils.copyStringToClipboard(
+            model.poolPromoCode,
+          );
+
           // TODO(Nikolay): Переход на сайт.
           // Utils.tryLaunchUrl(
           //   rawUrl: url,
@@ -83,10 +86,5 @@ class FinalPartners extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void copyCode() {
-    Clipboard.setData(ClipboardData(text: model.poolPromoCode));
-    showDefaultNotification(title: 'Скопировано!');
   }
 }

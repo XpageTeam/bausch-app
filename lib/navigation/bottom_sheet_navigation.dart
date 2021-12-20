@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
@@ -68,7 +69,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               if (sheetModel.type == 'online_consultation') {
                 page = ConsultationScreen(
                   controller: controller,
-                  item: (args as List<CatalogItemModel>).first,
+                  model: (args as List<CatalogItemModel>).first
+                      as ConsultationItemModel,
                 );
               } else if (sheetModel.type == 'program') {
                 page = ProgramScreen(
@@ -219,7 +221,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/consultation':
               page = ConsultationScreen(
                 controller: controller,
-                item: (settings.arguments as ConsultationScreenArguments).item,
+                model:
+                    (settings.arguments as ConsultationScreenArguments).model,
               );
               break;
 
@@ -250,14 +253,16 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/verification_consultation':
               page = ConsultationVerification(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model: (settings.arguments as ItemSheetScreenArguments).model
+                    as ConsultationItemModel,
               );
               break;
 
             case '/final_consultation':
               page = FinalConsultation(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model:
+                    (settings.arguments as ItemSheetScreenArguments).model as ConsultationItemModel,
               );
               break;
 

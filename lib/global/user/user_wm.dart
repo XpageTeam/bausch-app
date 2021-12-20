@@ -44,7 +44,7 @@ class UserWM extends WidgetModel {
     }
 
 		
-		_showTopError(ex);
+		showTopError(ex);
 
     return false;
   }
@@ -53,10 +53,4 @@ class UserWM extends WidgetModel {
 		await UserWriter.removeUser();
 	}
 
-  void _showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
-  }
 }
