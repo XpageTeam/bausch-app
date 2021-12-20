@@ -5,7 +5,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
-import 'package:bausch/sections/home/widgets/offer_widget.dart';
+import 'package:bausch/sections/home/sections/offers/offer_type.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,7 +54,7 @@ class OffersSectionWM extends WidgetModel {
 
     try {
       final repository = await OffersRepositoryDownloader.load(
-        type: _convertEnumToString(type),
+        type: type.asString,
         goodID: goodID,
       );
 
@@ -123,31 +123,5 @@ class OffersSectionWM extends WidgetModel {
           )
           .toList(),
     );
-  }
-
-  String _convertEnumToString(OfferType type) {
-    switch (type) {
-      case OfferType.homeScreen:
-        return 'index';
-      case OfferType.notificationsScreen:
-        return 'notifications';
-      case OfferType.offline:
-        return 'offline';
-      case OfferType.promoCodeImmediately:
-        return 'promo_code_immediately';
-      case OfferType.freeProduct:
-        return 'free_product';
-      case OfferType.onlineShop:
-        return 'onlineShop';
-      case OfferType.promoCodeVideo:
-        return 'promo_code_video';
-      case OfferType.onlineConsultation:
-        return 'online_consultation';
-      case OfferType.good:
-        return 'good';
-
-      default:
-        return 'index';
-    }
   }
 }

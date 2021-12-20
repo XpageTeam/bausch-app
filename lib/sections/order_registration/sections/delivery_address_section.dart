@@ -26,7 +26,7 @@ class DeliveryAddressSection extends StatelessWidget {
           onPressed: () => Navigator.of(context).push<void>(
             MaterialPageRoute(
               builder: (ctx) {
-                return AddressSelectScreen();
+                return const AddressSelectScreen();
               },
             ),
           ),
@@ -45,7 +45,7 @@ class DeliveryAddressSection extends StatelessWidget {
           onPressed: () => Navigator.of(context).push<void>(
             MaterialPageRoute(
               builder: (ctx) {
-                return AddressSelectScreen();
+                return const AddressSelectScreen();
               },
             ),
           ),

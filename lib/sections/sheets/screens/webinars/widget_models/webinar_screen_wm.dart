@@ -47,7 +47,6 @@ class WebinarScreenWM extends WidgetModel {
             arguments: ItemSheetScreenArguments(model: itemModel),
           );
         } else {
-          // TODO(Nikolay): Здесь возможны проблемы.
           Navigator.of(context).pushReplacementNamed(
             '/add_points',
           );

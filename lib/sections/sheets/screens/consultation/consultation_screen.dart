@@ -1,11 +1,12 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
-import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/sections/home/sections/offers/offer_type.dart';
+import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -49,9 +50,9 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        icon: Container(
+      appBar: const CustomSliverAppbar(
+        padding: EdgeInsets.all(18),
+        icon: SizedBox(
           height: 1,
           width: 1,
         ),
@@ -102,19 +103,9 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           padding: const EdgeInsets.symmetric(
             horizontal: StaticData.sidePadding,
           ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Warning.advertisment(
-                  name: 'SmartMed',
-                  link: 'smartmed.pro',
-                  description:
-                      'Скачайте приложение и общайтесь с компетентными врачами МЕДСИ, не выходя из дома.',
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
+          sliver: SliverToBoxAdapter(
+            child: OffersSection(
+              type: OfferType.onlineConsultation,
             ),
           ),
         ),

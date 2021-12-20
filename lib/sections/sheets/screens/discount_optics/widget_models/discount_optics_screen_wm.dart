@@ -55,6 +55,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
         ).userData.value.data?.balance.available.toInt() ??
         0;
     difference = itemModel.price - points;
+
+    super.onLoad();
   }
 
   @override
@@ -130,6 +132,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   void _initTexts() {
     if (discountType == DiscountType.offline) {
       legalInfoTexts = [
+        // ignore: prefer_adjacent_string_concatenation
         'Перед заказом промокода на скидку необходимо проверить наличие продукта ' +
             '(на сайте и / или по контактному номеру телефона оптики).',
         'Срок действия промокода и количество промокодов ограничены.',
@@ -142,6 +145,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
           'Срок действия промокода и количество промокодов ограничены. ';
     } else {
       legalInfoTexts = [
+        // ignore: prefer_adjacent_string_concatenation
         'Перед заказом промокода на скидку необходимо проверить наличие продукта, а также условия доставки ' +
             '(на сайте и / или по контактному номеру телефона интернет-магазина).',
         'Срок действия промокода и количество промокодов ограничены.',

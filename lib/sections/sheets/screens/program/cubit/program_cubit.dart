@@ -1,3 +1,5 @@
+// ignore_for_file: unused_catch_clause
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
@@ -15,7 +17,7 @@ class ProgramCubit extends Cubit<ProgramState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      BaseResponseRepository.fromMap(
         (await rh.get<Map<String, dynamic>>(
           'selection/data/',
         ))

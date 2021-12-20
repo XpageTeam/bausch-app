@@ -59,8 +59,8 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                 mode2DEnabled: true,
                 mapObjects: mapObjects,
                 onMapCreated: (yandexMapController) {
-                  wm.mapController = yandexMapController;
                   wm
+                    ..mapController = yandexMapController
                     ..setCenterAction(
                       widget.shopList.where((s) => s.coords != null).toList(),
                     )

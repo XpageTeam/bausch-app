@@ -5,8 +5,8 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class HalfBluredCircle extends StatelessWidget {
-  final sigmaX = 10.0;
-  final sigmaY = 5.0;
+  static const sigmaX = 10.0;
+  static const sigmaY = 5.0;
 
   final double height;
   final String? text;
@@ -25,7 +25,7 @@ class HalfBluredCircle extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: sigmaX * 2.5,
               vertical: sigmaY * 2.5,
             ),

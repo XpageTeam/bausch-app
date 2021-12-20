@@ -55,7 +55,7 @@ class FocusButton extends StatelessWidget {
             ),
           ),
           icon ??
-              Icon(
+              const Icon(
                 Icons.chevron_right_sharp,
                 size: 20,
                 color:

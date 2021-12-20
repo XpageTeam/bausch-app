@@ -10,13 +10,13 @@ class SelectOpticsSection extends StatefulWidget {
 }
 
 class _SelectOpticsSectionState extends State<SelectOpticsSection> {
-  int _selectedIndex = 0;
   List<String> optics = [
     'ЛинзСервис',
     'Оптика-А',
     'Мой взгляд',
     'Медиком',
   ];
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {

@@ -10,12 +10,11 @@ part 'shoplist_state.dart';
 
 class ShopListCubit extends Cubit<ShopListState> {
   String? city;
+  CitiesRepository? citiesRepository;
 
   ShopListCubit({
     this.city,
   }) : super(ShopListInitial());
-
-  CitiesRepository? citiesRepository;
 
   Future<void> loadShopList() async {
     if (citiesRepository == null) {

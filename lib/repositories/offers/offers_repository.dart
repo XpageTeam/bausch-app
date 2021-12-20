@@ -14,6 +14,7 @@ class OffersRepository {
     return OffersRepository(
       offerList: list
           .map(
+            // ignore: avoid_annotating_with_dynamic
             (dynamic e) => Offer.fromJson(
               e as Map<String, dynamic>,
             ),

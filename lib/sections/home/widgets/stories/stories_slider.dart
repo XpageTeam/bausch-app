@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bausch/sections/home/widgets/stories/story.dart';
 import 'package:bausch/sections/stories/cubit/stories_cubit.dart';
 import 'package:bausch/static/static_data.dart';
@@ -61,11 +63,11 @@ class _StoriesSliderState extends State<StoriesSlider> {
     );
   }
 
-  void deleteKeys(int id) async {
-    var prefs = await SharedPreferences.getInstance();
+  Future<void> deleteKeys(int id) async {
+    final prefs = await SharedPreferences.getInstance();
 
     if (prefs.containsKey('story[$id]')) {
-      prefs.remove('story[$id]');
+      unawaited(prefs.remove('story[$id]'));
     }
   }
 }

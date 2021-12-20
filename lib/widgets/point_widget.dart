@@ -7,8 +7,8 @@ class PointWidget extends StatelessWidget {
   final double radius;
   final TextStyle textStyle;
   const PointWidget({
-    this.radius = 14,
     required this.textStyle,
+    this.radius = 14,
     Key? key,
   }) : super(key: key);
 

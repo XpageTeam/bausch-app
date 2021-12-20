@@ -30,6 +30,7 @@ class FormsExtraCubit extends Cubit<FormsExtraState> {
       emit(
         FormsExtraSuccess(
           fields: (parsedData.data as List<dynamic>)
+              // ignore: avoid_annotating_with_dynamic
               .map((dynamic field) =>
                   FieldModel.fromMap(field as Map<String, dynamic>))
               .toList(),

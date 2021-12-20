@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -59,7 +58,7 @@ class PartnersVerificationWM extends WidgetModel {
     CustomException? error;
 
     try {
-      final response = await OrderPartnerItemSaver.save(
+      await OrderPartnerItemSaver.save(
         itemModel,
       );
 

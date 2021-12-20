@@ -163,6 +163,7 @@ class WebinarsRepository {
   factory WebinarsRepository.fromJson(Map<String, dynamic> json) =>
       WebinarsRepository(
         (json['videoIds'] as List<dynamic>)
+            // ignore: avoid_annotating_with_dynamic
             .map((dynamic e) => e as String)
             .toList(),
       );

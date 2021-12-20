@@ -68,7 +68,7 @@ class ScoresSection extends StatelessWidget {
           streamedState: userWM.userData,
           builder: (_, repo) {
             if (repo.canPrintLineLoadingText) {
-              final daysRemain = 3;
+              const  daysRemain = 3;
               return FutureBuilder<void>(
                 future: Future.delayed(delay),
                 builder: (_, s) {

@@ -47,5 +47,6 @@ class PartnersScreenWM extends WidgetModel {
         );
       }
     });
+    super.onBind();
   }
 }

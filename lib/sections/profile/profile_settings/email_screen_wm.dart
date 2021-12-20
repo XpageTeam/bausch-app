@@ -1,7 +1,7 @@
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:flutter/material.dart';
 
 class EmailScreenWM extends WidgetModel {
   final BuildContext context;

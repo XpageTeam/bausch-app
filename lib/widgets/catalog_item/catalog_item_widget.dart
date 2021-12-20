@@ -133,48 +133,45 @@ class CatalogItemWidget extends StatelessWidget {
 
             //* Информация о доставке
             if ((model is ProductItemModel) && deliveryInfo != null)
-              Container(
-                //margin: const EdgeInsets.only(top: 2),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/substract.png',
-                      height: 15,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Flexible(
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Доставлен. ',
-                          style: AppStyles.p1,
-                          children: [
-                            TextSpan(
-                              style: AppStyles.p1Grey,
-                              // TODO сделать открытие всплывашки
-                              children: [
-                                const TextSpan(
-                                  text: 'Eсли нет, пишите ',
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/substract.png',
+                    height: 15,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Flexible(
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Доставлен. ',
+                        style: AppStyles.p1,
+                        children: [
+                          TextSpan(
+                            style: AppStyles.p1Grey,
+                            // TODO сделать открытие всплывашки
+                            children: [
+                              const TextSpan(
+                                text: 'Eсли нет, пишите ',
+                              ),
+                              TextSpan(
+                                text: 'сюда',
+                                style: AppStyles.p1Grey.copyWith(
+                                  decoration: TextDecoration.underline,
                                 ),
-                                TextSpan(
-                                  text: 'сюда',
-                                  style: AppStyles.p1Grey.copyWith(
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                                const TextSpan(
-                                  text: ', разберемся',
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                              const TextSpan(
+                                text: ', разберемся',
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             if (model is! ProductItemModel)
               Container(
@@ -247,7 +244,7 @@ void callback(CatalogItemModel _model) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
     showDefaultNotification(title: 'Скопировано!');
   } else {
-    // TODO(Nikolay): Тут.
+    // TODO(Nikolay): Это должно не так вызываться.
     showFlexibleBottomSheet<void>(
       context: Keys.mainNav.currentContext!,
       minHeight: 0,
@@ -256,7 +253,6 @@ void callback(CatalogItemModel _model) {
       anchors: [0, 0.6, 0.95],
       builder: (context, controller, d) {
         return FinalDiscountOptics(
-          // TODO(Nikolay): Здесь.
           discountType: DiscountType.offline,
           controller: ScrollController(),
           model: _model as PromoItemModel,

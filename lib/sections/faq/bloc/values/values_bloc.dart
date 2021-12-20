@@ -42,6 +42,7 @@ class ValuesBloc extends Bloc<ValuesEvent, ValuesState> {
       //debugPrint('topic is ${parsedData.data}');
       return ValuesSuccess(
         values: (parsedData.data as List<dynamic>)
+            // ignore: avoid_annotating_with_dynamic
             .map((dynamic value) =>
                 ValueModel.fromMap(value as Map<String, dynamic>))
             .toList(),

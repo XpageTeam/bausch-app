@@ -16,7 +16,7 @@ class HelpFunctions {
     return prefix;
   }
 
-  static void launchURL(String _url) async {
+  static Future<void> launchURL(String _url) async {
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 

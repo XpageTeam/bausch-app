@@ -21,6 +21,8 @@ class DiscountOnlineScreen extends StatelessWidget
   final ScrollController controller;
   @override
   final PromoItemModel model;
+
+  @Deprecated('Этот экран не нужен. Вместо него - DiscountOpticScreen')
   const DiscountOnlineScreen({
     required this.controller,
     required this.model,
@@ -118,8 +120,7 @@ class DiscountOnlineScreen extends StatelessWidget
                 horizontal: StaticData.sidePadding,
               ),
               sliver: SelectShopSection(
-                // TODO(Nikolay): Здесь поменять потом.
-                discountOptics: [],
+                discountOptics: const [],
                 onChanged: (discountOptic) {},
                 discountType: DiscountType.onlineShop,
               ),

@@ -18,7 +18,6 @@ class LegalInfo extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                // TODO(Nikolay): Проверить.
                 child: BulletedList(
                   list: [texts[i]],
                   dotStyle: AppStyles.p1.copyWith(

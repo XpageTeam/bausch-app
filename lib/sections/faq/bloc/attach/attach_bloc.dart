@@ -31,7 +31,7 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
       state.files.addAll(result.files.map((e) => File(e.path!)).toList());
 
       //* Убираю дубликаты
-      var files = LinkedHashSet<File>.from(state.files).toList();
+      final files = LinkedHashSet<File>.from(state.files).toList();
 
       return AttachAdded(files: files);
     } else {

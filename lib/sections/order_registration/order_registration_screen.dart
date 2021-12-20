@@ -22,7 +22,7 @@ class OrderRegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      appBar: DefaultAppBar(
+      appBar: const DefaultAppBar(
         backgroundColor: AppTheme.mystic,
         title: 'Оформление заказа',
 

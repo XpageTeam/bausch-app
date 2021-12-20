@@ -1,11 +1,12 @@
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/sections/home/sections/offers/offer_type.dart';
+import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/screens/parners/widget_models/partners_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -68,8 +69,9 @@ class _PartnersScreenState
                     const SizedBox(
                       height: 4,
                     ),
-                    // TODO(Nikolay): Информация для вывода рекламы.
-                    Warning.advertisment(),
+                    OffersSection(
+                      type: OfferType.promoCodeImmediately,
+                    ),
                     const SizedBox(
                       height: 30,
                     ),

@@ -24,7 +24,7 @@ class ErrorPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       body: ScreenUtilInit(
-				designSize: const Size(375, 799),
+        designSize: const Size(375, 799),
         builder: () {
           return Padding(
             padding: const EdgeInsets.symmetric(
@@ -46,7 +46,7 @@ class ErrorPage extends StatelessWidget {
                   ),
                   child: Text(
                     title,
-								textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppTheme.mineShaft,
                       fontWeight: FontWeight.w500,
@@ -63,7 +63,7 @@ class ErrorPage extends StatelessWidget {
               ],
             ),
           );
-        }
+        },
       ),
       floatingActionButton: buttonText != null
           ? Padding(

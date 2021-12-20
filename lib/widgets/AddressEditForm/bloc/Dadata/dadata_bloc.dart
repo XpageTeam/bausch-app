@@ -55,7 +55,7 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
         },
         body: json.encode(
           {
-            'query': '$userText',
+            'query': userText,
             'locations': [
               {'city': city},
               // {"street": userText}

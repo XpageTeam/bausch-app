@@ -1,4 +1,5 @@
 import 'package:bausch/models/offer/offer.dart';
+import 'package:bausch/sections/home/sections/offers/offer_type.dart';
 import 'package:bausch/sections/home/sections/offers/offers_section_wm.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/static/static_data.dart';
@@ -86,6 +87,7 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
         //   ),
         // );
         break;
+
       // TODO(Nikolay): Уточнить add_point.
       case 'add_points':
         // showSimpleSheet(

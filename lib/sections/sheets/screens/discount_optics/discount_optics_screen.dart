@@ -168,7 +168,7 @@ class _DiscountOpticsScreenState
                                       MaterialPageRoute(
                                         builder:
                                             (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                                ShopsScreen(),
+                                                const ShopsScreen(),
                                       ),
                                     );
                                   },

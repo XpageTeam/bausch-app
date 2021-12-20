@@ -31,6 +31,7 @@ class DiscountOptic {
       disountOpticShops: json['shop_data'] != null
           ? List<DiscountOpticShop>.from(
               (json['shop_data'] as List<dynamic>).map<DiscountOpticShop>(
+                // ignore: avoid_annotating_with_dynamic
                 (dynamic x) => DiscountOpticShop.fromJson(
                   x as Map<String, dynamic>,
                 ),
@@ -64,6 +65,7 @@ class DiscountOpticShop {
       id: json['id'] as int,
       phone: List<String>.from(
         (json['phone'] as List<dynamic>).map<String>(
+          // ignore: avoid_annotating_with_dynamic
           (dynamic x) => x as String,
         ),
       ),

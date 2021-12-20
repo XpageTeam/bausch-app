@@ -4,7 +4,7 @@ part of 'values_bloc.dart';
 abstract class ValuesState {
   final List<ValueModel> values;
 
-  ValuesState({required this.values});
+  const ValuesState({required this.values});
 }
 
 class ValuesInitial extends ValuesState {
@@ -23,5 +23,5 @@ class ValuesFailed extends ValuesState {
 }
 
 class ValuesSuccess extends ValuesState {
-  ValuesSuccess({required List<ValueModel> values}) : super(values: values);
+  const ValuesSuccess({required List<ValueModel> values}) : super(values: values);
 }

@@ -4,30 +4,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
-/*
-homeScreen - главный экран, (index) 
-notificationsScreen - Экран с уведомлениями (notifications)
-offline - раздел Скидка 500 рублей в оптике
-promoCodeImmediately - Предложения от партнеров (promo_code_immediately)
-freeProduct - Бесплатная упаковка (free_product)
-onlineShop - Скидка 500 рублей в интернет-магазине
-promoCodeVideo - Записи вебинаров (promo_code_video)
-onlineConsultation - Онлайн-консультация (online_consultation)
-good - баннер у товара 
-*/
-
-enum OfferType {
-  homeScreen,
-  notificationsScreen,
-  offline,
-  promoCodeImmediately,
-  freeProduct,
-  onlineShop,
-  promoCodeVideo,
-  onlineConsultation,
-  good,
-}
-
 class OfferWidget extends StatefulWidget {
   final Offer offer;
 

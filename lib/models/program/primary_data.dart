@@ -46,12 +46,15 @@ class PrimaryData {
       title: map['title'] as String,
       description: map['description'] as String,
       products: (map['products'] as List<dynamic>)
+       // ignore: avoid_annotating_with_dynamic
           .map((dynamic e) => Product.fromJson(e as Map<String, dynamic>))
           .toList(),
       importantToKnow: (map['importantToKnow'] as List<dynamic>)
+       // ignore: avoid_annotating_with_dynamic
           .map((dynamic e) => e as String)
           .toList(),
       whatDoYouUse: (map['whatDoYouUse'] as List<dynamic>)
+       // ignore: avoid_annotating_with_dynamic
           .map((dynamic e) => e as String)
           .toList(),
     );

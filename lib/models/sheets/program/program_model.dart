@@ -25,6 +25,7 @@ class ProgramModel implements MappableInterface<ProgramModel> {
       title: map['title'] as String,
       description: map['description'] as String,
       products: (map['products'] as List<dynamic>)
+          // ignore: avoid_annotating_with_dynamic
           .map((dynamic product) =>
               ProductItemModel.fromMap(product as Map<String, dynamic>))
           .toList(),

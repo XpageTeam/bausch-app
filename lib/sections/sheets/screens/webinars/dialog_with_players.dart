@@ -23,8 +23,8 @@ class _DialogWithPlayersState extends State<DialogWithPlayers> {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       content: Column(
-        children: [
-          const Text('Vimeo'),
+        children: const [
+          Text('Vimeo'),
           // SizedBox(
           //   width: 350,
           //   height: 200,

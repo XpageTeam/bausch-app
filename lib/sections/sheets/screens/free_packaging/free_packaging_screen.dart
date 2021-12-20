@@ -1,10 +1,12 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/sections/home/sections/offers/offer_type.dart';
+import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
-import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -44,7 +46,7 @@ class FreePackagingScreen extends StatelessWidget
             top: 12,
             left: 12,
             right: 12,
-            bottom: 4,
+            bottom: 20,
           ),
           sliver: SliverList(
             delegate: SliverChildListDelegate(
@@ -63,23 +65,26 @@ class FreePackagingScreen extends StatelessWidget
                   text: model.previewText,
                   secondText: model.detailText,
                 ),
-                // const SizedBox(
-                //   height: 12,
-                // ),
-
-                // const SizedBox(
-                //   height: 160,
-                // ),
               ],
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.only(
+            bottom: 12,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: OffersSection(
+              type: OfferType.freeProduct,
             ),
           ),
         ),
         const SliverPadding(
           padding: EdgeInsets.fromLTRB(
             StaticData.sidePadding,
-            12,
+            0,
             StaticData.sidePadding,
-            30,
+            0,
           ),
           sliver: LegalInfo(
             texts: [

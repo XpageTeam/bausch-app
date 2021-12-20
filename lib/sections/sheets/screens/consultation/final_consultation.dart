@@ -24,7 +24,7 @@ class FinalConsultation extends StatelessWidget {
       backgroundColor: AppTheme.sulu,
       controller: controller,
       appBar: CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         icon: Container(
           height: 1,
         ),

@@ -37,6 +37,7 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
       emit(
         CatalogItemSuccess(
           items: (parsedData.data as List<dynamic>).map(
+            // ignore: avoid_annotating_with_dynamic
             (dynamic item) {
               if (section == StaticData.types['webinar']) {
                 return WebinarItemModel.fromMap(item as Map<String, dynamic>);

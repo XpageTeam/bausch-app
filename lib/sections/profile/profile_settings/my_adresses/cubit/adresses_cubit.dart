@@ -31,6 +31,7 @@ class AdressesCubit extends Cubit<AdressesState> {
       emit(
         GetAdressesSuccess(
           adresses: (parsedData.data as List<dynamic>)
+              // ignore: avoid_annotating_with_dynamic
               .map((dynamic address) =>
                   AdressModel.fromMap(address as Map<String, dynamic>))
               .toList(),

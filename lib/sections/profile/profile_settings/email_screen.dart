@@ -18,14 +18,8 @@ class EmailScreen extends CoreMwwmWidget<EmailScreenWM> {
         );
 
   @override
-  State<EmailScreen> createState() => _EmailScreenState();
-
-  @override
   WidgetState<CoreMwwmWidget<EmailScreenWM>, EmailScreenWM>
-      createWidgetState() {
-    // TODO: implement createWidgetState
-    throw UnimplementedError();
-  }
+      createWidgetState() => _EmailScreenState();
 }
 
 class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {

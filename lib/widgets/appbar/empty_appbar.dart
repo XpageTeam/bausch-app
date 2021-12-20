@@ -44,7 +44,8 @@ class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.zero;
-
+  
+  @Deprecated('Перестать использовать')
   const EmptyAppBar({
     this.overlayStyle = SystemUiOverlayStyle.dark,
     Key? key,

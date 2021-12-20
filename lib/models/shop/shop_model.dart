@@ -40,6 +40,7 @@ class ShopModel {
       name: map['name'] as String,
       address: map['address'] as String,
       phones: (map['phone'] as List<dynamic>)
+          // ignore: avoid_annotating_with_dynamic
           .map((dynamic e) => e as String)
           .toList(),
       site: map['site'] as String?,

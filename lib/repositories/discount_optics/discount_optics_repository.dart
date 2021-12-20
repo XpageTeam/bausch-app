@@ -11,6 +11,7 @@ class DiscountOpticsRepository {
       DiscountOpticsRepository(
         discountOptics: List<DiscountOptic>.from(
           json.map<DiscountOptic>(
+            // ignore: avoid_annotating_with_dynamic
             (dynamic x) => DiscountOptic.fromJson(x as Map<String, dynamic>),
           ),
         ),
