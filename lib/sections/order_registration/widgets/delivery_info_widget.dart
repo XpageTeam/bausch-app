@@ -7,21 +7,8 @@ class DeliveryInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BulletedList(
+    return const BulletedList(
       list: StaticData.deliveryInfoStrings,
     );
-    // return ListView.separated(
-    //   shrinkWrap: true,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   itemBuilder: (context, index) => BulletedRow(
-    //     text: StaticData.deliveryInfoStrings[index],
-    //   ),
-    //   // TextWithPoint(
-    //   //   text: StaticData.deliveryInfoStrings[index],
-    //   //   dotStyle: AppStyles.p1,
-    //   // ),
-    //   separatorBuilder: (context, index) => const SizedBox(height: 10),
-    //   itemCount: StaticData.deliveryInfoStrings.length,
-    // );
   }
 }

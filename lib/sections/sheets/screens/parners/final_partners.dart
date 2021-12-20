@@ -49,17 +49,6 @@ class FinalPartners extends StatelessWidget {
                     style: AppStyles.h1,
                   ),
                 ),
-                // WhiteRoundedContainer(
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Text(
-                //         model.poolPromoCode,
-                //         style: AppStyles.h2,
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 ContainerWithPromocode(
                   promocode: model.poolPromoCode,
                   onPressed: copyCode,

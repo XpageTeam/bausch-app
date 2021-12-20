@@ -8,6 +8,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/text/remaining_points_text.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -80,18 +81,9 @@ class _WebinarVerificationState
                     const SizedBox(
                       height: 12,
                     ),
-                    if (wm.remains >= 0)
-                      Text(
-                        'После заказа у вас останется ${wm.remains} ${HelpFunctions.wordByCount(
-                          wm.remains,
-                          [
-                            'баллов',
-                            'балл',
-                            'балла',
-                          ],
-                        )}',
-                        style: AppStyles.p1,
-                      ),
+                    RemainingPointsText(
+                      remains: wm.remains,
+                    ),
                   ],
                 ),
               ),

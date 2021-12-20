@@ -10,6 +10,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/text/remaining_points_text.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -109,9 +110,8 @@ class _DiscountOpticsVerificationState extends WidgetState<
                         const SizedBox(
                           height: 12,
                         ),
-                        Text(
-                          'После заказа у вас останется ${wm.remains} баллов',
-                          style: AppStyles.p1,
+                        RemainingPointsText(
+                          remains: wm.remains,
                         ),
                       ],
                     ),
@@ -126,7 +126,9 @@ class _DiscountOpticsVerificationState extends WidgetState<
           builder: (_, isLoading) {
             return isLoading
                 ? const CustomFloatingActionButton(
-                    text: '', icon: AnimatedLoader())
+                    text: '',
+                    icon: AnimatedLoader(),
+                  )
                 : CustomFloatingActionButton(
                     text: 'Потратить ${wm.itemModel.price} б',
                     icon: Container(),

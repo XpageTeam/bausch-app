@@ -15,6 +15,7 @@ import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 //catalog_discount_online_store
+@Deprecated('Этот экран не нужен. Вместо него - DiscountOpticScreen')
 class DiscountOnlineScreen extends StatelessWidget
     implements ItemSheetScreenArguments {
   final ScrollController controller;
