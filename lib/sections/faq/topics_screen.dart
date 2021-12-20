@@ -4,11 +4,8 @@ import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
-import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
 //* FAQ

@@ -11,7 +11,6 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';

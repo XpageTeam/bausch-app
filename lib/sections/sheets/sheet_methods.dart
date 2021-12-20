@@ -1,6 +1,4 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/navigation/bottom_sheet_navigation.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
@@ -9,7 +7,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void showSheet<T>(

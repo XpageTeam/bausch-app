@@ -1,7 +1,6 @@
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_verification_wm.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -38,10 +37,8 @@ class _WebinarVerificationState
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        //icon: Container(height: 1),
-        //iconColor: AppTheme.mystic,
+      appBar: const CustomSliverAppbar(
+        padding:  EdgeInsets.all(18),
       ),
       slivers: [
         SliverList(

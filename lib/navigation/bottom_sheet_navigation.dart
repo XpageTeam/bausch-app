@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
-import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
@@ -20,7 +19,6 @@ import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
-import 'package:bausch/sections/sheets/screens/discount_online/discount_online_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/discount_online_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_online/final_discount_online.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';

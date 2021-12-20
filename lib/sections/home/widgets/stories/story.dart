@@ -1,4 +1,3 @@
-import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:bausch/static/static_data.dart';

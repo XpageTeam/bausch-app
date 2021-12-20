@@ -9,7 +9,6 @@ import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
-import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';

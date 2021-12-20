@@ -1,4 +1,3 @@
-import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/home/widgets/stories/story.dart';
 import 'package:bausch/sections/stories/cubit/stories_cubit.dart';
 import 'package:bausch/static/static_data.dart';
