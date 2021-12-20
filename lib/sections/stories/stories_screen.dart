@@ -166,7 +166,8 @@ class _StoriesScreenState extends State<StoriesScreen>
                   ),
                   Html(
                     data: widget.storyModel.content[_currentIndex].description,
-                    style: storyStyles,
+                    style: storyTextHtmlStyles,
+                    customRender: htmlCustomRender,
                   ),
                 ],
               ),
@@ -184,7 +185,22 @@ class _StoriesScreenState extends State<StoriesScreen>
     );
   }
 
-  void _loadFile() async {
+  Future<void> updateViews(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    var count = 1;
+
+    if (prefs.containsKey('story[$id]')) {
+      count = prefs.getInt('story[$id]')!;
+      await prefs.setInt('story[$id]', count + 1);
+    } else {
+      await prefs.setInt('story[$id]', count + 1);
+    }
+
+    debugPrint('id: $id, views: $count');
+  }
+
+  
+  Future<void> _loadFile() async {
     if (story.isVideo) {
       file = FittedBox(
         fit: BoxFit.cover,
@@ -276,19 +292,7 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void updateViews(int id) async {
-    var prefs = await SharedPreferences.getInstance();
-    var count = 1;
-
-    if (prefs.containsKey('story[$id]')) {
-      count = prefs.getInt('story[$id]')!;
-      prefs.setInt('story[$id]', count + 1);
-    } else {
-      prefs.setInt('story[$id]', count + 1);
-    }
-
-    debugPrint('id: $id, views: $count');
-  }
+  
 
   void _loadStory({
     required StoryContentModel story,

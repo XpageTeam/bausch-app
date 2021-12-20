@@ -34,12 +34,14 @@ class CatalogItem extends StatelessWidget {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      // model.img ?? 'assets/free-packaging.png',
-                      model.picture,
-                      height: 100,
-                      width: 100,
-                    ),
+                    // TODO(Nikita): подставить норм картинку
+                    if (model.picture != null)
+                      Image.asset(
+                        // model.img ?? 'assets/free-packaging.png',
+                        model.picture!,
+                        height: 100,
+                        width: 100,
+                      ),
                     Flexible(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(

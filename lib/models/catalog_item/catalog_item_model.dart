@@ -13,7 +13,7 @@ class CatalogItemModel {
   final String detailText;
 
   //* Ссылка на картинку
-  final String picture;
+  final String? picture;
 
   //* цена товара
   final int price;

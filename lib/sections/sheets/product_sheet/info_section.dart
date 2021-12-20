@@ -1,3 +1,5 @@
+import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -23,8 +25,8 @@ class InfoSection extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.only(
-            //left: 12,
-            //right: 12,
+            left: StaticData.sidePadding,
+            right: StaticData.sidePadding,
             top: 20,
             bottom: 40,
           ),
@@ -33,6 +35,7 @@ class InfoSection extends StatelessWidget {
               Html(
                 data: text,
                 style: htmlStyles,
+                customRender: htmlCustomRender,
                 onLinkTap: (url, context, attributes, element) async {
                   if (url != null) {
                     if (await canLaunch(url)) {
@@ -51,29 +54,29 @@ class InfoSection extends StatelessWidget {
                 },
               ),
               if (secondText.isNotEmpty)
-                const SizedBox(
-                  height: 40,
-                ),
-              if (secondText.isNotEmpty)
-                Html(
-                  data: secondText,
-                  style: htmlStyles,
-                  onLinkTap: (url, context, attributes, element) async {
-                  if (url != null) {
-                    if (await canLaunch(url)) {
-                      try {
-                        await launch(url);
+                Container(
+                  margin: const EdgeInsets.only(top: 40),
+                  child: Html(
+                    data: secondText,
+                    style: htmlStyles,
+                    customRender: htmlCustomRender,
+                    onLinkTap: (url, context, attributes, element) async {
+                      if (url != null) {
+                        if (await canLaunch(url)) {
+                          try {
+                            await launch(url);
 
-                        return;
-                        // ignore: avoid_catches_without_on_clauses
-                      } catch (e) {
-                        debugPrint('url: $url - не может быть открыт');
+                            return;
+                            // ignore: avoid_catches_without_on_clauses
+                          } catch (e) {
+                            debugPrint('url: $url - не может быть открыт');
+                          }
+                        }
                       }
-                    }
-                  }
 
-                  debugPrint('url: $url - не может быть открыт');
-                },
+                      debugPrint('url: $url - не может быть открыт');
+                    },
+                  ),
                 ),
             ],
           ),

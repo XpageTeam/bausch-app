@@ -1,6 +1,7 @@
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/widgets/appbar/appbar_for_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -64,6 +65,8 @@ class HtmlScreen extends StatelessWidget {
                     ),
                     Html(
                       data: offer.html ?? '<html>Error</html>',
+                      style: htmlStyles,
+                      customRender: htmlCustomRender,
                     ),
                   ],
                 ),

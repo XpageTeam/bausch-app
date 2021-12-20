@@ -1,11 +1,12 @@
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/html_parser.dart';
 import 'package:flutter_html/style.dart';
 
 final Map<String, Style> htmlStyles = {
   'a': Style(
     color: AppTheme.mineShaft,
-    display: Display.INLINE,
     textDecoration: TextDecoration.underline,
     textDecorationColor: AppTheme.turquoiseBlue,
   ),
@@ -15,24 +16,99 @@ final Map<String, Style> htmlStyles = {
     color: AppTheme.mineShaft,
     fontWeight: FontWeight.w400,
     fontSize: FontSize.medium,
+    fontFamily: 'Euclid Circular A',
     lineHeight: const LineHeight(20 / 14),
   ),
   'ul': Style(
     padding: EdgeInsets.zero,
   ),
-  'li:not(:first-child)': Style(
-    margin: const EdgeInsets.only(top: 10),
+};
+
+final storyTextHtmlStyles = <String, Style>{
+  'a': Style(
+    color: Colors.white,
+    textDecoration: TextDecoration.underline,
+    textDecorationColor: Colors.white,
   ),
-  'li': Style(
-    padding: const EdgeInsets.only(left: 6),
-    listStylePosition: ListStylePosition.OUTSIDE,
+  'body': Style(
+    padding: EdgeInsets.zero,
+    margin: EdgeInsets.zero,
+    color: Colors.white,
+    fontWeight: FontWeight.w400,
+    fontSize: FontSize.medium,
+    fontFamily: 'Euclid Circular A',
+    lineHeight: const LineHeight(20 / 14),
+  ),
+  'ul': Style(
+    padding: EdgeInsets.zero,
   ),
 };
 
+final storyTextAfterHtmlStyles = <String, Style>{
+  'a': Style(
+    color: const Color(0xFF797B7C),
+    textDecoration: TextDecoration.underline,
+    textDecorationColor: const Color(0xFF797B7C),
+  ),
+  'body': Style(
+    padding: EdgeInsets.zero,
+    margin: EdgeInsets.zero,
+    color: const Color(0xFF797B7C),
+    fontWeight: FontWeight.w400,
+    fontSize: const FontSize(12),
+    fontFamily: 'Euclid Circular A',
+    lineHeight: const LineHeight(14 / 12),
+  ),
+  'ul': Style(
+    padding: EdgeInsets.zero,
+  ),
+};
+
+Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
+  'li': (ctx, widget) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(
+              right: 14,
+              top: 7,
+            ),
+            child: const CircleAvatar(
+              radius: 3,
+              backgroundColor: AppTheme.mineShaft,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              ctx.tree.element!.text,
+              style: TextStyle(
+                fontFamily: ctx.tree.style.fontFamily,
+                fontSize: ctx.tree.style.fontSize?.size ?? 14,
+                color: ctx.tree.style.color,
+                height: ctx.tree.style.lineHeight?.size ?? 20 / 14,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+  'table': (context, child) {
+    return SingleChildScrollView(
+      clipBehavior: Clip.none,
+      child: (context.tree as TableLayoutElement).toWidget(context),
+      scrollDirection: Axis.horizontal,
+    );
+  },
+};
+
+/*
 final Map<String, Style> storyStyles = {
   'a': Style(
     color: AppTheme.mineShaft,
-    display: Display.INLINE,
     textDecoration: TextDecoration.underline,
     textDecorationColor: AppTheme.turquoiseBlue,
   ),
@@ -47,15 +123,7 @@ final Map<String, Style> storyStyles = {
   'ul': Style(
     padding: EdgeInsets.zero,
   ),
-  // 'li:not(:first-child)': Style(
-  //   margin: const EdgeInsets.only(top: 10),
-  // ),
-  'li': Style(
-    padding: const EdgeInsets.only(left: 6),
-    margin: const EdgeInsets.only(top: 10),
-    listStylePosition: ListStylePosition.OUTSIDE,
-  ),
-};
+};*/
 
 // {
 //   'body': Style(
