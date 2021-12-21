@@ -16,6 +16,7 @@ class PartnersItemModel extends CatalogItemModel
     required int price,
     required this.poolPromoCode,
     required this.staticPromoCode,
+    String? type,
   }) : super(
           id: id,
           name: name,
@@ -23,6 +24,7 @@ class PartnersItemModel extends CatalogItemModel
           detailText: detailText,
           picture: picture,
           price: price,
+          type: type,
         );
 
   factory PartnersItemModel.fromMap(Map<String, dynamic> map) {
