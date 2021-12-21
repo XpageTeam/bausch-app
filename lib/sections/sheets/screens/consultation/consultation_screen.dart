@@ -64,7 +64,6 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
             top: 12,
             left: 12,
             right: 12,
-            bottom: 4,
           ),
           sliver: SliverList(
             delegate: SliverChildListDelegate(
@@ -100,8 +99,10 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
+          padding: const EdgeInsets.only(
+            left: StaticData.sidePadding,
+            right: StaticData.sidePadding,
+            top: 4,
           ),
           sliver: SliverToBoxAdapter(
             child: OffersSection(
