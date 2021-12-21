@@ -7,7 +7,6 @@ class Offer {
   final String? link;
   final bool isClosable;
   final String? html;
-  // TODO(Nikolay): Возможно следует сделать отдельный класс Target, в котором будет описываться дальнейший переход.
   final String? target;
 
   Offer({

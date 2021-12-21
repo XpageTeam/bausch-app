@@ -6,6 +6,7 @@ import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -32,11 +33,14 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
   Widget build(BuildContext context) {
     return EntityStateBuilder<List<Offer>>(
       streamedState: wm.offersStreamed,
-      errorBuilder: (_, e) => Text(
-        'Ошибка',
-        style: AppStyles.h1.copyWith(
-          color: Colors.red,
-        ),
+      // errorBuilder: (_, e) => Text(
+      //   'Ошибка',
+      //   style: AppStyles.h1.copyWith(
+      //     color: Colors.red,
+      //   ),
+      // ),
+      loadingChild: const Center(
+        child: AnimatedLoader(),
       ),
       builder: (c, offers) => Column(
         children: offers
