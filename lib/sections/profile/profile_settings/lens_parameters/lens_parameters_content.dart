@@ -27,7 +27,6 @@ class _LensParametersScreenState extends State<LensParametersContent> {
     super.initState();
 
     lensBloc = BlocProvider.of<LensBloc>(context);
-    lensBloc.add(LensGet());
   }
 
   @override

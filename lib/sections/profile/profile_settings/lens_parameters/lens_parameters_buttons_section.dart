@@ -36,7 +36,9 @@ class _LensParametersButtonsSectionState
           ),
           child: FocusButton(
             labelText: 'Диоптрии',
-            selectedText: '${lensBloc.state.model.diopter}',
+            selectedText: lensBloc.state.model.diopter != 0
+                ? '${lensBloc.state.model.diopter}'
+                : null,
             onPressed: () async {
               lensBloc.add(
                 LensUpdate(
@@ -64,7 +66,9 @@ class _LensParametersButtonsSectionState
           padding: const EdgeInsets.only(bottom: 4),
           child: FocusButton(
             labelText: 'Цилиндр',
-            selectedText: '${lensBloc.state.model.cylinder}',
+            selectedText: lensBloc.state.model.cylinder != 0
+                ? '${lensBloc.state.model.cylinder}'
+                : null,
             onPressed: () async {
               lensBloc.add(
                 LensUpdate(
@@ -92,7 +96,9 @@ class _LensParametersButtonsSectionState
           padding: const EdgeInsets.only(bottom: 4),
           child: FocusButton(
             labelText: 'Ось',
-            selectedText: '${lensBloc.state.model.axis}',
+            selectedText: lensBloc.state.model.axis != 0
+                ? '${lensBloc.state.model.axis}'
+                : null,
             onPressed: () async {
               lensBloc.add(
                 LensUpdate(
@@ -120,7 +126,9 @@ class _LensParametersButtonsSectionState
           padding: const EdgeInsets.only(bottom: 4),
           child: FocusButton(
             labelText: 'Аддидация',
-            selectedText: '${lensBloc.state.model.addict}',
+            selectedText: lensBloc.state.model.addict != 0
+                ? '${lensBloc.state.model.addict}'
+                : null,
             onPressed: () async {
               lensBloc.add(
                 LensUpdate(

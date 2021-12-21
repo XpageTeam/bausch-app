@@ -1,5 +1,6 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/sections/profile/profile_settings/my_adresses/my_adresses_screen.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
   final ProductItemModel productItemModel;
 
   final buttonAction = VoidAction();
+
+  final addAddressAction = VoidAction();
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -44,6 +47,12 @@ class OrderRegistrationScreenWM extends WidgetModel {
     nameController.text = userWM.userData.value.data!.user.name ?? '';
     lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
     phoneController.text = userWM.userData.value.data!.user.phone;
+
+    addAddressAction.bind((_) {
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (ctx) {
+        return MyAdressesScreen();
+      }));
+    });
 
     super.onBind();
   }

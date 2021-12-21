@@ -12,7 +12,9 @@ part 'lens_event.dart';
 part 'lens_state.dart';
 
 class LensBloc extends Bloc<LensEvent, LensState> {
-  LensBloc() : super(LensInitial());
+  LensBloc() : super(LensInitial()) {
+    add(LensGet());
+  }
 
   @override
   Stream<LensState> mapEventToState(LensEvent event) async* {

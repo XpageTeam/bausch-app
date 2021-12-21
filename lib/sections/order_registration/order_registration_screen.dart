@@ -5,14 +5,18 @@ import 'package:bausch/sections/order_registration/sections/lens_parameters_sect
 import 'package:bausch/sections/order_registration/sections/order_items_section.dart';
 import 'package:bausch/sections/order_registration/sections/recipient_section.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_parameters_buttons_section.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Макет
@@ -46,6 +50,14 @@ class OrderRegistrationScreen extends CoreMwwmWidget<OrderRegistrationScreenWM>
 
 class _OrderRegistrationScreenState
     extends WidgetState<OrderRegistrationScreen, OrderRegistrationScreenWM> {
+  final LensBloc lensBloc = LensBloc();
+
+  @override
+  void dispose() {
+    lensBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,10 +90,36 @@ class _OrderRegistrationScreenState
               ),
 
               //* Область "Параметры линз"
-              const LensParametersSection(),
+              BlocProvider(
+                create: (context) => lensBloc,
+                child: BlocBuilder<LensBloc, LensState>(
+                  builder: (context, state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 20,
+                          ),
+                          child: Text(
+                            'Параметры',
+                            style: AppStyles.h1,
+                          ),
+                        ),
+                        const LensParametersButtonsSection(),
+                        const SizedBox(
+                          height: 36,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
 
               //* Область "Адрес доставки"
-              const DeliveryAddressSection(),
+              DeliveryAddressSection(
+                addAddressCallback: wm.addAddressAction,
+              ),
             ],
           ),
         ),

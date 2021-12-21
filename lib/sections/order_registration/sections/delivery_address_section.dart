@@ -1,4 +1,5 @@
 import 'package:bausch/sections/order_registration/address_select_screen.dart';
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_container.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_widget.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
@@ -6,7 +7,10 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class DeliveryAddressSection extends StatelessWidget {
-  const DeliveryAddressSection({Key? key}) : super(key: key);
+  final VoidCallback addAddressCallback;
+
+  const DeliveryAddressSection({required this.addAddressCallback, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +46,7 @@ class DeliveryAddressSection extends StatelessWidget {
         ),
         // TODO(Nikolay): В создание адреса доставки.
         OrderButton(
-          onPressed: () => Navigator.of(context).push<void>(
-            MaterialPageRoute(
-              builder: (ctx) {
-                return const AddressSelectScreen();
-              },
-            ),
-          ),
+          onPressed: addAddressCallback,
           title: Text(
             'Добавить новый адрес',
             style: AppStyles.h2Bold,

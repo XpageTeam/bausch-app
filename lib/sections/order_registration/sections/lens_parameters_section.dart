@@ -1,63 +1,50 @@
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_parameters_buttons_section.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LensParametersSection extends StatelessWidget {
+class LensParametersSection extends StatefulWidget {
   const LensParametersSection({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            child: Text(
-              'Параметры',
-              style: AppStyles.h1,
-            ),
-          ),
-          OrderButton(
-            onPressed: () {},
-            margin: const EdgeInsets.only(bottom: 4),
+  State<LensParametersSection> createState() => _LensParametersSectionState();
+}
 
-            title: Text(
-              'Диоптрии',
-              style: AppStyles.h2GreyBold,
+class _LensParametersSectionState extends State<LensParametersSection> {
+  late LensBloc lensBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    lensBloc = BlocProvider.of<LensBloc>(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LensBloc, LensState>(
+      bloc: lensBloc,
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20,
+              ),
+              child: Text(
+                'Параметры',
+                style: AppStyles.h1,
+              ),
             ),
-            //textColor: AppTheme.mineShaft,
-          ),
-          OrderButton(
-            onPressed: () {},
-            margin: const EdgeInsets.only(bottom: 4),
-            title: Text(
-              'Цилиндр',
-              style: AppStyles.h2GreyBold,
+            const LensParametersButtonsSection(),
+            const SizedBox(
+              height: 36,
             ),
-            //textColor: AppTheme.grey,
-          ),
-          OrderButton(
-            onPressed: () {},
-            margin: const EdgeInsets.only(bottom: 4),
-            title: Text(
-              'Ось',
-              style: AppStyles.h2GreyBold,
-            ),
-            //textColor: AppTheme.grey,
-          ),
-          OrderButton(
-            onPressed: () {},
-            margin: const EdgeInsets.only(bottom: 4),
-            title: Text(
-              'Аддидация',
-              style: AppStyles.h2GreyBold,
-            ),
-            //textColor: AppTheme.grey,
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
