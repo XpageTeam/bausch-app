@@ -75,10 +75,18 @@ class OrderAddressScreenWM extends WidgetModel {
 
     CustomException? error;
 
+    final adressModel = AdressModel(
+      street: adress.street,
+      house: adress.house,
+      flat: int.parse(flatController.text),
+      entry: int.parse(entryController.text),
+      floor: int.parse(floorController.text),
+    );
+
     try {
       await OrderFreePackagingSaver.save(
         productItemModel,
-        adress,
+        adressModel,
       );
 
       final userRepository = await UserWriter.checkUserToken();
@@ -145,6 +153,7 @@ class OrderFreePackagingSaver {
           //TODO(Nikita): написать
           'productId': model.id,
           'price': model.price,
+          //TODO(Nikita): откуда брать id, если адрес изменился
           'addressId': address.id,
           'diopters': 0,
           'cylinder': 0,
