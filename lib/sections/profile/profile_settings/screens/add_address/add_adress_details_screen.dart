@@ -109,6 +109,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   right: StaticData.sidePadding,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '${widget.adress.street}, ${widget.adress.house}',

@@ -4,10 +4,10 @@ import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/order_registration/widgets/order_form_fields.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecipientSection extends StatefulWidget {
-  final OrderRegistrationScreenWM wm;
-  const RecipientSection({required this.wm, Key? key}) : super(key: key);
+  const RecipientSection({Key? key}) : super(key: key);
 
   @override
   State<RecipientSection> createState() => _RecipientSectionState();
@@ -15,6 +15,18 @@ class RecipientSection extends StatefulWidget {
 
 class _RecipientSectionState extends State<RecipientSection> {
   bool isFormShowing = false;
+
+  late OrderRegistrationScreenWM wm;
+
+  @override
+  void initState() {
+    super.initState();
+
+    wm = Provider.of<OrderRegistrationScreenWM>(
+      context,
+      listen: false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +46,9 @@ class _RecipientSectionState extends State<RecipientSection> {
           //* Набор полей для ввода информации о получателе
           if (isFormShowing)
             OrderFormFields(
-              nameController: widget.wm.nameController,
-              lastNameController: widget.wm.lastNameController,
-              phoneController: widget.wm.phoneController,
+              nameController: wm.nameController,
+              lastNameController: wm.lastNameController,
+              phoneController: wm.phoneController,
               onPressed: () => setState(
                 () {
                   isFormShowing = false;
@@ -55,12 +67,12 @@ class _RecipientSectionState extends State<RecipientSection> {
               title: Text.rich(
                 TextSpan(
                   text:
-                      '${widget.wm.userWM.userData.value.data!.user.name} ${widget.wm.userWM.userData.value.data!.user.lastName}\n',
+                      '${wm.userWM.userData.value.data!.user.name} ${wm.userWM.userData.value.data!.user.lastName}\n',
                   style: AppStyles.h2Bold,
                   children: [
                     TextSpan(
                       text:
-                          '${widget.wm.userWM.userData.value.data!.user.email}, ${widget.wm.userWM.userData.value.data!.user.phone}',
+                          '${wm.userWM.userData.value.data!.user.email}, ${wm.userWM.userData.value.data!.user.phone}',
                       style: AppStyles.p1Grey,
                     ),
                   ],

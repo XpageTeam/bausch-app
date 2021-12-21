@@ -14,9 +14,11 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Макет
@@ -75,87 +77,67 @@ class _OrderRegistrationScreenState
             StaticData.sidePadding,
             40,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //* Область со списком заказанных продуктов
-              OrderItemsSection(
-                model: wm.productItemModel,
-                points: wm.difference,
-              ),
+          child: Provider(
+            create: (context) {
+              return wm;
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //* Область со списком заказанных продуктов
+                const OrderItemsSection(),
 
-              //* Область "Получатель"
-              RecipientSection(
-                wm: wm,
-              ),
+                //* Область "Получатель"
+                const RecipientSection(),
 
-              //* Область "Параметры линз"
-              BlocProvider(
-                create: (context) => lensBloc,
-                child: BlocBuilder<LensBloc, LensState>(
-                  builder: (context, state) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 20,
+                //* Область "Параметры линз"
+                BlocProvider(
+                  create: (context) => lensBloc,
+                  child: BlocBuilder<LensBloc, LensState>(
+                    builder: (context, state) {
+                      debugPrint(state.toString());
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 20,
+                            ),
+                            child: Text(
+                              'Параметры',
+                              style: AppStyles.h1,
+                            ),
                           ),
-                          child: Text(
-                            'Параметры',
-                            style: AppStyles.h1,
+                          const LensParametersButtonsSection(),
+                          const SizedBox(
+                            height: 36,
                           ),
-                        ),
-                        const LensParametersButtonsSection(),
-                        const SizedBox(
-                          height: 36,
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
 
-              //* Область "Адрес доставки"
-              DeliveryAddressSection(
-                addAddressCallback: wm.addAddressAction,
-              ),
-            ],
+                //* Область "Адрес доставки"
+                DeliveryAddressSection(),
+              ],
+            ),
           ),
         ),
       ),
-      bottomNavigationBar: CustomFloatingActionButton(
-        text: 'Потратить 1250 б',
-        onPressed: () {
-          showFlexibleBottomSheet<void>(
-            context: Keys.mainNav.currentContext!,
-            minHeight: 0,
-            initHeight: 0.9,
-            maxHeight: 0.95,
-            anchors: [0, 0.6, 0.95],
-            builder: (context, controller, d) {
-              return Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  FinalFreePackaging(
-                    controller: ScrollController(),
-                    model: Models.discountOptics[0],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Container(
-                      height: 4,
-                      width: 38,
-                      decoration: BoxDecoration(
-                        color: AppTheme.mineShaft,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
+      bottomNavigationBar: StreamedStateBuilder<bool>(
+        streamedState: wm.loadingState,
+        builder: (_, isLoading) {
+          return isLoading
+              ? const CustomFloatingActionButton(
+                  text: '',
+                  icon: AnimatedLoader(),
+                )
+              : CustomFloatingActionButton(
+                  text: 'Потратить ${wm.productItemModel.price} б',
+                  icon: Container(),
+                  onPressed: wm.makeOrderAction,
+                );
         },
       ),
     );

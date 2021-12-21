@@ -4,8 +4,10 @@ import 'package:bausch/models/mappable_object.dart';
 class AdressModel implements MappableInterface<AdressModel> {
   final int? id;
 
+  //* Улица
   final String street;
 
+  //* Номер дома
   final String? house;
 
   //* Номер квартиры
