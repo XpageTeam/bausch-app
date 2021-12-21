@@ -237,6 +237,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                     ),
                   ),
                   onPressed: () {
+                    // TODO(Nikolay): Переделать.
                     Keys.mainNav.currentState!.pop();
                     Keys.mainContentNav.currentState!.pushNamed('/shops');
                   },
