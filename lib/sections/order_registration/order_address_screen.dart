@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_address_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
@@ -16,6 +17,7 @@ import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,9 +25,11 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class OrderAddressScreenArguments {
   final AdressModel adress;
+  final ProductItemModel productItemModel;
 
   OrderAddressScreenArguments({
     required this.adress,
+    required this.productItemModel,
   });
 }
 
@@ -34,16 +38,19 @@ class OrderAddressScreen extends CoreMwwmWidget<OrderAddressScreenWM>
   @override
   final AdressModel adress;
 
-  final String? btnText;
+  @override
+  final ProductItemModel productItemModel;
+
   OrderAddressScreen({
     required this.adress,
-    this.btnText,
+    required this.productItemModel,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => OrderAddressScreenWM(
             context: context,
             adress: adress,
+            productItemModel: productItemModel,
           ),
         );
 
@@ -54,38 +61,6 @@ class OrderAddressScreen extends CoreMwwmWidget<OrderAddressScreenWM>
 
 class _OrderAddressScreenState
     extends WidgetState<OrderAddressScreen, OrderAddressScreenWM> {
-  late TextEditingController flatController;
-  late TextEditingController entryController;
-  late TextEditingController floorController;
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    flatController.dispose();
-    entryController.dispose();
-    floorController.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    //addressesBloc = BlocProvider.of<AddressesBloc>(context);
-
-    flatController = TextEditingController(
-      text: widget.adress.flat == null ? '' : widget.adress.flat.toString(),
-    );
-
-    entryController = TextEditingController(
-      text: widget.adress.entry == null ? '' : widget.adress.entry.toString(),
-    );
-
-    floorController = TextEditingController(
-      text: widget.adress.floor == null ? '' : widget.adress.floor.toString(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,7 +89,7 @@ class _OrderAddressScreenState
                 Flexible(
                   child: NativeTextInput(
                     labelText: 'Кв/офис',
-                    controller: flatController,
+                    controller: wm.flatController,
                     inputType: TextInputType.number,
                   ),
                 ),
@@ -124,7 +99,7 @@ class _OrderAddressScreenState
                 Flexible(
                   child: NativeTextInput(
                     labelText: 'Подъезд',
-                    controller: entryController,
+                    controller: wm.entryController,
                     inputType: TextInputType.number,
                   ),
                 ),
@@ -134,7 +109,7 @@ class _OrderAddressScreenState
                 Flexible(
                   child: NativeTextInput(
                     labelText: 'Этаж',
-                    controller: floorController,
+                    controller: wm.floorController,
                     inputType: TextInputType.number,
                   ),
                 ),
@@ -151,9 +126,20 @@ class _OrderAddressScreenState
           padding: const EdgeInsets.only(
             bottom: 60,
           ),
-          child: BlueButtonWithText(
-            text: 'Перейти к заказу',
-            onPressed: () {},
+          child: StreamedStateBuilder<bool>(
+            streamedState: wm.loadingState,
+            builder: (_, isLoading) {
+              return isLoading
+                  ? const BlueButtonWithText(
+                      text: '',
+                      icon: AnimatedLoader(),
+                    )
+                  : BlueButtonWithText(
+                      text: 'Перейти к заказу',
+                      icon: Container(),
+                      onPressed: wm.makeOrderAction,
+                    );
+            },
           ),
         ),
       ),

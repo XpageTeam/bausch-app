@@ -1,3 +1,4 @@
+import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/order_address_screen.dart';
 import 'package:bausch/sections/order_registration/widget_models/address_select_screen_wm.dart';
@@ -12,16 +13,26 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class AddressSelectScreenArguments {
   final List<AdressModel> userAdresses;
+  final ProductItemModel productItemModel;
 
-  AddressSelectScreenArguments({required this.userAdresses});
+  AddressSelectScreenArguments({
+    required this.userAdresses,
+    required this.productItemModel,
+  });
 }
 
 class AddressSelectScreen extends CoreMwwmWidget<AddressSelectScreenWM>
     implements AddressSelectScreenArguments {
   @override
   final List<AdressModel> userAdresses;
-  AddressSelectScreen({required this.userAdresses, Key? key})
-      : super(
+  @override
+  final ProductItemModel productItemModel;
+
+  AddressSelectScreen({
+    required this.userAdresses,
+    required this.productItemModel,
+    Key? key,
+  }) : super(
           key: key,
           widgetModelBuilder: (context) => AddressSelectScreenWM(
             context: context,
@@ -96,6 +107,7 @@ class _AddressSelectScreenState
                                 '/order_address',
                                 arguments: OrderAddressScreenArguments(
                                   adress: widget.userAdresses[i],
+                                  productItemModel: widget.productItemModel,
                                 ),
                               );
                             },

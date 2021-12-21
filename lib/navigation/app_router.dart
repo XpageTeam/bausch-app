@@ -50,6 +50,8 @@ class AppRouter {
     if (settings.name == '/order_address') {
       targetPage = OrderAddressScreen(
         adress: (settings.arguments as OrderAddressScreenArguments).adress,
+        productItemModel: (settings.arguments as OrderAddressScreenArguments)
+            .productItemModel,
       );
     }
 
@@ -57,6 +59,8 @@ class AppRouter {
       targetPage = AddressSelectScreen(
         userAdresses:
             (settings.arguments as AddressSelectScreenArguments).userAdresses,
+        productItemModel: (settings.arguments as AddressSelectScreenArguments)
+            .productItemModel,
       );
     }
 
