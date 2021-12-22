@@ -52,6 +52,9 @@ class AppRouter {
         adress: (settings.arguments as OrderAddressScreenArguments).adress,
         productItemModel: (settings.arguments as OrderAddressScreenArguments)
             .productItemModel,
+        orderRegistrationScreenWM:
+            (settings.arguments as OrderAddressScreenArguments)
+                .orderRegistrationScreenWM,
       );
     }
 
@@ -61,6 +64,9 @@ class AppRouter {
             (settings.arguments as AddressSelectScreenArguments).userAdresses,
         productItemModel: (settings.arguments as AddressSelectScreenArguments)
             .productItemModel,
+        orderRegistrationScreenWM:
+            (settings.arguments as AddressSelectScreenArguments)
+                .orderRegistrationScreenWM,
       );
     }
 

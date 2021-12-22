@@ -9,6 +9,7 @@ import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
@@ -21,11 +22,13 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class OrderAddressScreenWM extends WidgetModel {
   final BuildContext context;
 
+  final OrderRegistrationScreenWM orderRegistrationScreenWM;
+
   final AdressModel adress;
 
   final loadingState = StreamedState<bool>(false);
 
-  final ProductItemModel productItemModel;
+  //final ProductItemModel productItemModel;
 
   final makeOrderAction = VoidAction();
 
@@ -38,7 +41,8 @@ class OrderAddressScreenWM extends WidgetModel {
   OrderAddressScreenWM({
     required this.context,
     required this.adress,
-    required this.productItemModel,
+    //required this.productItemModel,
+    required this.orderRegistrationScreenWM,
     //required this.productItemModel,
   }) : super(const WidgetModelDependencies());
 
@@ -88,7 +92,7 @@ class OrderAddressScreenWM extends WidgetModel {
       await AddressUpdater.update(updatedAdressModel);
 
       await OrderFreePackagingSaver.save(
-        productItemModel,
+        orderRegistrationScreenWM.productItemModel,
         updatedAdressModel,
       );
 
@@ -96,6 +100,8 @@ class OrderAddressScreenWM extends WidgetModel {
       if (userRepository == null) return;
 
       await userWM.userData.content(userRepository);
+
+      await orderRegistrationScreenWM.updateUserData();
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -128,7 +134,7 @@ class OrderAddressScreenWM extends WidgetModel {
         builder: (ctx, controller, d) {
           return FinalFreePackaging(
             controller: ScrollController(),
-            model: productItemModel,
+            model: orderRegistrationScreenWM.productItemModel,
           );
         },
       );

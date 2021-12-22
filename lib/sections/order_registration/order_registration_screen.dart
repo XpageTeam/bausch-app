@@ -52,11 +52,11 @@ class OrderRegistrationScreen extends CoreMwwmWidget<OrderRegistrationScreenWM>
 
 class _OrderRegistrationScreenState
     extends WidgetState<OrderRegistrationScreen, OrderRegistrationScreenWM> {
-  final LensBloc lensBloc = LensBloc();
+  //final LensBloc lensBloc = LensBloc();
 
   @override
   void dispose() {
-    lensBloc.close();
+    wm.lensBloc.close();
     super.dispose();
   }
 
@@ -92,10 +92,9 @@ class _OrderRegistrationScreenState
 
                 //* Область "Параметры линз"
                 BlocProvider(
-                  create: (context) => lensBloc,
+                  create: (context) => wm.lensBloc,
                   child: BlocBuilder<LensBloc, LensState>(
                     builder: (context, state) {
-                      debugPrint(state.toString());
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -134,9 +133,14 @@ class _OrderRegistrationScreenState
                   icon: AnimatedLoader(),
                 )
               : CustomFloatingActionButton(
-                  text: 'Потратить ${wm.productItemModel.price} б',
+                  text: 'Потратить ${wm.productItemModel.priceToString} б',
                   icon: Container(),
-                  onPressed: wm.makeOrderAction,
+                  onPressed: ((wm.nameController.text.isNotEmpty) ||
+                          (wm.lastNameController.text.isNotEmpty))
+                      ? () {
+                          wm.makeOrderAction();
+                        }
+                      : null,
                 );
         },
       ),

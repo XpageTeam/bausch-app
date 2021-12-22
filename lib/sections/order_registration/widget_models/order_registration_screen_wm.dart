@@ -9,6 +9,7 @@ import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/my_adresses_screen.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
@@ -36,7 +37,13 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
   final phoneController = MaskedTextController(mask: '+0 000 000 00 00');
+
+  final lensBloc = LensBloc();
+
+  late bool nameFieldEnabled;
+  late bool lastNameFieldEnabled;
 
   late UserWM userWM;
 
@@ -67,10 +74,13 @@ class OrderRegistrationScreenWM extends WidgetModel {
   void onBind() {
     userWM = Provider.of<UserWM>(context, listen: false);
 
-    //emailController.text = userWM.userData.value.data!.user.email ?? '';
     nameController.text = userWM.userData.value.data!.user.name ?? '';
     lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
     phoneController.text = userWM.userData.value.data!.user.phone;
+    emailController.text = userWM.userData.value.data!.user.email ?? '';
+
+    nameFieldEnabled = userWM.userData.value.data!.user.name == null;
+    lastNameFieldEnabled = userWM.userData.value.data!.user.lastName == null;
 
     addAddressAction.bind((_) {
       Navigator.of(context)
@@ -83,12 +93,23 @@ class OrderRegistrationScreenWM extends WidgetModel {
     super.onBind();
   }
 
+  Future<void> updateUserData() async {
+    await userWM.updateUserData(
+      userWM.userData.value.data!.user.copyWith(
+        name: userWM.userData.value.data!.user.name ?? nameController.text,
+        lastName: userWM.userData.value.data!.user.lastName ??
+            lastNameController.text,
+      ),
+    );
+  }
+
   Future<void> _spendPoints() async {
     unawaited(loadingState.accept(true));
 
     CustomException? error;
 
     try {
+      lensBloc.add(LensSend(model: lensBloc.state.model));
       await OrderFreePackagingSaver.save(
         productItemModel,
         address,
@@ -98,6 +119,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
       if (userRepository == null) return;
 
       await userWM.userData.content(userRepository);
+
+      await updateUserData();
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',

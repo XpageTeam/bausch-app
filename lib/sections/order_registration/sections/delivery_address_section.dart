@@ -59,6 +59,7 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
                   arguments: AddressSelectScreenArguments(
                     userAdresses: state.adresses,
                     productItemModel: wm.productItemModel,
+                    orderRegistrationScreenWM: wm,
                   ),
                 ),
                 title: Flexible(

@@ -2,6 +2,7 @@ import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/order_address_screen.dart';
 import 'package:bausch/sections/order_registration/widget_models/address_select_screen_wm.dart';
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_details_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/static/static_data.dart';
@@ -14,10 +15,12 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class AddressSelectScreenArguments {
   final List<AdressModel> userAdresses;
   final ProductItemModel productItemModel;
+  final OrderRegistrationScreenWM orderRegistrationScreenWM;
 
   AddressSelectScreenArguments({
     required this.userAdresses,
     required this.productItemModel,
+    required this.orderRegistrationScreenWM,
   });
 }
 
@@ -27,10 +30,13 @@ class AddressSelectScreen extends CoreMwwmWidget<AddressSelectScreenWM>
   final List<AdressModel> userAdresses;
   @override
   final ProductItemModel productItemModel;
+  @override
+  final OrderRegistrationScreenWM orderRegistrationScreenWM;
 
   AddressSelectScreen({
     required this.userAdresses,
     required this.productItemModel,
+    required this.orderRegistrationScreenWM,
     Key? key,
   }) : super(
           key: key,
@@ -108,6 +114,8 @@ class _AddressSelectScreenState
                                 arguments: OrderAddressScreenArguments(
                                   adress: widget.userAdresses[i],
                                   productItemModel: widget.productItemModel,
+                                  orderRegistrationScreenWM:
+                                      widget.orderRegistrationScreenWM,
                                 ),
                               );
                             },

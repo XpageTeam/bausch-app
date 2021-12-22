@@ -46,9 +46,6 @@ class _RecipientSectionState extends State<RecipientSection> {
           //* Набор полей для ввода информации о получателе
           if (isFormShowing)
             OrderFormFields(
-              nameController: wm.nameController,
-              lastNameController: wm.lastNameController,
-              phoneController: wm.phoneController,
               onPressed: () => setState(
                 () {
                   isFormShowing = false;

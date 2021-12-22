@@ -3,6 +3,7 @@
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_address_screen_wm.dart';
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/bloc/addresses_bloc.dart';
@@ -26,10 +27,12 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class OrderAddressScreenArguments {
   final AdressModel adress;
   final ProductItemModel productItemModel;
+  final OrderRegistrationScreenWM orderRegistrationScreenWM;
 
   OrderAddressScreenArguments({
     required this.adress,
     required this.productItemModel,
+    required this.orderRegistrationScreenWM,
   });
 }
 
@@ -41,16 +44,20 @@ class OrderAddressScreen extends CoreMwwmWidget<OrderAddressScreenWM>
   @override
   final ProductItemModel productItemModel;
 
+  @override
+  final OrderRegistrationScreenWM orderRegistrationScreenWM;
+
   OrderAddressScreen({
     required this.adress,
     required this.productItemModel,
+    required this.orderRegistrationScreenWM,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => OrderAddressScreenWM(
             context: context,
             adress: adress,
-            productItemModel: productItemModel,
+            orderRegistrationScreenWM: orderRegistrationScreenWM,
           ),
         );
 
