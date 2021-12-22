@@ -100,8 +100,9 @@ class WebinarVerificationWM extends WidgetModel {
     if (error != null) {
       _showTopError(error);
     } else {
-      await Keys.bottomNav.currentState!.pushNamed(
+      await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_webinar',
+        (route) => route.isCurrent,
         arguments: FinalWebinarArguments(
           model: itemModel,
           videoId: videoId!,

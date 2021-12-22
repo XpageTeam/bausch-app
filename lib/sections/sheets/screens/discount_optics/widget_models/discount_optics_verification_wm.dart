@@ -105,8 +105,9 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     if (error != null) {
       _showTopError(error);
     } else {
-      await Keys.bottomNav.currentState!.pushNamed(
+      await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_discount_optics',
+        (route) => route.isCurrent,
         arguments: DiscountOpticsArguments(
           model: itemModel,
           discountOptic: discountOptic,
