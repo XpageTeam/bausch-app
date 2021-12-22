@@ -155,7 +155,6 @@ class OrderFreePackagingSaver {
       '/order/freePack/save/',
       data: FormData.fromMap(
         <String, dynamic>{
-          //TODO(Nikita): написать
           'productId': model.id,
           'price': model.price,
           'addressId': address.id,

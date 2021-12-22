@@ -75,7 +75,8 @@ class OrderAddressScreenWM extends WidgetModel {
 
     CustomException? error;
 
-    final adressModel = AdressModel(
+    final updatedAdressModel = AdressModel(
+      id: adress.id,
       street: adress.street,
       house: adress.house,
       flat: int.parse(flatController.text),
@@ -84,9 +85,11 @@ class OrderAddressScreenWM extends WidgetModel {
     );
 
     try {
+      await AddressUpdater.update(updatedAdressModel);
+
       await OrderFreePackagingSaver.save(
         productItemModel,
-        adressModel,
+        updatedAdressModel,
       );
 
       final userRepository = await UserWriter.checkUserToken();
@@ -150,10 +153,8 @@ class OrderFreePackagingSaver {
       '/order/freePack/save/',
       data: FormData.fromMap(
         <String, dynamic>{
-          //TODO(Nikita): написать
           'productId': model.id,
           'price': model.price,
-          //TODO(Nikita): откуда брать id, если адрес изменился
           'addressId': address.id,
           'diopters': 0,
           'cylinder': 0,
@@ -168,6 +169,31 @@ class OrderFreePackagingSaver {
             policy: CachePolicy.request,
           )
           .toOptions(),
+    );
+
+    final data = resp.data!;
+
+    return BaseResponseRepository.fromMap(data);
+  }
+}
+
+class AddressUpdater {
+  static Future<BaseResponseRepository> update(
+    AdressModel address,
+  ) async {
+    final rh = RequestHandler();
+    final resp = await rh.put<Map<String, dynamic>>(
+      '/user/address/${address.id}/',
+      data: FormData.fromMap(
+        <String, dynamic>{
+          'street': address.street,
+          'house': address.house,
+          'flat': address.flat,
+          'entry': address.entry,
+          'floor': address.floor,
+          'city': address.city,
+        },
+      ),
     );
 
     final data = resp.data!;
