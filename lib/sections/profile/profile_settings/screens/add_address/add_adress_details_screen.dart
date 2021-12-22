@@ -87,11 +87,19 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddressesBloc(),
+      create: (context) => addressesBloc,
       child: BlocListener<AddressesBloc, AddressesState>(
         listener: (context, state) {
           if (state is AddressesFailed) {
             showDefaultNotification(title: state.title);
+          }
+
+          if (state is AddressesSended) {
+            if (widget.isFirstLaunch) {
+              _navigateBack();
+            } else {
+              Navigator.of(context).pop();
+            }
           }
         },
         child: BlocBuilder<AddressesBloc, AddressesState>(
@@ -109,6 +117,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   right: StaticData.sidePadding,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '${widget.adress.street}, ${widget.adress.house}',
@@ -162,6 +171,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       text: 'Сохранить',
                       onPressed: () {
                         final model = AdressModel(
+                          id: widget.adress.id,
                           street: widget.adress.street,
                           house: widget.adress.house,
                           flat: int.parse(flatController.text),
@@ -171,10 +181,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
                         if (widget.isFirstLaunch) {
                           addressesBloc.add(AddressesSend(address: model));
-                          _navigateBack();
+                          //_navigateBack();
                         } else {
                           addressesBloc.add(AddressUpdate(address: model));
-                          Navigator.of(context).pop();
+                          //Navigator.of(context).pop();
                         }
                         //widget.adressesCubit?.getAdresses();
                       },

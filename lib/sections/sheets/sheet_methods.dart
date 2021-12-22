@@ -40,18 +40,8 @@ void showLoader(BuildContext context) {
     barrierDismissible: false,
     // useRootNavigator: false,
     builder: (context) {
-      return Center(
-        child: Container(
-          height: 100,
-          width: 100,
-          decoration: BoxDecoration(
-            color: AppTheme.mystic,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: const Center(
-            child: AnimatedLoader(),
-          ),
-        ),
+      return const Center(
+        child: AnimatedLoader(),
       );
     },
   );
