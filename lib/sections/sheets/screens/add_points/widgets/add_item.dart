@@ -1,7 +1,10 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
+import 'package:bausch/models/add_points/quiz/quiz_answer_model.dart';
+import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
+import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -17,8 +20,13 @@ class AddItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (model.type == 'survey') {
-          Navigator.of(context).pushNamed('/addpoints_survey');
+        if (model.type == 'quiz') {
+          Navigator.of(context).pushNamed(
+            '/addpoints_quiz',
+            arguments: QuizScreenArguments(
+              model: model as QuizModel,
+            ),
+          );
         } else {
           Navigator.of(context).pushNamed(
             '/addpoints_details',

@@ -3,6 +3,8 @@ import 'package:bausch/models/mappable_object.dart';
 class DetailModel implements MappableInterface<DetailModel> {
   final String title;
 
+  final String icon;
+
   final String? description;
 
   final String? btnName;
@@ -11,6 +13,7 @@ class DetailModel implements MappableInterface<DetailModel> {
 
   DetailModel({
     required this.title,
+    required this.icon,
     this.description,
     this.btnName,
     this.btnIcon,
@@ -19,6 +22,9 @@ class DetailModel implements MappableInterface<DetailModel> {
   factory DetailModel.fromMap(Map<String, dynamic> map) {
     return DetailModel(
       title: (map['title'] ?? 'title') as String,
+      icon: (map['icon'] ??
+              'https://bausch.in-progress.ru/upload/uf/4fa/0ds4e7fo757lrxzlbxn5ji44co0vow8h.png')
+          as String,
       description:
           map['description'] != null ? map['description'] as String : null,
       btnName: map['btn_name'] != null ? map['btn_name'] as String : null,

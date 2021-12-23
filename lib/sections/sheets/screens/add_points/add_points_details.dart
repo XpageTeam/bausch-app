@@ -57,8 +57,8 @@ class AddPointsDetails extends StatelessWidget
                           const SizedBox(
                             height: 64,
                           ),
-                          Image.asset(
-                            'assets/add_points_vk.png',
+                          Image.network(
+                            model.detailModel.icon,
                             fit: BoxFit.cover,
                             height: 200,
                           ),
@@ -70,7 +70,7 @@ class AddPointsDetails extends StatelessWidget
                               horizontal: StaticData.sidePadding,
                             ),
                             child: Text(
-                              model.previewModel.title,
+                              model.detailModel.title,
                               style: AppStyles.h1,
                               textAlign: TextAlign.center,
                             ),

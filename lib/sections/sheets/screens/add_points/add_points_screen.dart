@@ -1,4 +1,4 @@
-import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points_bloc.dart';
+import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points/add_points_bloc.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
@@ -24,6 +24,7 @@ class _AddPointsScreenState extends State<AddPointsScreen> {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
+      resizeToAvoidBottomInset: false,
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(
@@ -40,66 +41,65 @@ class _AddPointsScreenState extends State<AddPointsScreen> {
             ),
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.only(
-            right: StaticData.sidePadding,
-            left: StaticData.sidePadding,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/add-points.png',
-                      height: 66,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      'Добавить ещё',
-                      style: AppStyles.h1,
-                    ),
-                  ],
+        BlocBuilder<AddPointsBloc, AddPointsState>(
+          bloc: addPointsBloc,
+          builder: (context, state) {
+            debugPrint(state.toString());
+            if (state is AddPointsGetSuccess) {
+              return SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.only(
-            right: StaticData.sidePadding,
-            left: StaticData.sidePadding,
-            bottom: 60,
-          ),
-          sliver: BlocBuilder<AddPointsBloc, AddPointsState>(
-            bloc: addPointsBloc,
-            builder: (context, state) {
-              debugPrint(state.toString());
-              if (state is AddPointsGetSuccess) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, i) => Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: AddItem(model: state.models[i]),
-                    ),
-                    childCount: state.models.length,
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/add-points.png',
+                            height: 66,
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'Добавить ещё',
+                            style: AppStyles.h1,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: List.generate(
+                          state.models.length,
+                          (i) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 4,
+                              ),
+                              child: AddItem(model: state.models[i]),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                    ],
                   ),
-                );
-              }
-              return SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Container(),
-                  ],
                 ),
               );
-            },
-          ),
+            }
+            return SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );

@@ -1,6 +1,7 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
+import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
@@ -34,10 +35,13 @@ class AddPointsBloc extends Bloc<AddPointsEvent, AddPointsState> {
       );
 
       return AddPointsGetSuccess(
-        models: (parsedData.data as List<dynamic>)
-            .map((dynamic item) =>
-                AddPointsModel.fromMap(item as Map<String, dynamic>))
-            .toList(),
+        models: (parsedData.data as List<dynamic>).map((dynamic item) {
+          if ((item as Map<String, dynamic>).containsValue('quiz')) {
+            return QuizModel.fromMap(item as Map<String, dynamic>);
+          } else {
+            return AddPointsModel.fromMap(item as Map<String, dynamic>);
+          }
+        }).toList(),
       );
     } on ResponseParseException catch (e) {
       return AddPointsFailed(
