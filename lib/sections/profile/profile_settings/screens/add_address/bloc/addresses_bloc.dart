@@ -103,7 +103,7 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     try {
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.put<Map<String, dynamic>>(
-          '/user/address/:${address.id}/',
+          '/user/address/${address.id}/',
           data: FormData.fromMap(address.toMap()),
         ))
             .data!,

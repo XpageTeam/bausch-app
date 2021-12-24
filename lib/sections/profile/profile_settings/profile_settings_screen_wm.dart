@@ -30,7 +30,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
     selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
     enteredEmail.accept(userWM.userData.value.data!.user.email);
 
-    isEmailConfirmed = userWM.userData.value.data!.user.pendingEmail == null;
+    isEmailConfirmed = userWM.userData.value.data!.user.pendingEmail ==
+        userWM.userData.value.data!.user.email;
 
     //emailController.text = userWM.userData.value.data!.user.email ?? '';
     nameController.text = userWM.userData.value.data!.user.name ?? '';
@@ -65,6 +66,9 @@ class ProfileSettingsScreenWM extends WidgetModel {
         birthDate: selectedBirthDate.value,
       ),
     );
+
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
   }
 
   void setCityName(String? cityName) {

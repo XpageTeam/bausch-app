@@ -79,7 +79,9 @@ class FinalDiscountOptics extends StatelessWidget {
         ),
       ],
       bottomNavBar: BottomButtonWithRoundedCorners(
-        text: buttonText ?? 'На главную',
+        text: discountType == DiscountType.offline
+            ? 'На главную'
+            : 'Скопировать код и перейти на сайт',
       ),
     );
   }

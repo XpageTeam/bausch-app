@@ -25,6 +25,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authWM = Provider.of<AuthWM>(context);
 
+    double bottomHeigth = 0;
+
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
@@ -158,9 +160,9 @@ class HomeScreen extends StatelessWidget {
                           height: 100,
                         ),
                         Image.asset('assets/logo.png'),
-                        // const SizedBox(
-                        //   height: 60,
-                        // ),
+                        SizedBox(
+                          height: bottomHeigth,
+                        ),
                       ],
                     ),
                   ),
@@ -172,17 +174,22 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: DelayedAnimatedTranslateOpacity(
         offsetY: 10,
-        child: CustomFloatingActionButton(
-          text: 'Добавить баллы',
-          icon: const Icon(
-            Icons.add,
-            color: AppTheme.mineShaft,
-          ),
-          onPressed: () {
-            debugPrint(context.toString());
-            showSheet<void>(
-              context,
-              SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+        child: LayoutBuilder(
+          builder: (ctx, constraints) {
+            bottomHeigth = constraints.minHeight;
+            return CustomFloatingActionButton(
+              text: 'Добавить баллы',
+              icon: const Icon(
+                Icons.add,
+                color: AppTheme.mineShaft,
+              ),
+              onPressed: () {
+                debugPrint(context.toString());
+                showSheet<void>(
+                  context,
+                  SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+                );
+              },
             );
           },
         ),

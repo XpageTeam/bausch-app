@@ -3,7 +3,7 @@ import 'package:bausch/models/mappable_object.dart';
 import 'package:bausch/models/stories/product_model.dart';
 
 class StoryContentModel implements MappableInterface<StoryContentModel> {
-  final int id;
+  //final int id;
 
   //* Текст(отображается на главном экране)
   final String title;
@@ -28,7 +28,7 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
   final bool isVideo;
 
   StoryContentModel({
-    required this.id,
+    //required this.id,
     required this.isVideo,
     required this.preview,
     required this.title,
@@ -47,7 +47,7 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
     }
 
     return StoryContentModel(
-      id: map['id'] as int,
+      //id: map['id'] as int,
       title: (map['title'] ?? 'Title') as String,
       description: map['description'] as String,
       productModel: map['product'] != null

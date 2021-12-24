@@ -21,7 +21,6 @@ void showSheet<T>(
   showFlexibleBottomSheet<void>(
     useRootNavigator: true,
     minHeight: 0,
-    isCollapsible: false,
     initHeight: 0.95,
     maxHeight: 0.95,
     anchors: [0, 0.6, 0.95],
@@ -43,20 +42,9 @@ void showLoader(BuildContext context) {
   showDialog<void>(
     context: context,
     barrierDismissible: false,
-    // useRootNavigator: false,
     builder: (context) {
-      return Center(
-        child: Container(
-          height: 100,
-          width: 100,
-          decoration: BoxDecoration(
-            color: AppTheme.mystic,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: const Center(
-            child: AnimatedLoader(),
-          ),
-        ),
+      return const Center(
+        child: AnimatedLoader(),
       );
     },
   );
