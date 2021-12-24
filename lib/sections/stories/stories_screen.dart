@@ -52,16 +52,16 @@ class _StoriesScreenState extends State<StoriesScreen>
     _currentIndex = 0;
     _pageController = PageController();
     _animController = AnimationController(vsync: this);
-    _videoPlayerController = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    );
+    // _videoPlayerController = VideoPlayerController.network(
+    //   'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    // );
 
     story = widget.storyModel.content[_currentIndex];
 
-    _loadFile();
+    _loadFile(storyContentModel: story);
 
-    final firstStory = widget.storyModel.content.first;
-    _loadStory(story: firstStory, animateToPage: false);
+    //final firstStory = widget.storyModel.content.first;
+    //_loadStory(story: firstStory, animateToPage: false);
 
     _animController.addStatusListener(
       (status) {
@@ -73,7 +73,8 @@ class _StoriesScreenState extends State<StoriesScreen>
             () {
               if (_currentIndex + 1 < widget.storyModel.content.length) {
                 _currentIndex += 1;
-                _loadStory(story: widget.storyModel.content[_currentIndex]);
+                //_loadStory(story: widget.storyModel.content[_currentIndex]);
+                _loadFile(storyContentModel: story);
               } else {
                 Navigator.of(context).pop();
               }
@@ -198,9 +199,30 @@ class _StoriesScreenState extends State<StoriesScreen>
     debugPrint('id: $id, views: $count');
   }
 
-  
-  Future<void> _loadFile() async {
-    if (story.isVideo) {
+  Future<void> _loadFile({
+    required StoryContentModel storyContentModel,
+  }) async {
+    debugPrint(storyContentModel.file);
+    setState(() {
+      isContentLoaded = false;
+    });
+    _animController.stop();
+    _animController.reset();
+
+    if (storyContentModel.isVideo) {
+      _videoPlayerController.dispose();
+      _videoPlayerController = VideoPlayerController.network(
+        storyContentModel.file!,
+      )
+        ..addListener(() {
+          if (_videoPlayerController.value.isInitialized) {
+            setState(() {
+              isContentLoaded = true;
+            });
+            _loadStory(story: storyContentModel);
+          }
+        })
+        ..initialize();
       file = FittedBox(
         fit: BoxFit.cover,
         child: SizedBox(
@@ -209,17 +231,9 @@ class _StoriesScreenState extends State<StoriesScreen>
           child: VideoPlayer(_videoPlayerController),
         ),
       );
-      _videoPlayerController.addListener(() {
-        if (_videoPlayerController.value.isInitialized) {
-          setState(() {
-            isContentLoaded = true;
-          });
-          _loadStory(story: story);
-        }
-      });
     } else {
       file = Image.network(
-        story.file ?? story.preview,
+        storyContentModel.file ?? storyContentModel.preview,
         fit: BoxFit.cover,
       );
 
@@ -237,7 +251,7 @@ class _StoriesScreenState extends State<StoriesScreen>
         setState(() {
           isContentLoaded = true;
         });
-        _loadStory(story: story);
+        _loadStory(story: storyContentModel);
       }
     }
   }
@@ -251,7 +265,10 @@ class _StoriesScreenState extends State<StoriesScreen>
         () {
           if (_currentIndex - 1 >= 0) {
             _currentIndex -= 1;
-            _loadStory(story: widget.storyModel.content[_currentIndex]);
+            //_loadStory(story: widget.storyModel.content[_currentIndex]);
+            _loadFile(
+              storyContentModel: widget.storyModel.content[_currentIndex],
+            );
           }
         },
       );
@@ -260,12 +277,18 @@ class _StoriesScreenState extends State<StoriesScreen>
         () {
           if (_currentIndex + 1 < widget.storyModel.content.length) {
             _currentIndex += 1;
-            _loadStory(story: widget.storyModel.content[_currentIndex]);
+            //_loadStory(story: widget.storyModel.content[_currentIndex]);
+            _loadFile(
+              storyContentModel: widget.storyModel.content[_currentIndex],
+            );
           } else {
             // Out of bounds - loop story
             // You can also Navigator.of(context).pop() here
             _currentIndex = 0;
-            _loadStory(story: widget.storyModel.content[_currentIndex]);
+            //_loadStory(story: widget.storyModel.content[_currentIndex]);
+            _loadFile(
+              storyContentModel: widget.storyModel.content[_currentIndex],
+            );
           }
         },
       );
@@ -291,8 +314,6 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  
-
   void _loadStory({
     required StoryContentModel story,
     bool animateToPage = true,
@@ -309,19 +330,9 @@ class _StoriesScreenState extends State<StoriesScreen>
           break;
         case true:
           //_videoPlayerController = null;
-          _videoPlayerController.dispose();
-          _videoPlayerController = VideoPlayerController.network(story.file!)
-            ..initialize().then(
-              (_) {
-                setState(() {});
-                if (_videoPlayerController.value.isInitialized) {
-                  _animController.duration =
-                      _videoPlayerController.value.duration;
-                  _videoPlayerController.play();
-                  _animController.forward();
-                }
-              },
-            );
+          _animController.duration = _videoPlayerController.value.duration;
+          _videoPlayerController.play();
+          _animController.forward();
           break;
       }
     }
