@@ -13,6 +13,10 @@ void showSheet<T>(
   BuildContext context,
   BaseCatalogSheetModel model, [
   T? args,
+  // Этот параметр нужен для того, чтоб
+  // из секции "вам может быть интересно" можно было перейти
+  // сразу в товар
+  String? initialRoute,
 ]) {
   showFlexibleBottomSheet<void>(
     useRootNavigator: true,
@@ -28,6 +32,7 @@ void showSheet<T>(
           controller: controller,
           sheetModel: model,
           args: args,
+          initialRoute: initialRoute,
         ),
       );
     },

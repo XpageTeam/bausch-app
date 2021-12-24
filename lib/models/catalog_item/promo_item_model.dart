@@ -13,6 +13,7 @@ class PromoItemModel extends CatalogItemModel
     required String? picture,
     required int price,
     required this.code,
+    String? type,
   }) : super(
           id: id,
           name: name,
@@ -20,6 +21,7 @@ class PromoItemModel extends CatalogItemModel
           detailText: detailText,
           picture: picture,
           price: price,
+          type:type,
         );
 
   factory PromoItemModel.fromMap(Map<String, dynamic> map) {
