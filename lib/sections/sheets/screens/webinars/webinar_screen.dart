@@ -5,6 +5,7 @@ import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_sc
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -77,7 +78,13 @@ class _WebinarsScreenState extends WidgetState<WebinarScreen, WebinarScreenWM> {
       bottomNavBar: StreamedStateBuilder<bool>(
         streamedState: wm.isEnough,
         builder: (_, isEnough) => CustomFloatingActionButton(
-          text: isEnough ? 'Перейти к заказу' : 'Не хватает ${wm.difference} б',
+          text: isEnough ? 'Перейти к заказу' : 'Накопить баллы',
+          icon: isEnough
+              ? null
+              : const Icon(
+                  Icons.add,
+                  color: AppTheme.mineShaft,
+                ),
           // '${HelpFunctions.wordByCount(
           //     wm.difference,
           //     [

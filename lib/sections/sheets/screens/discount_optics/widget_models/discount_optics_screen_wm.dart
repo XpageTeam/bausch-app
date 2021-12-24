@@ -36,6 +36,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
   late String warningText;
   late String howToUseText;
 
+  bool get isEnough => difference <= 0;
+
   DiscountOpticsScreenWM({
     required this.context,
     required this.itemModel,
@@ -67,7 +69,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
     buttonAction.bind(
       (_) {
-        if (difference > 0) {
+        if (!isEnough) {
           Navigator.of(context).pushNamed(
             '/add_points',
           );

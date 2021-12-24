@@ -13,7 +13,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 
-class ConsultationScreenArguments{
+class ConsultationScreenArguments {
   final CatalogItemModel item;
 
   ConsultationScreenArguments({
@@ -112,13 +112,12 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
+        // TODO(Nikolay): Непонятно с поощрением: это добавление баллов или вычитание?.
         text: 'Получить поощрение ${model.priceToString} б',
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            '/verification_consultation',
-            arguments: ItemSheetScreenArguments(model: model),
-          );
-        },
+        onPressed: () => Navigator.of(context).pushNamed(
+          '/verification_consultation',
+          arguments: ItemSheetScreenArguments(model: model),
+        ),
       ),
     );
   }

@@ -203,14 +203,18 @@ class _DiscountOpticsScreenState
         streamedState: wm.currentDiscountOptic,
         builder: (_, currentOptic) {
           return CustomFloatingActionButton(
-            text: wm.difference > 0
-                ? 'Нехватает ${wm.difference} б'
-                : 'Получить скидку',
-            onPressed: currentOptic != null
-                ? () => wm.buttonAction()
-                : wm.difference > 0
+            text: wm.isEnough ? 'Получить скидку' : 'Накопить баллы',
+            icon: wm.isEnough
+                ? null
+                : const Icon(
+                    Icons.add,
+                    color: AppTheme.mineShaft,
+                  ),
+            onPressed: wm.isEnough
+                ? currentOptic != null
                     ? () => wm.buttonAction()
-                    : null,
+                    : null
+                : () => wm.buttonAction(),
           );
         },
       ),
