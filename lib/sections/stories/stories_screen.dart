@@ -2,26 +2,25 @@
 
 import 'dart:async';
 
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
+import 'package:bausch/sections/stories/stories_buttons.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
-import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/html_styles.dart';
-import 'package:bausch/widgets/buttons/normal_icon_button.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 //тут ничего почти не менял,добавил методы _onLongPressStart , _onLongPressEnd
 //откуда всё взял: https://github.com/MarcusNg/flutter_instagram_stories
 
 class StoriesScreen extends StatefulWidget {
-  //final List<StoryContentModel> stories;
   final StoryModel storyModel;
   const StoriesScreen({
-    //required this.stories,
     required this.storyModel,
     //required this.currentIndex,
     Key? key,
@@ -34,34 +33,25 @@ class StoriesScreen extends StatefulWidget {
 class _StoriesScreenState extends State<StoriesScreen>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
-
   late AnimationController _animController;
-
   late VideoPlayerController _videoPlayerController;
-
   late int _currentIndex;
+  late Widget img;
 
-  late StoryContentModel story;
-
-  bool isContentLoaded = false;
-
-  late Widget file;
+  //bool isContentLoaded = false;
 
   @override
   void initState() {
     _currentIndex = 0;
     _pageController = PageController();
     _animController = AnimationController(vsync: this);
-    // _videoPlayerController = VideoPlayerController.network(
-    //   'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    // );
+    _videoPlayerController = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    );
 
-    story = widget.storyModel.content[_currentIndex];
+    final firstStory = widget.storyModel.content.first;
 
-    _loadFile(storyContentModel: story);
-
-    //final firstStory = widget.storyModel.content.first;
-    //_loadStory(story: firstStory, animateToPage: false);
+    _loadStory(story: firstStory, animateToPage: false);
 
     _animController.addStatusListener(
       (status) {
@@ -73,18 +63,19 @@ class _StoriesScreenState extends State<StoriesScreen>
             () {
               if (_currentIndex + 1 < widget.storyModel.content.length) {
                 _currentIndex += 1;
-                //_loadStory(story: widget.storyModel.content[_currentIndex]);
-                _loadFile(storyContentModel: story);
+                _loadStory(story: widget.storyModel.content[_currentIndex]);
               } else {
+                // Out of bounds - loop story
+                //_animController.stop();
                 Navigator.of(context).pop();
+                //_currentIndex = 0;
+                //_loadStory(story: widget.stories[_currentIndex]);
               }
             },
           );
         }
       },
     );
-
-    updateViews(widget.storyModel.id);
 
     super.initState();
   }
@@ -99,7 +90,10 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   @override
   Widget build(BuildContext context) {
+    final story = widget.storyModel.content[_currentIndex];
+
     return Scaffold(
+      backgroundColor: Colors.black,
       body: GestureDetector(
         onTapUp: (details) => _onTapUp(details, story),
         onLongPressStart: (details) => _onLongPressStart(details, story),
@@ -111,7 +105,30 @@ class _StoriesScreenState extends State<StoriesScreen>
               physics: const NeverScrollableScrollPhysics(),
               itemCount: widget.storyModel.content.length,
               itemBuilder: (context, i) {
-                return file;
+                //final StoryModel story = widget.stories[i];
+                switch (story.isVideo) {
+                  case false:
+                    return Image.network(
+                      story.file ?? story.preview,
+                      fit: BoxFit.cover,
+                    );
+                  case true:
+                    if (_videoPlayerController.value.isInitialized) {
+                      return FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: _videoPlayerController.value.size.width,
+                          height: _videoPlayerController.value.size.height,
+                          child: VideoPlayer(_videoPlayerController),
+                        ),
+                      );
+                    }
+                }
+                return Image.network(
+                  story.preview,
+                  fit: BoxFit.cover,
+                  //color: Colors.red.withAlpha(10),
+                );
               },
             ),
             Positioned(
@@ -137,14 +154,17 @@ class _StoriesScreenState extends State<StoriesScreen>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      NormalIconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: const Icon(
-                          Icons.close_rounded,
-                          size: 20,
-                          color: AppTheme.mineShaft,
+                      CircleAvatar(
+                        radius: 22,
+                        backgroundColor: Colors.white,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Color(0xFF2D2D2D),
+                          ),
                         ),
                       ),
                     ],
@@ -185,77 +205,6 @@ class _StoriesScreenState extends State<StoriesScreen>
     );
   }
 
-  Future<void> updateViews(int id) async {
-    final prefs = await SharedPreferences.getInstance();
-    var count = 1;
-
-    if (prefs.containsKey('story[$id]')) {
-      count = prefs.getInt('story[$id]')!;
-      await prefs.setInt('story[$id]', count + 1);
-    } else {
-      await prefs.setInt('story[$id]', count + 1);
-    }
-
-    debugPrint('id: $id, views: $count');
-  }
-
-  Future<void> _loadFile({
-    required StoryContentModel storyContentModel,
-  }) async {
-    debugPrint(storyContentModel.file);
-    setState(() {
-      isContentLoaded = false;
-    });
-    _animController.stop();
-    _animController.reset();
-
-    if (storyContentModel.isVideo) {
-      _videoPlayerController.dispose();
-      _videoPlayerController = VideoPlayerController.network(
-        storyContentModel.file!,
-      )
-        ..addListener(() {
-          if (_videoPlayerController.value.isInitialized) {
-            setState(() {
-              isContentLoaded = true;
-            });
-            _loadStory(story: storyContentModel);
-          }
-        })
-        ..initialize();
-      file = FittedBox(
-        fit: BoxFit.cover,
-        child: SizedBox(
-          width: _videoPlayerController.value.size.width,
-          height: _videoPlayerController.value.size.height,
-          child: VideoPlayer(_videoPlayerController),
-        ),
-      );
-    } else {
-      file = Image.network(
-        storyContentModel.file ?? storyContentModel.preview,
-        fit: BoxFit.cover,
-      );
-
-      final stream = (file as Image).image.resolve(ImageConfiguration.empty);
-
-      final completer = Completer<void>();
-
-      stream.addListener(
-        ImageStreamListener(
-          (info, flag) => completer.complete(),
-        ),
-      );
-      await completer.future;
-      if (mounted) {
-        setState(() {
-          isContentLoaded = true;
-        });
-        _loadStory(story: storyContentModel);
-      }
-    }
-  }
-
   void _onTapUp(TapUpDetails details, StoryContentModel story) {
     final screenWidth = MediaQuery.of(context).size.width;
     final dx = details.globalPosition.dx;
@@ -265,10 +214,7 @@ class _StoriesScreenState extends State<StoriesScreen>
         () {
           if (_currentIndex - 1 >= 0) {
             _currentIndex -= 1;
-            //_loadStory(story: widget.storyModel.content[_currentIndex]);
-            _loadFile(
-              storyContentModel: widget.storyModel.content[_currentIndex],
-            );
+            _loadStory(story: widget.storyModel.content[_currentIndex]);
           }
         },
       );
@@ -277,18 +223,12 @@ class _StoriesScreenState extends State<StoriesScreen>
         () {
           if (_currentIndex + 1 < widget.storyModel.content.length) {
             _currentIndex += 1;
-            //_loadStory(story: widget.storyModel.content[_currentIndex]);
-            _loadFile(
-              storyContentModel: widget.storyModel.content[_currentIndex],
-            );
+            _loadStory(story: widget.storyModel.content[_currentIndex]);
           } else {
             // Out of bounds - loop story
             // You can also Navigator.of(context).pop() here
             _currentIndex = 0;
-            //_loadStory(story: widget.storyModel.content[_currentIndex]);
-            _loadFile(
-              storyContentModel: widget.storyModel.content[_currentIndex],
-            );
+            _loadStory(story: widget.storyModel.content[_currentIndex]);
           }
         },
       );
@@ -314,27 +254,52 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void _loadStory({
+  Future<void> _loadStory({
     required StoryContentModel story,
     bool animateToPage = true,
-  }) {
+  }) async {
     _animController.stop();
     _animController.reset();
-    //isContentLoaded = false;
 
-    if (isContentLoaded) {
-      switch (story.isVideo) {
-        case false:
+    switch (story.isVideo) {
+      case false:
+        img = Image.network(
+          story.file ?? story.preview,
+          fit: BoxFit.cover,
+        );
+
+        final stream = (img as Image).image.resolve(ImageConfiguration.empty);
+
+        final completer = Completer<void>();
+
+        stream.addListener(
+          ImageStreamListener(
+            (info, flag) => completer.complete(),
+          ),
+        );
+        await completer.future;
+        if (mounted) {
           _animController.duration = story.duration;
           _animController.forward();
-          break;
-        case true:
-          //_videoPlayerController = null;
-          _animController.duration = _videoPlayerController.value.duration;
-          _videoPlayerController.play();
-          _animController.forward();
-          break;
-      }
+        }
+
+        break;
+      case true:
+        //_videoPlayerController = null;
+        _videoPlayerController.dispose();
+        _videoPlayerController = VideoPlayerController.network(story.file!)
+          ..initialize().then(
+            (_) {
+              setState(() {});
+              if (_videoPlayerController.value.isInitialized) {
+                _animController.duration =
+                    _videoPlayerController.value.duration;
+                _videoPlayerController.play();
+                _animController.forward();
+              }
+            },
+          );
+        break;
     }
     if (animateToPage) {
       _pageController.animateToPage(
