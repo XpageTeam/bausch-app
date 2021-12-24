@@ -39,74 +39,74 @@ class MayBeInterestingWM extends WidgetModel {
     super.onBind();
   }
 
-  final interestingProducts = [
-    CatalogItemModel(
-      id: 290467,
-      name: 'webinar',
-      previewText: '',
-      detailText: '',
-      picture:
-          'http://ultralinzi.catzwolf.ru/upload/iblock/f98/f986c15d269c5de4b84b68207ccca4eb.png',
-      price: 30,
-      type: 'promo_code_video',
-    ),
-    CatalogItemModel(
-      id: 315974,
-      name: 'offline',
-      previewText: '',
-      detailText: '',
-      picture:
-          'http://ultralinzi.catzwolf.ru/upload/iblock/d48/d48855d06ba7930e74be166bf9fc733c.png',
-      price: 30,
-      type: 'offline',
-    ),
-    CatalogItemModel(
-      id: 315974,
-      name: 'onlineShop',
-      previewText: '',
-      detailText: '',
-      picture:
-          'http://ultralinzi.catzwolf.ru/upload/iblock/d48/d48855d06ba7930e74be166bf9fc733c.png',
-      price: 30,
-      type: 'onlineShop',
-    ),
-    CatalogItemModel(
-      id: 305115,
-      name: 'promo_code_immediately',
-      previewText: '',
-      detailText: '',
-      picture:
-          'http://ultralinzi.catzwolf.ru/upload/iblock/97c/97cc49854c0e8ddd7504369507a99874.png',
-      price: 30,
-      type: 'promo_code_immediately',
-    ),
-    CatalogItemModel(
-      id: 288671,
-      name: 'online_consultation',
-      previewText: '',
-      detailText: '',
-      picture:
-          'http://ultralinzi.catzwolf.ru/upload/iblock/5ad/5ad047da6b1fafc44773ddb6862d4963.png',
-      price: 30,
-      type: 'online_consultation',
-    ),
-    CatalogItemModel(
-      id: 10113,
-      name: 'free_product',
-      previewText: '',
-      detailText: '',
-      picture:
-          'http://ultralinzi.catzwolf.ru/upload/iblock/62f/62fa61881fb4ba43d3c31c2534252a9f.png',
-      price: 30,
-      type: 'free_product',
-    ),
-  ];
+  // final interestingProducts = [
+  //   CatalogItemModel(
+  //     id: 290467,
+  //     name: 'webinar',
+  //     previewText: '',
+  //     detailText: '',
+  //     picture:
+  //         'http://ultralinzi.catzwolf.ru/upload/iblock/f98/f986c15d269c5de4b84b68207ccca4eb.png',
+  //     price: 30,
+  //     type: 'promo_code_video',
+  //   ),
+  //   CatalogItemModel(
+  //     id: 315974,
+  //     name: 'offline',
+  //     previewText: '',
+  //     detailText: '',
+  //     picture:
+  //         'http://ultralinzi.catzwolf.ru/upload/iblock/d48/d48855d06ba7930e74be166bf9fc733c.png',
+  //     price: 30,
+  //     type: 'offline',
+  //   ),
+  //   CatalogItemModel(
+  //     id: 315974,
+  //     name: 'onlineShop',
+  //     previewText: '',
+  //     detailText: '',
+  //     picture:
+  //         'http://ultralinzi.catzwolf.ru/upload/iblock/d48/d48855d06ba7930e74be166bf9fc733c.png',
+  //     price: 30,
+  //     type: 'onlineShop',
+  //   ),
+  //   CatalogItemModel(
+  //     id: 305115,
+  //     name: 'promo_code_immediately',
+  //     previewText: '',
+  //     detailText: '',
+  //     picture:
+  //         'http://ultralinzi.catzwolf.ru/upload/iblock/97c/97cc49854c0e8ddd7504369507a99874.png',
+  //     price: 30,
+  //     type: 'promo_code_immediately',
+  //   ),
+  //   CatalogItemModel(
+  //     id: 288671,
+  //     name: 'online_consultation',
+  //     previewText: '',
+  //     detailText: '',
+  //     picture:
+  //         'http://ultralinzi.catzwolf.ru/upload/iblock/5ad/5ad047da6b1fafc44773ddb6862d4963.png',
+  //     price: 30,
+  //     type: 'online_consultation',
+  //   ),
+  //   CatalogItemModel(
+  //     id: 10113,
+  //     name: 'free_product',
+  //     previewText: '',
+  //     detailText: '',
+  //     picture:
+  //         'http://ultralinzi.catzwolf.ru/upload/iblock/62f/62fa61881fb4ba43d3c31c2534252a9f.png',
+  //     price: 30,
+  //     type: 'free_product',
+  //   ),
+  // ];
   Future<void> _loadCatalogItems() async {
     try {
-      // final repository = await InterestingProductsDownloader.load();
+      final repository = await InterestingProductsDownloader.load();
 
       unawaited(
-        catalogItems.content(interestingProducts),
+        catalogItems.content(repository.items),
       );
     } on DioError catch (e) {
       CustomException(

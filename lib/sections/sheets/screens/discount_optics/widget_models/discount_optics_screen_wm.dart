@@ -16,6 +16,7 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class DiscountOpticsScreenWM extends WidgetModel {
   final BuildContext context;
@@ -189,4 +190,62 @@ class DiscountOpticsLoader {
 
     return DiscountOpticsRepository.fromList(res.data as List<dynamic>);
   }
+}
+
+
+class OpticRepository{
+  final List<OpticCity> cities;
+
+  OpticRepository(this.cities);
+
+  // factory OpticRepository.fromDiscountOpticsRepository(DiscountOpticsRepository repository ){
+    
+  // }
+  // factory OpticRepository.fromDiscountOpticsRepository(DiscountOpticsRepository repository ){
+
+  // }
+}
+
+class OpticCity {
+  // final int id;
+  final String title;
+
+  final List<Optic> optics;
+
+  OpticCity({
+    required this.title,
+    required this.optics,
+  });
+}
+
+class Optic {
+  final int id;
+  final String title;
+  final String? shopCode;
+  final String? logo;
+  final String? link;
+  final List<OpticShop> shops;
+
+  Optic({
+    required this.id,
+    required this.title,
+    required this.shopCode,
+    required this.logo,
+    required this.link,
+    required this.shops,
+  });
+}
+
+class OpticShop {
+  // final int id;
+  final List<String> phones;
+  final String address;
+
+  final Point coords;
+
+  OpticShop({
+    required this.phones,
+    required this.address,
+    required this.coords,
+  });
 }
