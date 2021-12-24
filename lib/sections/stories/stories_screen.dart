@@ -2,15 +2,11 @@
 
 import 'dart:async';
 
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
-import 'package:bausch/sections/stories/stories_buttons.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/html_styles.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:video_player/video_player.dart';
