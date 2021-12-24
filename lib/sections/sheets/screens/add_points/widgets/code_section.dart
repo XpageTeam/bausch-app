@@ -1,8 +1,11 @@
 import 'dart:core';
 
+import 'package:bausch/models/add_points/product_code_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points/add_points_bloc.dart';
 import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points_code/add_points_code_bloc.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
@@ -21,13 +24,28 @@ class CodeSection extends StatefulWidget {
 class _CodeSectionState extends State<CodeSection> {
   final addPointsCodeBloc = AddPointsCodeBloc();
   TextEditingController codeController = TextEditingController();
-  List<String> items = ['Раствор', 'Линзы', 'Еще что-то'];
-  String _value = 'Продукт';
+  ProductCodeModel? _value;
+
+  @override
+  void initState() {
+    super.initState();
+
+    codeController.addListener(() {
+      setState(() {
+        addPointsCodeBloc.add(
+          AddPointsCodeUpdateCode(
+            code: codeController.text,
+          ),
+        );
+      });
+    });
+  }
 
   @override
   void dispose() {
     super.dispose();
     codeController.dispose();
+    addPointsCodeBloc.close();
   }
 
   @override
@@ -43,73 +61,96 @@ class _CodeSectionState extends State<CodeSection> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
       ),
-      child: BlocBuilder<AddPointsCodeBloc, AddPointsCodeState>(
-        bloc: addPointsCodeBloc,
-        builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Ввести код с упаковки',
-                style: AppStyles.h1,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              NativeTextInput(
-                labelText: 'Код',
-                controller: codeController,
-                backgroundColor: AppTheme.mystic,
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              if (state is AddPointsCodeGetSuccess)
-                SelectButton(
-                  value: _value,
-                  color: AppTheme.mystic,
-                  onPressed: () {
-                    showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (context) => CupertinoActionSheet(
-                        title: const Text('Продукт'),
-                        actions: List.generate(
-                          state.models.length,
-                          (i) {
-                            return CupertinoActionSheetAction(
-                              onPressed: () {
-                                setState(() {
-                                  _value = state.models[i].title;
-                                });
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(state.models[i].title),
-                            );
-                          },
+      child: BlocProvider(
+        create: (context) => addPointsCodeBloc,
+        child: BlocListener<AddPointsCodeBloc, AddPointsCodeState>(
+          listener: (context, state) {
+            if (state is AddPointsCodeFailed) {
+              showDefaultNotification(title: state.title);
+            }
+          },
+          child: BlocBuilder<AddPointsCodeBloc, AddPointsCodeState>(
+            builder: (context, state) {
+              debugPrint(state.toString());
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ввести код с упаковки',
+                    style: AppStyles.h1,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  NativeTextInput(
+                    labelText: 'Код',
+                    controller: codeController,
+                    backgroundColor: AppTheme.mystic,
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  SelectButton(
+                    value: _value != null ? _value!.title : 'Продукт',
+                    color: AppTheme.mystic,
+                    onPressed: () {
+                      showCupertinoModalPopup<void>(
+                        context: context,
+                        builder: (context) => CupertinoActionSheet(
+                          title: const Text('Продукт'),
+                          actions: List.generate(
+                            state.models.length,
+                            (i) {
+                              return CupertinoActionSheetAction(
+                                onPressed: () {
+                                  setState(() {
+                                    _value = state.models[i];
+                                  });
+                                  addPointsCodeBloc.add(
+                                    AddPointsCodeUpdateProduct(
+                                      product: state.models[i].code,
+                                    ),
+                                  );
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(state.models[i].title),
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                )
-              else
-                SelectButton(
-                  value: _value,
-                  color: AppTheme.mystic,
-                ),
-              const SizedBox(
-                height: 4,
-              ),
-              BlueButtonWithText(
-                text: 'Добавить баллы',
-                icon: const Icon(
-                  Icons.add,
-                  color: AppTheme.mineShaft,
-                ),
-                onPressed: () {},
-              ),
-            ],
-          );
-        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  BlueButtonWithText(
+                    text: 'Добавить баллы',
+                    icon: const Icon(
+                      Icons.add,
+                      color: AppTheme.mineShaft,
+                    ),
+                    onPressed:
+                        (state.code.isNotEmpty) && (state.product.isNotEmpty)
+                            ? () {
+                                addPointsCodeBloc.add(
+                                  AddPointsCodeSend(
+                                    code: state.code,
+                                    productId: state.product,
+                                  ),
+                                );
+                              }
+                            : () {
+                                showDefaultNotification(
+                                  title: 'Введите код и выберите продукт',
+                                );
+                              },
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }

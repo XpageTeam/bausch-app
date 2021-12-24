@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
@@ -37,9 +39,9 @@ class AddPointsBloc extends Bloc<AddPointsEvent, AddPointsState> {
       return AddPointsGetSuccess(
         models: (parsedData.data as List<dynamic>).map((dynamic item) {
           if ((item as Map<String, dynamic>).containsValue('quiz')) {
-            return QuizModel.fromMap(item as Map<String, dynamic>);
+            return QuizModel.fromMap(item);
           } else {
-            return AddPointsModel.fromMap(item as Map<String, dynamic>);
+            return AddPointsModel.fromMap(item);
           }
         }).toList(),
       );

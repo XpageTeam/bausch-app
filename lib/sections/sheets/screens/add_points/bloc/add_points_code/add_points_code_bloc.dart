@@ -20,8 +20,37 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
     AddPointsCodeEvent event,
   ) async* {
     if (event is AddPointsCodeGet) {
-      yield AddPointsCodeLoading();
+      yield AddPointsCodeLoading(
+        models: state.models,
+        code: state.code,
+        product: state.product,
+      );
       yield await loadData();
+    }
+
+    if (event is AddPointsCodeSend) {
+      yield AddPointsCodeLoading(
+        models: state.models,
+        code: state.code,
+        product: state.product,
+      );
+      yield await sendCode(event.code, event.productId);
+    }
+
+    if (event is AddPointsCodeUpdateCode) {
+      yield AddPointsCodeUpdated(
+        models: state.models,
+        code: event.code,
+        product: state.product,
+      );
+    }
+
+    if (event is AddPointsCodeUpdateProduct) {
+      yield AddPointsCodeUpdated(
+        models: state.models,
+        code: state.code,
+        product: event.product,
+      );
     }
   }
 
@@ -41,19 +70,78 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
                   ProductCodeModel.fromMap(code as Map<String, dynamic>),
             )
             .toList(),
+        code: state.code,
+        product: state.product,
       );
     } on ResponseParseException catch (e) {
       return AddPointsCodeFailed(
+        models: state.models,
+        code: state.code,
+        product: state.product,
         title: 'Ошибка при обработке ответа от сервера',
         subtitle: e.toString(),
       );
     } on DioError catch (e) {
       return AddPointsCodeFailed(
+        models: state.models,
+        code: state.code,
+        product: state.product,
         title: 'Ошибка при отправке запроса',
         subtitle: e.toString(),
       );
     } on SuccessFalse catch (e) {
       return AddPointsCodeFailed(
+        models: state.models,
+        code: state.code,
+        product: state.product,
+        title: e.toString(),
+      );
+    }
+  }
+
+  Future<AddPointsCodeState> sendCode(String code, String productId) async {
+    final rh = RequestHandler();
+
+    try {
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.post<Map<String, dynamic>>(
+          '/user/points/add/',
+          data: FormData.fromMap(
+            <String, dynamic>{
+              'code': code,
+              'product': productId,
+            },
+          ),
+        ))
+            .data!,
+      );
+
+      return AddPointsCodeSendSuccess(
+        models: state.models,
+        code: state.code,
+        product: state.product,
+      );
+    } on ResponseParseException catch (e) {
+      return AddPointsCodeFailed(
+        models: state.models,
+        code: state.code,
+        product: state.product,
+        title: 'Ошибка при обработке ответа от сервера',
+        subtitle: e.toString(),
+      );
+    } on DioError catch (e) {
+      return AddPointsCodeFailed(
+        models: state.models,
+        code: state.code,
+        product: state.product,
+        title: 'Ошибка при отправке запроса',
+        subtitle: e.toString(),
+      );
+    } on SuccessFalse catch (e) {
+      return AddPointsCodeFailed(
+        models: state.models,
+        code: state.code,
+        product: state.product,
         title: e.toString(),
       );
     }
