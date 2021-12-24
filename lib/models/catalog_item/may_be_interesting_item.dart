@@ -28,7 +28,7 @@ class CatalogItemsRepository {
       );
 }
 
-class MayBeInterestingItemsDownloader {
+class InterestingProductsDownloader {
   static Future<CatalogItemsRepository> load() async {
     final rh = RequestHandler();
     final response =
