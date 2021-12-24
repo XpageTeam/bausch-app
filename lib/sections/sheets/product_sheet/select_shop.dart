@@ -1,15 +1,16 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
-  final List<DiscountOptic> discountOptics;
+  final List<Optic> discountOptics;
   final DiscountType discountType;
 
-  final void Function(DiscountOptic discountOptic) onChanged;
+  final void Function(Optic discountOptic) onChanged;
 
   const SelectShopSection({
     required this.discountOptics,
@@ -67,15 +68,14 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                               style: AppStyles.h2,
                             ),
                           ),
-                          if (widget.discountOptics[i].link.isNotEmpty &&
-                              widget.discountType ==
-                                  DiscountType.onlineShop)
+                          if (widget.discountOptics[i].link!.isNotEmpty &&
+                              widget.discountType == DiscountType.onlineShop)
                             GestureDetector(
                               onTap: () {
                                 // TODO(Nikolay): Переход на сайт.
                               },
                               child: AutoSizeText(
-                                widget.discountOptics[i].link
+                                widget.discountOptics[i].link!
                                     .replaceFirst('https://', ''),
                                 style: AppStyles.p1Underlined,
                                 maxLines: 1,

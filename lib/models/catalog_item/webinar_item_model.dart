@@ -22,7 +22,8 @@ class WebinarItemModel extends CatalogItemModel
     required int price,
     required this.videoId,
     required this.availability,
-    required this.isBought,
+    this.isBought,
+    String? type,
   }) : super(
           id: id,
           name: name,
@@ -30,6 +31,7 @@ class WebinarItemModel extends CatalogItemModel
           detailText: detailText,
           picture: picture,
           price: price,
+          type: type,
         );
 
   factory WebinarItemModel.fromMap(Map<String, dynamic> map) {

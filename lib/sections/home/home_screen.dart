@@ -1,4 +1,5 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/offers/offer_type.dart';
@@ -26,6 +27,10 @@ class HomeScreen extends StatelessWidget {
     final authWM = Provider.of<AuthWM>(context);
 
     double bottomHeigth = 0;
+    
+    debugPrint(
+      'phone: ${HelpFunctions.formatPhone('+7 919 121-06-70')}',
+    );
 
     return Scaffold(
       backgroundColor: AppTheme.mystic,
@@ -150,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        const MayBeInteresting(
+                        MayBeInteresting(
                           text: 'Вам может быть интересно',
                         ),
 

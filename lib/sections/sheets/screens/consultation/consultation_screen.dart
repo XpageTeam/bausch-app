@@ -112,13 +112,12 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
+        // TODO(Nikolay): Непонятно с поощрением: это добавление баллов или вычитание?.
         text: 'Получить поощрение ${model.priceToString} б',
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            '/verification_consultation',
-            arguments: ItemSheetScreenArguments(model: model),
-          );
-        },
+        onPressed: () => Navigator.of(context).pushNamed(
+          '/verification_consultation',
+          arguments: ItemSheetScreenArguments(model: model),
+        ),
       ),
     );
   }

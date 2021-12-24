@@ -111,7 +111,7 @@ class _DiscountOpticsScreenState
           ),
           //TODO(Nikita): customCheckBox
           sliver: SliverToBoxAdapter(
-            child: EntityStateBuilder<List<DiscountOptic>>(
+            child: EntityStateBuilder<List<Optic>>(
               streamedState: wm.discountOpticsStreamed,
               loadingChild: const Center(
                 child: AnimatedLoader(),
@@ -171,7 +171,9 @@ class _DiscountOpticsScreenState
                                   MaterialPageRoute(
                                     builder:
                                         (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                            const ShopsScreen(),
+                                            ShopsScreen(
+                                      cities: wm.cities,
+                                    ),
                                   ),
                                 );
                               },
@@ -199,18 +201,22 @@ class _DiscountOpticsScreenState
           ),
         ),
       ],
-      bottomNavBar: StreamedStateBuilder<DiscountOptic?>(
+      bottomNavBar: StreamedStateBuilder<Optic?>(
         streamedState: wm.currentDiscountOptic,
         builder: (_, currentOptic) {
           return CustomFloatingActionButton(
-            text: wm.difference > 0
-                ? 'Нехватает ${wm.difference} б'
-                : 'Получить скидку',
-            onPressed: currentOptic != null
-                ? () => wm.buttonAction()
-                : wm.difference > 0
+            text: wm.isEnough ? 'Получить скидку' : 'Накопить баллы',
+            icon: wm.isEnough
+                ? null
+                : const Icon(
+                    Icons.add,
+                    color: AppTheme.mineShaft,
+                  ),
+            onPressed: wm.isEnough
+                ? currentOptic != null
                     ? () => wm.buttonAction()
-                    : null,
+                    : null
+                : () => wm.buttonAction(),
           );
         },
       ),
@@ -219,7 +225,7 @@ class _DiscountOpticsScreenState
 }
 
 class DiscountOpticsArguments extends ItemSheetScreenArguments {
-  final DiscountOptic discountOptic;
+  final Optic discountOptic;
   final DiscountType discountType;
 
   DiscountOpticsArguments({

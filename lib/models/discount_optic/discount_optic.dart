@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class DiscountOptic {
@@ -66,7 +67,7 @@ class DiscountOpticShop {
       phone: List<String>.from(
         (json['phone'] as List<dynamic>).map<String>(
           // ignore: avoid_annotating_with_dynamic
-          (dynamic x) => x as String,
+          (dynamic x) => HelpFunctions.formatPhone(x as String),
         ),
       ),
       address: json['address'] as String,
