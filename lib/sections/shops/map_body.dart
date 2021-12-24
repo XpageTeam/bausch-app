@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
@@ -13,17 +14,20 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final List<ShopModel> shopList;
-  final List<DiscountOptic> optics;
+  final List<OpticShop> opticShops;
+
+  void Function(MapBodyWM wm)? shopsEmptyCallback;
 
   MapBody({
     required this.shopList,
-    required this.optics,
+    required this.opticShops,
+    this.shopsEmptyCallback,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (_) => MapBodyWM(
             initShopList: shopList,
-            initOptics: optics,
+            initOpticShops: opticShops,
           ),
         );
 
@@ -37,7 +41,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
 
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
-    wm.updateMapObjects(widget.shopList);
+    wm.updateMapObjects(widget.opticShops);
     super.didUpdateWidget(oldWidget);
   }
 
@@ -61,7 +65,11 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                   wm
                     ..mapController = yandexMapController
                     ..setCenterAction(
-                      widget.shopList.where((s) => s.coords != null).toList(),
+                      widget.opticShops
+                          .where(
+                            (s) => s.coords != null,
+                          )
+                          .toList(),
                     )
                     ..onGetUserPositionError = (exception) {
                       showDefaultNotification(title: exception.title);
@@ -73,10 +81,11 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                         context: context,
                         barrierColor: Colors.transparent,
                         builder: (context) => BottomSheetContent(
-                          title: shop.name,
+                          title: shop.title,
                           subtitle: shop.address,
                           phones: shop.phones,
-                          site: shop.site,
+                          // TODO(Nikolay): Добавить сайт.
+                          // site: shop.site,
                           // additionalInfo:
                           //     'Скидкой можно воспользоваться в любой из оптик сети.',
                           onPressed: Navigator.of(context).pop,
@@ -85,29 +94,12 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                       ).whenComplete(
                         () {
                           wm.isModalBottomSheetOpen.accept(false);
-                          wm.updateMapObjects(widget.shopList);
+                          wm.updateMapObjects(widget.opticShops);
                         },
                       );
                     };
                   if (widget.shopList.isEmpty) {
-                    wm.isModalBottomSheetOpen.accept(true);
-                    showModalBottomSheet<dynamic>(
-                      barrierColor: Colors.transparent,
-                      context: context,
-                      builder: (context) => BottomSheetContent(
-                        title: 'Поблизости нет оптик',
-                        subtitle:
-                            'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
-                        btnText: 'Хорошо',
-                        onPressed: Navigator.of(context).pop,
-                      ),
-                    ).whenComplete(() {
-                      wm.isModalBottomSheetOpen.accept(false);
-
-                      // BlocProvider.of<ShopListCubit>(context)
-                      //   ..city = sort(widget.cityList)?[0].name ?? 'Москва'
-                      //   ..loadShopList();
-                    });
+                    widget.shopsEmptyCallback?.call(wm);
                   }
                 },
               );

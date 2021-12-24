@@ -8,6 +8,7 @@ import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +27,7 @@ extension ShopsContentTypeAsString on ShopsContentType {
 class SelectOpticScreenWM extends WidgetModel {
   final BuildContext context;
 
-  final opticsStreamed = EntityStreamedState<List<DiscountOptic>>();
+  final opticShopsStreamed = EntityStreamedState<List<OpticShop>>();
   final currentCityStreamed = EntityStreamedState<String>();
   final contentTypeStreamed = StreamedState<ShopsContentType>(
     ShopsContentType.map,
@@ -34,14 +35,15 @@ class SelectOpticScreenWM extends WidgetModel {
   final selectedFiltersStreamed = StreamedState<List<Filter>>([]);
 
   final switchAction = StreamedAction<ShopsContentType>();
+  final setFirstCity = VoidAction();
   final selectCityAction = VoidAction();
   final filtersOnChanged = StreamedAction<List<Filter>>();
 
-  List<DiscountOptic>? initialOptics;
+  List<OpticCity>? initialOptics;
 
   SelectOpticScreenWM({
     required this.context,
-    required this.initialOptics,
+    this.initialOptics,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -50,10 +52,12 @@ class SelectOpticScreenWM extends WidgetModel {
   void onLoad() {
     _initCurrentCity();
     if (initialOptics == null) {
+      // TODO(Nikolay): Переделать.
       _loadOptics();
-      initialOptics = opticsStreamed.value.data;
     } else {
-      opticsStreamed.content(initialOptics!);
+      // TODO(Nikolay): Переделать.
+      initialOptics = _sort(initialOptics!);
+      opticShopsStreamed.content(initialOptics!.first.optics.first.shops);
     }
 
     super.onLoad();
@@ -67,6 +71,9 @@ class SelectOpticScreenWM extends WidgetModel {
 
     selectCityAction.bind(
       (_) => _selectCity(),
+    );
+    setFirstCity.bind(
+      (_) => _setFirstCity(),
     );
 
     filtersOnChanged.bind(
@@ -85,20 +92,34 @@ class SelectOpticScreenWM extends WidgetModel {
         )
         .toList();
 
-    opticsStreamed.content(
-      filteredCityList,
-    );
+    // opticsStreamed.content(
+    //   filteredCityList,
+    // );
+  }
+
+  void _setFirstCity() {
+    currentCityStreamed.content(initialOptics!.first.title);
   }
 
   Future<void> _selectCity() async {
     final cityName = await Keys.mainNav.currentState!.push<String>(
       PageRouteBuilder<String>(
-        pageBuilder: (context, animation, secondaryAnimation) => CityScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
+          citiesWithShops: initialOptics!.map((e) => e.title).toList(),
+        ),
       ),
     );
 
     if (cityName != currentCityStreamed.value.data) {
       unawaited(currentCityStreamed.content(cityName!));
+
+      // TODO(Nikolay): Вынести.
+
+      final opticShops = _getShopsByFilters();
+
+      unawaited(opticShopsStreamed.content(
+        opticShops,
+      ));
     }
   }
 
@@ -124,18 +145,35 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
+  List<OpticShop> _getShopsByFilters() {
+    final optics = _getOpticsByCity();
+    // TODO(Nikolay): Переделать.
+    return optics.first.shops;
+  }
+
+  List<Optic> _getOpticsByCity() {
+    return initialOptics!
+        .firstWhere((city) => city.title == currentCityStreamed.value.data)
+        .optics;
+  }
+
   Future<void> _loadOptics() async {
     try {
-      // TODO(Nikolay): Тут должен быть другой метод.
-      // final citiesRepository = await AllOpticsDownloader.load();
-      // unawaited(
-      //   opticsStreamed.content(
-      //     citiesRepository.cities,
-      //   ),
-      // );
+      final opticCititesRepository =
+          OpticCititesRepository.fromCitiesRepository(
+        await AllOpticsDownloader.load(),
+      );
+
+      initialOptics = _sort(opticCititesRepository.cities);
+
+      final opticShops = _getShopsByFilters();
+
+      unawaited(
+        opticShopsStreamed.content(opticShops),
+      );
     } on DioError catch (e) {
       unawaited(
-        opticsStreamed.error(
+        opticShopsStreamed.error(
           CustomException(
             title: 'Ошибка при отправке запроса на сервер',
             subtitle: e.message,
@@ -145,7 +183,7 @@ class SelectOpticScreenWM extends WidgetModel {
       );
     } on ResponseParseException catch (e) {
       unawaited(
-        opticsStreamed.error(
+        opticShopsStreamed.error(
           CustomException(
             title: 'Ошибка при получении ответа с сервера',
             subtitle: e.toString(),
@@ -155,7 +193,7 @@ class SelectOpticScreenWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       unawaited(
-        opticsStreamed.error(
+        opticShopsStreamed.error(
           CustomException(
             title: 'Произошла ошибка',
             subtitle: e.toString(),
@@ -166,8 +204,8 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
-  List<CityModel>? _sort(List<CityModel> cities) {
+  List<OpticCity>? _sort(List<OpticCity> cities) {
     if (cities.isEmpty) return null;
-    return cities..sort((a, b) => a.name.compareTo(b.name));
+    return cities..sort((a, b) => a.title.compareTo(b.title));
   }
 }

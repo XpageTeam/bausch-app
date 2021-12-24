@@ -2,8 +2,10 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/shops/map_body.dart';
 import 'package:bausch/sections/shops/widget_models/select_optics_screen_wm.dart';
+import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_widget.dart';
 import 'package:bausch/sections/shops/widgets/shop_page_switcher.dart';
@@ -21,13 +23,13 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* list
 class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
   SelectOpticScreen({
-    List<DiscountOptic>? optics,
+    List<OpticCity>? cities,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => SelectOpticScreenWM(
             context: context,
-            initialOptics: optics,
+            initialOptics: cities,
           ),
         );
 
@@ -100,8 +102,8 @@ class _SelectOpticScreenState
             child: StreamedStateBuilder<ShopsContentType>(
               streamedState: wm.contentTypeStreamed,
               builder: (_, currentContentType) =>
-                  EntityStateBuilder<List<DiscountOptic>>(
-                streamedState: wm.opticsStreamed,
+                  EntityStateBuilder<List<OpticShop>>(
+                streamedState: wm.opticShopsStreamed,
                 loadingChild: const Center(
                   child: AnimatedLoader(),
                 ),
@@ -114,20 +116,39 @@ class _SelectOpticScreenState
 
                   return const SizedBox();
                 },
-                builder: (_, optics) =>
+                builder: (_, opticShops) =>
                     wm.contentTypeStreamed.value == ShopsContentType.list
                         ? ShopListWidget(
-                            containerType: ShopContainer,
-                            shopList: optics[0]
-                                .disountOpticShops!
-                                .map(
-                                  (e) => e.toShopModel,
-                                )
-                                .toList(),
+                            containerType: ShopContainer, shopList: [],
+                            // TODO(Nikolay): сделать.
+                            // optics[0]
+                            //     .disountOpticShops!
+                            //     .map(
+                            //       (e) => e.toShopModel,
+                            //     )
+                            //     .toList(),
                           )
                         : MapBody(
-                            optics: optics,
+                            // TODO(Nikolay): Переделать.
+                            opticShops: opticShops,
                             shopList: [],
+                            shopsEmptyCallback: (mapBodyWm) {
+                              mapBodyWm.isModalBottomSheetOpen.accept(true);
+                              showModalBottomSheet<dynamic>(
+                                barrierColor: Colors.transparent,
+                                context: context,
+                                builder: (context) => BottomSheetContent(
+                                  title: 'Поблизости нет оптик',
+                                  subtitle:
+                                      'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                                  btnText: 'Хорошо',
+                                  onPressed: Navigator.of(context).pop,
+                                ),
+                              ).whenComplete(() {
+                                mapBodyWm.isModalBottomSheetOpen.accept(false);
+                                wm.setFirstCity();
+                              });
+                            },
                           ),
               ),
             ),
@@ -141,7 +162,6 @@ class _SelectOpticScreenState
           //       return BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
           //         bloc: pageSwitcherCubit,
           //         builder: (context, switherState) {
-          //           // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
           //           if (switherState is PageSwitcherShowList) {
           //             return ShopListAdapter(
           //               containerType: ShopContainer,

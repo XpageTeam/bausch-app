@@ -12,7 +12,7 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
-import 'package:bausch/sections/shops/shops_screen.dart';
+import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -171,7 +171,7 @@ class _DiscountOpticsScreenState
                                   MaterialPageRoute(
                                     builder:
                                         (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                            ShopsScreen(
+                                            SelectOpticScreen(
                                       cities: wm.cities,
                                     ),
                                   ),

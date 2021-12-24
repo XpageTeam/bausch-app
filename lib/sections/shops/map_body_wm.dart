@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBodyWM extends WidgetModel {
   final List<ShopModel> initShopList;
-  final List<DiscountOptic> initOptics;
+  final List<OpticShop> initOpticShops;
 
   final MapObjectId clusterMapId = const MapObjectId(
     'cluster',
@@ -29,8 +30,8 @@ class MapBodyWM extends WidgetModel {
     <MapObject>[],
   );
 
-  final setCenterAction = StreamedAction<List<ShopModel>>();
-  final updateMapObjects = StreamedAction<List<ShopModel>>();
+  final setCenterAction = StreamedAction<List<OpticShop>>();
+  final updateMapObjects = StreamedAction<List<OpticShop>>();
 
   final isModalBottomSheetOpen = StreamedState<bool>(false);
 
@@ -40,12 +41,12 @@ class MapBodyWM extends WidgetModel {
 
   YandexMapController? mapController;
 
-  void Function(ShopModel shop)? onPlacemarkPressed;
+  void Function(OpticShop shop)? onPlacemarkPressed;
   void Function(CustomException exception)? onGetUserPositionError;
 
   MapBodyWM({
     required this.initShopList,
-    required this.initOptics,
+    required this.initOpticShops,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -55,37 +56,31 @@ class MapBodyWM extends WidgetModel {
     // Пришлось обернуть в future, потому что иногда метки не отрисовывались
     Future.delayed(
       Duration.zero,
-      () => updateMapObjects(initShopList),
+      () => updateMapObjects(initOpticShops),
     );
     super.onLoad();
   }
 
   @override
   void onBind() {
-    subscribe<List<ShopModel>>(
-      updateMapObjects.stream,
-      (shopList) {
-        _updateClusterMapObject(shopList);
-        if (mapController != null) {
-          _setCenterOn(shopList);
-        }
-      },
-    );
+    updateMapObjects.bind((shopList) {
+      _updateClusterMapObject(shopList!);
+      if (mapController != null) {
+        _setCenterOn(shopList);
+      }
+    });
 
-    subscribe<void>(
-      moveToUserPosition.stream,
+    moveToUserPosition.bind(
       (value) {
         _updateUserPosition();
       },
     );
 
-    subscribe<List<ShopModel>>(
-      setCenterAction.stream,
-      _setCenterOn,
+    setCenterAction.bind(
+      (opticShops) => _setCenterOn(opticShops!),
     );
 
-    subscribe(zoomInAction.stream, (value) {
-      // zoomIn
+    zoomInAction.bind((_) {
       mapController?.moveCamera(
         CameraUpdate.zoomIn(),
         animation: const MapAnimation(
@@ -94,8 +89,7 @@ class MapBodyWM extends WidgetModel {
       );
     });
 
-    subscribe(zoomOutAction.stream, (value) {
-      // zoomOut
+    zoomOutAction.bind((_) {
       mapController?.moveCamera(
         CameraUpdate.zoomOut(),
         animation: const MapAnimation(
@@ -108,7 +102,7 @@ class MapBodyWM extends WidgetModel {
   }
 
   void _updateClusterMapObject(
-    List<ShopModel> shopList, [
+    List<OpticShop> shopList, [
     int? indexOfPressedShop,
   ]) {
     mapObjectsStreamed.value.removeWhere(

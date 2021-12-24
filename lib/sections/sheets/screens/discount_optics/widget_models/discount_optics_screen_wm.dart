@@ -9,6 +9,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:dio/dio.dart';
@@ -95,17 +96,27 @@ class DiscountOpticsScreenWM extends WidgetModel {
     unawaited(discountOpticsStreamed.loading());
 
     try {
-      final repository = await DiscountOpticsLoader.load(
-        discountType.asString,
-        itemModel.code,
+      final repository = OpticCititesRepository.fromDiscountOpticsRepository(
+        await DiscountOpticsLoader.load(
+          discountType.asString,
+          itemModel.code,
+        ),
       );
 
       cities = repository.cities;
+      final discountOptics = <Optic>[];
+
+      for (final city in repository.cities) {
+        for (var optic in city.optics) {
+          if (!discountOptics.any((e) => e.id == optic.id)) {
+            discountOptics.add(optic);
+          }
+        }
+      }
 
       unawaited(
         discountOpticsStreamed.content(
-          repository.cities.first.optics,
-          // repository.cities.map((e) => e.optics).toList(),
+          discountOptics,
         ),
       );
     } on DioError catch (e) {
@@ -171,7 +182,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 }
 
 class DiscountOpticsLoader {
-  static Future<OpticRepository> load(
+  static Future<DiscountOpticsRepository> load(
     String category,
     String productCode,
   ) async {
@@ -195,18 +206,17 @@ class DiscountOpticsLoader {
     );
 
     final dor = DiscountOpticsRepository.fromList(res.data as List<dynamic>);
-    final opticRepository = OpticRepository.fromDiscountOpticsRepository(dor);
 
-    return opticRepository;
+    return DiscountOpticsRepository.fromList(res.data as List<dynamic>);
   }
 }
 
-class OpticRepository {
+class OpticCititesRepository {
   final List<OpticCity> cities;
 
-  OpticRepository(this.cities);
+  OpticCititesRepository(this.cities);
 
-  factory OpticRepository.fromDiscountOpticsRepository(
+  factory OpticCititesRepository.fromDiscountOpticsRepository(
     DiscountOpticsRepository repository,
   ) {
     final cityNames = <String>{};
@@ -271,10 +281,18 @@ class OpticRepository {
       );
     }
 
-    return OpticRepository(cities);
+    return OpticCititesRepository(cities);
   }
 
   // TODO(Nikolay): Сделать фабрику для списка всех адресов.
+  factory OpticCititesRepository.fromCitiesRepository(
+    CitiesRepository repository,
+  ) {
+    repository.shopList;
+    final cities = <OpticCity>[];
+
+    return OpticCititesRepository(cities);
+  }
 }
 
 class OpticCity {
