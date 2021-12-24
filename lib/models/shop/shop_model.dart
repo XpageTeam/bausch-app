@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 //* Заглушка
@@ -40,8 +41,10 @@ class ShopModel {
       name: map['name'] as String,
       address: map['address'] as String,
       phones: (map['phone'] as List<dynamic>)
-          // ignore: avoid_annotating_with_dynamic
-          .map((dynamic e) => e as String)
+          .map(
+            // ignore: avoid_annotating_with_dynamic
+            (dynamic e) => HelpFunctions.formatPhone(e as String),
+          )
           .toList(),
       site: map['site'] as String?,
       coords: map['coordinates'] != null

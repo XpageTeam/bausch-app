@@ -12,7 +12,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
-import 'package:bausch/sections/sheets/sheet_screen.dart';
 
 class ConsultationScreenArguments{
   final CatalogItemModel item;
