@@ -1,6 +1,7 @@
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_verification_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -21,7 +22,7 @@ class DiscountOpticsVerification
   DiscountOpticsVerification({
     required this.controller,
     required PromoItemModel model,
-    required DiscountOptic discountOptic,
+    required Optic discountOptic,
     required DiscountType discountType,
     Key? key,
   }) : super(

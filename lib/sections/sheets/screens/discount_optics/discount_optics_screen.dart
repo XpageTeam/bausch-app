@@ -111,7 +111,7 @@ class _DiscountOpticsScreenState
           ),
           //TODO(Nikita): customCheckBox
           sliver: SliverToBoxAdapter(
-            child: EntityStateBuilder<List<DiscountOptic>>(
+            child: EntityStateBuilder<List<Optic>>(
               streamedState: wm.discountOpticsStreamed,
               loadingChild: const Center(
                 child: AnimatedLoader(),
@@ -171,7 +171,9 @@ class _DiscountOpticsScreenState
                                   MaterialPageRoute(
                                     builder:
                                         (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                            const ShopsScreen(),
+                                            ShopsScreen(
+                                      cities: wm.cities,
+                                    ),
                                   ),
                                 );
                               },
@@ -199,7 +201,7 @@ class _DiscountOpticsScreenState
           ),
         ),
       ],
-      bottomNavBar: StreamedStateBuilder<DiscountOptic?>(
+      bottomNavBar: StreamedStateBuilder<Optic?>(
         streamedState: wm.currentDiscountOptic,
         builder: (_, currentOptic) {
           return CustomFloatingActionButton(
@@ -223,7 +225,7 @@ class _DiscountOpticsScreenState
 }
 
 class DiscountOpticsArguments extends ItemSheetScreenArguments {
-  final DiscountOptic discountOptic;
+  final Optic discountOptic;
   final DiscountType discountType;
 
   DiscountOpticsArguments({
