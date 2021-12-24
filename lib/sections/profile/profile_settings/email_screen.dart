@@ -69,11 +69,16 @@ class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
                 controller: wm.emailController,
               ),
             ),
-            Text(
-              confirmSended
-                  ? 'Мы отправили инструкцию для  подтверждения.\nПроверьте почту.'
-                  : 'Для отчётов о баллах',
-              style: AppStyles.p1,
+            StreamedStateBuilder<bool>(
+              streamedState: wm.confirmSended,
+              builder: (_, state) {
+                return Text(
+                  state
+                      ? 'Мы отправили инструкцию для  подтверждения.\nПроверьте почту.'
+                      : 'Для отчётов о баллах',
+                  style: AppStyles.p1,
+                );
+              },
             ),
           ],
         ),
@@ -82,23 +87,41 @@ class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,
         ),
-        child: BlueButtonWithText(
-          text: confirmSended ? 'Готово' : 'Добавить',
-          onPressed: wm.emailController.text.isNotEmpty
-              ? () {
-                  if (confirmSended) {
-                    //TODO: Показать уведомление о подтверждении почты
-                    Navigator.of(context).pop(wm.emailController.text);
-                  } else {
-                    confirmSended = true;
-                    wm.sendUserData();
-                    setState(() {});
-                  }
-                }
-              : null,
+        child: StreamedStateBuilder<bool>(
+          streamedState: wm.formValidationState,
+          builder: (_, state) {
+            return BlueButtonWithText(
+              text: wm.isConfirmSended ? 'Готово' : 'Добавить',
+              onPressed: state
+                  ? () {
+                      if (wm.isConfirmSended) {
+                        wm.buttonAction();
+                      } else {
+                        wm.sendConfirm();
+                      }
+                    }
+                  : null,
+            );
+          },
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
+
+// BlueButtonWithText(
+//           text: confirmSended ? 'Готово' : 'Добавить',
+//           onPressed: wm.emailController.text.isNotEmpty
+//               ? () {
+//                   if (confirmSended) {
+//                     //TODO: Показать уведомление о подтверждении почты
+//                     Navigator.of(context).pop(wm.emailController.text);
+//                   } else {
+//                     confirmSended = true;
+//                     wm.sendUserData();
+//                     setState(() {});
+//                   }
+//                 }
+//               : null,
+//         )

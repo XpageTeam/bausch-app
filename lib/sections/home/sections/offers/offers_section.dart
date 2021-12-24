@@ -1,9 +1,11 @@
 import 'package:bausch/models/offer/offer.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/offers/offer_type.dart';
 import 'package:bausch/sections/home/sections/offers/offers_section_wm.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -30,11 +32,14 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
   Widget build(BuildContext context) {
     return EntityStateBuilder<List<Offer>>(
       streamedState: wm.offersStreamed,
-      errorBuilder: (_, e) => Text(
-        'Ошибка',
-        style: AppStyles.h1.copyWith(
-          color: Colors.red,
-        ),
+      // errorBuilder: (_, e) => Text(
+      //   'Ошибка',
+      //   style: AppStyles.h1.copyWith(
+      //     color: Colors.red,
+      //   ),
+      // ),
+      loadingChild: const Center(
+        child: AnimatedLoader(),
       ),
       builder: (c, offers) => Column(
         children: offers
@@ -58,13 +63,10 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
   Future<void> showTargetBottomSheet(Offer offer) async {
     switch (offer.target) {
       case 'program':
-        // showSimpleSheet(
-        //   context,
-        //   SimpleSheetModel(
-        //     title: 'title',
-        //     type: SimpleSheetType.program,
-        //   ),
-        // );
+        showSheet<void>(
+          context,
+          SimpleSheetModel(name: 'name', type: 'program'),
+        );
         break;
 
       case 'profile':
@@ -90,10 +92,10 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
 
       // TODO(Nikolay): Уточнить add_point.
       case 'add_points':
-        // showSimpleSheet(
-        //   context,
-        //   SimpleSheetModel(title: 'title', type: SimpleSheetType.addpoints),
-        // );
+        showSheet<void>(
+          context,
+          SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+        );
         break;
 
       // showFlexibleBottomSheet<void>(

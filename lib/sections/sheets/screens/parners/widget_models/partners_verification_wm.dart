@@ -92,8 +92,9 @@ class PartnersVerificationWM extends WidgetModel {
       _showTopError(error);
     } else {
       unawaited(
-        Keys.bottomNav.currentState!.pushNamed(
+        Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
           '/final_partners',
+          (route) => route.isCurrent,
           arguments: ItemSheetScreenArguments(
             model: itemModel,
           ),

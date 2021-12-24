@@ -1,5 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
-import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class DiscountOptic {
@@ -43,27 +43,16 @@ class DiscountOptic {
   }
 }
 
-extension ToShopModel on DiscountOpticShop {
-  ShopModel get toShopModel => ShopModel(
-        id: id,
-        name: 'Test',
-        address: address,
-        phones: phones,
-        site: email,
-        coords: coord,
-      );
-}
-
 class DiscountOpticShop {
   final int id;
-  final List<String> phones;
+  final List<String> phone;
   final String address;
   final String email;
   final Point coord;
 
   DiscountOpticShop({
     required this.id,
-    required this.phones,
+    required this.phone,
     required this.address,
     required this.email,
     required this.coord,
@@ -75,10 +64,10 @@ class DiscountOpticShop {
     }
     return DiscountOpticShop(
       id: json['id'] as int,
-      phones: List<String>.from(
+      phone: List<String>.from(
         (json['phone'] as List<dynamic>).map<String>(
           // ignore: avoid_annotating_with_dynamic
-          (dynamic x) => x as String,
+          (dynamic x) => HelpFunctions.formatPhone(x as String),
         ),
       ),
       address: json['address'] as String,

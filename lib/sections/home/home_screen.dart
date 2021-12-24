@@ -1,4 +1,5 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/offers/offer_type.dart';
@@ -24,6 +25,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authWM = Provider.of<AuthWM>(context);
+
+    double bottomHeigth = 0;
+    
+    debugPrint(
+      'phone: ${HelpFunctions.formatPhone('+7 919 121-06-70')}',
+    );
 
     return Scaffold(
       backgroundColor: AppTheme.mystic,
@@ -148,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        const MayBeInteresting(
+                        MayBeInteresting(
                           text: 'Вам может быть интересно',
                         ),
 
@@ -158,9 +165,9 @@ class HomeScreen extends StatelessWidget {
                           height: 100,
                         ),
                         Image.asset('assets/logo.png'),
-                        // const SizedBox(
-                        //   height: 60,
-                        // ),
+                        SizedBox(
+                          height: bottomHeigth,
+                        ),
                       ],
                     ),
                   ),
@@ -172,17 +179,22 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: DelayedAnimatedTranslateOpacity(
         offsetY: 10,
-        child: CustomFloatingActionButton(
-          text: 'Добавить баллы',
-          icon: const Icon(
-            Icons.add,
-            color: AppTheme.mineShaft,
-          ),
-          onPressed: () {
-            debugPrint(context.toString());
-            showSheet<void>(
-              context,
-              SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+        child: LayoutBuilder(
+          builder: (ctx, constraints) {
+            bottomHeigth = constraints.minHeight;
+            return CustomFloatingActionButton(
+              text: 'Добавить баллы',
+              icon: const Icon(
+                Icons.add,
+                color: AppTheme.mineShaft,
+              ),
+              onPressed: () {
+                debugPrint(context.toString());
+                showSheet<void>(
+                  context,
+                  SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+                );
+              },
             );
           },
         ),

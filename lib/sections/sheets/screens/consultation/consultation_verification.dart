@@ -78,8 +78,9 @@ class ConsultationVerification extends StatelessWidget {
       bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить ${model.price} б',
         onPressed: () {
-          Navigator.of(context).pushNamed(
+          Navigator.of(context).pushNamedAndRemoveUntil(
             '/final_consultation',
+            (route) => route.isCurrent,
             arguments: ItemSheetScreenArguments(model: model),
           );
         },

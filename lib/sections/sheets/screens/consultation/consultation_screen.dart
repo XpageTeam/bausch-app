@@ -64,7 +64,6 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
             top: 12,
             left: 12,
             right: 12,
-            bottom: 4,
           ),
           sliver: SliverList(
             delegate: SliverChildListDelegate(
@@ -100,8 +99,10 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
+          padding: const EdgeInsets.only(
+            left: StaticData.sidePadding,
+            right: StaticData.sidePadding,
+            top: 4,
           ),
           sliver: SliverToBoxAdapter(
             child: OffersSection(
@@ -111,13 +112,12 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
+        // TODO(Nikolay): Непонятно с поощрением: это добавление баллов или вычитание?.
         text: 'Получить поощрение ${model.priceToString} б',
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            '/verification_consultation',
-            arguments: ItemSheetScreenArguments(model: model),
-          );
-        },
+        onPressed: () => Navigator.of(context).pushNamed(
+          '/verification_consultation',
+          arguments: ItemSheetScreenArguments(model: model),
+        ),
       ),
     );
   }

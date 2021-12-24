@@ -15,10 +15,10 @@ import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
-// import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
+
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
-// import 'package:package_info/package_info.dart';
+
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
@@ -106,19 +106,19 @@ class _ProfileSettingsScreenState
                       );
                     },
                   ),
-                  //if (!wm.isEmailConfirmed)
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        DiscountInfo(
-                          color: AppTheme.turquoiseBlue,
-                          text: 'подтвердить',
-                        ),
-                      ],
-                    ), // TODO(Nikita): Вывести статус
-                  ),
+                  if (!wm.isEmailConfirmed)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [
+                          DiscountInfo(
+                            color: AppTheme.turquoiseBlue,
+                            text: 'подтвердить',
+                          ),
+                        ],
+                      ), // TODO(Nikita): Вывести статус
+                    ),
                 ],
               ),
             ),

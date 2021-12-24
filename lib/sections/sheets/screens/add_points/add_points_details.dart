@@ -88,21 +88,6 @@ class AddPointsDetails extends StatelessWidget
                           ),
                         ],
                       ),
-                      // CustomSliverAppbar.toPop(
-                      //   icon: NormalIconButton(
-                      //     onPressed: () {
-                      //       Navigator.of(context).pop();
-                      //     }, //Navigator.of(context).pop,
-                      //     backgroundColor: AppTheme.mystic,
-                      //     icon: const Icon(
-                      //       Icons.chevron_left_rounded,
-                      //       size: 20,
-                      //       color: AppTheme.mineShaft,
-                      //     ),
-                      //   ),
-                      //   key: key,
-                      //   rightKey: Keys.simpleBottomSheetNav,
-                      // ),
                     ],
                   ),
                 ),
@@ -139,19 +124,6 @@ class AddPointsDetails extends StatelessWidget
           ),
         ),
       ],
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.only(
-      //     right: StaticData.sidePadding,
-      //     left: StaticData.sidePadding,
-      //     bottom: 4,
-      //   ),
-      //   child: Column(
-      //     children: [
-      //       FocusButton(labelText: 'Привязать аккаунт'),
-      //       BlueButtonWithText(text: 'text'),
-      //     ],
-      //   ),
-      // ),
     );
   }
 
