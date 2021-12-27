@@ -181,7 +181,8 @@ class MayBeInterestingWM extends WidgetModel {
 
   void _showBottomSheet(CatalogItemModel model, String section) {
     showSheet<ItemSheetScreenArguments>(
-      context,
+      //* тут поменял ключ, т.к. при нажатии на кнопку 'закрыть' всё падало
+      Keys.mainNav.currentContext!,
       SimpleSheetModel(
         name: 'Title',
         type: section,
