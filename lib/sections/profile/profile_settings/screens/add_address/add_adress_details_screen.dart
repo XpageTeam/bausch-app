@@ -50,6 +50,10 @@ class AddDetailsScreen extends StatefulWidget implements AddDetailsArguments {
 class _AddDetailsScreenState extends State<AddDetailsScreen> {
   final AddressesBloc addressesBloc = AddressesBloc();
 
+  bool flatControllerIsEmpty = true;
+  bool floorControllerIsEmpty = true;
+  bool entryControllerIsEmpty = true;
+
   late TextEditingController flatController;
   late TextEditingController entryController;
   late TextEditingController floorController;
@@ -73,25 +77,39 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
     flatController = TextEditingController(
       text: widget.adress.flat == null ? '' : widget.adress.flat.toString(),
-    );
+    )..addListener(() {
+        setState(() {});
+      });
 
     entryController = TextEditingController(
       text: widget.adress.entry == null ? '' : widget.adress.entry.toString(),
-    );
+    )..addListener(() {
+        setState(() {});
+      });
 
     floorController = TextEditingController(
       text: widget.adress.floor == null ? '' : widget.adress.floor.toString(),
-    );
+    )..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddressesBloc(),
+      create: (context) => addressesBloc,
       child: BlocListener<AddressesBloc, AddressesState>(
         listener: (context, state) {
           if (state is AddressesFailed) {
             showDefaultNotification(title: state.title);
+          }
+
+          if (state is AddressesSended) {
+            if (widget.isFirstLaunch) {
+              _navigateBack();
+            } else {
+              Navigator.of(context).pop();
+            }
           }
         },
         child: BlocBuilder<AddressesBloc, AddressesState>(
@@ -161,24 +179,32 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   children: [
                     BlueButtonWithText(
                       text: 'Сохранить',
-                      onPressed: () {
-                        final model = AdressModel(
-                          street: widget.adress.street,
-                          house: widget.adress.house,
-                          flat: int.parse(flatController.text),
-                          entry: int.parse(entryController.text),
-                          floor: int.parse(floorController.text),
-                        );
+                      onPressed: ((floorController.text.isNotEmpty) &&
+                              (flatController.text.isNotEmpty) &&
+                              (entryController.text.isNotEmpty))
+                          ? () {
+                              final model = AdressModel(
+                                id: widget.adress.id,
+                                street: widget.adress.street,
+                                house: widget.adress.house,
+                                flat: int.parse(flatController.text),
+                                entry: int.parse(entryController.text),
+                                floor: int.parse(floorController.text),
+                              );
 
-                        if (widget.isFirstLaunch) {
-                          addressesBloc.add(AddressesSend(address: model));
-                          _navigateBack();
-                        } else {
-                          addressesBloc.add(AddressUpdate(address: model));
-                          Navigator.of(context).pop();
-                        }
-                        //widget.adressesCubit?.getAdresses();
-                      },
+                              if (widget.isFirstLaunch) {
+                                addressesBloc
+                                    .add(AddressesSend(address: model));
+                              } else {
+                                addressesBloc
+                                    .add(AddressUpdate(address: model));
+                              }
+                            }
+                          : () {
+                              showDefaultNotification(
+                                title: 'Необходимо заполнить все поля',
+                              );
+                            },
                     ),
                     if (!widget.isFirstLaunch)
                       Padding(

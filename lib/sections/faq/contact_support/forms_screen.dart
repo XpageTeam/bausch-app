@@ -43,6 +43,7 @@ class _FormsScreenState extends State<FormsScreen> {
       bloc: fieldsBloc,
       builder: (context, state) {
         return CustomSheetScaffold(
+          resizeToAvoidBottomInset: false,
           controller: widget.controller,
           appBar: const CustomSliverAppbar(
             padding: EdgeInsets.symmetric(

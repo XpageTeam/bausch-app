@@ -1,5 +1,6 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/shops/cubits/shop_list_cubit/shoplist_cubit.dart';
 import 'package:bausch/sections/shops/providers/shop_list_bloc_provider.dart';
 import 'package:bausch/sections/shops/shops_screen_body.dart';
@@ -15,7 +16,10 @@ import 'package:provider/provider.dart';
 //* Program
 //* list
 class ShopsScreen extends StatefulWidget {
+  final List<OpticCity>? cities;
+
   const ShopsScreen({
+    this.cities,
     Key? key,
   }) : super(key: key);
 

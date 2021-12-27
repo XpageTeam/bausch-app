@@ -82,7 +82,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   },
                 ),
               ),
-              floatingActionButton: Padding(
+              bottomNavigationBar: Padding(
                 padding: const EdgeInsets.fromLTRB(
                   StaticData.sidePadding,
                   0,
@@ -98,8 +98,9 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   },
                 ),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
+              // floatingActionButtonAnimator: NoScalingAnimation(),
+              // floatingActionButtonLocation:
+              //     FloatingActionButtonLocation.centerFloat,
             );
           } else {
             return Scaffold(

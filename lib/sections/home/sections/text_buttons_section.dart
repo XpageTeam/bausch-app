@@ -35,7 +35,9 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
           children: [
             CustomTextButton(
               title: 'Правила программы',
-              onPressed: rulesCubit.loadData,
+              onPressed: () {
+                rulesCubit.loadData(RulesOrLinks.rules);
+              },
             ),
             CustomTextButton(
               title: 'Частые вопросы',
@@ -43,7 +45,9 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
             ),
             CustomTextButton(
               title: 'Библиотека ссылок',
-              onPressed: () {},
+              onPressed: () {
+                rulesCubit.loadData(RulesOrLinks.links);
+              },
             ),
           ],
         ),

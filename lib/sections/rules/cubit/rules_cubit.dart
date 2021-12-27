@@ -8,17 +8,24 @@ import 'package:meta/meta.dart';
 
 part 'rules_state.dart';
 
+enum RulesOrLinks { rules, links }
+
+///Используется для получения правил, а также для получения библиотеки ссылок, т.к. запросы идентичные
 class RulesCubit extends Cubit<RulesState> {
   RulesCubit() : super(RulesInitial());
 
-  Future<void> loadData() async {
+  Future<void> loadData(RulesOrLinks type) async {
     emit(RulesLoading());
 
     final rh = RequestHandler();
 
+    //* Выбор ссылки в зависимости от типа
+    final link =
+        type == RulesOrLinks.rules ? '/static/rules/' : '/static/library/';
+
     try {
       final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>('static/rules/')).data!,
+        (await rh.get<Map<String, dynamic>>(link)).data!,
       );
 
       emit(RulesSuccess(data: parsedData.data as String));
