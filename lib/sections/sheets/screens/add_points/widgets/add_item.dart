@@ -75,7 +75,11 @@ class AddItem extends StatelessWidget {
                   bottom: 12,
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Keys.mainContentNav.currentState!.pushNamed(
+                      '/profile_settings',
+                    );
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: AppTheme.mystic,
                     padding: const EdgeInsets.symmetric(
