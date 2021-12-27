@@ -100,16 +100,17 @@ class DiscountOnlineScreen extends StatelessWidget
             ),
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-          ),
-          sliver: SelectShopSection(
-            discountOptics: const [],
-            onChanged: (discountOptic) {},
-            discountType: DiscountType.onlineShop,
-          ),
-        ),
+        // SliverPadding(
+        //   padding: const EdgeInsets.symmetric(
+        //     horizontal: StaticData.sidePadding,
+        //   ),
+        //   sliver: SelectShopSection(
+        //     selectedOptic: ,
+        //     discountOptics: const [],
+        //     onChanged: (discountOptic) {},
+        //     discountType: DiscountType.onlineShop,
+        //   ),
+        // ),
         SliverPadding(
           padding: const EdgeInsets.symmetric(
             horizontal: StaticData.sidePadding,

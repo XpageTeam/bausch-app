@@ -1,32 +1,35 @@
 import 'dart:ui';
 
 import 'package:bausch/models/discount_optic/discount_optic.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBody extends CoreMwwmWidget<MapBodyWM> {
-  final List<ShopModel> shopList;
   final List<OpticShop> opticShops;
 
-  void Function(MapBodyWM wm)? shopsEmptyCallback;
+  final void Function(MapBodyWM wm) shopsEmptyCallback;
+  final void Function(OpticShop shop) onOpticShopSelect;
 
   MapBody({
-    required this.shopList,
     required this.opticShops,
-    this.shopsEmptyCallback,
+    required this.shopsEmptyCallback,
+    required this.onOpticShopSelect,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (_) => MapBodyWM(
-            initShopList: shopList,
             initOpticShops: opticShops,
           ),
         );
@@ -80,7 +83,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                       showModalBottomSheet<void>(
                         context: context,
                         barrierColor: Colors.transparent,
-                        builder: (context) => BottomSheetContent(
+                        builder: (ctx) => BottomSheetContent(
                           title: shop.title,
                           subtitle: shop.address,
                           phones: shop.phones,
@@ -88,18 +91,24 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                           // site: shop.site,
                           // additionalInfo:
                           //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                          onPressed: Navigator.of(context).pop,
+                          onPressed: () {
+                            widget.onOpticShopSelect(shop);
+                            Navigator.of(context)
+                              ..pop()
+                              ..pop();
+                          },
                           btnText: 'Выбрать эту сеть оптик',
                         ),
                       ).whenComplete(
                         () {
-                          wm.isModalBottomSheetOpen.accept(false);
-                          wm.updateMapObjects(widget.opticShops);
+                          wm
+                            ..isModalBottomSheetOpen.accept(false)
+                            ..updateMapObjects(widget.opticShops);
                         },
                       );
                     };
-                  if (widget.shopList.isEmpty) {
-                    widget.shopsEmptyCallback?.call(wm);
+                  if (widget.opticShops.isEmpty) {
+                    widget.shopsEmptyCallback(wm);
                   }
                 },
               );

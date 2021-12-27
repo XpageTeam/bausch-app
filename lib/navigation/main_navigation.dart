@@ -115,10 +115,10 @@ class _MainNavigationState extends State<MainNavigation>
                 page = const OrderRegistrationScreen();
                 break;
 
-              case '/shops':
-                // TODO(Nikolay): Пробрасывать список оптик.
-                page = SelectOpticScreen();
-                break;
+              // case '/shops':
+              //   // TODO(Nikolay): Пробрасывать список оптик.
+              //   page = SelectOpticScreen();
+              //   break;
 
               case '/home':
               default:

@@ -1,5 +1,6 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
+import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
@@ -7,6 +8,7 @@ import 'package:bausch/sections/shops/map_body.dart';
 import 'package:bausch/sections/shops/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/shop_container.dart';
+import 'package:bausch/sections/shops/widgets/shop_container_with_button.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_widget.dart';
 import 'package:bausch/sections/shops/widgets/shop_page_switcher.dart';
 import 'package:bausch/static/static_data.dart';
@@ -15,6 +17,8 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/shop_filter_widget/shop_filter_button.dart';
+import 'package:bausch/widgets/shop_filter_widget/shop_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -22,7 +26,9 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* Program
 //* list
 class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
+  final void Function(OpticShop shop) onOpticShopSelect;
   SelectOpticScreen({
+    required this.onOpticShopSelect,
     List<OpticCity>? cities,
     Key? key,
   }) : super(
@@ -74,7 +80,7 @@ class _SelectOpticScreenState
                 StaticData.sidePadding,
                 20,
               ),
-              child: SelectCityButton(
+              child: _SelectCityButton(
                 city: currentCity,
                 onPressed: wm.selectCityAction,
               ),
@@ -82,22 +88,28 @@ class _SelectOpticScreenState
           ),
 
           // Кнопки фильтра магазинов
-          // Padding(
-          //   padding: const EdgeInsets.only(
-          //     left: StaticData.sidePadding,
-          //     right: StaticData.sidePadding,
-          //     bottom: 20.0,
-          //   ),
-          //   child: ShopFilter(
-          //     filters: Filter.getFiltersFromShopList(
-          //       shopList,
-          //     ),
-          //     callback: wm.filtersOnChanged,
-          //   ),
-          // ),
+          StreamedStateBuilder<List<Optic>>(
+            streamedState: wm.opticsStreamed,
+            builder: (_, optics) {
+              final filters = Filter.getFiltersFromOpticList(
+                optics,
+              );
+              return Padding(
+                padding: const EdgeInsets.only(
+                  left: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
+                  bottom: 20.0,
+                ),
+                child: ShopFilter(
+                  filters: filters,
+                  callback: wm.filtersOnChanged,
+                ),
+              );
+            },
+          ),
 
           // Карта/список
-          // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
+          // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов. (indexedStack)
           Expanded(
             child: StreamedStateBuilder<ShopsContentType>(
               streamedState: wm.contentTypeStreamed,
@@ -119,19 +131,16 @@ class _SelectOpticScreenState
                 builder: (_, opticShops) =>
                     wm.contentTypeStreamed.value == ShopsContentType.list
                         ? ShopListWidget(
-                            containerType: ShopContainer, shopList: [],
-                            // TODO(Nikolay): сделать.
-                            // optics[0]
-                            //     .disountOpticShops!
-                            //     .map(
-                            //       (e) => e.toShopModel,
-                            //     )
-                            //     .toList(),
+                            containerType: ShopContainerWithButton,
+                            shopList: opticShops,
+                            onOpticShopSelect: (shop) {
+                              widget.onOpticShopSelect(shop);
+                              Navigator.of(context).pop();
+                            },
                           )
                         : MapBody(
-                            // TODO(Nikolay): Переделать.
                             opticShops: opticShops,
-                            shopList: [],
+                            onOpticShopSelect: widget.onOpticShopSelect,
                             shopsEmptyCallback: (mapBodyWm) {
                               mapBodyWm.isModalBottomSheetOpen.accept(true);
                               showModalBottomSheet<dynamic>(
@@ -145,8 +154,22 @@ class _SelectOpticScreenState
                                   onPressed: Navigator.of(context).pop,
                                 ),
                               ).whenComplete(() {
-                                mapBodyWm.isModalBottomSheetOpen.accept(false);
                                 wm.setFirstCity();
+
+                                Future.delayed(
+                                  const Duration(milliseconds: 10),
+                                  () {
+                                    mapBodyWm
+                                      ..isModalBottomSheetOpen.accept(false)
+                                      ..setCenterAction(
+                                        wm.opticShopsStreamed.value.data!,
+                                      );
+
+                                    debugPrint(
+                                      'wm.opticShopsStreamed.value.data!: ${wm.opticShopsStreamed.value.data!}',
+                                    );
+                                  },
+                                );
                               });
                             },
                           ),
@@ -193,10 +216,10 @@ class _SelectOpticScreenState
   }
 }
 
-class SelectCityButton extends StatelessWidget {
+class _SelectCityButton extends StatelessWidget {
   final String city;
   final VoidCallback onPressed;
-  const SelectCityButton({
+  const _SelectCityButton({
     required this.city,
     required this.onPressed,
     Key? key,

@@ -9,6 +9,7 @@ import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +29,7 @@ class SelectOpticScreenWM extends WidgetModel {
   final BuildContext context;
 
   final opticShopsStreamed = EntityStreamedState<List<OpticShop>>();
+  final opticsStreamed = StreamedState<List<Optic>>([]);
   final currentCityStreamed = EntityStreamedState<String>();
   final contentTypeStreamed = StreamedState<ShopsContentType>(
     ShopsContentType.map,
@@ -57,7 +59,21 @@ class SelectOpticScreenWM extends WidgetModel {
     } else {
       // TODO(Nikolay): Переделать.
       initialOptics = _sort(initialOptics!);
-      opticShopsStreamed.content(initialOptics!.first.optics.first.shops);
+      var opticShops = <OpticShop>[];
+      var optics = <Optic>[];
+      if (initialOptics!
+          .any((city) => city.title == currentCityStreamed.value.data)) {
+        optics = initialOptics!
+            .firstWhere((city) => city.title == currentCityStreamed.value.data)
+            .optics;
+        opticShops = optics.fold<List<OpticShop>>(
+          [],
+          (previousValue, element) => previousValue..addAll(element.shops),
+        );
+      }
+
+      opticShopsStreamed.content(opticShops);
+      opticsStreamed.accept(optics);
     }
 
     super.onLoad();
@@ -84,21 +100,23 @@ class SelectOpticScreenWM extends WidgetModel {
   }
 
   void _filtersOnChanged(List<Filter> selectedFilters) {
-    final filteredCityList = initialOptics!
-        .where(
-          (optic) => selectedFilters.any(
-            (filter) => filter.title == optic.title,
-          ),
-        )
-        .toList();
+    final optics = _getOpticsByCity();
 
-    // opticsStreamed.content(
-    //   filteredCityList,
+    // opticsStreamed.accept(
+    //   optics
+    //       .where(
+    //         (optic) => selectedFilters.any(
+    //           (filter) => filter.title == optic.title,
+    //         ),
+    //       )
+    //       .toList(),
     // );
   }
 
   void _setFirstCity() {
     currentCityStreamed.content(initialOptics!.first.title);
+    final shops = _getShopsByFilters();
+    opticShopsStreamed.content(shops);
   }
 
   Future<void> _selectCity() async {
@@ -112,13 +130,8 @@ class SelectOpticScreenWM extends WidgetModel {
 
     if (cityName != currentCityStreamed.value.data) {
       unawaited(currentCityStreamed.content(cityName!));
-
-      // TODO(Nikolay): Вынести.
-
-      final opticShops = _getShopsByFilters();
-
       unawaited(opticShopsStreamed.content(
-        opticShops,
+        _getShopsByFilters(),
       ));
     }
   }
@@ -148,13 +161,26 @@ class SelectOpticScreenWM extends WidgetModel {
   List<OpticShop> _getShopsByFilters() {
     final optics = _getOpticsByCity();
     // TODO(Nikolay): Переделать.
-    return optics.first.shops;
+
+    opticsStreamed.accept(optics);
+
+    return optics.fold<List<OpticShop>>(
+      [],
+      (previousValue, element) => previousValue..addAll(element.shops),
+    ).toList();
   }
 
   List<Optic> _getOpticsByCity() {
-    return initialOptics!
-        .firstWhere((city) => city.title == currentCityStreamed.value.data)
-        .optics;
+    var optics = <Optic>[];
+    if (initialOptics!
+        .any((city) => city.title == currentCityStreamed.value.data)) {
+      optics = initialOptics!
+          .firstWhere((city) => city.title == currentCityStreamed.value.data)
+          .optics;
+    } else {
+      optics = initialOptics!.first.optics;
+    }
+    return optics;
   }
 
   Future<void> _loadOptics() async {
@@ -166,10 +192,8 @@ class SelectOpticScreenWM extends WidgetModel {
 
       initialOptics = _sort(opticCititesRepository.cities);
 
-      final opticShops = _getShopsByFilters();
-
       unawaited(
-        opticShopsStreamed.content(opticShops),
+        opticShopsStreamed.content(_getShopsByFilters()),
       );
     } on DioError catch (e) {
       unawaited(

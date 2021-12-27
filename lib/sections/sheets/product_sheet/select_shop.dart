@@ -12,7 +12,10 @@ class SelectShopSection extends StatefulWidget {
 
   final void Function(Optic discountOptic) onChanged;
 
+  final Optic? selectedOptic;
+
   const SelectShopSection({
+    required this.selectedOptic,
     required this.discountOptics,
     required this.discountType,
     required this.onChanged,
@@ -25,6 +28,20 @@ class SelectShopSection extends StatefulWidget {
 
 class _SelectShopSectionState extends State<SelectShopSection> {
   int _selectedIndex = -1;
+
+  @override
+  void didUpdateWidget(covariant SelectShopSection oldWidget) {
+    if (widget.selectedOptic != null) {
+      final optics = widget.discountOptics;
+      for (var i = 0; i < optics.length; i++) {
+        if (optics[i].id == widget.selectedOptic!.id) {
+          _selectedIndex = i;
+          break;
+        }
+      }
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {

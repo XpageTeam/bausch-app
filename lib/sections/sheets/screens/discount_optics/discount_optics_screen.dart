@@ -141,10 +141,14 @@ class _DiscountOpticsScreenState
                           ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
-                          child: SelectShopSection(
-                            discountOptics: discountOptics,
-                            onChanged: wm.setCurrentOptic,
-                            discountType: wm.discountType,
+                          child: StreamedStateBuilder<Optic?>(
+                            streamedState: wm.currentDiscountOptic,
+                            builder: (_, selectedOptic) => SelectShopSection(
+                              selectedOptic: selectedOptic,
+                              discountOptics: discountOptics,
+                              onChanged: wm.setCurrentOptic,
+                              discountType: wm.discountType,
+                            ),
                           ),
                         ),
                         if (wm.discountType == DiscountType.offline)
@@ -173,6 +177,21 @@ class _DiscountOpticsScreenState
                                         (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
                                             SelectOpticScreen(
                                       cities: wm.cities,
+                                      onOpticShopSelect: (selectedShop) {
+                                        final optics = wm
+                                            .discountOpticsStreamed.value.data!;
+                                        for (final city in wm.cities) {
+                                          for (final optic in city.optics) {
+                                            if (optic.shops.any(
+                                              (shop) => shop == selectedShop,
+                                            )) {
+                                              wm.currentDiscountOptic
+                                                  .accept(optic);
+                                              return;
+                                            }
+                                          }
+                                        }
+                                      },
                                     ),
                                   ),
                                 );

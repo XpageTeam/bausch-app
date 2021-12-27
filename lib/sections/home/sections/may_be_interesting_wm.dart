@@ -36,6 +36,7 @@ class MayBeInterestingWM extends WidgetModel {
   @override
   void onBind() {
     onTapAction.bind(_onTap);
+
     super.onBind();
   }
 
@@ -138,8 +139,14 @@ class MayBeInterestingWM extends WidgetModel {
 
     try {
       final repository = await ProductsDownloader.load(model!.type!);
-      itemModel =
-          repository.items.firstWhere((element) => element.id == model.id);
+      if (repository.items.any((item) => item.id == model.id)) {
+        itemModel = repository.items.firstWhere((item) => item.id == model.id);
+      } else {
+        ex = const CustomException(
+          title: 'Ошибка',
+          subtitle: 'Товар не найден',
+        );
+      }
     } on DioError catch (e) {
       ex = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -157,6 +164,11 @@ class MayBeInterestingWM extends WidgetModel {
         title: 'Произошла ошибка',
         subtitle: e.toString(),
         ex: e,
+      );
+    } catch (e) {
+      ex = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
       );
     }
 

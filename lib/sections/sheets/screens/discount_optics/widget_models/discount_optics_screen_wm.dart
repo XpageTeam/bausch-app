@@ -14,6 +14,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_s
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -107,7 +108,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       final discountOptics = <Optic>[];
 
       for (final city in repository.cities) {
-        for (var optic in city.optics) {
+        for (final optic in city.optics) {
           if (!discountOptics.any((e) => e.id == optic.id)) {
             discountOptics.add(optic);
           }
@@ -205,8 +206,6 @@ class DiscountOpticsLoader {
           .data!,
     );
 
-    final dor = DiscountOpticsRepository.fromList(res.data as List<dynamic>);
-
     return DiscountOpticsRepository.fromList(res.data as List<dynamic>);
   }
 }
@@ -255,6 +254,7 @@ class OpticCititesRepository {
                 coords: disountOpticShop.coord,
                 phones: disountOpticShop.phone,
                 title: discounOptic.title,
+                city: disountOpticShop.city,
               ),
             );
           }
@@ -301,7 +301,7 @@ class OpticCity {
 
   final List<Optic> optics;
 
-  OpticCity({
+  const OpticCity({
     required this.title,
     required this.optics,
   });
@@ -315,7 +315,7 @@ class Optic {
   final String? link;
   final List<OpticShop> shops;
 
-  Optic({
+  const Optic({
     required this.id,
     required this.title,
     required this.shopCode,
@@ -330,13 +330,32 @@ class OpticShop {
   final String title;
   final List<String> phones;
   final String address;
+  final String city;
+  final String? site;
 
   final Point coords;
 
-  OpticShop({
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OpticShop &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          phones == other.phones &&
+          address == other.address &&
+          city == other.city &&
+          site == other.site &&
+          coords == other.coords;
+
+  @override
+  int get hashCode => coords.hashCode;
+
+  const OpticShop({
     required this.title,
     required this.phones,
     required this.address,
+    required this.city,
     required this.coords,
+    this.site,
   });
 }

@@ -15,7 +15,6 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBodyWM extends WidgetModel {
-  final List<ShopModel> initShopList;
   final List<OpticShop> initOpticShops;
 
   final MapObjectId clusterMapId = const MapObjectId(
@@ -45,7 +44,6 @@ class MapBodyWM extends WidgetModel {
   void Function(CustomException exception)? onGetUserPositionError;
 
   MapBodyWM({
-    required this.initShopList,
     required this.initOpticShops,
   }) : super(
           const WidgetModelDependencies(),
@@ -142,7 +140,7 @@ class MapBodyWM extends WidgetModel {
             },
             opacity: 1,
             mapId: MapObjectId('placemark_${shopList[i].coords}'),
-            point: shopList[i].coords!,
+            point: shopList[i].coords,
             icon: PlacemarkIcon.single(
               PlacemarkIconStyle(
                 scale: indexOfPressedShop != null
@@ -180,6 +178,10 @@ class MapBodyWM extends WidgetModel {
     } else if (list is List<ShopModel>) {
       extremePoints = _getExtremePoints(
         (list as List<ShopModel>).map((e) => e.coords!).toList(),
+      );
+    } else if (list is List<OpticShop>) {
+      extremePoints = _getExtremePoints(
+        (list as List<OpticShop>).map((e) => e.coords).toList(),
       );
     } else {
       return;
