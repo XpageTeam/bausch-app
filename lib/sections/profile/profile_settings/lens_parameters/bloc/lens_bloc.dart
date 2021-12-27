@@ -78,7 +78,6 @@ class LensBloc extends Bloc<LensEvent, LensState> {
         ))
             .data!,
       );
-      debugPrint('get 21212${parsedData.data}');
 
       return LensGetSuccess(
         model: LensParametersModel.fromMap(

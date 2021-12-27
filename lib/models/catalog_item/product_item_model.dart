@@ -5,7 +5,7 @@ import 'package:bausch/models/mappable_object.dart';
 
 class ProductItemModel extends CatalogItemModel
     implements MappableInterface<ProductItemModel> {
-  //final SpecificationsModel? specifications;
+  final SpecificationsModel? specifications;
   ProductItemModel({
     required int id,
     required String name,
@@ -13,7 +13,7 @@ class ProductItemModel extends CatalogItemModel
     required String detailText,
     required String? picture,
     required int price,
-    //this.specifications,
+    this.specifications,
   }) : super(
           id: id,
           name: name,
@@ -51,9 +51,11 @@ class ProductItemModel extends CatalogItemModel
       detailText: map['detail_text'] as String,
       picture: map['picture'] as String?,
       price: (map['price'] ?? 150) as int,
-      // specifications: SpecificationsModel.fromMap(
-      //   map['specifications'] as Map<String, dynamic>,
-      // ),
+      specifications: map['specifications'] != null
+          ? SpecificationsModel.fromMap(
+              map['specifications'] as Map<String, dynamic>,
+            )
+          : null,
     );
   }
 

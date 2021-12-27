@@ -91,31 +91,8 @@ class _OrderRegistrationScreenState
                 const RecipientSection(),
 
                 //* Область "Параметры линз"
-                BlocProvider(
-                  create: (context) => wm.lensBloc,
-                  child: BlocBuilder<LensBloc, LensState>(
-                    builder: (context, state) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 20,
-                            ),
-                            child: Text(
-                              'Параметры',
-                              style: AppStyles.h1,
-                            ),
-                          ),
-                          const LensParametersButtonsSection(),
-                          const SizedBox(
-                            height: 36,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
+                if (wm.productItemModel.specifications != null)
+                  const LensParametersSection(),
 
                 //* Область "Адрес доставки"
                 DeliveryAddressSection(),

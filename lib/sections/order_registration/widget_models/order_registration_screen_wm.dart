@@ -6,7 +6,9 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/catalog_item/specification/specifications_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
+import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
@@ -34,6 +36,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
   final makeOrderAction = VoidAction();
 
   final loadingState = StreamedState<bool>(false);
+  final loadingLensState = StreamedState<bool>(false);
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -41,6 +44,14 @@ class OrderRegistrationScreenWM extends WidgetModel {
   final phoneController = MaskedTextController(mask: '+0 000 000 00 00');
 
   final lensBloc = LensBloc();
+
+  final diopters = StreamedState<String?>(null);
+  final addidations = StreamedState<String?>(null);
+  final cylinder = StreamedState<String?>(null);
+  final axis = StreamedState<String?>(null);
+  final color = StreamedState<String?>(null);
+
+  late LensParametersModel? lensParametersModel;
 
   late bool nameFieldEnabled;
   late bool lastNameFieldEnabled;
@@ -79,6 +90,38 @@ class OrderRegistrationScreenWM extends WidgetModel {
     phoneController.text = userWM.userData.value.data!.user.phone;
     emailController.text = userWM.userData.value.data!.user.email ?? '';
 
+    if (productItemModel.specifications != null) {
+      subscribe(lensBloc.stream, (value) {
+        if (productItemModel.specifications!.diopters != null) {
+          if (productItemModel.specifications!.diopters!
+              .contains(lensBloc.state.model.diopter.toString())) {
+            diopters.accept(lensBloc.state.model.diopter.toString());
+          }
+        }
+
+        if (productItemModel.specifications!.cylinders != null) {
+          if (productItemModel.specifications!.cylinders!
+              .contains(lensBloc.state.model.cylinder.toString())) {
+            diopters.accept(lensBloc.state.model.cylinder.toString());
+          }
+        }
+
+        if (productItemModel.specifications!.axis != null) {
+          if (productItemModel.specifications!.axis!
+              .contains(lensBloc.state.model.axis.toString())) {
+            diopters.accept(lensBloc.state.model.axis.toString());
+          }
+        }
+
+        if (productItemModel.specifications!.addidations != null) {
+          if (productItemModel.specifications!.addidations!
+              .contains(lensBloc.state.model.addict.toString())) {
+            diopters.accept(lensBloc.state.model.addict.toString());
+          }
+        }
+      });
+    }
+
     nameFieldEnabled = userWM.userData.value.data!.user.name == null;
     lastNameFieldEnabled = userWM.userData.value.data!.user.lastName == null;
 
@@ -94,13 +137,17 @@ class OrderRegistrationScreenWM extends WidgetModel {
   }
 
   Future<void> updateUserData() async {
-    await userWM.updateUserData(
-      userWM.userData.value.data!.user.copyWith(
-        name: userWM.userData.value.data!.user.name ?? nameController.text,
-        lastName: userWM.userData.value.data!.user.lastName ??
-            lastNameController.text,
-      ),
-    );
+    if ((nameController.text != userWM.userData.value.data!.user.name) ||
+        (lastNameController.text !=
+            userWM.userData.value.data!.user.lastName)) {
+      await userWM.updateUserData(
+        userWM.userData.value.data!.user.copyWith(
+          name: userWM.userData.value.data!.user.name ?? nameController.text,
+          lastName: userWM.userData.value.data!.user.lastName ??
+              lastNameController.text,
+        ),
+      );
+    }
   }
 
   Future<void> _spendPoints() async {
@@ -109,10 +156,21 @@ class OrderRegistrationScreenWM extends WidgetModel {
     CustomException? error;
 
     try {
-      lensBloc.add(LensSend(model: lensBloc.state.model));
+      if ((nameController.text.isEmpty) || (lastNameController.text.isEmpty)) {
+        error = const CustomException(
+          title: 'Необходимо ввести имя и фамилию',
+        );
+        return;
+      }
+
       await OrderFreePackagingSaver.save(
         productItemModel,
         address,
+        diopters: diopters.value,
+        cylinder: cylinder.value,
+        axis: axis.value,
+        addiction: addidations.value,
+        color: color.value,
       );
 
       final userRepository = await UserWriter.checkUserToken();
@@ -171,8 +229,13 @@ class OrderRegistrationScreenWM extends WidgetModel {
 class OrderFreePackagingSaver {
   static Future<BaseResponseRepository> save(
     ProductItemModel model,
-    AdressModel address,
-  ) async {
+    AdressModel address, {
+    String? diopters,
+    String? cylinder,
+    String? axis,
+    String? addiction,
+    String? color,
+  }) async {
     final rh = RequestHandler();
     final resp = await rh.put<Map<String, dynamic>>(
       '/order/freePack/save/',
@@ -181,11 +244,11 @@ class OrderFreePackagingSaver {
           'productId': model.id,
           'price': model.price,
           'addressId': address.id,
-          'diopters': 0,
-          'cylinder': 0,
-          'axis': 0,
-          'addiction': 0,
-          'color': 0,
+          if (diopters != null) 'diopters': diopters,
+          if (cylinder != null) 'cylinder': cylinder,
+          if (axis != null) 'axis': axis,
+          if (addiction != null) 'addiction': addiction,
+          if (color != null) 'color': color,
         },
       ),
       options: rh.cacheOptions

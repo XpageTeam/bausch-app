@@ -94,6 +94,11 @@ class OrderAddressScreenWM extends WidgetModel {
       await OrderFreePackagingSaver.save(
         orderRegistrationScreenWM.productItemModel,
         updatedAdressModel,
+        diopters: orderRegistrationScreenWM.diopters.value,
+        cylinder: orderRegistrationScreenWM.cylinder.value,
+        axis: orderRegistrationScreenWM.axis.value,
+        addiction: orderRegistrationScreenWM.addidations.value,
+        color: orderRegistrationScreenWM.color.value,
       );
 
       final userRepository = await UserWriter.checkUserToken();
@@ -149,39 +154,39 @@ class OrderAddressScreenWM extends WidgetModel {
   }
 }
 
-class OrderFreePackagingSaver {
-  static Future<BaseResponseRepository> save(
-    ProductItemModel model,
-    AdressModel address,
-  ) async {
-    final rh = RequestHandler();
-    final resp = await rh.put<Map<String, dynamic>>(
-      '/order/freePack/save/',
-      data: FormData.fromMap(
-        <String, dynamic>{
-          'productId': model.id,
-          'price': model.price,
-          'addressId': address.id,
-          'diopters': 0,
-          'cylinder': 0,
-          'axis': 0,
-          'addiction': 0,
-          'color': 0,
-        },
-      ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
-    );
+// class OrderFreePackagingSaver {
+//   static Future<BaseResponseRepository> save(
+//     ProductItemModel model,
+//     AdressModel address,
+//   ) async {
+//     final rh = RequestHandler();
+//     final resp = await rh.put<Map<String, dynamic>>(
+//       '/order/freePack/save/',
+//       data: FormData.fromMap(
+//         <String, dynamic>{
+//           'productId': model.id,
+//           'price': model.price,
+//           'addressId': address.id,
+//           'diopters': 0,
+//           'cylinder': 0,
+//           'axis': 0,
+//           'addiction': 0,
+//           'color': 0,
+//         },
+//       ),
+//       options: rh.cacheOptions
+//           ?.copyWith(
+//             maxStale: const Duration(days: 1),
+//             policy: CachePolicy.request,
+//           )
+//           .toOptions(),
+//     );
 
-    final data = resp.data!;
+//     final data = resp.data!;
 
-    return BaseResponseRepository.fromMap(data);
-  }
-}
+//     return BaseResponseRepository.fromMap(data);
+//   }
+// }
 
 class AddressUpdater {
   static Future<BaseResponseRepository> update(
