@@ -1,4 +1,3 @@
-import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/address_select_screen.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/delivery_info_container.dart';
