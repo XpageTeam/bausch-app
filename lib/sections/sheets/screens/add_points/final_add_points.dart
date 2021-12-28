@@ -13,9 +13,20 @@ import 'package:flutter/material.dart';
 
 //* Add_points
 //* final
-class FinalAddPointsScreen extends StatelessWidget {
+
+class FinalAddPointsArguments {
+  final String points;
+
+  FinalAddPointsArguments({required this.points});
+}
+
+class FinalAddPointsScreen extends StatelessWidget
+    implements FinalAddPointsArguments {
   final ScrollController controller;
-  const FinalAddPointsScreen({required this.controller, Key? key})
+  @override
+  final String points;
+  const FinalAddPointsScreen(
+      {required this.controller, required this.points, Key? key})
       : super(key: key);
 
   @override
@@ -64,11 +75,11 @@ class FinalAddPointsScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           AutoSizeText(
-                            '+500',
+                            '+$points',
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppTheme.mineShaft,
                               fontWeight: FontWeight.w500,
                               fontSize: 85,
@@ -76,7 +87,7 @@ class FinalAddPointsScreen extends StatelessWidget {
                               leadingDistribution: TextLeadingDistribution.even,
                             ),
                           ),
-                          PointWidget(
+                          const PointWidget(
                             radius: 18,
                             textStyle: TextStyle(
                               color: AppTheme.mineShaft,
