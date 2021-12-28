@@ -36,7 +36,6 @@ class RulesScreen extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 Html(
-                  /// TODO(Nikita): вывести данные
                   data: data,
                   onLinkTap: (url, context, attributes, element) async {
                     if (url != null) {

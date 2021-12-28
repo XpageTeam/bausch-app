@@ -18,7 +18,7 @@ void showSheet<T>(
   String? initialRoute,
 ]) {
   showFlexibleBottomSheet<void>(
-    useRootNavigator: true,
+    useRootNavigator: false,
     minHeight: 0,
     initHeight: 0.95,
     maxHeight: 0.95,

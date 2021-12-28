@@ -138,8 +138,9 @@ class _ProfileSettingsScreenState
                 builder: (_, birthDate) {
                   return FocusButton(
                     labelText: 'Дата рождения',
-                    selectedText: DateFormat('yyyy.MM.dd')
-                        .format(birthDate ?? DateTime.now()),
+                    selectedText: birthDate != null
+                        ? DateFormat('dd.MM.yyyy').format(birthDate)
+                        : null,
                     icon: Container(),
                     onPressed: wm.selectedBirthDate.value == null
                         ? () {

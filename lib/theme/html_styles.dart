@@ -97,10 +97,34 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
     );
   },
   'table': (context, child) {
+    (context.tree as TableLayoutElement).children.forEach((child) {
+      child.children.forEach((child1) {
+        child1.children.forEach((child2) {
+          child2.style = Style(
+            border: Border.all(
+              color: AppTheme.grey,
+              width: 1.5,
+            ),
+          );
+        });
+      });
+    });
+
+    // (context.tree as TableLayoutElement)
+    //     .children
+    //     .forEach((child) => child.children.forEach((element) {
+    //           element.children.forEach((el) {
+    //             debugPrint(el.element!.text);
+    //           });
+    //         }));
+
     return SingleChildScrollView(
       clipBehavior: Clip.none,
-      child: (context.tree as TableLayoutElement).toWidget(context),
+      child: (context.tree as TableLayoutElement).toWidget(
+        context,
+      ),
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
     );
   },
 };
