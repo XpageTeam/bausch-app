@@ -6,6 +6,7 @@ import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
@@ -28,6 +29,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dar
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
+import 'package:bausch/sections/sheets/screens/html/html_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_verification.dart';
@@ -332,6 +334,13 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               page = AttachFilesScreen(
                 fieldsBloc: (settings.arguments as AttachFilesScreenArguments)
                     .fieldsBloc,
+              );
+              break;
+
+            case '/content':
+              page = HtmlScreen(
+                controller: controller,
+                offer: arguments as Offer,
               );
               break;
 
