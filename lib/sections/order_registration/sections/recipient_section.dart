@@ -1,7 +1,9 @@
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/order_registration/widgets/order_form_fields.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecipientSection extends StatefulWidget {
   const RecipientSection({Key? key}) : super(key: key);
@@ -11,7 +13,19 @@ class RecipientSection extends StatefulWidget {
 }
 
 class _RecipientSectionState extends State<RecipientSection> {
-  bool isFormShowing = true;
+  bool isFormShowing = false;
+
+  late OrderRegistrationScreenWM wm;
+
+  @override
+  void initState() {
+    super.initState();
+
+    wm = Provider.of<OrderRegistrationScreenWM>(
+      context,
+      listen: false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +62,13 @@ class _RecipientSectionState extends State<RecipientSection> {
               ),
               title: Text.rich(
                 TextSpan(
-                  text: 'Саша Константинопольский\n',
+                  text:
+                      '${wm.userWM.userData.value.data!.user.name} ${wm.userWM.userData.value.data!.user.lastName}\n',
                   style: AppStyles.h2Bold,
                   children: [
                     TextSpan(
-                      text: 'sasha@mail.ru, +7 985 000 00 00',
+                      text:
+                          '${wm.userWM.userData.value.data!.user.email}, ${wm.userWM.userData.value.data!.user.phone}',
                       style: AppStyles.p1Grey,
                     ),
                   ],

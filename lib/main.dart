@@ -1,6 +1,7 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/navigation/app_router.dart';
 import 'package:bausch/navigation/main_navigation.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
@@ -44,8 +45,21 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
         background: AppTheme.mineShaft,
         textColor: Colors.white,
       ),
-      child: Provider(
-        create: (context) => wm.userWM,
+      child: MultiProvider(
+        providers: [
+          Provider(
+            create: (context) {
+              return wm.userWM;
+            },
+            lazy: false,
+          ),
+          Provider(
+            create: (context) {
+              return wm;
+            },
+            lazy: false,
+          ),
+        ],
         child: ScreenUtilInit(
           designSize: const Size(375, 799),
           builder: () => MaterialApp(
@@ -59,6 +73,11 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
             ],
             title: 'Bausch + Lomb',
             navigatorKey: Keys.mainNav,
+            onGenerateRoute: (settings) => AppRouter.generateRoute(
+              settings,
+              context,
+              wm,
+            ),
             theme: AppTheme.currentAppTheme,
             home: Builder(
               builder: (context) {
@@ -66,36 +85,20 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
                   data: MediaQuery.of(context).copyWith(
                     textScaleFactor: 1.0,
                   ),
-                  child: MultiProvider(
-                    providers: [
-                      Provider(
-                        create: (context) {
-                          return wm.userWM;
-                        },
-                        lazy: false,
-                      ),
-                      Provider(
-                        create: (context) {
-                          return wm;
-                        },
-                        lazy: false,
-                      ),
-                    ],
-                    child: Builder(builder: (context) {
-                      RequestHandler.setContext(context);
+                  child: Builder(builder: (context) {
+                    RequestHandler.setContext(context);
 
-                      return Provider(
-                        create: (context) => LoginWM(
-                          baseDependencies: const WidgetModelDependencies(),
-                          context: context,
-                        ),
-                        lazy: false,
-                        child: MainNavigation(
-                          authWM: wm,
-                        ),
-                      );
-                    }),
-                  ),
+                    return Provider(
+                      create: (context) => LoginWM(
+                        baseDependencies: const WidgetModelDependencies(),
+                        context: context,
+                      ),
+                      lazy: false,
+                      child: MainNavigation(
+                        authWM: wm,
+                      ),
+                    );
+                  }),
                 );
               },
             ),

@@ -12,7 +12,9 @@ part 'lens_event.dart';
 part 'lens_state.dart';
 
 class LensBloc extends Bloc<LensEvent, LensState> {
-  LensBloc() : super(LensInitial());
+  LensBloc() : super(LensInitial()) {
+    add(LensGet());
+  }
 
   @override
   Stream<LensState> mapEventToState(LensEvent event) async* {
@@ -76,7 +78,6 @@ class LensBloc extends Bloc<LensEvent, LensState> {
         ))
             .data!,
       );
-      debugPrint('get 21212${parsedData.data}');
 
       return LensGetSuccess(
         model: LensParametersModel.fromMap(

@@ -99,8 +99,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                           yesCallback: () {
                                             Navigator.of(context).pop();
 
-                                            Keys.mainContentNav.currentState!
-                                                .pushNamed(
+                                            Navigator.of(context).pushNamed(
                                               '/add_details',
                                               arguments: AddDetailsArguments(
                                                 adress: AdressModel(

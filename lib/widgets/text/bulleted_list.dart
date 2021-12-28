@@ -22,7 +22,11 @@ class BulletedList extends StatelessWidget {
           padding: EdgeInsets.only(
             bottom: i != list.length - 1 ? 10.0 : 0.0,
           ),
-          child: BulletedRow(text: list[i]),
+          child: BulletedRow(
+            text: list[i],
+            textStyle: textStyle,
+            dotStyle: dotStyle,
+          ),
         ),
       ),
     );
@@ -31,8 +35,12 @@ class BulletedList extends StatelessWidget {
 
 class BulletedRow extends StatelessWidget {
   final String text;
+  final TextStyle? dotStyle;
+  final TextStyle? textStyle;
   const BulletedRow({
     required this.text,
+    this.dotStyle,
+    this.textStyle,
     Key? key,
   }) : super(key: key);
 
@@ -51,7 +59,7 @@ class BulletedRow extends StatelessWidget {
         // ),
         Text(
           '•',
-          style: AppStyles.p1,
+          style: dotStyle ?? AppStyles.p1,
         ),
         const SizedBox(
           width: 14,
@@ -59,7 +67,7 @@ class BulletedRow extends StatelessWidget {
         Flexible(
           child: Text(
             text,
-            style: AppStyles.p1,
+            style: textStyle ?? AppStyles.p1,
           ),
         ),
       ],

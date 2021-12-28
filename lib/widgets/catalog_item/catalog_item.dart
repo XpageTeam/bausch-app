@@ -99,7 +99,7 @@ class CatalogItem extends StatelessWidget {
                           ),
                         )
                       : ButtonWithPoints(
-                          price: model.price.toString(),
+                          price: model.priceToString,
                           onPressed: () {
                             onTap?.call();
                           },
