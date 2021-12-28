@@ -1,6 +1,7 @@
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OrderFormFields extends StatefulWidget {
   final VoidCallback? onPressed;
@@ -14,40 +15,16 @@ class OrderFormFields extends StatefulWidget {
 }
 
 class _OrderFormFieldsState extends State<OrderFormFields> {
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final emailController = TextEditingController();
-
-  // TODO(Danil): заменить маску
-  final phoneController =
-      MaskedTextController(mask: '+0 000 000 00 00'); //TextEditingController();
+  late OrderRegistrationScreenWM wm;
 
   @override
   void initState() {
     super.initState();
-    firstNameController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-    lastNameController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-    emailController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-    phoneController.addListener(() {
-      //  formCubit.update( Controller.value);
-    });
-  }
 
-  @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
-
-    // formCubit.close();
-    super.dispose();
+    wm = Provider.of<OrderRegistrationScreenWM>(
+      context,
+      listen: false,
+    );
   }
 
   @override
@@ -59,41 +36,36 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
           margin: const EdgeInsets.only(bottom: 4),
           child: NativeTextInput(
             labelText: 'Имя',
-            controller: firstNameController,
+            controller: wm.nameController,
+            enabled: wm.nameFieldEnabled,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 4),
           child: NativeTextInput(
             labelText: 'Фамилия',
-            controller: lastNameController,
+            controller: wm.lastNameController,
+            enabled: wm.lastNameFieldEnabled,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 4),
           child: NativeTextInput(
             labelText: 'E-mail',
-            controller: emailController,
+            controller: wm.emailController,
             inputType: TextInputType.emailAddress,
+            enabled: false,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 4),
           child: NativeTextInput(
             labelText: 'Мобильный телефон',
-            controller: phoneController,
+            controller: wm.phoneController,
             inputType: TextInputType.phone,
+            enabled: false,
           ),
         ),
-        // BlueButton(
-        //   onPressed: widget.onPressed,
-        //   children: [
-        //     Text(
-        //       'Готово',
-        //       style: AppStyles.h2Bold,
-        //     ),
-        //   ],
-        // ),
       ],
     );
   }

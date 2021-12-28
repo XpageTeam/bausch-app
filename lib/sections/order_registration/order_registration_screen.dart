@@ -1,22 +1,57 @@
-import 'package:bausch/models/order_registration/order_item.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+
 import 'package:bausch/sections/order_registration/sections/delivery_address_section.dart';
 import 'package:bausch/sections/order_registration/sections/lens_parameters_section.dart';
 import 'package:bausch/sections/order_registration/sections/order_items_section.dart';
 import 'package:bausch/sections/order_registration/sections/recipient_section.dart';
-import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
+import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Макет
 //* Catalog_free packaging:
 //* order
-class OrderRegistrationScreen extends StatelessWidget {
-  const OrderRegistrationScreen({Key? key}) : super(key: key);
+
+class OrderRegistrationScreenArguments {
+  final ProductItemModel model;
+
+  OrderRegistrationScreenArguments({required this.model});
+}
+
+class OrderRegistrationScreen extends CoreMwwmWidget<OrderRegistrationScreenWM>
+    implements OrderRegistrationScreenArguments {
+  @override
+  final ProductItemModel model;
+  OrderRegistrationScreen({required this.model, Key? key})
+      : super(
+          key: key,
+          widgetModelBuilder: (context) => OrderRegistrationScreenWM(
+            context: context,
+            productItemModel: model,
+          ),
+        );
+
+  @override
+  WidgetState<CoreMwwmWidget<OrderRegistrationScreenWM>,
+          OrderRegistrationScreenWM>
+      createWidgetState() => _OrderRegistrationScreenState();
+}
+
+class _OrderRegistrationScreenState
+    extends WidgetState<OrderRegistrationScreen, OrderRegistrationScreenWM> {
+  //final LensBloc lensBloc = LensBloc();
+
+  @override
+  void dispose() {
+    wm.lensBloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,46 +60,6 @@ class OrderRegistrationScreen extends StatelessWidget {
       appBar: const DefaultAppBar(
         backgroundColor: AppTheme.mystic,
         title: 'Оформление заказа',
-
-        //* Кнопка "Настройки"
-        // topRightWidget: NormalIconButton(
-        //   onPressed: () {},
-        //   icon: const Icon(
-        //     Icons.settings,
-        //     color: AppTheme.mineShaft,
-        //   ),
-        // ),
-
-        //* Кнопка "Готово"
-        // topRightWidget: TextButton(
-        //   style: ButtonStyle(
-        //     overlayColor: MaterialStateColor.resolveWith(
-        //       (states) => AppTheme.turquoiseBlue,
-        //     ),
-        //     padding: MaterialStateProperty.resolveWith<EdgeInsets>(
-        //       (states) => const EdgeInsets.symmetric(horizontal: 5),
-        //     ),
-        //     minimumSize: MaterialStateProperty.resolveWith<Size>(
-        //       (states) => Size.zero,
-        //     ),
-        //   ),
-        //   onPressed: () {},
-        //   child: const Text(
-        //     'Готово',
-        //     style: AppStyles.p1,
-        //   ),
-        // ),
-
-        //* Кнопка "Готово" (другая)
-        // topRightWidget: GestureDetector(
-        //   onTap: () {
-        //     debugPrint('statement');
-        //   },
-        //   child: Container(
-        //     padding: EdgeInsets.all(5),
-        //     child: Text('Готово'),
-        //   ),
-        // ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -75,58 +70,48 @@ class OrderRegistrationScreen extends StatelessWidget {
             StaticData.sidePadding,
             40,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //* Область со списком заказанных продуктов
-              OrderItemsSection(
-                orderItemList: OrderItem.generateList(),
-              ),
+          child: Provider(
+            create: (context) {
+              return wm;
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //* Область со списком заказанных продуктов
+                const OrderItemsSection(),
 
-              //* Область "Получатель"
-              const RecipientSection(),
+                //* Область "Получатель"
+                const RecipientSection(),
 
-              //* Область "Параметры линз"
-              const LensParametersSection(),
+                //* Область "Параметры линз"
+                if (wm.productItemModel.specifications != null)
+                  const LensParametersSection(),
 
-              //* Область "Адрес доставки"
-              const DeliveryAddressSection(),
-            ],
+                //* Область "Адрес доставки"
+                const DeliveryAddressSection(),
+              ],
+            ),
           ),
         ),
       ),
-      bottomNavigationBar: CustomFloatingActionButton(
-        text: 'Потратить 1250 б',
-        onPressed: () {
-          showFlexibleBottomSheet<void>(
-            context: Keys.mainNav.currentContext!,
-            minHeight: 0,
-            initHeight: 0.9,
-            maxHeight: 0.95,
-            anchors: [0, 0.6, 0.95],
-            builder: (context, controller, d) {
-              return Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  FinalFreePackaging(
-                    controller: ScrollController(),
-                    model: Models.discountOptics[0],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Container(
-                      height: 4,
-                      width: 38,
-                      decoration: BoxDecoration(
-                        color: AppTheme.mineShaft,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
+      bottomNavigationBar: StreamedStateBuilder<bool>(
+        streamedState: wm.loadingState,
+        builder: (_, isLoading) {
+          return isLoading
+              ? const CustomFloatingActionButton(
+                  text: '',
+                  icon: AnimatedLoader(),
+                )
+              : CustomFloatingActionButton(
+                  text: 'Потратить ${wm.productItemModel.priceToString} б',
+                  icon: Container(),
+                  onPressed: ((wm.nameController.text.isNotEmpty) ||
+                          (wm.lastNameController.text.isNotEmpty))
+                      ? () {
+                          wm.makeOrderAction();
+                        }
+                      : null,
+                );
         },
       ),
     );

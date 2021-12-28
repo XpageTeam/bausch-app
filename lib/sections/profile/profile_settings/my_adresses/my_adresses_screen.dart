@@ -92,9 +92,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 child: BlueButtonWithText(
                   text: 'Добавить адрес',
                   onPressed: () {
-                    Keys.mainContentNav.currentState!
-                        .pushNamed('/add_adress')
-                        .then((v) {
+                    Navigator.of(context).pushNamed('/add_adress').then((v) {
                       adressesCubit.getAdresses();
                     });
                   },

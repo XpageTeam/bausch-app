@@ -17,7 +17,7 @@ import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
-import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
+import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
@@ -42,7 +42,6 @@ import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dar
 import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_verification_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -256,15 +255,15 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
             case '/addpoints_details':
               page = AddPointsDetails(
-                model: Models.addItems[0],
+                model: (settings.arguments as AddPointsDetailsArguments).model,
                 controller: controller,
               );
               break;
 
-            case '/addpoints_survey':
-              page = SurveyScreen(
+            case '/addpoints_quiz':
+              page = QuizScreen(
                 controller: controller,
-                model: Models.addItems[3],
+                model: (settings.arguments as QuizScreenArguments).model,
               );
               break;
 

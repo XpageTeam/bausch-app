@@ -111,7 +111,11 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               case '/order_registration':
-                page = const OrderRegistrationScreen();
+                page = OrderRegistrationScreen(
+                  model:
+                      (settings.arguments as OrderRegistrationScreenArguments)
+                          .model,
+                );
                 break;
 
               // case '/shops':
