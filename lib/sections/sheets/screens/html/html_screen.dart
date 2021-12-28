@@ -1,8 +1,8 @@
 import 'package:bausch/models/offer/offer.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/html_styles.dart';
-import 'package:bausch/widgets/appbar/appbar_for_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -18,63 +18,29 @@ class HtmlScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(
-        top: Radius.circular(5),
+    return CustomSheetScaffold(
+      controller: controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        icon: Container(),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        resizeToAvoidBottomInset: true,
-        appBar: const AppBarForBottomSheet(),
-        body: CustomScrollView(
-          controller: controller,
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 40.0),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0),
-                      child: Stack(
-                        children: [
-                          // WhiteContainerWithRoundedCorners(
-                          //   child: Padding(
-                          //     padding: const EdgeInsets.fromLTRB(
-                          //       40,
-                          //       45,
-                          //       40,
-                          //       20,
-                          //     ),
-                          //     child: AutoSizeText(
-                          //       offer.title,
-                          //       maxLines: 2,
-                          //       textAlign: TextAlign.center,
-                          //       style: AppStyles.h1,
-                          //     ),
-                          //   ),
-                          //   color: AppTheme.sulu,
-                          // ),
-                          CustomSliverAppbar(
-                            icon: Container(),
-                            key: key,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Html(
-                      data: offer.html ?? '<html>Error</html>',
-                      style: htmlStyles,
-                      customRender: htmlCustomRender,
-                    ),
-                  ],
-                ),
-              ),
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(
+            StaticData.sidePadding,
+            62,
+            StaticData.sidePadding,
+            0.0,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: Html(
+              data: '<html><h2>Ошибка</h2></html>',
+              style: htmlStyles,
+              customRender: htmlCustomRender,
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

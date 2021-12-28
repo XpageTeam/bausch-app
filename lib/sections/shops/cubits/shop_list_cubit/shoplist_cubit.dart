@@ -36,7 +36,7 @@ class ShopListCubit extends Cubit<ShopListState> {
 
   Future<ShopListState> _loadShopList() async {
     try {
-      citiesRepository = await CitiesWithShopsDownloader.load();
+      citiesRepository = await AllOpticsDownloader.load();
 
       // if (!citiesRepository.cities.any(
       //   (element) => element.name == city,

@@ -1,4 +1,3 @@
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/home/sections/offers/offer_type.dart';
 import 'package:bausch/sections/home/sections/offers/offers_section.dart';
@@ -7,6 +6,7 @@ import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/screens/parners/widget_models/partners_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -85,9 +85,14 @@ class _PartnersScreenState
       bottomNavBar: CustomFloatingActionButton(
         text: wm.isEnough
             ? 'Получить поощрение ${widget.model.priceToString} б'
-            : 'Нехватает ${wm.difference.formatString} б',
+            : 'Накопить баллы',
         withInfo: false,
-        icon: Container(),
+        icon: wm.isEnough
+            ? null
+            : const Icon(
+                Icons.add,
+                color: AppTheme.mineShaft,
+              ),
         onPressed: wm.buttonAction,
       ),
     );

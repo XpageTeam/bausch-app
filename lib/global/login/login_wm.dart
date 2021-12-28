@@ -15,10 +15,8 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_mask/easy_mask.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mwwm/mwwm.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -136,7 +134,7 @@ class LoginWM extends WidgetModel {
 
     //* подписка на нажатие кнопки
     sendPhoneAction.bind((_) {
-			smsSendCounter.accept(0);
+      smsSendCounter.accept(0);
 
       _sendPhone();
     });
@@ -163,13 +161,12 @@ class LoginWM extends WidgetModel {
     });
   }
 
-	@override
-	void dispose(){
-
-		// phoneController.dispose();
-		// codeController.dispose();
-		super.dispose();
-	}
+  @override
+  void dispose() {
+    // phoneController.dispose();
+    // codeController.dispose();
+    super.dispose();
+  }
 
   void _checkAuth() {
     Provider.of<AuthWM>(context, listen: false).checkAuthAction();

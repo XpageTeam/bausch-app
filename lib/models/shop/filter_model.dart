@@ -1,7 +1,9 @@
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:equatable/equatable.dart';
 
-class Filter {
+class Filter extends Equatable {
   final int id;
   final String title;
 
@@ -10,6 +12,10 @@ class Filter {
     required this.title,
   });
 
+
+  @override
+  List<Object?> get props => [id, title];
+  
   static List<Filter> getFiltersFromShopList(List<ShopModel> shops) {
     final filtersMap = <String, Filter>{
       'Все оптики': const Filter(
@@ -26,6 +32,32 @@ class Filter {
             shop.name: Filter(
               id: id,
               title: shop.name,
+            ),
+          },
+        );
+        id++;
+      }
+    }
+
+    return filtersMap.values.toList();
+  }
+
+  static List<Filter> getFiltersFromOpticList(List<Optic> optics) {
+    final filtersMap = <String, Filter>{
+      'Все оптики': const Filter(
+        id: 0,
+        title: 'Все оптики',
+      ),
+    };
+    var id = 1;
+
+    for (final shop in optics) {
+      if (filtersMap[shop.title] == null) {
+        filtersMap.addAll(
+          <String, Filter>{
+            shop.title: Filter(
+              id: id,
+              title: shop.title,
             ),
           },
         );
@@ -67,4 +99,5 @@ class Filter {
 
     return filtersMap.values.toList();
   }
+
 }

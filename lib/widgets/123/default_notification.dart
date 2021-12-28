@@ -1,3 +1,4 @@
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -30,7 +31,6 @@ OverlaySupportEntry showDefaultNotification({
       ),
     ),
   );
-
   // return showSimpleNotification(
   //   Stack(
   //     children: [
@@ -54,11 +54,11 @@ OverlaySupportEntry showDefaultNotification({
 }
 
 void showTopError(CustomException ex) {
-  showDefaultNotification(
-    title: ex.title,
-    subtitle: ex.subtitle,
-  );
-}
+    showDefaultNotification(
+      title: ex.title,
+      subtitle: ex.subtitle,
+    );
+  }
 
 class _DefaultNotification extends StatelessWidget {
   final String title;

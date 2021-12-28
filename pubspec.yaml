@@ -43,6 +43,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_keyboard_visibility: ^5.1.0
+  flutter_share: ^2.0.0
   flutter_screenutil: ^5.0.1
   flutter_svg: ^0.23.0+1
   path_provider: ^2.0.8
@@ -55,6 +56,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   shared_preferences: ^2.0.11
   sqlite3_flutter_libs: ^0.5.2
+  equatable: ^2.0.3
   
   # better_player:
   #   path: lib/packages/better_player

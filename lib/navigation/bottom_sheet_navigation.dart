@@ -6,6 +6,7 @@ import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
@@ -16,7 +17,7 @@ import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
-import 'package:bausch/sections/sheets/screens/add_points/survey_screen.dart';
+import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
@@ -26,18 +27,21 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_s
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
+import 'package:bausch/sections/sheets/screens/html/html_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_verification.dart';
+import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
+import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
 import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_verification_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -45,10 +49,16 @@ class BottomSheetNavigation<T> extends StatelessWidget {
   final ScrollController controller;
   final BaseCatalogSheetModel sheetModel;
   final T? args;
-  const BottomSheetNavigation({
+
+  // Этот параметр нужен для того, чтоб
+  // из секции "вам может быть интересно" можно было перейти
+  // сразу в товар
+  String? initialRoute;
+  BottomSheetNavigation({
     required this.controller,
     required this.sheetModel,
     this.args,
+    this.initialRoute,
     Key? key,
   }) : super(key: key);
 
@@ -64,7 +74,11 @@ class BottomSheetNavigation<T> extends StatelessWidget {
         onGenerateRoute: (settings) {
           Widget page;
 
-          switch (settings.name) {
+          final arguments = initialRoute != null
+              ? args ?? settings.arguments
+              : settings.arguments;
+
+          switch (initialRoute ?? settings.name) {
             case '/':
               if (sheetModel.type == 'online_consultation') {
                 page = ConsultationScreen(
@@ -104,7 +118,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/free_product':
               page = FreePackagingScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model: (arguments as ItemSheetScreenArguments).model,
               );
               break;
 
@@ -117,7 +131,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/offline':
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
                 discountType: DiscountType.offline,
               );
@@ -126,7 +140,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/onlineShop':
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
                 discountType: DiscountType.onlineShop,
               );
@@ -135,7 +149,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/promo_code_immediately':
               page = PartnersScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (arguments as ItemSheetScreenArguments).model
                     as PartnersItemModel,
               );
               break;
@@ -143,9 +157,10 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/promo_code_video':
               page = WebinarScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (arguments as ItemSheetScreenArguments).model
                     as WebinarItemModel,
               );
+
               break;
 
             case '/verification_discount_optics':
@@ -218,7 +233,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               );
               break;
 
-            case '/consultation':
+            case '/online_consultation':
               page = ConsultationScreen(
                 controller: controller,
                 model:
@@ -230,17 +245,26 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               page = ProgramScreen(controller: controller);
               break;
 
+            case '/final_program':
+              final arguments = settings.arguments as Map<String, dynamic>;
+              page = FinalProgramScreen(
+                controller: controller,
+                optic: arguments['optic'] as Optic,
+                response: arguments['response'] as ProgramSaverResponse,
+              );
+              break;
+
             case '/addpoints_details':
               page = AddPointsDetails(
-                model: Models.addItems[0],
+                model: (settings.arguments as AddPointsDetailsArguments).model,
                 controller: controller,
               );
               break;
 
-            case '/addpoints_survey':
-              page = SurveyScreen(
+            case '/addpoints_quiz':
+              page = QuizScreen(
                 controller: controller,
-                model: Models.addItems[3],
+                model: (settings.arguments as QuizScreenArguments).model,
               );
               break;
 
@@ -315,9 +339,18 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               );
               break;
 
+            case '/content':
+              page = HtmlScreen(
+                controller: controller,
+                offer: arguments as Offer,
+              );
+              break;
+
             default:
               page = Container();
           }
+
+          initialRoute = null;
 
           if (Platform.isIOS) {
             return CupertinoPageRoute<void>(builder: (context) {

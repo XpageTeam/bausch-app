@@ -1,4 +1,4 @@
-import 'package:bausch/models/add_item_model.dart';
+import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -11,7 +11,7 @@ import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:flutter/material.dart';
 
 class AddPointsDetailsArguments {
-  final AddItemModel model;
+  final AddPointsModel model;
 
   AddPointsDetailsArguments({required this.model});
 }
@@ -21,7 +21,7 @@ class AddPointsDetailsArguments {
 class AddPointsDetails extends StatelessWidget
     implements AddPointsDetailsArguments {
   @override
-  final AddItemModel model;
+  final AddPointsModel model;
   final ScrollController controller;
   const AddPointsDetails({
     required this.model,
@@ -56,8 +56,8 @@ class AddPointsDetails extends StatelessWidget
                           const SizedBox(
                             height: 64,
                           ),
-                          Image.asset(
-                            model.img,
+                          Image.network(
+                            model.detailModel.icon,
                             fit: BoxFit.cover,
                             height: 200,
                           ),
@@ -69,7 +69,7 @@ class AddPointsDetails extends StatelessWidget
                               horizontal: StaticData.sidePadding,
                             ),
                             child: Text(
-                              model.title,
+                              model.detailModel.title,
                               style: AppStyles.h1,
                               textAlign: TextAlign.center,
                             ),
@@ -82,27 +82,12 @@ class AddPointsDetails extends StatelessWidget
                               bottom: 30,
                             ),
                             child: ButtonContent(
-                              price: model.priceString,
+                              price: model.reward,
                               textStyle: AppStyles.h1,
                             ),
                           ),
                         ],
                       ),
-                      // CustomSliverAppbar.toPop(
-                      //   icon: NormalIconButton(
-                      //     onPressed: () {
-                      //       Navigator.of(context).pop();
-                      //     }, //Navigator.of(context).pop,
-                      //     backgroundColor: AppTheme.mystic,
-                      //     icon: const Icon(
-                      //       Icons.chevron_left_rounded,
-                      //       size: 20,
-                      //       color: AppTheme.mineShaft,
-                      //     ),
-                      //   ),
-                      //   key: key,
-                      //   rightKey: Keys.simpleBottomSheetNav,
-                      // ),
                     ],
                   ),
                 ),
@@ -110,7 +95,7 @@ class AddPointsDetails extends StatelessWidget
                   height: 4,
                 ),
                 InfoSection(
-                  text: model.htmlText,
+                  text: model.detailModel.description!,
                   secondText: '',
                 ),
                 const SizedBox(
@@ -124,10 +109,16 @@ class AddPointsDetails extends StatelessWidget
                       height: 4,
                     ),
                     BlueButtonWithText(
-                      text: buttonText(model.type!),
+                      text: model.detailModel.btnName!,
                       onPressed: () {
                         Navigator.of(context).pushNamed('/final_addpoints');
                       },
+                      icon: model.detailModel.btnIcon != null
+                          ? Image.network(
+                              model.detailModel.btnIcon!,
+                              height: 15,
+                            )
+                          : null,
                     ),
                   ],
                 ),
@@ -139,33 +130,20 @@ class AddPointsDetails extends StatelessWidget
           ),
         ),
       ],
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.only(
-      //     right: StaticData.sidePadding,
-      //     left: StaticData.sidePadding,
-      //     bottom: 4,
-      //   ),
-      //   child: Column(
-      //     children: [
-      //       FocusButton(labelText: 'Привязать аккаунт'),
-      //       BlueButtonWithText(text: 'text'),
-      //     ],
-      //   ),
-      // ),
     );
   }
 
-  String buttonText(String type) {
-    if (type == 'vk') {
-      return 'Подписаться на группу';
-    } else if (type == 'friend') {
-      return 'Отправить ссылку';
-    } else if (type == 'overview_social') {
-      return 'Прикрепить скриншот';
-    } else if (type == 'overview') {
-      return 'Прикрепить скриншот';
-    } else {
-      return 'Далее';
-    }
-  }
+  // String buttonText(String type) {
+  //   if (type == 'vk') {
+  //     return 'Подписаться на группу';
+  //   } else if (type == 'friend') {
+  //     return 'Отправить ссылку';
+  //   } else if (type == 'overview_social') {
+  //     return 'Прикрепить скриншот';
+  //   } else if (type == 'overview') {
+  //     return 'Прикрепить скриншот';
+  //   } else {
+  //     return 'Далее';
+  //   }
+  // }
 }

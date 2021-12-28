@@ -24,12 +24,12 @@ class OrdersSection extends StatelessWidget {
         horizontal: StaticData.sidePadding,
       ),
       sliver: ordersList.isNotEmpty
-          ? SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (_, index) {
+          ? SliverToBoxAdapter(
+              child: Column(
+                children: List.generate(ordersList.length, (index) {
                   final order = ordersList[index];
 
-                  if (order == null) return null;
+                  if (order == null) return Container();
 
                   if (order.category == 'webinar') {
                     order as WebinarOrderModel;
@@ -56,9 +56,8 @@ class OrdersSection extends StatelessWidget {
                     );
                   }
 
-                  return null;
-                },
-                childCount: ordersList.length,
+                  return Container();
+                }),
               ),
             )
           : SliverList(

@@ -1,14 +1,16 @@
+import 'package:bausch/sections/shops/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class DefaultToggleButton extends StatelessWidget {
   final Color color;
-  final String text;
-  final VoidCallback onPressed;
+  final ShopsContentType type;
+  final Function(ShopsContentType type) onPressed;
+
   const DefaultToggleButton({
     required this.color,
-    required this.text,
+    required this.type,
     required this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -22,7 +24,7 @@ class DefaultToggleButton extends StatelessWidget {
         splashColor: AppTheme.mystic,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        onTap: onPressed,
+        onTap: () => onPressed(type),
         customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
@@ -30,7 +32,7 @@ class DefaultToggleButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Text(
-              text,
+              type.asString,
               style: AppStyles.h2Bold,
             ),
           ),

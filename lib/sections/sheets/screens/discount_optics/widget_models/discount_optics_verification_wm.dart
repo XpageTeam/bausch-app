@@ -6,11 +6,11 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -22,7 +22,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class DiscountOpticsVerificationWM extends WidgetModel {
   final BuildContext context;
   final PromoItemModel itemModel;
-  final DiscountOptic discountOptic;
+  final Optic discountOptic;
   final DiscountType discountType;
 
   final loadingState = StreamedState<bool>(false);
@@ -120,7 +120,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
 class OrderDiscountSaver {
   static Future<BaseResponseRepository> save(
-    DiscountOptic optic,
+    Optic optic,
     PromoItemModel model,
     String category,
   ) async {

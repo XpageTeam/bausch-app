@@ -1,4 +1,5 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/offers/offer_type.dart';
@@ -7,7 +8,6 @@ import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
-import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -25,13 +25,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authWM = Provider.of<AuthWM>(context);
 
+    double bottomHeigth = 0;
+
+    debugPrint(
+      'phone: ${HelpFunctions.formatPhone('+7 919 121-06-70')}',
+    );
+
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      // Из-за этого свойства не работает перекраска иконок на статусбаре
-      // при возвращении на эту страницу:)
-      // primary: false,
       appBar: const NewEmptyAppBar(
         scaffoldBgColor: AppTheme.mystic,
       ),
@@ -84,22 +87,22 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (status == AuthStatus.authenticated)
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      bottom: 20,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          const DelayedAnimatedTranslateOpacity(
-                            offsetY: 40,
-                            child: StoriesSlider(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                // if (status == AuthStatus.authenticated)
+                //   SliverPadding(
+                //     padding: const EdgeInsets.only(
+                //       bottom: 20,
+                //     ),
+                //     sliver: SliverList(
+                //       delegate: SliverChildListDelegate(
+                //         [
+                //           const DelayedAnimatedTranslateOpacity(
+                //             offsetY: 40,
+                //             child: StoriesSlider(),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 20,
@@ -148,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                     delegate: SliverChildListDelegate(
                       [
                         //* Вам может быть интересно
-                        const MayBeInteresting(
+                        MayBeInteresting(
                           text: 'Вам может быть интересно',
                         ),
 
@@ -158,9 +161,9 @@ class HomeScreen extends StatelessWidget {
                           height: 100,
                         ),
                         Image.asset('assets/logo.png'),
-                        // const SizedBox(
-                        //   height: 60,
-                        // ),
+                        SizedBox(
+                          height: bottomHeigth,
+                        ),
                       ],
                     ),
                   ),
@@ -172,17 +175,22 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: DelayedAnimatedTranslateOpacity(
         offsetY: 10,
-        child: CustomFloatingActionButton(
-          text: 'Добавить баллы',
-          icon: const Icon(
-            Icons.add,
-            color: AppTheme.mineShaft,
-          ),
-          onPressed: () {
-            debugPrint(context.toString());
-            showSheet<void>(
-              context,
-              SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+        child: LayoutBuilder(
+          builder: (ctx, constraints) {
+            bottomHeigth = constraints.minHeight;
+            return CustomFloatingActionButton(
+              text: 'Добавить баллы',
+              icon: const Icon(
+                Icons.add,
+                color: AppTheme.mineShaft,
+              ),
+              onPressed: () {
+                debugPrint(context.toString());
+                showSheet<void>(
+                  context,
+                  SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+                );
+              },
             );
           },
         ),

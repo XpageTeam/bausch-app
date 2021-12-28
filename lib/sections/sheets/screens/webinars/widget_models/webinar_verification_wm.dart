@@ -112,6 +112,7 @@ class WebinarVerificationWM extends WidgetModel {
       );
     }
   }
+
 }
 
 class FinalWebinarArguments extends ItemSheetScreenArguments {

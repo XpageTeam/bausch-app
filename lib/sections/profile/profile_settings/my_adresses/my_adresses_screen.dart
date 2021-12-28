@@ -82,7 +82,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   },
                 ),
               ),
-              floatingActionButton: Padding(
+              bottomNavigationBar: Padding(
                 padding: const EdgeInsets.fromLTRB(
                   StaticData.sidePadding,
                   0,
@@ -92,16 +92,15 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 child: BlueButtonWithText(
                   text: 'Добавить адрес',
                   onPressed: () {
-                    Keys.mainContentNav.currentState!
-                        .pushNamed('/add_adress')
-                        .then((v) {
+                    Navigator.of(context).pushNamed('/add_adress').then((v) {
                       adressesCubit.getAdresses();
                     });
                   },
                 ),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
+              // floatingActionButtonAnimator: NoScalingAnimation(),
+              // floatingActionButtonLocation:
+              //     FloatingActionButtonLocation.centerFloat,
             );
           } else {
             return Scaffold(

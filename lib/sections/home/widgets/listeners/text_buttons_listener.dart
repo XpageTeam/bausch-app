@@ -30,15 +30,6 @@ class TextButtonsListener extends StatelessWidget {
             if (state is FaqSuccess) {
               Keys.mainNav.currentState!.pop();
 
-              // showSimpleSheet(
-              //   context,
-              //   SimpleSheetModel(
-              //     title: 'Частые вопросы',
-              //     type: SimpleSheetType.faq,
-              //   ),
-              //   state.topics,
-              // );
-
               showSheet<List<TopicModel>>(
                 context,
                 SimpleSheetModel(
@@ -67,7 +58,7 @@ class TextButtonsListener extends StatelessWidget {
               showSheet<String>(
                 context,
                 SimpleSheetModel(
-                  name: 'Частые вопросы',
+                  name: 'Правила',
                   type: 'rules',
                 ),
                 state.data,
