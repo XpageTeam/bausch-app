@@ -44,11 +44,7 @@ class CustomSliverAppbar extends StatelessWidget {
                     ),
                 NormalIconButton(
                   onPressed: () {
-                    if (icon == null) {
-                      Keys.mainNav.currentState!.pop();
-                    } else {
-                      Navigator.of(context).pop();
-                    }
+                    Keys.mainContentNav.currentState!.pop();
                   },
                   icon: const Icon(
                     Icons.close_rounded,
@@ -65,7 +61,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 Container(),
                 NormalIconButton(
                   onPressed: () {
-                    Keys.mainNav.currentState!.pop();
+                    Keys.mainContentNav.currentState!.pop();
                   },
                   icon: const Icon(
                     Icons.close_rounded,

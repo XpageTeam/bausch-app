@@ -1,6 +1,7 @@
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,13 +19,13 @@ class FormsListener extends StatelessWidget {
         BlocListener<FieldsBloc, FieldsState>(
           listener: (context, state) {
             if (state is FieldsFailed) {
-              //TODO(Nikita): поменять на тот, что у Данила
-              showFlushbar(state.title);
+              showDefaultNotification(title: state.title);
             }
 
             if (state is FieldsSended) {
-              //TODO(Nikita): поменять на тот, что у Данила
-              showFlushbar('Ваше сообщение успешно отправлено!');
+              showDefaultNotification(
+                title: 'Ваше сообщение успешно отправлено!',
+              );
               Navigator.of(context).pop();
             }
           },
@@ -32,8 +33,7 @@ class FormsListener extends StatelessWidget {
         BlocListener<FormsCubit, FormsState>(
           listener: (context, state) {
             if (state is FormsFailed) {
-              //TODO(Nikita): поменять на тот, что у Данила
-              showFlushbar(state.title);
+              showDefaultNotification(title: state.title);
               Navigator.of(context).pop();
             }
           },

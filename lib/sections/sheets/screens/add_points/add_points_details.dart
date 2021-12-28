@@ -82,7 +82,7 @@ class AddPointsDetails extends StatelessWidget
                               bottom: 30,
                             ),
                             child: ButtonContent(
-                              price: model.reward,
+                              price: '+${model.reward}',
                               textStyle: AppStyles.h1,
                             ),
                           ),
