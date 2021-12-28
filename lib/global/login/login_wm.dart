@@ -115,7 +115,7 @@ class LoginWM extends WidgetModel {
       }
 
       if (authRequestResult.value.hasError) {
-        _showTopError(authRequestResult.value.error as CustomException);
+        showTopError(authRequestResult.value.error as CustomException);
       }
 
       if (authRequestResult.value.data != null) {
@@ -136,7 +136,7 @@ class LoginWM extends WidgetModel {
 
     //* подписка на нажатие кнопки
     sendPhoneAction.bind((_) {
-			smsSendCounter.accept(0);
+      smsSendCounter.accept(0);
 
       _sendPhone();
     });
@@ -163,23 +163,15 @@ class LoginWM extends WidgetModel {
     });
   }
 
-	@override
-	void dispose(){
-
-		// phoneController.dispose();
-		// codeController.dispose();
-		super.dispose();
-	}
+  @override
+  void dispose() {
+    // phoneController.dispose();
+    // codeController.dispose();
+    super.dispose();
+  }
 
   void _checkAuth() {
     Provider.of<AuthWM>(context, listen: false).checkAuthAction();
-  }
-
-  void _showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
   }
 
   void _checkBtnActive() {
@@ -265,7 +257,7 @@ class LoginWM extends WidgetModel {
     }
 
     if (error != null) {
-      _showTopError(error);
+      showTopError(error);
     }
 
     unawaited(loginProcessedState.accept(false));

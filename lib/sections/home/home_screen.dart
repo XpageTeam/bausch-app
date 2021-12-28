@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     final authWM = Provider.of<AuthWM>(context);
 
     double bottomHeigth = 0;
-    
+
     debugPrint(
       'phone: ${HelpFunctions.formatPhone('+7 919 121-06-70')}',
     );
@@ -36,9 +36,6 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      // Из-за этого свойства не работает перекраска иконок на статусбаре
-      // при возвращении на эту страницу:)
-      // primary: false,
       appBar: const NewEmptyAppBar(
         scaffoldBgColor: AppTheme.mystic,
       ),

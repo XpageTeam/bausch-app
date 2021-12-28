@@ -1,5 +1,4 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
@@ -12,7 +11,10 @@ class SelectShopSection extends StatefulWidget {
 
   final void Function(Optic discountOptic) onChanged;
 
+  final Optic? selectedOptic;
+
   const SelectShopSection({
+    required this.selectedOptic,
     required this.discountOptics,
     required this.discountType,
     required this.onChanged,
@@ -25,6 +27,20 @@ class SelectShopSection extends StatefulWidget {
 
 class _SelectShopSectionState extends State<SelectShopSection> {
   int _selectedIndex = -1;
+
+  @override
+  void didUpdateWidget(covariant SelectShopSection oldWidget) {
+    if (widget.selectedOptic != null) {
+      final optics = widget.discountOptics;
+      for (var i = 0; i < optics.length; i++) {
+        if (optics[i].id == widget.selectedOptic!.id) {
+          _selectedIndex = i;
+          break;
+        }
+      }
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {

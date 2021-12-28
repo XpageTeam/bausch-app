@@ -6,13 +6,14 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
+import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -95,17 +96,27 @@ class DiscountOpticsScreenWM extends WidgetModel {
     unawaited(discountOpticsStreamed.loading());
 
     try {
-      final repository = await DiscountOpticsLoader.load(
-        discountType.asString,
-        itemModel.code,
+      final repository = OpticCititesRepository.fromDiscountOpticsRepository(
+        await DiscountOpticsLoader.load(
+          discountType.asString,
+          itemModel.code,
+        ),
       );
 
       cities = repository.cities;
+      final discountOptics = <Optic>[];
+
+      for (final city in repository.cities) {
+        for (final optic in city.optics) {
+          if (!discountOptics.any((e) => e.id == optic.id)) {
+            discountOptics.add(optic);
+          }
+        }
+      }
 
       unawaited(
         discountOpticsStreamed.content(
-          repository.cities.first.optics,
-          // repository.cities.map((e) => e.optics).toList(),
+          discountOptics,
         ),
       );
     } on DioError catch (e) {
@@ -171,7 +182,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 }
 
 class DiscountOpticsLoader {
-  static Future<OpticRepository> load(
+  static Future<DiscountOpticsRepository> load(
     String category,
     String productCode,
   ) async {
@@ -194,19 +205,16 @@ class DiscountOpticsLoader {
           .data!,
     );
 
-    final dor = DiscountOpticsRepository.fromList(res.data as List<dynamic>);
-    final opticRepository = OpticRepository.fromDiscountOpticsRepository(dor);
-
-    return opticRepository;
+    return DiscountOpticsRepository.fromList(res.data as List<dynamic>);
   }
 }
 
-class OpticRepository {
+class OpticCititesRepository {
   final List<OpticCity> cities;
 
-  OpticRepository(this.cities);
+  OpticCititesRepository(this.cities);
 
-  factory OpticRepository.fromDiscountOpticsRepository(
+  factory OpticCititesRepository.fromDiscountOpticsRepository(
     DiscountOpticsRepository repository,
   ) {
     final cityNames = <String>{};
@@ -245,6 +253,7 @@ class OpticRepository {
                 coords: disountOpticShop.coord,
                 phones: disountOpticShop.phone,
                 title: discounOptic.title,
+                city: disountOpticShop.city,
               ),
             );
           }
@@ -271,21 +280,60 @@ class OpticRepository {
       );
     }
 
-    return OpticRepository(cities);
+    return OpticCititesRepository(cities);
   }
 
   // TODO(Nikolay): Сделать фабрику для списка всех адресов.
+  factory OpticCititesRepository.fromCitiesRepository(
+    CitiesRepository repository,
+  ) {
+    final cities = <OpticCity>[];
+
+    for (final city in repository.cities) {
+      if (!cities.any((element) => element.title == city.name)) {
+        final optics = city.shopsRepository.shops
+            .where((e) => e.coords != null)
+            .map(
+              (e) => Optic(
+                id: e.id,
+                title: e.name,
+                shops: [
+                  OpticShop(
+                    title: e.name,
+                    phones: e.phones,
+                    address: e.address,
+                    city: city.name,
+                    coords: e.coords!,
+                  ),
+                ],
+              ),
+            )
+            .toList();
+
+        cities.add(
+          OpticCity(
+            id: city.id,
+            title: city.name,
+            optics: optics,
+          ),
+        );
+      }
+    }
+
+    return OpticCititesRepository(cities);
+  }
 }
 
 class OpticCity {
-  // final int id;
+  final int? id;
   final String title;
 
   final List<Optic> optics;
 
-  OpticCity({
+  const OpticCity({
     required this.title,
     required this.optics,
+    this.id,
   });
 }
 
@@ -297,28 +345,34 @@ class Optic {
   final String? link;
   final List<OpticShop> shops;
 
-  Optic({
+  const Optic({
     required this.id,
     required this.title,
-    required this.shopCode,
-    required this.logo,
-    required this.link,
     required this.shops,
+    this.shopCode,
+    this.logo,
+    this.link,
   });
 }
 
-class OpticShop {
-  // final int id;
+class OpticShop extends Equatable {
   final String title;
   final List<String> phones;
   final String address;
+  final String city;
+  final String? site;
 
   final Point coords;
 
-  OpticShop({
+  @override
+  List<Object?> get props => [title, phones, address, city];
+
+  const OpticShop({
     required this.title,
     required this.phones,
     required this.address,
+    required this.city,
     required this.coords,
+    this.site,
   });
 }

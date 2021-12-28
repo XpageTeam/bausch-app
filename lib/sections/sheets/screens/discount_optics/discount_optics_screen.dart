@@ -1,6 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -12,7 +11,7 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
-import 'package:bausch/sections/shops/shops_screen.dart';
+import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -141,42 +140,50 @@ class _DiscountOpticsScreenState
                           ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
-                          child: SelectShopSection(
-                            discountOptics: discountOptics,
-                            onChanged: wm.setCurrentOptic,
-                            discountType: wm.discountType,
+                          child: StreamedStateBuilder<Optic?>(
+                            streamedState: wm.currentDiscountOptic,
+                            builder: (_, selectedOptic) => SelectShopSection(
+                              selectedOptic: selectedOptic,
+                              discountOptics: discountOptics,
+                              onChanged: wm.setCurrentOptic,
+                              discountType: wm.discountType,
+                            ),
                           ),
                         ),
                         if (wm.discountType == DiscountType.offline)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 30,
-                              bottom: 4,
-                            ),
-                            child: WhiteButton(
-                              text: 'Адреса оптик',
-                              icon: Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 12,
-                                  top: 16,
-                                  bottom: 16,
-                                ),
-                                child: Image.asset(
-                                  'assets/icons/map-marker.png',
-                                  height: 16,
-                                ),
+                          StreamedStateBuilder<Optic?>(
+                            streamedState: wm.currentDiscountOptic,
+                            builder: (_, currentDiscountOptic) => Padding(
+                              padding: const EdgeInsets.only(
+                                top: 30,
+                                bottom: 4,
                               ),
-                              onPressed: () {
-                                Keys.mainNav.currentState!.push<void>(
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                            ShopsScreen(
-                                      cities: wm.cities,
-                                    ),
+                              child: WhiteButton(
+                                text: currentDiscountOptic != null
+                                    ? currentDiscountOptic.title
+                                    : 'Адреса оптик',
+                                icon: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 12,
+                                    top: 16,
+                                    bottom: 16,
                                   ),
-                                );
-                              },
+                                  child: Image.asset(
+                                    'assets/icons/map-marker.png',
+                                    height: 16,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Keys.mainNav.currentState!.push<void>(
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectOpticScreen(
+                                        cities: wm.cities,
+                                        onOpticSelect: wm.setCurrentOptic,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         Warning.warning(wm.warningText),

@@ -89,7 +89,7 @@ class PartnersVerificationWM extends WidgetModel {
     unawaited(loadingState.accept(false));
 
     if (error != null) {
-      _showTopError(error);
+      showTopError(error);
     } else {
       unawaited(
         Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
@@ -101,13 +101,6 @@ class PartnersVerificationWM extends WidgetModel {
         ),
       );
     }
-  }
-
-  void _showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
   }
 }
 

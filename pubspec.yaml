@@ -55,6 +55,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   shared_preferences: ^2.0.11
   sqlite3_flutter_libs: ^0.5.2
+  equatable: ^2.0.3
   
   # better_player:
   #   path: lib/packages/better_player

@@ -49,6 +49,7 @@ class DiscountOpticShop {
   final String address;
   final String email;
   final Point coord;
+  final String city;
 
   DiscountOpticShop({
     required this.id,
@@ -56,6 +57,7 @@ class DiscountOpticShop {
     required this.address,
     required this.email,
     required this.coord,
+    required this.city,
   });
 
   factory DiscountOpticShop.fromJson(Map<String, dynamic> json) {
@@ -80,6 +82,7 @@ class DiscountOpticShop {
           (json['coord'] as Map<String, dynamic>)['lng'] as String,
         ),
       ),
+      city: json['city'] as String,
     );
   }
 }

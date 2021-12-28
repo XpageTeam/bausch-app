@@ -6,7 +6,6 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
@@ -104,7 +103,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     unawaited(loadingState.accept(false));
 
     if (error != null) {
-      _showTopError(error);
+      showTopError(error);
     } else {
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_discount_optics',
@@ -116,13 +115,6 @@ class DiscountOpticsVerificationWM extends WidgetModel {
         ),
       );
     }
-  }
-
-  void _showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
   }
 }
 
