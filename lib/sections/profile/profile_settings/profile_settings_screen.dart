@@ -50,11 +50,12 @@ class _ProfileSettingsScreenState
     // TODO: implement initState
     super.initState();
 
-    userWM = Provider.of<UserWM>(context);
+    //userWM = Provider.of<UserWM>(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    userWM = Provider.of<UserWM>(context);
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       appBar: DefaultAppBar(
