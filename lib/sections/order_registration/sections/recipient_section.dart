@@ -1,4 +1,3 @@
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/order_registration/widgets/order_form_fields.dart';

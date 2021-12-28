@@ -2,7 +2,6 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/sections/home/sections/offers/offer_type.dart';
 import 'package:bausch/sections/home/sections/offers/offers_section.dart';
-import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';

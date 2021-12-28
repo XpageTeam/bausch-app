@@ -1,7 +1,6 @@
 import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
 import 'package:bausch/sections/profile/profile_settings/picker_screen.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,4 +1,3 @@
-import 'package:bausch/models/catalog_item/specification/specification_model.dart';
 import 'package:bausch/models/mappable_object.dart';
 
 class SpecificationsModel implements MappableInterface<SpecificationsModel> {

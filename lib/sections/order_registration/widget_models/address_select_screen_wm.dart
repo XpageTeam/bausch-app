@@ -1,8 +1,4 @@
 import 'package:bausch/global/user/user_wm.dart';
-import 'package:bausch/models/profile_settings/adress_model.dart';
-import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
-import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
-import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

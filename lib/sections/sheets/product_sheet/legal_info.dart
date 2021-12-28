@@ -1,7 +1,5 @@
 // ignore_for_file: use_named_constants
 
-import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:flutter/material.dart';
 

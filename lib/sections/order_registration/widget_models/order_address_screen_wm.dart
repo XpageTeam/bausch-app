@@ -5,7 +5,6 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
-import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
@@ -14,7 +13,6 @@ import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packagi
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

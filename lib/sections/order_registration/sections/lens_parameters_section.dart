@@ -1,14 +1,9 @@
-import 'package:bausch/models/catalog_item/specification/specification_model.dart';
 import 'package:bausch/models/catalog_item/specification/specifications_model.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
-import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/order_registration/widgets/single_picker_screen.dart';
-import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
-import 'package:bausch/sections/profile/profile_settings/lens_parameters/lens_parameters_buttons_section.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 

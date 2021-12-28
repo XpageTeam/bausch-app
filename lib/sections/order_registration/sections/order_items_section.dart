@@ -1,4 +1,4 @@
-import 'package:bausch/models/catalog_item/product_item_model.dart';
+
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/order_item.dart';
 import 'package:bausch/theme/styles.dart';

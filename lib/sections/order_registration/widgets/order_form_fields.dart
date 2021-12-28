@@ -1,6 +1,5 @@
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
