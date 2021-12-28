@@ -3,16 +3,16 @@ import 'package:bausch/models/mappable_object.dart';
 
 class SpecificationsModel implements MappableInterface<SpecificationsModel> {
   final List<String>? diopters;
-  final List<String>? cylinders;
+  final List<String>? cylinder;
   final List<String>? axis;
-  final List<String>? addidations;
+  final List<String>? addiction;
   final List<String>? color;
 
   SpecificationsModel({
     this.diopters,
-    this.cylinders,
+    this.cylinder,
     this.axis,
-    this.addidations,
+    this.addiction,
     this.color,
   });
 
@@ -23,8 +23,8 @@ class SpecificationsModel implements MappableInterface<SpecificationsModel> {
               .map((dynamic e) => e as String)
               .toList()
           : null,
-      cylinders: map['cylinders'] != null
-          ? (map['cylinders'] as List<dynamic>)
+      cylinder: map['cylinder'] != null
+          ? (map['cylinder'] as List<dynamic>)
               .map((dynamic e) => e as String)
               .toList()
           : null,
@@ -33,8 +33,8 @@ class SpecificationsModel implements MappableInterface<SpecificationsModel> {
               .map((dynamic e) => e as String)
               .toList()
           : null,
-      addidations: map['addidations'] != null
-          ? (map['addidations'] as List<dynamic>)
+      addiction: map['addiction'] != null
+          ? (map['addiction'] as List<dynamic>)
               .map((dynamic e) => e as String)
               .toList()
           : null,

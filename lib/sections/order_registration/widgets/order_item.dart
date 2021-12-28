@@ -17,16 +17,17 @@ class OrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return WhiteRoundedContainer(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //TODO(Nikita): не могу добавить flexible
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 2 / 3,
+          Flexible(
             child: Column(
-              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   model.name,
                   style: AppStyles.h2,
+                ),
+                const SizedBox(
+                  height: 4,
                 ),
                 ButtonContent(
                   price: model.priceToString,
@@ -35,10 +36,18 @@ class OrderItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 80,
-            child: Image.network(
-              model.picture!,
+          const SizedBox(
+            width: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 6,
+            ),
+            child: SizedBox(
+              height: 100,
+              child: Image.network(
+                model.picture!,
+              ),
             ),
           ),
         ],

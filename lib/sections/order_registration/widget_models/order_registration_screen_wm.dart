@@ -99,8 +99,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
           }
         }
 
-        if (productItemModel.specifications!.cylinders != null) {
-          if (productItemModel.specifications!.cylinders!
+        if (productItemModel.specifications!.cylinder != null) {
+          if (productItemModel.specifications!.cylinder!
               .contains(lensBloc.state.model.cylinder.toString())) {
             diopters.accept(lensBloc.state.model.cylinder.toString());
           }
@@ -113,8 +113,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
           }
         }
 
-        if (productItemModel.specifications!.addidations != null) {
-          if (productItemModel.specifications!.addidations!
+        if (productItemModel.specifications!.addiction != null) {
+          if (productItemModel.specifications!.addiction!
               .contains(lensBloc.state.model.addict.toString())) {
             diopters.accept(lensBloc.state.model.addict.toString());
           }

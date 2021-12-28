@@ -83,7 +83,7 @@ class _LensParametersSectionState extends State<LensParametersSection> {
                   );
                 },
               ),
-            if (specificationModel!.cylinders != null)
+            if (specificationModel!.cylinder != null)
               StreamedStateBuilder<String?>(
                 streamedState: orderRegistrationScreenWM.cylinder,
                 builder: (_, cyl) {
@@ -99,7 +99,7 @@ class _LensParametersSectionState extends State<LensParametersSection> {
                                   builder: (context) {
                                     return SinglePickerScreen(
                                       title: 'Цилиндр',
-                                      variants: specificationModel!.cylinders!,
+                                      variants: specificationModel!.cylinder!,
                                     );
                                   },
                                   barrierColor: Colors.black.withOpacity(0.8),
@@ -137,7 +137,7 @@ class _LensParametersSectionState extends State<LensParametersSection> {
                   );
                 },
               ),
-            if (specificationModel!.addidations != null)
+            if (specificationModel!.addiction != null)
               StreamedStateBuilder<String?>(
                 streamedState: orderRegistrationScreenWM.addidations,
                 builder: (_, addidations) {
@@ -153,8 +153,7 @@ class _LensParametersSectionState extends State<LensParametersSection> {
                                   builder: (context) {
                                     return SinglePickerScreen(
                                       title: 'Аддидация',
-                                      variants:
-                                          specificationModel!.addidations!,
+                                      variants: specificationModel!.addiction!,
                                     );
                                   },
                                   barrierColor: Colors.black.withOpacity(0.8),
