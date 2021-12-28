@@ -17,8 +17,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final lastNameController = TextEditingController();
   final phoneController = MaskedTextController(mask: '+0 000 000 00 00');
 
-  late bool isEmailConfirmed;
-
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
 
@@ -29,9 +27,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
     selectedCityName.accept(userWM.userData.value.data!.user.city);
     selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
     enteredEmail.accept(userWM.userData.value.data!.user.email);
-
-    isEmailConfirmed = userWM.userData.value.data!.user.pendingEmail ==
-        userWM.userData.value.data!.user.email;
 
     //emailController.text = userWM.userData.value.data!.user.email ?? '';
     nameController.text = userWM.userData.value.data!.user.name ?? '';

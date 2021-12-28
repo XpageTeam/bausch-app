@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
@@ -18,6 +20,7 @@ import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker
 
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
 
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -36,9 +39,18 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
+  late UserWM userWM;
   @override
   void dispose() {
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    userWM = Provider.of<UserWM>(context);
   }
 
   @override
@@ -106,19 +118,26 @@ class _ProfileSettingsScreenState
                       );
                     },
                   ),
-                  if (!wm.isEmailConfirmed)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          DiscountInfo(
-                            color: AppTheme.turquoiseBlue,
-                            text: 'подтвердить',
-                          ),
-                        ],
-                      ), // TODO(Nikita): Вывести статус
-                    ),
+                  EntityStateBuilder<UserRepository>(
+                    streamedState: userWM.userData,
+                    builder: (_, userData) {
+                      return userData.user.isEmailConfirmed != null &&
+                              !userData.user.isEmailConfirmed!
+                          ? Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: const [
+                                  DiscountInfo(
+                                    color: AppTheme.turquoiseBlue,
+                                    text: 'подтвердить',
+                                  ),
+                                ],
+                              ), // TODO(Nikita): Вывести статус
+                            )
+                          : Container();
+                    },
+                  ),
                 ],
               ),
             ),
