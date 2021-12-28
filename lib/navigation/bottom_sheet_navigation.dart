@@ -285,8 +285,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/final_consultation':
               page = FinalConsultation(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as ConsultationItemModel,
+                model:
+                    (settings.arguments as ItemSheetScreenArguments).model as ConsultationItemModel,
               );
               break;
 

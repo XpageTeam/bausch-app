@@ -115,6 +115,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
+        // TODO(Nikolay): Вопрос.
         text: 'Получить поощрение ${model.priceToString} б',
         onPressed: () {
           Navigator.of(context).pushNamed(
