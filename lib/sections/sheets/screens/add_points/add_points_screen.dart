@@ -16,6 +16,7 @@ class AddPointsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: controller,
+      resizeToAvoidBottomInset: false,
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(
