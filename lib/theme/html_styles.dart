@@ -96,11 +96,65 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
       ),
     );
   },
+  //(context.tree as TableLayoutElement).children
   'table': (context, child) {
+    const color = AppTheme.turquoiseBlue;
+    for (var i = 0;
+        i < (context.tree as TableLayoutElement).children.length;
+        i++) {
+      //debugPrint('$i ${(context.tree as TableLayoutElement).children[i]}');
+      for (var j = 0;
+          j < (context.tree as TableLayoutElement).children[i].children.length;
+          j++) {
+        for (var k = 0;
+            k <
+                (context.tree as TableLayoutElement)
+                    .children[i]
+                    .children[j]
+                    .children
+                    .length;
+            k++) {
+          (context.tree as TableLayoutElement)
+              .children[i]
+              .children[j]
+              .children[k]
+              .style = Style(
+            padding: const EdgeInsets.all(2),
+            border: Border(
+              bottom: const BorderSide(color: color),
+              top: j != 1 ? BorderSide.none : const BorderSide(color: color),
+              left: k == 0 ? BorderSide.none : const BorderSide(color: color),
+              right: ((k == 0) ||
+                      (k ==
+                          (context.tree as TableLayoutElement)
+                                  .children[i]
+                                  .children[j]
+                                  .children
+                                  .length -
+                              2))
+                  ? const BorderSide(color: color)
+                  : BorderSide.none,
+            ),
+          );
+        }
+      }
+    }
+
+    // (context.tree as TableLayoutElement)
+    //     .children
+    //     .forEach((child) => child.children.forEach((element) {
+    //           element.children.forEach((el) {
+    //             debugPrint(el.element!.text);
+    //           });
+    //         }));
+
     return SingleChildScrollView(
       clipBehavior: Clip.none,
-      child: (context.tree as TableLayoutElement).toWidget(context),
+      child: (context.tree as TableLayoutElement).toWidget(
+        context,
+      ),
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
     );
   },
 };

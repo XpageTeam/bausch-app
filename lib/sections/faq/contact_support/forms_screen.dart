@@ -43,6 +43,7 @@ class _FormsScreenState extends State<FormsScreen> {
       bloc: fieldsBloc,
       builder: (context, state) {
         return CustomSheetScaffold(
+          resizeToAvoidBottomInset: false,
           controller: widget.controller,
           appBar: const CustomSliverAppbar(
             padding: EdgeInsets.symmetric(
@@ -77,6 +78,35 @@ class _FormsScreenState extends State<FormsScreen> {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                    ),
+                    child: BlueButtonWithText(
+                      text: 'Отправить',
+                      onPressed: ((fieldsBloc.state.email != '') &&
+                              (fieldsBloc.state.topic != 0) &&
+                              (fieldsBloc.state.question != 0))
+                          ? () {
+                              fieldsBloc.add(
+                                FieldsSend(
+                                  email: state.email,
+                                  topic: state.topic,
+                                  question: state.question,
+                                  files: state.files,
+                                  extra: state.extra,
+                                ),
+                              );
+                            }
+                          : null,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
                   const SizedBox(
                     height: 120,
                   ),
@@ -84,29 +114,6 @@ class _FormsScreenState extends State<FormsScreen> {
               ),
             ),
           ],
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: StaticData.sidePadding,
-            ),
-            child: BlueButtonWithText(
-              text: 'Отправить',
-              onPressed: ((fieldsBloc.state.email != '') &&
-                      (fieldsBloc.state.topic != 0) &&
-                      (fieldsBloc.state.question != 0))
-                  ? () {
-                      fieldsBloc.add(
-                        FieldsSend(
-                          email: state.email,
-                          topic: state.topic,
-                          question: state.question,
-                          files: state.files,
-                          extra: state.extra,
-                        ),
-                      );
-                    }
-                  : null,
-            ),
-          ),
         );
       },
     );

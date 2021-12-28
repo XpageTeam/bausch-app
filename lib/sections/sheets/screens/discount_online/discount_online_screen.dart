@@ -10,7 +10,6 @@ import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/discount_info.dart';
@@ -36,7 +35,7 @@ class DiscountOnlineScreen extends StatelessWidget
     return CustomSheetScaffold(
       controller: controller,
       appBar: CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         icon: Container(),
       ),
       slivers: [

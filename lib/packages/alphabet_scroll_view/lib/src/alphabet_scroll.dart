@@ -283,64 +283,64 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
             return Container();
           },
         ),
-        Align(
-          alignment: widget.alignment == LetterAlignment.left
-              ? Alignment.centerLeft
-              : Alignment.centerRight,
-          child: Container(
-            key: key,
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onVerticalDragStart: (z) => onVerticalDrag(z.localPosition),
-                onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
-                onVerticalDragEnd: (z) {
-                  setState(() {
-                    isFocused = false;
-                  });
-                },
-                child: ValueListenableBuilder<int>(
-                  valueListenable: _selectedIndexNotifier,
-                  builder: (context, selected, child) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        _filteredAlphabets.length,
-                        (x) => GestureDetector(
-                          key: x == selected ? letterKey : null,
-                          onTap: () {
-                            _selectedIndexNotifier.value = x;
-                            scrolltoIndex(x, positionNotifer.value);
-                          },
-                          child: Container(
-                            constraints: const BoxConstraints(
-                              maxWidth: 40,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 2,
-                            ),
-                            child: Text(
-                              _filteredAlphabets[x].toUpperCase(),
-                              style: selected == x
-                                  ? widget.selectedTextStyle
-                                  : widget.unselectedTextStyle,
-                              // style: TextStyle(
-                              //     fontSize: 12,
-                              //     fontWeight: selected == x
-                              //         ? FontWeight.bold
-                              //         : FontWeight.normal),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-        ),
+        // Align(
+        //   alignment: widget.alignment == LetterAlignment.left
+        //       ? Alignment.centerLeft
+        //       : Alignment.centerRight,
+        //   child: Container(
+        //     key: key,
+        //     padding: const EdgeInsets.symmetric(horizontal: 2),
+        //     child: SingleChildScrollView(
+        //       child: GestureDetector(
+        //         onVerticalDragStart: (z) => onVerticalDrag(z.localPosition),
+        //         onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
+        //         onVerticalDragEnd: (z) {
+        //           setState(() {
+        //             isFocused = false;
+        //           });
+        //         },
+        //         child: ValueListenableBuilder<int>(
+        //           valueListenable: _selectedIndexNotifier,
+        //           builder: (context, selected, child) {
+        //             return Column(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: List.generate(
+        //                 _filteredAlphabets.length,
+        //                 (x) => GestureDetector(
+        //                   key: x == selected ? letterKey : null,
+        //                   onTap: () {
+        //                     _selectedIndexNotifier.value = x;
+        //                     scrolltoIndex(x, positionNotifer.value);
+        //                   },
+        //                   child: Container(
+        //                     constraints: const BoxConstraints(
+        //                       maxWidth: 40,
+        //                     ),
+        //                     padding: const EdgeInsets.symmetric(
+        //                       horizontal: 12,
+        //                       vertical: 2,
+        //                     ),
+        //                     child: Text(
+        //                       _filteredAlphabets[x].toUpperCase(),
+        //                       style: selected == x
+        //                           ? widget.selectedTextStyle
+        //                           : widget.unselectedTextStyle,
+        //                       // style: TextStyle(
+        //                       //     fontSize: 12,
+        //                       //     fontWeight: selected == x
+        //                       //         ? FontWeight.bold
+        //                       //         : FontWeight.normal),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             );
+        //           },
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         !isFocused
             ? Container()
             : ValueListenableBuilder<Offset>(

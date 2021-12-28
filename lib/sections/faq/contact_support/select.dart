@@ -5,6 +5,7 @@ import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
 import 'package:bausch/sections/faq/bloc/values/values_bloc.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,10 @@ class _SelectState extends State<Select> {
               showCupertinoModalPopup<void>(
                 context: context,
                 builder: (context) => CupertinoActionSheet(
-                  title: Text(widget.model.name),
+                  title: Text(
+                    widget.model.name,
+                    style: AppStyles.p1,
+                  ),
                   actions: widget.model.xmlId == 'question'
                       ? valuesList(valuesBloc.state.values, context)
                       : valuesList(widget.model.values!, context),

@@ -332,12 +332,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "flutter_share",
-      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_share-2.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "flutter_svg",
       "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.23.0+1",
       "packageUri": "lib/",
@@ -944,7 +938,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2021-12-24T08:12:20.418746Z",
+  "generated": "2021-12-24T12:27:42.410403Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

@@ -15,6 +15,7 @@ class ConsultationItemModel extends CatalogItemModel
     required String? picture,
     required int price,
     required this.length,
+    String? type,
   }) : super(
           id: id,
           name: name,
@@ -22,6 +23,7 @@ class ConsultationItemModel extends CatalogItemModel
           detailText: detailText,
           picture: picture,
           price: price,
+          type: type,
         );
 
   factory ConsultationItemModel.fromMap(Map<String, dynamic> map) {

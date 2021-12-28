@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
@@ -44,10 +45,16 @@ class BottomSheetNavigation<T> extends StatelessWidget {
   final ScrollController controller;
   final BaseCatalogSheetModel sheetModel;
   final T? args;
-  const BottomSheetNavigation({
+
+  // Этот параметр нужен для того, чтоб
+  // из секции "вам может быть интересно" можно было перейти
+  // сразу в товар
+  String? initialRoute;
+  BottomSheetNavigation({
     required this.controller,
     required this.sheetModel,
     this.args,
+    this.initialRoute,
     Key? key,
   }) : super(key: key);
 
@@ -63,7 +70,11 @@ class BottomSheetNavigation<T> extends StatelessWidget {
         onGenerateRoute: (settings) {
           Widget page;
 
-          switch (settings.name) {
+          final arguments = initialRoute != null
+              ? args ?? settings.arguments
+              : settings.arguments;
+
+          switch (initialRoute ?? settings.name) {
             case '/':
               if (sheetModel.type == 'online_consultation') {
                 page = ConsultationScreen(
@@ -102,7 +113,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/free_product':
               page = FreePackagingScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model: (arguments as ItemSheetScreenArguments).model,
               );
               break;
 
@@ -115,7 +126,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/offline':
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
                 discountType: DiscountType.offline,
               );
@@ -124,7 +135,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/onlineShop':
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
                 discountType: DiscountType.onlineShop,
               );
@@ -133,7 +144,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/promo_code_immediately':
               page = PartnersScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: (arguments as ItemSheetScreenArguments).model
                     as PartnersItemModel,
               );
               break;
@@ -141,9 +152,9 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/promo_code_video':
               page = WebinarScreen(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as WebinarItemModel,
+                model: (arguments as ItemSheetScreenArguments).model as WebinarItemModel,
               );
+
               break;
 
             case '/verification_discount_optics':
@@ -216,10 +227,10 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               );
               break;
 
-            case '/consultation':
+            case '/online_consultation':
               page = ConsultationScreen(
                 controller: controller,
-                item: (settings.arguments as ConsultationScreenArguments).item,
+                item: (arguments as ItemSheetScreenArguments).model as ConsultationItemModel,
               );
               break;
 
@@ -313,6 +324,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             default:
               page = Container();
           }
+
+          initialRoute = null;
 
           if (Platform.isIOS) {
             return CupertinoPageRoute<void>(builder: (context) {

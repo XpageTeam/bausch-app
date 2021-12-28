@@ -7,6 +7,7 @@ class CustomSheetScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final Color? backgroundColor;
   final bool resizeToAvoidBottomInset;
+  //final bool withAppBar;
   final Widget? appBar;
   const CustomSheetScaffold({
     required this.controller,
@@ -28,6 +29,7 @@ class CustomSheetScaffold extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: backgroundColor,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -48,7 +50,6 @@ class CustomSheetScaffold extends StatelessWidget {
         bottomNavigationBar: bottomNavBar,
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       ),
     );
   }

@@ -117,8 +117,7 @@ class TopSection extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 30),
                   child: Image.network(
                     model.picture!,
-                    height:
-                        !isFull ? MediaQuery.of(context).size.height / 5 : null,
+                    height: !isFull ? calculateHeight(model, context) : null,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -151,5 +150,13 @@ class TopSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double calculateHeight(CatalogItemModel model, BuildContext context) {
+    if (model is ConsultationItemModel) {
+      return MediaQuery.of(context).size.height / 8;
+    } else {
+      return MediaQuery.of(context).size.height / 5;
+    }
   }
 }
