@@ -36,9 +36,10 @@ class SheetListener extends StatelessWidget {
         if (state is CatalogItemSuccess) {
           Keys.mainNav.currentState!.pop();
           showSheet<List<CatalogItemModel>>(
-            state.items.first is ConsultationItemModel
-                ? Keys.mainNav.currentContext!
-                : context,
+            // state.items.first is ConsultationItemModel
+            //     ? Keys.mainNav.currentContext!
+            //     :
+            context,
             model,
             state.items,
           );

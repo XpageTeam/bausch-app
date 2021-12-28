@@ -53,10 +53,6 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
       controller: widget.controller,
       appBar: const CustomSliverAppbar(
         padding: EdgeInsets.all(18),
-        icon: SizedBox(
-          height: 1,
-          width: 1,
-        ),
         iconColor: AppTheme.mystic,
       ),
       slivers: [
