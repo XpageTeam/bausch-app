@@ -26,11 +26,14 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_s
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
 import 'package:bausch/sections/sheets/screens/parners/partners_verification.dart';
+import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
+import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
@@ -152,7 +155,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/promo_code_video':
               page = WebinarScreen(
                 controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model as WebinarItemModel,
+                model: (arguments as ItemSheetScreenArguments).model
+                    as WebinarItemModel,
               );
 
               break;
@@ -230,12 +234,22 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/online_consultation':
               page = ConsultationScreen(
                 controller: controller,
-                item: (arguments as ItemSheetScreenArguments).model as ConsultationItemModel,
+                item: (arguments as ItemSheetScreenArguments).model
+                    as ConsultationItemModel,
               );
               break;
 
             case '/program':
               page = ProgramScreen(controller: controller);
+              break;
+
+            case '/final_program':
+              final arguments = settings.arguments as Map<String, dynamic>;
+              page = FinalProgramScreen(
+                controller: controller,
+                optic: arguments['optic'] as Optic,
+                response: arguments['response'] as ProgramSaverResponse,
+              );
               break;
 
             case '/addpoints_details':

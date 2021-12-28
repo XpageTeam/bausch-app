@@ -1,4 +1,3 @@
-
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -30,8 +29,12 @@ class ShopFilterWM extends WidgetModel {
     super.onBind();
   }
 
-  void _updateFilters(List<Filter>? filters) =>
-      filtersStreamed.accept(filters!);
+  void _updateFilters(List<Filter>? filters) {
+    _setOnlyDefaultFilter();
+    filtersStreamed.accept(filters!);
+
+    callback(selectedFilters);
+  }
 
   void _selectFilter(Filter filter) {
     if (_isDefaultFilter(filter)) {

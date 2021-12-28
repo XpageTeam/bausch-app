@@ -1,16 +1,10 @@
 import 'dart:ui';
 
-import 'package:bausch/models/discount_optic/discount_optic.dart';
-import 'package:bausch/models/sheets/simple_sheet_model.dart';
-import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
-import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/shops/map_body_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/shops/widgets/map_buttons.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -77,18 +71,18 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                     ..onGetUserPositionError = (exception) {
                       showDefaultNotification(title: exception.title);
                     }
-                    ..onPlacemarkPressed = (shop) {
-                      wm.isModalBottomSheetOpen.accept(true);
+                    ..onPlacemarkPressed = (shop) async {
+                      if (wm.isModalBottomSheetOpen.value) return;
+                      await wm.isModalBottomSheetOpen.accept(true);
 
-                      showModalBottomSheet<void>(
+                      await showModalBottomSheet<void>(
                         context: context,
                         barrierColor: Colors.transparent,
                         builder: (ctx) => BottomSheetContent(
                           title: shop.title,
                           subtitle: shop.address,
                           phones: shop.phones,
-                          // TODO(Nikolay): Добавить сайт.
-                          // site: shop.site,
+                          site: shop.site,
                           // additionalInfo:
                           //     'Скидкой можно воспользоваться в любой из оптик сети.',
                           onPressed: () {

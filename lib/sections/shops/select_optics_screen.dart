@@ -1,13 +1,10 @@
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/filter_model.dart';
-import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/shops/map_body.dart';
 import 'package:bausch/sections/shops/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/sections/shops/widgets/bottom_sheet_content.dart';
-import 'package:bausch/sections/shops/widgets/shop_container.dart';
 import 'package:bausch/sections/shops/widgets/shop_container_with_button.dart';
 import 'package:bausch/sections/shops/widgets/shop_list_widget.dart';
 import 'package:bausch/sections/shops/widgets/shop_page_switcher.dart';
@@ -17,7 +14,6 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
-import 'package:bausch/widgets/shop_filter_widget/shop_filter_button.dart';
 import 'package:bausch/widgets/shop_filter_widget/shop_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -26,16 +22,16 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* Program
 //* list
 class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
-  final void Function(OpticShop shop) onOpticShopSelect;
+  final void Function(Optic shop) onOpticSelect;
   SelectOpticScreen({
-    required this.onOpticShopSelect,
+    required this.onOpticSelect,
     List<OpticCity>? cities,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => SelectOpticScreenWM(
             context: context,
-            initialOptics: cities,
+            initialCities: cities,
           ),
         );
 
@@ -89,7 +85,7 @@ class _SelectOpticScreenState
 
           // Кнопки фильтра магазинов
           StreamedStateBuilder<List<Optic>>(
-            streamedState: wm.opticsStreamed,
+            streamedState: wm.opticsByCityStreamed,
             builder: (_, optics) {
               final filters = Filter.getFiltersFromOpticList(
                 optics,
@@ -115,7 +111,7 @@ class _SelectOpticScreenState
               streamedState: wm.contentTypeStreamed,
               builder: (_, currentContentType) =>
                   EntityStateBuilder<List<OpticShop>>(
-                streamedState: wm.opticShopsStreamed,
+                streamedState: wm.filteredOpticShopsStreamed,
                 loadingChild: const Center(
                   child: AnimatedLoader(),
                 ),
@@ -128,54 +124,136 @@ class _SelectOpticScreenState
 
                   return const SizedBox();
                 },
-                builder: (_, opticShops) =>
-                    wm.contentTypeStreamed.value == ShopsContentType.list
-                        ? ShopListWidget(
-                            containerType: ShopContainerWithButton,
-                            shopList: opticShops,
-                            onOpticShopSelect: (shop) {
-                              widget.onOpticShopSelect(shop);
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        : MapBody(
-                            opticShops: opticShops,
-                            onOpticShopSelect: widget.onOpticShopSelect,
-                            shopsEmptyCallback: (mapBodyWm) {
-                              mapBodyWm.isModalBottomSheetOpen.accept(true);
-                              showModalBottomSheet<dynamic>(
-                                barrierColor: Colors.transparent,
-                                context: context,
-                                builder: (context) => BottomSheetContent(
-                                  title: 'Поблизости нет оптик',
-                                  subtitle:
-                                      'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
-                                  btnText: 'Хорошо',
-                                  onPressed: Navigator.of(context).pop,
-                                ),
-                              ).whenComplete(() {
-                                wm.setFirstCity();
-
-                                Future.delayed(
-                                  const Duration(milliseconds: 10),
-                                  () {
-                                    mapBodyWm
-                                      ..isModalBottomSheetOpen.accept(false)
-                                      ..setCenterAction(
-                                        wm.opticShopsStreamed.value.data!,
-                                      );
-
-                                    debugPrint(
-                                      'wm.opticShopsStreamed.value.data!: ${wm.opticShopsStreamed.value.data!}',
-                                    );
-                                  },
-                                );
-                              });
-                            },
+                builder: (_, opticShops) => IndexedStack(
+                  index: wm.contentTypeStreamed.value == ShopsContentType.list
+                      ? 0
+                      : 1,
+                  children: [
+                    ShopListWidget(
+                      containerType: ShopContainerWithButton,
+                      shopList: opticShops,
+                      onOpticShopSelect: (shop) {
+                        // TODO(Nikolay): сделать.
+                        // widget.onOpticSelect(shop);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    MapBody(
+                      opticShops: opticShops,
+                      onOpticShopSelect: (selectedShop) {
+                        if (wm.initialCities != null) {
+                          for (final city in wm.initialCities!) {
+                            for (final optic in city.optics) {
+                              if (optic.shops.any(
+                                (shop) => shop == selectedShop,
+                              )) {
+                                widget.onOpticSelect(optic);
+                                return;
+                              }
+                            }
+                          }
+                        }
+                      },
+                      shopsEmptyCallback: (mapBodyWm) {
+                        mapBodyWm.isModalBottomSheetOpen.accept(true);
+                        showModalBottomSheet<dynamic>(
+                          barrierColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => BottomSheetContent(
+                            title: 'Поблизости нет оптик',
+                            subtitle:
+                                'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                            btnText: 'Хорошо',
+                            onPressed: Navigator.of(context).pop,
                           ),
+                        ).whenComplete(() {
+                          wm.setFirstCity();
+
+                          Future.delayed(
+                            const Duration(milliseconds: 10),
+                            () {
+                              mapBodyWm
+                                ..isModalBottomSheetOpen.accept(false)
+                                ..setCenterAction(
+                                  wm.filteredOpticShopsStreamed.value.data!,
+                                );
+                            },
+                          );
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+
+          // Expanded(
+          //   child: StreamedStateBuilder<ShopsContentType>(
+          //     streamedState: wm.contentTypeStreamed,
+          //     builder: (_, currentContentType) =>
+          //         EntityStateBuilder<List<OpticShop>>(
+          //       streamedState: wm.filteredOpticShopsStreamed,
+          //       loadingChild: const Center(
+          //         child: AnimatedLoader(),
+          //       ),
+          //       errorBuilder: (context, e) {
+          //         final ex = e as CustomException;
+          //         showDefaultNotification(
+          //           title: ex.title,
+          //           subtitle: ex.subtitle,
+          //         );
+
+          //         return const SizedBox();
+          //       },
+          //       builder: (_, opticShops) =>
+          //           wm.contentTypeStreamed.value == ShopsContentType.list
+          //               ? ShopListWidget(
+          //                   containerType: ShopContainerWithButton,
+          //                   shopList: opticShops,
+          //                   onOpticShopSelect: (shop) {
+          //                     widget.onOpticShopSelect(shop);
+          //                     Navigator.of(context).pop();
+          //                   },
+          //                 )
+          //               : MapBody(
+          //                   opticShops: opticShops,
+          //                   onOpticShopSelect: widget.onOpticShopSelect,
+          //                   shopsEmptyCallback: (mapBodyWm) {
+          //                     mapBodyWm.isModalBottomSheetOpen.accept(true);
+          //                     showModalBottomSheet<dynamic>(
+          //                       barrierColor: Colors.transparent,
+          //                       context: context,
+          //                       builder: (context) => BottomSheetContent(
+          //                         title: 'Поблизости нет оптик',
+          //                         subtitle:
+          //                             'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+          //                         btnText: 'Хорошо',
+          //                         onPressed: Navigator.of(context).pop,
+          //                       ),
+          //                     ).whenComplete(() {
+          //                       wm.setFirstCity();
+
+          //                       Future.delayed(
+          //                         const Duration(milliseconds: 10),
+          //                         () {
+          //                           mapBodyWm
+          //                             ..isModalBottomSheetOpen.accept(false)
+          //                             ..setCenterAction(
+          //                               wm.filteredOpticShopsStreamed.value.data!,
+          //                             );
+
+          //                           debugPrint(
+          //                             'wm.opticShopsStreamed.value.data!: ${wm.filteredOpticShopsStreamed.value.data!}',
+          //                           );
+          //                         },
+          //                       );
+          //                     });
+          //                   },
+          //                 ),
+          //     ),
+          //   ),
+          // ),
 
           // С фильтром
           // Expanded(

@@ -1,6 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -152,50 +151,39 @@ class _DiscountOpticsScreenState
                           ),
                         ),
                         if (wm.discountType == DiscountType.offline)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 30,
-                              bottom: 4,
-                            ),
-                            child: WhiteButton(
-                              text: 'Адреса оптик',
-                              icon: Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 12,
-                                  top: 16,
-                                  bottom: 16,
-                                ),
-                                child: Image.asset(
-                                  'assets/icons/map-marker.png',
-                                  height: 16,
-                                ),
+                          StreamedStateBuilder<Optic?>(
+                            streamedState: wm.currentDiscountOptic,
+                            builder: (_, currentDiscountOptic) => Padding(
+                              padding: const EdgeInsets.only(
+                                top: 30,
+                                bottom: 4,
                               ),
-                              onPressed: () {
-                                Keys.mainNav.currentState!.push<void>(
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) => // TODO(Nikolay): Передавать список полученных оптик сюда.
-                                            SelectOpticScreen(
-                                      cities: wm.cities,
-                                      onOpticShopSelect: (selectedShop) {
-                                        final optics = wm
-                                            .discountOpticsStreamed.value.data!;
-                                        for (final city in wm.cities) {
-                                          for (final optic in city.optics) {
-                                            if (optic.shops.any(
-                                              (shop) => shop == selectedShop,
-                                            )) {
-                                              wm.currentDiscountOptic
-                                                  .accept(optic);
-                                              return;
-                                            }
-                                          }
-                                        }
-                                      },
-                                    ),
+                              child: WhiteButton(
+                                text: currentDiscountOptic != null
+                                    ? currentDiscountOptic.title
+                                    : 'Адреса оптик',
+                                icon: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 12,
+                                    top: 16,
+                                    bottom: 16,
                                   ),
-                                );
-                              },
+                                  child: Image.asset(
+                                    'assets/icons/map-marker.png',
+                                    height: 16,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Keys.mainNav.currentState!.push<void>(
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectOpticScreen(
+                                        cities: wm.cities,
+                                        onOpticSelect: wm.setCurrentOptic,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         Warning.warning(wm.warningText),

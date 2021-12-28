@@ -1,4 +1,3 @@
-import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';

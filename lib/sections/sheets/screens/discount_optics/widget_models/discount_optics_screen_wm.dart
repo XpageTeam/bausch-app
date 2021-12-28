@@ -6,7 +6,6 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -288,15 +287,45 @@ class OpticCititesRepository {
   factory OpticCititesRepository.fromCitiesRepository(
     CitiesRepository repository,
   ) {
-    repository.shopList;
     final cities = <OpticCity>[];
+
+    for (final city in repository.cities) {
+      if (!cities.any((element) => element.title == city.name)) {
+        final optics = city.shopsRepository.shops
+            .where((e) => e.coords != null)
+            .map(
+              (e) => Optic(
+                id: e.id,
+                title: e.name,
+                shops: [
+                  OpticShop(
+                    title: e.name,
+                    phones: e.phones,
+                    address: e.address,
+                    city: city.name,
+                    coords: e.coords!,
+                  ),
+                ],
+              ),
+            )
+            .toList();
+
+        cities.add(
+          OpticCity(
+            id: city.id,
+            title: city.name,
+            optics: optics,
+          ),
+        );
+      }
+    }
 
     return OpticCititesRepository(cities);
   }
 }
 
 class OpticCity {
-  // final int id;
+  final int? id;
   final String title;
 
   final List<Optic> optics;
@@ -304,6 +333,7 @@ class OpticCity {
   const OpticCity({
     required this.title,
     required this.optics,
+    this.id,
   });
 }
 
@@ -318,15 +348,14 @@ class Optic {
   const Optic({
     required this.id,
     required this.title,
-    required this.shopCode,
-    required this.logo,
-    required this.link,
     required this.shops,
+    this.shopCode,
+    this.logo,
+    this.link,
   });
 }
 
-class OpticShop {
-  // final int id;
+class OpticShop extends Equatable {
   final String title;
   final List<String> phones;
   final String address;
@@ -336,19 +365,7 @@ class OpticShop {
   final Point coords;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is OpticShop &&
-          runtimeType == other.runtimeType &&
-          title == other.title &&
-          phones == other.phones &&
-          address == other.address &&
-          city == other.city &&
-          site == other.site &&
-          coords == other.coords;
-
-  @override
-  int get hashCode => coords.hashCode;
+  List<Object?> get props => [title, phones, address, city];
 
   const OpticShop({
     required this.title,

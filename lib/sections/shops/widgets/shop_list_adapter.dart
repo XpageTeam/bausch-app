@@ -1,6 +1,4 @@
-import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
-import 'package:bausch/sections/shops/widgets/shop_list_widget.dart';
 import 'package:flutter/material.dart';
 
 // TODO(Nikolay): .
@@ -16,9 +14,10 @@ class ShopListAdapter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShopListWidget(
-      containerType: containerType,
-      shopList: shopList,
-    );
+    return SizedBox();
+    // return ShopListWidget(
+    //   containerType: containerType,
+    //   shopList: shopList,
+    // );
   }
 }

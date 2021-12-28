@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -303,10 +302,10 @@ class MapBodyWM extends WidgetModel {
       if (point.longitude > east) east = point.longitude;
     }
 
-    debugPrint('north: $north');
-    debugPrint('south: $south');
-    debugPrint('west: $west');
-    debugPrint('east: $east');
+    // debugPrint('north: $north');
+    // debugPrint('south: $south');
+    // debugPrint('west: $west');
+    // debugPrint('east: $east');
 
     final distance = sqrt(
       pow(south - north, 2) + pow(west - east, 2),

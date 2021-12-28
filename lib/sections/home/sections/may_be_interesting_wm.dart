@@ -175,20 +175,13 @@ class MayBeInterestingWM extends WidgetModel {
     Keys.mainNav.currentState!.pop();
 
     if (ex != null) {
-      _showTopError(ex);
+      showTopError(ex);
       return;
     }
 
     if (itemModel != null) {
       _showBottomSheet(itemModel, model!.type!);
     }
-  }
-
-  void _showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
   }
 
   void _showBottomSheet(CatalogItemModel model, String section) {

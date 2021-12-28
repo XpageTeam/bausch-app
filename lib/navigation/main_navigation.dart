@@ -16,7 +16,6 @@ import 'package:bausch/sections/profile/profile_settings/screens/city/city_scree
 import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_and_email_screen.dart';
-import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

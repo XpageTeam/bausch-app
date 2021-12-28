@@ -43,20 +43,12 @@ class UserWM extends WidgetModel {
       );
     }
 
-		
-		_showTopError(ex);
+    showTopError(ex);
 
     return false;
   }
 
   Future<void> logout() async {
-		await UserWriter.removeUser();
-	}
-
-  void _showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
+    await UserWriter.removeUser();
   }
 }

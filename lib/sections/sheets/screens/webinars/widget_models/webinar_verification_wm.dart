@@ -98,7 +98,7 @@ class WebinarVerificationWM extends WidgetModel {
     unawaited(loadingState.accept(false));
 
     if (error != null) {
-      _showTopError(error);
+      showTopError(error);
     } else {
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_webinar',
@@ -113,12 +113,6 @@ class WebinarVerificationWM extends WidgetModel {
     }
   }
 
-  void _showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
-  }
 }
 
 class FinalWebinarArguments extends ItemSheetScreenArguments {

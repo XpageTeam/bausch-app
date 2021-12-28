@@ -4,9 +4,11 @@ import 'package:bausch/sections/home/widgets/containers/white_container_with_rou
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
 import 'package:bausch/sections/profile/widgets/half_blured_circle.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -27,7 +29,9 @@ class ProgramScreen extends CoreMwwmWidget<ProgramScreenWM> {
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (_) => ProgramScreenWM(),
+          widgetModelBuilder: (context) => ProgramScreenWM(
+            context: context,
+          ),
         );
 
   @override
@@ -66,10 +70,6 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
           appBar: CustomSliverAppbar(
             padding: const EdgeInsets.all(18),
             icon: Container(),
-          ),
-          bottomNavBar: CustomFloatingActionButton(
-            text: 'Получить сертификат',
-            onPressed: () {},
           ),
           slivers: [
             SliverPadding(
@@ -164,7 +164,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         ),
                         child: NativeTextInput(
                           labelText: 'Имя',
-                          controller: nameController,
+                          controller: wm.firstNameController,
                         ),
                       ),
                       Padding(
@@ -173,12 +173,12 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         ),
                         child: NativeTextInput(
                           labelText: 'Фамилия',
-                          controller: nameController,
+                          controller: wm.lastNameController,
                         ),
                       ),
                       NativeTextInput(
                         labelText: 'E-mail',
-                        controller: nameController,
+                        controller: wm.emailController,
                       ),
                     ],
                   ),
@@ -223,28 +223,53 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 40.0,
               ),
               sliver: SliverToBoxAdapter(
-                child: WhiteButton(
-                  text: 'Выбрать оптику',
-                  icon: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 12,
-                      top: 10,
-                      bottom: 12,
+                child: StreamedStateBuilder<Optic?>(
+                  streamedState: wm.currentOpticStreamed,
+                  builder: (_, currentOptic) => WhiteButton(
+                    text: currentOptic == null
+                        ? 'Выбрать оптику'
+                        : currentOptic.title,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 12,
+                        top: 10,
+                        bottom: 12,
+                      ),
+                      child: Image.asset(
+                        'assets/icons/map-marker.png',
+                        height: 16,
+                      ),
                     ),
-                    child: Image.asset(
-                      'assets/icons/map-marker.png',
-                      height: 16,
-                    ),
+                    onPressed: () {
+                      Keys.mainNav.currentState!.push<void>(
+                        MaterialPageRoute(
+                          builder: (context) => SelectOpticScreen(
+                            onOpticSelect: wm.selectOptic,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    // TODO(Nikolay): Переделать.
-                    Keys.mainNav.currentState!.pop();
-                    Keys.mainContentNav.currentState!.pushNamed('/shops');
-                  },
                 ),
               ),
             ),
           ],
+          bottomNavBar: StreamedStateBuilder<Optic?>(
+            streamedState: wm.currentOpticStreamed,
+            builder: (_, currentOptic) => StreamedStateBuilder<bool>(
+              streamedState: wm.loadingStreamed,
+              builder: (_, loading) => CustomFloatingActionButton(
+                text: loading ? '' : 'Получить сертификат',
+                icon:
+                    loading ? const CircularProgressIndicator.adaptive() : null,
+                onPressed: currentOptic != null
+                    ? loading
+                        ? null
+                        : () => wm.getSertificatAction()
+                    : null,
+              ),
+            ),
+          ),
         );
       },
     );
