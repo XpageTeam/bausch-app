@@ -2,6 +2,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 
@@ -77,6 +78,8 @@ class CatalogItemModel {
       case 'offline':
       case 'onlineShop':
         return PromoItemModel.fromMap(json);
+        case 'free_product':
+           return ProductItemModel.fromMap(json);
       case 'promo_code_immediately':
         return PartnersItemModel.fromMap(json);
       case 'online_consultation':

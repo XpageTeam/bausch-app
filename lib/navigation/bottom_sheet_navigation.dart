@@ -83,7 +83,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               if (sheetModel.type == 'online_consultation') {
                 page = ConsultationScreen(
                   controller: controller,
-                  item: (args as List<CatalogItemModel>).first,
+                  model: (args as List<CatalogItemModel>).first
+                      as ConsultationItemModel,
                 );
               } else if (sheetModel.type == 'program') {
                 page = ProgramScreen(
@@ -235,8 +236,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/online_consultation':
               page = ConsultationScreen(
                 controller: controller,
-                item: (arguments as ItemSheetScreenArguments).model
-                    as ConsultationItemModel,
+                model:
+                    (settings.arguments as ConsultationScreenArguments).model,
               );
               break;
 
@@ -276,14 +277,16 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/verification_consultation':
               page = ConsultationVerification(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model: (settings.arguments as ItemSheetScreenArguments).model
+                    as ConsultationItemModel,
               );
               break;
 
             case '/final_consultation':
               page = FinalConsultation(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model: (settings.arguments as ItemSheetScreenArguments).model
+                    as ConsultationItemModel,
               );
               break;
 
