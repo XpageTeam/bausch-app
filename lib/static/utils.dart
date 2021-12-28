@@ -1,4 +1,5 @@
-
+import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
@@ -17,5 +18,13 @@ class Utils {
         'Could not launch $url',
       );
     }
+  }
+
+  static void copyStringToClipboard(
+    String data, {
+    String notificationText = 'Скопировано!',
+  }) {
+    Clipboard.setData(ClipboardData(text: data));
+    showDefaultNotification(title: notificationText);
   }
 }

@@ -5,6 +5,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
@@ -60,6 +61,7 @@ class PartnersVerificationWM extends WidgetModel {
     try {
       await OrderPartnerItemSaver.save(
         itemModel,
+        'partner',
       );
 
       final userRepository = await UserWriter.checkUserToken();
@@ -91,13 +93,11 @@ class PartnersVerificationWM extends WidgetModel {
     if (error != null) {
       showTopError(error);
     } else {
-      unawaited(
-        Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
-          '/final_partners',
-          (route) => route.isCurrent,
-          arguments: ItemSheetScreenArguments(
-            model: itemModel,
-          ),
+      await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
+        '/final_partners',
+        (route) => route.isCurrent,
+        arguments: ItemSheetScreenArguments(
+          model: itemModel,
         ),
       );
     }
@@ -105,7 +105,10 @@ class PartnersVerificationWM extends WidgetModel {
 }
 
 class OrderPartnerItemSaver {
-  static Future<BaseResponseRepository> save(PartnersItemModel model) async {
+  static Future<BaseResponseRepository> save(
+    CatalogItemModel model,
+    String category,
+  ) async {
     final rh = RequestHandler();
     final response =
         BaseResponseRepository.fromMap((await rh.put<Map<String, dynamic>>(
@@ -114,7 +117,7 @@ class OrderPartnerItemSaver {
         <String, dynamic>{
           'productId': model.id,
           'price': model.price,
-          'category': 'partner',
+          'category': category,
         },
       ),
       options: rh.cacheOptions
