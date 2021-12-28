@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -35,7 +36,9 @@ class SheetListener extends StatelessWidget {
         if (state is CatalogItemSuccess) {
           Keys.mainNav.currentState!.pop();
           showSheet<List<CatalogItemModel>>(
-            context,
+            state.items.first is ConsultationItemModel
+                ? Keys.mainNav.currentContext!
+                : context,
             model,
             state.items,
           );
