@@ -1,4 +1,3 @@
-import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';

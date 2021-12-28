@@ -1,7 +1,5 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
-import 'package:bausch/models/add_points/quiz/quiz_answer_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart';

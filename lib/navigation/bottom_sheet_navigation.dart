@@ -37,7 +37,6 @@ import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dar
 import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_verification_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -152,7 +151,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/promo_code_video':
               page = WebinarScreen(
                 controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model as WebinarItemModel,
+                model: (arguments as ItemSheetScreenArguments).model
+                    as WebinarItemModel,
               );
 
               break;
@@ -230,7 +230,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/online_consultation':
               page = ConsultationScreen(
                 controller: controller,
-                item: (arguments as ItemSheetScreenArguments).model as ConsultationItemModel,
+                item: (arguments as ItemSheetScreenArguments).model
+                    as ConsultationItemModel,
               );
               break;
 

@@ -1,4 +1,3 @@
-import 'package:bausch/models/add_points/quiz/quiz_answer_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_content_model.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';

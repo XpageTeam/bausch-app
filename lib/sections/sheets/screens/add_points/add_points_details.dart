@@ -1,4 +1,3 @@
-import 'package:bausch/models/add_item_model.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';

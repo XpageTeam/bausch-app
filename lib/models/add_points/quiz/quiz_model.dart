@@ -1,9 +1,7 @@
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/add_points/detail_model.dart';
 import 'package:bausch/models/add_points/preview_model.dart';
-import 'package:bausch/models/add_points/quiz/other_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_content_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
 class QuizModel extends AddPointsModel {
   final List<QuizContentModel> content;
