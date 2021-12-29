@@ -25,9 +25,11 @@ class FinalAddPointsScreen extends StatelessWidget
   final ScrollController controller;
   @override
   final String points;
-  const FinalAddPointsScreen(
-      {required this.controller, required this.points, Key? key})
-      : super(key: key);
+  const FinalAddPointsScreen({
+    required this.controller,
+    required this.points,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
