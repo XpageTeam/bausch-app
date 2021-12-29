@@ -98,29 +98,47 @@ class _DiscountOpticsScreenState
             StaticData.sidePadding,
             12,
             StaticData.sidePadding,
-            40,
+            0,
           ),
           sliver: LegalInfo(
             texts: wm.legalInfoTexts,
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-          ),
-          //TODO(Nikita): customCheckBox
-          sliver: SliverToBoxAdapter(
-            child: EntityStateBuilder<List<Optic>>(
-              streamedState: wm.discountOpticsStreamed,
-              loadingChild: const Center(
+        SliverToBoxAdapter(
+          child: EntityStateBuilder<List<Optic>>(
+            streamedState: wm.discountOpticsStreamed,
+            loadingChild: const Padding(
+              padding: EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                40,
+                StaticData.sidePadding,
+                40,
+              ),
+              child: Center(
                 child: AnimatedLoader(),
               ),
-              builder: (_, discountOptics) => discountOptics.isEmpty
-                  ? Text(
+            ),
+            builder: (_, discountOptics) => discountOptics.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      StaticData.sidePadding,
+                      40,
+                      StaticData.sidePadding,
+                      40,
+                    ),
+                    child: Text(
                       'Нет доступных скидок',
                       style: AppStyles.h1,
-                    )
-                  : Column(
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      StaticData.sidePadding,
+                      40,
+                      StaticData.sidePadding,
+                      40,
+                    ),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -189,7 +207,7 @@ class _DiscountOpticsScreenState
                         Warning.warning(wm.warningText),
                       ],
                     ),
-            ),
+                  ),
           ),
         ),
         SliverPadding(

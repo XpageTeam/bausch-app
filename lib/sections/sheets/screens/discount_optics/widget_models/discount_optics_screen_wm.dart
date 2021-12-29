@@ -11,6 +11,7 @@ import 'package:bausch/repositories/discount_optics/discount_optics_repository.d
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:equatable/equatable.dart';
@@ -95,6 +96,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
   Future<void> _loadDiscountOptics() async {
     unawaited(discountOpticsStreamed.loading());
 
+    CustomException? ex;
+
     try {
       final repository = OpticCititesRepository.fromDiscountOpticsRepository(
         await DiscountOpticsLoader.load(
@@ -115,37 +118,30 @@ class DiscountOpticsScreenWM extends WidgetModel {
       }
 
       unawaited(
-        discountOpticsStreamed.content(
-          discountOptics,
-        ),
+        discountOpticsStreamed.content(discountOptics),
       );
     } on DioError catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'При отправке запроса произошла ошибка',
-            subtitle: e.message,
-          ),
-        ),
+      ex = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
       );
+      unawaited(discountOpticsStreamed.error(ex));
     } on ResponseParseException catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'При чтении ответа от сервера произошла ошибка',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
       );
+      unawaited(discountOpticsStreamed.error(ex));
     } on SuccessFalse catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'Произошла ошибка',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
       );
+      unawaited(discountOpticsStreamed.error(ex));
+    }
+
+    if (ex != null) {
+      showTopError(ex);
     }
   }
 

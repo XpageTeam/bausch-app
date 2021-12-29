@@ -34,7 +34,7 @@ class HtmlScreen extends StatelessWidget {
           ),
           sliver: SliverToBoxAdapter(
             child: Html(
-              data: '<html><h2>Ошибка</h2></html>',
+              data: offer.html,
               style: htmlStyles,
               customRender: htmlCustomRender,
             ),
