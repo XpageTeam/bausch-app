@@ -139,13 +139,13 @@ class DiscountOpticsScreenWM extends WidgetModel {
       );
       unawaited(discountOpticsStreamed.error(ex));
       // ignore: avoid_catches_without_on_clauses
-    } catch (e) {
-      ex = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
-      );
-      unawaited(discountOpticsStreamed.error(ex));
-    }
+    }//catch (e) {
+    //   ex = CustomException(
+    //     title: 'Произошла ошибка',
+    //     subtitle: e.toString(),
+    //   );
+    //   unawaited(discountOpticsStreamed.error(ex));
+    // }
 
     if (ex != null) {
       showTopError(ex);
@@ -223,17 +223,20 @@ class OpticCititesRepository {
     final cityNames = <String>{};
 
     for (final discounOptic in repository.discountOptics) {
-      for (final discountOpticShop in discounOptic.disountOpticShops!) {
-        final mayBeDirtyCityName = discountOpticShop.address.split(',').first;
 
-        if (mayBeDirtyCityName.split(' ').length > 1) {
-          cityNames.add(
-            mayBeDirtyCityName.split(' ')[1],
-          );
-        } else {
-          cityNames.add(
-            mayBeDirtyCityName,
-          );
+      if (discounOptic.disountOpticShops != null){
+        for (final discountOpticShop in discounOptic.disountOpticShops!) {
+          final mayBeDirtyCityName = discountOpticShop.address.split(',').first;
+
+          if (mayBeDirtyCityName.split(' ').length > 1) {
+            cityNames.add(
+              mayBeDirtyCityName.split(' ')[1],
+            );
+          } else {
+            cityNames.add(
+              mayBeDirtyCityName,
+            );
+          }
         }
       }
     }
