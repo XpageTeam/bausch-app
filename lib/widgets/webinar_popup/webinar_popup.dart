@@ -31,7 +31,7 @@ class WebinarPopup extends StatelessWidget {
               Navigator.of(context).pop();
 
               showTopError(
-                const CustomException(title: 'Неудалось воспроизвести видео'),
+                const CustomException(title: 'Не удалось воспроизвести видео'),
               );
             },
           ),
