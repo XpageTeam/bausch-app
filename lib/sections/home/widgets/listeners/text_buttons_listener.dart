@@ -4,6 +4,7 @@ import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,7 @@ class TextButtonsListener extends StatelessWidget {
             if (state is FaqFailed) {
               Keys.mainNav.currentState!.pop();
 
-              showFlushbar(state.title);
+              showDefaultNotification(title: state.title);
             }
 
             if (state is FaqLoading) {
@@ -46,7 +47,7 @@ class TextButtonsListener extends StatelessWidget {
             if (state is RulesFailed) {
               Keys.mainNav.currentState!.pop();
 
-              showFlushbar(state.title);
+              showDefaultNotification(title: state.title);
             }
 
             if (state is RulesLoading) {
