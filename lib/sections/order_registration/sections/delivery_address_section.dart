@@ -50,8 +50,10 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
           builder: (context, state) {
             if (state is GetAdressesSuccess) {
               final adressModel = state.adresses.first;
-              wm.address = adressModel;
-              wm.adressesCubit = adressesCubit;
+              wm
+                ..address = adressModel
+                ..adressesCubit = adressesCubit;
+
               return OrderButton(
                 onPressed: () => Navigator.of(context).pushNamed(
                   '/address_select',

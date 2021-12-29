@@ -279,7 +279,6 @@ class OpticCititesRepository {
     return OpticCititesRepository(cities);
   }
 
-  // TODO(Nikolay): Сделать фабрику для списка всех адресов.
   factory OpticCititesRepository.fromCitiesRepository(
     CitiesRepository repository,
   ) {

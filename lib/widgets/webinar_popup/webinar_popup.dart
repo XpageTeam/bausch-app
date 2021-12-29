@@ -4,10 +4,9 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
 
-class VimeoPopup extends StatelessWidget {
+class WebinarPopup extends StatelessWidget {
   final String videoId;
-
-  const VimeoPopup({
+  const WebinarPopup({
     required this.videoId,
     Key? key,
   }) : super(
@@ -28,9 +27,13 @@ class VimeoPopup extends StatelessWidget {
             id: videoId,
             autoPlay: true,
             loaderWidget: const AnimatedLoader(),
-            onError: () => showTopError(
-              const CustomException(title: 'Неудалось воспроизвести видео'),
-            ),
+            onError: () {
+              Navigator.of(context).pop();
+
+              showTopError(
+                const CustomException(title: 'Неудалось воспроизвести видео'),
+              );
+            },
           ),
         ],
       ),

@@ -1,7 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
-import 'package:bausch/sections/home/sections/offers/offer_type.dart';
-import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -13,6 +11,8 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/offers/offer_type.dart';
+import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

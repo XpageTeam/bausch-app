@@ -2,7 +2,6 @@ import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
 import 'package:bausch/sections/home/widgets/slider/items_scroll_controller.dart';
 import 'package:bausch/sections/home/widgets/slider/no_glow_behavior.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 typedef ItemBuilder<T> = Widget Function(

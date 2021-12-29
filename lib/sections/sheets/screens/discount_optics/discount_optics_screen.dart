@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -11,7 +12,6 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
-import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -57,18 +57,15 @@ class _DiscountOpticsScreenState
       controller: widget.controller,
       appBar: const CustomSliverAppbar(
         padding: EdgeInsets.all(18),
-        icon: SizedBox(
-          height: 1,
-          width: 1,
-        ),
+        icon: SizedBox(),
         iconColor: AppTheme.mystic,
       ),
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(
             top: 12,
-            left: 12,
-            right: 12,
+            left: StaticData.sidePadding,
+            right: StaticData.sidePadding,
             bottom: 4,
           ),
           sliver: SliverList(

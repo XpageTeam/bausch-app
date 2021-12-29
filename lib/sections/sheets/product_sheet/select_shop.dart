@@ -1,4 +1,5 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
@@ -87,9 +88,11 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                           if (widget.discountOptics[i].link!.isNotEmpty &&
                               widget.discountType == DiscountType.onlineShop)
                             GestureDetector(
-                              onTap: () {
-                                // TODO(Nikolay): Переход на сайт.
-                              },
+                              onTap: () => Utils.tryLaunchUrl(
+                                rawUrl: widget.discountOptics[i].link!
+                                    .replaceFirst('https://', ''),
+                                isPhone: false,
+                              ),
                               child: AutoSizeText(
                                 widget.discountOptics[i].link!
                                     .replaceFirst('https://', ''),

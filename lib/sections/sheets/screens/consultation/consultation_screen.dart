@@ -1,7 +1,5 @@
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
-import 'package:bausch/sections/home/sections/offers/offer_type.dart';
-import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
@@ -11,6 +9,8 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/offers/offer_type.dart';
+import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:flutter/material.dart';
 
 class ConsultationScreenArguments {
@@ -115,7 +115,6 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
-        // TODO(Nikolay): Вопрос.
         text: 'Получить поощрение ${model.priceToString} б',
         onPressed: () {
           Navigator.of(context).pushNamed(

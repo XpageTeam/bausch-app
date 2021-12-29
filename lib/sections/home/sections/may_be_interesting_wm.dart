@@ -103,6 +103,7 @@ class MayBeInterestingWM extends WidgetModel {
         subtitle: e.toString(),
         ex: e,
       );
+    // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       ex = CustomException(
         title: 'Произошла ошибка',

@@ -21,8 +21,6 @@ import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart'
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
-import 'package:bausch/sections/sheets/screens/discount_online/discount_online_verification.dart';
-import 'package:bausch/sections/sheets/screens/discount_online/final_discount_online.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
@@ -30,12 +28,12 @@ import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_op
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/html/html_screen.dart';
-import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
-import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
-import 'package:bausch/sections/sheets/screens/parners/partners_verification.dart';
+import 'package:bausch/sections/sheets/screens/partners/final_partners.dart';
+import 'package:bausch/sections/sheets/screens/partners/partners_screen.dart';
+import 'package:bausch/sections/sheets/screens/partners/partners_verification.dart';
 import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
-import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/program/widget_model/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
@@ -175,13 +173,6 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               );
               break;
 
-            case '/verification_discount_online':
-              page = DiscountOnlineVerification(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as PromoItemModel,
-              );
-              break;
 
             case '/verification_webinar':
               page = WebinarVerification(
@@ -225,14 +216,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     .discountOptic,
               );
               break;
-            case '/final_discount_online':
-              page = FinalDiscountOnline(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as PromoItemModel,
-              );
-              break;
-
+           
             case '/online_consultation':
               page = ConsultationScreen(
                 controller: controller,

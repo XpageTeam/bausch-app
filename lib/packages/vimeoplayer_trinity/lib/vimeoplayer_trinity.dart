@@ -83,7 +83,6 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
         }
       } else {
         widget.onError();
-        Navigator.of(context).pop();
       }
 
       final betterPlayerDataSource = BetterPlayerDataSource(

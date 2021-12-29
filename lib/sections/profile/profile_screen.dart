@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/content/scrollable_profile_content.dart';
 import 'package:bausch/sections/profile/profile_app_bar.dart';
@@ -10,7 +9,6 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileScreen extends CoreMwwmWidget<ProfileScreenWM> {
