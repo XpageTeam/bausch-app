@@ -1,7 +1,4 @@
-import 'package:bausch/models/mappable_object.dart';
-
-class DadataResponseDataModel
-    implements MappableInterface<DadataResponseDataModel> {
+class DadataResponseDataModel {
   final String street;
   final String house;
   final String? block;
@@ -20,11 +17,5 @@ class DadataResponseDataModel
       block: map['block'] as String?,
       //streetType: (map['street_type'] ?? '') as String,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }

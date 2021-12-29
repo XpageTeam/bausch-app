@@ -1,9 +1,7 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class PromoItemModel extends CatalogItemModel
-    implements MappableInterface<PromoItemModel> {
+class PromoItemModel extends CatalogItemModel {
   final String code;
   PromoItemModel({
     required int id,
@@ -21,7 +19,7 @@ class PromoItemModel extends CatalogItemModel
           detailText: detailText,
           picture: picture,
           price: price,
-          type:type,
+          type: type,
         );
 
   factory PromoItemModel.fromMap(Map<String, dynamic> map) {
@@ -53,11 +51,5 @@ class PromoItemModel extends CatalogItemModel
       price: (map['price'] ?? 150) as int,
       code: map['code'] as String,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }

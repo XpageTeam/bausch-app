@@ -1,6 +1,4 @@
-import 'package:bausch/models/mappable_object.dart';
-
-class SpecificationModel implements MappableInterface<SpecificationModel> {
+class SpecificationModel {
   final String title;
   final String value;
 
@@ -14,11 +12,5 @@ class SpecificationModel implements MappableInterface<SpecificationModel> {
       title: map['title'] as String,
       value: map['value'] as String,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }
