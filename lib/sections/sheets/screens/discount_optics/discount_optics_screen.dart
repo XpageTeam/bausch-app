@@ -95,7 +95,7 @@ class _DiscountOpticsScreenState
             StaticData.sidePadding,
             12,
             StaticData.sidePadding,
-            0,
+            20,
           ),
           sliver: LegalInfo(
             texts: wm.legalInfoTexts,
@@ -107,9 +107,9 @@ class _DiscountOpticsScreenState
             loadingChild: const Padding(
               padding: EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
-                40,
+                20,
                 StaticData.sidePadding,
-                40,
+                20,
               ),
               child: Center(
                 child: AnimatedLoader(),
@@ -119,9 +119,9 @@ class _DiscountOpticsScreenState
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(
                       StaticData.sidePadding,
-                      40,
+                      20,
                       StaticData.sidePadding,
-                      40,
+                      20,
                     ),
                     child: Text(
                       'Нет доступных скидок',
@@ -131,9 +131,9 @@ class _DiscountOpticsScreenState
                 : Padding(
                     padding: const EdgeInsets.fromLTRB(
                       StaticData.sidePadding,
-                      40,
+                      20,
                       StaticData.sidePadding,
-                      40,
+                      20,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +215,7 @@ class _DiscountOpticsScreenState
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: const EdgeInsets.only(top: 40, bottom: 20),
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
                   child: HowToUsePromocode(text: wm.howToUseText),
                 ),
               ],
