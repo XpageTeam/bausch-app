@@ -1,6 +1,6 @@
-import 'package:bausch/models/mappable_object.dart';
 
-class SpecificationsModel implements MappableInterface<SpecificationsModel> {
+
+class SpecificationsModel {
   final List<String>? diopters;
   final List<String>? cylinder;
   final List<String>? axis;
@@ -48,11 +48,5 @@ class SpecificationsModel implements MappableInterface<SpecificationsModel> {
               .toList()
           : null,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }

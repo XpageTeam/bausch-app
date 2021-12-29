@@ -1,8 +1,6 @@
-import 'package:bausch/models/mappable_object.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 
-class CatalogSheetModel extends BaseCatalogSheetModel
-    implements MappableInterface<CatalogSheetModel> {
+class CatalogSheetModel extends BaseCatalogSheetModel {
   CatalogSheetModel({
     required int id,
     required String name,
@@ -27,11 +25,5 @@ class CatalogSheetModel extends BaseCatalogSheetModel
           as String,
       count: map['count'] as int,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }

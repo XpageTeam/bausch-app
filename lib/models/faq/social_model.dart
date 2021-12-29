@@ -1,7 +1,6 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class SocialModel implements MappableInterface<SocialModel> {
+class SocialModel {
   final int id;
 
   //* Ссылка на иконку соц.сети
@@ -32,11 +31,5 @@ class SocialModel implements MappableInterface<SocialModel> {
       icon: map['icon'] as String,
       url: map['url'] as String,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }

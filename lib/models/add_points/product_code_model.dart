@@ -1,6 +1,6 @@
-import 'package:bausch/models/mappable_object.dart';
 
-class ProductCodeModel implements MappableInterface<ProductCodeModel> {
+
+class ProductCodeModel  {
   final int id;
   final String title;
   final String code;
@@ -19,9 +19,5 @@ class ProductCodeModel implements MappableInterface<ProductCodeModel> {
     );
   }
 
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
-  }
+
 }

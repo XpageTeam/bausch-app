@@ -1,7 +1,6 @@
 import 'package:bausch/models/catalog_item/product_item_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class ProgramModel implements MappableInterface<ProgramModel> {
+class ProgramModel {
   final String title;
 
   final String description;
@@ -32,11 +31,5 @@ class ProgramModel implements MappableInterface<ProgramModel> {
       importantToKnow: List.from(map['importantToKnow'] as List<dynamic>),
       whatDoYouUse: List.from(map['whatDoYouUse'] as List<dynamic>),
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }

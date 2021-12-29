@@ -1,9 +1,8 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
 import 'package:bausch/models/faq/forms/value_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class FieldModel implements MappableInterface<FieldModel> {
+class FieldModel {
   final int id;
   final String type;
   final String name;
@@ -33,11 +32,5 @@ class FieldModel implements MappableInterface<FieldModel> {
               .toList()
           : [],
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO(all): implement toMap
-    throw UnimplementedError();
   }
 }
