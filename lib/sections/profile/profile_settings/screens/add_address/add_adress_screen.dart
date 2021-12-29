@@ -152,9 +152,13 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                         }
                       },
                       separatorBuilder: (context, i) {
-                        return const SizedBox(
-                          height: 30,
-                        );
+                        if (state.models[i].data.street.isNotEmpty) {
+                          return const SizedBox(
+                            height: 30,
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
                       },
                       itemCount: state.models.length,
                       physics: const BouncingScrollPhysics(),
