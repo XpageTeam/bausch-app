@@ -64,6 +64,14 @@ class LoginText {
     }
   }
 
+  @override
+  String toString() => 'LoginText(text: $text, docs: $docs)';
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'text': text,
+        'docs': docs,
+      };
+
   List<InlineSpan> _splitedText() {
     final res = <InlineSpan>[];
     var nextText = text;
@@ -110,12 +118,4 @@ class LoginText {
       ),
     ];
   }
-
-  @override
-  String toString() => 'LoginText(text: $text, docs: $docs)';
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'text': text,
-        'docs': docs,
-      };
 }

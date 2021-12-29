@@ -34,7 +34,7 @@ class DetailModel implements MappableInterface<DetailModel> {
 
   @override
   Map<String, dynamic> toMap() {
-    // TODO: implement toMap
+    // TODO(all): implement toMap
     throw UnimplementedError();
   }
 }

@@ -30,7 +30,7 @@ class CatalogItemWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  //TODO(Nikita) : Добавить блок с промокодом, где нужно
+  // TODO(Nikita): Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -150,7 +150,7 @@ class CatalogItemWidget extends StatelessWidget {
                         children: [
                           TextSpan(
                             style: AppStyles.p1Grey,
-                            // TODO сделать открытие всплывашки
+                            // TODO(all): сделать открытие всплывашки
                             children: [
                               const TextSpan(
                                 text: 'Eсли нет, пишите ',

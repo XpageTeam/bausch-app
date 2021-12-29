@@ -70,7 +70,8 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      // final parsedData = 
+      BaseResponseRepository.fromMap(
         (await rh.delete<Map<String, dynamic>>(
           'user/address/$id/',
         ))

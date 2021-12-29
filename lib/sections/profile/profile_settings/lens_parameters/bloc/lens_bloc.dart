@@ -38,7 +38,8 @@ class LensBloc extends Bloc<LensEvent, LensState> {
     debugPrint('put ${model.diopter}, ${model.diopter}');
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      // final parsedData =
+      BaseResponseRepository.fromMap(
         (await rh.put<Map<String, dynamic>>(
           'user/lens/',
           data: FormData.fromMap(model.toMap()),

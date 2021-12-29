@@ -23,7 +23,7 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
       connectTimeout: 20000,
       receiveTimeout: 40000,
       contentType: 'application/json',
-      responseType: ResponseType.json,
+      // responseType: ResponseType.json,
       headers: <String, dynamic>{
         'Authorization': 'Token ${StaticData.dadataApiKey}',
       },

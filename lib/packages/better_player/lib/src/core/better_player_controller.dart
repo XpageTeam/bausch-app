@@ -1142,8 +1142,6 @@ class BetterPlayerController {
         _postEvent(BetterPlayerEvent(BetterPlayerEventType.bufferingEnd));
         break;
       default:
-
-        ///TODO: Handle when needed
         break;
     }
   }
