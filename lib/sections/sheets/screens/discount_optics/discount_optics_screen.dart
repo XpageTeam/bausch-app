@@ -115,19 +115,9 @@ class _DiscountOpticsScreenState
                 child: AnimatedLoader(),
               ),
             ),
+            errorChild: const _NoDiscountsAvailable(),
             builder: (_, discountOptics) => discountOptics.isEmpty
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      StaticData.sidePadding,
-                      20,
-                      StaticData.sidePadding,
-                      20,
-                    ),
-                    child: Text(
-                      'Нет доступных скидок',
-                      style: AppStyles.h1,
-                    ),
-                  )
+                ? const _NoDiscountsAvailable()
                 : Padding(
                     padding: const EdgeInsets.fromLTRB(
                       StaticData.sidePadding,
@@ -166,40 +156,18 @@ class _DiscountOpticsScreenState
                           ),
                         ),
                         if (wm.discountType == DiscountType.offline)
-                          StreamedStateBuilder<Optic?>(
-                            streamedState: wm.currentDiscountOptic,
-                            builder: (_, currentDiscountOptic) => Padding(
-                              padding: const EdgeInsets.only(
-                                top: 30,
-                                bottom: 4,
-                              ),
-                              child: WhiteButton(
-                                text: currentDiscountOptic != null
-                                    ? currentDiscountOptic.title
-                                    : 'Адреса оптик',
-                                icon: Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 12,
-                                    top: 16,
-                                    bottom: 16,
-                                  ),
-                                  child: Image.asset(
-                                    'assets/icons/map-marker.png',
-                                    height: 16,
+                          _SelectOpticButton(
+                            currentDiscountOptic: wm.currentDiscountOptic,
+                            onPressed: () => () {
+                              Keys.mainNav.currentState!.push<void>(
+                                MaterialPageRoute(
+                                  builder: (context) => SelectOpticScreen(
+                                    cities: wm.cities,
+                                    onOpticSelect: wm.setCurrentOptic,
                                   ),
                                 ),
-                                onPressed: () {
-                                  Keys.mainNav.currentState!.push<void>(
-                                    MaterialPageRoute(
-                                      builder: (context) => SelectOpticScreen(
-                                        cities: wm.cities,
-                                        onOpticSelect: wm.setCurrentOptic,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                              );
+                            },
                           ),
                         Warning.warning(wm.warningText),
                       ],
@@ -241,6 +209,67 @@ class _DiscountOpticsScreenState
                 : () => wm.buttonAction(),
           );
         },
+      ),
+    );
+  }
+}
+
+class _SelectOpticButton extends StatelessWidget {
+  final StreamedState<Optic?> currentDiscountOptic;
+  final VoidCallback onPressed;
+
+  const _SelectOpticButton({
+    required this.currentDiscountOptic,
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamedStateBuilder<Optic?>(
+      streamedState: currentDiscountOptic,
+      builder: (_, currentDiscountOptic) => Padding(
+        padding: const EdgeInsets.only(
+          top: 30,
+          bottom: 4,
+        ),
+        child: WhiteButton(
+          text: currentDiscountOptic != null
+              ? currentDiscountOptic.title
+              : 'Адреса оптик',
+          icon: Padding(
+            padding: const EdgeInsets.only(
+              right: 12,
+              top: 16,
+              bottom: 16,
+            ),
+            child: Image.asset(
+              'assets/icons/map-marker.png',
+              height: 16,
+            ),
+          ),
+          onPressed: onPressed,
+        ),
+      ),
+    );
+  }
+}
+
+class _NoDiscountsAvailable extends StatelessWidget {
+  const _NoDiscountsAvailable({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        StaticData.sidePadding,
+        20,
+        StaticData.sidePadding,
+        20,
+      ),
+      child: Text(
+        'Нет доступных скидок',
+        style: AppStyles.h1,
       ),
     );
   }

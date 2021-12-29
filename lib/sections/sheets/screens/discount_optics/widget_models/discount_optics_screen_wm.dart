@@ -104,6 +104,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
           discountType.asString,
           itemModel.code,
         ),
+        discountType.asString,
       );
 
       cities = repository.cities;
@@ -139,7 +140,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       );
       unawaited(discountOpticsStreamed.error(ex));
       // ignore: avoid_catches_without_on_clauses
-    }//catch (e) {
+    } //catch (e) {
     //   ex = CustomException(
     //     title: 'Произошла ошибка',
     //     subtitle: e.toString(),
@@ -219,12 +220,34 @@ class OpticCititesRepository {
 
   factory OpticCititesRepository.fromDiscountOpticsRepository(
     DiscountOpticsRepository repository,
+    String category,
   ) {
+    if (category == 'onlineShop') {
+      return OpticCititesRepository(
+        [
+          OpticCity(
+            title: '',
+            optics: repository.discountOptics
+                .map(
+                  (e) => Optic(
+                    id: e.id,
+                    title: e.title,
+                    shops: [],
+                    shopCode: e.shopCode,
+                    logo: e.logo,
+                    link: e.link,
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      );
+    }
+
     final cityNames = <String>{};
 
     for (final discounOptic in repository.discountOptics) {
-
-      if (discounOptic.disountOpticShops != null){
+      if (discounOptic.disountOpticShops != null) {
         for (final discountOpticShop in discounOptic.disountOpticShops!) {
           final mayBeDirtyCityName = discountOpticShop.address.split(',').first;
 
