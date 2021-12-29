@@ -25,6 +25,8 @@ class AddItem extends StatelessWidget {
               model: model as QuizModel,
             ),
           );
+        } else if (model.type == 'double_points') {
+          debugPrint('double points');
         } else {
           Navigator.of(context).pushNamed(
             '/addpoints_details',
