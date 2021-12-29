@@ -30,6 +30,14 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
       context,
       listen: false,
     );
+
+    wm.adressesCubit = adressesCubit;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    wm.adressesCubit.close();
   }
 
   @override
@@ -49,27 +57,30 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
           bloc: adressesCubit,
           builder: (context, state) {
             if (state is GetAdressesSuccess) {
-              final adressModel = state.adresses.first;
-              wm.address = adressModel;
-              wm.adressesCubit = adressesCubit;
-              return OrderButton(
-                onPressed: () => Navigator.of(context).pushNamed(
-                  '/address_select',
-                  arguments: AddressSelectScreenArguments(
-                    userAdresses: state.adresses,
-                    productItemModel: wm.productItemModel,
-                    orderRegistrationScreenWM: wm,
+              if (state.adresses.isNotEmpty) {
+                final adressModel = state.adresses.first;
+                wm.address.accept(adressModel);
+                return OrderButton(
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    '/address_select',
+                    arguments: AddressSelectScreenArguments(
+                      userAdresses: state.adresses,
+                      productItemModel: wm.productItemModel,
+                      orderRegistrationScreenWM: wm,
+                    ),
                   ),
-                ),
-                title: Flexible(
-                  child: Text(
-                    '${adressModel.city}, ${adressModel.street}, ${adressModel.house}',
-                    style: AppStyles.h2Bold,
+                  title: Flexible(
+                    child: Text(
+                      '${adressModel.city}, ${adressModel.street}, ${adressModel.house}',
+                      style: AppStyles.h2Bold,
+                    ),
                   ),
-                ),
-                icon: Icons.check_circle_sharp,
-                margin: const EdgeInsets.only(bottom: 4),
-              );
+                  icon: Icons.check_circle_sharp,
+                  margin: const EdgeInsets.only(bottom: 4),
+                );
+              } else {
+                return Container();
+              }
             }
             return const AnimatedLoader();
           },

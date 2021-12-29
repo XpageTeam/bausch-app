@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/profile_settings/adress_model.dart';
 
 import 'package:bausch/sections/order_registration/sections/delivery_address_section.dart';
 import 'package:bausch/sections/order_registration/sections/lens_parameters_section.dart';
@@ -94,24 +95,30 @@ class _OrderRegistrationScreenState
           ),
         ),
       ),
-      bottomNavigationBar: StreamedStateBuilder<bool>(
-        streamedState: wm.loadingState,
-        builder: (_, isLoading) {
-          return isLoading
-              ? const CustomFloatingActionButton(
-                  text: '',
-                  icon: AnimatedLoader(),
-                )
-              : CustomFloatingActionButton(
-                  text: 'Потратить ${wm.productItemModel.priceToString} б',
-                  icon: Container(),
-                  onPressed: ((wm.nameController.text.isNotEmpty) ||
-                          (wm.lastNameController.text.isNotEmpty))
-                      ? () {
-                          wm.makeOrderAction();
-                        }
-                      : null,
-                );
+      bottomNavigationBar: StreamedStateBuilder<AdressModel?>(
+        streamedState: wm.address,
+        builder: (_, adress) {
+          return StreamedStateBuilder<bool>(
+            streamedState: wm.loadingState,
+            builder: (_, isLoading) {
+              return isLoading
+                  ? const CustomFloatingActionButton(
+                      text: '',
+                      icon: AnimatedLoader(),
+                    )
+                  : CustomFloatingActionButton(
+                      text: 'Потратить ${wm.productItemModel.priceToString} б',
+                      icon: Container(),
+                      onPressed: ((wm.nameController.text.isNotEmpty) ||
+                                  (wm.lastNameController.text.isNotEmpty)) &&
+                              adress != null
+                          ? () {
+                              wm.makeOrderAction();
+                            }
+                          : null,
+                    );
+            },
+          );
         },
       ),
     );
