@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -23,23 +25,28 @@ class DiscountOptic {
     if (json['id'] == null) {
       ResponseParseException('Не передан id оптики со скидкой');
     }
-    return DiscountOptic(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      shopCode: json['shopCode'] as String,
-      logo: json['logo'] as String?,
-      link: json['link'] as String,
-      disountOpticShops: json['shop_data'] != null
-          ? List<DiscountOpticShop>.from(
-              (json['shop_data'] as List<dynamic>).map<DiscountOpticShop>(
-                // ignore: avoid_annotating_with_dynamic
-                (dynamic x) => DiscountOpticShop.fromJson(
-                  x as Map<String, dynamic>,
+
+    try {
+      return DiscountOptic(
+        id: json['id'] as int,
+        title: json['title'] as String,
+        shopCode: json['shopCode'] as String,
+        logo: json['logo'] as String?,
+        link: json['link'] as String,
+        disountOpticShops: json['shop_data'] != null
+            ? List<DiscountOpticShop>.from(
+                (json['shop_data'] as List<dynamic>).map<DiscountOpticShop>(
+                  // ignore: avoid_annotating_with_dynamic
+                  (dynamic x) => DiscountOpticShop.fromJson(
+                    x as Map<String, dynamic>,
+                  ),
                 ),
-              ),
-            )
-          : null,
-    );
+              )
+            : null,
+      );
+    } catch (e) {
+      throw ResponseParseException(e.toString());
+    }
   }
 }
 
