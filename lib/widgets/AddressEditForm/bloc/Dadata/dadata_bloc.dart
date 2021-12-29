@@ -51,7 +51,7 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Token ${StaticData.vitaminkaKey}',
+          'Authorization': 'Token ${StaticData.dadataApiKey}',
         },
         body: json.encode(
           {
@@ -61,8 +61,8 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
               {'city': city},
               // {"street": userText}
             ],
-            // 'from_bound': {'value': 'house'},
-            // 'to_bound': {'value': 'house'},
+            'from_bound': {'value': 'street'},
+            'to_bound': {'value': 'house'},
           },
         ),
       );
