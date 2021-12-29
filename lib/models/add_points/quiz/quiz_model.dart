@@ -30,6 +30,7 @@ class QuizModel extends AddPointsModel {
           PreviewModel.fromMap(map['preview'] as Map<String, dynamic>),
       detailModel: DetailModel.fromMap(map['detail'] as Map<String, dynamic>),
       content: (map['quiz'] as List<dynamic>)
+          // ignore: avoid_annotating_with_dynamic
           .map((dynamic cont) =>
               QuizContentModel.fromMap(cont as Map<String, dynamic>))
           .toList(),

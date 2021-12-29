@@ -165,6 +165,7 @@ class MayBeInterestingWM extends WidgetModel {
         subtitle: e.toString(),
         ex: e,
       );
+    // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       ex = CustomException(
         title: 'Произошла ошибка',
@@ -186,8 +187,7 @@ class MayBeInterestingWM extends WidgetModel {
 
   void _showBottomSheet(CatalogItemModel model, String section) {
     showSheet<ItemSheetScreenArguments>(
-      //* тут поменял ключ, т.к. при нажатии на кнопку 'закрыть' всё падало
-      Keys.mainNav.currentContext!,
+      context,
       SimpleSheetModel(
         name: 'Title',
         type: section,

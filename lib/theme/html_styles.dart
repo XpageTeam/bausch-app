@@ -1,8 +1,6 @@
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/html_parser.dart';
-import 'package:flutter_html/style.dart';
 
 final Map<String, Style> htmlStyles = {
   'a': Style(

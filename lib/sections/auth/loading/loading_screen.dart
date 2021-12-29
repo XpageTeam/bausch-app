@@ -5,9 +5,7 @@ import 'package:bausch/sections/auth/loading/column_with_dynamic_duration.dart';
 import 'package:bausch/sections/auth/loading/image_row.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iphone_has_notch/iphone_has_notch.dart';
 

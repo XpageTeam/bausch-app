@@ -23,6 +23,7 @@ class QuizContentModel {
       type: map['type'] as String,
       answers: (map['answers'] as List<dynamic>)
           .map(
+            // ignore: avoid_annotating_with_dynamic
             (dynamic answer) =>
                 QuizAnswerModel.fromMap(answer as Map<String, dynamic>),
           )

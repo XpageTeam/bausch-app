@@ -66,6 +66,7 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
       return AddPointsCodeGetSuccess(
         models: (parsedData.data as List<dynamic>)
             .map(
+              // ignore: avoid_annotating_with_dynamic
               (dynamic code) =>
                   ProductCodeModel.fromMap(code as Map<String, dynamic>),
             )
