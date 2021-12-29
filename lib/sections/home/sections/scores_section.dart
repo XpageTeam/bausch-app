@@ -68,6 +68,7 @@ class ScoresSection extends StatelessWidget {
           streamedState: userWM.userData,
           builder: (_, repo) {
             if (repo.canPrintLineLoadingText) {
+              const daysRemain = 4;
               return FutureBuilder<void>(
                 future: Future.delayed(delay),
                 builder: (_, s) {
@@ -80,7 +81,7 @@ class ScoresSection extends StatelessWidget {
                       // TODO(Nikolay): Нет данных. Откуда берется максимальное количество дней?.
                       maxDays: 30,
                       daysRemain: s.connectionState == ConnectionState.done
-                          ? repo.daysRemain ?? -1 // TODO(Nikolay): Проверить.
+                          ? daysRemain
                           : 6, // TODO(Nikolay): Нет данных. Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
                       animationDuration: loadingAnimationDuration,
                     ),

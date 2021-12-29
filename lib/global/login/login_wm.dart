@@ -35,7 +35,7 @@ class LoginWM extends WidgetModel {
 
   final phoneInputFormaters = <TextInputFormatter>[
     TextInputMask(
-      mask: r'\+7 \99 999 99 99',
+      mask: r'\+7 999 999 99 99',
     ),
   ];
 
@@ -61,9 +61,10 @@ class LoginWM extends WidgetModel {
     debugPrint('loginConstructor');
 
     var prevPhoneValue = '';
+    var canUnfocus = false;
 
     phoneController.addListener(() {
-      debugPrint(phoneController.text);
+      debugPrint('number: ${phoneController.text}');
       if ((phoneController.text == '+7 97' ||
               phoneController.text == '+7 98' ||
               phoneController.text == '+7 99') &&
@@ -85,12 +86,16 @@ class LoginWM extends WidgetModel {
 
       prevPhoneValue = phoneController.text;
 
-      if (phoneController.text.length >= 16) {
+      if (phoneController.text.length >= 16 && canUnfocus) {
         final currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
         }
+
+        canUnfocus = false;
+      } else {
+        canUnfocus = true;
       }
 
       _checkBtnActive();
