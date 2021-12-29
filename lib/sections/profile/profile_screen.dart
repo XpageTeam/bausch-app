@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/content/scrollable_profile_content.dart';
 import 'package:bausch/sections/profile/profile_app_bar.dart';
@@ -58,9 +59,14 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                       EntityStateBuilder<UserRepository>(
                         streamedState: wm.userWM.userData,
                         builder: (_, userRepo) {
-                          return Text(
-                            userRepo.userName,
-                            style: AppStyles.h1,
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            child: AutoSizeText(
+                              userRepo.userName,
+                              style: AppStyles.h1,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           );
                         },
                       ),

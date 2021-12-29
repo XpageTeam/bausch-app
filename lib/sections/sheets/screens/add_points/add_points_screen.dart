@@ -4,6 +4,7 @@ import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.d
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -88,6 +89,17 @@ class _AddPointsScreenState extends State<AddPointsScreen> {
                       ),
                     ],
                   ),
+                ),
+              );
+            }
+            if (state is AddPointsLoading) {
+              return SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const Center(
+                      child: AnimatedLoader(),
+                    ),
+                  ],
                 ),
               );
             }

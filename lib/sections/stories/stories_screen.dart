@@ -257,6 +257,10 @@ class _StoriesScreenState extends State<StoriesScreen>
     _animController.stop();
     _animController.reset();
 
+    if (_videoPlayerController.value.isInitialized) {
+      await _videoPlayerController.pause();
+    }
+
     switch (story.isVideo) {
       case false:
         img = Image.network(

@@ -103,7 +103,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               bottom: 30,
                             ),
                             child: ButtonContent(
-                              price: widget.model.reward,
+                              price: '+${widget.model.reward}',
                               textStyle: AppStyles.h1,
                             ),
                           ),
