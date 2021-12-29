@@ -1,5 +1,5 @@
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/faq/social_buttons/cubit/social_cubit.dart';
-import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -17,6 +17,7 @@ class HelpFunctions {
   }
 
   static Future<void> launchURL(String _url) async {
+    // ignore: only_throw_errors
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 

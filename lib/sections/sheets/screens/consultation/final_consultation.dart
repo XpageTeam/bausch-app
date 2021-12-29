@@ -1,9 +1,9 @@
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
@@ -41,7 +41,7 @@ class FinalConsultation extends StatelessWidget {
               [
                 Padding(
                   padding: const EdgeInsets.only(top: 78),
-                  // TODO(Nikolay): Сделать.
+                  // TODO(Nikolay): Нет данных.
                   child: Text(
                     'Вот ваш промокод на онлайн-консультацию',
                     style: AppStyles.h1,
@@ -62,7 +62,7 @@ class FinalConsultation extends StatelessWidget {
                     top: 12,
                     bottom: 40,
                   ),
-                  // TODO(Nikolay): Сделать.
+                  // TODO(Nikolay): Нет данных.
                   child: Text(
                     'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
                     style: AppStyles.p1,

@@ -1,7 +1,9 @@
+import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +122,7 @@ class CatalogItem extends StatelessWidget {
     if (model.canWatch) {
       showDialog<void>(
         context: context,
-        builder: (context) => VimeoPopup(
+        builder: (context) => WebinarPopup(
           // TODO(Danil): массив id
           videoId: model.videoId.first,
         ),
