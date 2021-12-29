@@ -15,6 +15,8 @@ import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -74,19 +76,22 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
     //addressesBloc = BlocProvider.of<AddressesBloc>(context);
 
-    flatController = TextEditingController(
+    flatController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.flat == null ? '' : widget.adress.flat.toString(),
     )..addListener(() {
         setState(() {});
       });
 
-    entryController = TextEditingController(
+    entryController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.entry == null ? '' : widget.adress.entry.toString(),
     )..addListener(() {
         setState(() {});
       });
 
-    floorController = TextEditingController(
+    floorController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.floor == null ? '' : widget.adress.floor.toString(),
     )..addListener(() {
         setState(() {});
