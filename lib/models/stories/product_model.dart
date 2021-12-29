@@ -18,7 +18,7 @@ class ProductModel implements MappableInterface<ProductModel> {
 
   @override
   Map<String, dynamic> toMap() {
-    // TODO: implement toMap
+    // TODO(all): implement toMap
     throw UnimplementedError();
   }
 }

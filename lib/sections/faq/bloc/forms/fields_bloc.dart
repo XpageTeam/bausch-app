@@ -130,8 +130,8 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData =
-          BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+      // final parsedData =
+      BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         'faq/form/',
         data: FormData.fromMap(
           <String, dynamic>{
@@ -142,7 +142,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
           }..addAll(extra),
         ),
       ))
-              .data!);
+          .data!);
 
       debugPrint(
         'Email: ${state.email}\nTopic: ${state.topic}\nQuestion: ${state.question}\nFiles: ${state.files}\nExtra: ${state.extra}\n',

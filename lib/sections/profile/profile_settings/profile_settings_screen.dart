@@ -39,18 +39,6 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
   late UserWM userWM;
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    //userWM = Provider.of<UserWM>(context);
-  }
 
   @override
   Widget build(BuildContext context) {

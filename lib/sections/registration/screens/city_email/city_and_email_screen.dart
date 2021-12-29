@@ -59,7 +59,7 @@ class _CityAndEmailScreenState
                     onPressed: () async {
                       // Keys.mainNav.currentState!.pushNamed('/city');
 
-                      // TODO: сделать через pushNamed
+                      // TODO(all): сделать через pushNamed
                       wm.setCityName(
                         await Keys.mainNav.currentState!.push<String>(
                           PageRouteBuilder<String>(

@@ -138,6 +138,13 @@ class DiscountOpticsScreenWM extends WidgetModel {
         subtitle: e.toString(),
       );
       unawaited(discountOpticsStreamed.error(ex));
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      ex = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
+      );
+      unawaited(discountOpticsStreamed.error(ex));
     }
 
     if (ex != null) {

@@ -59,13 +59,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                 onMapCreated: (yandexMapController) {
                   wm
                     ..mapController = yandexMapController
-                    ..setCenterAction(
-                      widget.opticShops
-                          .where(
-                            (s) => s.coords != null,
-                          )
-                          .toList(),
-                    )
+                    ..setCenterAction(widget.opticShops)
                     ..onGetUserPositionError = (exception) {
                       showDefaultNotification(title: exception.title);
                     }

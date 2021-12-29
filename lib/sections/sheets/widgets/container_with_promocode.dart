@@ -21,7 +21,7 @@ class ContainerWithPromocode extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed ??
           () {
-            //TODO(Nikita): Скопировать и показать уведомление
+            // TODO(Nikita): Скопировать и показать уведомление
             Clipboard.setData(ClipboardData(text: promocode));
             //showFlushbar('title');
             showDefaultNotification(title: 'Скопировано!');

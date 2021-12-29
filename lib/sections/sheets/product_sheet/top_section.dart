@@ -37,7 +37,7 @@ class TopSection extends StatelessWidget {
   TopSection.packaging({
     required CatalogItemModel model,
     required Widget leftIcon,
-    GlobalKey<NavigatorState>? rightKey,
+    // GlobalKey<NavigatorState>? rightKey,
     Key? key,
   }) : this(
           model: model,

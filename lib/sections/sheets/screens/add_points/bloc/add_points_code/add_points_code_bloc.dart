@@ -104,7 +104,8 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      // final parsedData =
+      BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
           '/user/points/add/',
           data: FormData.fromMap(

@@ -166,12 +166,12 @@ class LoginWM extends WidgetModel {
     });
   }
 
-  @override
-  void dispose() {
-    // phoneController.dispose();
-    // codeController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // phoneController.dispose();
+  //   // codeController.dispose();
+  //   super.dispose();
+  // }
 
   void _checkAuth() {
     Provider.of<AuthWM>(context, listen: false).checkAuthAction();

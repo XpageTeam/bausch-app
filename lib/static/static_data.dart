@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class StaticData {
   static const dadataApiKey = 'c5884c57a17def3fe99c96a9ee13b15554680669';
+  // ignore: use_raw_strings
   static const dadataSecretKey = 'R_SHe3@bFx\$DOP28yrMgm_%&M';
 
   @Deprecated('использовать dadataApiKey')
@@ -20,7 +21,7 @@ class StaticData {
   ];
 
   static const removedOffersKey = 'removed_offers';
-  
+
   static String apiUrl = 'https://bausch.in-progress.ru/api/';
 
   //* Названия типов разделов, чтобы не менять во всех местах
