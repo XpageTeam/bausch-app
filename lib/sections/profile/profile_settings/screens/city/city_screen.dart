@@ -1,5 +1,8 @@
+import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/city/dadata_city.dart';
+import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
+import 'package:bausch/sections/auth/loading/loading_animation.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/wm/city_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -7,6 +10,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -18,6 +22,7 @@ class CityScreen extends CoreMwwmWidget<CityScreenWM> {
   }) : super(
           widgetModelBuilder: (context) => CityScreenWM(
             const WidgetModelDependencies(),
+            context: context,
             citiesWithShops: citiesWithShops,
           ),
           key: key,
@@ -51,43 +56,75 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                   labelText: 'Найти город',
                   controller: wm.citiesFilterController,
                 ),
-
-                // TODO(Nikita): Добавить сверху избранные города и выбранный
                 Flexible(
-                  child: StreamedStateBuilder<List<DadataCity>>(
-                    streamedState: wm.filteredCitiesList,
-                    builder: (_, cities) {
-                      return AlphabetScrollView(
-                        itemExtent: 50,
-                        list: cities.map((city) {
-                          return AlphaModel(city.name);
-                        }).toList(),
-                        selectedTextStyle: AppStyles.h1,
-                        unselectedTextStyle: AppStyles.h2,
-                        // selectedLetterTextStyle: AppStyles.p1,
-                        // unselectedLetterTextStyle: TextStyle(
-                        //   color: AppTheme.mineShaft,
-                        //   fontWeight: FontWeight.w400,
-                        //   fontSize: 12.sp,
-                        //   height: 16 / 12,
-                        //   fontFamily: 'Euclid Circular A',
-                        // ),
-                        itemBuilder: (context, i, cityName) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop(cityName);
-                            },
-                            borderRadius: BorderRadius.circular(5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  cityName,
-                                  style: AppStyles.h2,
+                  child: EntityStateBuilder<List<DadataResponseModel>?>(
+                    streamedState: wm.daDataCitiesList,
+                    loadingChild: const Center(child: AnimatedLoader()),
+                    errorBuilder: (context, e) {
+                      debugPrint('lol ${e.toString()}');
+                      return const SizedBox();
+                    },
+                    builder: (_, daDataList) {
+                      debugPrint('lol ${daDataList.toString()}');
+
+                      if (daDataList != null) {
+                        return ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20,
+                          ),
+                          itemBuilder: (context, index) {
+                            final item = daDataList[index];
+
+                            return InkWell(
+                              child: Text(
+                                item.value,
+                                style: AppStyles.h2,
+                              ),
+                            );
+                          },
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 15),
+                          itemCount: daDataList.length,
+                        );
+                      }
+
+                      return EntityStateBuilder<List<DadataCity>>(
+                        streamedState: wm.citiesList,
+                        builder: (_, cities) {
+                          return AlphabetScrollView(
+                            itemExtent: 50,
+                            list: cities.map((city) {
+                              return AlphaModel(city.name);
+                            }).toList(),
+                            selectedTextStyle: AppStyles.h1,
+                            unselectedTextStyle: AppStyles.h2,
+                            // selectedLetterTextStyle: AppStyles.p1,
+                            // unselectedLetterTextStyle: TextStyle(
+                            //   color: AppTheme.mineShaft,
+                            //   fontWeight: FontWeight.w400,
+                            //   fontSize: 12.sp,
+                            //   height: 16 / 12,
+                            //   fontFamily: 'Euclid Circular A',
+                            // ),
+                            itemBuilder: (context, i, cityName) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pop(cityName);
+                                },
+                                borderRadius: BorderRadius.circular(5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      cityName,
+                                      style: AppStyles.h2,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           );
                         },
                       );
