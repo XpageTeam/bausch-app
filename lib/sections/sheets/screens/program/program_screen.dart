@@ -1,26 +1,45 @@
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
-import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bausch/models/program/primary_data.dart';
+import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/slider/indicator.dart';
+import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
+import 'package:bausch/sections/profile/widgets/half_blured_circle.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/bottom_info_block.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/custom_radio_button.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
-import 'package:bausch/widgets/inputs/default_text_input.dart';
-import 'package:bausch/widgets/select_widgets/custom_radio.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //Program
-class ProgramScreen extends StatefulWidget {
+class ProgramScreen extends CoreMwwmWidget<ProgramScreenWM> {
   final ScrollController controller;
-  const ProgramScreen({required this.controller, Key? key}) : super(key: key);
+  ProgramScreen({
+    required this.controller,
+    Key? key,
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => ProgramScreenWM(
+            context: context,
+          ),
+        );
 
   @override
-  State<ProgramScreen> createState() => _ProgramScreenState();
+  WidgetState<CoreMwwmWidget<ProgramScreenWM>, ProgramScreenWM>
+      createWidgetState() => _ProgramScreenState();
 }
 
-class _ProgramScreenState extends State<ProgramScreen> {
+class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   TextEditingController nameController = TextEditingController();
   int gValue = 0;
 
@@ -32,92 +51,55 @@ class _ProgramScreenState extends State<ProgramScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
+    return EntityStateBuilder<PrimaryData>(
+      streamedState: wm.primaryDataStreamed,
+      loadingChild: Container(
+        decoration: const BoxDecoration(
+          color: AppTheme.mystic,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(5),
+          ),
+        ),
+        child: const Center(
+          child: AnimatedLoader(),
+        ),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        body: CustomScrollView(
+      builder: (context, primaryData) {
+        return CustomSheetScaffold(
           controller: widget.controller,
-          physics: const BouncingScrollPhysics(),
+          appBar: CustomSliverAppbar(
+            padding: const EdgeInsets.all(18),
+            icon: Container(),
+          ),
           slivers: [
             SliverPadding(
-              padding: const EdgeInsets.only(
-                top: StaticData.sidePadding,
-                left: StaticData.sidePadding,
-                right: StaticData.sidePadding,
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                StaticData.sidePadding,
+                StaticData.sidePadding,
+                40.0,
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
-                    Stack(
-                      children: [
-                        Image.asset('assets/program.png'),
-                        CustomSliverAppbar.toClose(Container(), widget.key),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    const InfoSection(),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 40,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4.0),
+                      child: Stack(
+                        children: [
+                          _HeaderContainer(
+                            text: primaryData.title,
+                          ),
+                          // CustomSliverAppbar(
+                          //   key: widget.key,
+                          // ),
+                        ],
                       ),
-                      child: MayBeInteresting(),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 40,
-                      ),
-                      child: InfoSection(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const Text(
-                      'Ваши данные',
-                      style: AppStyles.h1,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    DefaultTextInput(
-                      labelText: 'Имя',
-                      controller: nameController,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    DefaultTextInput(
-                      labelText: 'Фамилия',
-                      controller: nameController,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    DefaultTextInput(
-                      labelText: 'E-mail',
-                      controller: nameController,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 40,
-                        bottom: 20,
-                      ),
-                      child: Text(
-                        'Оформляли ли вы Сертификат на бесплатную пару линз Bausch+Lomb?',
-                        style: AppStyles.h1,
+                    _InfoBlock(
+                      isWhiteContainerOnBackground: true,
+                      content: Text(
+                        primaryData.description,
+                        style: AppStyles.p1,
                       ),
                     ),
                   ],
@@ -125,95 +107,304 @@ class _ProgramScreenState extends State<ProgramScreen> {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                40.0,
               ),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          gValue = index;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: StaticData.sidePadding,
-                          vertical: 16,
+              sliver: SliverToBoxAdapter(
+                child: _InfoBlock(
+                  headerText: 'В программе участвуют',
+                  content: ItemSlider<Product>(
+                    items: primaryData.products,
+                    itemBuilder: (context, product) => _ProductItem(
+                      product: product,
+                    ),
+                    indicatorBuilder: (context, isActive) => Indicator(
+                      isActive: isActive,
+                      animationDuration: const Duration(milliseconds: 300),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                40.0,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _InfoBlock(
+                  isWhiteContainerOnBackground: true,
+                  headerText: 'Важно знать перед подбором',
+                  content: BulletedList(
+                    list: primaryData.importantToKnow,
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                40.0,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _InfoBlock(
+                  headerText: 'Ваши данные',
+                  content: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 20,
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
+                        child: NativeTextInput(
+                          labelText: 'Имя',
+                          controller: wm.firstNameController,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Flexible(
-                              child: Text(
-                                'Контактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+LombКонтактные линзы Bousch+Lomb ',
-                                style: AppStyles.h3,
-                                maxLines: 3,
-                              ),
-                            ),
-                            CustomRadio(
-                              value: index,
-                              groupValue: gValue,
-                              onChanged: (v) {
-                                setState(
-                                  () {
-                                    gValue = index;
-                                  },
-                                );
-                              },
-                            ),
-                          ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 20,
+                        ),
+                        child: NativeTextInput(
+                          labelText: 'Фамилия',
+                          controller: wm.lastNameController,
+                        ),
+                      ),
+                      NativeTextInput(
+                        labelText: 'E-mail',
+                        controller: wm.emailController,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                40.0,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _InfoBlock(
+                  headerText: 'Чем пользуетесь для коррекции зрения',
+                  content: Column(
+                    children: List.generate(
+                      primaryData.whatDoYouUse.length,
+                      (i) => Padding(
+                        padding: EdgeInsets.only(
+                          bottom:
+                              i != primaryData.whatDoYouUse.length - 1 ? 4 : 0,
+                        ),
+                        child: CustomRadioButton(
+                          text: primaryData.whatDoYouUse[i],
+                          onPressed: () => debugPrint(
+                            primaryData.whatDoYouUse[i],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  childCount: 5,
                 ),
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                40.0,
               ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const SizedBox(
-                      height: 24,
+              sliver: SliverToBoxAdapter(
+                child: StreamedStateBuilder<Optic?>(
+                  streamedState: wm.currentOpticStreamed,
+                  builder: (_, currentOptic) => WhiteButton(
+                    text: currentOptic == null
+                        ? 'Выбрать оптику'
+                        : currentOptic.title,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 12,
+                        top: 10,
+                        bottom: 12,
+                      ),
+                      child: Image.asset(
+                        'assets/icons/map-marker.png',
+                        height: 16,
+                      ),
                     ),
-                    const WhiteButton(text: 'Выбрать оптику'),
-                    const SizedBox(
-                      height: 160,
-                    ),
-                  ],
+                    onPressed: () {
+                      Keys.mainNav.currentState!.push<void>(
+                        MaterialPageRoute(
+                          builder: (context) => SelectOpticScreen(
+                            onOpticSelect: wm.selectOptic,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
           ],
-        ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Получить сертификат',
-                onPressed: () {},
+          bottomNavBar: StreamedStateBuilder<Optic?>(
+            streamedState: wm.currentOpticStreamed,
+            builder: (_, currentOptic) => StreamedStateBuilder<bool>(
+              streamedState: wm.loadingStreamed,
+              builder: (_, loading) => CustomFloatingActionButton(
+                text: loading ? '' : 'Получить сертификат',
+                icon:
+                    loading ? const CircularProgressIndicator.adaptive() : null,
+                onPressed: currentOptic != null
+                    ? loading
+                        ? null
+                        : () => wm.getSertificatAction()
+                    : null,
               ),
             ),
-            const InfoBlock(),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _HeaderContainer extends StatelessWidget {
+  final String text;
+  const _HeaderContainer({
+    required this.text,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return WhiteContainerWithRoundedCorners(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.only(
+              bottom: 33,
+            ),
+            child: const HalfBluredCircle(
+              text: 'X2',
+              textStyle: TextStyle(
+                fontSize: 25,
+                height: 1,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.mineShaft,
+              ),
+            ),
+          ),
+          AutoSizeText(
+            text,
+            style: AppStyles.h1,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
+        ],
       ),
+      padding: const EdgeInsets.fromLTRB(
+        12,
+        27,
+        12,
+        31,
+      ),
+      color: AppTheme.sulu,
+    );
+  }
+}
+
+class _ProductItem extends StatelessWidget {
+  final Product product;
+  const _ProductItem({
+    required this.product,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return WhiteContainerWithRoundedCorners(
+      padding: const EdgeInsets.fromLTRB(
+        10,
+        12,
+        10,
+        16,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Image.network(
+              product.picture,
+              height: 100,
+              width: 100,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              product.name,
+              textAlign: TextAlign.center,
+              softWrap: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InfoBlock extends StatelessWidget {
+  final String? headerText;
+  final Widget content;
+  final bool isWhiteContainerOnBackground;
+  const _InfoBlock({
+    required this.content,
+    this.isWhiteContainerOnBackground = false,
+    this.headerText,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (headerText != null)
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Text(
+                headerText!,
+                style: AppStyles.h1,
+              ),
+            ),
+          ),
+        if (isWhiteContainerOnBackground) ...[
+          WhiteContainerWithRoundedCorners(
+            padding: const EdgeInsets.fromLTRB(
+              StaticData.sidePadding,
+              20,
+              StaticData.sidePadding,
+              40,
+            ),
+            child: content,
+          ),
+        ] else ...[
+          content,
+        ],
+      ],
     );
   }
 }

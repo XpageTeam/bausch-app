@@ -67,10 +67,12 @@ class SelectButton extends StatelessWidget {
   final String value;
   final Color color;
   final String? labeltext;
+  final Icon? icon;
   const SelectButton({
     required this.value,
     required this.color,
     this.labeltext,
+    this.icon,
     Key? key,
   }) : super(key: key);
 
@@ -106,10 +108,11 @@ class SelectButton extends StatelessWidget {
                 ),
               ],
             ),
-            const Icon(
-              Icons.arrow_downward_sharp,
-              size: 20,
-            ),
+            icon ??
+                const Icon(
+                  Icons.keyboard_arrow_down_sharp,
+                  size: 20,
+                ),
           ],
         ),
       ),

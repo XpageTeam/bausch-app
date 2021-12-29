@@ -6,19 +6,18 @@ import 'package:flutter/material.dart';
 
 class Story extends StatelessWidget {
   final StoryModel model;
-  final List<StoryModel> models;
-  final int index;
+
+  //final List<StoryContentModel> models;
+
   const Story({
     required this.model,
-    required this.index,
-    required this.models,
+    //required this.models,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      //height: 250,
       width:
           (MediaQuery.of(context).size.width - StaticData.sidePadding * 2) / 3 -
               2.5,
@@ -29,8 +28,7 @@ class Story extends StatelessWidget {
             MaterialPageRoute<dynamic>(
               builder: (context) {
                 return StoriesScreen(
-                  stories: models,
-                  currentIndex: index,
+                  storyModel: model,
                 );
               },
             ),
@@ -44,7 +42,7 @@ class Story extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: Image.network(
-                    model.content.file,
+                    model.content.first.preview,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -58,12 +56,12 @@ class Story extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        model.content.title,
+                        model.content.first.title,
                         style: AppStyles.h2WhiteBold,
                       ),
                       Text(
                         model.id.toString(),
-                        style: AppStyles.p1,
+                        style: AppStyles.p1.copyWith(color: Colors.white),
                       ),
                     ],
                   ),

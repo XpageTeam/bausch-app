@@ -1,9 +1,5 @@
-import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/sections/auth/loading/loading_screen.dart';
-import 'package:bausch/sections/home/home_screen.dart';
-import 'package:bausch/sections/loader/loader_scren.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -14,91 +10,86 @@ enum AuthStatus {
   unknown,
 }
 
-/// TODO Отображать ошибки
 class AuthWM extends WidgetModel {
   final authStatus = StreamedState<AuthStatus>(AuthStatus.unknown);
 
-  final user = EntityStreamedState<UserRepository>();
+  // final user = EntityStreamedState<UserRepository>();
 
   final checkAuthAction = VoidAction();
 
-  AuthWM(WidgetModelDependencies baseDependencies) : super(baseDependencies);
+  final UserWM userWM;
+
+  BuildContext? context;
+
+  AuthWM(this.userWM) : super(const WidgetModelDependencies());
 
   @override
   void onLoad() {
-    debugPrint('1232');
-    super.onLoad();
-  }
-
-  @override
-  void onBind() {
     subscribe(authStatus.stream, (value) {
-      late Widget targetPage;
+      late String targetPage;
 
       switch (authStatus.value) {
         case AuthStatus.unknown:
-          targetPage = const LoaderScreen();
+          targetPage = '/';
           break;
 
         case AuthStatus.unauthenticated:
-          targetPage =  const LoadingScreen();
+          targetPage = '/loading';
           break;
 
         case AuthStatus.authenticated:
-          // TODO(Danil): реализовать переход
-          // if (user.value.data != null) {
-          //   if (user.value.data?.user.city != null) {
-          targetPage = const HomeScreen();
-          //   } else {
-          //     Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
-          //       CupertinoPageRoute<void>(
-          //         builder: (context) => const CityAndEmailScreen(),
-          //       ),
-          //       (route) => false,
-          //     );
-          //   }
-          // }
- 
+          if (userWM.userData.value.data?.user.city == null ||
+              userWM.userData.value.data?.user.email == null) {
+            targetPage = '/city_and_email';
+          } else {
+            targetPage = '/home';
+          }
+
           break;
       }
 
-      Navigator.of(Keys.mainNav.currentContext!).pushAndRemoveUntil(
-        PageRouteBuilder<void>(
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return targetPage;
-          },
-        ),
-        (route) => false,
-      );
+      // Keys.mainContentNav.currentState!.pushAndRemoveUntil(
+      //   PageRouteBuilder<void>(
+      //     pageBuilder: (context, animation, secondaryAnimation) {
+      //       return targetPage;
+      //     },
+      //   ),
+      //   (route) => false,
+      // );
+
+      debugPrint(targetPage);
+      debugPrint('context $context');
+
+      if (context != null) {
+        Navigator.of(context!).pushNamedAndRemoveUntil(
+          targetPage,
+          (route) => false,
+        );
+      }
     });
 
-    subscribe(checkAuthAction.stream, (value) {
-      debugPrint('1234');
-      if (user.value.isLoading) return;
-      debugPrint('1234345');
+    checkAuthAction.bind((value) {
+      if (userWM.userData.value.isLoading) return;
 
-      user.loading();
+      userWM.userData.loading();
 
       UserWriter.checkUserToken().then((user) {
         if (user == null) {
           authStatus.accept(AuthStatus.unauthenticated);
-          this.user.error(
-                Exception('Необходима авторизация'),
-              );
+          userWM.userData.error(Exception('Необходима авторизация'));
         } else {
           authStatus.accept(AuthStatus.authenticated);
-          this.user.content(user);
+          userWM.userData.content(user);
         }
-
-        debugPrint(user.toString());
-      // ignore: argument_type_not_assignable_to_error_handler
-      }).catchError((){
-        debugPrint('error');
       });
     });
 
-    checkAuthAction();
+    super.onLoad();
+  }
 
-    super.onBind();
+	/// выход
+  void logout(){
+		userWM.logout();
+		authStatus.accept(AuthStatus.unauthenticated);
   }
 }

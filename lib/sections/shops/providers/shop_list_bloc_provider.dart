@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopListCubitProvider extends StatefulWidget {
   final Widget child;
+  final String? city;
+
   const ShopListCubitProvider({
     required this.child,
+     this.city,
     Key? key,
   }) : super(key: key);
 
@@ -14,11 +17,17 @@ class ShopListCubitProvider extends StatefulWidget {
 }
 
 class _ShopListCubitProviderState extends State<ShopListCubitProvider> {
-  final shopListCubit = ShopListCubit();
+  late final shopListCubit = ShopListCubit(
+    city: widget.city,
+  );
+
   @override
   void initState() {
     super.initState();
     shopListCubit.loadShopList();
+    // shopListCubit.loadShopListByCity(
+    //   widget.cityName,
+    // );
   }
 
   @override

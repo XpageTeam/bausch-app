@@ -18,17 +18,17 @@ class DeliveryInfoContainer extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Icon(
-                Icons.charging_station,
-                color: AppTheme.mineShaft,
+            children: [
+              Image.asset(
+                'assets/substract.png',
+                height: 18,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 12,
               ),
               Flexible(
                 child: Text(
-                  'Доставка может занять 60 рабочих дней',
+                  'Доставка в течение 60 рабочих дней',
                   style: AppStyles.h2Bold,
                 ),
               ),

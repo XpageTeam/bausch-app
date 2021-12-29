@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -22,7 +23,7 @@ class SocialCubit extends Cubit<SocialState> {
 
     try {
       final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>('faq/socials')).data!,
+        (await rh.get<Map<String, dynamic>>('/faq/socials/')).data!,
       );
 
       emit(
@@ -34,7 +35,7 @@ class SocialCubit extends Cubit<SocialState> {
               .toList(),
         ),
       );
-    } on ResponseParseExeption catch (e) {
+    } on ResponseParseException catch (e) {
       emit(
         SocialFailed(
           title: 'Ошибка при обработке ответа от сервера',
@@ -46,6 +47,12 @@ class SocialCubit extends Cubit<SocialState> {
         SocialFailed(
           title: 'Ошибка при отправке запроса',
           subtitle: e.toString(),
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      emit(
+        SocialFailed(
+          title: e.toString(),
         ),
       );
     }

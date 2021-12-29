@@ -1,5 +1,4 @@
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 /// Виджет круглого значка баллов
@@ -8,8 +7,8 @@ class PointWidget extends StatelessWidget {
   final double radius;
   final TextStyle textStyle;
   const PointWidget({
+    required this.textStyle,
     this.radius = 14,
-    this.textStyle = AppStyles.h2Bold,
     Key? key,
   }) : super(key: key);
 

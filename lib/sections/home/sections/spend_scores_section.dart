@@ -9,6 +9,7 @@ import 'package:bausch/sections/home/widgets/containers/small_container.dart';
 import 'package:bausch/sections/home/widgets/containers/wide_container_with_items.dart';
 import 'package:bausch/sections/home/widgets/containers/wide_container_without_items.dart';
 import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +40,7 @@ class _SpendScoresState extends State<SpendScores> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Потратить баллы',
                 style: AppStyles.h1,
               ),
@@ -52,7 +53,7 @@ class _SpendScoresState extends State<SpendScores> {
                   spacing: 4,
                   runSpacing: 4,
                   children: List.generate(
-                    state.models.length,
+                    Models.sheets.length,
                     (i) {
                       if (state.models[i].type == 'offline') {
                         return WideContainerWithItems(
@@ -76,9 +77,7 @@ class _SpendScoresState extends State<SpendScores> {
             ],
           );
         }
-        return const Center(
-          child: CircularProgressIndicator.adaptive(),
-        );
+        return Container();
       },
     );
   }

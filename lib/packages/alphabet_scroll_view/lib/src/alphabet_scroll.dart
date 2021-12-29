@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_if_elements_to_conditional_expressions, always_put_required_named_parameters_first
-// ignore_for_file: avoid_unnecessary_setstate
+// ignore_for_file: avoid-unnecessary-setstate
+// ignore_for_file: member-ordering-extended
 
 import 'package:bausch/packages/alphabet_scroll_view/lib/src/meta.dart';
 import 'package:bausch/theme/styles.dart';
@@ -19,6 +20,8 @@ class AlphabetScrollView extends StatefulWidget {
     this.overlayWidget,
     required this.selectedTextStyle,
     required this.unselectedTextStyle,
+    //required this.selectedLetterTextStyle, //= const TextStyle(fontSize: 12,height: 16/12,fontWeight: FontWeight.w500,fontFamily: 'Euclid Circular A',),
+    //required this.unselectedLetterTextStyle, // =  AppStyles.p1,
     this.itemExtent = 40,
     required this.itemBuilder,
   }) : super(key: key);
@@ -89,6 +92,10 @@ class AlphabetScrollView extends StatefulWidget {
   /// ```
 
   final TextStyle selectedTextStyle;
+
+  //final TextStyle selectedLetterTextStyle;
+
+  //final TextStyle unselectedLetterTextStyle;
 
   // ignore: member-ordering-extended
   /// Text styling for the unselected alphabet by which
@@ -187,7 +194,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   /// This helps to avoid recomputing the position to scroll to
   /// on each Scroll.
   void calculateFirstIndex() {
-    for (var letter in _filteredAlphabets) {
+    for (final letter in _filteredAlphabets) {
       final firstElement = _list.firstWhereOrNull(
         (item) => item.key.toLowerCase().startsWith(letter),
       );
@@ -204,14 +211,12 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     final index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
 
     //* Сложные математические расчеты - не трогать!
-    final scrollToPostion = widget.itemExtent * index + x * 74;
-    if (index != null) {
-      listController.animateTo(
-        scrollToPostion,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
+    final scrollToPostion = widget.itemExtent * index + x * 75;
+    listController.animateTo(
+      scrollToPostion,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
     positionNotifer.value = offset;
 
     debugPrint('$index');
@@ -262,7 +267,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
                 return Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30, top: i == 0 ? 30 : 0),
+                    padding: EdgeInsets.only(bottom: 20, top: i == 0 ? 30 : 10),
                     child: CircleAvatar(
                       child: Text(
                         element.toUpperCase(),
@@ -278,64 +283,64 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
             return Container();
           },
         ),
-        Align(
-          alignment: widget.alignment == LetterAlignment.left
-              ? Alignment.centerLeft
-              : Alignment.centerRight,
-          child: Container(
-            key: key,
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onVerticalDragStart: (z) => onVerticalDrag(z.localPosition),
-                onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
-                onVerticalDragEnd: (z) {
-                  setState(() {
-                    isFocused = false;
-                  });
-                },
-                child: ValueListenableBuilder<int>(
-                  valueListenable: _selectedIndexNotifier,
-                  builder: (context, selected, child) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        _filteredAlphabets.length,
-                        (x) => GestureDetector(
-                          key: x == selected ? letterKey : null,
-                          onTap: () {
-                            _selectedIndexNotifier.value = x;
-                            scrolltoIndex(x, positionNotifer.value);
-                          },
-                          child: Container(
-                            constraints: const BoxConstraints(
-                              maxWidth: 40,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 2,
-                            ),
-                            child: Text(
-                              _filteredAlphabets[x].toUpperCase(),
-                              style: selected == x
-                                  ? widget.selectedTextStyle
-                                  : widget.unselectedTextStyle,
-                              // style: TextStyle(
-                              //     fontSize: 12,
-                              //     fontWeight: selected == x
-                              //         ? FontWeight.bold
-                              //         : FontWeight.normal),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-        ),
+        // Align(
+        //   alignment: widget.alignment == LetterAlignment.left
+        //       ? Alignment.centerLeft
+        //       : Alignment.centerRight,
+        //   child: Container(
+        //     key: key,
+        //     padding: const EdgeInsets.symmetric(horizontal: 2),
+        //     child: SingleChildScrollView(
+        //       child: GestureDetector(
+        //         onVerticalDragStart: (z) => onVerticalDrag(z.localPosition),
+        //         onVerticalDragUpdate: (z) => onVerticalDrag(z.localPosition),
+        //         onVerticalDragEnd: (z) {
+        //           setState(() {
+        //             isFocused = false;
+        //           });
+        //         },
+        //         child: ValueListenableBuilder<int>(
+        //           valueListenable: _selectedIndexNotifier,
+        //           builder: (context, selected, child) {
+        //             return Column(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: List.generate(
+        //                 _filteredAlphabets.length,
+        //                 (x) => GestureDetector(
+        //                   key: x == selected ? letterKey : null,
+        //                   onTap: () {
+        //                     _selectedIndexNotifier.value = x;
+        //                     scrolltoIndex(x, positionNotifer.value);
+        //                   },
+        //                   child: Container(
+        //                     constraints: const BoxConstraints(
+        //                       maxWidth: 40,
+        //                     ),
+        //                     padding: const EdgeInsets.symmetric(
+        //                       horizontal: 12,
+        //                       vertical: 2,
+        //                     ),
+        //                     child: Text(
+        //                       _filteredAlphabets[x].toUpperCase(),
+        //                       style: selected == x
+        //                           ? widget.selectedTextStyle
+        //                           : widget.unselectedTextStyle,
+        //                       // style: TextStyle(
+        //                       //     fontSize: 12,
+        //                       //     fontWeight: selected == x
+        //                       //         ? FontWeight.bold
+        //                       //         : FontWeight.normal),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             );
+        //           },
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         !isFocused
             ? Container()
             : ValueListenableBuilder<Offset>(

@@ -1,6 +1,9 @@
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
@@ -9,7 +12,8 @@ import 'package:flutter/material.dart';
 
 class FinalConsultation extends StatelessWidget {
   final ScrollController controller;
-  final CatalogItemModel model;
+  final ConsultationItemModel model;
+
   const FinalConsultation({
     required this.controller,
     required this.model,
@@ -18,54 +22,60 @@ class FinalConsultation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
-      ),
-      child: Scaffold(
-        backgroundColor: AppTheme.sulu,
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    CustomSliverAppbar.toPop(
-                      icon: Container(),
-                      key: key,
-                      rightKey: Keys.mainNav,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Text(
-                        'Ваш доступ к записи вебинара',
-                        style: AppStyles.h2,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        top: 12,
-                        bottom: 40,
-                      ),
-                      child: Text(
-                        'Доступ видео у вас будет всегда, путь к нему будет в Профиле и в разделе «Записи вебинаров»',
-                        style: AppStyles.p1,
-                      ),
-                    ),
-                    BigCatalogItem(model: model),
-                  ],
-                ),
-              ),
-            ),
-          ],
+    return CustomSheetScaffold(
+      backgroundColor: AppTheme.sulu,
+      controller: controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        icon: Container(
+          height: 1,
         ),
-        floatingActionButton: const BottomButtonWithRoundedCorners(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ),
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
+          ),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.only(top: 78),
+                  // TODO(Nikolay): Сделать.
+                  child: Text(
+                    'Вот ваш промокод на онлайн-консультацию',
+                    style: AppStyles.h1,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 40,
+                  ),
+                  child: ContainerWithPromocode(
+                    promocode: model.poolPromoCode,
+                    onPressed: () =>
+                        Utils.copyStringToClipboard(model.poolPromoCode),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    bottom: 40,
+                  ),
+                  // TODO(Nikolay): Сделать.
+                  child: Text(
+                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
+                    style: AppStyles.p1,
+                  ),
+                ),
+                BigCatalogItem(model: model),
+              ],
+            ),
+          ),
+        ),
+      ],
+      bottomNavBar: const BottomButtonWithRoundedCorners(
+        text: 'Скопировать код и перейти на сайт',
       ),
     );
   }

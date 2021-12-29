@@ -1,10 +1,9 @@
-import 'package:another_flushbar/flushbar.dart';
-import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
+import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,11 +30,11 @@ class TextButtonsListener extends StatelessWidget {
             if (state is FaqSuccess) {
               Keys.mainNav.currentState!.pop();
 
-              showSimpleSheet(
+              showSheet<List<TopicModel>>(
                 context,
                 SimpleSheetModel(
-                  title: 'Частые вопросы',
-                  type: SimpleSheetType.faq,
+                  name: 'Частые вопросы',
+                  type: 'faq',
                 ),
                 state.topics,
               );
@@ -56,13 +55,13 @@ class TextButtonsListener extends StatelessWidget {
 
             if (state is RulesSuccess) {
               Keys.mainNav.currentState!.pop();
-
-              showSimpleSheet(
+              showSheet<String>(
                 context,
                 SimpleSheetModel(
-                  title: 'Rules',
-                  type: SimpleSheetType.rules,
+                  name: 'Правила',
+                  type: 'rules',
                 ),
+                state.data,
               );
             }
           },

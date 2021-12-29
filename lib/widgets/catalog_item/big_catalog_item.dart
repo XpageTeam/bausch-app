@@ -36,7 +36,7 @@ class BigCatalogItem extends StatelessWidget {
                   height: 4,
                 ),
                 ButtonContent(
-                  price: model.price.toString(),
+                  price: model.priceToString,
                   alignment: MainAxisAlignment.start,
                 ),
               ],
@@ -45,9 +45,19 @@ class BigCatalogItem extends StatelessWidget {
           const SizedBox(
             width: 4,
           ),
-          Image.network(
-            model.picture,
-            height: 100,
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 100,
+              maxHeight: 100,
+            ),
+            child: AspectRatio(
+              aspectRatio: 100 / 100,
+              child: model.picture != null
+                  ? Image.network(
+                      model.picture!,
+                    )
+                  : null,
+            ),
           ),
         ],
       ),

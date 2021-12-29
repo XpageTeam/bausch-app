@@ -1,6 +1,11 @@
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
@@ -13,6 +18,8 @@ class SheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userWm = Provider.of<UserWM>(context);
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
@@ -21,16 +28,24 @@ class SheetWidget extends StatelessWidget {
           //* Виджет с количеством баллов
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.all(12.0),
-                child: PointsInfo(
-                  text: '500',
-                  backgoundColor: AppTheme.mystic,
+                padding: const EdgeInsets.all(12.0),
+                child: EntityStateBuilder<UserRepository>(
+                  streamedState: userWm.userData,
+                  builder: (_, userData) {
+                    return PointsInfo(
+                      text: HelpFunctions.partitionNumber(
+                        userData.balance.available,
+                      ),
+                      backgoundColor: AppTheme.mystic,
+                    );
+                  },
                 ),
               ),
             ],
           ),
+
           Flexible(
             child: Stack(
               alignment: Alignment.topCenter,

@@ -1,4 +1,5 @@
 import 'package:bausch/sections/faq/social_buttons/cubit/social_cubit.dart';
+import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,8 +21,8 @@ class _SocialButtonsState extends State<SocialButtons> {
         if (state is SocialSuccess) {
           return Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                   top: 40,
                   bottom: 14,
                 ),
@@ -41,7 +42,13 @@ class _SocialButtonsState extends State<SocialButtons> {
                       backgroundColor: Colors.white,
                       radius: 22,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          //debugPrint(state.models[i].url);
+                          Utils.tryLaunchUrl(
+                            rawUrl: state.models[i].url,
+                            isPhone: false,
+                          );
+                        },
                         padding: EdgeInsets.zero,
                         icon: Image.network(
                           state.models[i].icon,

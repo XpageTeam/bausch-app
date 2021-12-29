@@ -1,14 +1,16 @@
+import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class ShopFilterButton extends StatelessWidget {
-  final String title;
-  final VoidCallback? onPressed;
+  final Filter filter;
+  final void Function(Filter filter) onPressed;
   final bool isSelected;
+
   const ShopFilterButton({
-    required this.title,
-    this.onPressed,
+    required this.filter,
+    required this.onPressed,
     this.isSelected = false,
     Key? key,
   }) : super(key: key);
@@ -21,14 +23,12 @@ class ShopFilterButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
-      child: InkWell(
-        splashColor: AppTheme.turquoiseBlue,
-        hoverColor: AppTheme.grey,
-        onTap: onPressed,
+      child: GestureDetector(
+        onTap: () => onPressed(filter),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
-            title,
+            filter.title,
             style: AppStyles.h2Bold,
           ),
         ),

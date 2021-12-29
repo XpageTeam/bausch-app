@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class StaticData {
+  static const dadataApiKey = 'c5884c57a17def3fe99c96a9ee13b15554680669';
+  static const dadataSecretKey = 'R_SHe3@bFx\$DOP28yrMgm_%&M';
+
+  @Deprecated('использовать dadataApiKey')
+  static const vitaminkaKey = '5aca2ceb0ac2e60d8ec3894adf6953d0c6c6f50e';
+
   static const sidePadding = 12.0;
 
   static const contraindications =
@@ -13,7 +19,9 @@ class StaticData {
     'Внешний вид и комплектность подарочных изделий могут отличаться от изображений на сайте.',
   ];
 
-  static String apiUrl = 'https://baush-app.xpager.ru/api/';
+  static const removedOffersKey = 'removed_offers';
+  
+  static String apiUrl = 'https://bausch.in-progress.ru/api/';
 
   //* Названия типов разделов, чтобы не менять во всех местах
   static Map<String, String> types = {
@@ -46,21 +54,17 @@ enum SimpleSheetType {
   faq,
   links,
   rules,
+  addpoints,
+  program,
 }
 
 class Keys {
   //* Ключ для навигации между страницами приложения
   static GlobalKey<NavigatorState> mainContentNav = GlobalKey();
 
-  //* Ключ для навигации между страницами bottomSheet'а, на которых есть элементы каталога(CatalogItem)
-  static GlobalKey<NavigatorState> bottomSheetItemsNav = GlobalKey();
-
-  //* Ключ для навигации между страницами bottomSheet'а, на которых нет элементов каталога
-  //* Т.е. сразу открывается нужная страница
-  static GlobalKey<NavigatorState> bottomSheetWithoutItemsNav = GlobalKey();
-
-  static GlobalKey<NavigatorState> simpleBottomSheetNav = GlobalKey();
-
   //* Ключ для контроля всяких всплывающих виджетов
   static GlobalKey<NavigatorState> mainNav = GlobalKey();
+
+  //* Ключ для навигации в bottomSheet'ах
+  static GlobalKey<NavigatorState> bottomNav = GlobalKey();
 }

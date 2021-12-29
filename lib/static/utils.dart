@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,8 +20,11 @@ class Utils {
     }
   }
 
-  static Future<Uint8List> getRawImageData(String imageAsset) async {
-    final data = await rootBundle.load(imageAsset);
-    return data.buffer.asUint8List();
+  static void copyStringToClipboard(
+    String data, {
+    String notificationText = 'Скопировано!',
+  }) {
+    Clipboard.setData(ClipboardData(text: data));
+    showDefaultNotification(title: notificationText);
   }
 }

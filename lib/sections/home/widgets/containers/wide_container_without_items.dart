@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
@@ -7,6 +8,7 @@ import 'package:bausch/sections/home/widgets/containers/white_container_with_rou
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
+import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,20 +62,24 @@ class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
             children: [
               Text(
                 widget.model.name,
-                style: AppStyles.h2Bold,
+                style: AppStyles.h2,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
                     child: Text(
                       widget.subtitle ??
-                          'Скидка на выбранный товар будет дейстовать в любой из оптик сети',
+                          'Любые вопросы офтальмологу из клиники Медси',
                       style: AppStyles.p1,
                     ),
                   ),
-                  Image.network(
-                    widget.model.icon,
-                    height: 40,
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Image.asset(
+                    setTheImg(widget.model.type),
+                    height: 45,
                   ),
                 ],
               ),

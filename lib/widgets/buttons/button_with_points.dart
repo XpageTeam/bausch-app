@@ -4,17 +4,34 @@ import 'package:flutter/material.dart';
 
 class ButtonWithPoints extends StatelessWidget {
   final String price;
-  const ButtonWithPoints({required this.price, Key? key}) : super(key: key);
+  final VoidCallback onPressed;
+
+  final bool withIcon;
+
+  const ButtonWithPoints({
+    required this.price,
+    required this.onPressed,
+    this.withIcon = true,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      style: TextButton.styleFrom(
-        primary: AppTheme.grey,
-        backgroundColor: AppTheme.mystic,
+    return Container(
+      constraints: const BoxConstraints(
+        minHeight: 44,
       ),
-      child: ButtonContent(price: price),
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          primary: AppTheme.grey,
+          backgroundColor: AppTheme.mystic,
+        ),
+        child: ButtonContent(
+          price: price,
+          withIcon: withIcon,
+        ),
+      ),
     );
   }
 }

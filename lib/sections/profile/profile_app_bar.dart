@@ -13,10 +13,10 @@ class ProfileAppBar extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: StaticData.sidePadding,
           right: StaticData.sidePadding,
-          top: 2,
+          //top: 2,
         ),
         child: SizedBox(
-          height: 56,
+          height: 48,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

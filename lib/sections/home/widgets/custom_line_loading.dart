@@ -1,4 +1,3 @@
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -6,19 +5,19 @@ import 'package:flutter/material.dart';
 class CustomLineLoadingIndicator extends StatelessWidget {
   final Duration animationDuration;
   final String text;
-  late int maxDays;
-  late int remainDays;
+  late final int maxDays;
+  late final int daysRemain;
 
   CustomLineLoadingIndicator({
     required this.animationDuration,
     required this.text,
     required int maxDays,
-    required int remainDays,
+    required int daysRemain,
     Key? key,
   }) : super(key: key) {
     this.maxDays = maxDays > 0 ? maxDays : 1;
-    this.remainDays =
-        remainDays > maxDays ? maxDays : (remainDays < 0 ? 0 : remainDays);
+    this.daysRemain =
+        daysRemain > maxDays ? maxDays : (daysRemain < 0 ? 0 : daysRemain);
   }
 
   @override
@@ -33,17 +32,19 @@ class CustomLineLoadingIndicator extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        AnimatedContainer(
-          curve: Curves.easeInOutCubic,
-          duration: animationDuration,
-          height: 26,
-          width: _calcCurrentWidth(
-            MediaQuery.of(context).size.width,
-          ), //snapshot.hasData ? currentWidth : 0,
-          decoration: BoxDecoration(
-            color: AppTheme.sulu,
-            borderRadius: BorderRadius.circular(5),
-          ),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return AnimatedContainer(
+              curve: Curves.easeInOutCubic,
+              duration: animationDuration,
+              height: 26,
+              width: constraints.maxWidth / maxDays * (maxDays - daysRemain),
+              decoration: BoxDecoration(
+                color: AppTheme.sulu,
+                borderRadius: BorderRadius.circular(5),
+              ),
+            );
+          },
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,13 +57,5 @@ class CustomLineLoadingIndicator extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  double _calcCurrentWidth(
-    double maxWidth,
-  ) {
-    return (maxWidth - StaticData.sidePadding * 2) /
-        maxDays *
-        (maxDays - remainDays);
   }
 }

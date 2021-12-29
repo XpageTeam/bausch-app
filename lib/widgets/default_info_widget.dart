@@ -33,7 +33,7 @@ class DefaultInfoWidget extends StatelessWidget {
             margin: const EdgeInsets.only(top: 16),
             child: BlueButton(
               padding: const EdgeInsets.symmetric(vertical: 12),
-              children: const [
+              children: [
                 Text(
                   'Повторить',
                   style: AppStyles.p1,

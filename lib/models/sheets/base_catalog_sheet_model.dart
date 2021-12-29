@@ -8,16 +8,16 @@ abstract class BaseCatalogSheetModel {
   final String type;
 
   //* Ссылка на иконку
-  final String icon;
+  final String? icon;
 
   //* Количество элементов внутри
-  final int count;
+  final int? count;
 
   BaseCatalogSheetModel({
     required this.id,
     required this.name,
     required this.type,
-    required this.icon,
-    required this.count,
+    this.icon,
+    this.count,
   });
 }

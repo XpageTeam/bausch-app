@@ -1,29 +1,64 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';
+import 'package:bausch/models/stories/product_model.dart';
 
 class StoryContentModel implements MappableInterface<StoryContentModel> {
+  //final int id;
+
   //* Текст(отображается на главном экране)
   final String title;
 
-  //* Ссылка на картинку или видео
-  final String file;
+  final String? description;
 
-  StoryContentModel({required this.title, required this.file});
+  final ProductModel? productModel;
+
+  //* Ссылка на картинку или видео
+  final String? file;
+
+  final String preview;
+
+  final Duration duration;
+
+  final String? textBtn;
+
+  final String? link;
+
+  final String? textAfter;
+
+  final bool isVideo;
+
+  StoryContentModel({
+    //required this.id,
+    required this.isVideo,
+    required this.preview,
+    required this.title,
+    this.productModel,
+    this.file,
+    this.textBtn,
+    this.link,
+    this.description,
+    this.textAfter,
+    this.duration = const Duration(seconds: 5),
+  });
 
   factory StoryContentModel.fromMap(Map<String, dynamic> map) {
     if (map['title'] == null) {
-      throw ResponseParseExeption('Не передано название истории');
-    }
-
-    if (map['file'] == null) {
-      throw ResponseParseExeption('Не передана ссылка на файл');
+      throw ResponseParseException('Не передано название истории');
     }
 
     return StoryContentModel(
-      title: (map['title'] ?? 'kek') as String,
-      file: (map['file'] ??
-              'https://baush-app.xpager.ru/upload/uf/e0e/ge4ml2lkuiwovx8yyclujb9l7pda3jm1.jpg')
-          as String,
+      //id: map['id'] as int,
+      title: (map['title'] ?? 'Title') as String,
+      description: map['description'] as String,
+      productModel: map['product'] != null
+          ? ProductModel.fromMap(map['product'] as Map<String, dynamic>)
+          : null,
+      file: map['file'] as String,
+      preview: map['preview'] as String,
+      link: map['link'] as String,
+      textBtn: map['text_btn'] as String,
+      textAfter: map['text_after'] as String,
+      isVideo: map['is_video'] as bool,
     );
   }
 

@@ -1,10 +1,13 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,22 +20,22 @@ class FinalAddPointsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
+    return CustomSheetScaffold(
+      backgroundColor: AppTheme.sulu,
+      controller: controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.only(
+          top: 14,
+          right: StaticData.sidePadding,
+        ),
+        icon: Container(
+          height: 1,
+        ),
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.sulu,
-        body: SingleChildScrollView(
-          controller: controller,
-          child: Column(
-            children: [
-              CustomSliverAppbar.toPop(
-                icon: Container(),
-                key: key,
-                rightKey: Keys.bottomSheetWithoutItemsNav,
-              ),
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -57,21 +60,40 @@ class FinalAddPointsScreen extends StatelessWidget {
                     ],
                   ),
                   Column(
-                    children: const [
-                      Text(
-                        '+500',
-                        style: TextStyle(
-                          color: AppTheme.mineShaft,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 85,
-                          height: 80 / 85,
-                        ),
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          AutoSizeText(
+                            '+500',
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: AppTheme.mineShaft,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 85,
+                              height: 80 / 85,
+                              leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                          PointWidget(
+                            radius: 18,
+                            textStyle: TextStyle(
+                              color: AppTheme.mineShaft,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 27,
+                              height: 25 / 27,
+                              leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      AutoSizeText(
                         'Спасибо, что вы с нами!',
+                        maxLines: 2,
                         style: AppStyles.h1,
                       ),
                     ],
@@ -81,11 +103,10 @@ class FinalAddPointsScreen extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: const CustomFloatingActionButton(
-          text: 'Потратить баллы',
-          topPadding: 12,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      ],
+      bottomNavBar: const CustomFloatingActionButton(
+        text: 'Потратить баллы',
+        topPadding: 12,
       ),
     );
   }

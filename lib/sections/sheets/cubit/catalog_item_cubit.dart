@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
@@ -33,36 +34,32 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
             .data!,
       );
 
-      if (parsedData.success) {
-        emit(
-          CatalogItemSuccess(
-            items: (parsedData.data as List<dynamic>).map(
-              (dynamic item) {
-                if (section == StaticData.types['webinar']) {
-                  return WebinarItemModel.fromMap(item as Map<String, dynamic>);
-                } else if (section == StaticData.types['consultation']) {
-                  return ConsultationItemModel.fromMap(
-                    item as Map<String, dynamic>,
-                  );
-                } else if (section == StaticData.types['partners']) {
-                  return PartnersItemModel.fromMap(
-                    item as Map<String, dynamic>,
-                  );
-                } else if ((section == StaticData.types['discount_optics']) ||
-                    (section == StaticData.types['discount_online'])) {
-                  return PromoItemModel.fromMap(item as Map<String, dynamic>);
-                } else {
-                  return ProductItemModel.fromMap(item as Map<String, dynamic>);
-                }
-              },
-            ).toList(),
-          ),
-        );
-      } else {
-        emit(CatalogItemFailed(title: 'Ошибка при соединении'));
-        debugPrint('Ошибка при соединении');
-      }
-    } on ResponseParseExeption catch (e) {
+      emit(
+        CatalogItemSuccess(
+          items: (parsedData.data as List<dynamic>).map(
+            // ignore: avoid_annotating_with_dynamic
+            (dynamic item) {
+              if (section == StaticData.types['webinar']) {
+                return WebinarItemModel.fromMap(item as Map<String, dynamic>);
+              } else if (section == StaticData.types['consultation']) {
+                return ConsultationItemModel.fromMap(
+                  item as Map<String, dynamic>,
+                );
+              } else if (section == StaticData.types['partners']) {
+                return PartnersItemModel.fromMap(
+                  item as Map<String, dynamic>,
+                );
+              } else if ((section == StaticData.types['discount_optics']) ||
+                  (section == StaticData.types['discount_online'])) {
+                return PromoItemModel.fromMap(item as Map<String, dynamic>);
+              } else {
+                return ProductItemModel.fromMap(item as Map<String, dynamic>);
+              }
+            },
+          ).toList(),
+        ),
+      );
+    } on ResponseParseException catch (e) {
       emit(
         CatalogItemFailed(
           title: 'Ошибка при обработке ответа от сервера',
@@ -70,6 +67,13 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
         ),
       );
     } on DioError catch (e) {
+      emit(
+        CatalogItemFailed(
+          title: 'Ошибка при отправке запроса',
+          subtitle: e.toString(),
+        ),
+      );
+    } on SuccessFalse catch (e) {
       emit(
         CatalogItemFailed(
           title: 'Ошибка при отправке запроса',

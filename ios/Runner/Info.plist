@@ -24,8 +24,12 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAllowsArbitraryLoads</key>
+	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Разрешите приложению доступ к геоданным чтобы оно могло отобразить ваше местоположение на карте. Это нужно, например, чтобы вы могли найти ближайшие к вам оптики</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Для прикрепления файлов к форме обратной связи нужен доступ к медиабиблиотеке</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -45,7 +49,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Для прикрепления файлов к форме обратной связи нужен доступ к медиабиблиотеке</string>
 </dict>
 </plist>

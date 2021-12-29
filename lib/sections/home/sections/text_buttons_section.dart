@@ -1,9 +1,6 @@
-import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/home/widgets/listeners/text_buttons_listener.dart';
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,13 +35,20 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
           children: [
             CustomTextButton(
               title: 'Правила программы',
-              onPressed: rulesCubit.loadData,
+              onPressed: () {
+                rulesCubit.loadData(RulesOrLinks.rules);
+              },
             ),
             CustomTextButton(
               title: 'Частые вопросы',
               onPressed: faqCubit.loadData,
             ),
-            const CustomTextButton(title: 'Библиотека ссылок'),
+            CustomTextButton(
+              title: 'Библиотека ссылок',
+              onPressed: () {
+                rulesCubit.loadData(RulesOrLinks.links);
+              },
+            ),
           ],
         ),
       ),

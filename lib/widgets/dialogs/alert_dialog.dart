@@ -6,10 +6,16 @@ import 'package:flutter/material.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   final VoidCallback yesCallback;
-  final VoidCallback noCallback;
+  final VoidCallback? noCallback;
+  final String? text;
+  final String? yesText;
+  final String? noText;
   const CustomAlertDialog({
     required this.yesCallback,
-    required this.noCallback,
+    this.noCallback,
+    this.text,
+    this.yesText,
+    this.noText,
     Key? key,
   }) : super(key: key);
 
@@ -35,39 +41,44 @@ class CustomAlertDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 40),
-              child: Text(
-                'Удалить адрес?',
-                style: AppStyles.h1,
+            //TODO(Nikita): не забыть при слиянии
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: Text(
+                  text ?? 'Удалить адрес?',
+                  style: AppStyles.h1,
+                ),
               ),
             ),
             BlueButtonWithText(
-              text: 'Да',
+              text: yesText ?? 'Да',
               onPressed: yesCallback,
             ),
             const SizedBox(
               height: 4,
             ),
-            SizedBox(
-              height: 60,
-              //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
-              child: TextButton(
-                onPressed: noCallback,
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Нет',
-                      style: AppStyles.h2,
-                    ),
-                  ],
+            if (noCallback != null)
+              SizedBox(
+                height: 60,
+                //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
+                child: TextButton(
+                  onPressed: noCallback,
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        noText ?? 'Нет',
+                        style: AppStyles.h2,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),

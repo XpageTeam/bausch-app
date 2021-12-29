@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
 
 class DialogWithPlayers extends StatefulWidget {
   final String vimeoId;
@@ -24,16 +23,17 @@ class _DialogWithPlayersState extends State<DialogWithPlayers> {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       content: Column(
-        children: [
-          const Text('Vimeo'),
-          SizedBox(
-            width: 350,
-            height: 200,
-            child: VimeoPlayer(
-              id: '577635596',
-              //allowFullScreen: true,
-            ),
-          ),
+        children: const [
+          Text('Vimeo'),
+          // SizedBox(
+          //   width: 350,
+          //   height: 200,
+          //   child:
+          //    VimeoPlayer(
+          //     id: '577635596',
+          //     //allowFullScreen: true,
+          //   ),
+          // ),
           // const Text('Youtube'),
           // SizedBox(
           //   height: 200,

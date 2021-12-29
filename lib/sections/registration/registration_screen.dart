@@ -1,7 +1,5 @@
 import 'package:bausch/global/login/login_wm.dart';
-import 'package:bausch/sections/registration/widgets/phone_form/phone_from.dart';
-import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/sections/registration/widgets/reg_screen_body.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,37 +9,8 @@ class RegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.mystic,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: StaticData.sidePadding,
-            ),
-            // physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Text(
-                  'Войти или создать профиль',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 24,
-                    height: 31 / 24,
-                  ),
-                ),
-                const SizedBox(
-                  height: 100,
-                ),
-                PhoneForm(
-                  wm: Provider.of<LoginWM>(context),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    return RegScreenBody(
+      wm: Provider.of<LoginWM>(context),
     );
   }
 }

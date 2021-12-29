@@ -1,198 +1,180 @@
 import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
-import 'package:bausch/sections/home/widgets/slider/indicator.dart';
+import 'package:bausch/sections/home/widgets/slider/indicators_scroll_controller.dart';
 import 'package:bausch/sections/home/widgets/slider/no_glow_behavior.dart';
-import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+typedef IndicatorBuilder = Widget Function(
+  BuildContext context,
+  bool isActive,
+);
+
 class IndicatorsRow extends StatefulWidget {
-  final double spaceBetween;
   final int indicatorsOnPage;
+  final double spaceBetween;
+  final double maxWidth;
   final Duration animationDuration;
+  final IndicatorBuilder builder;
 
   const IndicatorsRow({
-    this.spaceBetween = 4,
-    this.indicatorsOnPage = 3,
-    this.animationDuration = const Duration(
-      milliseconds: 300,
-    ),
+    required this.indicatorsOnPage,
+    required this.spaceBetween,
+    required this.maxWidth,
+    required this.animationDuration,
+    required this.builder,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<IndicatorsRow> createState() => _IndicatorsRowState();
+  _IndicatorsRowState createState() => _IndicatorsRowState();
 }
 
 class _IndicatorsRowState extends State<IndicatorsRow> {
-  late final controller = ScrollController(
+  late final scrollController = IndicatorsScrollController(
     initialScrollOffset:
         (widget.indicatorsOnPage ~/ 2) * (indicatorWidth + widget.spaceBetween),
+    triggerOffset: indicatorWidth + widget.spaceBetween,
+    viewportDim: indicatorWidth + widget.spaceBetween,
   );
 
-  // int currentGlobalIndex = 2;
-  late int currentGlobalIndex = widget.indicatorsOnPage - 1;
+  late final int count = widget.indicatorsOnPage * 2 + 2;
   late double indicatorWidth;
+
+  int currentIndex = 0;
+  int currentPage = 1;
+  bool isIndicatorClick = false;
+  bool indicatorsBlock = false;
+
+  late SliderCubit sliderCubit;
 
   @override
   void initState() {
     super.initState();
+
+    sliderCubit = BlocProvider.of<SliderCubit>(context);
+    indicatorWidth = (widget.maxWidth -
+            widget.spaceBetween * (widget.indicatorsOnPage - 1)) /
+        widget.indicatorsOnPage;
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        indicatorWidth = (constraints.maxWidth - widget.spaceBetween * 2) /
-            widget.indicatorsOnPage;
+    return BlocListener<SliderCubit, SliderState>(
+      listener: (context, state) {
+        if (scrollController.hasClients && state is SliderSlidePage) {
+          if (isIndicatorClick) {
+            isIndicatorClick = false;
+          } else {
+            indicatorsBlock = true;
 
-        return BlocConsumer<SliderCubit, SliderState>(
-          listener: (context, state) {
-            if (state is SliderSlideTo && state.direction != 0) {
-              currentGlobalIndex += state.direction;
+            changePage(
+              (scrollController.page + state.scrollPages - 1) % 4,
+              state.scrollPages,
+            );
+          }
+        }
+      },
+      child: ScrollConfiguration(
+        behavior: NoGlowScrollBehavior(),
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: scrollController,
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+              count,
+              (i) {
+                final innerIndex = (i - 2) % (widget.indicatorsOnPage + 1);
+                return GestureDetector(
+                  onTap: () {
+                    if (!indicatorsBlock) {
+                      indicatorsBlock = true;
+                      isIndicatorClick = true;
 
-              slideIndex();
-            }
-          },
-          builder: (context, state) {
-            return NotificationListener<ScrollNotification>(
-              onNotification: (scroll) {
-                if (scroll is ScrollEndNotification) {
-                  onEndScroll(scroll);
-                }
-                return false;
-              },
-              child: ScrollConfiguration(
-                behavior: NoGlowScrollBehavior(),
-                child: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: controller,
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      // widget.indexesOnPage + 2 + 1,
-                      // (i) {
-                      //   final innerIndex = (i + 1) % (widget.indexesOnPage);
-                      //   final currentInnerIndex =
-                      //       (currentGlobalIndex + 1) % (widget.indexesOnPage);
+                      var direction = 0;
 
-                      /// _ _ - _ _ _ - _
-                      /// _ _ _ _ - _ _ _ _ _ - _
-                      ///
+                      // Влево
+                      if (innerIndex < currentIndex) {
+                        if (innerIndex - currentIndex >
+                            -(widget.indicatorsOnPage - 1)) {
+                          direction = innerIndex - currentIndex;
+                        } else {
+                          direction = 1;
+                        }
+                      }
 
-                      // 5 + 3,
-                      // (i) {
-                      //   final innerIndex = (i + 1) % (5 - 1);
-                      //   final currentInnerIndex =
-                      //       (currentGlobalIndex + 1) % (5 - 1);
+                      // Вправо
+                      if (innerIndex > currentIndex) {
+                        if (innerIndex - currentIndex <
+                            (widget.indicatorsOnPage - 1)) {
+                          direction = innerIndex - currentIndex;
+                        } else {
+                          direction = -1;
+                        }
+                      }
 
-                      // 8 - 3
-                      // 12 - 5
-                      widget.indicatorsOnPage * 2 + 2,
-                      (i) {
-                        final innerIndex =
-                            (i + 1) % (widget.indicatorsOnPage + 1);
-                        final currentInnerIndex = (currentGlobalIndex + 1) %
-                            (widget.indicatorsOnPage + 1);
+                      changePage(innerIndex, direction);
 
-                        return Column(
-                          children: [
-                            Indicator(
-                              ownIndex: innerIndex,
-                              currentIndex: currentInnerIndex,
-                              indicatorWidth: indicatorWidth,
-                              rightMargin: widget.spaceBetween,
-                              animationDuration: widget.animationDuration,
-                              onPressed: () {
-                                debugPrint(
-                                  'currentInnerIndex - innerIndex: ${currentInnerIndex - innerIndex}',
-                                );
-                                if (currentInnerIndex > innerIndex) {
-                                  if (currentInnerIndex - innerIndex > 1) {
-                                    BlocProvider.of<SliderCubit>(context)
-                                        .movePageTo(1);
-                                  } else {
-                                    BlocProvider.of<SliderCubit>(context)
-                                        .movePageTo(-1);
-                                  }
-                                }
-                                if (currentInnerIndex < innerIndex) {
-                                  if (currentInnerIndex - innerIndex < -1) {
-                                    BlocProvider.of<SliderCubit>(context)
-                                        .movePageTo(-1);
-                                  } else {
-                                    BlocProvider.of<SliderCubit>(context)
-                                        .movePageTo(1);
-                                  }
-                                }
-                              },
-                            ),
-                            Text(
-                              '$innerIndex',
-                              style: AppStyles.h2.copyWith(
-                                fontSize: 10,
-                              ),
-                            ),
-                            Text(
-                              '$i',
-                              style: AppStyles.h2.copyWith(
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                      if (direction > 0) {
+                        sliderCubit.movePageBy(1);
+                      }
+                      if (direction < 0) {
+                        sliderCubit.movePageBy(-1);
+                      }
+                    }
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    margin: EdgeInsets.only(
+                      right: i == count - 1 ? 0 : widget.spaceBetween,
+                    ),
+                    width: indicatorWidth,
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: widget.builder(
+                      context,
+                      currentIndex == innerIndex,
                     ),
                   ),
-                ),
-              ),
-            );
-          },
-        );
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void changePage(
+    int newCurrentIndex,
+    int direction,
+  ) {
+    setState(
+      () {
+        currentIndex = newCurrentIndex;
       },
     );
-  }
-
-  void slideIndex() {
-    Future.delayed(
-      widget.animationDuration * 2 ~/ 3,
-      () => controller.animateTo(
-        (currentGlobalIndex - 1) * (indicatorWidth + widget.spaceBetween),
-        duration: widget.animationDuration * 2 ~/ 3,
-        curve: Curves.easeOutQuart,
-      ),
-    );
-  }
-
-  void onEndScroll(ScrollNotification scroll) {
-    // TODO(Nikolay): При увеличении количества индикаторов на странице начинает неправильно считать.
-    if (scroll.metrics.extentBefore < indicatorWidth + widget.spaceBetween) {
-      setState(
-        () {
-          currentGlobalIndex = widget.indicatorsOnPage * 2 - 1; // 5;
-        },
-      );
-      jumpTo(
-        scroll.metrics.maxScrollExtent -
-            (indicatorWidth + widget.spaceBetween * 2),
+    if (direction > 0) {
+      delayed(
+        () => scrollController.nextPage().then(
+              (value) => indicatorsBlock = false,
+            ),
       );
     }
-    if (scroll.metrics.extentAfter < indicatorWidth + widget.spaceBetween) {
-      setState(
-        () {
-          currentGlobalIndex = widget.indicatorsOnPage - 1; // 2;
-        },
+    if (direction < 0) {
+      delayed(
+        () => scrollController.previousPage().then(
+              (value) => indicatorsBlock = false,
+            ),
       );
-      jumpTo(indicatorWidth + widget.spaceBetween);
     }
   }
 
-  void jumpTo(double offset) {
-    Future.delayed(
-      Duration.zero,
-      () => controller.jumpTo(
-        offset,
+  void delayed(VoidCallback func) {
+    Future<void>.delayed(
+      const Duration(
+        milliseconds: 100,
       ),
+      func,
     );
   }
 }

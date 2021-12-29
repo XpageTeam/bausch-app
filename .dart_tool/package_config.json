@@ -27,7 +27,7 @@
     },
     {
       "name": "another_flushbar",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/another_flushbar-1.10.25",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/another_flushbar-1.10.28",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -45,7 +45,13 @@
     },
     {
       "name": "async",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/async-2.8.1",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/async-2.8.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "auto_size_text",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/auto_size_text-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -57,7 +63,7 @@
     },
     {
       "name": "better_player",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/better_player-0.0.77",
+      "rootUri": "../lib/packages/better_player",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -75,13 +81,13 @@
     },
     {
       "name": "bottom_sheet",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/bottom_sheet-1.0.4",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/bottom_sheet-1.0.5",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "characters",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/characters-1.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -146,6 +152,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "csv",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/csv-5.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4",
       "packageUri": "lib/",
@@ -165,13 +177,13 @@
     },
     {
       "name": "dio",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/dio-4.0.1",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/dio-4.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "dio_cache_interceptor",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/dio_cache_interceptor-3.0.2",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/dio_cache_interceptor-3.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -192,6 +204,12 @@
       "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/drift-1.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.14"
+    },
+    {
+      "name": "easy_mask",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/easy_mask-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "equatable",
@@ -225,7 +243,7 @@
     },
     {
       "name": "file_picker",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/file_picker-4.2.2+1",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/file_picker-4.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -242,20 +260,26 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "flutter_html",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_html-2.1.5",
+      "name": "flutter_cupertino_date_picker",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_cupertino_date_picker-1.0.26+2",
+      "packageUri": "lib/",
+      "languageVersion": "1.19"
+    },
+    {
+      "name": "flutter_cupertino_date_picker_fork",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_cupertino_date_picker_fork-1.0.6",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
-      "name": "flutter_inappwebview",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.3.2",
+      "name": "flutter_html",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_html-2.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "flutter_keyboard_visibility",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-5.0.3",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-5.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -284,20 +308,38 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_localizations",
+      "rootUri": "file:///Users/Danil/Documents/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_math_fork",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_math_fork-0.4.2+2",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_math_fork-0.5.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.4",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_screenutil",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_screenutil-5.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_share",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_share-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "flutter_svg",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.22.0",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.23.0+1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -356,12 +398,6 @@
       "languageVersion": "2.14"
     },
     {
-      "name": "graphs",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/graphs-2.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "html",
       "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/html-0.15.0",
       "packageUri": "lib/",
@@ -380,6 +416,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "iphone_has_notch",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/iphone_has_notch-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "js",
       "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/js-0.6.3",
       "packageUri": "lib/",
@@ -392,14 +440,8 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "mask_text_input_formatter",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/mask_text_input_formatter-2.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "matcher",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.11",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -417,7 +459,7 @@
     },
     {
       "name": "moor",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/moor-4.6.1",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/moor-4.6.1+1",
       "packageUri": "lib/",
       "languageVersion": "2.13"
     },
@@ -440,8 +482,20 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "overlay_support",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/overlay_support-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "package_config",
       "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/package_config-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "package_info",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/package_info-2.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -465,7 +519,19 @@
     },
     {
       "name": "path_provider",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.5",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "path_provider_android",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "path_provider_ios",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.7",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -554,26 +620,32 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "rive",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/rive-0.7.33",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "rxdart",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/rxdart-0.27.2",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/rxdart-0.27.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.8",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.11",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "shared_preferences_android",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "shared_preferences_ios",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences_ios-2.0.8",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "shared_preferences_linux",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-2.0.2",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-2.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -597,7 +669,7 @@
     },
     {
       "name": "shared_preferences_windows",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-2.0.2",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-2.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -615,13 +687,13 @@
     },
     {
       "name": "sqlite3",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/sqlite3-1.3.1",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/sqlite3-1.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "sqlite3_flutter_libs",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/sqlite3_flutter_libs-0.5.1",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/sqlite3_flutter_libs-0.5.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -669,7 +741,7 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.2",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -687,7 +759,19 @@
     },
     {
       "name": "url_launcher",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.0.12",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.0.17",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "url_launcher_android",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/url_launcher_android-6.0.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "url_launcher_ios",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/url_launcher_ios-6.0.13",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -729,9 +813,9 @@
     },
     {
       "name": "vector_math",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     },
     {
       "name": "video_player",
@@ -753,7 +837,7 @@
     },
     {
       "name": "vimeoplayer_trinity",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/vimeoplayer_trinity-0.2.1+1",
+      "rootUri": "../lib/packages/vimeoplayer_trinity",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -801,25 +885,25 @@
     },
     {
       "name": "webview_flutter",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter-2.1.2",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter-2.8.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "webview_flutter_android",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter_android-2.0.15",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter_android-2.8.2",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "webview_flutter_platform_interface",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter_platform_interface-1.2.0",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter_platform_interface-1.8.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "webview_flutter_wkwebview",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter_wkwebview-2.0.14",
+      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/webview_flutter_wkwebview-2.7.1",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -849,13 +933,7 @@
     },
     {
       "name": "yandex_mapkit",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/yandex_mapkit-1.1.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "youtube_player_flutter",
-      "rootUri": "file:///Users/danil/.pub-cache/hosted/pub.dartlang.org/youtube_player_flutter-8.0.0",
+      "rootUri": "file:///Users/danil/.pub-cache/git/yandex_mapkit-8e0fc41e289bc2bace5f7cb01c7e4beff24f8260/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -863,10 +941,10 @@
       "name": "bausch",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     }
   ],
-  "generated": "2021-11-12T03:43:36.155646Z",
+  "generated": "2021-12-28T14:01:55.571817Z",
   "generator": "pub",
-  "generatorVersion": "2.14.4"
+  "generatorVersion": "2.15.1"
 }

@@ -1,102 +1,133 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/sections/order_registration/order_registration_screen.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/sections/home/sections/offers/offer_type.dart';
+import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/screens/free_packaging/widget_models/free_packaging_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
+import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/bottom_info_block.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //catalog_free_packaging
-class FreePackagingScreen extends StatelessWidget
-    implements SheetScreenArguments {
+class FreePackagingScreen extends CoreMwwmWidget<FreePackagingScreenWM>
+    implements ItemSheetScreenArguments {
   final ScrollController controller;
 
   @override
   final CatalogItemModel model;
 
-  const FreePackagingScreen({
+  FreePackagingScreen({
     required this.controller,
     required this.model,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => FreePackagingScreenWM(
+            context: context,
+            productItemModel: model as ProductItemModel,
+          ),
+        );
 
   @override
+  WidgetState<CoreMwwmWidget<FreePackagingScreenWM>, FreePackagingScreenWM>
+      createWidgetState() => _FreePackagingScreenState();
+}
+
+class _FreePackagingScreenState
+    extends WidgetState<FreePackagingScreen, FreePackagingScreenWM> {
+  @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5),
+    return CustomSheetScaffold(
+      backgroundColor: AppTheme.mystic,
+      controller: widget.controller,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        icon: Container(
+          height: 1,
+        ),
+        iconColor: AppTheme.mystic,
       ),
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        body: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                top: 12,
-                left: 12,
-                right: 12,
-                bottom: 4,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    TopSection.packaging(model, key),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    InfoSection(
-                      text: model.previewText,
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    LegalInfo(
-                      text: model.detailText,
-                    ),
-                    const SizedBox(
-                      height: 160,
-                    ),
-                  ],
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.only(
+            top: 12,
+            left: 12,
+            right: 12,
+            bottom: 20,
+          ),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                TopSection.packaging(
+                  model: widget.model,
+                  key: widget.key,
+                  leftIcon: wm.difference > 0
+                      ? PointsInfo(
+                          text: 'Не хватает ${wm.difference}',
+                        )
+                      : Container(),
                 ),
-              ),
+                const SizedBox(
+                  height: 4,
+                ),
+                InfoSection(
+                  text: widget.model.previewText,
+                  secondText: widget.model.detailText,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Перейти к заказу',
-                onPressed: () {
-                  // Keys.mainNav.currentState!.pop();
-
-                  // Keys.mainContentNav.currentState!
-                  //     .pushNamed('/order_registration');
-
-                  Keys.mainNav.currentState!.push<void>(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const OrderRegistrationScreen();
-                      },
-                    ),
-                  );
-                },
-              ),
+        SliverPadding(
+          padding: const EdgeInsets.only(
+            bottom: 12,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: OffersSection(
+              type: OfferType.freeProduct,
             ),
-            const InfoBlock(),
-          ],
+          ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(
+            StaticData.sidePadding,
+            0,
+            StaticData.sidePadding,
+            0,
+          ),
+          sliver: LegalInfo(
+            textStyle: AppStyles.p1.copyWith(
+              color: AppTheme.grey,
+            ),
+            texts: const [
+              'Адрес доставки должен быть на территории Российской Федерации, за исключением Республики Крым (по правилам программы доставка в Крым и Севастополь не осуществляется).',
+              'Бесплатная упаковка будет направлена на указанный адрес не позднее 60 рабочих дней с момента заказа.',
+              'Организатор не несёт ответственность за невозможность доставки в связи с некорректным указанием адреса доставки и в случае невозможности связаться с получателем по указанному номеру телефона. Сроки доставки определяются организацией, осуществляющей доставку.',
+              'Внешний вид и комплектность подарочных изделий могут отличаться от изображений на сайте.',
+            ],
+          ),
+        ),
+      ],
+      bottomNavBar: CustomFloatingActionButton(
+        text: wm.difference > 0 ? 'Добавить баллы' : 'Перейти к заказу',
+        icon: wm.difference > 0
+            ? const Icon(
+                Icons.add,
+                color: AppTheme.mineShaft,
+              )
+            : null,
+        onPressed: () {
+          wm.buttonAction();
+        },
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class Warning extends StatelessWidget {
   final Widget view;
+
   const Warning({required this.view, Key? key}) : super(key: key);
 
   @override
@@ -14,7 +15,7 @@ class Warning extends StatelessWidget {
     return view;
   }
 
-  static Warning warning() {
+  static Warning warning([String? text]) {
     return Warning(
       view: Container(
         decoration: BoxDecoration(
@@ -33,10 +34,11 @@ class Warning extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              const Flexible(
+              Flexible(
                 child: Text(
-                  'Перед тем как оформить заказ, узнайте о наличие продукта в интернет-магазине',
-                  style: AppStyles.h3,
+                  text ??
+                      'Перед тем как оформить заказ, узнайте о наличии продукта в интернет-магазине',
+                  style: AppStyles.h2,
                 ),
               ),
             ],
@@ -46,7 +48,11 @@ class Warning extends StatelessWidget {
     );
   }
 
-  static Warning advertisment() {
+  static Warning advertisment({
+    String? name,
+    String? link,
+    String? description,
+  }) {
     return Warning(
       view: Container(
         decoration: BoxDecoration(
@@ -62,23 +68,24 @@ class Warning extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
-                'Онлайн-кинотеатр',
-                style: AppStyles.h2,
+                name ?? 'Онлайн-кинотеатр',
+                style: AppStyles.h1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
-                'data',
+                link ?? 'more.tv',
                 style: AppStyles.p1Underlined,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               Text(
-                'Скачайте приложение и смотрите любимые фильмы в любое время',
+                description ??
+                    'Скачайте приложение и смотрите любимые фильмы в любое время',
                 style: AppStyles.p1,
               ),
             ],

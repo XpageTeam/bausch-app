@@ -1,11 +1,14 @@
-import 'package:bausch/exceptions/response_parse_exeption.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:flutter/foundation.dart';
 
+/// не забывать обновлять методы [User.toJson], [User.fromJson] и [User.toString] при изменении класса
 @immutable
 class User {
   final String phone;
   final bool isMobilePhoneConfirmed;
   final int id;
+
+  final bool? isEmailConfirmed;
 
   final String? token;
 
@@ -13,6 +16,7 @@ class User {
   final String? lastName;
   final String? secondName;
   final String? email;
+  final String? pendingEmail;
   final DateTime? birthDate;
   final String? city;
 
@@ -20,11 +24,13 @@ class User {
     required this.id,
     required this.phone,
     required this.isMobilePhoneConfirmed,
+    this.isEmailConfirmed,
     this.token,
     this.name,
     this.lastName,
     this.secondName,
     this.email,
+    this.pendingEmail,
     this.birthDate,
     this.city,
   });
@@ -39,13 +45,15 @@ class User {
         secondName: json['secondName'] as String?,
         email: json['email'] as String?,
         phone: json['phone'] as String,
+        pendingEmail: json['pendingEmail'] as String?,
         isMobilePhoneConfirmed: json['isMobilePhoneConfirmed'] as bool,
         birthDate: json['birthDate'] == null
             ? null
             : DateTime.parse(json['birthDate'] as String),
         city: json['city'] as String?,
+        isEmailConfirmed: json['isEmailConfirmed'] as bool?,
       );
-    // ignore: avoid_catches_without_on_clauses
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException(e.toString());
     }

@@ -15,10 +15,10 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.0.1+18
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,41 +30,67 @@ dependencies:
   after_layout: ^1.1.0
   flutter:
     sdk: flutter
-  another_flushbar: ^1.10.25
+  another_flushbar: ^1.10.28
   cookie_jar: ^3.0.1
-  dio: ^4.0.1
-  dio_cache_interceptor: ^3.0.2
+  dio: ^4.0.4
+  dio_cache_interceptor: ^3.0.3
   dio_cache_interceptor_db_store: ^3.0.2
   dio_cookie_manager: ^2.0.0
-  file_picker: ^4.2.2+1
+  file_picker: ^4.2.7
   flutter_bloc: ^7.3.3
-  flutter_html: ^2.1.5
-  flutter_keyboard_visibility: ^5.0.3
-  flutter_svg: ^0.22.0
+  flutter_cupertino_date_picker_fork: ^1.0.6
+  flutter_html: ^2.2.1
+  flutter_localizations:
+    sdk: flutter
+  flutter_keyboard_visibility: ^5.1.0
+  flutter_share: ^2.0.0
+  flutter_screenutil: ^5.0.1
+  flutter_svg: ^0.23.0+1
+  path_provider: ^2.0.8
   extended_masked_text: ^2.3.1
-  mask_text_input_formatter: ^2.0.0
+  # mask_text_input_formatter: ^2.0.0
+  intl: ^0.17.0
+  iphone_has_notch: ^1.0.0
   menu_button: ^1.4.2+1
-  video_player: ^2.2.5
+  # video_player: ^2.2.7
   pin_code_fields: ^7.3.0
-  shared_preferences: ^2.0.8
-  sqlite3_flutter_libs: ^0.5.1
-  rive: ^0.7.33
-  vimeoplayer_trinity: ^0.2.1+1
-  youtube_player_flutter: ^8.0.0
+  shared_preferences: ^2.0.11
+  sqlite3_flutter_libs: ^0.5.2
+  equatable: ^2.0.3
+  
+  # better_player:
+  #   path: lib/packages/better_player
+  vimeoplayer_trinity:
+    path: lib/packages/vimeoplayer_trinity
+
+  # better_player: ^0.0.79
+  
+  http: ^0.13.4
+  # flutter_widget_from_html_core: ^0.8.4
+  # visibility_detector: ^0.2.2
+
+  # vimeoplayer_trinity: ^0.2.1+1
+  # youtube_player_flutter: ^8.0.0
   auto_size_text_pk: ^3.0.0
   geolocator: ^7.7.1
-  yandex_mapkit: ^1.1.1
-
-
-  url_launcher: ^6.0.12
+  overlay_support: ^1.2.1
+  url_launcher: ^6.0.17
+  flutter_cupertino_date_picker: ^1.0.26+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
 
-  bottom_sheet: ^1.0.4
+  bottom_sheet: ^1.0.5
   surf_mwwm: ^2.0.2
   provider: ^6.0.1
+  auto_size_text: ^3.0.0
+  csv: ^5.0.1
+  yandex_mapkit:
+    git:
+      url: https://github.com/Unact/yandex_mapkit.git
+  easy_mask: ^2.0.1
+  package_info: ^2.0.2
 
 
 dev_dependencies:
@@ -89,7 +115,14 @@ flutter:
   assets:
     - assets/
     - assets/logos/
+    - assets/stories/
     - assets/items/
+    - assets/icons/
+    - assets/loading/
+    - assets/temp/
+    - assets/temp/logos/
+
+    - assets/discountOptics/
 
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png
@@ -105,17 +138,22 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Euclid Circular A
+      fonts:
+        - asset: fonts/EuclidCircularA-Regular.ttf
+        - asset: fonts/EuclidCircularA-Italic.ttf
+          style: italic
+        - asset: fonts/EuclidCircularA-Medium.ttf
+          weight: 500
+        - asset: fonts/EuclidCircularA-MediumItalic.ttf
+          weight: 500
+          style: italic
+    # - family: Trajan Pro
+    #   fonts:
+    #     - asset: fonts/TrajanPro.ttf
+    #     - asset: fonts/TrajanPro_Bold.ttf
+    #       weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

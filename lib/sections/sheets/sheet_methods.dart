@@ -1,51 +1,24 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/folder/simple_sheet_model.dart';
-import 'package:bausch/navigation/overlay_navigation_with_items.dart';
-import 'package:bausch/navigation/overlay_navigation_without_items.dart';
-import 'package:bausch/navigation/simple_overlay_navigation.dart';
-import 'package:bausch/sections/loader/widgets/animated_loader.dart';
+import 'package:bausch/navigation/bottom_sheet_navigation.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
-import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
-import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-//* Функция вывода bottomSheet с эементами каталога
-void showSheetWithItems(
+void showSheet<T>(
   BuildContext context,
-  BaseCatalogSheetModel model,
-  List<CatalogItemModel> items,
-) {
+  BaseCatalogSheetModel model, [
+  T? args,
+  // Этот параметр нужен для того, чтоб
+  // из секции "вам может быть интересно" можно было перейти
+  // сразу в товар
+  String? initialRoute,
+]) {
   showFlexibleBottomSheet<void>(
-    useRootNavigator: true,
-    minHeight: 0,
-    initHeight: 0.9, //calculatePercentage(model.models!.length),
-    maxHeight: 0.95,
-    anchors: [0, 0.6, 0.95],
-    context: context,
-    builder: (context, controller, d) {
-      return SheetWidget(
-        child: OverlayNavigationWithItems(
-          sheetModel: model,
-          controller: controller,
-          items: items,
-        ),
-      );
-    },
-  );
-}
-
-//* Функция вывода bottomSheet(Частые вопросы,Библиотека ссылок,Правила прграммы)
-void showSimpleSheet(BuildContext context, SimpleSheetModel model,
-    [List<TopicModel>? topics]) {
-  showFlexibleBottomSheet<void>(
-    useRootNavigator: true,
+    useRootNavigator: false,
     minHeight: 0,
     initHeight: 0.95,
     maxHeight: 0.95,
@@ -53,36 +26,11 @@ void showSimpleSheet(BuildContext context, SimpleSheetModel model,
     context: context,
     builder: (context, controller, d) {
       return SheetWidget(
-        child: SimpleOverlayNavigation(
+        child: BottomSheetNavigation<T>(
           controller: controller,
           sheetModel: model,
-          topics: topics,
-        ),
-      );
-    },
-  );
-}
-
-//* Функция вывода bottomSheet без элементов каталога
-void showSheetWithoutItems(
-  BuildContext context,
-  BaseCatalogSheetModel model,
-  CatalogItemModel item,
-) {
-  showFlexibleBottomSheet<void>(
-    useRootNavigator: true,
-    minHeight: 0,
-    isCollapsible: false,
-    initHeight: 0.95,
-    maxHeight: 0.95,
-    anchors: [0, 0.6, 0.95],
-    context: context,
-    builder: (context, controller, d) {
-      return SheetWidget(
-        child: OverlayNavigationWithoutItems(
-          model: model,
-          controller: controller,
-          item: item,
+          args: args,
+          initialRoute: initialRoute,
         ),
       );
     },
@@ -92,19 +40,10 @@ void showSheetWithoutItems(
 void showLoader(BuildContext context) {
   showDialog<void>(
     context: context,
+    barrierDismissible: false,
     builder: (context) {
-      return Center(
-        child: Container(
-          height: 100,
-          width: 100,
-          decoration: BoxDecoration(
-            color: AppTheme.mystic,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: const Center(
-            child: AnimatedLoader(),
-          ),
-        ),
+      return const Center(
+        child: AnimatedLoader(),
       );
     },
   );
@@ -121,10 +60,12 @@ void showFlushbar(String title) {
       seconds: 3,
     ),
     flushbarPosition: FlushbarPosition.TOP,
+    flushbarStyle: FlushbarStyle.GROUNDED,
     borderRadius: const BorderRadius.only(
       bottomLeft: Radius.circular(5),
       bottomRight: Radius.circular(5),
     ),
+    backgroundColor: Colors.red,
   ).show(Keys.mainNav.currentContext!);
 }
 
@@ -138,5 +79,22 @@ double calculatePercentage(int lenght) {
       return 0.8;
     default:
       return 0.9;
+  }
+}
+
+String setTheImg(String type) {
+  switch (type) {
+    case 'offline':
+      return 'assets/discount-in-optics.png';
+    case 'promo_code_immediately':
+      return 'assets/offers-from-partners.png';
+    case 'free_product':
+      return 'assets/free-packaging.png';
+    case 'onlineShop':
+      return 'assets/discount-in-online-store.png';
+    case 'promo_code_video':
+      return 'assets/webinar-recordings.png';
+    default:
+      return 'assets/online-consultations.png';
   }
 }
