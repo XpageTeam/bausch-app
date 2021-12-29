@@ -83,15 +83,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                SliverToBoxAdapter(
-                  child: TextButton(
-                    child:const  Text('GO'),
-                    onPressed: () => showSheet<void>(
-                      context,
-                      SimpleSheetModel(name: 'Program', type: 'program'),
-                    ),
-                  ),
-                ),
                 if (status == AuthStatus.authenticated)
                   SliverPadding(
                     padding: const EdgeInsets.only(
