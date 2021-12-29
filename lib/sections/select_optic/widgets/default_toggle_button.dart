@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class DefaultToggleButton extends StatelessWidget {
   final Color color;
-  final ShopsContentType type;
-  final Function(ShopsContentType type) onPressed;
+  final SelectOpticPage type;
+  final Function(SelectOpticPage type) onPressed;
 
   const DefaultToggleButton({
     required this.color,

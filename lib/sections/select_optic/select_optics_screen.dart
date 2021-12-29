@@ -1,12 +1,9 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
-import 'package:bausch/sections/select_optic/map_body.dart';
+import 'package:bausch/sections/select_optic/select_optics_screen_body.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
-import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
-import 'package:bausch/sections/select_optic/widgets/shop_container_with_button.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_filter_widget/shop_filter.dart';
-import 'package:bausch/sections/select_optic/widgets/shop_list_widget.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_page_switcher.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -106,14 +103,14 @@ class _SelectOpticScreenState
 
           // Карта/список
           Expanded(
-            child: StreamedStateBuilder<ShopsContentType>(
-              streamedState: wm.contentTypeStreamed,
-              builder: (_, currentContentType) =>
-                  EntityStateBuilder<List<OpticShop>>(
+            child: StreamedStateBuilder<SelectOpticPage>(
+              streamedState: wm.currentPageStreamed,
+              builder: (_, currentPage) => EntityStateBuilder<List<OpticShop>>(
                 streamedState: wm.filteredOpticShopsStreamed,
                 loadingChild: const Center(
                   child: AnimatedLoader(),
                 ),
+                // TODO(Nikolay): Чекнуть.
                 errorBuilder: (context, e) {
                   final ex = e as CustomException;
                   showDefaultNotification(
@@ -123,60 +120,30 @@ class _SelectOpticScreenState
 
                   return const SizedBox();
                 },
-                builder: (_, opticShops) => IndexedStack(
-                  index: wm.contentTypeStreamed.value == ShopsContentType.list
-                      ? 0
-                      : 1,
-                  children: [
-                    ShopListWidget(
-                      containerType: ShopContainerWithButton,
-                      shopList: opticShops,
-                      onOpticShopSelect: (selectedShop) =>
-                          wm.onOpticShopSelectAction(
-                        OpticShopParams(
-                          selectedShop,
-                          widget.onOpticSelect,
-                        ),
-                      ),
+                builder: (_, opticShops) => SelectOpticScreenBody(
+                  currentPage: currentPage,
+                  opticShops: opticShops,
+                  onOpticShopSelect: (selectedShop) =>
+                      wm.onOpticShopSelectAction(
+                    OpticShopParams(
+                      selectedShop,
+                      widget.onOpticSelect,
                     ),
-                    MapBody(
-                      opticShops: opticShops,
-                      onOpticShopSelect: (selectedShop) =>
-                          wm.onOpticShopSelectAction(
-                        OpticShopParams(
-                          selectedShop,
-                          widget.onOpticSelect,
-                        ),
-                      ),
-                      shopsEmptyCallback: (mapBodyWm) {
-                        mapBodyWm.isModalBottomSheetOpen.accept(true);
-                        showModalBottomSheet<dynamic>(
-                          barrierColor: Colors.transparent,
-                          context: context,
-                          builder: (context) => BottomSheetContent(
-                            title: 'Поблизости нет оптик',
-                            subtitle:
-                                'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
-                            btnText: 'Хорошо',
-                            onPressed: Navigator.of(context).pop,
-                          ),
-                        ).whenComplete(() {
-                          wm.setFirstCity();
+                  ),
+                  whenCompleteModalBottomSheet: (mapBodyWm) {
+                    wm.setFirstCity();
 
-                          Future.delayed(
-                            const Duration(milliseconds: 10),
-                            () {
-                              mapBodyWm
-                                ..isModalBottomSheetOpen.accept(false)
-                                ..setCenterAction(
-                                  wm.filteredOpticShopsStreamed.value.data!,
-                                );
-                            },
+                    Future.delayed(
+                      const Duration(milliseconds: 10),
+                      () {
+                        mapBodyWm
+                          ..isModalBottomSheetOpen.accept(false)
+                          ..setCenterAction(
+                            wm.filteredOpticShopsStreamed.value.data!,
                           );
-                        });
                       },
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),

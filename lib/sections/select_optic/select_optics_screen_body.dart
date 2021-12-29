@@ -1,3 +1,61 @@
+import 'package:bausch/sections/select_optic/map_body.dart';
+import 'package:bausch/sections/select_optic/widget_models/map_body_wm.dart';
+import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
+import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
+import 'package:bausch/sections/select_optic/widgets/shop_container_with_button.dart';
+import 'package:bausch/sections/select_optic/widgets/shop_list_widget.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:flutter/material.dart';
+
+class SelectOpticScreenBody extends StatelessWidget {
+  final SelectOpticPage currentPage;
+  final List<OpticShop> opticShops;
+  final void Function(OpticShop selectedShop) onOpticShopSelect;
+  final void Function(MapBodyWM mapBodyWm) whenCompleteModalBottomSheet;
+
+  const SelectOpticScreenBody({
+    required this.currentPage,
+    required this.opticShops,
+    required this.onOpticShopSelect,
+    required this.whenCompleteModalBottomSheet,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IndexedStack(
+      index: currentPage == SelectOpticPage.list ? 0 : 1,
+      children: [
+        ShopListWidget(
+          containerType: ShopContainerWithButton,
+          shopList: opticShops,
+          onOpticShopSelect: onOpticShopSelect,
+        ),
+        MapBody(
+          opticShops: opticShops,
+          onOpticShopSelect: onOpticShopSelect,
+          shopsEmptyCallback: (mapBodyWm) {
+            mapBodyWm.isModalBottomSheetOpen.accept(true);
+
+            showModalBottomSheet<dynamic>(
+              barrierColor: Colors.transparent,
+              context: context,
+              builder: (context) => BottomSheetContent(
+                title: 'Поблизости нет оптик',
+                subtitle:
+                    'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                btnText: 'Хорошо',
+                onPressed: Navigator.of(context).pop,
+              ),
+            ).whenComplete(
+              () => whenCompleteModalBottomSheet(mapBodyWm),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
 // import 'package:bausch/models/shop/filter_model.dart';
 // import 'package:bausch/models/shop/shop_model.dart';
 // import 'package:bausch/repositories/shops/shops_repository.dart';

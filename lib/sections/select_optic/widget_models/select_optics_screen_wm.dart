@@ -15,13 +15,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-enum ShopsContentType {
+enum SelectOpticPage {
   map,
   list,
 }
 
-extension ShopsContentTypeAsString on ShopsContentType {
-  String get asString => this == ShopsContentType.map ? 'На карте' : 'Список';
+extension ShopsContentTypeAsString on SelectOpticPage {
+  String get asString => this == SelectOpticPage.map ? 'На карте' : 'Список';
 }
 
 class OpticShopParams {
@@ -38,11 +38,11 @@ class SelectOpticScreenWM extends WidgetModel {
   final opticsByCityStreamed = StreamedState<List<Optic>>([]);
   final currentCityStreamed = EntityStreamedState<String>();
 
-  final contentTypeStreamed = StreamedState<ShopsContentType>(
-    ShopsContentType.map,
+  final currentPageStreamed = StreamedState<SelectOpticPage>(
+    SelectOpticPage.map,
   );
 
-  final switchAction = StreamedAction<ShopsContentType>();
+  final switchAction = StreamedAction<SelectOpticPage>();
   final setFirstCity = VoidAction();
   final selectCityAction = VoidAction();
   final filtersOnChanged = StreamedAction<List<Filter>>();
@@ -76,7 +76,7 @@ class SelectOpticScreenWM extends WidgetModel {
   @override
   void onBind() {
     switchAction.bind(
-      (newType) => contentTypeStreamed.accept(newType!),
+      (newType) => currentPageStreamed.accept(newType!),
     );
 
     selectCityAction.bind(

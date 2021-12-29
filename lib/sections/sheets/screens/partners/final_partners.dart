@@ -71,19 +71,21 @@ class FinalPartners extends StatelessWidget {
         ),
       ],
       bottomNavBar: BottomButtonWithRoundedCorners(
-        text: 'Скопировать код и перейти на сайт',
+        text: model.link != null
+            ? 'Скопировать код и перейти на сайт'
+            : 'На главную',
         withInfo: false,
-        onPressed: () {
-          Utils.copyStringToClipboard(
-            model.poolPromoCode,
-          );
-
-          // TODO(Nikolay): Переход на сайт (Нет данных).
-          // Utils.tryLaunchUrl(
-          //   rawUrl: model,
-          //   isPhone: false,
-          // );
-        },
+        onPressed: model.link != null
+            ? () {
+                Utils.copyStringToClipboard(
+                  model.poolPromoCode,
+                );
+                Utils.tryLaunchUrl(
+                  rawUrl: model.link!,
+                  isPhone: false,
+                );
+              }
+            : null,
       ),
     );
   }

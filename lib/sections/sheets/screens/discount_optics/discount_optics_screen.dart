@@ -156,18 +156,39 @@ class _DiscountOpticsScreenState
                           ),
                         ),
                         if (wm.discountType == DiscountType.offline)
-                          _SelectOpticButton(
-                            currentDiscountOptic: wm.currentDiscountOptic,
-                            onPressed: () => () {
-                              Keys.mainNav.currentState!.push<void>(
-                                MaterialPageRoute(
-                                  builder: (context) => SelectOpticScreen(
-                                    cities: wm.cities,
-                                    onOpticSelect: wm.setCurrentOptic,
+                          StreamedStateBuilder<Optic?>(
+                            streamedState: wm.currentDiscountOptic,
+                            builder: (_, currentDiscountOptic) => Padding(
+                              padding: const EdgeInsets.only(
+                                top: 30,
+                                bottom: 4,
+                              ),
+                              child: WhiteButton(
+                                text: currentDiscountOptic != null
+                                    ? currentDiscountOptic.title
+                                    : 'Адреса оптик',
+                                icon: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 12,
+                                    top: 16,
+                                    bottom: 16,
+                                  ),
+                                  child: Image.asset(
+                                    'assets/icons/map-marker.png',
+                                    height: 16,
                                   ),
                                 ),
-                              );
-                            },
+                                onPressed: () =>
+                                    Keys.mainNav.currentState!.push<void>(
+                                  MaterialPageRoute(
+                                    builder: (context) => SelectOpticScreen(
+                                      cities: wm.cities,
+                                      onOpticSelect: wm.setCurrentOptic,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         Warning.warning(wm.warningText),
                       ],

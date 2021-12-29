@@ -4,6 +4,7 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 class PartnersItemModel extends CatalogItemModel {
   final String poolPromoCode;
   final String staticPromoCode;
+  final String? link;
 
   PartnersItemModel({
     required int id,
@@ -14,6 +15,7 @@ class PartnersItemModel extends CatalogItemModel {
     required int price,
     required this.poolPromoCode,
     required this.staticPromoCode,
+    this.link,
     String? type,
   }) : super(
           id: id,
@@ -54,6 +56,7 @@ class PartnersItemModel extends CatalogItemModel {
       price: (map['price'] ?? 150) as int,
       poolPromoCode: map['pool_promo_code'] as String,
       staticPromoCode: map['static_promo_code'] as String,
+      link: map['link'] as String?,
     );
   }
 }

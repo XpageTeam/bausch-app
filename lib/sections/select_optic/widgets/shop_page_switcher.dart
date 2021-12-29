@@ -6,8 +6,8 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ShopPageSwitcher extends CoreMwwmWidget<ShopPageSwitcherWM> {
   ShopPageSwitcher({
-    required void Function(ShopsContentType) callback,
-    ShopsContentType initialType = ShopsContentType.map,
+    required void Function(SelectOpticPage) callback,
+    SelectOpticPage initialType = SelectOpticPage.map,
     Key? key,
   }) : super(
           key: key,
@@ -33,9 +33,9 @@ class _ShopPageSwitcherState
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: ShopsContentType.values
+        children: SelectOpticPage.values
             .map(
-              (type) => StreamedStateBuilder<ShopsContentType>(
+              (type) => StreamedStateBuilder<SelectOpticPage>(
                 streamedState: wm.currentTypeStreamed,
                 builder: (_, currentType) => Expanded(
                   child: DefaultToggleButton(
@@ -54,11 +54,11 @@ class _ShopPageSwitcherState
 }
 
 class ShopPageSwitcherWM extends WidgetModel {
-  final ShopsContentType initialType;
-  final void Function(ShopsContentType) callback;
+  final SelectOpticPage initialType;
+  final void Function(SelectOpticPage) callback;
 
-  late final currentTypeStreamed = StreamedState<ShopsContentType>(initialType);
-  final buttonAction = StreamedAction<ShopsContentType>();
+  late final currentTypeStreamed = StreamedState<SelectOpticPage>(initialType);
+  final buttonAction = StreamedAction<SelectOpticPage>();
 
   ShopPageSwitcherWM({
     required this.initialType,
