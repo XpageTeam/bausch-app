@@ -241,7 +241,10 @@ void callback(CatalogItemModel _model) {
     );
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
-    showDefaultNotification(title: 'Скопировано!');
+    showDefaultNotification(
+      title: 'Скопировано!',
+      success: true,
+    );
   } else {
     // TODO(Nikolay): Это должно не так вызываться.
     showFlexibleBottomSheet<void>(

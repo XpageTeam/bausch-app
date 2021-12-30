@@ -24,7 +24,10 @@ class ContainerWithPromocode extends StatelessWidget {
             // TODO(Nikita): Скопировать и показать уведомление
             Clipboard.setData(ClipboardData(text: promocode));
             //showFlushbar('title');
-            showDefaultNotification(title: 'Скопировано!');
+            showDefaultNotification(
+              title: 'Скопировано!',
+              success: true,
+            );
           },
       child: WhiteRoundedContainer(
         child: Row(

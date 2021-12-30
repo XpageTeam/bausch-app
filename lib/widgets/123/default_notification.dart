@@ -1,4 +1,3 @@
-
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -8,6 +7,7 @@ import 'package:overlay_support/overlay_support.dart';
 
 OverlaySupportEntry showDefaultNotification({
   required String title,
+  bool success = false,
   String? subtitle,
   Duration duration = const Duration(seconds: 3),
 }) {
@@ -27,6 +27,7 @@ OverlaySupportEntry showDefaultNotification({
         child: _DefaultNotification(
           title: title,
           subtitle: subtitle,
+          success: success,
         ),
       ),
     ),
@@ -54,18 +55,20 @@ OverlaySupportEntry showDefaultNotification({
 }
 
 void showTopError(CustomException ex) {
-    showDefaultNotification(
-      title: ex.title,
-      subtitle: ex.subtitle,
-    );
-  }
+  showDefaultNotification(
+    title: ex.title,
+    subtitle: ex.subtitle,
+  );
+}
 
 class _DefaultNotification extends StatelessWidget {
   final String title;
   final String? subtitle;
+  final bool success;
 
   const _DefaultNotification({
     required this.title,
+    required this.success,
     this.subtitle,
     Key? key,
   }) : super(key: key);
@@ -88,9 +91,23 @@ class _DefaultNotification extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            title,
-            style: AppStyles.p1White,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (success)
+                Image.asset(
+                  'assets/icons/choose.png',
+                  height: 15,
+                ),
+              if (success)
+                const SizedBox(
+                  width: 4,
+                ),
+              Text(
+                title,
+                style: AppStyles.p1White,
+              ),
+            ],
           ),
           if (subtitle != null)
             Text(
