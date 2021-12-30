@@ -73,7 +73,6 @@ class QuizScreenWM extends WidgetModel {
         selected.accept(0);
         page.accept(page.value + 1);
       } else {
-        //TODO(Nikita): отправить
         _getPoints();
       }
     });
@@ -128,8 +127,9 @@ class QuizScreenWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(title: error.title);
     } else {
-      await Keys.bottomNav.currentState!.pushNamed(
+      await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_addpoints',
+        (route) => route.isCurrent,
         arguments: FinalAddPointsArguments(
           points: quizModel.reward,
         ),

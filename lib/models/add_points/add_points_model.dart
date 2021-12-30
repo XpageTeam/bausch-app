@@ -8,6 +8,8 @@ class AddPointsModel {
 
   final String type;
 
+  final String? url;
+
   final PreviewModel previewModel;
 
   final DetailModel detailModel;
@@ -18,6 +20,7 @@ class AddPointsModel {
     required this.type,
     required this.previewModel,
     required this.detailModel,
+    this.url,
   });
 
   factory AddPointsModel.fromMap(Map<String, dynamic> map) {
@@ -28,6 +31,7 @@ class AddPointsModel {
       previewModel:
           PreviewModel.fromMap(map['preview'] as Map<String, dynamic>),
       detailModel: DetailModel.fromMap(map['detail'] as Map<String, dynamic>),
+      url: map['url'] as String?,
     );
   }
 }

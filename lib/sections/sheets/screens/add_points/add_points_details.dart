@@ -98,7 +98,7 @@ class _AddPointsDetailsState
                               bottom: 30,
                             ),
                             child: ButtonContent(
-                              price: '+${model.reward}',
+                              price: '+${wm.addPointsModel.reward}',
                               textStyle: AppStyles.h1,
                             ),
                           ),

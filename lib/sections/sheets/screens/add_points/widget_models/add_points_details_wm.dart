@@ -17,6 +17,7 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class AddPointsDetailsWM extends WidgetModel {
@@ -43,6 +44,15 @@ class AddPointsDetailsWM extends WidgetModel {
           break;
         case 'review_social':
           _addPoints('/review/soc/save/');
+          break;
+        case 'invite_friend':
+          if (addPointsModel.url != null) {
+            Share.share(addPointsModel.url!);
+          } else {
+            showDefaultNotification(
+              title: 'Не пришла ссылка для того, чтобы поделиться',
+            );
+          }
           break;
       }
     });
