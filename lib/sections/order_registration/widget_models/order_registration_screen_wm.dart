@@ -162,6 +162,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
         return;
       }
 
+      //* TODO(Nikita): придумать нормальное решение
       if (productItemModel.specifications != null) {
         if ((productItemModel.specifications!.diopters != null &&
                 diopters.value == null) ||
@@ -176,6 +177,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
           error = const CustomException(
             title: 'Необходимо выбрать параметры контактных линз',
           );
+          showTopError(error);
+          unawaited(loadingState.accept(false));
           return;
         }
       }

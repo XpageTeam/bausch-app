@@ -240,6 +240,10 @@ class LoginWM extends WidgetModel {
 
       await UserWriter.writeToken(res.xApiToken);
 
+      //* Очистка полей после отправки кода
+      phoneController.text = '';
+      codeController.text = '';
+
       _checkAuth();
     } on DioError catch (e) {
       error = CustomException(
