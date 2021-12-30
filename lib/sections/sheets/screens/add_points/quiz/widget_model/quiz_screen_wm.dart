@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_for_elements_to_map_fromiterable, avoid_annotating_with_dynamic
+
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -30,10 +32,6 @@ class QuizScreenWM extends WidgetModel {
   final buttonAction = VoidAction();
   List<QuizAnswerModel> answers = [];
 
-  //int page = 0;
-
-  //int selected = 0;
-
   late UserWM userWm;
 
   QuizScreenWM({
@@ -65,8 +63,6 @@ class QuizScreenWM extends WidgetModel {
 
         //* Обнуление текстового поля
         textEditingController.text = '';
-
-        debugPrint('${answers.length}');
       }
       if (page.value < quizModel.content.length - 1) {
         //* Следующий вопрос

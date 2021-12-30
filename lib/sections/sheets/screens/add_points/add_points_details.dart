@@ -124,27 +124,29 @@ class _AddPointsDetailsState
                     const SizedBox(
                       height: 4,
                     ),
-                    StreamedStateBuilder<bool>(
-                      streamedState: wm.loadingState,
-                      builder: (_, isLoading) {
-                        return isLoading
-                            ? const BlueButtonWithText(
-                                text: '',
-                                icon: AnimatedLoader(),
-                              )
-                            : BlueButtonWithText(
-                                text: wm.addPointsModel.detailModel.btnName!,
-                                onPressed: wm.buttonAction,
-                                icon: wm.addPointsModel.detailModel.btnIcon !=
-                                        null
-                                    ? Image.network(
-                                        wm.addPointsModel.detailModel.btnIcon!,
-                                        height: 15,
-                                      )
-                                    : null,
-                              );
-                      },
-                    ),
+                    if (wm.addPointsModel.detailModel.btnName != null)
+                      StreamedStateBuilder<bool>(
+                        streamedState: wm.loadingState,
+                        builder: (_, isLoading) {
+                          return isLoading
+                              ? const BlueButtonWithText(
+                                  text: '',
+                                  icon: AnimatedLoader(),
+                                )
+                              : BlueButtonWithText(
+                                  text: wm.addPointsModel.detailModel.btnName!,
+                                  onPressed: wm.buttonAction,
+                                  icon: wm.addPointsModel.detailModel.btnIcon !=
+                                          null
+                                      ? Image.network(
+                                          wm.addPointsModel.detailModel
+                                              .btnIcon!,
+                                          height: 15,
+                                        )
+                                      : null,
+                                );
+                        },
+                      ),
                   ],
                 ),
                 const SizedBox(

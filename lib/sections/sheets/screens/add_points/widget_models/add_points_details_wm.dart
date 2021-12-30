@@ -5,6 +5,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -17,7 +18,6 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class AddPointsDetailsWM extends WidgetModel {
@@ -45,14 +45,14 @@ class AddPointsDetailsWM extends WidgetModel {
         case 'review_social':
           _addPoints('/review/soc/save/');
           break;
+        case 'vk':
+          Utils.tryLaunchUrl(
+            rawUrl: addPointsModel.url!,
+            isPhone: false,
+          );
+          break;
         case 'invite_friend':
-          if (addPointsModel.url != null) {
-            Share.share(addPointsModel.url!);
-          } else {
-            showDefaultNotification(
-              title: 'Не пришла ссылка для того, чтобы поделиться',
-            );
-          }
+          Utils.tryShare(text: addPointsModel.url);
           break;
       }
     });
