@@ -15,15 +15,19 @@ class CityScreenWM extends WidgetModel {
   final List<String>? citiesWithShops;
 
   final citiesList = EntityStreamedState<List<DadataCity>>();
-  final daDataCitiesList = EntityStreamedState<List<DadataResponseModel>?>();
+  final daDataCitiesList = EntityStreamedState<List<DadataResponseModel>>();
 
   final citiesListReloadAction = VoidAction();
-  final confirmAction = StreamedAction<String>();
+  final selectCityAction = VoidAction();
+
+  final confirmAction = StreamedAction<DadataResponseModel>();
 
   final citiesFilterController = TextEditingController();
   final filteredCitiesList = StreamedState<List<DadataCity>>([]);
 
   final isSearchActive = StreamedState<bool>(false);
+  final canCompleteSearch = StreamedState<bool>(false);
+  final searchQuery = StreamedState<String>('');
 
   final BuildContext context;
 
@@ -58,7 +62,7 @@ class CityScreenWM extends WidgetModel {
       );
     }
   }
-  
+
   @override
   void dispose() {
     citiesFilterController.dispose();
@@ -68,12 +72,21 @@ class CityScreenWM extends WidgetModel {
 
   @override
   void onLoad() {
-    subscribe<String>(confirmAction.stream, (value) {
-      if (value == citiesFilterController.text){
-        Navigator.of(context).pop(value);
-      } else {
-        citiesFilterController.text = value;
+    subscribe<DadataResponseModel>(confirmAction.stream, (item) {
+      if (item.value != citiesFilterController.text) {
+        citiesFilterController
+          ..text = item.value
+          ..selection = TextSelection.fromPosition(
+            TextPosition(offset: citiesFilterController.text.length),
+          );
+
+        canCompleteSearch.accept(true);
+        searchQuery.accept(item.value);
       }
+    });
+
+    subscribe(selectCityAction.stream, (_) {
+      Navigator.of(context).pop(searchQuery.value);
     });
 
     subscribe(citiesListReloadAction.stream, (value) {
@@ -86,11 +99,19 @@ class CityScreenWM extends WidgetModel {
       }
     });
 
-    citiesFilterController.addListener(_filterCities);
+    citiesFilterController.addListener(() {
+      if (citiesFilterController.text != '') {
+        isSearchActive.accept(true);
+        _filterCities();
+      } else {
+        canCompleteSearch.accept(false);
+        isSearchActive.accept(false);
+      }
 
-    daDataCitiesList.loading();
-
-    daDataCitiesList.content([]);
+      if (citiesFilterController.text != searchQuery.value){
+        canCompleteSearch.accept(false);
+      }
+    });
 
     super.onLoad();
   }
@@ -180,7 +201,7 @@ class CityScreenWM extends WidgetModel {
           ),
         );
         // ignore: avoid_catches_without_on_clauses
-      } catch (e){
+      } catch (e) {
         await citiesList.error(
           CustomException(
             title: 'При загрузке списка городов произошла ошибка',
@@ -190,8 +211,6 @@ class CityScreenWM extends WidgetModel {
       }
 
       return;
-    } else {
-      await daDataCitiesList.content(null);
     }
 
     final filteredList = <DadataCity>[];
@@ -205,6 +224,6 @@ class CityScreenWM extends WidgetModel {
       }
     });
 
-    filteredCitiesList.accept(filteredList);
+    await filteredCitiesList.accept(filteredList);
   }
 }
