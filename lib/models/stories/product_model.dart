@@ -1,6 +1,4 @@
-import 'package:bausch/models/mappable_object.dart';
-
-class ProductModel implements MappableInterface<ProductModel> {
+class ProductModel {
   final String title;
   final String picture;
 
@@ -14,11 +12,5 @@ class ProductModel implements MappableInterface<ProductModel> {
       title: map['title'] as String,
       picture: map['picture'] as String,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
   }
 }

@@ -52,7 +52,7 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                   controller: wm.citiesFilterController,
                 ),
 
-                //TODO(Nikita): Добавить сверху избранные города и выбранный
+                // TODO(Nikita): Добавить сверху избранные города и выбранный
                 Flexible(
                   child: StreamedStateBuilder<List<DadataCity>>(
                     streamedState: wm.filteredCitiesList,

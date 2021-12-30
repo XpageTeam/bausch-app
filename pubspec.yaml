@@ -57,14 +57,14 @@ dependencies:
   shared_preferences: ^2.0.11
   sqlite3_flutter_libs: ^0.5.2
   equatable: ^2.0.3
-  
+
   # better_player:
   #   path: lib/packages/better_player
   vimeoplayer_trinity:
     path: lib/packages/vimeoplayer_trinity
 
   # better_player: ^0.0.79
-  
+
   http: ^0.13.4
   # flutter_widget_from_html_core: ^0.8.4
   # visibility_detector: ^0.2.2
@@ -91,7 +91,6 @@ dependencies:
       url: https://github.com/Unact/yandex_mapkit.git
   easy_mask: ^2.0.1
   package_info: ^2.0.2
-
 
 dev_dependencies:
   flutter_test:

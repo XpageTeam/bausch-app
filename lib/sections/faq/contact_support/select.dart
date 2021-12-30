@@ -162,7 +162,10 @@ class _SelectState extends State<Select> {
 
               Navigator.of(_context).pop();
             },
-            child: Text(e.name),
+            child: Text(
+              e.name,
+              style: AppStyles.h2,
+            ),
           ),
         )
         .toList();

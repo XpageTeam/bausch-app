@@ -23,7 +23,7 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
       connectTimeout: 20000,
       receiveTimeout: 40000,
       contentType: 'application/json',
-      responseType: ResponseType.json,
+      // responseType: ResponseType.json,
       headers: <String, dynamic>{
         'Authorization': 'Token ${StaticData.dadataApiKey}',
       },
@@ -51,17 +51,18 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Token ${StaticData.vitaminkaKey}',
+          'Authorization': 'Token ${StaticData.dadataApiKey}',
         },
         body: json.encode(
           {
-            'query': userText,
-            'locations': [
-              {'city': city},
-              // {"street": userText}
-            ],
-            // 'from_bound': {'value': 'house'},
-            // 'to_bound': {'value': 'house'},
+            'query': '$city $userText',
+            'count': 15,
+            // 'locations': [
+            //   {'city': city},
+            //   // {"street": userText}
+            // ],
+            'from_bound': {'value': 'street'},
+            'to_bound': {'value': 'house'},
           },
         ),
       );

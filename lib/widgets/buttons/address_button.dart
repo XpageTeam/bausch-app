@@ -31,22 +31,24 @@ class AddressButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               vertical: 14,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  labelText,
-                  style: AppStyles.h2Bold,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 6),
-                  child: Text(
-                    selectedText,
-                    style: AppStyles.p1Grey,
+            child: Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    labelText,
+                    style: AppStyles.h2Bold,
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Text(
+                      selectedText,
+                      style: AppStyles.p1Grey,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const Icon(

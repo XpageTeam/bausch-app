@@ -1,10 +1,8 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'package:bausch/models/mappable_object.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 
-class CatalogSheetWithLogosModel extends BaseCatalogSheetModel
-    implements MappableInterface<CatalogSheetWithLogosModel> {
+class CatalogSheetWithLogosModel extends BaseCatalogSheetModel {
   final List<String>? logos;
 
   CatalogSheetWithLogosModel({
@@ -37,11 +35,5 @@ class CatalogSheetWithLogosModel extends BaseCatalogSheetModel
               .toList()
           : null,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
   }
 }

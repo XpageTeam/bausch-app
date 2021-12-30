@@ -2,8 +2,11 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/widgets/discount_info.dart';
+import 'package:flutter/material.dart';
 
 class CatalogItemModel {
   final int id;
@@ -28,6 +31,19 @@ class CatalogItemModel {
 
   String get priceToString => HelpFunctions.partitionNumber(price);
   //  HelpFunctions.partitionNumber(price);
+
+  Widget get shield {
+    if (this is WebinarItemModel) {
+      return Image.asset(
+        'assets/play-video.png',
+        height: 28,
+      );
+    } else if (this is PromoItemModel) {
+      return const DiscountInfo(text: '–500 ₽');
+    } else {
+      return Container();
+    }
+  }
 
   CatalogItemModel({
     required this.id,
@@ -77,6 +93,8 @@ class CatalogItemModel {
       case 'offline':
       case 'onlineShop':
         return PromoItemModel.fromMap(json);
+      case 'free_product':
+        return ProductItemModel.fromMap(json);
       case 'promo_code_immediately':
         return PartnersItemModel.fromMap(json);
       case 'online_consultation':

@@ -66,6 +66,7 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
       return AddPointsCodeGetSuccess(
         models: (parsedData.data as List<dynamic>)
             .map(
+              // ignore: avoid_annotating_with_dynamic
               (dynamic code) =>
                   ProductCodeModel.fromMap(code as Map<String, dynamic>),
             )
@@ -103,7 +104,8 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      // final parsedData =
+      BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
           '/user/points/add/',
           data: FormData.fromMap(

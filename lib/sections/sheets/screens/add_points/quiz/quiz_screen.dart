@@ -115,7 +115,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                               bottom: 30,
                             ),
                             child: ButtonContent(
-                              price: wm.quizModel.reward,
+                              price: '+${widget.model.reward}',
                               textStyle: AppStyles.h1,
                             ),
                           ),

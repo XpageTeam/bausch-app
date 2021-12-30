@@ -72,14 +72,13 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                 debugPrint(state.toString());
                 if (state is DadataSuccess) {
                   //debugPrint(state.models[0].data.street);
-                  return Flexible(
-                    child: ListView.separated(
-                      itemBuilder: (context, i) {
-                        if (state.models[i].data.street.isNotEmpty) {
-                          return Padding(
-                            padding: EdgeInsets.only(top: i == 0 ? 30 : 0),
-                            child: SizedBox(
-                              height: 30,
+                  if (state.models.isNotEmpty) {
+                    return Flexible(
+                      child: ListView.separated(
+                        itemBuilder: (context, i) {
+                          if (state.models[i].data.street.isNotEmpty) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: i == 0 ? 30 : 0),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(5),
                                 onTap: () {
@@ -94,8 +93,10 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                       ),
                                       builder: (context) {
                                         return CustomAlertDialog(
-                                          text:
-                                              'Добавить ${state.models[i].data.street}, ${state.models[i].data.house}?',
+                                          text: state.models[i].data.block ==
+                                                  null
+                                              ? 'Добавить ${state.models[i].data.street}, ${state.models[i].data.house}?'
+                                              : 'Добавить ${state.models[i].data.street}, ${state.models[i].data.house}/${state.models[i].data.block}?',
                                           yesCallback: () {
                                             Navigator.of(context).pop();
 
@@ -105,8 +106,12 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                                 adress: AdressModel(
                                                   street: state
                                                       .models[i].data.street,
-                                                  house: state
-                                                      .models[i].data.house,
+                                                  house: state.models[i].data
+                                                              .block ==
+                                                          null
+                                                      ? state
+                                                          .models[i].data.house
+                                                      : '${state.models[i].data.house}/${state.models[i].data.block}',
                                                 ),
                                                 isFirstLaunch: true,
                                               ),
@@ -121,14 +126,14 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                   } else {
                                     //* Если выбрал и улицу, и дом
                                     controller
-                                      ..text = '${state.models[i].data.street} '
+                                      ..text = '${state.models[i].value} '
                                       ..selection = TextSelection.fromPosition(
                                         TextPosition(
                                           offset: controller.text.length,
                                         ),
                                       );
                                     delayedSearch(
-                                      '${state.models[i].data.street}  ',
+                                      '${state.models[i].value} ',
                                     );
                                   }
                                 },
@@ -137,29 +142,44 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      state.models[i].data.house.isNotEmpty
-                                          ? '${state.models[i].data.street}, ${state.models[i].data.house}'
-                                          : state.models[i].data.street,
+                                      // state.models[i].data.house.isNotEmpty
+                                      //     ? state.models[i].data.block == null
+                                      //         ? '${state.models[i].data.street}, ${state.models[i].data.house}'
+                                      //         : '${state.models[i].data.street}, ${state.models[i].data.house}/${state.models[i].data.block}'
+                                      //     : state.models[i].data.street,
+                                      state.models[i].value,
                                       style: AppStyles.h2,
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      },
-                      separatorBuilder: (context, i) {
-                        return const SizedBox(
-                          height: 30,
-                        );
-                      },
-                      itemCount: state.models.length,
-                      physics: const BouncingScrollPhysics(),
-                    ),
-                  );
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
+                        separatorBuilder: (context, i) {
+                          if (state.models[i].data.street.isNotEmpty) {
+                            return const SizedBox(
+                              height: 30,
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                        itemCount: state.models.length,
+                        physics: const BouncingScrollPhysics(),
+                      ),
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: Text(
+                        'По вашему запросу ничего не найдено',
+                        style: AppStyles.h2,
+                      ),
+                    );
+                  }
                 }
                 if (state is DadataInitial) {
                   return Padding(
@@ -189,7 +209,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
         if (timer?.isActive ?? false) {
           timer?.cancel();
         }
-        timer = Timer(const Duration(seconds: 1), () {
+        timer = Timer(const Duration(milliseconds: 300), () {
           debugPrint(str);
           dadataBloc.add(DadataChangeText(text: str));
         });

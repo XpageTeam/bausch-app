@@ -5,7 +5,6 @@
 import 'package:bausch/packages/alphabet_scroll_view/lib/src/meta.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 enum LetterAlignment { left, right }

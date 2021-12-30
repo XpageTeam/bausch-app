@@ -11,6 +11,7 @@ import 'package:bausch/repositories/discount_optics/discount_optics_repository.d
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:equatable/equatable.dart';
@@ -95,12 +96,15 @@ class DiscountOpticsScreenWM extends WidgetModel {
   Future<void> _loadDiscountOptics() async {
     unawaited(discountOpticsStreamed.loading());
 
+    CustomException? ex;
+
     try {
       final repository = OpticCititesRepository.fromDiscountOpticsRepository(
         await DiscountOpticsLoader.load(
           discountType.asString,
           itemModel.code,
         ),
+        discountType.asString,
       );
 
       cities = repository.cities;
@@ -115,37 +119,37 @@ class DiscountOpticsScreenWM extends WidgetModel {
       }
 
       unawaited(
-        discountOpticsStreamed.content(
-          discountOptics,
-        ),
+        discountOpticsStreamed.content(discountOptics),
       );
     } on DioError catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'При отправке запроса произошла ошибка',
-            subtitle: e.message,
-          ),
-        ),
+      ex = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
       );
+      unawaited(discountOpticsStreamed.error(ex));
     } on ResponseParseException catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'При чтении ответа от сервера произошла ошибка',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
       );
+      unawaited(discountOpticsStreamed.error(ex));
     } on SuccessFalse catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'Произошла ошибка',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
       );
+      unawaited(discountOpticsStreamed.error(ex));
+      // ignore: avoid_catches_without_on_clauses
+    } //catch (e) {
+    //   ex = CustomException(
+    //     title: 'Произошла ошибка',
+    //     subtitle: e.toString(),
+    //   );
+    //   unawaited(discountOpticsStreamed.error(ex));
+    // }
+
+    if (ex != null) {
+      showTopError(ex);
     }
   }
 
@@ -216,21 +220,46 @@ class OpticCititesRepository {
 
   factory OpticCititesRepository.fromDiscountOpticsRepository(
     DiscountOpticsRepository repository,
+    String category,
   ) {
+    if (category == 'onlineShop') {
+      return OpticCititesRepository(
+        [
+          OpticCity(
+            title: '',
+            optics: repository.discountOptics
+                .map(
+                  (e) => Optic(
+                    id: e.id,
+                    title: e.title,
+                    shops: [],
+                    shopCode: e.shopCode,
+                    logo: e.logo,
+                    link: e.link,
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      );
+    }
+
     final cityNames = <String>{};
 
     for (final discounOptic in repository.discountOptics) {
-      for (final discountOpticShop in discounOptic.disountOpticShops!) {
-        final mayBeDirtyCityName = discountOpticShop.address.split(',').first;
+      if (discounOptic.disountOpticShops != null) {
+        for (final discountOpticShop in discounOptic.disountOpticShops!) {
+          final mayBeDirtyCityName = discountOpticShop.address.split(',').first;
 
-        if (mayBeDirtyCityName.split(' ').length > 1) {
-          cityNames.add(
-            mayBeDirtyCityName.split(' ')[1],
-          );
-        } else {
-          cityNames.add(
-            mayBeDirtyCityName,
-          );
+          if (mayBeDirtyCityName.split(' ').length > 1) {
+            cityNames.add(
+              mayBeDirtyCityName.split(' ')[1],
+            );
+          } else {
+            cityNames.add(
+              mayBeDirtyCityName,
+            );
+          }
         }
       }
     }
@@ -283,7 +312,6 @@ class OpticCititesRepository {
     return OpticCititesRepository(cities);
   }
 
-  // TODO(Nikolay): Сделать фабрику для списка всех адресов.
   factory OpticCititesRepository.fromCitiesRepository(
     CitiesRepository repository,
   ) {

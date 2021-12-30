@@ -119,7 +119,6 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               // case '/shops':
-              //   // TODO(Nikolay): Пробрасывать список оптик.
               //   page = SelectOpticScreen();
               //   break;
 

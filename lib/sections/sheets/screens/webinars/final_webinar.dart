@@ -69,7 +69,7 @@ class FinalWebinar extends StatelessWidget {
 
           showDialog<void>(
             context: Keys.mainNav.currentContext!,
-            builder: (context) => VimeoPopup(videoId: videoId),
+            builder: (context) => WebinarPopup(videoId: videoId),
           );
         },
       ),

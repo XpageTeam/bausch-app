@@ -15,7 +15,7 @@ import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,23 +75,20 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
     //addressesBloc = BlocProvider.of<AddressesBloc>(context);
 
-    flatController = TextEditingController(
+    flatController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.flat == null ? '' : widget.adress.flat.toString(),
-    )..addListener(() {
-        setState(() {});
-      });
+    );
 
-    entryController = TextEditingController(
+    entryController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.entry == null ? '' : widget.adress.entry.toString(),
-    )..addListener(() {
-        setState(() {});
-      });
+    );
 
-    floorController = TextEditingController(
+    floorController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.floor == null ? '' : widget.adress.floor.toString(),
-    )..addListener(() {
-        setState(() {});
-      });
+    );
   }
 
   @override
@@ -179,32 +176,28 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   children: [
                     BlueButtonWithText(
                       text: 'Сохранить',
-                      onPressed: ((floorController.text.isNotEmpty) &&
-                              (flatController.text.isNotEmpty) &&
-                              (entryController.text.isNotEmpty))
-                          ? () {
-                              final model = AdressModel(
-                                id: widget.adress.id,
-                                street: widget.adress.street,
-                                house: widget.adress.house,
-                                flat: int.parse(flatController.text),
-                                entry: int.parse(entryController.text),
-                                floor: int.parse(floorController.text),
-                              );
+                      onPressed: () {
+                        final model = AdressModel(
+                          id: widget.adress.id,
+                          street: widget.adress.street,
+                          house: widget.adress.house,
+                          flat: flatController.text.isNotEmpty
+                              ? int.parse(flatController.text)
+                              : null,
+                          entry: entryController.text.isNotEmpty
+                              ? int.parse(entryController.text)
+                              : null,
+                          floor: floorController.text.isNotEmpty
+                              ? int.parse(floorController.text)
+                              : null,
+                        );
 
-                              if (widget.isFirstLaunch) {
-                                addressesBloc
-                                    .add(AddressesSend(address: model));
-                              } else {
-                                addressesBloc
-                                    .add(AddressUpdate(address: model));
-                              }
-                            }
-                          : () {
-                              showDefaultNotification(
-                                title: 'Необходимо заполнить все поля',
-                              );
-                            },
+                        if (widget.isFirstLaunch) {
+                          addressesBloc.add(AddressesSend(address: model));
+                        } else {
+                          addressesBloc.add(AddressUpdate(address: model));
+                        }
+                      },
                     ),
                     if (!widget.isFirstLaunch)
                       Padding(
@@ -253,7 +246,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 
-  //TODO(Nikita): Заменить на popUntil.withName
+  // TODO(Nikita): Заменить на popUntil.withName
   void _navigateBack() {
     Navigator.of(context).pop();
     Navigator.of(context).pop();

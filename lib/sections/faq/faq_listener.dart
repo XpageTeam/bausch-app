@@ -19,7 +19,7 @@ class FaqListener extends StatelessWidget {
         if (state is FaqFailed) {
           Keys.mainNav.currentState!.pop();
 
-          //TODO(Nikita): поменять на готовую функцию
+          // TODO(Nikita): поменять на готовую функцию
           Flushbar<void>(
             messageText: Text(
               state.title,

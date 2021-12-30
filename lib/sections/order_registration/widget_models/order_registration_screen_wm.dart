@@ -35,6 +35,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
   final loadingState = StreamedState<bool>(false);
   final loadingLensState = StreamedState<bool>(false);
 
+  final address = StreamedState<AdressModel?>(null);
+
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -55,7 +57,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
   late UserWM userWM;
 
-  late AdressModel address;
+  //late AdressModel address;
 
   late AdressesCubit adressesCubit;
 
@@ -162,7 +164,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
       await OrderFreePackagingSaver.save(
         productItemModel,
-        address,
+        address.value!,
         diopters: diopters.value,
         cylinder: cylinder.value,
         axis: axis.value,

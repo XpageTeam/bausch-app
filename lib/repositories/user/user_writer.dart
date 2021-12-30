@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// TODO(Danil): реализовать выход и удаление пользователя
+// TODO(Danil): реализовать выход и удаление пользователя
 class UserWriter {
   /// Если в [SharedPreferences] записан пользователя - он будет возвращён этим методом
   static Future<UserRepository?> checkUserToken() async {

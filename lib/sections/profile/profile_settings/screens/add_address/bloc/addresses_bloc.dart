@@ -6,7 +6,6 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 
 part 'addresses_event.dart';
 part 'addresses_state.dart';
@@ -40,7 +39,7 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     try {
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
-          'user/address/',
+          '/user/address/',
           data: address.toMap(),
         ))
             .data!,
@@ -71,7 +70,8 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      // final parsedData = 
+      BaseResponseRepository.fromMap(
         (await rh.delete<Map<String, dynamic>>(
           'user/address/$id/',
         ))

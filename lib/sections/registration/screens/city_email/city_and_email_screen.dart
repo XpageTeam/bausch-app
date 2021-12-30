@@ -9,9 +9,7 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -61,7 +59,7 @@ class _CityAndEmailScreenState
                     onPressed: () async {
                       // Keys.mainNav.currentState!.pushNamed('/city');
 
-                      // TODO: сделать через pushNamed
+                      // TODO(all): сделать через pushNamed
                       wm.setCityName(
                         await Keys.mainNav.currentState!.push<String>(
                           PageRouteBuilder<String>(

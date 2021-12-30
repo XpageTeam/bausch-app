@@ -7,7 +7,6 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 
 part 'fields_event.dart';
 part 'fields_state.dart';
@@ -131,8 +130,8 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData =
-          BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+      // final parsedData =
+      BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         'faq/form/',
         data: FormData.fromMap(
           <String, dynamic>{
@@ -143,7 +142,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
           }..addAll(extra),
         ),
       ))
-              .data!);
+          .data!);
 
       debugPrint(
         'Email: ${state.email}\nTopic: ${state.topic}\nQuestion: ${state.question}\nFiles: ${state.files}\nExtra: ${state.extra}\n',

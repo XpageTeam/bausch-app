@@ -1,7 +1,7 @@
-import 'package:bausch/sections/home/sections/offers/offer_type.dart';
-import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/profile/notification_item.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/offers/offer_type.dart';
+import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 

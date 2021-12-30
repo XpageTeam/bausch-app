@@ -1,6 +1,6 @@
-import 'package:bausch/models/mappable_object.dart';
 
-class DetailModel implements MappableInterface<DetailModel> {
+
+class DetailModel {
   final String title;
 
   final String icon;
@@ -32,9 +32,5 @@ class DetailModel implements MappableInterface<DetailModel> {
     );
   }
 
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
-  }
+
 }

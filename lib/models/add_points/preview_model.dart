@@ -1,6 +1,6 @@
-import 'package:bausch/models/mappable_object.dart';
 
-class PreviewModel implements MappableInterface<PreviewModel> {
+
+class PreviewModel{
   final String title;
 
   final String description;
@@ -17,9 +17,4 @@ class PreviewModel implements MappableInterface<PreviewModel> {
     );
   }
 
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
-  }
 }

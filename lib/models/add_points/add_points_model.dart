@@ -1,8 +1,7 @@
 import 'package:bausch/models/add_points/detail_model.dart';
 import 'package:bausch/models/add_points/preview_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class AddPointsModel implements MappableInterface<AddPointsModel> {
+class AddPointsModel {
   final int id;
 
   final String reward;
@@ -30,11 +29,5 @@ class AddPointsModel implements MappableInterface<AddPointsModel> {
           PreviewModel.fromMap(map['preview'] as Map<String, dynamic>),
       detailModel: DetailModel.fromMap(map['detail'] as Map<String, dynamic>),
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
   }
 }

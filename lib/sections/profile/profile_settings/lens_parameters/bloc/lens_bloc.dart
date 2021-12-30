@@ -6,7 +6,6 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 
 part 'lens_event.dart';
 part 'lens_state.dart';
@@ -39,7 +38,8 @@ class LensBloc extends Bloc<LensEvent, LensState> {
     debugPrint('put ${model.diopter}, ${model.diopter}');
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      // final parsedData =
+      BaseResponseRepository.fromMap(
         (await rh.put<Map<String, dynamic>>(
           'user/lens/',
           data: FormData.fromMap(model.toMap()),

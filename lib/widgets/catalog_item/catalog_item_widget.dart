@@ -16,7 +16,6 @@ import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
@@ -31,7 +30,7 @@ class CatalogItemWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  //TODO(Nikita) : Добавить блок с промокодом, где нужно
+  // TODO(Nikita): Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,7 +150,7 @@ class CatalogItemWidget extends StatelessWidget {
                         children: [
                           TextSpan(
                             style: AppStyles.p1Grey,
-                            // TODO сделать открытие всплывашки
+                            // TODO(all): сделать открытие всплывашки
                             children: [
                               const TextSpan(
                                 text: 'Eсли нет, пишите ',
@@ -236,7 +235,7 @@ void callback(CatalogItemModel _model) {
     showDialog<void>(
       context: Keys.mainNav.currentContext!,
       // TODO(Danil): массив id
-      builder: (context) => VimeoPopup(
+      builder: (context) => WebinarPopup(
         videoId: _model.videoId.first,
       ),
     );

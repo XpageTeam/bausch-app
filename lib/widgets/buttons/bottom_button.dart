@@ -25,7 +25,12 @@ class BottomButtonWithRoundedCorners extends StatelessWidget {
           text: text,
           topPadding: 20,
           withInfo: withInfo,
-          onPressed: onPressed ?? Keys.mainNav.currentState!.pop,
+          onPressed: onPressed ??
+              () {
+                Keys.mainContentNav.currentState!
+                    .popUntil((route) => route.isFirst);
+                Keys.mainNav.currentState!.popUntil((route) => route.isFirst);
+              },
         ),
         Container(
           height: 8,

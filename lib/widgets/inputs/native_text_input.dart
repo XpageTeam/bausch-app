@@ -102,7 +102,7 @@ class _NativeTextInputState extends State<NativeTextInput>
             ),
 
             //* Само текстовое поле (декорации вынес в AppTheme)
-            child: Platform.isIOS
+            child: Platform.isIOS && (widget.enabled != null && widget.enabled!) 
                 ? CupertinoTextField.borderless(
                     cursorColor: widget.cursorColor ?? AppTheme.turquoiseBlue,
                     padding: EdgeInsets.zero,

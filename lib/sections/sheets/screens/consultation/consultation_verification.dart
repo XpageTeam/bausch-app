@@ -1,5 +1,6 @@
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/sections/sheets/sheet_screen.dart';
+
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/sections/sheets/screens/consultation/widget_model/consultation_verification_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -7,22 +8,40 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/text/remaining_points_text.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
-class ConsultationVerification extends StatelessWidget {
+class ConsultationVerification
+    extends CoreMwwmWidget<ConsultationVerificationWM> {
   final ScrollController controller;
-  final CatalogItemModel model;
-  const ConsultationVerification({
-    required this.controller,
-    required this.model,
-    Key? key,
-  }) : super(key: key);
 
+  ConsultationVerification({
+    required this.controller,
+    required ConsultationItemModel model,
+    Key? key,
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => ConsultationVerificationWM(
+            context: context,
+            itemModel: model,
+          ),
+        );
+
+  @override
+  WidgetState<CoreMwwmWidget<ConsultationVerificationWM>,
+          ConsultationVerificationWM>
+      createWidgetState() => _ConsultationVerificationState();
+}
+
+class _ConsultationVerificationState
+    extends WidgetState<ConsultationVerification, ConsultationVerificationWM> {
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.mystic,
-      controller: controller,
+      controller: widget.controller,
       appBar: const CustomSliverAppbar(
         padding: EdgeInsets.all(18),
       ),
@@ -59,14 +78,13 @@ class ConsultationVerification extends StatelessWidget {
                       height: 40,
                     ),
                     BigCatalogItem(
-                      model: model,
+                      model: wm.itemModel,
                     ),
                     const SizedBox(
                       height: 12,
                     ),
-                    Text(
-                      'После покупки у вас останется 100 баллов',
-                      style: AppStyles.p1,
+                    RemainingPointsText(
+                      remains: wm.remains,
                     ),
                   ],
                 ),
@@ -75,16 +93,30 @@ class ConsultationVerification extends StatelessWidget {
           ),
         ),
       ],
-      bottomNavBar: CustomFloatingActionButton(
-        text: 'Потратить ${model.price} б',
-        onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/final_consultation',
-            (route) => route.isCurrent,
-            arguments: ItemSheetScreenArguments(model: model),
-          );
+      bottomNavBar: StreamedStateBuilder<bool>(
+        streamedState: wm.loadingState,
+        builder: (_, isLoading) {
+          return isLoading
+              ? const CustomFloatingActionButton(
+                  text: '',
+                  icon: AnimatedLoader(),
+                )
+              : CustomFloatingActionButton(
+                  text: 'Потратить ${wm.itemModel.price} б',
+                  icon: Container(),
+                  onPressed: wm.spendPointsAction,
+                );
         },
       ),
+      // bottomNavBar: CustomFloatingActionButton(
+      //   text: 'Потратить ${model.price} б',
+      //   onPressed: () {
+      // Navigator.of(context).pushNamed(
+      //   '/final_consultation',
+      //   arguments: ItemSheetScreenArguments(model: model),
+      // );
+      //   },
+      // ),
     );
   }
 }

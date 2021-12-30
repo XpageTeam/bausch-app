@@ -2,10 +2,8 @@
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class WebinarItemModel extends CatalogItemModel
-    implements MappableInterface<WebinarItemModel> {
+class WebinarItemModel extends CatalogItemModel {
   //* Идентификатор ролика
   final List<String> videoId;
   final bool availability;
@@ -69,11 +67,5 @@ class WebinarItemModel extends CatalogItemModel
       availability: map['availability'] as bool,
       isBought: map['isBought'] as bool?,
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
   }
 }

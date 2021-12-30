@@ -8,6 +8,8 @@ class User {
   final bool isMobilePhoneConfirmed;
   final int id;
 
+  final bool? isEmailConfirmed;
+
   final String? token;
 
   final String? name;
@@ -22,6 +24,7 @@ class User {
     required this.id,
     required this.phone,
     required this.isMobilePhoneConfirmed,
+    this.isEmailConfirmed,
     this.token,
     this.name,
     this.lastName,
@@ -44,10 +47,11 @@ class User {
         phone: json['phone'] as String,
         pendingEmail: json['pendingEmail'] as String?,
         isMobilePhoneConfirmed: json['isMobilePhoneConfirmed'] as bool,
-        birthDate: json['birthDate'] == null
-            ? null
-            : DateTime.parse(json['birthDate'] as String),
+        birthDate: DateTime.tryParse(
+          (json['birthDate'] as String? ?? '').split('+')[0],
+        ),
         city: json['city'] as String?,
+        isEmailConfirmed: json['isEmailConfirmed'] as bool?,
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

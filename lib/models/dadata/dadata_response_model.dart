@@ -1,7 +1,6 @@
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class DadataResponseModel implements MappableInterface<DadataResponseModel> {
+class DadataResponseModel {
   final String value;
   final String unrestrictedValue;
   final DadataResponseDataModel data;
@@ -19,11 +18,5 @@ class DadataResponseModel implements MappableInterface<DadataResponseModel> {
       data:
           DadataResponseDataModel.fromMap(map['data'] as Map<String, dynamic>),
     );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
   }
 }

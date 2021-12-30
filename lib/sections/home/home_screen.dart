@@ -1,19 +1,19 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
-import 'package:bausch/sections/home/sections/offers/offer_type.dart';
-import 'package:bausch/sections/home/sections/offers/offers_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
+import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/offers/offer_type.dart';
+import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -25,11 +25,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authWM = Provider.of<AuthWM>(context);
 
-    double bottomHeigth = 0;
-
-    debugPrint(
-      'phone: ${HelpFunctions.formatPhone('+7 919 121-06-70')}',
-    );
+    var bottomHeigth = 0.0;
 
     return Scaffold(
       backgroundColor: AppTheme.mystic,
@@ -87,22 +83,22 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                // if (status == AuthStatus.authenticated)
-                //   SliverPadding(
-                //     padding: const EdgeInsets.only(
-                //       bottom: 20,
-                //     ),
-                //     sliver: SliverList(
-                //       delegate: SliverChildListDelegate(
-                //         [
-                //           const DelayedAnimatedTranslateOpacity(
-                //             offsetY: 40,
-                //             child: StoriesSlider(),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
+                if (status == AuthStatus.authenticated)
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      bottom: 20,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          const DelayedAnimatedTranslateOpacity(
+                            offsetY: 40,
+                            child: StoriesSlider(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 20,

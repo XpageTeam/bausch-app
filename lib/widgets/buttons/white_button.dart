@@ -8,6 +8,7 @@ class WhiteButton extends StatelessWidget {
   final Widget? icon;
   final EdgeInsets? padding;
   final TextStyle? style;
+
   const WhiteButton({
     required this.text,
     this.style,
@@ -19,48 +20,50 @@ class WhiteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: Colors.white,
-        padding: EdgeInsets.zero,
-      ),
-      child: Padding(
-        padding:
-            padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Row(
-                children: [
-                  icon ??
-                      Row(
-                        children: const [
-                          Icon(
-                            Icons.pin_drop,
-                            color: AppTheme.mineShaft,
-                          ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                        ],
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: padding ??
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Row(
+                  children: [
+                    icon ??
+                        Row(
+                          children: const [
+                            Icon(
+                              Icons.pin_drop,
+                              color: AppTheme.mineShaft,
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                          ],
+                        ),
+                    Flexible(
+                      child: Text(
+                        text,
+                        style: style ?? AppStyles.h2,
                       ),
-                  Flexible(
-                    child: Text(
-                      text,
-                      style: style ?? AppStyles.h2,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: AppTheme.mineShaft,
-              size: 20,
-            ),
-          ],
+              const Icon(
+                Icons.arrow_forward_ios_sharp,
+                color: AppTheme.mineShaft,
+                size: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

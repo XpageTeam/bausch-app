@@ -28,11 +28,11 @@ class StoriesScreen extends StatefulWidget {
 
 class _StoriesScreenState extends State<StoriesScreen>
     with SingleTickerProviderStateMixin {
+  late Widget img;
   late PageController _pageController;
   late AnimationController _animController;
   late VideoPlayerController _videoPlayerController;
   late int _currentIndex;
-  late Widget img;
 
   //bool isContentLoaded = false;
 
@@ -257,6 +257,10 @@ class _StoriesScreenState extends State<StoriesScreen>
     _animController.stop();
     _animController.reset();
 
+    if (_videoPlayerController.value.isInitialized) {
+      await _videoPlayerController.pause();
+    }
+
     switch (story.isVideo) {
       case false:
         img = Image.network(
@@ -276,14 +280,17 @@ class _StoriesScreenState extends State<StoriesScreen>
         await completer.future;
         if (mounted) {
           _animController.duration = story.duration;
+          // ignore: unawaited_futures
           _animController.forward();
         }
 
         break;
       case true:
         //_videoPlayerController = null;
+        // ignore: unawaited_futures
         _videoPlayerController.dispose();
         _videoPlayerController = VideoPlayerController.network(story.file!)
+          // ignore: unawaited_futures
           ..initialize().then(
             (_) {
               setState(() {});
@@ -298,6 +305,7 @@ class _StoriesScreenState extends State<StoriesScreen>
         break;
     }
     if (animateToPage) {
+      // ignore: unawaited_futures
       _pageController.animateToPage(
         _currentIndex,
         duration: const Duration(milliseconds: 1),
