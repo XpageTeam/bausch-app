@@ -53,6 +53,8 @@ class LoginWM extends WidgetModel {
 
   final policyAcceptAction = VoidAction();
 
+  Timer? smsTimer;
+
   LoginWM({
     required WidgetModelDependencies baseDependencies,
     required this.context,
@@ -238,6 +240,10 @@ class LoginWM extends WidgetModel {
 
       await UserWriter.writeToken(res.xApiToken);
 
+      //* Очистка полей после отправки кода
+      phoneController.text = '';
+      codeController.text = '';
+
       _checkAuth();
     } on DioError catch (e) {
       error = CustomException(
@@ -303,8 +309,11 @@ class LoginWM extends WidgetModel {
 
   void _startResendTimer(int seconds) {
     smsResendSeconds.accept(seconds);
+    if (smsTimer != null) {
+      smsTimer!.cancel();
+    }
 
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    smsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       smsResendSeconds.accept(smsResendSeconds.value - 1);
 
       if (smsResendSeconds.value <= 0) {

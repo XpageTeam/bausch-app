@@ -63,7 +63,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
     );
 
     // ignore: use_build_context_synchronously
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 
   void setCityName(String? cityName) {

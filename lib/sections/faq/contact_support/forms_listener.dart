@@ -24,6 +24,7 @@ class FormsListener extends StatelessWidget {
             if (state is FieldsSended) {
               showDefaultNotification(
                 title: 'Ваше сообщение успешно отправлено!',
+                success: true,
               );
               Navigator.of(context).pop();
             }

@@ -44,7 +44,9 @@ class CustomSliverAppbar extends StatelessWidget {
                     ),
                 NormalIconButton(
                   onPressed: () {
-                    Keys.mainContentNav.currentState!.pop();
+                    icon != null
+                        ? Navigator.of(context).pop()
+                        : Keys.mainContentNav.currentState!.pop();
                   },
                   icon: const Icon(
                     Icons.close_rounded,

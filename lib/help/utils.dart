@@ -38,6 +38,9 @@ class Utils {
     String notificationText = 'Скопировано!',
   }) {
     Clipboard.setData(ClipboardData(text: data));
-    showDefaultNotification(title: notificationText);
+    showDefaultNotification(
+      title: notificationText,
+      success: true,
+    );
   }
 }

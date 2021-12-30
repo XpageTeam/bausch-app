@@ -60,8 +60,11 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                       child: AddressButton(
                         labelText:
                             '${state.adresses[i].street}, ${state.adresses[i].house}',
-                        selectedText:
-                            'Кв.${state.adresses[i].flat},подъезд ${state.adresses[i].entry},этаж ${state.adresses[i].floor}',
+                        selectedText: (state.adresses[i].flat != null &&
+                                state.adresses[i].entry != null &&
+                                state.adresses[i].floor != null)
+                            ? 'Кв.${state.adresses[i].flat},подъезд ${state.adresses[i].entry},этаж ${state.adresses[i].floor}'
+                            : null,
                         onPressed: () {
                           Keys.mainContentNav.currentState!
                               .pushNamed(

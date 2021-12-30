@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 
 class AddressButton extends StatelessWidget {
   final String labelText;
-  final String selectedText;
+  final String? selectedText;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   const AddressButton({
     required this.labelText,
-    required this.selectedText,
+    this.selectedText,
     this.onPressed,
     this.backgroundColor,
     Key? key,
@@ -21,40 +21,43 @@ class AddressButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: backgroundColor ?? Colors.white,
+        backgroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 14,
-            ),
-            child: Flexible(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    labelText,
-                    style: AppStyles.h2Bold,
-                  ),
+            padding: selectedText == null
+                ? const EdgeInsets.only(top: 26, bottom: 28)
+                : const EdgeInsets.only(top: 14, bottom: 14),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  labelText,
+                  style: AppStyles.h2,
+                ),
+                if (selectedText != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
-                      selectedText,
-                      style: AppStyles.p1Grey,
+                      selectedText!,
+                      style: AppStyles.p1.copyWith(
+                        color: AppTheme.grey,
+                      ),
                     ),
                   ),
-                ],
-              ),
+              ],
             ),
           ),
           const Icon(
             Icons.chevron_right_sharp,
             size: 20,
-            color: AppTheme.mineShaft,
+            color:
+                // selectedText == null ? AppTheme.grey :
+                AppTheme.mineShaft,
           ),
         ],
       ),

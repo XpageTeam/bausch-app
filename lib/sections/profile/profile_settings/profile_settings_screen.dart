@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
@@ -39,10 +40,12 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
   late UserWM userWM;
+  late AuthWM authWM;
 
   @override
   Widget build(BuildContext context) {
     userWM = Provider.of<UserWM>(context);
+    authWM = Provider.of<AuthWM>(context);
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       appBar: DefaultAppBar(
@@ -240,6 +243,39 @@ class _ProfileSettingsScreenState
               padding: EdgeInsets.only(bottom: 40),
               child: FocusButton(
                 labelText: 'Привязать аккаунт',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40),
+              child: TextButton(
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    builder: (context) {
+                      return CustomAlertDialog(
+                        text: 'Уходите?',
+                        yesCallback: () {
+                          authWM.logout();
+                        },
+                        noCallback: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                  );
+                },
+                style: TextButton.styleFrom(
+                  primary: Colors.transparent,
+                ),
+                child: Text(
+                  'Выйти',
+                  style: AppStyles.h2.copyWith(
+                    color: AppTheme.grey,
+                  ),
+                ),
               ),
             ),
             Padding(

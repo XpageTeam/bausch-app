@@ -162,6 +162,27 @@ class OrderRegistrationScreenWM extends WidgetModel {
         return;
       }
 
+      //* TODO(Nikita): придумать нормальное решение
+      if (productItemModel.specifications != null) {
+        if ((productItemModel.specifications!.diopters != null &&
+                diopters.value == null) ||
+            (productItemModel.specifications!.cylinder != null &&
+                cylinder.value == null) ||
+            (productItemModel.specifications!.addiction != null &&
+                addidations.value == null) ||
+            (productItemModel.specifications!.axis != null &&
+                axis.value == null) ||
+            (productItemModel.specifications!.color != null &&
+                color.value == null)) {
+          error = const CustomException(
+            title: 'Необходимо выбрать параметры контактных линз',
+          );
+          showTopError(error);
+          unawaited(loadingState.accept(false));
+          return;
+        }
+      }
+
       await OrderFreePackagingSaver.save(
         productItemModel,
         address.value!,

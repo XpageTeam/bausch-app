@@ -24,6 +24,7 @@ class LensListener extends StatelessWidget {
           // TODO(Nikita): поменять на другой
           showDefaultNotification(
             title: 'Параметры успешно изменены',
+            success: true,
           );
           Navigator.of(context).pop();
         }

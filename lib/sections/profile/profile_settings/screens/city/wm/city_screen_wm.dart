@@ -5,6 +5,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/city/dadata_cities_downloader.dart';
 import 'package:bausch/models/city/dadata_city.dart';
+import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,27 @@ class CityScreenWM extends WidgetModel {
   final List<String>? citiesWithShops;
 
   final citiesList = EntityStreamedState<List<DadataCity>>();
+  final daDataCitiesList = EntityStreamedState<List<DadataResponseModel>>();
 
   final citiesListReloadAction = VoidAction();
+  final selectCityAction = VoidAction();
+
+  final confirmAction = StreamedAction<DadataResponseModel>();
 
   final citiesFilterController = TextEditingController();
   final filteredCitiesList = StreamedState<List<DadataCity>>([]);
 
+  final isSearchActive = StreamedState<bool>(false);
+  final canCompleteSearch = StreamedState<bool>(false);
+  final searchQuery = StreamedState<String>('');
+
+  final BuildContext context;
+
+  final _requester = CitiesDownloader();
+
   CityScreenWM(
     WidgetModelDependencies baseDependencies, {
+    required this.context,
     this.citiesWithShops,
   }) : super(baseDependencies) {
     if (citiesWithShops == null) {
@@ -50,7 +64,31 @@ class CityScreenWM extends WidgetModel {
   }
 
   @override
+  void dispose() {
+    citiesFilterController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   void onLoad() {
+    subscribe<DadataResponseModel>(confirmAction.stream, (item) {
+      if (item.value != citiesFilterController.text) {
+        citiesFilterController
+          ..text = item.value
+          ..selection = TextSelection.fromPosition(
+            TextPosition(offset: citiesFilterController.text.length),
+          );
+
+        canCompleteSearch.accept(true);
+        searchQuery.accept(item.value);
+      }
+    });
+
+    subscribe(selectCityAction.stream, (_) {
+      Navigator.of(context).pop(searchQuery.value);
+    });
+
     subscribe(citiesListReloadAction.stream, (value) {
       _loadCities();
     });
@@ -61,7 +99,19 @@ class CityScreenWM extends WidgetModel {
       }
     });
 
-    citiesFilterController.addListener(_filterCities);
+    citiesFilterController.addListener(() {
+      if (citiesFilterController.text != '') {
+        isSearchActive.accept(true);
+        _filterCities();
+      } else {
+        canCompleteSearch.accept(false);
+        isSearchActive.accept(false);
+      }
+
+      if (citiesFilterController.text != searchQuery.value){
+        canCompleteSearch.accept(false);
+      }
+    });
 
     super.onLoad();
   }
@@ -74,7 +124,7 @@ class CityScreenWM extends WidgetModel {
     try {
       final parsedCities = const CsvToListConverter(
         eol: '\n',
-      ).convert<dynamic>((await CitiesDownloader.loadCities()).data as String);
+      ).convert<dynamic>((await _requester.loadCities()).data as String);
 
       final cities = parsedCities.map((item) {
         return DadataCity.fromCSV(item);
@@ -116,7 +166,53 @@ class CityScreenWM extends WidgetModel {
     }
   }
 
-  void _filterCities() {
+  Future<void> _filterCities() async {
+    /// если введён поисковый запрос
+    if (citiesFilterController.text != '') {
+      if (daDataCitiesList.value.isLoading) return;
+
+      unawaited(daDataCitiesList.loading(daDataCitiesList.value.data));
+
+      try {
+        await daDataCitiesList.content(
+          await _requester.loadDadataCities(citiesFilterController.text),
+        );
+      } on DioError catch (e) {
+        await citiesList.error(
+          CustomException(
+            title: 'При загрузке списка городов произошла ошибка',
+            subtitle: e.message,
+            ex: e,
+          ),
+        );
+      } on ResponseParseException catch (e) {
+        await citiesList.error(
+          CustomException(
+            title: 'При обработке ответа от сервера произошла ошибка',
+            subtitle: e.toString(),
+            ex: e,
+          ),
+        );
+      } on SuccessFalse catch (e) {
+        await citiesList.error(
+          CustomException(
+            title: e.toString(),
+            ex: e,
+          ),
+        );
+        // ignore: avoid_catches_without_on_clauses
+      } catch (e) {
+        await citiesList.error(
+          CustomException(
+            title: 'При загрузке списка городов произошла ошибка',
+            subtitle: e.toString(),
+          ),
+        );
+      }
+
+      return;
+    }
+
     final filteredList = <DadataCity>[];
 
     citiesList.value.data?.forEach((city) {
@@ -128,6 +224,6 @@ class CityScreenWM extends WidgetModel {
       }
     });
 
-    filteredCitiesList.accept(filteredList);
+    await filteredCitiesList.accept(filteredList);
   }
 }
