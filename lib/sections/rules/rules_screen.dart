@@ -20,11 +20,12 @@ class RulesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.symmetric(
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 14,
         ),
+        icon: Container(),
       ),
       slivers: [
         SliverPadding(

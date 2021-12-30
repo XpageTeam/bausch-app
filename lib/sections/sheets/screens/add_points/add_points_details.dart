@@ -1,5 +1,6 @@
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
+import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_details_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
@@ -8,7 +9,9 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 class AddPointsDetailsArguments {
   final AddPointsModel model;
@@ -18,21 +21,34 @@ class AddPointsDetailsArguments {
 
 //* Add_points
 //* add
-class AddPointsDetails extends StatelessWidget
+class AddPointsDetails extends CoreMwwmWidget<AddPointsDetailsWM>
     implements AddPointsDetailsArguments {
   @override
   final AddPointsModel model;
   final ScrollController controller;
-  const AddPointsDetails({
+  AddPointsDetails({
     required this.model,
     required this.controller,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => AddPointsDetailsWM(
+            context: context,
+            addPointsModel: model,
+          ),
+        );
 
+  @override
+  WidgetState<CoreMwwmWidget<AddPointsDetailsWM>, AddPointsDetailsWM>
+      createWidgetState() => _AddPointsDetailsState();
+}
+
+class _AddPointsDetailsState
+    extends WidgetState<AddPointsDetails, AddPointsDetailsWM> {
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
-      controller: controller,
+      controller: widget.controller,
       appBar: const CustomSliverAppbar(
         padding: EdgeInsets.all(18),
         iconColor: AppTheme.mystic,
@@ -57,7 +73,7 @@ class AddPointsDetails extends StatelessWidget
                             height: 64,
                           ),
                           Image.network(
-                            model.detailModel.icon,
+                            wm.addPointsModel.detailModel.icon,
                             fit: BoxFit.cover,
                             height: 200,
                           ),
@@ -69,7 +85,7 @@ class AddPointsDetails extends StatelessWidget
                               horizontal: StaticData.sidePadding,
                             ),
                             child: Text(
-                              model.detailModel.title,
+                              wm.addPointsModel.detailModel.title,
                               style: AppStyles.h1,
                               textAlign: TextAlign.center,
                             ),
@@ -82,7 +98,7 @@ class AddPointsDetails extends StatelessWidget
                               bottom: 30,
                             ),
                             child: ButtonContent(
-                              price: '+${model.reward}',
+                              price: '+${wm.addPointsModel.reward}',
                               textStyle: AppStyles.h1,
                             ),
                           ),
@@ -95,7 +111,7 @@ class AddPointsDetails extends StatelessWidget
                   height: 4,
                 ),
                 InfoSection(
-                  text: model.detailModel.description!,
+                  text: wm.addPointsModel.detailModel.description!,
                   secondText: '',
                 ),
                 const SizedBox(
@@ -103,23 +119,34 @@ class AddPointsDetails extends StatelessWidget
                 ),
                 Column(
                   children: [
-                    if (model.type == 'vk')
+                    if (wm.addPointsModel.type == 'vk')
                       const FocusButton(labelText: 'Привязать аккаунт'),
                     const SizedBox(
                       height: 4,
                     ),
-                    BlueButtonWithText(
-                      text: model.detailModel.btnName!,
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/final_addpoints');
-                      },
-                      icon: model.detailModel.btnIcon != null
-                          ? Image.network(
-                              model.detailModel.btnIcon!,
-                              height: 15,
-                            )
-                          : null,
-                    ),
+                    if (wm.addPointsModel.detailModel.btnName != null)
+                      StreamedStateBuilder<bool>(
+                        streamedState: wm.loadingState,
+                        builder: (_, isLoading) {
+                          return isLoading
+                              ? const BlueButtonWithText(
+                                  text: '',
+                                  icon: AnimatedLoader(),
+                                )
+                              : BlueButtonWithText(
+                                  text: wm.addPointsModel.detailModel.btnName!,
+                                  onPressed: wm.buttonAction,
+                                  icon: wm.addPointsModel.detailModel.btnIcon !=
+                                          null
+                                      ? Image.network(
+                                          wm.addPointsModel.detailModel
+                                              .btnIcon!,
+                                          height: 15,
+                                        )
+                                      : null,
+                                );
+                        },
+                      ),
                   ],
                 ),
                 const SizedBox(
@@ -132,18 +159,4 @@ class AddPointsDetails extends StatelessWidget
       ],
     );
   }
-
-  // String buttonText(String type) {
-  //   if (type == 'vk') {
-  //     return 'Подписаться на группу';
-  //   } else if (type == 'friend') {
-  //     return 'Отправить ссылку';
-  //   } else if (type == 'overview_social') {
-  //     return 'Прикрепить скриншот';
-  //   } else if (type == 'overview') {
-  //     return 'Прикрепить скриншот';
-  //   } else {
-  //     return 'Далее';
-  //   }
-  // }
 }

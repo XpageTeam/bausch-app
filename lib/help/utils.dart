@@ -1,5 +1,6 @@
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/services.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
@@ -16,6 +17,18 @@ class Utils {
     } else {
       return Future<bool>.error(
         'Could not launch $url',
+      );
+    }
+  }
+
+  static Future<void> tryShare({
+    String? text,
+  }) async {
+    if (text != null) {
+      await Share.share(text);
+    } else {
+      showDefaultNotification(
+        title: 'Не пришла ссылка для того, чтобы поделиться',
       );
     }
   }

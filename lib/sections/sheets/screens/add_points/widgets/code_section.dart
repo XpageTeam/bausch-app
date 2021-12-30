@@ -95,7 +95,10 @@ class _CodeSectionState extends State<CodeSection> {
                       showCupertinoModalPopup<void>(
                         context: context,
                         builder: (context) => CupertinoActionSheet(
-                          title: const Text('Продукт'),
+                          title: Text(
+                            'Продукт',
+                            style: AppStyles.p1,
+                          ),
                           actions: List.generate(
                             state.models.length,
                             (i) {
@@ -111,7 +114,10 @@ class _CodeSectionState extends State<CodeSection> {
                                   );
                                   Navigator.of(context).pop();
                                 },
-                                child: Text(state.models[i].title),
+                                child: Text(
+                                  state.models[i].title,
+                                  style: AppStyles.h2,
+                                ),
                               );
                             },
                           ),

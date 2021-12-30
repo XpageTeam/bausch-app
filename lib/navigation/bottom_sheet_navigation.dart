@@ -256,6 +256,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/final_addpoints':
               page = FinalAddPointsScreen(
                 controller: controller,
+                points: (settings.arguments as FinalAddPointsArguments).points,
               );
               break;
 
