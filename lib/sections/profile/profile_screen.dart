@@ -60,7 +60,9 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                         streamedState: wm.userWM.userData,
                         builder: (_, userRepo) {
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 56, //* padding + размер кнопки
+                            ),
                             child: AutoSizeText(
                               userRepo.userName,
                               style: AppStyles.h1,

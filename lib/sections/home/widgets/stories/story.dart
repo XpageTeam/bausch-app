@@ -60,7 +60,7 @@ class Story extends StatelessWidget {
                         style: AppStyles.h2WhiteBold,
                       ),
                       Text(
-                        model.id.toString(),
+                        model.content.length.toString(),
                         style: AppStyles.p1.copyWith(color: Colors.white),
                       ),
                     ],
