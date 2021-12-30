@@ -52,9 +52,9 @@ class AdressModel implements MappableInterface<AdressModel> {
       id: map['id'] as int,
       street: map['street'] as String,
       house: map['house'] as String,
-      flat: map['flat'] as int,
-      entry: map['entry'] as int,
-      floor: map['floor'] as int,
+      flat: map['flat'] as int?,
+      entry: map['entry'] as int?,
+      floor: map['floor'] as int?,
       city: map['city'] as String,
     );
   }
