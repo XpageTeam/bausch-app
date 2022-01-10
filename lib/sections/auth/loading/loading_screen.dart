@@ -21,6 +21,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
 
+    double logoHeight = 0;
+
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
       extendBodyBehindAppBar: true,
@@ -31,6 +33,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
           //* Анимация, запускается при инициализации экрана
           Positioned.fill(
             child: ColumnWithDynamicDuration(
+              onHeightChanged: (h) {
+                logoHeight = h;
+                debugPrint(logoHeight.toString());
+              },
               children: [
                 Container(
                   color: Colors.white,
@@ -83,9 +89,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   height: MediaQuery.of(context).size.height -
                       MediaQuery.of(context).padding.bottom -
                       MediaQuery.of(context).padding.top -
-                      86.sp -
+                      logoHeight -
                       spaceBetween -
-                      80.sp -
+                      160.sp -
                       114.sp +
                       (IphoneHasNotch.hasNotch ? 70.sp : 0.sp),
                   //height: 400.sp,

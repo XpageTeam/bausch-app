@@ -181,7 +181,6 @@ class HomeScreen extends StatelessWidget {
                 color: AppTheme.mineShaft,
               ),
               onPressed: () {
-                debugPrint(context.toString());
                 showSheet<void>(
                   context,
                   SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),

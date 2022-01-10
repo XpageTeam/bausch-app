@@ -67,6 +67,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
       builder: (context, primaryData) {
         return CustomSheetScaffold(
           controller: widget.controller,
+          resizeToAvoidBottomInset: false,
           appBar: CustomSliverAppbar(
             padding: const EdgeInsets.all(18),
             icon: Container(),
@@ -254,7 +255,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
               ),
             ),
           ],
-          bottomNavBar: StreamedStateBuilder<Optic?>(
+          floatingActionButton: StreamedStateBuilder<Optic?>(
             streamedState: wm.currentOpticStreamed,
             builder: (_, currentOptic) => StreamedStateBuilder<bool>(
               streamedState: wm.loadingStreamed,

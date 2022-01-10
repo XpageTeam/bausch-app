@@ -4,10 +4,31 @@ import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ColumnWithDynamicDuration extends StatelessWidget {
+class ColumnWithDynamicDuration extends StatefulWidget {
   final List<Widget> children;
-  const ColumnWithDynamicDuration({required this.children, Key? key})
-      : super(key: key);
+  final ValueChanged<double> onHeightChanged;
+  const ColumnWithDynamicDuration({
+    required this.children,
+    required this.onHeightChanged,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<ColumnWithDynamicDuration> createState() =>
+      _ColumnWithDynamicDurationState();
+}
+
+class _ColumnWithDynamicDurationState extends State<ColumnWithDynamicDuration> {
+  final globalKey = GlobalKey();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) => widget.onHeightChanged(
+        globalKey.currentContext!.size!.height,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +38,18 @@ class ColumnWithDynamicDuration extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DelayedAnimatedTranslateOpacity(
+          key: globalKey,
           offsetY: 0,
-          child: children[0],
+          child: widget.children[0],
         ),
         Expanded(
           child: IgnorePointer(
             child: ListView.separated(
               shrinkWrap: true,
-
               itemBuilder: (context, i) {
                 final j = i;
 
-                if (j==0){
+                if (j == 0) {
                   return const SizedBox();
                 }
 
@@ -42,19 +63,19 @@ class ColumnWithDynamicDuration extends StatelessWidget {
                         SizedBox(
                           width: spaceBetween,
                         ),
-                        IntrinsicWidth(child: children[1]),
+                        IntrinsicWidth(child: widget.children[1]),
                         SizedBox(
                           width: spaceBetween,
                         ),
-                        IntrinsicWidth(child: children[2]),
+                        IntrinsicWidth(child: widget.children[2]),
                         SizedBox(
                           width: spaceBetween,
                         ),
-                        IntrinsicWidth(child: children[3]),
+                        IntrinsicWidth(child: widget.children[3]),
                         SizedBox(
                           width: spaceBetween,
                         ),
-                        IntrinsicWidth(child: children[1]),
+                        IntrinsicWidth(child: widget.children[1]),
                         SizedBox(
                           width: spaceBetween,
                         ),
@@ -65,17 +86,17 @@ class ColumnWithDynamicDuration extends StatelessWidget {
                   return AnimatedReverseOpacity(
                     offsetY: 20,
                     //animationDuration: const Duration(milliseconds: 600),
-                    child: children[j],
+                    child: widget.children[j],
                     delay: Duration(milliseconds: 200 + j * 400),
                   );
                 }
               },
               separatorBuilder: (context, i) {
                 return SizedBox(
-                  height: i == 0 ? 40 : spaceBetween,
+                  height: i == 1 ? 80.sp : spaceBetween,
                 );
               },
-              itemCount: children.length,
+              itemCount: widget.children.length,
             ),
           ),
         ),
