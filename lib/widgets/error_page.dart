@@ -67,8 +67,10 @@ class ErrorPage extends StatelessWidget {
       ),
       floatingActionButton: buttonText != null
           ? Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
+              padding: const EdgeInsets.only(
+                left: StaticData.sidePadding,
+                right: StaticData.sidePadding,
+                bottom: 40,
               ),
               child: BlueButtonWithText(
                 text: buttonText!,
