@@ -46,6 +46,7 @@ class _ProfileSettingsScreenState
   Widget build(BuildContext context) {
     userWM = Provider.of<UserWM>(context);
     authWM = Provider.of<AuthWM>(context);
+
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       appBar: DefaultAppBar(
@@ -112,24 +113,23 @@ class _ProfileSettingsScreenState
                   EntityStateBuilder<UserRepository>(
                     streamedState: userWM.userData,
                     builder: (_, userData) {
-                      debugPrint(userData.user.isEmailConfirmed.toString());
-                      if (userData.user.isEmailConfirmed != null &&
-                          !userData.user.isEmailConfirmed!) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
-                              DiscountInfo(
-                                color: AppTheme.turquoiseBlue,
-                                text: 'подтвердить',
-                              ),
-                            ],
-                          ), // TODO(Nikita): Вывести статус
-                        );
-                      }
+                      debugPrint(userData.user.pendingEmail.toString());
 
-                      return Container();
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            DiscountInfo(
+                              color: AppTheme.turquoiseBlue,
+                              text: (userData.user.isEmailConfirmed != null &&
+                                      !userData.user.isEmailConfirmed!) || userData.user.pendingEmail != null
+                                  ? 'подтвердить'
+                                  : 'подтверждён',
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -155,43 +155,43 @@ class _ProfileSettingsScreenState
                         ? DateFormat('dd.MM.yyyy').format(birthDate)
                         : null,
                     icon: Container(),
-                    onPressed: wm.selectedBirthDate.value == null
-                        ? () {
-                            DatePicker.showDatePicker(
-                              context,
-                              initialDateTime: DateTime.now(),
-                              minDateTime: DateTime(1900, 8),
-                              maxDateTime: DateTime(2101),
-                              locale: DateTimePickerLocale.ru,
-                              onCancel: () {},
-                              onConfirm: (date, i) {
-                                debugPrint('onchanged');
+                    onPressed: () {
+                      DatePicker.showDatePicker(
+                        context,
+                        initialDateTime: DateTime.now(),
+                        minDateTime: DateTime(1900, 8),
+                        maxDateTime: DateTime.now(),
+                        locale: DateTimePickerLocale.ru,
+                        onCancel: () {},
+                        onConfirm: (date, i) {
+                          debugPrint('onchanged');
 
-                                showModalBottomSheet<void>(
-                                  context: Keys.mainNav.currentContext!,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  builder: (context) {
-                                    return CustomAlertDialog(
-                                      yesText: 'Продолжить',
-                                      noText: 'Отмена',
-                                      text:
-                                          'После установки сменить дату рождения будет невозможно!',
-                                      yesCallback: () {
-                                        wm.setBirthDate(date);
-                                        Navigator.of(context).pop();
-                                      },
-                                      noCallback: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          }
-                        : null,
+                          wm.setBirthDate(date);
+
+                          // showModalBottomSheet<void>(
+                          //   context: Keys.mainNav.currentContext!,
+                          //   shape: RoundedRectangleBorder(
+                          //     borderRadius: BorderRadius.circular(5),
+                          //   ),
+                          //   builder: (context) {
+                          //     return CustomAlertDialog(
+                          //       yesText: 'Продолжить',
+                          //       noText: 'Отмена',
+                          //       text:
+                          //           'После установки сменить дату рождения будет невозможно!',
+                          //       yesCallback: () {
+                          //         wm.setBirthDate(date);
+                          //         Navigator.of(context).pop();
+                          //       },
+                          //       noCallback: () {
+                          //         Navigator.of(context).pop();
+                          //       },
+                          //     );
+                          //   },
+                          // );
+                        },
+                      );
+                    },
                   );
                 },
               ),
@@ -242,14 +242,14 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 40),
-              child: FocusButton(
-                labelText: 'Привязать аккаунт',
-              ),
-            ),
+            // const Padding(
+            //   padding: EdgeInsets.only(bottom: 40),
+            //   child: FocusButton(
+            //     labelText: 'Привязать аккаунт',
+            //   ),
+            // ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.symmetric(vertical: 40),
               child: TextButton(
                 onPressed: () {
                   showModalBottomSheet<void>(
