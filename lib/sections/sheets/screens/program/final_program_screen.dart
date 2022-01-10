@@ -55,7 +55,7 @@ class FinalProgramScreen extends StatelessWidget {
                     bottom: 40,
                   ),
                   child: Text(
-                    'Воспользуйтесь сертификатом до 30 августа 2021 и получите двойные баллы. Сертификат хранится в личном кабинете, его можно использовать в течение двух недель.',
+                    response.subtitle,
                     style: AppStyles.p1,
                   ),
                 ),

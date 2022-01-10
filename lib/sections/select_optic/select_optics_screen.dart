@@ -19,7 +19,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* Program
 //* list
 class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
-  final void Function(Optic shop) onOpticSelect;
+  final void Function(Optic shop, String city) onOpticSelect;
   SelectOpticScreen({
     required this.onOpticSelect,
     List<OpticCity>? cities,
@@ -127,7 +127,10 @@ class _SelectOpticScreenState
                       wm.onOpticShopSelectAction(
                     OpticShopParams(
                       selectedShop,
-                      widget.onOpticSelect,
+                      (optic) => widget.onOpticSelect(
+                        optic,
+                        wm.currentCityStreamed.value.data ?? '',
+                      ),
                     ),
                   ),
                   whenCompleteModalBottomSheet: (mapBodyWm) {

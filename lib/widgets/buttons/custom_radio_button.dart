@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class CustomRadioButton extends StatefulWidget {
   final String text;
-  final VoidCallback? onPressed;
+  final void Function(String whatDoYouUse) onPressed;
 
   const CustomRadioButton({
     required this.text,
-    this.onPressed,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -27,7 +27,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
         setState(() {
           value = !value;
         });
-        widget.onPressed?.call();
+        widget.onPressed(widget.text);
       },
       child: WhiteContainerWithRoundedCorners(
         padding: const EdgeInsets.symmetric(
@@ -50,7 +50,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
                 setState(() {
                   value = newValue ?? false;
                 });
-                widget.onPressed?.call();
+                widget.onPressed(widget.text);
               },
             ),
           ],

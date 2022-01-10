@@ -27,9 +27,12 @@ class ProgramScreenWM extends WidgetModel {
   final selectOptic = StreamedAction<Optic>();
 
   final currentOpticStreamed = StreamedState<Optic?>(null);
+  final whatDoYouUse = StreamedState<String>('');
 
   final loadingStreamed = StreamedState<bool>(false);
   final getSertificatAction = VoidAction();
+
+  String city = '';
 
   ProgramScreenWM({
     required this.context,
@@ -56,7 +59,11 @@ class ProgramScreenWM extends WidgetModel {
     unawaited(loadingStreamed.accept(true));
     ProgramSaverResponse? response;
     try {
-      response = await ProgramSertificatSaver.save();
+      response = await ProgramSertificatSaver.save(
+        name: firstNameController.text,
+        opticAddress: '$city, ${currentOpticStreamed.value!.shops[0].address}',
+        whatDoYouUse: whatDoYouUse.value,
+      );
 
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_program',
@@ -176,12 +183,21 @@ class ProgramSaverResponse {
 }
 
 class ProgramSertificatSaver {
-  static Future<ProgramSaverResponse> save() async {
+  static Future<ProgramSaverResponse> save({
+    required String name,
+    required String opticAddress,
+    String? whatDoYouUse,
+  }) async {
     final rh = RequestHandler();
 
     final res = BaseResponseRepository.fromMap(
       (await rh.post<Map<String, dynamic>>(
         '/selection/save/',
+        data: FormData.fromMap(<String, dynamic>{
+          'whatDoYouUse': whatDoYouUse,
+          'name': name,
+          'opticAddress': opticAddress,
+        }),
         options: rh.cacheOptions
             ?.copyWith(
               maxStale: const Duration(days: 1),

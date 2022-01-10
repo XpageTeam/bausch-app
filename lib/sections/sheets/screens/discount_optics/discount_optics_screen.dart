@@ -183,7 +183,8 @@ class _DiscountOpticsScreenState
                                   MaterialPageRoute(
                                     builder: (context) => SelectOpticScreen(
                                       cities: wm.cities,
-                                      onOpticSelect: wm.setCurrentOptic,
+                                      onOpticSelect: (optic, _) =>
+                                          wm.setCurrentOptic(optic),
                                     ),
                                   ),
                                 ),
