@@ -119,11 +119,11 @@ class _AddPointsDetailsState
                 ),
                 Column(
                   children: [
-                    if (wm.addPointsModel.type == 'vk')
-                      const FocusButton(labelText: 'Привязать аккаунт'),
-                    const SizedBox(
-                      height: 4,
-                    ),
+                    // if (wm.addPointsModel.type == 'vk')
+                    //   const FocusButton(labelText: 'Привязать аккаунт'),
+                    // const SizedBox(
+                    //   height: 4,
+                    // ),
                     if (wm.addPointsModel.detailModel.btnName != null)
                       StreamedStateBuilder<bool>(
                         streamedState: wm.loadingState,
