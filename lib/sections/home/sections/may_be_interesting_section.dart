@@ -32,35 +32,36 @@ class _MayBeInterestingState
       loadingChild: const Center(
         child: AnimatedLoader(),
       ),
-      builder: (_, items) => Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.text,
-              style: AppStyles.h1,
-            ),
-          ),
+      builder: (_, items) => items.isNotEmpty
+          ? Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    widget.text,
+                    style: AppStyles.h1,
+                  ),
+                ),
 
-          const SizedBox(
-            height: 20,
-          ),
+                const SizedBox(
+                  height: 20,
+                ),
 
-          // Слайдер с товаром
-          ItemSlider<CatalogItemModel>(
-            items: items,
-            itemBuilder: (context, model) => CatalogItem(
-              model: model,
-              onTap: () => wm.onTapAction(model),
-            ),
-            indicatorBuilder: (context, isActive) => Indicator(
-              isActive: isActive,
-              animationDuration: const Duration(milliseconds: 300),
-            ),
-          ),
-          
-        ],
-      ),
+                // Слайдер с товаром
+                ItemSlider<CatalogItemModel>(
+                  items: items,
+                  itemBuilder: (context, model) => CatalogItem(
+                    model: model,
+                    onTap: () => wm.onTapAction(model),
+                  ),
+                  indicatorBuilder: (context, isActive) => Indicator(
+                    isActive: isActive,
+                    animationDuration: const Duration(milliseconds: 300),
+                  ),
+                ),
+              ],
+            )
+          : const SizedBox(),
     );
   }
 }
