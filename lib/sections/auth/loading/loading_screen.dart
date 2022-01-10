@@ -81,7 +81,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
             initialData: 0,
             stream: streamController.stream,
             builder: (context, snapshot) {
-              debugPrint('PAINT');
               return snapshot.hasData
                   ? DelayedAnimatedTranslateOpacity(
                       offsetY: 120,
