@@ -70,24 +70,27 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                   widget.model,
                   Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/time.png',
-                        height: 16,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        '${model.length} ${HelpFunctions.wordByCount(
-                          model.length,
-                          [
-                            'минут',
-                            'минута',
-                            'минуты',
-                          ],
-                        )}',
-                        style: AppStyles.p1,
-                      ),
+                      if (model.length != null)
+                        Image.asset(
+                          'assets/icons/time.png',
+                          height: 16,
+                        ),
+                      if (model.length != null)
+                        const SizedBox(
+                          width: 4,
+                        ),
+                      if (model.length != null)
+                        Text(
+                          '${model.length} ${HelpFunctions.wordByCount(
+                            model.length!,
+                            [
+                              'минут',
+                              'минута',
+                              'минуты',
+                            ],
+                          )}',
+                          style: AppStyles.p1,
+                        ),
                     ],
                   ),
                   widget.key,
