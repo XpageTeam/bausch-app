@@ -26,7 +26,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
     selectedCityName.accept(userWM.userData.value.data!.user.city);
     selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
-    enteredEmail.accept(userWM.userData.value.data!.user.email);
+    enteredEmail.accept(userWM.userData.value.data!.user.pendingEmail ?? userWM.userData.value.data!.user.email);
 
     //emailController.text = userWM.userData.value.data!.user.email ?? '';
     nameController.text = userWM.userData.value.data!.user.name ?? '';
