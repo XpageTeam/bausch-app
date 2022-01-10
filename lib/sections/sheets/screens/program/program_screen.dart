@@ -106,29 +106,30 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 ),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                StaticData.sidePadding,
-                0,
-                StaticData.sidePadding,
-                40.0,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: _InfoBlock(
-                  headerText: 'В программе участвуют',
-                  content: ItemSlider<Product>(
-                    items: primaryData.products,
-                    itemBuilder: (context, product) => _ProductItem(
-                      product: product,
-                    ),
-                    indicatorBuilder: (context, isActive) => Indicator(
-                      isActive: isActive,
-                      animationDuration: const Duration(milliseconds: 300),
+            if (primaryData.products.isNotEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  0,
+                  StaticData.sidePadding,
+                  40.0,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: _InfoBlock(
+                    headerText: 'В программе участвуют',
+                    content: ItemSlider<Product>(
+                      items: primaryData.products,
+                      itemBuilder: (context, product) => _ProductItem(
+                        product: product,
+                      ),
+                      indicatorBuilder: (context, isActive) => Indicator(
+                        isActive: isActive,
+                        animationDuration: const Duration(milliseconds: 300),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
@@ -205,9 +206,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         ),
                         child: CustomRadioButton(
                           text: primaryData.whatDoYouUse[i],
-                          onPressed: () => debugPrint(
-                            primaryData.whatDoYouUse[i],
-                          ),
+                          onPressed: wm.whatDoYouUse.accept,
                         ),
                       ),
                     ),
@@ -244,7 +243,10 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       Keys.mainNav.currentState!.push<void>(
                         MaterialPageRoute(
                           builder: (context) => SelectOpticScreen(
-                            onOpticSelect: wm.selectOptic,
+                            onOpticSelect: (optic, city) {
+                              wm.selectOptic(optic);
+                              wm.city = city;
+                            },
                           ),
                         ),
                       );
