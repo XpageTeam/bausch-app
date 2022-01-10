@@ -3,7 +3,7 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 
 class ConsultationItemModel extends CatalogItemModel {
   //* Продолжительность консультации в минутах
-  final int length;
+  final int? length;
 
   final String poolPromoCode;
   final String staticPromoCode;
@@ -15,9 +15,9 @@ class ConsultationItemModel extends CatalogItemModel {
     required String detailText,
     required String? picture,
     required int price,
-    required this.length,
     required this.poolPromoCode,
     required this.staticPromoCode,
+    this.length,
     String? type,
   }) : super(
           id: id,
@@ -49,16 +49,22 @@ class ConsultationItemModel extends CatalogItemModel {
       throw ResponseParseException('Не передана цена товара');
     }
 
-    return ConsultationItemModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      previewText: map['preview_text'] as String,
-      detailText: map['detail_text'] as String,
-      picture: map['picture'] as String?,
-      price: map['price'] as int,
-      length: map['length'] as int,
-      poolPromoCode: map['pool_promo_code'] as String,
-      staticPromoCode: map['static_promo_code'] as String,
-    );
+    try {
+      return ConsultationItemModel(
+        id: map['id'] as int,
+        name: map['name'] as String,
+        previewText: map['preview_text'] as String,
+        detailText: map['detail_text'] as String,
+        picture: map['picture'] as String?,
+        price: map['price'] as int,
+        length: map['length'] as int?,
+        poolPromoCode: map['pool_promo_code'] as String,
+        staticPromoCode: map['static_promo_code'] as String,
+      );
+
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException(e.toString());
+    }
   }
 }
