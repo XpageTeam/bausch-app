@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bausch/sections/home/widgets/slider/cubit/slider_cubit.dart';
 import 'package:bausch/sections/home/widgets/slider/indicators_row.dart';
 import 'package:bausch/sections/home/widgets/slider/items_row.dart';
@@ -7,23 +9,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ItemSlider<T> extends StatefulWidget {
   final List<T> items;
   final Duration animationDuration;
-  final int itemsOnPage;
   final int indicatorsOnPage;
   final double spaceBetween;
 
   final ItemBuilder<T> itemBuilder;
   final IndicatorBuilder indicatorBuilder;
 
-  const ItemSlider({
+  int itemsOnPage;
+
+  ItemSlider({
     required this.items,
     required this.itemBuilder,
     required this.indicatorBuilder,
-    this.itemsOnPage = 2,
+    int itemsOnPage = 2,
     this.indicatorsOnPage = 3,
     this.spaceBetween = 4,
     this.animationDuration = const Duration(milliseconds: 300),
     Key? key,
-  })  : assert(itemsOnPage > 0 && itemsOnPage <= items.length),
+  })  : itemsOnPage = min(itemsOnPage, items.length),
+        assert(itemsOnPage > 0),
         assert(indicatorsOnPage > 0),
         assert(spaceBetween > 0),
         super(key: key);

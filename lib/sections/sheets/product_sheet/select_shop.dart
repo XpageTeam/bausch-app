@@ -87,17 +87,18 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                           ),
                           if (widget.discountOptics[i].link!.isNotEmpty &&
                               widget.discountType == DiscountType.onlineShop)
-                            GestureDetector(
-                              onTap: () => Utils.tryLaunchUrl(
-                                rawUrl: widget.discountOptics[i].link!
-                                    .replaceFirst('https://', ''),
-                                isPhone: false,
-                              ),
-                              child: AutoSizeText(
-                                widget.discountOptics[i].link!
-                                    .replaceFirst('https://', ''),
-                                style: AppStyles.p1Underlined,
-                                maxLines: 1,
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: () => Utils.tryLaunchUrl(
+                                  rawUrl: widget.discountOptics[i].link!
+                                      .replaceFirst('https://', ''),
+                                  isPhone: false,
+                                ),
+                                child: Text(
+                                  widget.discountOptics[i].link!
+                                      .replaceFirst('https://', ''),
+                                  style: AppStyles.p1Underlined,
+                                ),
                               ),
                             ),
                         ],

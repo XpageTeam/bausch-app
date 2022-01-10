@@ -168,31 +168,52 @@ class _SelectCityButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultButton(
-      padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
-      onPressed: onPressed,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Город',
-              style: AppStyles.p1Grey,
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Flexible(
-              child: Text(
-                city,
-                style: AppStyles.h2Bold,
-              ),
-            ),
-          ],
+    return Material(
+      borderRadius: BorderRadius.circular(5),
+      color: Colors.white,
+      child: InkWell(
+        splashFactory: InkRipple.splashFactory,
+        splashColor: AppTheme.mystic,
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: onPressed,
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
         ),
-      ],
-      chevronColor: AppTheme.mineShaft,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Город',
+                      style: AppStyles.p1Grey,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Flexible(
+                      child: Text(
+                        city,
+                        style: AppStyles.h2Bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right,
+                color: AppTheme.mineShaft,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
