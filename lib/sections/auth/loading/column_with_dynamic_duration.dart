@@ -20,15 +20,15 @@ class ColumnWithDynamicDuration extends StatefulWidget {
 
 class _ColumnWithDynamicDurationState extends State<ColumnWithDynamicDuration> {
   final globalKey = GlobalKey();
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback(
-      (_) => widget.onHeightChanged(
-        globalKey.currentContext!.size!.height,
-      ),
-    );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance!.addPostFrameCallback(
+  //     (_) => widget.onHeightChanged(
+  //       globalKey.currentContext!.size!.height,
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,11 @@ class _ColumnWithDynamicDurationState extends State<ColumnWithDynamicDuration> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DelayedAnimatedTranslateOpacity(
-          key: globalKey,
           offsetY: 0,
-          child: widget.children[0],
+          child: LayoutBuilder(builder: (context, constraints) {
+            widget.onHeightChanged(constraints.minHeight);
+            return widget.children[0];
+          }),
         ),
         Expanded(
           child: IgnorePointer(
