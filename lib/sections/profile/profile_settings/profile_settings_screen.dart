@@ -112,21 +112,24 @@ class _ProfileSettingsScreenState
                   EntityStateBuilder<UserRepository>(
                     streamedState: userWM.userData,
                     builder: (_, userData) {
-                      return userData.user.isEmailConfirmed != null &&
-                              !userData.user.isEmailConfirmed!
-                          ? Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: const [
-                                  DiscountInfo(
-                                    color: AppTheme.turquoiseBlue,
-                                    text: 'подтвердить',
-                                  ),
-                                ],
-                              ), // TODO(Nikita): Вывести статус
-                            )
-                          : Container();
+                      debugPrint(userData.user.isEmailConfirmed.toString());
+                      if (userData.user.isEmailConfirmed != null &&
+                          !userData.user.isEmailConfirmed!) {
+                        return Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              DiscountInfo(
+                                color: AppTheme.turquoiseBlue,
+                                text: 'подтвердить',
+                              ),
+                            ],
+                          ), // TODO(Nikita): Вывести статус
+                        );
+                      }
+
+                      return Container();
                     },
                   ),
                 ],
