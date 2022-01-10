@@ -30,8 +30,8 @@ class RequestHandler {
     _dio = Dio(
       BaseOptions(
         baseUrl: StaticData.apiUrl,
-        connectTimeout: 20000,
-        receiveTimeout: 40000,
+        connectTimeout: 10000,
+        receiveTimeout: 20000,
         // headers: <String, dynamic>{
         // 	if (UserRepository.currentUser != null)
         // 		'token': UserRepository.currentUser!.token,
