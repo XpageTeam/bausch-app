@@ -65,10 +65,10 @@ class FinalWebinar extends StatelessWidget {
       bottomNavBar: BottomButtonWithRoundedCorners(
         text: 'Перейти к просмотру',
         onPressed: () {
-          Keys.mainNav.currentState!.pop();
-
+          Keys.mainContentNav.currentState!.pop();
+          
           showDialog<void>(
-            context: Keys.mainNav.currentContext!,
+            context: context,
             builder: (context) => WebinarPopup(videoId: videoId),
           );
         },
