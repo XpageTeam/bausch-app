@@ -61,7 +61,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, token: $token, name: $name, lastName: $lastName, secondName: $secondName, email: $email, phone: $phone, isMobilePhoneConfirmed: $isMobilePhoneConfirmed, birthDate: $birthDate, city: $city)';
+    return 'User(id: $id, token: $token, name: $name, lastName: $lastName, secondName: $secondName, email: $email, phone: $phone, isMobilePhoneConfirmed: $isMobilePhoneConfirmed, birthDate: $birthDate, city: $city, isEmailConfirmed: $isEmailConfirmed, pendingEmail: $pendingEmail)';
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -75,6 +75,8 @@ class User {
         'isMobilePhoneConfirmed': isMobilePhoneConfirmed,
         'birthDate': birthDate?.toIso8601String(),
         'city': city,
+        'isEmailConfirmed': isEmailConfirmed,
+        'pendingEmail': pendingEmail,
       };
 
   User copyWith({
@@ -88,6 +90,8 @@ class User {
     bool? isMobilePhoneConfirmed,
     DateTime? birthDate,
     String? city,
+    bool? isEmailConfirmed,
+    String? pendingEmail,
   }) {
     return User(
       id: id ?? this.id,
@@ -100,6 +104,8 @@ class User {
       isMobilePhoneConfirmed:
           isMobilePhoneConfirmed ?? this.isMobilePhoneConfirmed,
       birthDate: birthDate ?? this.birthDate,
+      isEmailConfirmed: isEmailConfirmed ?? this.isEmailConfirmed,
+      pendingEmail: pendingEmail ?? this.pendingEmail,
       city: city ?? this.city,
     );
   }
