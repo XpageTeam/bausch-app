@@ -80,7 +80,10 @@ class CityScreenWM extends WidgetModel {
             TextPosition(offset: citiesFilterController.text.length),
           );
 
-        canCompleteSearch.accept(true);
+        if (item.data.city != null) {
+          canCompleteSearch.accept(true);
+        }
+        
         searchQuery.accept(item.value);
       }
     });
