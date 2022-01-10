@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:async';
+
 import 'package:bausch/sections/auth/loading/animation_content.dart';
 import 'package:bausch/sections/auth/loading/column_with_dynamic_duration.dart';
 import 'package:bausch/sections/auth/loading/image_row.dart';
@@ -17,11 +19,17 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  StreamController<double> streamController =
+      StreamController<double>.broadcast();
+  @override
+  void dispose() {
+    streamController.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
-
-    double logoHeight = 0;
 
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
@@ -34,8 +42,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           Positioned.fill(
             child: ColumnWithDynamicDuration(
               onHeightChanged: (h) {
-                logoHeight = h;
-                debugPrint(logoHeight.toString());
+                streamController.sink.add(h);
               },
               children: [
                 Container(
@@ -70,34 +77,43 @@ class _LoadingScreenState extends State<LoadingScreen> {
           ),
 
           //* Контент с текстом и кнопкой
-          DelayedAnimatedTranslateOpacity(
-            offsetY: 120,
-            delay: const Duration(milliseconds: 1800),
-            animationDuration: const Duration(milliseconds: 500),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  child: const AnimationContent(),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
-                    ),
-                  ),
-                  height: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.bottom -
-                      MediaQuery.of(context).padding.top -
-                      logoHeight -
-                      spaceBetween -
-                      160.sp -
-                      114.sp +
-                      (IphoneHasNotch.hasNotch ? 70.sp : 0.sp),
-                  //height: 400.sp,
-                ),
-              ],
-            ),
+          StreamBuilder<double>(
+            initialData: 0,
+            stream: streamController.stream,
+            builder: (context, snapshot) {
+              debugPrint('PAINT');
+              return snapshot.hasData
+                  ? DelayedAnimatedTranslateOpacity(
+                      offsetY: 120,
+                      delay: const Duration(milliseconds: 1800),
+                      animationDuration: const Duration(milliseconds: 500),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            child: const AnimationContent(),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5),
+                              ),
+                            ),
+                            height: MediaQuery.of(context).size.height -
+                                MediaQuery.of(context).padding.bottom -
+                                MediaQuery.of(context).padding.top -
+                                snapshot.data! -
+                                spaceBetween -
+                                80.sp -
+                                114.sp +
+                                (IphoneHasNotch.hasNotch ? 70.sp : 0.sp),
+                            //height: 400.sp,
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox();
+            },
           ),
         ],
       ),
