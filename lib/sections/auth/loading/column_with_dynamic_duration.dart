@@ -35,7 +35,7 @@ class _ColumnWithDynamicDurationState extends State<ColumnWithDynamicDuration> {
     final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DelayedAnimatedTranslateOpacity(
           key: globalKey,
@@ -93,7 +93,7 @@ class _ColumnWithDynamicDurationState extends State<ColumnWithDynamicDuration> {
               },
               separatorBuilder: (context, i) {
                 return SizedBox(
-                  height: i == 1 ? 80.sp : spaceBetween,
+                  height: spaceBetween,
                 );
               },
               itemCount: widget.children.length,

@@ -15,29 +15,27 @@ class AnimationContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Center(
-              child: Column(
-								mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20.sp),
-                    child: Text(
-                      'Пользуйтесь продукцией Bauch+Lomb и получайте любимые товары и другие привилегии',
-                      style: TextStyle(
-                        fontSize:  24.sp, // 24.sm,
-                        height: 31 / 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 52.sp, bottom: 20.sp),
+                  child: Text(
+                    'Пользуйтесь продукцией Bauch+Lomb и получайте любимые товары и другие привилегии',
+                    style: TextStyle(
+                      fontSize: 24.sp, // 24.sm,
+                      height: 31 / 24,
+                      fontWeight: FontWeight.w500,
                     ),
-                  ),
-                  Text(
-                    'Региструйте коды с упаковки,\nкопите баллы и тратьте их ',
-                    style: AppStyles.p1Grey,
                     textAlign: TextAlign.center,
                   ),
-                ],
-              ),
+                ),
+                Text(
+                  'Региструйте коды с упаковки,\nкопите баллы и тратьте их ',
+                  style: AppStyles.p1Grey,
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
           Padding(
@@ -45,8 +43,7 @@ class AnimationContent extends StatelessWidget {
             child: BlueButtonWithText(
               text: 'Войти по номеру телефона',
               onPressed: () {
-                Keys.mainContentNav.currentState!
-                    .pushNamed('/registration');
+                Keys.mainContentNav.currentState!.pushNamed('/registration');
               },
             ),
           ),
