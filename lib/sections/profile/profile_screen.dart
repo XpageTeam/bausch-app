@@ -66,7 +66,8 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                             child: AutoSizeText(
                               userRepo.userName,
                               style: AppStyles.h1,
-                              maxLines: 1,
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                             ),
                           );

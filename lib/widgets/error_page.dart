@@ -29,56 +29,63 @@ class ErrorPage extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: StaticData.sidePadding,
+              vertical: 30,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Center(
-                  child: Image.asset(
-                    'assets/icons/error-icon.png',
-                    width: 120,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                    bottom: 20,
-                  ),
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppTheme.mineShaft,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 24.sp,
-                      height: 31 / 24,
+                const SizedBox(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        'assets/icons/error-icon.png',
+                        width: 120,
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 30,
+                        bottom: 20,
+                      ),
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppTheme.mineShaft,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 24.sp,
+                          height: 31 / 24,
+                        ),
+                      ),
+                    ),
+                    if (subtitle != null)
+                      Text(
+                        subtitle!,
+                        style: AppStyles.p1Grey,
+                        textAlign: TextAlign.center,
+                      ),
+                  ],
                 ),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    style: AppStyles.p1Grey,
+                if (buttonText != null && buttonCallback != null)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: StaticData.sidePadding,
+                      right: StaticData.sidePadding,
+                      bottom: 10,
+                    ),
+                    child: BlueButtonWithText(
+                      text: buttonText!,
+                      onPressed: buttonCallback,
+                    ),
                   ),
               ],
             ),
           );
         },
       ),
-      floatingActionButton: buttonText != null
-          ? Padding(
-              padding: const EdgeInsets.only(
-                left: StaticData.sidePadding,
-                right: StaticData.sidePadding,
-                bottom: 40,
-              ),
-              child: BlueButtonWithText(
-                text: buttonText!,
-                onPressed: buttonCallback,
-              ),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

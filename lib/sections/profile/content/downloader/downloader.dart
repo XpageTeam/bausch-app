@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 
@@ -11,7 +12,6 @@ class ProfileContentDownloader {
   final _rh = RequestHandler();
 
   /// Загружает историю заказов
-  // TODO(Danil): избавиться от null
   Future<List<BaseOrderModel?>> loadOrderHistory() async {
     final result =
         BaseResponseRepository.fromMap((await _rh.get<Map<String, dynamic>>(
@@ -24,18 +24,40 @@ class ProfileContentDownloader {
               ?.map<BaseOrderModel?>((dynamic item) {
             item as Map<String, dynamic>;
 
-            switch (item['category']){
+            switch (item['category']) {
               case 'webinar':
                 return WebinarOrderModel.fromMap(item);
 
               case 'product':
                 return ProductOrderModel.fromMap(item);
 
-              default: 
+              default:
                 return null;
             }
           }).toList() ??
           [];
+    } on ResponseParseException {
+      rethrow;
+    } catch (e) {
+      throw ResponseParseException(e.toString());
+    }
+  }
+
+  Future<List<NotificationModel>> loadNotificationsList() async {
+    final result = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/user/notifications/',
+      ))
+          .data!,
+    );
+
+    try {
+      return (result.data as List<dynamic>)
+          .map(
+            (dynamic item) =>
+                NotificationModel.fromMap(item as Map<String, dynamic>),
+          )
+          .toList();
     } on ResponseParseException {
       rethrow;
     } catch (e) {

@@ -75,9 +75,9 @@ class _ScrollableProfileContentState
                     alignment: Alignment.centerLeft,
                     child: SelectWidget(
                       items: [
-                        if (wm.orderHistoryList.value.data != null)
-                          'Заказы ${wm.orderHistoryList.value.data!.isNotEmpty ? wm.orderHistoryList.value.data!.length : ''}',
-                        'Уведомления 8',
+                        'Заказы ${wm.orderHistoryList.value.data!.length}',
+                        if (wm.notificationsList.value.data!.isNotEmpty)
+                          'Уведомления ${wm.notificationsList.value.data!.length}',
                       ],
                       onChanged: (i) {
                         if (i == 0) {
@@ -103,6 +103,7 @@ class _ScrollableProfileContentState
                 //* Вкладка с уведомлениями (с переключателем)
                 NotificationSection(
                   groupChecked: groupChecked,
+                  items: wm.notificationsList.value.data!,
                   onChanged: (newGroupChecked) => setState(
                     () {
                       groupChecked = newGroupChecked;

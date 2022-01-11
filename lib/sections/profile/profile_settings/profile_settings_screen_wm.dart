@@ -24,14 +24,11 @@ class ProfileSettingsScreenWM extends WidgetModel {
   void onBind() {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
-    selectedCityName.accept(userWM.userData.value.data!.user.city);
-    selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
-    enteredEmail.accept(userWM.userData.value.data!.user.pendingEmail ?? userWM.userData.value.data!.user.email);
+    setValues();
 
-    //emailController.text = userWM.userData.value.data!.user.email ?? '';
-    nameController.text = userWM.userData.value.data!.user.name ?? '';
-    lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
-    phoneController.text = userWM.userData.value.data!.user.phone;
+    userWM.userData.bind((userData) {
+      setValues();
+    });
 
     super.onBind();
   }
@@ -44,6 +41,20 @@ class ProfileSettingsScreenWM extends WidgetModel {
     nameController.dispose();
     lastNameController.dispose();
     phoneController.dispose();
+  }
+
+  void setValues() {
+    final userWM = Provider.of<UserWM>(context, listen: false);
+
+    selectedCityName.accept(userWM.userData.value.data!.user.city);
+    selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
+    enteredEmail.accept(userWM.userData.value.data!.user.pendingEmail ??
+        userWM.userData.value.data!.user.email);
+
+    //emailController.text = userWM.userData.value.data!.user.email ?? '';
+    nameController.text = userWM.userData.value.data!.user.name ?? '';
+    lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
+    phoneController.text = userWM.userData.value.data!.user.phone;
   }
 
   Future<void> sendUserData() async {

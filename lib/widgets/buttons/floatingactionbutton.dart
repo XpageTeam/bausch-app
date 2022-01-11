@@ -23,32 +23,29 @@ class CustomFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.mystic,
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                left: StaticData.sidePadding,
-                right: StaticData.sidePadding,
-                bottom: withInfo ? 8 : 20,
-                top: topPadding ?? 0,
-              ),
-              child: BlueButtonWithText(
-                text: text,
-                icon: icon,
-                onPressed: onPressed,
-              ),
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: StaticData.sidePadding,
+              right: StaticData.sidePadding,
+              bottom: withInfo ? 8 : 20,
+              top: topPadding ?? 0,
             ),
-            if (withInfo)
-              Container(
-                color: AppTheme.mystic,
-                child: const InfoBlock(),
-              ),
-          ],
-        ),
+            child: BlueButtonWithText(
+              text: text,
+              icon: icon,
+              onPressed: onPressed,
+            ),
+          ),
+          if (withInfo)
+            Container(
+              color: AppTheme.mystic,
+              child: const InfoBlock(),
+            ),
+        ],
       ),
     );
   }

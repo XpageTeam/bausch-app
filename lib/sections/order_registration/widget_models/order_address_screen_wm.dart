@@ -81,9 +81,9 @@ class OrderAddressScreenWM extends WidgetModel {
       id: adress.id,
       street: adress.street,
       house: adress.house,
-      flat: int.parse(flatController.text),
-      entry: int.parse(entryController.text),
-      floor: int.parse(floorController.text),
+      flat: int.tryParse(flatController.text),
+      entry: int.tryParse(entryController.text),
+      floor: int.tryParse(floorController.text),
     );
 
     try {
@@ -119,8 +119,7 @@ class OrderAddressScreenWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
