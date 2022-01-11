@@ -142,8 +142,8 @@ class SelectOpticScreenWM extends WidgetModel {
       ),
     );
 
-    if (cityName != currentCityStreamed.value.data) {
-      unawaited(currentCityStreamed.content(cityName!));
+    if (cityName != null && cityName != currentCityStreamed.value.data) {
+      unawaited(currentCityStreamed.content(cityName));
       unawaited(opticsByCityStreamed.accept(_getOpticsByCurrentCity()));
       unawaited(filteredOpticShopsStreamed.content(_getShopsByFilters()));
     }
