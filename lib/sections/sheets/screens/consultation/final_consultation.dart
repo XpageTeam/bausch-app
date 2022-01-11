@@ -53,8 +53,6 @@ class FinalConsultation extends StatelessWidget {
                   ),
                   child: ContainerWithPromocode(
                     promocode: model.poolPromoCode,
-                    onPressed: () =>
-                        Utils.copyStringToClipboard(model.poolPromoCode),
                   ),
                 ),
                 Padding(
@@ -74,8 +72,18 @@ class FinalConsultation extends StatelessWidget {
           ),
         ),
       ],
-      bottomNavBar: const BottomButtonWithRoundedCorners(
+      bottomNavBar: BottomButtonWithRoundedCorners(
         text: 'Скопировать код и перейти на сайт',
+        onPressed: () {
+          Utils.copyStringToClipboard(
+            model.poolPromoCode,
+          );
+          // TODO(Nikolay): Нужна ссылка.
+          // Utils.tryLaunchUrl(
+          //   rawUrl: model.link!,
+          //   isPhone: false,
+          // );
+        },
       ),
     );
   }

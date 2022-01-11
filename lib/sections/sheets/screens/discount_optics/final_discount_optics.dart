@@ -1,3 +1,5 @@
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
@@ -7,6 +9,7 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +85,22 @@ class FinalDiscountOptics extends StatelessWidget {
         text: discountType == DiscountType.offline
             ? 'На главную'
             : 'Скопировать код и перейти на сайт',
+        onPressed: discountType == DiscountType.onlineShop
+            ? () {
+                Utils.copyStringToClipboard(model.code);
+
+                if (discountOptic != null && discountOptic!.link != null) {
+                  Utils.tryLaunchUrl(
+                    rawUrl: discountOptic!.link!,
+                    isPhone: false,
+                  );
+                } else {
+                  showTopError(
+                    const CustomException(title: 'Не удалось перейти на сайт'),
+                  );
+                }
+              }
+            : null,
       ),
     );
   }
