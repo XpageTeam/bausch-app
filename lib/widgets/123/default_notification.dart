@@ -91,23 +91,30 @@ class _DefaultNotification extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (success)
-                Image.asset(
-                  'assets/icons/choose.png',
-                  height: 15,
-                ),
-              if (success)
-                const SizedBox(
-                  width: 4,
-                ),
-              Text(
-                title,
-                style: AppStyles.p1White,
+          Flexible(
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (success)
+                    Image.asset(
+                      'assets/icons/choose.png',
+                      height: 15,
+                    ),
+                  if (success)
+                    const SizedBox(
+                      width: 4,
+                    ),
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: AppStyles.p1White,
+                      textAlign: !success ? TextAlign.left : TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
           if (subtitle != null)
             Text(
@@ -115,6 +122,7 @@ class _DefaultNotification extends StatelessWidget {
               style: AppStyles.p1White.copyWith(
                 color: Colors.white.withOpacity(0.5),
               ),
+              textAlign: !success ? TextAlign.left : TextAlign.center,
             ),
         ],
       ),

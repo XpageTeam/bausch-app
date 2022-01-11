@@ -75,11 +75,9 @@ class _CodeScreenState extends State<CodeScreen> {
               ),
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
-                //alignment: Alignment.centerLeft,
               ),
-              // ignore: unnecessary_lambdas
               onPressed: () {
-                loginWM.sendPhoneAction();
+                loginWM.sendPhoneAction(false);
               },
             );
           }

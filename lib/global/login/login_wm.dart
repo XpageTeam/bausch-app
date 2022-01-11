@@ -47,7 +47,7 @@ class LoginWM extends WidgetModel {
 
   final authRequestResult = EntityStreamedState<AuthResponseModel>()..loading();
 
-  final sendPhoneAction = VoidAction();
+  final sendPhoneAction = StreamedAction<bool?>();
 
   final sendCodeAction = VoidAction();
 
@@ -115,9 +115,8 @@ class LoginWM extends WidgetModel {
     });
 
     authRequestResult.bind((value) {
-      if (authRequestResult.value.isLoading) {
-        return;
-      }
+      if (authRequestResult.value.isLoading) return;
+
 
       if (authRequestResult.value.hasError) {
         showTopError(authRequestResult.value.error as CustomException);
@@ -134,14 +133,17 @@ class LoginWM extends WidgetModel {
             ),
           );
         }
-        // debugPrint(context.toString());
-        // Keys.mainContentNav.currentState!.pushNamed('/code');
       }
     });
 
     //* подписка на нажатие кнопки
-    sendPhoneAction.bind((_) {
-      smsSendCounter.accept(0);
+    /// если state == null - значит нужно сбрасывать счётчик
+    sendPhoneAction.bind((state) {
+      // debugPrint((state ??= false).toString());
+
+      if (state == null) {
+        smsSendCounter.accept(0);
+      }
 
       _sendPhone();
     });
@@ -149,10 +151,6 @@ class LoginWM extends WidgetModel {
     //* переключение состояния кнопки при отправке запроса
     loginProcessedState.bind((_) {
       sendPhoneBtnActive.accept(!loginProcessedState.value);
-
-      debugPrint(sendPhoneBtnActive.value.toString());
-
-      // TODO(Danil): показывать лоадер
     });
 
     sendCodeAction.bind((_) {
@@ -167,13 +165,6 @@ class LoginWM extends WidgetModel {
       }
     });
   }
-
-  // @override
-  // void dispose() {
-  //   // phoneController.dispose();
-  //   // codeController.dispose();
-  //   super.dispose();
-  // }
 
   void _checkAuth() {
     Provider.of<AuthWM>(context, listen: false).checkAuthAction();
@@ -216,8 +207,7 @@ class LoginWM extends WidgetModel {
     } on SuccessFalse catch (e) {
       await authRequestResult.error(
         CustomException(
-          title: 'Произошла ошибка',
-          subtitle: e.toString(),
+          title: e.toString(),
           ex: e,
         ),
       );
@@ -227,6 +217,8 @@ class LoginWM extends WidgetModel {
   }
 
   Future<void> _sendCode() async {
+    if (loginProcessedState.value) return;
+
     unawaited(loginProcessedState.accept(true));
 
     CustomException? error;
@@ -242,7 +234,6 @@ class LoginWM extends WidgetModel {
 
       //* Очистка полей после отправки кода
       phoneController.text = '';
-      codeController.text = '';
 
       _checkAuth();
     } on DioError catch (e) {
@@ -259,8 +250,7 @@ class LoginWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -268,6 +258,8 @@ class LoginWM extends WidgetModel {
     if (error != null) {
       showTopError(error);
     }
+
+    codeController.text = '';
 
     unawaited(loginProcessedState.accept(false));
   }
@@ -309,9 +301,9 @@ class LoginWM extends WidgetModel {
 
   void _startResendTimer(int seconds) {
     smsResendSeconds.accept(seconds);
-    if (smsTimer != null) {
-      smsTimer!.cancel();
-    }
+
+    smsTimer?.cancel();
+    
 
     smsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       smsResendSeconds.accept(smsResendSeconds.value - 1);

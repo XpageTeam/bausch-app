@@ -36,7 +36,7 @@ class PhoneForm extends StatelessWidget {
             return BlueButtonWithText(
               text: 'Продолжить',
               // ignore: unnecessary_lambdas
-              onPressed: state ? () => wm.sendPhoneAction() : null,
+              onPressed: state ? () => wm.sendPhoneAction(null) : null,
             );
           },
         ),
