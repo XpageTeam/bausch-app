@@ -37,7 +37,7 @@ dependencies:
   dio_cache_interceptor_db_store: ^4.1.0
   dio_cookie_manager: ^2.0.0
   file_picker: ^4.3.1
-  flutter_bloc: ^7.3.3
+  flutter_bloc: ^8.0.1
   flutter_cupertino_date_picker_fork: ^1.0.6
   flutter_html: ^2.2.1
   flutter_localizations:

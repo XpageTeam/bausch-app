@@ -1,22 +1,24 @@
 part of 'addresses_bloc.dart';
 
 @immutable
-abstract class AddressesEvent {}
+abstract class AddressesEvent {
+  const AddressesEvent();
+}
 
 class AddressesSend extends AddressesEvent {
   final AdressModel address;
 
-  AddressesSend({required this.address});
+  const AddressesSend({required this.address});
 }
 
 class AddressUpdate extends AddressesEvent {
   final AdressModel address;
 
-  AddressUpdate({required this.address});
+  const AddressUpdate({required this.address});
 }
 
 class AddressesDelete extends AddressesEvent {
   final int id;
 
-  AddressesDelete({required this.id});
+  const AddressesDelete({required this.id});
 }

@@ -1,4 +1,3 @@
-import 'package:bausch/models/add_points/quiz/quiz_answer_model.dart';
 import 'package:bausch/models/mappable_object.dart';
 
 class QuizAnswerData implements MappableInterface<QuizAnswerData> {

@@ -1,12 +1,14 @@
 part of 'fields_bloc.dart';
 
 @immutable
-abstract class FieldsEvent {}
+abstract class FieldsEvent {
+  const FieldsEvent();
+}
 
 class FormsSetText extends FieldsEvent {
   final String txt;
 
-  FormsSetText({
+  const FormsSetText({
     required this.txt,
   });
 }
@@ -14,27 +16,27 @@ class FormsSetText extends FieldsEvent {
 class FormsSetInt extends FieldsEvent {
   final int number;
 
-  FormsSetInt({
+  const FormsSetInt({
     required this.number,
   });
 }
 
 class FieldsSetEmail extends FormsSetText {
-  FieldsSetEmail(String email)
+  const FieldsSetEmail(String email)
       : super(
           txt: email,
         );
 }
 
 class FieldsSetTopic extends FormsSetInt {
-  FieldsSetTopic(int topic)
+  const FieldsSetTopic(int topic)
       : super(
           number: topic,
         );
 }
 
 class FieldsSetQuestion extends FormsSetInt {
-  FieldsSetQuestion(int question)
+  const FieldsSetQuestion(int question)
       : super(
           number: question,
         );
@@ -43,19 +45,19 @@ class FieldsSetQuestion extends FormsSetInt {
 class FieldsAddExtra extends FieldsEvent {
   final Map<String, dynamic> extra;
 
-  FieldsAddExtra({required this.extra});
+  const FieldsAddExtra({required this.extra});
 }
 
 class FieldsRemoveExtra extends FieldsEvent {
   final Map<String, dynamic> extra;
 
-  FieldsRemoveExtra({required this.extra});
+  const FieldsRemoveExtra({required this.extra});
 }
 
 class FieldsAddFiles extends FieldsEvent {
   final List<File> files;
 
-  FieldsAddFiles({required this.files});
+  const FieldsAddFiles({required this.files});
 }
 
 class FieldsSend extends FieldsEvent {
@@ -65,7 +67,7 @@ class FieldsSend extends FieldsEvent {
   final List<File> files;
   final Map<String, dynamic> extra;
 
-  FieldsSend({
+  const FieldsSend({
     required this.email,
     required this.topic,
     required this.question,

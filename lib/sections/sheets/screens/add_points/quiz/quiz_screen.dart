@@ -1,4 +1,3 @@
-import 'package:bausch/models/add_points/quiz/quiz_answer_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/quiz/widget_model/quiz_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';

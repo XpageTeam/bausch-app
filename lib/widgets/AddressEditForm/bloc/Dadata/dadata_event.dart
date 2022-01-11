@@ -1,6 +1,8 @@
 part of 'dadata_bloc.dart';
 
-abstract class DadataEvent {}
+abstract class DadataEvent {
+  const DadataEvent();
+}
 
 class DadataChangeText extends DadataEvent {
   final String text;
