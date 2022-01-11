@@ -1,7 +1,9 @@
 part of 'addresses_bloc.dart';
 
 @immutable
-abstract class AddressesState {}
+abstract class AddressesState {
+  const AddressesState();
+}
 
 class AddressesInitial extends AddressesState {}
 
@@ -13,7 +15,7 @@ class AddressesFailed extends AddressesState {
   final String title;
   final String? subtitle;
 
-  AddressesFailed({
+  const AddressesFailed({
     required this.title,
     this.subtitle,
   });

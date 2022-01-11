@@ -1,12 +1,14 @@
 part of 'lens_bloc.dart';
 
 @immutable
-abstract class LensEvent {}
+abstract class LensEvent {
+  const LensEvent();
+}
 
 class LensSend extends LensEvent {
   final LensParametersModel model;
 
-  LensSend({required this.model});
+  const LensSend({required this.model});
 }
 
 class LensGet extends LensEvent {}
@@ -14,5 +16,5 @@ class LensGet extends LensEvent {}
 class LensUpdate extends LensEvent {
   final LensParametersModel model;
 
-  LensUpdate({required this.model});
+  const LensUpdate({required this.model});
 }

@@ -1,10 +1,12 @@
 part of 'values_bloc.dart';
 
 @immutable
-abstract class ValuesEvent {}
+abstract class ValuesEvent {
+  const ValuesEvent();
+}
 
 class UpdateValues extends ValuesEvent {
   final int id;
 
-  UpdateValues({required this.id});
+  const UpdateValues({required this.id});
 }

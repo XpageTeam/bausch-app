@@ -1,6 +1,5 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/shop/filter_model.dart';
-import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/select_optic/select_optics_screen_body.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_filter_widget/shop_filter.dart';

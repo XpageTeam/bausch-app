@@ -15,7 +15,7 @@ class ItemSlider<T> extends StatefulWidget {
   final ItemBuilder<T> itemBuilder;
   final IndicatorBuilder indicatorBuilder;
 
-  int itemsOnPage;
+  late final int itemsOnPage;
 
   ItemSlider({
     required this.items,

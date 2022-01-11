@@ -8,7 +8,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
-import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

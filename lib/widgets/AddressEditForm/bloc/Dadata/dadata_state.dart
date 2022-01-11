@@ -1,6 +1,8 @@
 part of 'dadata_bloc.dart';
 
-abstract class DadataState {}
+abstract class DadataState {
+  const DadataState();
+}
 
 class DadataInitial extends DadataState {}
 

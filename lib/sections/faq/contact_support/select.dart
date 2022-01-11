@@ -136,7 +136,7 @@ class _SelectState extends State<Select> {
                   ..add(
                     FieldsSetTopic(e.id),
                   )
-                  ..add(FieldsSetQuestion(0));
+                  ..add(const FieldsSetQuestion(0));
 
                 formsExtraBloc.add(
                   FormsExtraChangeId(id: e.id),
