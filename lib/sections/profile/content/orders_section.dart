@@ -1,5 +1,7 @@
+import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -29,34 +31,53 @@ class OrdersSection extends StatelessWidget {
                 children: List.generate(ordersList.length, (index) {
                   final order = ordersList[index];
 
-                  if (order == null) return Container();
+                  switch (order?.category) {
+                    case 'webinar':
+                      order as WebinarOrderModel;
 
-                  if (order.category == 'webinar') {
-                    order as WebinarOrderModel;
-                    final orderDate =
-                        DateFormat('dd.MM.yyyy').format(order.date);
-
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 4),
-                      child: CatalogItemWidget(
-                        model: WebinarItemModel(
-                          availability: true,
-                          isBought: true,
-                          videoId: order.videoList,
-                          id: order.id,
-                          name: order.title,
-                          previewText: '',
-                          detailText: '',
-                          picture: '',
-                          price: order.price,
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: CatalogItemWidget(
+                          model: WebinarItemModel(
+                            availability: true,
+                            isBought: true,
+                            videoId: order.videoList,
+                            id: order.id,
+                            name: order.title,
+                            previewText: '',
+                            detailText: '',
+                            picture: '',
+                            price: order.price,
+                          ),
+                          deliveryInfo: order.status,
+                          orderTitle:
+                              'Заказ №${order.id} от ${order.formatedDate}',
                         ),
-                        deliveryInfo: order.status,
-                        orderTitle: 'Заказ №${order.id} от $orderDate',
-                      ),
-                    );
-                  }
+                      );
 
-                  return Container();
+                    case 'product':
+                      order as ProductOrderModel;
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: CatalogItemWidget(
+                          model: ProductItemModel(
+                            id: order.id,
+                            name: order.title,
+                            previewText: '',
+                            detailText: '',
+                            picture: order.product.imageLink,
+                            price: order.price,
+                          ),
+                          deliveryInfo: order.status,
+                          orderTitle:
+                              'Заказ №${order.id} от ${order.formatedDate}',
+                        ),
+                      );
+
+                    default:
+                      return Container();
+                  }
                 }),
               ),
             )

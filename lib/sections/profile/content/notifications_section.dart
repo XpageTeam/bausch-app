@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class NotificationSection extends StatelessWidget {
   final int groupChecked;
   final void Function(int groupChecked)? onChanged;
+  
   const NotificationSection({
     required this.groupChecked,
     this.onChanged,

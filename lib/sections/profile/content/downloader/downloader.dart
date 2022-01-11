@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 
 class ProfileContentDownloader {
@@ -23,11 +24,16 @@ class ProfileContentDownloader {
               ?.map<BaseOrderModel?>((dynamic item) {
             item as Map<String, dynamic>;
 
-            if (item['category'] == 'webinar') {
-              return WebinarOrderModel.fromMap(item);
-            }
+            switch (item['category']){
+              case 'webinar':
+                return WebinarOrderModel.fromMap(item);
 
-            return null;
+              case 'product':
+                return ProductOrderModel.fromMap(item);
+
+              default: 
+                return null;
+            }
           }).toList() ??
           [];
     } on ResponseParseException {

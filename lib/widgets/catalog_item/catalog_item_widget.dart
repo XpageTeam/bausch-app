@@ -22,6 +22,7 @@ class CatalogItemWidget extends StatelessWidget {
   final String? orderTitle;
   final String? address;
   final String? deliveryInfo;
+
   const CatalogItemWidget({
     required this.model,
     this.orderTitle,
@@ -33,6 +34,8 @@ class CatalogItemWidget extends StatelessWidget {
   // TODO(Nikita): Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
+
+    debugPrint(model.picture);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -121,10 +124,15 @@ class CatalogItemWidget extends StatelessWidget {
                   // ),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: model.picture != null
-                      ? Image.asset(
-                          img(model)!, //! model.img
-                          scale: 3,
-                        )
+                      ? !model.picture!.contains('http')
+                          ? Image.asset(
+                              img(model)!, //! model.img
+                              scale: 3,
+                            )
+                          : Image.network(
+                              model.picture!,
+                              scale: 3,
+                            )
                       : null,
                 ),
               ],
@@ -132,45 +140,48 @@ class CatalogItemWidget extends StatelessWidget {
 
             //* Информация о доставке
             if ((model is ProductItemModel) && deliveryInfo != null)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/substract.png',
-                    height: 15,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Flexible(
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Доставлен. ',
-                        style: AppStyles.p1,
-                        children: [
-                          TextSpan(
-                            style: AppStyles.p1Grey,
-                            // TODO(all): сделать открытие всплывашки
-                            children: [
-                              const TextSpan(
-                                text: 'Eсли нет, пишите ',
-                              ),
+              Container(
+                margin: const EdgeInsets.only(top: 26),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/substract.png',
+                      height: 15,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Flexible(
+                      child: RichText(
+                        text: TextSpan(
+                          text: '$deliveryInfo. ',
+                          style: AppStyles.p1,
+                          children: [
+                            if (deliveryInfo!.toLowerCase().contains('доставлен'))
                               TextSpan(
-                                text: 'сюда',
-                                style: AppStyles.p1Grey.copyWith(
-                                  decoration: TextDecoration.underline,
-                                ),
+                                style: AppStyles.p1Grey,
+                                // TODO(all): сделать открытие всплывашки
+                                children: [
+                                  const TextSpan(
+                                    text: 'Eсли нет, пишите ',
+                                  ),
+                                  TextSpan(
+                                    text: 'сюда',
+                                    style: AppStyles.p1Grey.copyWith(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: ', разберемся',
+                                  ),
+                                ],
                               ),
-                              const TextSpan(
-                                text: ', разберемся',
-                              ),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             if (model is! ProductItemModel)
               Container(

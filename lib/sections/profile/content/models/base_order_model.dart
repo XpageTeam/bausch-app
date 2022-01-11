@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:intl/intl.dart';
 
 abstract class BaseOrderModel {
   final int id;
@@ -8,6 +9,8 @@ abstract class BaseOrderModel {
   final String status;
   final String category;
   final OrderProductModel product;
+
+  String get formatedDate => DateFormat('dd.MM.yyyy').format(date);
 
   const BaseOrderModel({
     required this.id,
