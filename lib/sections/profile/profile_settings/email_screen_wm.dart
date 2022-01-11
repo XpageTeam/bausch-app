@@ -11,6 +11,7 @@ class EmailScreenWM extends WidgetModel {
   final emailController = TextEditingController();
 
   final formValidationState = StreamedState<bool>(false);
+  final isLoading = StreamedState<bool>(false);
 
   final confirmSended = StreamedState<bool>(false);
 
@@ -27,7 +28,9 @@ class EmailScreenWM extends WidgetModel {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
     emailController
-      ..text = userWM.userData.value.data!.user.email ?? ''
+      ..text = userWM.userData.value.data!.user.pendingEmail ??
+          userWM.userData.value.data!.user.email ??
+          ''
       ..addListener(_validateForm);
 
     sendConfirm.bind((_) {
@@ -51,9 +54,10 @@ class EmailScreenWM extends WidgetModel {
   }
 
   Future<void> sendUserData() async {
+    if (isLoading.value) return;
     final userWM = Provider.of<UserWM>(context, listen: false);
 
-    debugPrint(userWM.toString());
+    await isLoading.accept(true);
 
     await userWM.updateUserData(
       userWM.userData.value.data!.user.copyWith(
@@ -63,6 +67,7 @@ class EmailScreenWM extends WidgetModel {
     isConfirmSended = true;
 
     unawaited(confirmSended.accept(true));
+    await isLoading.accept(false);
   }
 
   void _validateForm() {

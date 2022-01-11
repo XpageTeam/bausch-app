@@ -107,8 +107,7 @@ class AddPointsDetailsWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -116,7 +115,10 @@ class AddPointsDetailsWM extends WidgetModel {
     unawaited(loadingState.accept(false));
 
     if (error != null) {
-      showDefaultNotification(title: error.title);
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
     } else {
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_addpoints',
@@ -139,7 +141,7 @@ class AddPointsSaver {
       link,
       data: FormData.fromMap(
         <String, dynamic>{
-          'reviewScreenshot': file,
+          'reviewScreenshot': await MultipartFile.fromFile(file.path),
         },
       ),
       options: rh.cacheOptions
@@ -150,8 +152,6 @@ class AddPointsSaver {
           .toOptions(),
     );
 
-    final data = resp.data!;
-
-    return BaseResponseRepository.fromMap(data);
+    return BaseResponseRepository.fromMap(resp.data!);
   }
 }

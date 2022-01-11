@@ -3,11 +3,13 @@ import 'package:bausch/sections/profile/profile_settings/email_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class EmailScreen extends CoreMwwmWidget<EmailScreenWM> {
@@ -25,25 +27,7 @@ class EmailScreen extends CoreMwwmWidget<EmailScreenWM> {
 class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
   late UserWM userWM;
 
-  //TextEditingController controller = TextEditingController();
-
   bool confirmSended = false;
-
-  @override
-  void dispose() {
-    super.dispose();
-    //controller.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    userWM = Provider.of<UserWM>(context, listen: false);
-    // if ((userWM.userData.value.data!.user.email != null) ||
-    //     (userWM.userData.value.data!.user.email!.isNotEmpty)) {
-    //   controller.text = userWM.userData.value.data!.user.email!;
-    // }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,45 +67,41 @@ class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: StaticData.sidePadding,
-        ),
-        child: StreamedStateBuilder<bool>(
-          streamedState: wm.formValidationState,
-          builder: (_, state) {
-            return BlueButtonWithText(
-              text: wm.isConfirmSended ? 'Готово' : 'Добавить',
-              onPressed: state
-                  ? () {
-                      if (wm.isConfirmSended) {
-                        wm.buttonAction();
-                      } else {
-                        wm.sendConfirm();
+      floatingActionButton: StreamedStateBuilder<bool>(
+        streamedState: wm.isLoading,
+        builder: (_, isLoading) {
+          return StreamedStateBuilder<bool>(
+            streamedState: wm.formValidationState,
+            builder: (_, state) {
+              return CustomFloatingActionButton(
+                text: isLoading
+                    ? ''
+                    : wm.isConfirmSended
+                        ? 'Готово'
+                        : 'Добавить',
+                withInfo: false,
+                icon: isLoading ? const AnimatedLoader() : null,
+                onPressed: state && !isLoading
+                    ? () {
+                        if (wm.isConfirmSended) {
+                          wm.buttonAction();
+                        } else {
+                          wm.sendConfirm();
+                        }
                       }
-                    }
-                  : null,
-            );
-          },
-        ),
+                    : null,
+              );
+            },
+          );
+        },
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          InfoBlock(),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-
-// BlueButtonWithText(
-//           text: confirmSended ? 'Готово' : 'Добавить',
-//           onPressed: wm.emailController.text.isNotEmpty
-//               ? () {
-//                   if (confirmSended) {
-//                     //TODO: Показать уведомление о подтверждении почты
-//                     Navigator.of(context).pop(wm.emailController.text);
-//                   } else {
-//                     confirmSended = true;
-//                     wm.sendUserData();
-//                     setState(() {});
-//                   }
-//                 }
-//               : null,
-//         )

@@ -39,7 +39,8 @@ class AuthWM extends WidgetModel {
 
         case AuthStatus.authenticated:
           if (userWM.userData.value.data?.user.city == null ||
-              userWM.userData.value.data?.user.email == null) {
+              (userWM.userData.value.data?.user.email == null &&
+                  userWM.userData.value.data?.user.pendingEmail == null)) {
             targetPage = '/city_and_email';
           } else {
             targetPage = '/home';
@@ -87,9 +88,9 @@ class AuthWM extends WidgetModel {
     super.onLoad();
   }
 
-	/// выход
-  void logout(){
-		userWM.logout();
-		authStatus.accept(AuthStatus.unauthenticated);
+  /// выход
+  void logout() {
+    userWM.logout();
+    authStatus.accept(AuthStatus.unauthenticated);
   }
 }
