@@ -24,9 +24,7 @@ class _CustomRadioState extends State<CustomRadio> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        widget.onChanged!.call(true);
-      },
+      onTap: () => widget.onChanged?.call(true),
       child: Row(
         children: [
           CustomCheckbox(
