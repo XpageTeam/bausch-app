@@ -32,31 +32,35 @@ class _ShopFilterState extends WidgetState<ShopFilterWidget, ShopFilterWM> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: StreamedStateBuilder<List<Filter>>(
-          streamedState: wm.filtersStreamed,
-          builder: (_, filters) => Row(
-            children: List.generate(
-              filters.length,
-              (i) => Padding(
-                padding: EdgeInsets.only(
-                  right: filters.length - 1 == i ? 0 : 4,
-                ),
-                child: ShopFilterButton(
-                  isSelected: wm.selectedFilters.any(
-                    (filter) => filter.title == filters[i].title,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: StreamedStateBuilder<List<Filter>>(
+            streamedState: wm.filtersStreamed,
+            builder: (_, filters) => Row(
+              children: List.generate(
+                filters.length,
+                (i) => Padding(
+                  padding: EdgeInsets.only(
+                    right: filters.length - 1 == i ? 0 : 4,
                   ),
-                  filter: filters[i],
-                  onPressed: wm.selectFilter,
+                  child: ShopFilterButton(
+                    isSelected: wm.selectedFilters.any(
+                      (filter) => filter.title == filters[i].title,
+                    ),
+                    filter: filters[i],
+                    onPressed: wm.selectFilter,
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
