@@ -88,7 +88,7 @@ class AddItem extends StatelessWidget {
                     Keys.mainContentNav.currentState!.pushNamed(
                       '/profile_settings',
                     );
-                    Keys.mainContentNav.currentState!.pop();
+                    // Keys.mainContentNav.currentState!.pop();
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: AppTheme.mystic,
