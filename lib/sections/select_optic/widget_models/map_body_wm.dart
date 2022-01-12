@@ -39,6 +39,10 @@ class MapBodyWM extends WidgetModel {
 
   YandexMapController? mapController;
 
+  List<OpticShop> lastOpticShops = [];
+
+  Point? userPosition;
+
   void Function(OpticShop shop)? onPlacemarkPressed;
   void Function(CustomException exception)? onGetUserPositionError;
 
@@ -53,7 +57,14 @@ class MapBodyWM extends WidgetModel {
     // Пришлось обернуть в future, потому что иногда метки не отрисовывались
     Future.delayed(
       Duration.zero,
-      () => updateMapObjects(initOpticShops),
+      () {
+        updateMapObjects(
+          initOpticShops.isEmpty ? lastOpticShops : initOpticShops,
+        );
+        if (userPosition != null) {
+          _updateUserPosition(userPosition!);
+        }
+      },
     );
     super.onLoad();
   }
@@ -62,20 +73,22 @@ class MapBodyWM extends WidgetModel {
   void onBind() {
     updateMapObjects.bind((shopList) {
       _updateClusterMapObject(shopList!);
-      // if (mapController != null) {
-      //   _setCenterOn(shopList);
-      // }
+      if (mapController != null) {
+        _setCenterOn(shopList);
+      }
     });
 
     moveToUserPosition.bind(
-      (value) {
-        _updateUserPosition();
+      (_) async {
+        final userPosition = await _getUserPosition();
+        await _updateUserPosition(userPosition);
+        unawaited(_moveTo(userPosition));
       },
     );
 
-    // setCenterAction.bind(
-    //   (opticShops) => _setCenterOn(opticShops!),
-    // );
+    setCenterAction.bind(
+      (opticShops) => _setCenterOn(opticShops!),
+    );
 
     zoomInAction.bind((_) {
       mapController?.moveCamera(
@@ -159,6 +172,8 @@ class MapBodyWM extends WidgetModel {
 
     mapObjectsStreamed.value.add(placemarkCollection);
 
+    lastOpticShops = shopList;
+
     mapObjectsStreamed.accept(mapObjectsStreamed.value);
   }
 
@@ -196,11 +211,9 @@ class MapBodyWM extends WidgetModel {
     );
   }
 
-  Future<void> _updateUserPosition() async {
+  Future<void> _updateUserPosition(Point position) async {
     mapObjectsStreamed.value
         .removeWhere((element) => element.mapId == userMapId);
-
-    final position = await _getUserPosition();
 
     mapObjectsStreamed.value.add(
       Placemark(
@@ -218,8 +231,6 @@ class MapBodyWM extends WidgetModel {
     );
 
     unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
-
-    unawaited(_moveTo(position));
   }
 
   Future<void> _moveTo(Point point) async {
@@ -229,7 +240,7 @@ class MapBodyWM extends WidgetModel {
           zoom: 16,
           target: Point(
             latitude: point.latitude -
-                0.0015, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
+                0.001, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
             longitude: point.longitude,
           ),
         ),

@@ -6,13 +6,13 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ShopPageSwitcher extends CoreMwwmWidget<ShopPageSwitcherWM> {
   ShopPageSwitcher({
-    required void Function(SelectOpticPage) callback,
+    required void Function(SelectOpticPage) onSwitch,
     SelectOpticPage initialType = SelectOpticPage.map,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (_) => ShopPageSwitcherWM(
-            callback: callback,
+            callback: onSwitch,
             initialType: initialType,
           ),
         );
