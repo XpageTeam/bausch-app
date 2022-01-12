@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_catches_without_on_clauses
+// ignore_for_file: avoid_catches_without_on_clauses, avoid_annotating_with_dynamic
 
 import 'dart:convert';
 

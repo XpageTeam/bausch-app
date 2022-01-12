@@ -235,7 +235,7 @@ class _DiscountOpticsScreenState
     );
   }
 }
-
+/*
 class _SelectOpticButton extends StatelessWidget {
   final StreamedState<Optic?> currentDiscountOptic;
   final VoidCallback onPressed;
@@ -275,7 +275,7 @@ class _SelectOpticButton extends StatelessWidget {
       ),
     );
   }
-}
+}*/
 
 class _NoDiscountsAvailable extends StatelessWidget {
   const _NoDiscountsAvailable({Key? key}) : super(key: key);

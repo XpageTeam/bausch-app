@@ -276,7 +276,7 @@ class SelectOpticScreenBody extends StatelessWidget {
 //                 return BlocBuilder<PageSwitcherCubit, PageSwitcherState>(
 //                   bloc: pageSwitcherCubit,
 //                   builder: (context, switherState) {
-//                     // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
+                     // TODO(Nikolay): Как-то надо сохранять состояние виджета с картой и со списком магазинов.
 //                     if (switherState is PageSwitcherShowList) {
 //                       return ShopListAdapter(
 //                         containerType: ShopContainer,

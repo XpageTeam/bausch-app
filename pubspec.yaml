@@ -54,8 +54,8 @@ dependencies:
   # video_player: ^2.2.7
   pin_code_fields: ^7.3.0
   share: ^2.0.4
-  shared_preferences: ^2.0.11
-  sqlite3_flutter_libs: ^0.5.2
+  shared_preferences: ^2.0.12
+  sqlite3_flutter_libs: ^0.5.3
   equatable: ^2.0.3
 
   # better_player:
@@ -74,7 +74,7 @@ dependencies:
   auto_size_text_pk: ^3.0.0
   geolocator: ^8.0.1
   overlay_support: ^1.2.1
-  url_launcher: ^6.0.17
+  url_launcher: ^6.0.18
   flutter_cupertino_date_picker: ^1.0.26+2
 
   # The following adds the Cupertino Icons font to your application.

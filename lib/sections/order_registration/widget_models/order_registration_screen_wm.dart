@@ -162,7 +162,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
         return;
       }
 
-      //* TODO(Nikita): придумать нормальное решение
+      // TODO(Nikita): придумать нормальное решение
       if (productItemModel.specifications != null) {
         if ((productItemModel.specifications!.diopters != null &&
                 diopters.value == null) ||
