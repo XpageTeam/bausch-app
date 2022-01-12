@@ -86,9 +86,10 @@ dependencies:
   provider: ^6.0.2
   auto_size_text: ^3.0.0
   csv: ^5.0.1
-  yandex_mapkit:
-    git:
-      url: https://github.com/Unact/yandex_mapkit.git
+  yandex_mapkit: ^2.0.0
+  # yandex_mapkit:
+  #   git:
+  #     url: https://github.com/Unact/yandex_mapkit.git
   easy_mask: ^2.0.1
   package_info: ^2.0.2
 
