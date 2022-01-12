@@ -40,7 +40,6 @@ class ProfileStatus extends StatelessWidget {
                         userData.userName,
                         style: AppStyles.h1,
                       ),
-                      // TODO(all): показать что есть новые уведомления
                       // const CircleAvatar(
                       //   radius: 5,
                       //   backgroundColor: AppTheme.turquoiseBlue,

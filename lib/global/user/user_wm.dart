@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
+import 'dart:async';
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -6,12 +10,35 @@ import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class UserWM extends WidgetModel {
+  final updateUserDataAction = VoidAction();
+
   final userData = EntityStreamedState<UserRepository>();
 
-  UserWM() : super(const WidgetModelDependencies());
+  Timer? updateTimer;
+
+  UserWM() : super(const WidgetModelDependencies()) {
+    updateUserDataAction.bind((_) {
+      _reloadUserData();
+    });
+
+    updateTimer = Timer.periodic(
+      const Duration(minutes: 5),
+      (timer) {
+        updateUserDataAction();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    updateTimer?.cancel();
+
+    super.dispose();
+  }
 
   /// Метод изменения данных пользователя
   /// обработка и отображение ошибок уже содержатся в нём
@@ -53,5 +80,17 @@ class UserWM extends WidgetModel {
 
   Future<void> logout() async {
     await UserWriter.removeUser();
+  }
+
+  Future<void> _reloadUserData() async {
+    try {
+      final userRepo = await UserWriter.checkUserToken();
+
+      if (userRepo != null) {
+        await userData.content(userRepo);
+      }
+    } catch (e) {
+      debugPrint('Закгрузка пользователя: ${e.toString()}');
+    }
   }
 }
