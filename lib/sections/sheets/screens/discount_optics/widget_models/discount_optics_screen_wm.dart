@@ -249,17 +249,9 @@ class OpticCititesRepository {
     for (final discounOptic in repository.discountOptics) {
       if (discounOptic.disountOpticShops != null) {
         for (final discountOpticShop in discounOptic.disountOpticShops!) {
-          final mayBeDirtyCityName = discountOpticShop.address.split(',').first;
-
-          if (mayBeDirtyCityName.split(' ').length > 1) {
-            cityNames.add(
-              mayBeDirtyCityName.split(' ')[1],
-            );
-          } else {
-            cityNames.add(
-              mayBeDirtyCityName,
-            );
-          }
+          cityNames.add(
+            discountOpticShop.city,
+          );
         }
       }
     }
