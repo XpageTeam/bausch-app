@@ -7,7 +7,7 @@ import 'package:bausch/sections/select_optic/widgets/shop_list_widget.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:flutter/material.dart';
 
-class SelectOpticScreenBody extends StatelessWidget {
+class SelectOpticScreenBody extends StatefulWidget {
   final SelectOpticPage currentPage;
   final List<OpticShop> opticShops;
   final void Function(OpticShop selectedShop) onOpticShopSelect;
@@ -22,16 +22,32 @@ class SelectOpticScreenBody extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<SelectOpticScreenBody> createState() => _SelectOpticScreenBodyState();
+}
+
+class _SelectOpticScreenBodyState extends State<SelectOpticScreenBody> {
+  late final MapBodyWM mapBodyWm;
+
+  @override
+  void initState() {
+    super.initState();
+    mapBodyWm = MapBodyWM(
+      initOpticShops: widget.opticShops,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return currentPage == SelectOpticPage.list
+    return widget.currentPage == SelectOpticPage.list
         ? ShopListWidget(
             containerType: ShopContainerWithButton,
-            shopList: opticShops,
-            onOpticShopSelect: onOpticShopSelect,
+            shopList: widget.opticShops,
+            onOpticShopSelect: widget.onOpticShopSelect,
           )
         : MapBody(
-            opticShops: opticShops,
-            onOpticShopSelect: onOpticShopSelect,
+            mapBodyWm: mapBodyWm,
+            opticShops: widget.opticShops,
+            onOpticShopSelect: widget.onOpticShopSelect,
             shopsEmptyCallback: (mapBodyWm) {
               mapBodyWm.isModalBottomSheetOpen.accept(true);
 
@@ -46,7 +62,7 @@ class SelectOpticScreenBody extends StatelessWidget {
                   onPressed: Navigator.of(context).pop,
                 ),
               ).whenComplete(
-                () => whenCompleteModalBottomSheet(mapBodyWm),
+                () => widget.whenCompleteModalBottomSheet(mapBodyWm),
               );
             },
           );

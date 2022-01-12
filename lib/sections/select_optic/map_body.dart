@@ -18,12 +18,11 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
     required this.opticShops,
     required this.shopsEmptyCallback,
     required this.onOpticShopSelect,
+    required MapBodyWM mapBodyWm,
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (_) => MapBodyWM(
-            initOpticShops: opticShops,
-          ),
+          widgetModelBuilder: (_) => mapBodyWm,
         );
 
   @override

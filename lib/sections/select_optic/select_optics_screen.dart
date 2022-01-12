@@ -58,7 +58,7 @@ class _SelectOpticScreenState
               20,
             ),
             child: ShopPageSwitcher(
-              callback: wm.switchAction,
+              onSwitch: wm.switchAction,
             ),
           ),
 
@@ -102,24 +102,23 @@ class _SelectOpticScreenState
 
           // Карта/список
           Expanded(
-            child: StreamedStateBuilder<SelectOpticPage>(
-              streamedState: wm.currentPageStreamed,
-              builder: (_, currentPage) => EntityStateBuilder<List<OpticShop>>(
-                streamedState: wm.filteredOpticShopsStreamed,
-                loadingChild: const Center(
-                  child: AnimatedLoader(),
-                ),
-                // TODO(Nikolay): Чекнуть.
-                errorBuilder: (context, e) {
-                  final ex = e as CustomException;
-                  showDefaultNotification(
-                    title: ex.title,
-                    subtitle: ex.subtitle,
-                  );
+            child: EntityStateBuilder<List<OpticShop>>(
+              streamedState: wm.filteredOpticShopsStreamed,
+              loadingChild: const Center(
+                child: AnimatedLoader(),
+              ),
+              errorBuilder: (context, e) {
+                final ex = e as CustomException;
+                showDefaultNotification(
+                  title: ex.title,
+                  subtitle: ex.subtitle,
+                );
 
-                  return const SizedBox();
-                },
-                builder: (_, opticShops) => SelectOpticScreenBody(
+                return const SizedBox();
+              },
+              builder: (_, opticShops) => StreamedStateBuilder<SelectOpticPage>(
+                streamedState: wm.currentPageStreamed,
+                builder: (_, currentPage) => SelectOpticScreenBody(
                   currentPage: currentPage,
                   opticShops: opticShops,
                   onOpticShopSelect: (selectedShop) =>
@@ -138,11 +137,12 @@ class _SelectOpticScreenState
                     Future.delayed(
                       const Duration(milliseconds: 10),
                       () {
+                        final shops = wm.filteredOpticShopsStreamed.value.data!;
+
                         mapBodyWm
                           ..isModalBottomSheetOpen.accept(false)
-                          ..setCenterAction(
-                            wm.filteredOpticShopsStreamed.value.data!,
-                          );
+                          ..updateMapObjects(shops)
+                          ..setCenterAction(shops);
                       },
                     );
                   },
