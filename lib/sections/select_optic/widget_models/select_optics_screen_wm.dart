@@ -79,6 +79,10 @@ class SelectOpticScreenWM extends WidgetModel {
       (newType) => currentPageStreamed.accept(newType!),
     );
 
+    filteredOpticShopsStreamed.bind(
+      (_) => debugPrint('filteredOpticShopsStreamed'),
+    );
+
     selectCityAction.bind(
       (_) => _selectCity(),
     );
@@ -145,7 +149,7 @@ class SelectOpticScreenWM extends WidgetModel {
     if (cityName != null && cityName != currentCityStreamed.value.data) {
       unawaited(currentCityStreamed.content(cityName));
       unawaited(opticsByCityStreamed.accept(_getOpticsByCurrentCity()));
-      unawaited(filteredOpticShopsStreamed.content(_getShopsByFilters()));
+      // unawaited(filteredOpticShopsStreamed.content(_getShopsByFilters()));
     }
   }
 

@@ -62,9 +62,9 @@ class MapBodyWM extends WidgetModel {
   void onBind() {
     updateMapObjects.bind((shopList) {
       _updateClusterMapObject(shopList!);
-      if (mapController != null) {
-        _setCenterOn(shopList);
-      }
+      // if (mapController != null) {
+      //   _setCenterOn(shopList);
+      // }
     });
 
     moveToUserPosition.bind(
@@ -73,9 +73,9 @@ class MapBodyWM extends WidgetModel {
       },
     );
 
-    setCenterAction.bind(
-      (opticShops) => _setCenterOn(opticShops!),
-    );
+    // setCenterAction.bind(
+    //   (opticShops) => _setCenterOn(opticShops!),
+    // );
 
     zoomInAction.bind((_) {
       mapController?.moveCamera(
@@ -166,20 +166,20 @@ class MapBodyWM extends WidgetModel {
     // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
     if (list.isEmpty) return;
 
-    ExtremePoints? extremePoints;
+    BoundingBox? boundingBox;
 
     if (list is List<Point>) {
-      extremePoints = _getExtremePoints(list as List<Point>);
+      boundingBox = _getBoundingBox(list as List<Point>);
     } else if (list is List<Placemark>) {
-      extremePoints = _getExtremePoints(
+      boundingBox = _getBoundingBox(
         (list as List<Placemark>).map((e) => e.point).toList(),
       );
     } else if (list is List<ShopModel>) {
-      extremePoints = _getExtremePoints(
+      boundingBox = _getBoundingBox(
         (list as List<ShopModel>).map((e) => e.coords!).toList(),
       );
     } else if (list is List<OpticShop>) {
-      extremePoints = _getExtremePoints(
+      boundingBox = _getBoundingBox(
         (list as List<OpticShop>).map((e) => e.coords).toList(),
       );
     } else {
@@ -191,12 +191,7 @@ class MapBodyWM extends WidgetModel {
         milliseconds: 500,
       ),
       () async => mapController?.moveCamera(
-        CameraUpdate.newBounds(
-          BoundingBox(
-            southWest: extremePoints!.southWest,
-            northEast: extremePoints.northEast,
-          ),
-        ),
+        CameraUpdate.newBounds(boundingBox!),
       ),
     );
   }
@@ -222,9 +217,9 @@ class MapBodyWM extends WidgetModel {
       ),
     );
 
-    unawaited(_moveTo(position));
-
     unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
+
+    unawaited(_moveTo(position));
   }
 
   Future<void> _moveTo(Point point) async {
@@ -289,26 +284,17 @@ class MapBodyWM extends WidgetModel {
     );
   }
 
-  ExtremePoints _getExtremePoints(List<Point> pointList) {
-    var north = 0.0;
-    var south = double.maxFinite;
-    var west = double.maxFinite;
-    var east = 0.0;
+  BoundingBox _getBoundingBox(List<Point> points) {
+    final lngs = points.map<double>((m) => m.longitude).toList();
+    final lats = points.map<double>((m) => m.latitude).toList();
 
-    for (final point in pointList) {
-      if (point.latitude > north) north = point.latitude;
-      if (point.latitude < south) south = point.latitude;
-      if (point.longitude < west) west = point.longitude;
-      if (point.longitude > east) east = point.longitude;
-    }
-
-    // debugPrint('north: $north');
-    // debugPrint('south: $south');
-    // debugPrint('west: $west');
-    // debugPrint('east: $east');
+    final highestLat = lats.reduce(max);
+    final highestLng = lngs.reduce(max);
+    final lowestLat = lats.reduce(min);
+    final lowestLng = lngs.reduce(min);
 
     final distance = sqrt(
-      pow(south - north, 2) + pow(west - east, 2),
+      pow(highestLat - lowestLat, 2) + pow(highestLng - lowestLng, 2),
     );
 
     // От 0.001 до 1
@@ -317,15 +303,11 @@ class MapBodyWM extends WidgetModel {
       0.001,
     );
 
-    return ExtremePoints(
-      southWest: Point(
-        latitude: south - coeff,
-        longitude: west - coeff,
-      ),
-      northEast: Point(
-        latitude: north + coeff,
-        longitude: east + coeff,
-      ),
+    return BoundingBox(
+      northEast:
+          Point(latitude: highestLat + coeff, longitude: highestLng + coeff),
+      southWest:
+          Point(latitude: lowestLat - coeff, longitude: lowestLng - coeff),
     );
   }
 
@@ -368,14 +350,4 @@ class MapBodyWM extends WidgetModel {
 
     return pngBytes!.buffer.asUint8List();
   }
-}
-
-class ExtremePoints {
-  final Point southWest;
-  final Point northEast;
-
-  ExtremePoints({
-    required this.southWest,
-    required this.northEast,
-  });
 }
