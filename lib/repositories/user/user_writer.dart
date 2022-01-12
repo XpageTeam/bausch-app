@@ -16,13 +16,9 @@ class UserWriter {
 
       final userToken = prefs.getString('userToken');
 
-      debugPrint('$userToken read');
-
       if (userToken == null) {
         return null;
       }
-
-      // await removeUser();
 
       return await getUserFromServer(userToken);
       // ignore: avoid_catches_without_on_clauses

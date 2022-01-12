@@ -22,7 +22,7 @@ class AnimationContent extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 20, bottom: 20.sp),
                     child: Text(
-                      'Пользуйтесь продукцией Bauch+Lomb и получайте любимые товары и другие привилегии',
+                      'Пользуйтесь продукцией Bausch+Lomb и получайте любимые товары и другие привилегии',
                       style: TextStyle(
                         fontSize:  24.sp, // 24.sm,
                         height: 31 / 24,

@@ -85,8 +85,7 @@ class OffersSectionWM extends WidgetModel {
       unawaited(
         offersStreamed.error(
           CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.toString(),
+            title: e.toString(),
           ),
         ),
       );
