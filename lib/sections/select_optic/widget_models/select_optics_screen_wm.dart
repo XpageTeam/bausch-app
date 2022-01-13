@@ -240,10 +240,10 @@ class SelectOpticScreenWM extends WidgetModel {
   }
 
   bool _equalsPieceOrWithComma(OpticCity city, String piece) {
-    final pieceLower = piece.toLowerCase();
+    final pieceLower = piece.toLowerCase().replaceAll(',', '');
     final cityLower = city.title.toLowerCase();
 
-    return cityLower == pieceLower || cityLower == '$pieceLower,';
+    return cityLower == pieceLower;
   }
 
   Future<void> _loadOptics() async {
