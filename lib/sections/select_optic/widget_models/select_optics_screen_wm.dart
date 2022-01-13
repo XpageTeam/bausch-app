@@ -205,17 +205,45 @@ class SelectOpticScreenWM extends WidgetModel {
   Future<List<Optic>> _getOpticsByCurrentCity() async {
     var optics = <Optic>[];
 
+    final currentCity = currentCityStreamed.value.data?.toLowerCase();
+    if (currentCity == null) return optics;
+
     if (initialCities == null) {
       await _loadOptics();
     }
-    if (initialCities!
-        .any((city) => city.title == currentCityStreamed.value.data)) {
-      optics = initialCities!
-          .firstWhere((city) => city.title == currentCityStreamed.value.data)
-          .optics;
+
+    // TODO(Nikolay): Это выглядит слишком ущербно => поменять.
+    if (initialCities!.any(_equalsCurrentCity)) {
+      optics = initialCities!.firstWhere(_equalsCurrentCity).optics;
+    } else {
+      final splittedCurrentCity = currentCity.split(' ');
+
+      for (final piece in splittedCurrentCity) {
+        if (initialCities!.any(
+          (city) => _equalsPieceOrWithComma(city, piece),
+        )) {
+          optics = initialCities!
+              .firstWhere(
+                (city) => _equalsPieceOrWithComma(city, piece),
+              )
+              .optics;
+        }
+      }
     }
 
     return optics;
+  }
+
+  bool _equalsCurrentCity(OpticCity city) {
+    return city.title.toLowerCase() ==
+        currentCityStreamed.value.data!.toLowerCase();
+  }
+
+  bool _equalsPieceOrWithComma(OpticCity city, String piece) {
+    final pieceLower = piece.toLowerCase();
+    final cityLower = city.title.toLowerCase();
+
+    return cityLower == pieceLower || cityLower == '$pieceLower,';
   }
 
   Future<void> _loadOptics() async {
