@@ -3,6 +3,7 @@ import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 
 class ProductOrderModel extends BaseOrderModel {
   final String? deliveryText;
+  final OrderProductModel product;
 
   const ProductOrderModel({
     required int id,
@@ -11,14 +12,13 @@ class ProductOrderModel extends BaseOrderModel {
     required int price,
     required String status,
     required String category,
-    required OrderProductModel product,
+    required this.product,
     this.deliveryText,
   }) : super(
           id: id,
           category: category,
           date: date,
           price: price,
-          product: product,
           status: status,
           title: title,
         );

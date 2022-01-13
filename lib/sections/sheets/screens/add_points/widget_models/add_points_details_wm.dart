@@ -74,7 +74,9 @@ class AddPointsDetailsWM extends WidgetModel {
     CustomException? error;
 
     try {
-      final result = await FilePicker.platform.pickFiles();
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
       late File file;
 
       if (result != null) {

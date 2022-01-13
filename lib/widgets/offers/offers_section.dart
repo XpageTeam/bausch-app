@@ -18,9 +18,10 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (_) => OffersSectionWM(
+          widgetModelBuilder: (context) => OffersSectionWM(
             type: type,
             goodID: goodID,
+            context: context,
           ),
         );
 

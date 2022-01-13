@@ -3,6 +3,7 @@ import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 
 class WebinarOrderModel extends BaseOrderModel {
   final List<String> videoList;
+  final OrderProductModel product;
 
   WebinarOrderModel({
     required int id,
@@ -11,7 +12,7 @@ class WebinarOrderModel extends BaseOrderModel {
     required int price,
     required String status,
     required String category,
-    required OrderProductModel product,
+    required this.product,
     required this.videoList,
   }) : super(
           id: id,
@@ -20,7 +21,6 @@ class WebinarOrderModel extends BaseOrderModel {
           price: price,
           status: status,
           category: category,
-          product: product,
         );
 
   factory WebinarOrderModel.fromMap(Map<String, dynamic> map) {

@@ -83,7 +83,7 @@ class CityScreenWM extends WidgetModel {
         if (item.data.city != null || item.data.settlement != null) {
           canCompleteSearch.accept(true);
         }
-        
+
         searchQuery.accept(item.value);
       }
     });
@@ -103,15 +103,19 @@ class CityScreenWM extends WidgetModel {
     });
 
     citiesFilterController.addListener(() {
-      if (citiesFilterController.text != '') {
-        isSearchActive.accept(true);
-        _filterCities();
+      if (citiesWithShops == null) {
+        if (citiesFilterController.text != '') {
+          _filterCities();
+        } else {
+          canCompleteSearch.accept(false);
+          isSearchActive.accept(false);
+        }
       } else {
-        canCompleteSearch.accept(false);
-        isSearchActive.accept(false);
+        _filterCities();
       }
 
-      if (citiesFilterController.text != searchQuery.value){
+      if (citiesFilterController.text != searchQuery.value &&
+          citiesWithShops == null) {
         canCompleteSearch.accept(false);
       }
     });
@@ -171,7 +175,7 @@ class CityScreenWM extends WidgetModel {
 
   Future<void> _filterCities() async {
     /// если введён поисковый запрос
-    if (citiesFilterController.text != '') {
+    if (citiesWithShops == null && citiesFilterController.text != '') {
       if (daDataCitiesList.value.isLoading) return;
 
       unawaited(daDataCitiesList.loading(daDataCitiesList.value.data));

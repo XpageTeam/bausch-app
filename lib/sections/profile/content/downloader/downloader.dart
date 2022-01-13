@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/certificate_model.dart';
 import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
@@ -30,6 +31,9 @@ class ProfileContentDownloader {
 
               case 'product':
                 return ProductOrderModel.fromMap(item);
+
+              case 'certificate': 
+                return CertificateOrderModel.fromMap(item);
 
               default:
                 return null;

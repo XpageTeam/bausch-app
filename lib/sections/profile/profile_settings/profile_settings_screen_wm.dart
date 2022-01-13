@@ -15,7 +15,9 @@ class ProfileSettingsScreenWM extends WidgetModel {
   //final emailController = TextEditingController();
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
-  final phoneController = MaskedTextController(mask: '+0 000 000 00 00');
+  final phoneController = MaskedTextController(mask: '+7 000 000 00 00');
+
+  final changeCityAction = StreamedAction<String?>();
 
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
@@ -29,6 +31,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
     userWM.userData.bind((userData) {
       setValues();
     });
+
+    changeCityAction.bind(setCityName);
 
     super.onBind();
   }
@@ -44,6 +48,9 @@ class ProfileSettingsScreenWM extends WidgetModel {
   }
 
   void setValues() {
+    // ignore: unnecessary_null_comparison
+    if (context == null) return;
+
     final userWM = Provider.of<UserWM>(context, listen: false);
 
     selectedCityName.accept(userWM.userData.value.data!.user.city);
@@ -59,8 +66,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   Future<void> sendUserData() async {
     final userWM = Provider.of<UserWM>(context, listen: false);
-
-    debugPrint(userWM.toString());
 
     await userWM.updateUserData(
       userWM.userData.value.data!.user.copyWith(
@@ -80,7 +85,14 @@ class ProfileSettingsScreenWM extends WidgetModel {
   void setCityName(String? cityName) {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
-    selectedCityName.accept(cityName ?? userWM.userData.value.data!.user.city);
+    if (cityName != null) {
+      userWM.updateUserData(
+        userWM.userData.value.data!.user.copyWith(city: cityName),
+        successMessage: 'Город успешно изменён',
+      );
+    }
+
+    // selectedCityName.accept(cityName ?? userWM.userData.value.data!.user.city);
   }
 
   void setEmail(String? email) {
