@@ -48,20 +48,22 @@ class ProfileSettingsScreenWM extends WidgetModel {
   }
 
   void setValues() {
-    // ignore: unnecessary_null_comparison
-    if (context == null) return;
+    try {
+      final userWM = Provider.of<UserWM>(context, listen: false);
 
-    final userWM = Provider.of<UserWM>(context, listen: false);
+      selectedCityName.accept(userWM.userData.value.data!.user.city);
+      selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
+      enteredEmail.accept(userWM.userData.value.data!.user.pendingEmail ??
+          userWM.userData.value.data!.user.email);
 
-    selectedCityName.accept(userWM.userData.value.data!.user.city);
-    selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
-    enteredEmail.accept(userWM.userData.value.data!.user.pendingEmail ??
-        userWM.userData.value.data!.user.email);
-
-    //emailController.text = userWM.userData.value.data!.user.email ?? '';
-    nameController.text = userWM.userData.value.data!.user.name ?? '';
-    lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
-    phoneController.text = userWM.userData.value.data!.user.phone;
+      //emailController.text = userWM.userData.value.data!.user.email ?? '';
+      nameController.text = userWM.userData.value.data!.user.name ?? '';
+      lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
+      phoneController.text = userWM.userData.value.data!.user.phone;
+    // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   Future<void> sendUserData() async {

@@ -101,14 +101,11 @@ class CatalogItemWidget extends StatelessWidget {
                       //* Адрес
                       if (model is ProductItemModel && address != null)
                         Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 30),
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 2),
-                              child: Text(
-                                address!,
-                                style: AppStyles.p1Grey,
-                              ),
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 2),
+                            child: Text(
+                              'Адрес: $address',
+                              style: AppStyles.p1Grey,
                             ),
                           ),
                         ),

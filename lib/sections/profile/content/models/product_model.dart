@@ -38,7 +38,7 @@ class ProductOrderModel extends BaseOrderModel {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException(e.toString());
+      throw ResponseParseException('ProductOrderModel: ${e.toString()}');
     }
   }
 }

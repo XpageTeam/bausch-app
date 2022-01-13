@@ -43,7 +43,7 @@ class WebinarOrderModel extends BaseOrderModel {
       rethrow;
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException(e.toString());
+      throw ResponseParseException('WebinarOrderModel: ${e.toString()}');
     }
   }
 }

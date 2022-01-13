@@ -111,13 +111,17 @@ class OffersSectionWM extends WidgetModel {
   }
 
   Future<List<String>> _readRemovedOffersIds() async {
-    return preferences.getStringList(StaticData.removedOffersKey) ?? <String>[];
+    final userWM = Provider.of<UserWM>(context, listen: false);
+
+    return preferences.getStringList(
+          'user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
+        ) ??
+        <String>[];
   }
 
   Future<void> _writeRemovedOfferId(int id) async {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
-    
     final removedOffersIds = (await _readRemovedOffersIds())
       ..add(
         id.toString(),

@@ -10,6 +10,7 @@ import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
+import 'package:flutter/rendering.dart';
 
 class ProfileContentDownloader {
   final _rh = RequestHandler();
@@ -51,7 +52,7 @@ class ProfileContentDownloader {
     } on ResponseParseException {
       rethrow;
     } catch (e) {
-      throw ResponseParseException(e.toString());
+      throw ResponseParseException('loadOrderHistory: ${e.toString()}');
     }
   }
 
@@ -73,7 +74,7 @@ class ProfileContentDownloader {
     } on ResponseParseException {
       rethrow;
     } catch (e) {
-      throw ResponseParseException(e.toString());
+      throw ResponseParseException('loadNotificationsList: ${e.toString()}');
     }
   }
 }
