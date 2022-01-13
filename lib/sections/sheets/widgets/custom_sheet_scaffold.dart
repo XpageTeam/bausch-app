@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class CustomSheetScaffold extends StatelessWidget {
   final ScrollController controller;
@@ -9,10 +10,13 @@ class CustomSheetScaffold extends StatelessWidget {
   final bool resizeToAvoidBottomInset;
   //final bool withAppBar;
   final Widget? appBar;
+  final bool hideBottomNavBarThenKeyboard;
+
   const CustomSheetScaffold({
     required this.controller,
     required this.slivers,
     this.resizeToAvoidBottomInset = true,
+    this.hideBottomNavBarThenKeyboard = false,
     this.appBar,
     this.bottomNavBar,
     this.backgroundColor,
@@ -35,7 +39,23 @@ class CustomSheetScaffold extends StatelessWidget {
           children: [
             CustomScrollView(
               controller: controller,
-              slivers: slivers,
+              slivers: slivers
+                ..add(
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      if (hideBottomNavBarThenKeyboard)
+                        KeyboardVisibilityBuilder(
+                          builder: (p0, isKeyboardVisible) {
+                            if (isKeyboardVisible) {
+                              return bottomNavBar ?? const SizedBox();
+                            }
+
+                            return const SizedBox();
+                          },
+                        ),
+                    ]),
+                  ),
+                ),
               physics: const BouncingScrollPhysics(),
             ),
             if (appBar != null)
@@ -47,7 +67,15 @@ class CustomSheetScaffold extends StatelessWidget {
               ),
           ],
         ),
-        bottomNavigationBar: bottomNavBar,
+        bottomNavigationBar: KeyboardVisibilityBuilder(
+          builder: (p0, isKeyboardVisible) {
+            if (!isKeyboardVisible || !hideBottomNavBarThenKeyboard) {
+              return bottomNavBar ?? const SizedBox();
+            }
+
+            return const SizedBox();
+          },
+        ),
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),

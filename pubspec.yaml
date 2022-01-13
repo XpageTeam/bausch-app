@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 0.0.1+3
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.15.1 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,7 +30,6 @@ dependencies:
   after_layout: ^1.1.0
   flutter:
     sdk: flutter
-  another_flushbar: ^1.10.28
   cookie_jar: ^3.0.1
   dio: ^4.0.4
   dio_cache_interceptor: ^3.2.2
@@ -72,9 +71,9 @@ dependencies:
   # vimeoplayer_trinity: ^0.2.1+1
   # youtube_player_flutter: ^8.0.0
   auto_size_text_pk: ^3.0.0
-  geolocator: ^8.0.1
+  geolocator: ^7.7.1
   overlay_support: ^1.2.1
-  url_launcher: ^6.0.18
+  url_launcher: ^6.0.17
   flutter_cupertino_date_picker: ^1.0.26+2
 
   # The following adds the Cupertino Icons font to your application.
@@ -83,7 +82,7 @@ dependencies:
 
   bottom_sheet: ^1.0.5
   surf_mwwm: ^2.0.2
-  provider: ^6.0.2
+  provider: ^6.0.1
   auto_size_text: ^3.0.0
   csv: ^5.0.1
   yandex_mapkit:

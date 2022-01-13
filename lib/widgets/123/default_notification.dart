@@ -9,7 +9,7 @@ OverlaySupportEntry showDefaultNotification({
   required String title,
   bool success = false,
   String? subtitle,
-  Duration duration = const Duration(seconds: 3),
+  Duration duration = const Duration(seconds: 300),
 }) {
   return showOverlayNotification(
     (c) => Material(
@@ -109,7 +109,7 @@ class _DefaultNotification extends StatelessWidget {
                     child: Text(
                       title,
                       style: AppStyles.p1White,
-                      textAlign: !success ? TextAlign.left : TextAlign.center,
+                      textAlign: success ? TextAlign.left : TextAlign.center,
                     ),
                   ),
                 ],
@@ -122,7 +122,7 @@ class _DefaultNotification extends StatelessWidget {
               style: AppStyles.p1White.copyWith(
                 color: Colors.white.withOpacity(0.5),
               ),
-              textAlign: !success ? TextAlign.left : TextAlign.center,
+              textAlign: success ? TextAlign.left : TextAlign.center,
             ),
         ],
       ),

@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -17,10 +20,13 @@ class OffersSectionWM extends WidgetModel {
   final offersStreamed = EntityStreamedState<List<Offer>>();
   final removeOfferAction = StreamedAction<Offer>();
 
+  final BuildContext context;
+
   late SharedPreferences preferences;
 
   OffersSectionWM({
     required this.type,
+    required this.context,
     this.goodID,
   }) : super(
           const WidgetModelDependencies(),
@@ -109,13 +115,16 @@ class OffersSectionWM extends WidgetModel {
   }
 
   Future<void> _writeRemovedOfferId(int id) async {
+    final userWM = Provider.of<UserWM>(context, listen: false);
+
+    
     final removedOffersIds = (await _readRemovedOffersIds())
       ..add(
         id.toString(),
       );
 
     await preferences.setStringList(
-      StaticData.removedOffersKey,
+      'user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
       removedOffersIds
           .map(
             (e) => e.toString(),

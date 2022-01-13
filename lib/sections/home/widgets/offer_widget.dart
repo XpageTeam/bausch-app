@@ -45,15 +45,12 @@ class _OfferWidgetState extends State<OfferWidget> {
               ),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          widget.offer.title,
-                          style: AppStyles.h1,
-                        ),
-                      ),
-                    ],
+                  Container(
+                    margin: const EdgeInsets.only(right: 30),
+                    child: Text(
+                      widget.offer.title,
+                      style: AppStyles.h1,
+                    ),
                   ),
                   const SizedBox(
                     height: 4,
@@ -61,16 +58,15 @@ class _OfferWidgetState extends State<OfferWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (widget.offer.description != null) ...[
+                      if (widget.offer.description != null)
                         Flexible(
                           child: Text(
                             widget.offer.description!,
                             style: AppStyles.p1,
                           ),
                         ),
-                      ] else ...[
+                      if (widget.offer.description == null)
                         const SizedBox(),
-                      ],
                       InkWell(
                         onTap: widget.onPressed,
                         child: Stack(
