@@ -2,6 +2,7 @@
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/certificate_model.dart';
@@ -10,7 +11,6 @@ import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
-import 'package:flutter/rendering.dart';
 
 class ProfileContentDownloader {
   final _rh = RequestHandler();
@@ -35,7 +35,7 @@ class ProfileContentDownloader {
               case 'product':
                 return ProductOrderModel.fromMap(item);
 
-              case 'certificate': 
+              case 'certificate':
                 return CertificateOrderModel.fromMap(item);
 
               case 'online_consultation':
@@ -56,6 +56,7 @@ class ProfileContentDownloader {
     }
   }
 
+  /// загружает историю уведомлений
   Future<List<NotificationModel>> loadNotificationsList() async {
     final result = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
@@ -77,4 +78,22 @@ class ProfileContentDownloader {
       throw ResponseParseException('loadNotificationsList: ${e.toString()}');
     }
   }
+
+  /*
+  Future<List<Offer>?> loadNotificationsBanners() async {
+    final result = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/banner/?type=notifications',
+      ))
+          .data!,
+    );
+
+    try {
+      return (result.data as List<dynamic>).map((dynamic item) {
+        return Offer.fromJson(item as Map<String, dynamic>);
+      }).toList();
+    } catch (e) {
+      debugPrint('loadNotificationsBanners: $e');
+    }
+  }*/
 }

@@ -19,6 +19,23 @@ class NotificationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final banners = Container(
+      child: OffersSection(
+        type: OfferType.notificationsScreen,
+        showLoader: false,
+      ),
+    );
+
+    final List<Widget> notificationsList = items.map((item) {
+      return Container(child: NotificationItem(data: item));
+    }).toList();
+
+    if (notificationsList.length < 5) {
+      notificationsList.add(banners);
+    } else {
+      notificationsList.insert(2, banners);
+    }
+
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(
         StaticData.sidePadding,
@@ -51,10 +68,10 @@ class NotificationSection extends StatelessWidget {
             // ),
             ListView.separated(
               itemBuilder: (_, index) {
-                return NotificationItem(data: items[index]);
+                return notificationsList[index];
               },
               separatorBuilder: (_, __) => const SizedBox(height: 4),
-              itemCount: items.length,
+              itemCount: notificationsList.length,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
             ),

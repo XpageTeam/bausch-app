@@ -1072,12 +1072,10 @@ packages:
   yandex_mapkit:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e23c581ef747232eac0ecfaa43d8f2c6f5f69881
-      url: "https://github.com/Unact/yandex_mapkit.git"
-    source: git
-    version: "2.0.0"
+      name: yandex_mapkit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
 sdks:
   dart: ">=2.15.1 <3.0.0"
   flutter: ">=2.5.0"

@@ -12,8 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
+  final bool showLoader;
+
   OffersSection({
     required OfferType type,
+    this.showLoader = true,
     int? goodID,
     Key? key,
   }) : super(
@@ -35,10 +38,13 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
   Widget build(BuildContext context) {
     return EntityStateBuilder<List<Offer>>(
       streamedState: wm.offersStreamed,
-      loadingChild: const Center(
-        child: AnimatedLoader(),
-      ),
+      loadingChild: widget.showLoader
+          ? const Center(
+              child: AnimatedLoader(),
+            )
+          : const SizedBox(),
       builder: (c, offers) => Column(
+        mainAxisSize: MainAxisSize.min,
         children: offers
             .map(
               (offer) => Padding(
