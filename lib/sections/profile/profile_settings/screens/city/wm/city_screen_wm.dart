@@ -105,6 +105,7 @@ class CityScreenWM extends WidgetModel {
     citiesFilterController.addListener(() {
       if (citiesWithShops == null) {
         if (citiesFilterController.text != '') {
+          isSearchActive.accept(true);
           _filterCities();
         } else {
           canCompleteSearch.accept(false);
