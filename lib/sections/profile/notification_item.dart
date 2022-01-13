@@ -51,9 +51,10 @@ class NotificationItem extends StatelessWidget {
           const SizedBox(
             width: 15,
           ),
-          ButtonContent(
-            price: data.formatedPrice,
-          ),
+          if (data.points != null)
+            ButtonContent(
+              price: data.formatedPrice,
+            ),
         ],
       ),
     );
