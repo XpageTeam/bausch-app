@@ -34,7 +34,6 @@ class CatalogItemWidget extends StatelessWidget {
   // TODO(Nikita): Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
-
     debugPrint(model.picture);
     return Container(
       decoration: BoxDecoration(
@@ -78,25 +77,26 @@ class CatalogItemWidget extends StatelessWidget {
                           style: AppStyles.h2Bold,
                         ),
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
 
                       //* Цена и виджет баллов
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              model.priceToString,
-                              style: AppStyles.h2Bold,
-                            ),
+                      if (model.price > 0)
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  model.priceToString,
+                                  style: AppStyles.h2Bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              PointWidget(textStyle: AppStyles.h2),
+                            ],
                           ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          PointWidget(textStyle: AppStyles.h2),
-                        ],
-                      ),
+                        ),
 
                       //* Адрес
                       if (model is ProductItemModel && address != null)
@@ -157,7 +157,9 @@ class CatalogItemWidget extends StatelessWidget {
                           text: '$deliveryInfo. ',
                           style: AppStyles.p1,
                           children: [
-                            if (deliveryInfo!.toLowerCase().contains('доставлен'))
+                            if (deliveryInfo!
+                                .toLowerCase()
+                                .contains('доставлен'))
                               TextSpan(
                                 style: AppStyles.p1Grey,
                                 // TODO(all): сделать открытие всплывашки
@@ -219,7 +221,7 @@ String txt(CatalogItemModel _model) {
   if (_model is WebinarItemModel) {
     return 'Перейти к просмотру';
   } else if (_model is PartnersItemModel) {
-    return _model.poolPromoCode;
+    return _model.poolPromoCode ?? '';
   } else {
     return (_model as PromoItemModel).code;
   }

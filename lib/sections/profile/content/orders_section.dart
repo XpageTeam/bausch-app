@@ -5,6 +5,7 @@ import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/certificate_model.dart';
 import 'package:bausch/sections/profile/content/models/consultation_model.dart';
+import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 import 'package:bausch/static/static_data.dart';
@@ -111,6 +112,28 @@ class OrdersSection extends StatelessWidget {
                             detailText: '',
                             price: order.price,
                             picture: order.product.imageLink,
+                          ),
+                          deliveryInfo: order.status,
+                          orderTitle:
+                              'Заказ №${order.id} от ${order.formatedDate}',
+                        ),
+                      );
+
+                    case 'partner':
+                      order as PartnerOrderModel;
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: CatalogItemWidget(
+                          model: PartnersItemModel(
+                            id: order.id,
+                            name: order.title,
+                            previewText: '',
+                            detailText: '',
+                            picture: order.product.imageLink,
+                            price: order.price,
+                            poolPromoCode: '',
+                            staticPromoCode: '',
                           ),
                           deliveryInfo: order.status,
                           orderTitle:

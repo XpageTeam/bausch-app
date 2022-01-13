@@ -7,6 +7,7 @@ import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/certificate_model.dart';
 import 'package:bausch/sections/profile/content/models/consultation_model.dart';
 import 'package:bausch/sections/profile/content/models/notification_model.dart';
+import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 
@@ -38,6 +39,9 @@ class ProfileContentDownloader {
 
               case 'online_consultation':
                 return ConsultationOrderModel.fromMap(item);
+
+              case 'partner':
+                return PartnerOrderModel.fromMap(item);
 
               default:
                 return null;

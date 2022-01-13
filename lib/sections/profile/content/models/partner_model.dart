@@ -1,18 +1,19 @@
-// ignore_for_file: avoid_catches_without_on_clauses
-
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/certificate_model.dart';
 
-class CertificateOrderModel extends BaseOrderModel {
+class PartnerOrderModel extends BaseOrderModel {
+  final OrderProductModel product;
   final Coupon coupon;
 
-  CertificateOrderModel({
+  PartnerOrderModel({
     required int id,
     required String title,
     required DateTime date,
     required int price,
     required String status,
     required String category,
+    required this.product,
     required this.coupon,
   }) : super(
           id: id,
@@ -23,35 +24,20 @@ class CertificateOrderModel extends BaseOrderModel {
           title: title,
         );
 
-  factory CertificateOrderModel.fromMap(Map<String, dynamic> map) {
+  factory PartnerOrderModel.fromMap(Map<String, dynamic> map) {
     try {
-      return CertificateOrderModel(
+      return PartnerOrderModel(
         id: map['id'] as int,
-        category: map['category'] as String,
+        title: map['title'] as String,
         date: DateTime.parse(map['date'] as String),
         price: map['price'] as int,
         status: map['status'] as String,
-        title: map['title'] as String,
+        category: map['category'] as String,
+        product:
+            OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
         coupon: Coupon.fromMap(map['coupon'] as Map<String, dynamic>),
       );
-    } on ResponseParseException {
-      rethrow;
-    } catch (e) {
-      throw ResponseParseException(e.toString());
-    }
-  }
-}
-
-class Coupon {
-  final String? code;
-
-  const Coupon({
-    required this.code,
-  });
-
-  factory Coupon.fromMap(Map<String, dynamic> map) {
-    try {
-      return Coupon(code: map['code'] as String?);
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException(e.toString());
     }
