@@ -112,8 +112,8 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
-  void _filtersOnChanged(List<Filter> selectedFilters) {
-    this.selectedFilters = selectedFilters;
+  void _filtersOnChanged(List<Filter> newSelectedFilters) {
+    selectedFilters = newSelectedFilters;
     filteredOpticShopsStreamed.content(_getShopsByFilters());
   }
 
@@ -145,7 +145,7 @@ class SelectOpticScreenWM extends WidgetModel {
     if (cityName != null && cityName != currentCityStreamed.value.data) {
       unawaited(currentCityStreamed.content(cityName));
       unawaited(opticsByCityStreamed.accept(_getOpticsByCurrentCity()));
-      unawaited(filteredOpticShopsStreamed.content(_getShopsByFilters()));
+      // unawaited(filteredOpticShopsStreamed.content(_getShopsByFilters()));
     }
   }
 
