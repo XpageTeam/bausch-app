@@ -40,7 +40,7 @@ class OrdersSection extends StatelessWidget {
                           model: WebinarItemModel(
                             availability: true,
                             isBought: true,
-                            videoId: order.videoList,
+                            videoIds: order.videoList,
                             id: order.id,
                             name: order.title,
                             previewText: '',

@@ -247,7 +247,7 @@ void callback(CatalogItemModel _model) {
       context: Keys.mainNav.currentContext!,
       // TODO(Danil): массив id
       builder: (context) => WebinarPopup(
-        videoId: _model.videoId.first,
+        videoId: _model.videoIds.first,
       ),
     );
   } else if (_model is PartnersItemModel) {
