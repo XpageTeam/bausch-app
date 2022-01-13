@@ -58,7 +58,7 @@ class _SelectOpticScreenState
               20,
             ),
             child: ShopPageSwitcher(
-              callback: wm.switchAction,
+              onSwitch: wm.switchAction,
             ),
           ),
 
@@ -94,7 +94,7 @@ class _SelectOpticScreenState
                 ),
                 child: ShopFilterWidget(
                   filters: filters,
-                  callback: wm.filtersOnChanged,
+                  onFiltersChanged: wm.filtersOnChanged,
                 ),
               );
             },

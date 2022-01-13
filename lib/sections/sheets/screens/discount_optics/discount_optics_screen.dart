@@ -12,6 +12,7 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
+import 'package:bausch/sections/test_select_optic/test_select_optic_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -181,13 +182,22 @@ class _DiscountOpticsScreenState
                                 onPressed: () =>
                                     Keys.mainNav.currentState!.push<void>(
                                   MaterialPageRoute(
-                                    builder: (context) => SelectOpticScreen(
-                                      cities: wm.cities,
-                                      onOpticSelect: (optic, _) =>
-                                          wm.setCurrentOptic(optic),
+                                    builder: (_) => TestSelectOpticScreen(
+                                      opticCities: wm.cities,
                                     ),
                                   ),
                                 ),
+
+                                // () =>
+                                //     Keys.mainNav.currentState!.push<void>(
+                                //   MaterialPageRoute(
+                                //     builder: (context) => SelectOpticScreen(
+                                //       cities: wm.cities,
+                                //       onOpticSelect: (optic, _) =>
+                                //           wm.setCurrentOptic(optic),
+                                //     ),
+                                //   ),
+                                // ),
                               ),
                             ),
                           ),

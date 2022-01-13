@@ -8,13 +8,13 @@ class ShopFilterWidget extends CoreMwwmWidget<ShopFilterWM> {
   final List<Filter> filters;
   ShopFilterWidget({
     required this.filters,
-    required void Function(List<Filter> selectedFilters) callback,
+    required void Function(List<Filter> selectedFilters) onFiltersChanged,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (_) => ShopFilterWM(
             initialFilters: filters,
-            callback: callback,
+            callback: onFiltersChanged,
           ),
         );
 
@@ -24,6 +24,12 @@ class ShopFilterWidget extends CoreMwwmWidget<ShopFilterWM> {
 }
 
 class _ShopFilterState extends WidgetState<ShopFilterWidget, ShopFilterWM> {
+  @override
+  void initState() {
+    super.initState();
+    wm.updateFilters(widget.filters);
+  }
+
   @override
   void didUpdateWidget(covariant ShopFilterWidget oldWidget) {
     wm.updateFilters(widget.filters);
