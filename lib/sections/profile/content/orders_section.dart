@@ -72,6 +72,7 @@ class OrdersSection extends StatelessWidget {
                             price: order.price,
                           ),
                           deliveryInfo: order.status,
+                          address: order.deliveryText,
                           orderTitle:
                               'Заказ №${order.id} от ${order.formatedDate}',
                         ),
