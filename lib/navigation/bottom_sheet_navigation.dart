@@ -34,6 +34,7 @@ import 'package:bausch/sections/sheets/screens/partners/partners_verification.da
 import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/widget_model/program_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/webinars/all_webinars_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
@@ -174,7 +175,6 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               );
               break;
 
-
             case '/verification_webinar':
               page = WebinarVerification(
                 controller: controller,
@@ -198,6 +198,13 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               );
               break;
 
+            case '/all_webinars':
+              page = AllWebinarsScreen(
+                controller: controller,
+                arguments: settings.arguments as AllWebinarsScreenArguments,
+              );
+              break;
+
             case '/final_partners':
               page = FinalPartners(
                 controller: controller,
@@ -217,7 +224,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     .discountOptic,
               );
               break;
-           
+
             case '/online_consultation':
               page = ConsultationScreen(
                 controller: controller,

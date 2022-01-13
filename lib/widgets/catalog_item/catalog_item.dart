@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
   final VoidCallback? onTap;
+  final void Function(WebinarItemModel webinar)? allWebinarsCallback;
   const CatalogItem({
     required this.model,
+    this.allWebinarsCallback,
     this.onTap,
     Key? key,
   }) : super(key: key);
@@ -118,13 +120,17 @@ class CatalogItem extends StatelessWidget {
 
   void onWebinarClick(BuildContext context, WebinarItemModel model) {
     if (model.canWatch) {
-      showDialog<void>(
-        context: context,
-        builder: (context) => WebinarPopup(
-          // TODO(Danil): массив id
-          videoId: model.videoId.first,
-        ),
-      );
+      if (model.videoIds.length > 1) {
+        allWebinarsCallback?.call(model);
+      } else {
+        showDialog<void>(
+          context: context,
+          builder: (context) => WebinarPopup(
+            // TODO(Danil): массив id
+            videoId: model.videoIds.first,
+          ),
+        );
+      }
     } else {
       onTap?.call();
     }

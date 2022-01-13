@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/sections/sheets/screens/webinars/all_webinars_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/theme/styles.dart';
@@ -131,6 +133,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                 ),
                               );
                             },
+                            allWebinarsCallback: _openAllWebinars,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -151,6 +154,7 @@ class _SheetScreenState extends State<SheetScreen> {
                                   ),
                                 );
                               },
+                              allWebinarsCallback: _openAllWebinars,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(12.0),
@@ -167,6 +171,19 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
             ),
           ),
+        SliverToBoxAdapter(
+          child: TextButton(
+            child: const Text('Go'),
+            onPressed: () => Navigator.of(context).pushNamed(
+              '/all_webinars',
+              arguments: AllWebinarsScreenArguments(
+                // TODO(Nikolay): Переделать.
+                model: widget.items.last,
+                webinars: widget.items.take(widget.items.length - 1).toList(),
+              ),
+            ),
+          ),
+        ),
       ],
       bottomNavBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -175,6 +192,20 @@ class _SheetScreenState extends State<SheetScreen> {
           if (widget.sheetModel.type != 'promo_code_immediately')
             const InfoBlock(),
         ],
+      ),
+    );
+  }
+
+  void _openAllWebinars(WebinarItemModel webinar) {
+    final webinars = widget.items
+        .where((e) => (e as WebinarItemModel).videoIds.length == 1)
+        .toList();
+
+    Navigator.of(context).pushNamed(
+      '/all_webinars',
+      arguments: AllWebinarsScreenArguments(
+        model: webinar,
+        webinars: webinars,
       ),
     );
   }
