@@ -11,14 +11,12 @@ class CustomSheetScaffold extends StatelessWidget {
   //final bool withAppBar;
   final Widget? appBar;
   final bool hideBottomNavBarThenKeyboard;
-  final num? bottomNavBarHeight;
 
   const CustomSheetScaffold({
     required this.controller,
     required this.slivers,
     this.resizeToAvoidBottomInset = true,
     this.hideBottomNavBarThenKeyboard = false,
-    this.bottomNavBarHeight,
     this.appBar,
     this.bottomNavBar,
     this.backgroundColor,
