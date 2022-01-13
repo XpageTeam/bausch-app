@@ -6,6 +6,7 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:flutter/material.dart';
@@ -142,14 +143,22 @@ class _WebinarsScreenState extends State<AllWebinarsScreen> {
           ),
         ),
       ],
+      bottomNavBar: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          InfoBlock(),
+        ],
+      ),
     );
   }
 }
 
 class AllWebinarsScreenArguments extends ItemSheetScreenArguments {
-  final CatalogItemModel model;
   final List<CatalogItemModel> webinars;
 
-  AllWebinarsScreenArguments({required this.model, required this.webinars})
-      : super(model: model);
+  AllWebinarsScreenArguments({
+    required CatalogItemModel model,
+    required this.webinars,
+  }) : super(model: model);
 }

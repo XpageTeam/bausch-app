@@ -171,19 +171,6 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
             ),
           ),
-        SliverToBoxAdapter(
-          child: TextButton(
-            child: const Text('Go'),
-            onPressed: () => Navigator.of(context).pushNamed(
-              '/all_webinars',
-              arguments: AllWebinarsScreenArguments(
-                // TODO(Nikolay): Переделать.
-                model: widget.items.last,
-                webinars: widget.items.take(widget.items.length - 1).toList(),
-              ),
-            ),
-          ),
-        ),
       ],
       bottomNavBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
