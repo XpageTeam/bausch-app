@@ -1,8 +1,10 @@
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/certificate_model.dart';
+import 'package:bausch/sections/profile/content/models/consultation_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 import 'package:bausch/static/static_data.dart';
@@ -77,8 +79,6 @@ class OrdersSection extends StatelessWidget {
                     case 'certificate':
                       order as CertificateOrderModel;
 
-                      debugPrint(order.category);
-
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
@@ -91,6 +91,26 @@ class OrdersSection extends StatelessWidget {
                             poolPromoCode: order.coupon.code,
                             staticPromoCode: order.coupon.code,
                             picture: '',
+                          ),
+                          deliveryInfo: order.status,
+                          orderTitle:
+                              'Заказ №${order.id} от ${order.formatedDate}',
+                        ),
+                      );
+
+                    case 'online_consultation':
+                      order as ConsultationOrderModel;
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: CatalogItemWidget(
+                          model: ProductItemModel(
+                            id: order.id,
+                            name: order.title,
+                            previewText: '',
+                            detailText: '',
+                            price: order.price,
+                            picture: order.product.imageLink,
                           ),
                           deliveryInfo: order.status,
                           orderTitle:

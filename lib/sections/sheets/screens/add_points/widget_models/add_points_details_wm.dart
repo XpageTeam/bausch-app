@@ -46,6 +46,7 @@ class AddPointsDetailsWM extends WidgetModel {
           _addPoints('/review/soc/save/');
           break;
         case 'vk':
+          debugPrint(addPointsModel.url);
           Utils.tryLaunchUrl(
             rawUrl: addPointsModel.url!,
             isPhone: false,
