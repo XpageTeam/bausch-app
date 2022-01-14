@@ -109,39 +109,55 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                                       );
                                     },
                                   )
-                                : AlphabetScrollView(
-                                    itemExtent: 50,
-                                    list: citiesList.map((city) {
-                                      return AlphaModel(city.name);
-                                    }).toList(),
-                                    selectedTextStyle: AppStyles.h1,
-                                    unselectedTextStyle: AppStyles.h2,
-                                    // selectedLetterTextStyle: AppStyles.p1,
-                                    // unselectedLetterTextStyle: TextStyle(
-                                    //   color: AppTheme.mineShaft,
-                                    //   fontWeight: FontWeight.w400,
-                                    //   fontSize: 12.sp,
-                                    //   height: 16 / 12,
-                                    //   fontFamily: 'Euclid Circular A',
-                                    // ),
-                                    itemBuilder: (context, i, cityName) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).pop(cityName);
-                                        },
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              cityName,
-                                              style: AppStyles.h2,
+                                : StreamedStateBuilder<List<DadataCity>>(
+                                    streamedState: wm.filteredCitiesList,
+                                    builder: (_, citiesList) {
+                                      if (citiesList.isEmpty) {
+                                        return Center(
+                                          child: Text(
+                                            'Поиск не принёс результатов :(',
+                                            style: AppStyles.h2,
+                                          ),
+                                        );
+                                      }
+
+                                      return AlphabetScrollView(
+                                        itemExtent: 50,
+                                        list: citiesList.map((city) {
+                                          return AlphaModel(city.name);
+                                        }).toList(),
+                                        selectedTextStyle: AppStyles.h1,
+                                        unselectedTextStyle: AppStyles.h2,
+                                        // selectedLetterTextStyle: AppStyles.p1,
+                                        // unselectedLetterTextStyle: TextStyle(
+                                        //   color: AppTheme.mineShaft,
+                                        //   fontWeight: FontWeight.w400,
+                                        //   fontSize: 12.sp,
+                                        //   height: 16 / 12,
+                                        //   fontFamily: 'Euclid Circular A',
+                                        // ),
+                                        itemBuilder: (context, i, cityName) {
+                                          return InkWell(
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .pop(cityName);
+                                            },
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  cityName,
+                                                  style: AppStyles.h2,
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          );
+                                        },
                                       );
                                     },
                                   ),

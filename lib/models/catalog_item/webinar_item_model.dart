@@ -5,7 +5,7 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 
 class WebinarItemModel extends CatalogItemModel {
   //* Идентификатор ролика
-  final List<String> videoId;
+  final List<String> videoIds;
   final bool availability;
   final bool? isBought;
 
@@ -18,7 +18,7 @@ class WebinarItemModel extends CatalogItemModel {
     required String detailText,
     required String picture,
     required int price,
-    required this.videoId,
+    required this.videoIds,
     required this.availability,
     this.isBought,
     String? type,
@@ -59,7 +59,7 @@ class WebinarItemModel extends CatalogItemModel {
       detailText: map['detail_text'] as String,
       picture: map['picture'] as String,
       price: map['price'] as int,
-      videoId: map['video_vimeo_id'] != null
+      videoIds: map['video_vimeo_id'] != null
           ? (map['video_vimeo_id'] as List<dynamic>)
               .map((dynamic e) => e as String)
               .toList()

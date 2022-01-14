@@ -42,14 +42,14 @@ class UserWM extends WidgetModel {
 
   /// Метод изменения данных пользователя
   /// обработка и отображение ошибок уже содержатся в нём
-  Future<bool> updateUserData(User userData) async {
+  Future<bool> updateUserData(User userData, {String? successMessage}) async {
     CustomException? ex;
 
     try {
       await this.userData.content(await UserWriter.updateUserData(userData));
 
       showDefaultNotification(
-        title: 'Данные успешно обновлены',
+        title: successMessage ?? 'Данные успешно обновлены',
         success: true,
       );
 

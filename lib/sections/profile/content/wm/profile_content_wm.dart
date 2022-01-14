@@ -74,6 +74,7 @@ class ProfileContentWM extends WidgetModel {
     unawaited(notificationsList.loading());
 
     try {
+      // _downloader.loadNotificationsBanners();
       await notificationsList.content(await _downloader.loadNotificationsList());
     } on DioError catch (e) {
       await notificationsList.error(CustomException(

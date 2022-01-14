@@ -2,8 +2,8 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 
 class PartnersItemModel extends CatalogItemModel {
-  final String poolPromoCode;
-  final String staticPromoCode;
+  final String? poolPromoCode;
+  final String? staticPromoCode;
   final String? link;
 
   PartnersItemModel({
@@ -13,8 +13,8 @@ class PartnersItemModel extends CatalogItemModel {
     required String detailText,
     required String? picture,
     required int price,
-    required this.poolPromoCode,
-    required this.staticPromoCode,
+    this.poolPromoCode,
+    this.staticPromoCode,
     this.link,
     String? type,
   }) : super(
@@ -54,8 +54,8 @@ class PartnersItemModel extends CatalogItemModel {
       detailText: map['detail_text'] as String,
       picture: map['picture'] as String?,
       price: (map['price'] ?? 150) as int,
-      poolPromoCode: map['pool_promo_code'] as String,
-      staticPromoCode: map['static_promo_code'] as String,
+      poolPromoCode: map['pool_promo_code'] as String?,
+      staticPromoCode: map['static_promo_code'] as String?,
       link: map['link'] as String?,
     );
   }

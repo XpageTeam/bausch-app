@@ -1,3 +1,4 @@
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
@@ -12,6 +13,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ConsultationScreenArguments {
   final ConsultationItemModel model;
@@ -40,11 +42,23 @@ class ConsultationScreen extends StatefulWidget
 
 class _ConsultationScreenState extends State<ConsultationScreen> {
   late ConsultationItemModel model;
+  num? userPoints;
+
+  late bool isPointsEnough;
 
   @override
   void initState() {
     super.initState();
     model = widget.model;
+
+    userPoints = Provider.of<UserWM>(context, listen: false)
+        .userData
+        .value
+        .data
+        ?.balance
+        .available;
+
+    isPointsEnough = userPoints != null && userPoints! - model.price >= 0;
   }
 
   @override
@@ -118,12 +132,25 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
-        text: 'Получить поощрение ${model.priceToString} б',
+        text: isPointsEnough
+            ? 'Получить поощрение ${model.priceToString} б'
+            : 'Накопить баллы',
+        icon: isPointsEnough
+            ? null
+            : const Icon(
+                Icons.add,
+                color: AppTheme.mineShaft,
+              ),
         onPressed: () {
-          Navigator.of(context).pushNamed(
-            '/verification_consultation',
-            arguments: ItemSheetScreenArguments(model: model),
-          );
+          isPointsEnough
+              ? Navigator.of(context).pushNamed(
+                  '/verification_consultation',
+                  arguments: ItemSheetScreenArguments(model: model),
+                )
+              : Navigator.of(context).pushNamed(
+                  '/add_points',
+                  arguments: ItemSheetScreenArguments(model: model),
+                );
         },
       ),
     );

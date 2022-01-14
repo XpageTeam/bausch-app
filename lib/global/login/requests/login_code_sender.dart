@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bausch/global/login/models/code_response_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -16,7 +18,7 @@ class CodeSender {
       data: FormData.fromMap(
         <String, dynamic>{
           'code': code,
-          'isMobilePhoneConfirmed': isMobilePhoneConfirmed,
+          'isMobilePhoneConfirmed': jsonEncode(isMobilePhoneConfirmed),
         },
       ),
     ))

@@ -8,7 +8,7 @@ class Utils {
     required String rawUrl,
     required bool isPhone,
   }) async {
-    final url = '${isPhone ? 'tel' : 'https'}:$rawUrl';
+    final url = '${isPhone ? 'tel:' : ''}$rawUrl';
 
     if (await canLaunch(url)) {
       return launch(

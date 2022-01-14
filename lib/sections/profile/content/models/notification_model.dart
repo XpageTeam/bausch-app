@@ -5,22 +5,24 @@ import 'package:intl/intl.dart';
 class NotificationModel {
   final int id;
   final String title;
-  final int points;
-  final String type;
+  final int? points;
+  final String? type;
   final DateTime? date;
 
   String? get formatedDate =>
       date != null ? DateFormat('dd.MM.yyyy').format(date!) : null;
 
-  String get formatedPrice => points.isNegative
-      ? HelpFunctions.partitionNumber(points)
-      : '+${HelpFunctions.partitionNumber(points)}';
+  String get formatedPrice => points != null
+      ? (points!.isNegative
+          ? HelpFunctions.partitionNumber(points!)
+          : '+${HelpFunctions.partitionNumber(points!)}')
+      : '';
 
   const NotificationModel({
     required this.id,
     required this.title,
-    required this.points,
-    required this.type,
+    this.points,
+    this.type,
     this.date,
   });
 
@@ -28,14 +30,14 @@ class NotificationModel {
     try {
       return NotificationModel(
         id: map['id'] as int,
-        title: map['name'] as String,
-        points: map['points'] as int,
-        type: map['type'] as String,
+        title: map['title'] as String? ?? '',
+        points: map['price'] as int?,
+        type: map['type'] as String?,
         date: DateTime.tryParse(map['date'] as String? ?? ''),
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException(e.toString());
+      throw ResponseParseException('NotificationModel: ${e.toString()}');
     }
   }
 }

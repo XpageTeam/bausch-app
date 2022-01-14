@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/sections/home/widgets/stories/story.dart';
 import 'package:bausch/sections/stories/cubit/stories_cubit.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StoriesSlider extends StatefulWidget {
@@ -16,7 +18,15 @@ class StoriesSlider extends StatefulWidget {
 }
 
 class _StoriesSliderState extends State<StoriesSlider> {
-  final storiesCubit = StoriesCubit();
+  late StoriesCubit storiesCubit;
+
+  @override
+  void initState() {
+    storiesCubit = StoriesCubit(
+    context: context,
+  );
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -64,10 +74,11 @@ class _StoriesSliderState extends State<StoriesSlider> {
   }
 
   Future<void> deleteKeys(int id) async {
+    final userWM = Provider.of<UserWM>(context);
+
     final prefs = await SharedPreferences.getInstance();
 
-    if (prefs.containsKey('story[$id]')) {
-      unawaited(prefs.remove('story[$id]'));
-    }
+    await prefs
+        .remove('user[${userWM.userData.value.data?.user.id}]story[$id]');
   }
 }

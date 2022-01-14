@@ -113,8 +113,6 @@ class _ProfileSettingsScreenState
                   EntityStateBuilder<UserRepository>(
                     streamedState: userWM.userData,
                     builder: (_, userData) {
-                      debugPrint(userData.user.pendingEmail.toString());
-
                       return Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Row(
@@ -123,7 +121,8 @@ class _ProfileSettingsScreenState
                             DiscountInfo(
                               color: AppTheme.turquoiseBlue,
                               text: (userData.user.isEmailConfirmed != null &&
-                                      !userData.user.isEmailConfirmed!) || userData.user.pendingEmail != null
+                                          !userData.user.isEmailConfirmed!) ||
+                                      userData.user.pendingEmail != null
                                   ? 'подтвердить'
                                   : 'подтверждён',
                             ),
@@ -209,8 +208,8 @@ class _ProfileSettingsScreenState
                     labelText: 'Город',
                     selectedText: cityName,
                     onPressed: () async {
-                      wm.setCityName(
-                        await Keys.mainNav.currentState!.push<String>(
+                      await wm.changeCityAction(
+                        await Keys.mainNav.currentState!.push<String?>(
                           PageRouteBuilder<String>(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>

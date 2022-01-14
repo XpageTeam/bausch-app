@@ -48,11 +48,12 @@ class FinalPartners extends StatelessWidget {
                     style: AppStyles.h1,
                   ),
                 ),
-                ContainerWithPromocode(
-                  promocode: model.poolPromoCode,
-                  onPressed: () =>
-                      Utils.copyStringToClipboard(model.poolPromoCode),
-                ),
+                if (model.poolPromoCode != null)
+                  ContainerWithPromocode(
+                    promocode: model.poolPromoCode!,
+                    onPressed: () =>
+                        Utils.copyStringToClipboard(model.poolPromoCode!),
+                  ),
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 12,
@@ -70,23 +71,25 @@ class FinalPartners extends StatelessWidget {
           ),
         ),
       ],
-      bottomNavBar: BottomButtonWithRoundedCorners(
-        text: model.link != null
-            ? 'Скопировать код и перейти на сайт'
-            : 'На главную',
-        withInfo: false,
-        onPressed: model.link != null
-            ? () {
-                Utils.copyStringToClipboard(
-                  model.poolPromoCode,
-                );
-                Utils.tryLaunchUrl(
-                  rawUrl: model.link!,
-                  isPhone: false,
-                );
-              }
-            : null,
-      ),
+      bottomNavBar: model.poolPromoCode != null
+          ? BottomButtonWithRoundedCorners(
+              text: model.link != null
+                  ? 'Скопировать код и перейти на сайт'
+                  : 'На главную',
+              withInfo: false,
+              onPressed: model.link != null
+                  ? () {
+                      Utils.copyStringToClipboard(
+                        model.poolPromoCode!,
+                      );
+                      Utils.tryLaunchUrl(
+                        rawUrl: model.link!,
+                        isPhone: false,
+                      );
+                    }
+                  : null,
+            )
+          : null,
     );
   }
 }

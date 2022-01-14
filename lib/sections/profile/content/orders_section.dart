@@ -1,6 +1,11 @@
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/certificate_model.dart';
+import 'package:bausch/sections/profile/content/models/consultation_model.dart';
+import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 import 'package:bausch/static/static_data.dart';
@@ -18,8 +23,6 @@ class OrdersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(ordersList.length.toString());
-
     return SliverPadding(
       padding: const EdgeInsets.symmetric(
         horizontal: StaticData.sidePadding,
@@ -40,12 +43,12 @@ class OrdersSection extends StatelessWidget {
                           model: WebinarItemModel(
                             availability: true,
                             isBought: true,
-                            videoId: order.videoList,
+                            videoIds: order.videoList,
                             id: order.id,
                             name: order.title,
                             previewText: '',
                             detailText: '',
-                            picture: '',
+                            picture: order.product.imageLink ?? '',
                             price: order.price,
                           ),
                           deliveryInfo: order.status,
@@ -67,6 +70,71 @@ class OrdersSection extends StatelessWidget {
                             detailText: '',
                             picture: order.product.imageLink,
                             price: order.price,
+                          ),
+                          deliveryInfo: order.status,
+                          address: order.deliveryText,
+                          orderTitle:
+                              'Заказ №${order.id} от ${order.formatedDate}',
+                        ),
+                      );
+
+                    case 'certificate':
+                      order as CertificateOrderModel;
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: CatalogItemWidget(
+                          model: PartnersItemModel(
+                            id: order.id,
+                            name: order.title,
+                            previewText: '',
+                            detailText: '',
+                            price: order.price,
+                            poolPromoCode: order.coupon.code,
+                            staticPromoCode: order.coupon.code,
+                            picture: '',
+                          ),
+                          deliveryInfo: order.status,
+                          orderTitle:
+                              'Заказ №${order.id} от ${order.formatedDate}',
+                        ),
+                      );
+
+                    case 'online_consultation':
+                      order as ConsultationOrderModel;
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: CatalogItemWidget(
+                          model: ProductItemModel(
+                            id: order.id,
+                            name: order.title,
+                            previewText: '',
+                            detailText: '',
+                            price: order.price,
+                            picture: order.product.imageLink,
+                          ),
+                          deliveryInfo: order.status,
+                          orderTitle:
+                              'Заказ №${order.id} от ${order.formatedDate}',
+                        ),
+                      );
+
+                    case 'partner':
+                      order as PartnerOrderModel;
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: CatalogItemWidget(
+                          model: PartnersItemModel(
+                            id: order.id,
+                            name: order.title,
+                            previewText: '',
+                            detailText: '',
+                            picture: order.product.imageLink,
+                            price: order.price,
+                            poolPromoCode: '',
+                            staticPromoCode: '',
                           ),
                           deliveryInfo: order.status,
                           orderTitle:

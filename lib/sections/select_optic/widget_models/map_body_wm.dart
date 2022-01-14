@@ -98,6 +98,8 @@ class MapBodyWM extends WidgetModel {
     super.onBind();
   }
 
+  Random rng = Random();
+
   void _updateClusterMapObject(
     List<OpticShop> shopList, [
     int? indexOfPressedShop,
@@ -131,6 +133,9 @@ class MapBodyWM extends WidgetModel {
       placemarks: List<Placemark>.generate(
         shopList.length,
         (i) {
+          final rnd = rng.nextInt(200);
+          final placemarkId = 'p_${i}_${rnd}_${shopList[i].coords}';
+
           return Placemark(
             onTap: (placemark, point) async {
               unawaited(_moveTo(placemark.point));
@@ -138,7 +143,8 @@ class MapBodyWM extends WidgetModel {
               onPlacemarkPressed?.call(shopList[i]);
             },
             opacity: 1,
-            mapId: MapObjectId('placemark_${shopList[i].coords}'),
+            mapId: MapObjectId(placemarkId),
+            // MapObjectId('placemark_${shopList[i].coords}'),
             point: shopList[i].coords,
             icon: PlacemarkIcon.single(
               PlacemarkIconStyle(
@@ -158,7 +164,6 @@ class MapBodyWM extends WidgetModel {
     );
 
     mapObjectsStreamed.value.add(placemarkCollection);
-
     mapObjectsStreamed.accept(mapObjectsStreamed.value);
   }
 
@@ -166,20 +171,20 @@ class MapBodyWM extends WidgetModel {
     // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
     if (list.isEmpty) return;
 
-    ExtremePoints? extremePoints;
+    BoundingBox? bounds;
 
     if (list is List<Point>) {
-      extremePoints = _getExtremePoints(list as List<Point>);
+      bounds = _getBounds(list as List<Point>);
     } else if (list is List<Placemark>) {
-      extremePoints = _getExtremePoints(
+      bounds = _getBounds(
         (list as List<Placemark>).map((e) => e.point).toList(),
       );
     } else if (list is List<ShopModel>) {
-      extremePoints = _getExtremePoints(
+      bounds = _getBounds(
         (list as List<ShopModel>).map((e) => e.coords!).toList(),
       );
     } else if (list is List<OpticShop>) {
-      extremePoints = _getExtremePoints(
+      bounds = _getBounds(
         (list as List<OpticShop>).map((e) => e.coords).toList(),
       );
     } else {
@@ -191,12 +196,7 @@ class MapBodyWM extends WidgetModel {
         milliseconds: 500,
       ),
       () async => mapController?.moveCamera(
-        CameraUpdate.newBounds(
-          BoundingBox(
-            southWest: extremePoints!.southWest,
-            northEast: extremePoints.northEast,
-          ),
-        ),
+        CameraUpdate.newBounds(bounds!),
       ),
     );
   }
@@ -289,45 +289,86 @@ class MapBodyWM extends WidgetModel {
     );
   }
 
-  ExtremePoints _getExtremePoints(List<Point> pointList) {
-    var north = 0.0;
-    var south = double.maxFinite;
-    var west = double.maxFinite;
-    var east = 0.0;
+  BoundingBox _getBounds(List<Point> points) {
+    final lngs = points.map<double>((m) => m.longitude).toList();
+    final lats = points.map<double>((m) => m.latitude).toList();
 
-    for (final point in pointList) {
-      if (point.latitude > north) north = point.latitude;
-      if (point.latitude < south) south = point.latitude;
-      if (point.longitude < west) west = point.longitude;
-      if (point.longitude > east) east = point.longitude;
-    }
+    final highestLat = lats.reduce(max);
+    final highestLng = lngs.reduce(max);
+    final lowestLat = lats.reduce(min);
+    final lowestLng = lngs.reduce(min);
 
-    // debugPrint('north: $north');
-    // debugPrint('south: $south');
-    // debugPrint('west: $west');
-    // debugPrint('east: $east');
+    final offset = _calcBoundsOffset(
+      highestLat,
+      highestLng,
+      lowestLat,
+      lowestLng,
+    );
 
+    return BoundingBox(
+      northEast:
+          Point(latitude: highestLat + offset, longitude: highestLng + offset),
+      southWest:
+          Point(latitude: lowestLat - offset, longitude: lowestLng - offset),
+    );
+  }
+
+  double _calcBoundsOffset(
+    double highestLat,
+    double highestLng,
+    double lowestLat,
+    double lowestLng,
+  ) {
     final distance = sqrt(
-      pow(south - north, 2) + pow(west - east, 2),
+      pow(lowestLat - highestLat, 2) + pow(lowestLng - highestLng, 2),
     );
 
     // От 0.001 до 1
-    final coeff = max(
+    return max(
       min(distance / 10, 1),
       0.001,
     );
-
-    return ExtremePoints(
-      southWest: Point(
-        latitude: south - coeff,
-        longitude: west - coeff,
-      ),
-      northEast: Point(
-        latitude: north + coeff,
-        longitude: east + coeff,
-      ),
-    );
   }
+
+  // ExtremePoints _getExtremePoints(List<Point> pointList) {
+  //   var north = 0.0;
+  //   var south = double.maxFinite;
+  //   var west = double.maxFinite;
+  //   var east = 0.0;
+
+  //   for (final point in pointList) {
+  //     if (point.latitude > north) north = point.latitude;
+  //     if (point.latitude < south) south = point.latitude;
+  //     if (point.longitude < west) west = point.longitude;
+  //     if (point.longitude > east) east = point.longitude;
+  //   }
+
+  //   // debugPrint('north: $north');
+  //   // debugPrint('south: $south');
+  //   // debugPrint('west: $west');
+  //   // debugPrint('east: $east');
+
+  //   final distance = sqrt(
+  //     pow(south - north, 2) + pow(west - east, 2),
+  //   );
+
+  //   // От 0.001 до 1
+  //   final coeff = max(
+  //     min(distance / 10, 1),
+  //     0.001,
+  //   );
+
+  //   return ExtremePoints(
+  //     southWest: Point(
+  //       latitude: south - coeff,
+  //       longitude: west - coeff,
+  //     ),
+  //     northEast: Point(
+  //       latitude: north + coeff,
+  //       longitude: east + coeff,
+  //     ),
+  //   );
+  // }
 
   Future<Uint8List> _buildClusterAppearance(Cluster cluster) async {
     final recorder = PictureRecorder();

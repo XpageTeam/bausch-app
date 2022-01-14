@@ -67,6 +67,8 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
       builder: (context, primaryData) {
         return CustomSheetScaffold(
           controller: widget.controller,
+          resizeToAvoidBottomInset: false,
+          hideBottomNavBarThenKeyboard: true,
           appBar: CustomSliverAppbar(
             padding: const EdgeInsets.all(18),
             icon: Container(),
@@ -315,12 +317,7 @@ class _HeaderContainer extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.fromLTRB(
-        12,
-        27,
-        12,
-        31,
-      ),
+      padding: const EdgeInsets.fromLTRB(12, 27, 12, 31),
       color: AppTheme.sulu,
     );
   }

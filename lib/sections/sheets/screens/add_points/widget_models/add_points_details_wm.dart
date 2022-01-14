@@ -46,6 +46,7 @@ class AddPointsDetailsWM extends WidgetModel {
           _addPoints('/review/soc/save/');
           break;
         case 'vk':
+          debugPrint(addPointsModel.url);
           Utils.tryLaunchUrl(
             rawUrl: addPointsModel.url!,
             isPhone: false,
@@ -74,7 +75,9 @@ class AddPointsDetailsWM extends WidgetModel {
     CustomException? error;
 
     try {
-      final result = await FilePicker.platform.pickFiles();
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
       late File file;
 
       if (result != null) {

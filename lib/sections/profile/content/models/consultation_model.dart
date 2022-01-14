@@ -1,11 +1,12 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 
-class ProductOrderModel extends BaseOrderModel {
-  final String? deliveryText;
+class ConsultationOrderModel extends BaseOrderModel {
   final OrderProductModel product;
 
-  const ProductOrderModel({
+  ConsultationOrderModel({
     required int id,
     required String title,
     required DateTime date,
@@ -13,7 +14,6 @@ class ProductOrderModel extends BaseOrderModel {
     required String status,
     required String category,
     required this.product,
-    this.deliveryText,
   }) : super(
           id: id,
           category: category,
@@ -23,9 +23,9 @@ class ProductOrderModel extends BaseOrderModel {
           title: title,
         );
 
-  factory ProductOrderModel.fromMap(Map<String, dynamic> map) {
+  factory ConsultationOrderModel.fromMap(Map<String, dynamic> map) {
     try {
-      return ProductOrderModel(
+      return ConsultationOrderModel(
         id: map['id'] as int,
         title: map['title'] as String,
         date: DateTime.parse(map['date'] as String),
@@ -34,11 +34,11 @@ class ProductOrderModel extends BaseOrderModel {
         category: map['category'] as String,
         product:
             OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
-        deliveryText: map['delivery'] as String?,
       );
-      // ignore: avoid_catches_without_on_clauses
+    } on ResponseParseException {
+      rethrow;
     } catch (e) {
-      throw ResponseParseException('ProductOrderModel: ${e.toString()}');
+      throw ResponseParseException(e.toString());
     }
   }
 }
