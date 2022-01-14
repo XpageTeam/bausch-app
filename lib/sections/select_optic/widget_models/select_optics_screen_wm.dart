@@ -120,24 +120,24 @@ class SelectOpticScreenWM extends WidgetModel {
   Future<void> _filtersOnChanged(List<Filter> newSelectedFilters) async {
     selectedFilters = newSelectedFilters;
     final shopsByFilters = _getShopsByFilters(await _getOpticsByCurrentCity());
-    filteredOpticShopsStreamed.content(shopsByFilters);
+    await filteredOpticShopsStreamed.content(shopsByFilters);
   }
 
   Future<void> _setFirstCity() async {
     if (initialCities!.isEmpty) {
-      currentCityStreamed.error(
+      await currentCityStreamed.error(
         const CustomException(
           title: 'Список городов пустой',
         ),
       );
-      opticsByCityStreamed.accept([]);
-      filteredOpticShopsStreamed.content([]);
+      await opticsByCityStreamed.accept([]);
+      await filteredOpticShopsStreamed.content([]);
     } else {
-      currentCityStreamed.content(initialCities!.first.title);
+      await currentCityStreamed.content(initialCities!.first.title);
       final opticsByCurrentCity = await _getOpticsByCurrentCity();
 
-      opticsByCityStreamed.accept(opticsByCurrentCity);
-      filteredOpticShopsStreamed
+      await opticsByCityStreamed.accept(opticsByCurrentCity);
+      await filteredOpticShopsStreamed
           .content(_getShopsByFilters(opticsByCurrentCity));
     }
   }

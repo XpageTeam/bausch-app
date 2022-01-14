@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -310,37 +311,46 @@ class OpticCititesRepository {
     final cities = <OpticCity>[];
 
     for (final city in repository.cities) {
-      if (!cities.any((element) => element.title == city.name)) {
-        final optics = city.shopsRepository.shops
-            .where((e) => e.coords != null)
-            .map(
-              (e) => Optic(
-                id: e.id,
-                title: e.name,
-                shops: [
-                  OpticShop(
-                    title: e.name,
-                    phones: e.phones,
-                    address: e.address,
-                    city: city.name,
-                    coords: e.coords!,
-                  ),
-                ],
-              ),
-            )
-            .toList();
+      final shopsMap = <String, List<OpticShop>>{};
 
-        cities.add(
-          OpticCity(
-            id: city.id,
-            title: city.name,
-            optics: optics,
-          ),
+      for (final shop in city.shopsRepository.shops) {
+        shopsMap.update(
+          shop.name,
+          (shops) => shops
+            ..add(
+              _getOpticShopFromShopModel(shop: shop, cityName: city.name),
+            ),
+          ifAbsent: () =>
+              [_getOpticShopFromShopModel(shop: shop, cityName: city.name)],
         );
       }
+      final optics = shopsMap.entries
+          .map((e) => Optic(id: city.id, title: e.key, shops: e.value))
+          .toList();
+
+      cities.add(
+        OpticCity(
+          id: city.id,
+          title: city.name,
+          optics: optics,
+        ),
+      );
     }
 
     return OpticCititesRepository(cities);
+  }
+
+  static OpticShop _getOpticShopFromShopModel({
+    required ShopModel shop,
+    required String cityName,
+  }) {
+    return OpticShop(
+      title: shop.name,
+      phones: shop.phones,
+      address: shop.address,
+      city: cityName,
+      coords: shop.coords!,
+    );
   }
 }
 
