@@ -30,6 +30,7 @@ class MapBodyWM extends WidgetModel {
 
   final setCenterAction = StreamedAction<List<OpticShop>>();
   final updateMapObjects = StreamedAction<List<OpticShop>>();
+  final updateMapObjectsWhenComplete = StreamedAction<List<OpticShop>>();
 
   final isModalBottomSheetOpen = StreamedState<bool>(false);
 
@@ -65,6 +66,10 @@ class MapBodyWM extends WidgetModel {
       if (mapController != null) {
         _setCenterOn(shopList);
       }
+    });
+
+    updateMapObjectsWhenComplete.bind((shopList) {
+      _updateClusterMapObject(shopList!);
     });
 
     moveToUserPosition.bind(
@@ -138,8 +143,8 @@ class MapBodyWM extends WidgetModel {
 
           return Placemark(
             onTap: (placemark, point) async {
-              unawaited(_moveTo(placemark.point));
               _updateClusterMapObject(shopList, i);
+              unawaited(_moveTo(placemark.point));
               onPlacemarkPressed?.call(shopList[i]);
             },
             opacity: 1,
@@ -176,7 +181,7 @@ class MapBodyWM extends WidgetModel {
         milliseconds: 200,
       ),
     );
-    
+
     BoundingBox? bounds;
 
     if (list is List<Point>) {
@@ -228,9 +233,8 @@ class MapBodyWM extends WidgetModel {
       ),
     );
 
-    unawaited(_moveTo(position));
-
     unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
+    unawaited(_moveTo(position));
   }
 
   Future<void> _moveTo(Point point) async {
@@ -240,7 +244,7 @@ class MapBodyWM extends WidgetModel {
           zoom: 16,
           target: Point(
             latitude: point.latitude -
-                0.0015, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
+                0.001, // небольшой сдвиг для того, чтобы метка была выше bottomSheet
             longitude: point.longitude,
           ),
         ),

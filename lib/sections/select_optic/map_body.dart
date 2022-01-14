@@ -89,7 +89,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                         () {
                           wm
                             ..isModalBottomSheetOpen.accept(false)
-                            ..updateMapObjects(widget.opticShops);
+                            ..updateMapObjectsWhenComplete(widget.opticShops);
                         },
                       );
                     };
