@@ -1,3 +1,4 @@
+import 'package:bausch/models/add_points/quiz/quiz_content_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/quiz/widget_model/quiz_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
@@ -44,18 +45,6 @@ class QuizScreen extends CoreMwwmWidget<QuizScreenWM>
 }
 
 class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
-  //final textEditingController = TextEditingController();
-  //List<QuizAnswerModel> answers = [];
-  // int page = 0;
-
-  // int _selected = 0;
-
-  @override
-  void dispose() {
-    super.dispose();
-    wm.textEditingController.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
@@ -131,13 +120,12 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.only(
-            left: StaticData.sidePadding,
-            right: StaticData.sidePadding,
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
           ),
-          sliver: StreamedStateBuilder<int>(
-            streamedState: wm.page,
-            builder: (_, page) {
+          sliver: StreamedStateBuilder<QuizContentModel>(
+            streamedState: wm.contentStreamed,
+            builder: (_, content) {
               return SliverList(
                 delegate: SliverChildListDelegate(
                   [
@@ -146,7 +134,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                         bottom: 4,
                       ),
                       child: Text(
-                        widget.model.content[page].title,
+                        content.title,
                         style: AppStyles.h2,
                       ),
                     ),
@@ -155,17 +143,17 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                         bottom: 30,
                       ),
                       child: Text(
-                        '${page + 1}/${wm.quizModel.content.length}',
+                        wm.progressText,
                         style: AppStyles.h3,
                       ),
                     ),
                     Column(
                       children: List.generate(
-                        widget.model.content[page].answers.length,
+                        content.answers.length,
                         (i) {
                           return Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 4,
+                            padding: EdgeInsets.only(
+                              bottom: content.answers.length - 1 == i ? 0 : 4,
                             ),
                             child: Container(
                               decoration: BoxDecoration(
@@ -184,22 +172,22 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      wm.quizModel.content[page].answers[i]
-                                          .title,
+                                      content.answers[i].title,
                                       style: AppStyles.h3,
                                     ),
                                   ),
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  StreamedStateBuilder<int>(
-                                    streamedState: wm.selected,
+                                  StreamedStateBuilder<List<int>>(
+                                    streamedState: wm.selectedIndexes,
                                     builder: (_, selected) {
                                       return CustomRadio(
                                         value: i,
-                                        groupValue: selected,
+                                        selected:
+                                            selected.any((index) => index == i),
                                         onChanged: (v) {
-                                          wm.selected.accept(i);
+                                          wm.addToAnswerAction(i);
                                         },
                                       );
                                     },
@@ -211,60 +199,79 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                         },
                       ),
                     ),
-                    if (wm.quizModel.content[page].other != null)
+                    if (content.other != null)
                       Container(
+                        margin: const EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5),
-                        ),
-                        margin: const EdgeInsets.only(
-                          bottom: 4,
                         ),
                         padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
                         child: TextField(
                           controller: wm.textEditingController,
                           maxLines: 4,
                           decoration: InputDecoration(
-                            hintText: wm.quizModel.content[page].other!.title,
+                            hintText: content.other!.title,
                             hintStyle: AppStyles.h3,
                           ),
                         ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 40,
+                      ),
+                      child: StreamedStateBuilder<bool>(
+                        streamedState: wm.loadingState,
+                        builder: (_, isLoading) {
+                          return isLoading
+                              ? const BlueButtonWithText(
+                                  text: '',
+                                  icon: AnimatedLoader(),
+                                )
+                              : BlueButtonWithText(
+                                  text: 'Далее',
+                                  onPressed: wm.canMoveNextPage
+                                      ? () => wm.buttonAction()
+                                      : null,
+                                );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               );
             },
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.only(
-            left: 12,
-            right: 12,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                StreamedStateBuilder<bool>(
-                  streamedState: wm.loadingState,
-                  builder: (_, isLoading) {
-                    return isLoading
-                        ? const BlueButtonWithText(
-                            text: '',
-                            icon: AnimatedLoader(),
-                          )
-                        : BlueButtonWithText(
-                            text: 'Далее',
-                            onPressed: wm.buttonAction,
-                          );
-                  },
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-              ],
-            ),
-          ),
-        ),
+        // SliverPadding(
+        //   padding: const EdgeInsets.only(
+        //     left: 12,
+        //     right: 12,
+        //   ),
+        //   sliver: SliverList(
+        //     delegate: SliverChildListDelegate(
+        //       [
+        //         StreamedStateBuilder<bool>(
+        //           streamedState: wm.loadingState,
+        //           builder: (_, isLoading) {
+        //             return isLoading
+        //                 ? const BlueButtonWithText(
+        //                     text: '',
+        //                     icon: AnimatedLoader(),
+        //                   )
+        //                 : BlueButtonWithText(
+        //                     text: 'Далее',
+        //                     onPressed: wm.buttonAction,
+        //                   );
+        //           },
+        //         ),
+        //         const SizedBox(
+        //           height: 40,
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
