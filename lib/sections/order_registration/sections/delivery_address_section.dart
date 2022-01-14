@@ -58,8 +58,9 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
           builder: (context, state) {
             if (state is GetAdressesSuccess) {
               if (state.adresses.isNotEmpty) {
-                final adressModel = state.adresses.first;
+                final adressModel = state.adresses.last;
                 wm.address.accept(adressModel);
+
                 return OrderButton(
                   onPressed: () => Navigator.of(context).pushNamed(
                     '/address_select',
@@ -78,11 +79,35 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
                   icon: Icons.check_circle_sharp,
                   margin: const EdgeInsets.only(bottom: 4),
                 );
+
+                // return OrderButton(
+                //   onPressed: () => Navigator.of(context).pushNamed(
+                //     '/address_select',
+                //     arguments: AddressSelectScreenArguments(
+                //       userAdresses: state.adresses,
+                //       productItemModel: wm.productItemModel,
+                //       orderRegistrationScreenWM: wm,
+                //     ),
+                //   ),
+                //   title: Flexible(
+                //     child: Text(
+                //       '${adressModel.city}, ${adressModel.street}, ${adressModel.house}',
+                //       style: AppStyles.h2Bold,
+                //     ),
+                //   ),
+                //   icon: Icons.check_circle_sharp,
+                //   margin: const EdgeInsets.only(bottom: 4),
+                // );
               } else {
                 return Container();
               }
             }
-            return const AnimatedLoader();
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 4.0),
+                child: AnimatedLoader(),
+              ),
+            );
           },
         ),
 
