@@ -31,10 +31,11 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     final rh = RequestHandler();
 
     try {
+
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
           '/user/address/',
-          data: address.toMap(),
+          data: FormData.fromMap(address.toMap()),
         ))
             .data!,
       );
@@ -54,8 +55,7 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
       );
     } on SuccessFalse catch (e) {
       return AddressesFailed(
-        title: 'Ошибка при обработке запроса',
-        subtitle: e.toString(),
+        title: e.toString(),
       );
     }
   }
@@ -85,8 +85,7 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
       );
     } on SuccessFalse catch (e) {
       return AddressesFailed(
-        title: 'Ошибка при обработке запроса',
-        subtitle: e.toString(),
+        title: e.toString(),
       );
     }
   }
@@ -95,15 +94,13 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     final rh = RequestHandler();
 
     try {
-      final parsedData = BaseResponseRepository.fromMap(
+      BaseResponseRepository.fromMap(
         (await rh.put<Map<String, dynamic>>(
           '/user/address/${address.id}/',
           data: FormData.fromMap(address.toMap()),
         ))
             .data!,
       );
-
-      debugPrint(parsedData.data.toString());
 
       return AddressesSended();
     } on ResponseParseException catch (e) {
@@ -118,8 +115,7 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
       );
     } on SuccessFalse catch (e) {
       return AddressesFailed(
-        title: 'Ошибка при обработке запроса',
-        subtitle: e.toString(),
+        title: e.toString(),
       );
     }
   }

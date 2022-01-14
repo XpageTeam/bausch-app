@@ -23,7 +23,7 @@ class AdressesCubit extends Cubit<AdressesState> {
     try {
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.get<Map<String, dynamic>>(
-          'user/addresses',
+          '/user/addresses/',
         ))
             .data!,
       );
@@ -49,8 +49,7 @@ class AdressesCubit extends Cubit<AdressesState> {
       ));
     } on SuccessFalse catch (e) {
       emit(AdressesFailed(
-        title: 'Ошибка при обработке запроса',
-        subtitle: e.toString(),
+        title: e.toString(),
       ));
     }
   }

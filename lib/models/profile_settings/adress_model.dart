@@ -21,6 +21,8 @@ class AdressModel implements MappableInterface<AdressModel> {
 
   final String? city;
 
+  final String? zipCode;
+
   AdressModel({
     required this.street,
     this.id,
@@ -29,6 +31,7 @@ class AdressModel implements MappableInterface<AdressModel> {
     this.entry,
     this.floor,
     this.city,
+    this.zipCode,
   });
 
   factory AdressModel.fromMap(Map<String, dynamic> map) {
@@ -56,6 +59,7 @@ class AdressModel implements MappableInterface<AdressModel> {
       entry: map['entry'] as int?,
       floor: map['floor'] as int?,
       city: map['city'] as String,
+      zipCode: map['zip'] as String?,
     );
   }
 
@@ -67,6 +71,8 @@ class AdressModel implements MappableInterface<AdressModel> {
       'flat': flat,
       'entry': entry,
       'floor': floor,
+      'city': city,
+      'zip': zipCode,
     };
   }
 }

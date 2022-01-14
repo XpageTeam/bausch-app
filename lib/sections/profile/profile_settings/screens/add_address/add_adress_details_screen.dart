@@ -73,8 +73,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   void initState() {
     super.initState();
 
-    //addressesBloc = BlocProvider.of<AddressesBloc>(context);
-
     flatController = MaskedTextController(
       mask: '0000',
       text: widget.adress.flat == null ? '' : widget.adress.flat.toString(),
@@ -181,6 +179,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           id: widget.adress.id,
                           street: widget.adress.street,
                           house: widget.adress.house,
+                          city: widget.adress.city,
+                          zipCode: widget.adress.zipCode,
                           flat: flatController.text.isNotEmpty
                               ? int.parse(flatController.text)
                               : null,

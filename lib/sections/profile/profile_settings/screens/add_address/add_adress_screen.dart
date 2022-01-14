@@ -110,6 +110,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                                       ? state
                                                           .models[i].data.house
                                                       : '${state.models[i].data.house}/${state.models[i].data.block}',
+                                                  zipCode: state.models[i].data.postalCode,
                                                 ),
                                                 isFirstLaunch: true,
                                               ),
