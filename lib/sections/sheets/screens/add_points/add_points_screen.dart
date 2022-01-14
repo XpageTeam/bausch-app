@@ -20,6 +20,7 @@ class AddPointsScreen extends StatefulWidget {
 
 class _AddPointsScreenState extends State<AddPointsScreen> {
   final addPointsBloc = AddPointsBloc();
+  
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
