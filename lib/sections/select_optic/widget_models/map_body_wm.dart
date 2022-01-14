@@ -171,6 +171,12 @@ class MapBodyWM extends WidgetModel {
     // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
     if (list.isEmpty) return;
 
+    await Future<void>.delayed(
+      const Duration(
+        milliseconds: 200,
+      ),
+    );
+    
     BoundingBox? bounds;
 
     if (list is List<Point>) {
