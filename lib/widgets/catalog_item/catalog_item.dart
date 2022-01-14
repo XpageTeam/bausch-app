@@ -1,9 +1,11 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class CatalogItem extends StatelessWidget {
@@ -49,8 +51,10 @@ class CatalogItem extends StatelessWidget {
                   child: AspectRatio(
                     aspectRatio: 37 / 12,
                     child: model.picture != null
-                        ? Image.network(
+                        ? ExtendedImage.network(
                             model.picture!,
+                            printError: false,
+                            loadStateChanged: loadStateChangedFunction,
                           )
                         : null,
                   ),
@@ -59,7 +63,11 @@ class CatalogItem extends StatelessWidget {
                 AspectRatio(
                   aspectRatio: 174 / 112,
                   child: model.picture != null
-                      ? Image.network(model.picture!)
+                      ? ExtendedImage.network(
+                          model.picture!,
+                          printError: false,
+                          loadStateChanged: loadStateChangedFunction,
+                        )
                       : null,
                 ),
               const SizedBox(

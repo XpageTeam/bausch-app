@@ -9,6 +9,7 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -88,10 +89,12 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                           const SizedBox(
                             height: 64,
                           ),
-                          Image.network(
+                          ExtendedImage.network(
                             wm.quizModel.detailModel.icon,
                             fit: BoxFit.cover,
                             height: 200,
+                            printError: false,
+                            loadStateChanged: loadStateChangedFunction,
                           ),
                           const SizedBox(
                             height: 30,

@@ -36,23 +36,42 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AdressesCubit, AdressesState>(
-      bloc: adressesCubit,
-      builder: (context, state) {
-        if (state is GetAdressesSuccess) {
-          if (state.adresses.isNotEmpty) {
-            return Scaffold(
-              appBar: const DefaultAppBar(
-                title: 'Мои адреса',
-                backgroundColor: AppTheme.mystic,
-              ),
-              body: Padding(
-                padding: const EdgeInsets.only(
-                  left: StaticData.sidePadding,
-                  right: StaticData.sidePadding,
-                  top: 30,
-                ),
-                child: ListView.builder(
+    return Scaffold(
+      appBar: const DefaultAppBar(
+        title: 'Мои адреса',
+        backgroundColor: AppTheme.mystic,
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          StaticData.sidePadding,
+          0,
+          StaticData.sidePadding,
+          StaticData.sidePadding,
+        ),
+        child: BlueButtonWithText(
+          text: 'Добавить адрес',
+          onPressed: () {
+            Keys.mainContentNav.currentState!
+                .pushNamed('/add_adress')
+                .then((v) {
+              adressesCubit.getAdresses();
+            });
+          },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: Padding(
+        padding: const EdgeInsets.only(
+          left: StaticData.sidePadding,
+          right: StaticData.sidePadding,
+          top: 30,
+        ),
+        child: BlocBuilder<AdressesCubit, AdressesState>(
+          bloc: adressesCubit,
+          builder: (context, state) {
+            if (state is GetAdressesSuccess) {
+              if (state.adresses.isNotEmpty) {
+                return ListView.builder(
                   itemCount: state.adresses.length,
                   itemBuilder: (context, i) {
                     return Padding(
@@ -81,77 +100,28 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                       ),
                     );
                   },
-                ),
-              ),
-              bottomNavigationBar: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  StaticData.sidePadding,
-                  0,
-                  StaticData.sidePadding,
-                  47,
-                ),
-                child: BlueButtonWithText(
-                  text: 'Добавить адрес',
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/add_adress').then((v) {
-                      adressesCubit.getAdresses();
-                    });
-                  },
-                ),
-              ),
-              // floatingActionButtonAnimator: NoScalingAnimation(),
-              // floatingActionButtonLocation:
-              //     FloatingActionButtonLocation.centerFloat,
-            );
-          } else {
-            return Scaffold(
-              appBar: const DefaultAppBar(
-                title: 'Мои адреса',
-                backgroundColor: AppTheme.mystic,
-              ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: Text(
+                );
+              } else {
+                return Text(
                   'Пока нет ни одного адреса для доставки ',
                   style: AppStyles.h1,
-                ),
-              ),
-              floatingActionButton: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  StaticData.sidePadding,
-                  0,
-                  StaticData.sidePadding,
-                  47,
-                ),
-                child: BlueButtonWithText(
-                  text: 'Добавить адрес',
-                  onPressed: () {
-                    Keys.mainContentNav.currentState!
-                        .pushNamed('/add_adress')
-                        .then((v) {
-                      adressesCubit.getAdresses();
-                    });
-                  },
-                ),
-              ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
-            );
-          }
-        } else if (state is AdressesFailed) {
-          return ErrorPage(
-            title: state.title,
-            subtitle: state.subtitle,
-            buttonCallback: adressesCubit.getAdresses,
-            buttonText: 'Обновить',
-          );
-        } else {
-          return const Scaffold(body: Center(child: AnimatedLoader()));
-        }
-      },
+                );
+              }
+            }
+
+            if (state is AdressesFailed) {
+              return ErrorPage(
+                title: state.title,
+                subtitle: state.subtitle,
+                buttonCallback: adressesCubit.getAdresses,
+                buttonText: 'Обновить',
+              );
+            }
+
+            return const Center(child: AnimatedLoader());
+          },
+        ),
+      ),
     );
   }
 }

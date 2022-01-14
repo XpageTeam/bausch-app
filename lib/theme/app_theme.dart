@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -47,4 +48,10 @@ class AppTheme {
         //   ),
         // ),
       );
+}
+
+Widget? loadStateChangedFunction(ExtendedImageState state) {
+  if (state.extendedImageLoadState == LoadState.loading) {
+    return const SizedBox();
+  }
 }

@@ -14,6 +14,7 @@ import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -122,13 +123,15 @@ class CatalogItemWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: model.picture != null
                       ? !model.picture!.contains('http')
-                          ? Image.asset(
+                          ? ExtendedImage.asset(
                               img(model)!, //! model.img
                               scale: 3,
                             )
-                          : Image.network(
+                          : ExtendedImage.network(
                               model.picture!,
                               scale: 3,
+                              printError: false,
+                              loadStateChanged: loadStateChangedFunction,
                             )
                       : null,
                 ),

@@ -2,8 +2,10 @@ import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/stories/product_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +27,7 @@ class StoriesBottommButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint(textAfter);
-  
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: StaticData.sidePadding,
@@ -57,8 +59,10 @@ class StoriesBottommButton extends StatelessWidget {
                         height: 100.sp,
                         child: AspectRatio(
                           aspectRatio: 100 / 100,
-                          child: Image.network(
+                          child: ExtendedImage.network(
                             productModel!.picture,
+                            printError: false,
+                            loadStateChanged: loadStateChangedFunction,
                           ),
                         ),
                       ),

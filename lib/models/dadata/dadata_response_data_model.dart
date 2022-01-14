@@ -4,6 +4,7 @@ class DadataResponseDataModel {
   final String? block;
   final String? city;
   final String? settlement;
+  final String? postalCode;
   //final String streetType;
 
   DadataResponseDataModel({
@@ -12,6 +13,7 @@ class DadataResponseDataModel {
     this.city,
     this.settlement,
     this.block,
+    this.postalCode,
     //required this.streetType,
   });
   factory DadataResponseDataModel.fromMap(Map<String, dynamic> map) {
@@ -21,6 +23,7 @@ class DadataResponseDataModel {
       block: map['block'] as String?,
       city: map['city'] as String?,
       settlement: map['settlement'] as String?,
+      postalCode: map['postal_code'] as String?,
       //streetType: (map['street_type'] ?? '') as String,
     );
   }

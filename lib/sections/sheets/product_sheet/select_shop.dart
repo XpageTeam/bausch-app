@@ -1,8 +1,10 @@
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
@@ -107,9 +109,11 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                       child: widget.discountOptics[i].logo != null
                           ? Padding(
                               padding: const EdgeInsets.only(left: 12.0),
-                              child: Image.network(
+                              child: ExtendedImage.network(
                                 widget.discountOptics[i].logo!,
+                                printError: false,
                                 width: MediaQuery.of(context).size.width / 5,
+                                loadStateChanged: loadStateChangedFunction,
                               ),
                             )
                           : const SizedBox(),

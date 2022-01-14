@@ -18,6 +18,7 @@ import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/text/bulleted_list.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -344,10 +345,12 @@ class _ProductItem extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
-            child: Image.network(
+            child: ExtendedImage.network(
               product.picture,
               height: 100,
               width: 100,
+              printError: false,
+              loadStateChanged: loadStateChangedFunction,
             ),
           ),
           Flexible(

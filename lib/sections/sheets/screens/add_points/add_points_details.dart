@@ -9,6 +9,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -71,10 +72,12 @@ class _AddPointsDetailsState
                           const SizedBox(
                             height: 64,
                           ),
-                          Image.network(
+                          ExtendedImage.network(
                             wm.addPointsModel.detailModel.icon,
                             fit: BoxFit.cover,
                             height: 200,
+                            printError: false,
+                            loadStateChanged: loadStateChangedFunction,
                           ),
                           const SizedBox(
                             height: 30,
@@ -137,10 +140,12 @@ class _AddPointsDetailsState
                                   onPressed: wm.buttonAction,
                                   icon: wm.addPointsModel.detailModel.btnIcon !=
                                           null
-                                      ? Image.network(
+                                      ? ExtendedImage.network(
                                           wm.addPointsModel.detailModel
                                               .btnIcon!,
                                           height: 15,
+                                          printError: false,
+                                          loadStateChanged: loadStateChangedFunction,
                                         )
                                       : null,
                                 );

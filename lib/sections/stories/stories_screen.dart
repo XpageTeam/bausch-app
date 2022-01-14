@@ -6,7 +6,9 @@ import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:video_player/video_player.dart';
@@ -104,9 +106,11 @@ class _StoriesScreenState extends State<StoriesScreen>
                 //final StoryModel story = widget.stories[i];
                 switch (story.isVideo) {
                   case false:
-                    return Image.network(
+                    return ExtendedImage.network(
                       story.file ?? story.preview,
                       fit: BoxFit.cover,
+                      printError: false,
+                      loadStateChanged: loadStateChangedFunction,
                     );
                   case true:
                     if (_videoPlayerController.value.isInitialized) {
@@ -120,9 +124,11 @@ class _StoriesScreenState extends State<StoriesScreen>
                       );
                     }
                 }
-                return Image.network(
+                return ExtendedImage.network(
                   story.preview,
                   fit: BoxFit.cover,
+                  printError: false,
+                  loadStateChanged: loadStateChangedFunction,
                   //color: Colors.red.withAlpha(10),
                 );
               },
@@ -263,9 +269,11 @@ class _StoriesScreenState extends State<StoriesScreen>
 
     switch (story.isVideo) {
       case false:
-        img = Image.network(
+        img = ExtendedImage.network(
           story.file ?? story.preview,
           fit: BoxFit.cover,
+          printError: false,
+          loadStateChanged: loadStateChangedFunction,
         );
 
         final stream = (img as Image).image.resolve(ImageConfiguration.empty);
