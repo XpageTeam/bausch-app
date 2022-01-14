@@ -171,8 +171,7 @@ class _SelectCityButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
       color: Colors.white,
       child: InkWell(
-        splashFactory: InkRipple.splashFactory,
-        splashColor: AppTheme.mystic,
+        splashFactory: NoSplash.splashFactory,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: onPressed,

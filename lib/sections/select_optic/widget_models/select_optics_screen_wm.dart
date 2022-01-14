@@ -81,7 +81,7 @@ class SelectOpticScreenWM extends WidgetModel {
   @override
   void onBind() {
     switchAction.bind(
-      (newType) => currentPageStreamed.accept(newType!),
+      (newType) => _switchPage(newType!),
     );
 
     selectCityAction.bind(
@@ -100,6 +100,12 @@ class SelectOpticScreenWM extends WidgetModel {
     );
 
     super.onBind();
+  }
+
+  void _switchPage(SelectOpticPage newPage) {
+    if (currentPageStreamed.value != newPage) {
+      currentPageStreamed.accept(newPage);
+    }
   }
 
   void _onOpticShopSelect(OpticShopParams params) {
@@ -212,7 +218,6 @@ class SelectOpticScreenWM extends WidgetModel {
       await _loadOptics();
     }
 
-    // TODO(Nikolay): Это выглядит слишком ущербно => поменять.
     if (initialCities!.any(_equalsCurrentCity)) {
       optics = initialCities!.firstWhere(_equalsCurrentCity).optics;
     } else {

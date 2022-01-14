@@ -340,45 +340,6 @@ class MapBodyWM extends WidgetModel {
     );
   }
 
-  // ExtremePoints _getExtremePoints(List<Point> pointList) {
-  //   var north = 0.0;
-  //   var south = double.maxFinite;
-  //   var west = double.maxFinite;
-  //   var east = 0.0;
-
-  //   for (final point in pointList) {
-  //     if (point.latitude > north) north = point.latitude;
-  //     if (point.latitude < south) south = point.latitude;
-  //     if (point.longitude < west) west = point.longitude;
-  //     if (point.longitude > east) east = point.longitude;
-  //   }
-
-  //   // debugPrint('north: $north');
-  //   // debugPrint('south: $south');
-  //   // debugPrint('west: $west');
-  //   // debugPrint('east: $east');
-
-  //   final distance = sqrt(
-  //     pow(south - north, 2) + pow(west - east, 2),
-  //   );
-
-  //   // От 0.001 до 1
-  //   final coeff = max(
-  //     min(distance / 10, 1),
-  //     0.001,
-  //   );
-
-  //   return ExtremePoints(
-  //     southWest: Point(
-  //       latitude: south - coeff,
-  //       longitude: west - coeff,
-  //     ),
-  //     northEast: Point(
-  //       latitude: north + coeff,
-  //       longitude: east + coeff,
-  //     ),
-  //   );
-  // }
 
   Future<Uint8List> _buildClusterAppearance(Cluster cluster) async {
     final recorder = PictureRecorder();
@@ -390,7 +351,7 @@ class MapBodyWM extends WidgetModel {
       ..color = AppTheme.turquoiseBlue
       ..style = PaintingStyle.fill;
 
-    final radius = min(max(cluster.size * 6.0, 30), 70).toDouble();
+    final radius = min(max(cluster.size * 6.0, 30), 50).toDouble();
 
     final textPainter = TextPainter(
       text: TextSpan(

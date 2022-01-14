@@ -21,7 +21,7 @@ class DefaultToggleButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
       color: color,
       child: InkWell(
-        splashColor: AppTheme.mystic,
+        splashFactory: NoSplash.splashFactory,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () => onPressed(type),
