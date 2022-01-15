@@ -28,9 +28,9 @@ class OrdersSection extends StatelessWidget {
         horizontal: StaticData.sidePadding,
       ),
       sliver: ordersList.isNotEmpty
-          ? SliverToBoxAdapter(
-              child: Column(
-                children: List.generate(ordersList.length, (index) {
+          ? SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (_, index) {
                   final order = ordersList[index];
 
                   switch (order?.category) {
@@ -145,7 +145,8 @@ class OrdersSection extends StatelessWidget {
                     default:
                       return Container();
                   }
-                }),
+                },
+                childCount: ordersList.length,
               ),
             )
           : SliverList(

@@ -20,14 +20,23 @@ class NotificationSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final banners = Container(
-      child: OffersSection(
-        type: OfferType.notificationsScreen,
-        showLoader: false,
+      child: IndexedStack(
+        children: [
+          OffersSection(
+            type: OfferType.notificationsScreen,
+            showLoader: false,
+          ),
+        ],
       ),
     );
 
     final List<Widget> notificationsList = items.map((item) {
-      return Container(child: NotificationItem(data: item));
+      return Container(
+        margin: const EdgeInsets.only(
+          bottom: 4,
+        ),
+        child: NotificationItem(data: item),
+      );
     }).toList();
 
     if (notificationsList.length < 5) {
@@ -43,42 +52,32 @@ class NotificationSection extends StatelessWidget {
         StaticData.sidePadding,
         0,
       ),
-      sliver: SliverToBoxAdapter(
-        child: Column(
-          children: [
-            // TODO(Danil): Гоша должен доделать
-            // CustomRadio(
-            //   value: 0,
-            //   groupValue: groupChecked,
-            //   text: 'Все уведомления',
-            //   onChanged: (v) {
-            //     onChanged?.call(0);
-            //   },
-            // ),
-            // CustomRadio(
-            //   value: 1,
-            //   groupValue: groupChecked,
-            //   text: 'История баллов',
-            //   onChanged: (v) {
-            //     onChanged?.call(1);
-            //   },
-            // ),
-            // const SizedBox(
-            //   height: 40,
-            // ),
-            ListView.separated(
-              itemBuilder: (_, index) {
-                return notificationsList[index];
-              },
-              separatorBuilder: (_, __) => const SizedBox(height: 4),
-              itemCount: notificationsList.length,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-            ),
-            OffersSection(
-              type: OfferType.notificationsScreen,
-            ),
-          ],
+      sliver: SliverList(
+        // TODO(Danil): Гоша должен доделать
+        // CustomRadio(
+        //   value: 0,
+        //   groupValue: groupChecked,
+        //   text: 'Все уведомления',
+        //   onChanged: (v) {
+        //     onChanged?.call(0);
+        //   },
+        // ),
+        // CustomRadio(
+        //   value: 1,
+        //   groupValue: groupChecked,
+        //   text: 'История баллов',
+        //   onChanged: (v) {
+        //     onChanged?.call(1);
+        //   },
+        // ),
+        // const SizedBox(
+        //   height: 40,
+        // ),
+        delegate: SliverChildBuilderDelegate(
+          (_, index) {
+            return notificationsList[index];
+          },
+          childCount: notificationsList.length,
         ),
       ),
     );
