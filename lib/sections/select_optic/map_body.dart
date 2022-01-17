@@ -37,6 +37,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
     wm.updateMapObjects(widget.opticShops);
+    wm.setCenterAction(widget.opticShops);
     super.didUpdateWidget(oldWidget);
   }
 
@@ -93,9 +94,10 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                         },
                       );
                     };
-                  if (widget.opticShops.isEmpty) {
-                    widget.shopsEmptyCallback(wm);
-                  }
+
+                  // if (widget.opticShops.isEmpty) {
+                  //   widget.shopsEmptyCallback(wm);
+                  // }
                 },
               );
             },

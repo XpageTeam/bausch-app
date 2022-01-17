@@ -132,20 +132,20 @@ class _SelectOpticScreenState
                       ),
                     ),
                   ),
-                  whenCompleteModalBottomSheet: (mapBodyWm) {
-                    wm.setFirstCity();
+                  // whenCompleteModalBottomSheet: (mapBodyWm) {
+                  //   wm.setFirstCity();
 
-                    Future.delayed(
-                      const Duration(milliseconds: 10),
-                      () {
-                        mapBodyWm
-                          ..isModalBottomSheetOpen.accept(false)
-                          ..setCenterAction(
-                            wm.filteredOpticShopsStreamed.value.data!,
-                          );
-                      },
-                    );
-                  },
+                  //   Future.delayed(
+                  //     const Duration(milliseconds: 10),
+                  //     () {
+                  //       mapBodyWm
+                  //         ..isModalBottomSheetOpen.accept(false)
+                  //         ..setCenterAction(
+                  //           wm.filteredOpticShopsStreamed.value.data!,
+                  //         );
+                  //     },
+                  //   );
+                  // },
                 ),
               ),
             ),

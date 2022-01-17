@@ -6,6 +6,8 @@ import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/select_optic/select_optics_screen.dart';
+import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -110,6 +112,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                SliverToBoxAdapter(
+                  child: ElevatedButton(
+                    child: const Text('GO'),
+                    onPressed: () => Navigator.of(context).push<ProgramScreen>(
+                      MaterialPageRoute(
+                        builder: (_) => ProgramScreen(
+                          controller: ScrollController(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 20,

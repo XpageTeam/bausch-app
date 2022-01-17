@@ -11,13 +11,13 @@ class SelectOpticScreenBody extends StatelessWidget {
   final SelectOpticPage currentPage;
   final List<OpticShop> opticShops;
   final void Function(OpticShop selectedShop) onOpticShopSelect;
-  final void Function(MapBodyWM mapBodyWm) whenCompleteModalBottomSheet;
+  // final void Function(MapBodyWM mapBodyWm) whenCompleteModalBottomSheet;
 
   const SelectOpticScreenBody({
     required this.currentPage,
     required this.opticShops,
     required this.onOpticShopSelect,
-    required this.whenCompleteModalBottomSheet,
+    // required this.whenCompleteModalBottomSheet,
     Key? key,
   }) : super(key: key);
 
@@ -45,9 +45,10 @@ class SelectOpticScreenBody extends StatelessWidget {
                   btnText: 'Хорошо',
                   onPressed: Navigator.of(context).pop,
                 ),
-              ).whenComplete(
-                () => whenCompleteModalBottomSheet(mapBodyWm),
               );
+              // .whenComplete(
+              //   () => whenCompleteModalBottomSheet(mapBodyWm),
+              // );
             },
           );
     // return IndexedStack(

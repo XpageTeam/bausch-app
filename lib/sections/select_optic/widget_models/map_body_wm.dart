@@ -204,7 +204,7 @@ class MapBodyWM extends WidgetModel {
 
     await Future.delayed(
       const Duration(
-        milliseconds: 500,
+        milliseconds: 400,
       ),
       () async => mapController?.moveCamera(
         CameraUpdate.newBounds(bounds!),

@@ -65,13 +65,14 @@ class SelectOpticScreenWM extends WidgetModel {
       unawaited(_loadOptics());
     } else {
       initialCities = _sort(initialCities!);
+
+      await currentCityStreamed.content(initialCities!.first.title);
+
       final opticsByCurrentCity = await _getOpticsByCurrentCity();
 
-      unawaited(opticsByCityStreamed.accept(opticsByCurrentCity));
-      unawaited(
-        filteredOpticShopsStreamed.content(
-          _getShopsByFilters(opticsByCurrentCity),
-        ),
+      await opticsByCityStreamed.accept(opticsByCurrentCity);
+      await filteredOpticShopsStreamed.content(
+        _getShopsByFilters(opticsByCurrentCity),
       );
     }
 
@@ -87,9 +88,10 @@ class SelectOpticScreenWM extends WidgetModel {
     selectCityAction.bind(
       (_) => _selectCity(),
     );
-    setFirstCity.bind(
-      (_) => _setFirstCity(),
-    );
+
+    // setFirstCity.bind(
+    //   (_) => _setFirstCity(),
+    // );
 
     filtersOnChanged.bind(
       (selectedFilters) => _filtersOnChanged(selectedFilters!),
@@ -261,6 +263,8 @@ class SelectOpticScreenWM extends WidgetModel {
       );
 
       initialCities = _sort(opticCititesRepository.cities);
+
+      await currentCityStreamed.content(initialCities!.first.title);
 
       final opticsByCurrentCity = await _getOpticsByCurrentCity();
       final shopsByFilters = _getShopsByFilters(opticsByCurrentCity);
