@@ -112,18 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                SliverToBoxAdapter(
-                  child: ElevatedButton(
-                    child: const Text('GO'),
-                    onPressed: () => Navigator.of(context).push<ProgramScreen>(
-                      MaterialPageRoute(
-                        builder: (_) => ProgramScreen(
-                          controller: ScrollController(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+               
                 SliverPadding(
                   padding: const EdgeInsets.only(
                     bottom: 20,
