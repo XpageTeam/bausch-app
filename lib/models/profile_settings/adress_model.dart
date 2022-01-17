@@ -51,6 +51,8 @@ class AdressModel implements MappableInterface<AdressModel> {
       ResponseParseException('Не передан номер квартиры');
     }
 
+    final zip = map['zip'] as num?;
+
     return AdressModel(
       id: map['id'] as int,
       street: map['street'] as String,
@@ -59,7 +61,7 @@ class AdressModel implements MappableInterface<AdressModel> {
       entry: map['entry'] as int?,
       floor: map['floor'] as int?,
       city: map['city'] as String,
-      zipCode: map['zip'] as String?,
+      zipCode: zip == null ? null : '$zip',
     );
   }
 
