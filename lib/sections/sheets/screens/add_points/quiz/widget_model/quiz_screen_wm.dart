@@ -24,28 +24,27 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class QuizScreenWM extends WidgetModel {
   final BuildContext context;
   final QuizModel quizModel;
+
   final textEditingController = TextEditingController();
+  late final UserWM userWm;
+  late final FocusNode focusNode;
 
   final loadingState = StreamedState<bool>(false);
-
   late final contentStreamed = StreamedState<QuizContentModel>(
     quizModel.content[currentPage],
   );
-
   final selectedIndexes = StreamedState<List<int>>([]);
 
   final buttonAction = VoidAction();
-  final addToAnswerAction = StreamedAction<int>();
+  final addToAnswersAction = StreamedAction<int>();
 
   List<QuizAnswerModel> answers = [];
 
   int currentPage = 0;
 
-  late UserWM userWm;
-
   String get progressText => '${currentPage + 1}/${quizModel.content.length}';
 
-  bool get canMoveNextPage {
+  bool get canMoveToNextPage {
     final isNotRequired = !quizModel.content[currentPage].isRequired;
 
     if (isNotRequired) return true;
@@ -70,45 +69,32 @@ class QuizScreenWM extends WidgetModel {
       context,
       listen: false,
     );
+
+    focusNode = FocusNode();
+
     super.onLoad();
   }
 
   @override
   void dispose() {
     textEditingController.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
   @override
   void onBind() {
     buttonAction.bind((_) {
-      if (currentPage <= quizModel.content.length - 1) {
-        //* Добавление выбранных вариантов
-        answers.addAll(_getSelectedAnswers());
+      _writeAnswers();
 
-        //* Обнуление текстового поля
-        textEditingController.text = '';
-
-        //* Если что-то введено в текстовое поле
-        if (textEditingController.text.isNotEmpty) {
-          answers.add(
-            QuizAnswerModel(
-              id: quizModel.content[currentPage].other!.id,
-              title: textEditingController.text,
-            ),
-          );
-        }
-      }
-
-      if (currentPage < quizModel.content.length - 1) {
-        //* Следующий вопрос
-        _nexPage();
+      if (currentPage == quizModel.content.length - 1) {
+        _finishQuiz();
       } else {
-        _getPoints();
+        _moveToNexPage();
       }
     });
 
-    addToAnswerAction.bind((index) {
+    addToAnswersAction.bind((index) {
       final currentSelectType = quizModel.content[currentPage].type;
 
       if (currentSelectType == 'radio') {
@@ -126,12 +112,31 @@ class QuizScreenWM extends WidgetModel {
     super.onBind();
   }
 
-  void _nexPage() {
+  void _writeAnswers() {
+    //* Добавление выбранных вариантов
+    answers.addAll(_getSelectedAnswers());
+
+    //* Если что-то введено в текстовое поле
+    if (textEditingController.text.isNotEmpty) {
+      answers.add(
+        QuizAnswerModel(
+          id: quizModel.content[currentPage].other!.id,
+          title: textEditingController.text,
+        ),
+      );
+    }
+  }
+
+  void _moveToNexPage() {
     currentPage++;
 
-    final content = quizModel.content[currentPage];
+    final newContent = quizModel.content[currentPage];
 
-    contentStreamed.accept(content);
+    //* Обнуление текстового поля
+    textEditingController.text = '';
+    focusNode.unfocus();
+
+    contentStreamed.accept(newContent);
     selectedIndexes.accept([]);
   }
 
@@ -149,7 +154,7 @@ class QuizScreenWM extends WidgetModel {
     return selectedAnswers;
   }
 
-  Future<void> _getPoints() async {
+  Future<void> _finishQuiz() async {
     unawaited(loadingState.accept(true));
 
     CustomException? error;

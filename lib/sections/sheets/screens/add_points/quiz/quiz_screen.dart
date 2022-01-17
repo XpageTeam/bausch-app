@@ -187,7 +187,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                                         selected:
                                             selected.any((index) => index == i),
                                         onChanged: (v) {
-                                          wm.addToAnswerAction(i);
+                                          wm.addToAnswersAction(i);
                                         },
                                       );
                                     },
@@ -208,6 +208,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                         ),
                         padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
                         child: TextField(
+                          focusNode: wm.focusNode,
                           controller: wm.textEditingController,
                           maxLines: 4,
                           decoration: InputDecoration(
@@ -230,7 +231,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                                 )
                               : BlueButtonWithText(
                                   text: 'Далее',
-                                  onPressed: wm.canMoveNextPage
+                                  onPressed: wm.canMoveToNextPage
                                       ? () => wm.buttonAction()
                                       : null,
                                 );
