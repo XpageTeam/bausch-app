@@ -103,9 +103,14 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   },
                 );
               } else {
-                return Text(
-                  'Пока нет ни одного адреса для доставки ',
-                  style: AppStyles.h1,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
+                  ),
+                  child: Text(
+                    'Пока нет ни одного адреса для доставки ',
+                    style: AppStyles.h1,
+                  ),
                 );
               }
             }
