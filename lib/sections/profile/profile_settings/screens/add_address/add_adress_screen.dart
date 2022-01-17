@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:bausch/global/user/user_wm.dart';
@@ -98,6 +100,13 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                           yesCallback: () {
                                             Navigator.of(context).pop();
 
+                                            final currentFocus =
+                                                FocusScope.of(context);
+
+                                            if (!currentFocus.hasPrimaryFocus) {
+                                              currentFocus.unfocus();
+                                            }
+
                                             Navigator.of(context).pushNamed(
                                               '/add_details',
                                               arguments: AddDetailsArguments(
@@ -110,15 +119,14 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                                       ? state
                                                           .models[i].data.house
                                                       : '${state.models[i].data.house}/${state.models[i].data.block}',
-                                                  zipCode: state.models[i].data.postalCode,
+                                                  zipCode: state.models[i].data
+                                                      .postalCode,
                                                 ),
                                                 isFirstLaunch: true,
                                               ),
                                             );
                                           },
-                                          noCallback: () {
-                                            Navigator.of(context).pop();
-                                          },
+                                          noCallback: Navigator.of(context).pop,
                                         );
                                       },
                                     );
