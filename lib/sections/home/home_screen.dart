@@ -18,15 +18,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late final AuthWM authWM;
+
+  double bottomHeigth = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    authWM = Provider.of<AuthWM>(context, listen: false);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final authWM = Provider.of<AuthWM>(context);
-
-    var bottomHeigth = 0.0;
-
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       resizeToAvoidBottomInset: false,
@@ -120,6 +131,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SliverPadding(
+                  key: spendPointsPositionKey,
                   padding: const EdgeInsets.only(
                     bottom: 40,
                     left: StaticData.sidePadding,

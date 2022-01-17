@@ -59,6 +59,9 @@ enum SimpleSheetType {
   program,
 }
 
+/// Ключ для того, чтобы можно было проскроллить на позицию с секцией "Потратить баллы"
+GlobalKey spendPointsPositionKey = GlobalKey();
+
 class Keys {
   //* Ключ для навигации между страницами приложения
   static GlobalKey<NavigatorState> mainContentNav = GlobalKey();

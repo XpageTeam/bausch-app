@@ -24,6 +24,7 @@ class FinalAddPointsScreen extends StatelessWidget
   final ScrollController controller;
   @override
   final String points;
+
   const FinalAddPointsScreen({
     required this.controller,
     required this.points,
@@ -116,9 +117,16 @@ class FinalAddPointsScreen extends StatelessWidget
           ),
         ),
       ],
-      bottomNavBar: const CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить баллы',
         topPadding: 12,
+        onPressed: () {
+          if (spendPointsPositionKey.currentContext != null) {
+            Scrollable.ensureVisible(spendPointsPositionKey.currentContext!);
+          }
+
+          Keys.mainContentNav.currentState!.pop();
+        },
       ),
     );
   }

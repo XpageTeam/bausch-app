@@ -102,6 +102,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                             height: 30,
                           ),
                           Padding(
+                            key: wm.keyForOffset,
                             padding: const EdgeInsets.only(
                               bottom: 30,
                             ),

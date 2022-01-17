@@ -25,6 +25,8 @@ class QuizScreenWM extends WidgetModel {
   final BuildContext context;
   final QuizModel quizModel;
 
+  final keyForOffset = GlobalKey();
+
   final textEditingController = TextEditingController();
   late final UserWM userWm;
   late final FocusNode focusNode;
@@ -138,6 +140,10 @@ class QuizScreenWM extends WidgetModel {
 
     contentStreamed.accept(newContent);
     selectedIndexes.accept([]);
+
+    if (keyForOffset.currentContext != null) {
+      Scrollable.ensureVisible(keyForOffset.currentContext!);
+    }
   }
 
   List<QuizAnswerModel> _getSelectedAnswers() {
@@ -188,7 +194,7 @@ class QuizScreenWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(title: error.title);
     } else {
-      await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
+      final res = await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_addpoints',
         (route) => route.isCurrent,
         arguments: FinalAddPointsArguments(
