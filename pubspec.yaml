@@ -89,6 +89,7 @@ dependencies:
   easy_mask: ^2.0.1
   package_info: ^2.0.2
   yandex_mapkit: ^2.0.1
+  device_info_plus: ^3.2.1
 
 dev_dependencies:
   flutter_test:

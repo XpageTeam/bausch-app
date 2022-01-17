@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'dart:io';
+
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -150,12 +152,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
+                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                    ? options.headers != null
+                      ? options.headers!['isAndroid']
+                      : Platform.isAndroid
+                    : Platform.isAndroid,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'isAndroid': Platform.isAndroid,
                 },
               ),
         queryParameters: queryParameters,
@@ -207,12 +215,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
+                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                    ? options.headers != null
+                      ? options.headers!['isAndroid']
+                      : Platform.isAndroid
+                    : Platform.isAndroid,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'isAndroid': Platform.isAndroid,
                 },
               ),
         cancelToken: cancelToken,
@@ -262,12 +276,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
+                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                    ? options.headers != null
+                      ? options.headers!['isAndroid']
+                      : Platform.isAndroid
+                    : Platform.isAndroid,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'isAndroid': Platform.isAndroid,
                 },
               ),
         cancelToken: cancelToken,
@@ -315,12 +335,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
+                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                    ? options.headers != null
+                      ? options.headers!['isAndroid']
+                      : Platform.isAndroid
+                    : Platform.isAndroid,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
+                  'isAndroid': Platform.isAndroid,
                 },
               ),
         cancelToken: cancelToken,
