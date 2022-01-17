@@ -1,5 +1,6 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -58,11 +59,16 @@ class AuthWM extends WidgetModel {
       //   (route) => false,
       // );
 
-      debugPrint(targetPage);
-      debugPrint('context $context');
+      // debugPrint(targetPage);
+      debugPrint('context в авторизации: $context');
 
       if (context != null) {
         Navigator.of(context!).pushNamedAndRemoveUntil(
+          targetPage,
+          (route) => false,
+        );
+      } else if (Keys.mainContentNav.currentContext != null){
+        Navigator.of(Keys.mainContentNav.currentContext!).pushNamedAndRemoveUntil(
           targetPage,
           (route) => false,
         );
