@@ -60,7 +60,7 @@ class SelectOpticScreenWM extends WidgetModel {
 
   @override
   Future<void> onLoad() async {
-    _initCurrentCity();
+    // _initCurrentCity();
     if (initialCities == null) {
       unawaited(_loadOptics());
     } else {
@@ -166,28 +166,28 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
-  void _initCurrentCity() {
-    try {
-      final authStatus =
-          Provider.of<AuthWM>(context, listen: false).authStatus.value;
+  // void _initCurrentCity() {
+  //   try {
+  //     final authStatus =
+  //         Provider.of<AuthWM>(context, listen: false).authStatus.value;
 
-      if (authStatus == AuthStatus.authenticated) {
-        final currentCity = Provider.of<UserWM>(
-          context,
-          listen: false,
-        ).userData.value.data?.user.city;
+  //     if (authStatus == AuthStatus.authenticated) {
+  //       final currentCity = Provider.of<UserWM>(
+  //         context,
+  //         listen: false,
+  //       ).userData.value.data?.user.city;
 
-        if (currentCity != null) {
-          currentCityStreamed.content(currentCity);
-        } else {
-          currentCityStreamed.error();
-        }
-      }
-      // ignore: avoid_catches_without_on_clauses
-    } catch (e) {
-      currentCityStreamed.error();
-    }
-  }
+  //       if (currentCity != null) {
+  //         currentCityStreamed.content(currentCity);
+  //       } else {
+  //         currentCityStreamed.error();
+  //       }
+  //     }
+  //     // ignore: avoid_catches_without_on_clauses
+  //   } catch (e) {
+  //     currentCityStreamed.error();
+  //   }
+  // }
 
   List<OpticShop> _getShopsByFilters(List<Optic> opticsByCity) {
     if (selectedFilters.isEmpty || selectedFilters.first.id == 0) {
