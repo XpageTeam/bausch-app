@@ -36,7 +36,8 @@ class OffersSectionWM extends WidgetModel {
     preferences = await SharedPreferences.getInstance();
 
     loadDataAction.bind((_) {
-    _loadData();
+      debugPrint('123124');
+      _loadData();
     });
 
     unawaited(loadDataAction());
