@@ -167,7 +167,11 @@ class LoginWM extends WidgetModel {
   }
 
   void _checkAuth() {
-    Provider.of<AuthWM>(context, listen: false).checkAuthAction();
+    final authWM = Provider.of<AuthWM>(context, listen: false);
+
+    debugPrint(authWM.toString());
+
+    authWM.checkAuthAction();
   }
 
   void _checkBtnActive() {
@@ -233,7 +237,9 @@ class LoginWM extends WidgetModel {
       await UserWriter.writeToken(res.xApiToken);
 
       //* Очистка полей после отправки кода
-      phoneController.text = '';
+      // phoneController.text = '';
+
+      debugPrint(codeController.text);
 
       _checkAuth();
     } on DioError catch (e) {

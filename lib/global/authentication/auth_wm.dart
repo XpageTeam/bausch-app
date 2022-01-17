@@ -22,11 +22,8 @@ class AuthWM extends WidgetModel {
 
   BuildContext? context;
 
-  AuthWM(this.userWM) : super(const WidgetModelDependencies());
-
-  @override
-  void onLoad() {
-    subscribe(authStatus.stream, (value) {
+  AuthWM(this.userWM) : super(const WidgetModelDependencies()) {
+    authStatus.bind((value) {
       late String targetPage;
 
       switch (authStatus.value) {
@@ -67,8 +64,9 @@ class AuthWM extends WidgetModel {
           targetPage,
           (route) => false,
         );
-      } else if (Keys.mainContentNav.currentContext != null){
-        Navigator.of(Keys.mainContentNav.currentContext!).pushNamedAndRemoveUntil(
+      } else if (Keys.mainContentNav.currentContext != null) {
+        Navigator.of(Keys.mainContentNav.currentContext!)
+            .pushNamedAndRemoveUntil(
           targetPage,
           (route) => false,
         );
@@ -90,8 +88,6 @@ class AuthWM extends WidgetModel {
         }
       });
     });
-
-    super.onLoad();
   }
 
   /// выход

@@ -37,6 +37,8 @@ class UserWriter {
   static Future<void> writeToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
 
+    debugPrint(token);
+
     await prefs.setString('userToken', token);
   }
 
