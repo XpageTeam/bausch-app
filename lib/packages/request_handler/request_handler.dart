@@ -152,18 +152,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
-                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                  'is_ios': options.headers?.containsKey('is_ios') != null
                     ? options.headers != null
-                      ? options.headers!['isAndroid']
-                      : Platform.isAndroid
-                    : Platform.isAndroid,
+                      ? options.headers!['is_ios']
+                      : Platform.isIOS
+                    : Platform.isIOS,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'isAndroid': Platform.isAndroid,
+                  'is_ios': Platform.isIOS,
                 },
               ),
         queryParameters: queryParameters,
@@ -215,18 +215,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
-                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                  'is_ios': options.headers?.containsKey('is_ios') != null
                     ? options.headers != null
-                      ? options.headers!['isAndroid']
-                      : Platform.isAndroid
-                    : Platform.isAndroid,
+                      ? options.headers!['is_ios']
+                      : Platform.isIOS
+                    : Platform.isIOS,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'isAndroid': Platform.isAndroid,
+                  'is_ios': Platform.isIOS,
                 },
               ),
         cancelToken: cancelToken,
@@ -276,18 +276,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
-                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                  'is_ios': options.headers?.containsKey('is_ios') != null
                     ? options.headers != null
-                      ? options.headers!['isAndroid']
-                      : Platform.isAndroid
-                    : Platform.isAndroid,
+                      ? options.headers!['is_ios']
+                      : Platform.isIOS
+                    : Platform.isIOS,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'isAndroid': Platform.isAndroid,
+                  'is_ios': Platform.isIOS,
                 },
               ),
         cancelToken: cancelToken,
@@ -335,18 +335,18 @@ class RequestHandler {
                           ? options.headers!['x-api-key']
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
-                  'isAndroid': options.headers?.containsKey('isAndroid') != null
+                  'is_ios': options.headers?.containsKey('is_ios') != null
                     ? options.headers != null
-                      ? options.headers!['isAndroid']
-                      : Platform.isAndroid
-                    : Platform.isAndroid,
+                      ? options.headers!['is_ios']
+                      : Platform.isIOS
+                    : Platform.isIOS,
                 },
               )
             : Options(
                 headers: <String, dynamic>{
                   if (_userWM?.userData.value.data?.user.token != null)
                     'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'isAndroid': Platform.isAndroid,
+                  'is_ios': Platform.isIOS,
                 },
               ),
         cancelToken: cancelToken,
