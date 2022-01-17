@@ -40,6 +40,10 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
       ),
     );
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     return OverlaySupport(
       toastTheme: ToastThemeData(
         background: AppTheme.mineShaft,

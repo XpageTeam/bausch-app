@@ -20,13 +20,10 @@ class NotificationSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final banners = Container(
-      child: IndexedStack(
-        children: [
-          OffersSection(
-            type: OfferType.notificationsScreen,
-            showLoader: false,
-          ),
-        ],
+      child: OffersSection(
+        type: OfferType.notificationsScreen,
+        showLoader: false,
+        margin: const EdgeInsets.only(bottom: 4),
       ),
     );
 

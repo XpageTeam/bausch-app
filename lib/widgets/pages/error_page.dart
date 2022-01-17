@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
   final String title;
+  final bool showAppBar;
   final String? subtitle;
   final String? buttonText;
   final VoidCallback? buttonCallback;
 
   const ErrorPage({
     required this.title,
+    this.showAppBar = true,
     this.subtitle,
     this.buttonText,
     this.buttonCallback,
@@ -23,10 +25,12 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      appBar: const DefaultAppBar(
-        title: '',
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: showAppBar
+          ? const DefaultAppBar(
+              title: '',
+              backgroundColor: Colors.transparent,
+            )
+          : null,
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,

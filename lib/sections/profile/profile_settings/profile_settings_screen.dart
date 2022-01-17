@@ -199,7 +199,7 @@ class _ProfileSettingsScreenState
               padding: const EdgeInsets.only(bottom: 4),
               child: const ProfileSettingsBanner(),
             ),
-            Padding(
+            /* Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(
                 streamedState: wm.selectedCityName,
@@ -221,9 +221,9 @@ class _ProfileSettingsScreenState
                   );
                 },
               ),
-            ),
+            ), */
             Padding(
-              padding: EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(bottom: 4),
               child: FocusButton(
                 labelText: 'Мои адреса',
                 onPressed: () {

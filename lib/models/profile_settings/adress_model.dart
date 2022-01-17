@@ -51,18 +51,21 @@ class AdressModel implements MappableInterface<AdressModel> {
       ResponseParseException('Не передан номер квартиры');
     }
 
-    final zip = map['zip'] as num?;
-
-    return AdressModel(
-      id: map['id'] as int,
-      street: map['street'] as String,
-      house: map['house'] as String,
-      flat: map['flat'] as int?,
-      entry: map['entry'] as int?,
-      floor: map['floor'] as int?,
-      city: map['city'] as String,
-      zipCode: zip == null ? null : '$zip',
-    );
+    try {
+      return AdressModel(
+        id: map['id'] as int,
+        street: map['street'] as String,
+        house: map['house'] as String,
+        flat: map['flat'] as int?,
+        entry: map['entry'] as int?,
+        floor: map['floor'] as int?,
+        city: map['city'] as String,
+        zipCode: (map['zip'] as int? ?? '').toString(),
+      );
+    // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('AdressModel: $e');
+    }
   }
 
   @override

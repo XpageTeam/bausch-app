@@ -13,10 +13,12 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
   final bool showLoader;
+  final EdgeInsets? margin;
 
   OffersSection({
     required OfferType type,
     this.showLoader = true,
+    this.margin,
     int? goodID,
     Key? key,
   }) : super(
@@ -38,35 +40,65 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
   Widget build(BuildContext context) {
     return EntityStateBuilder<List<Offer>>(
       streamedState: wm.offersStreamed,
-      loadingChild: widget.showLoader
-          ? const Center(
-              child: AnimatedLoader(),
-            )
-          : const SizedBox(),
-      builder: (c, offers) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: offers
-            .map(
-              (offer) => Padding(
-                padding: EdgeInsets.only(
-                  bottom: offer != offers.last ? 4.0 : 0.0,
-                ),
-                child: OfferWidget(
-                  offer: offer,
-                  onClose: () => wm.removeOfferAction(offer),
-                  onPressed: () => showTargetBottomSheet(offer),
-                ),
-              ),
-            )
-            .toList(),
-      ),
+      loadingBuilder: (context, offers) {
+        if (offers != null) {
+          return Container(
+            margin: widget.margin,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: offers
+                  .map(
+                    (offer) => Padding(
+                      padding: EdgeInsets.only(
+                        bottom: offer != offers.last ? 4.0 : 0.0,
+                      ),
+                      child: OfferWidget(
+                        offer: offer,
+                        onClose: () => wm.removeOfferAction(offer),
+                        onPressed: () => showTargetBottomSheet(offer),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
+        }
+
+        if (widget.showLoader) {
+          return const Center(child: AnimatedLoader());
+        } else {
+          return const SizedBox();
+        }
+      },
+      builder: (c, offers) {
+        return Container(
+          margin: widget.margin,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: offers
+                .map(
+                  (offer) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: offer != offers.last ? 4.0 : 0.0,
+                    ),
+                    child: OfferWidget(
+                      offer: offer,
+                      onClose: () => wm.removeOfferAction(offer),
+                      onPressed: () => showTargetBottomSheet(offer),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      },
     );
   }
 
   Future<void> showTargetBottomSheet(Offer offer) async {
     switch (offer.target) {
       case 'program':
-        showSheet<void>(
+        await showSheet<void>(
           context,
           SimpleSheetModel(name: 'Программа подбора', type: 'program'),
         );
@@ -79,12 +111,12 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
         break;
 
       case 'content':
-        if (offer.html == null || offer.html!.isEmpty) {
+        if (offer.html == null || (offer.html != null && offer.html!.isEmpty)) {
           showTopError(
             const CustomException(title: 'Страница не найдена'),
           );
         } else {
-          showSheet<Offer>(
+          await showSheet<Offer>(
             context,
             SimpleSheetModel(name: 'Content', type: 'content'),
             offer,
@@ -96,11 +128,13 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
 
       // TODO(Nikolay): Уточнить add_point (Нет данных).
       case 'add_points':
-        showSheet<void>(
+        await showSheet<void>(
           context,
           SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
         );
         break;
     }
+
+    await wm.loadDataAction();
   }
 }

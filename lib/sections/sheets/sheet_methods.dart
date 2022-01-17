@@ -5,7 +5,7 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-void showSheet<T>(
+Future<void> showSheet<T>(
   BuildContext context,
   BaseCatalogSheetModel model, [
   T? args,
@@ -14,7 +14,7 @@ void showSheet<T>(
   // сразу в товар
   String? initialRoute,
 ]) {
-  showFlexibleBottomSheet<void>(
+  return showFlexibleBottomSheet<void>(
     useRootNavigator: false,
     minHeight: 0,
     initHeight: 0.95,

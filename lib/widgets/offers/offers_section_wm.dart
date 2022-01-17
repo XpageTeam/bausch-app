@@ -19,6 +19,7 @@ class OffersSectionWM extends WidgetModel {
   final int? goodID;
   final offersStreamed = EntityStreamedState<List<Offer>>();
   final removeOfferAction = StreamedAction<Offer>();
+  final loadDataAction = VoidAction();
 
   final BuildContext context;
 
@@ -28,14 +29,19 @@ class OffersSectionWM extends WidgetModel {
     required this.type,
     required this.context,
     this.goodID,
-  }) : super(
-          const WidgetModelDependencies(),
-        );
+  }) : super(const WidgetModelDependencies());
 
   @override
   Future<void> onLoad() async {
     preferences = await SharedPreferences.getInstance();
-    unawaited(_loadData());
+
+    loadDataAction.bind((_) {
+    _loadData();
+    });
+
+    unawaited(loadDataAction());
+
+
     super.onLoad();
   }
 
@@ -56,7 +62,9 @@ class OffersSectionWM extends WidgetModel {
   }
 
   Future<void> _loadData() async {
-    unawaited(offersStreamed.loading());
+    if (offersStreamed.value.isLoading) return;
+
+    unawaited(offersStreamed.loading(offersStreamed.value.data));
 
     try {
       final repository = await OffersRepositoryDownloader.load(

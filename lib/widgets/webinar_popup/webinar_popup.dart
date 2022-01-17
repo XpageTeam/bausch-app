@@ -26,6 +26,7 @@ class WebinarPopup extends StatelessWidget {
           VimeoPlayer(
             id: videoId,
             autoPlay: true,
+            
             loaderWidget: const AnimatedLoader(),
             onError: () {
               Navigator.of(context).pop();

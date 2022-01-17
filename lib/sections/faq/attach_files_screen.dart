@@ -7,6 +7,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
@@ -73,7 +74,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                           backgroundColor: AppTheme.mystic,
                           topRightWidget: NormalIconButton(
                             icon: const Icon(Icons.close),
-                            onPressed: () {},
+                            onPressed: Keys.mainContentNav.currentState?.pop,
                           ),
                         ),
                       ),
@@ -124,10 +125,15 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 27),
                               child: Row(
                                 children: [
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 13),
-                                    child: Icon(Icons.filter),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 13,
+                                    ),
+                                    child: ExtendedImage.asset(
+                                      'assets/icons/document.png',
+                                      width: 16,
+                                      height: 16,
+                                    ),
                                   ),
                                   Flexible(
                                     child: Text(

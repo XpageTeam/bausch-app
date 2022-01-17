@@ -62,42 +62,43 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Padding(
         padding: const EdgeInsets.only(
-          left: StaticData.sidePadding,
-          right: StaticData.sidePadding,
           top: 30,
+          bottom: 80,
         ),
         child: BlocBuilder<AdressesCubit, AdressesState>(
           bloc: adressesCubit,
           builder: (context, state) {
             if (state is GetAdressesSuccess) {
               if (state.adresses.isNotEmpty) {
-                return ListView.builder(
+                return ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
+                  ),
+                  separatorBuilder: (_, __) => const SizedBox(height: 4),
                   itemCount: state.adresses.length,
                   itemBuilder: (context, i) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: AddressButton(
-                        labelText:
-                            '${state.adresses[i].street}, ${state.adresses[i].house}',
-                        selectedText: (state.adresses[i].flat != null &&
-                                state.adresses[i].entry != null &&
-                                state.adresses[i].floor != null)
-                            ? 'Кв.${state.adresses[i].flat},подъезд ${state.adresses[i].entry},этаж ${state.adresses[i].floor}'
-                            : null,
-                        onPressed: () {
-                          Keys.mainContentNav.currentState!
-                              .pushNamed(
-                            '/add_details',
-                            arguments: AddDetailsArguments(
-                              adress: state.adresses[i],
-                              isFirstLaunch: false,
-                            ),
-                          )
-                              .then((v) {
-                            adressesCubit.getAdresses();
-                          });
-                        },
-                      ),
+                    return AddressButton(
+                      labelText:
+                          '${state.adresses[i].city}, ${state.adresses[i].street}, ${state.adresses[i].house}',
+                      selectedText: (state.adresses[i].flat != null &&
+                              state.adresses[i].entry != null &&
+                              state.adresses[i].floor != null)
+                          ? 'Кв.${state.adresses[i].flat},подъезд ${state.adresses[i].entry},этаж ${state.adresses[i].floor}'
+                          : null,
+                      onPressed: () {
+                        Keys.mainContentNav.currentState!
+                            .pushNamed(
+                          '/add_details',
+                          arguments: AddDetailsArguments(
+                            adress: state.adresses[i],
+                            isFirstLaunch: false,
+                          ),
+                        )
+                            .then((v) {
+                          adressesCubit.getAdresses();
+                        });
+                      },
                     );
                   },
                 );
@@ -115,6 +116,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                 subtitle: state.subtitle,
                 buttonCallback: adressesCubit.getAdresses,
                 buttonText: 'Обновить',
+                showAppBar: false,
               );
             }
 

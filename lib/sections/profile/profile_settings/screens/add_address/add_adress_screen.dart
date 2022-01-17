@@ -23,7 +23,7 @@ class AddAdressScreen extends StatefulWidget {
 }
 
 class _AddAdressScreenState extends State<AddAdressScreen> {
-  late final UserWM userWM;
+  // late final UserWM userWM;
 
   late final DadataBloc dadataBloc;
 
@@ -42,8 +42,8 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
   @override
   void initState() {
     super.initState();
-    userWM = Provider.of<UserWM>(context, listen: false);
-    dadataBloc = DadataBloc(city: userWM.userData.value.data!.user.city!);
+    // userWM = Provider.of<UserWM>(context, listen: false);
+    dadataBloc = DadataBloc(/*city: userWM.userData.value.data!.user.city!*/);
   }
 
   @override

@@ -27,29 +27,31 @@ class AddressButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: selectedText == null
-                ? const EdgeInsets.only(top: 26, bottom: 28)
-                : const EdgeInsets.only(top: 14, bottom: 14),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  labelText,
-                  style: AppStyles.h2,
-                ),
-                if (selectedText != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: Text(
-                      selectedText!,
-                      style: AppStyles.p1.copyWith(
-                        color: AppTheme.grey,
+          Flexible(
+            child: Padding(
+              padding: selectedText == null
+                  ? const EdgeInsets.only(top: 26, bottom: 28)
+                  : const EdgeInsets.only(top: 14, bottom: 14),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    labelText,
+                    style: AppStyles.h2,
+                  ),
+                  if (selectedText != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        selectedText!,
+                        style: AppStyles.p1.copyWith(
+                          color: AppTheme.grey,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
           const Icon(

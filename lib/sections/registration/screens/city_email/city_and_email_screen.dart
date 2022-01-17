@@ -46,11 +46,12 @@ class _CityAndEmailScreenState
               Padding(
                 padding: const EdgeInsets.only(bottom: 40),
                 child: Text(
-                  'Отлично, осталось выбрать город и указать электронную почту',
+                  // 'Отлично, осталось выбрать город и указать электронную почту',
+                  'Отлично, осталось указать электронную почту',
                   style: AppStyles.h1,
                 ),
               ),
-              StreamedStateBuilder<String?>(
+              /*StreamedStateBuilder<String?>(
                 streamedState: wm.selectedCityName,
                 builder: (_, cityName) {
                   return FocusButton(
@@ -72,7 +73,7 @@ class _CityAndEmailScreenState
                     },
                   );
                 },
-              ),
+              ),*/
               const SizedBox(
                 height: 4,
               ),
