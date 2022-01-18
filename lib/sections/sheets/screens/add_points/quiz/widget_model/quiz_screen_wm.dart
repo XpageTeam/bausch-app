@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_for_elements_to_map_fromiterable, avoid_annotating_with_dynamic
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
@@ -40,7 +41,8 @@ class QuizScreenWM extends WidgetModel {
   final buttonAction = VoidAction();
   final addToAnswersAction = StreamedAction<int>();
 
-  List<QuizAnswerModel> answers = [];
+  Map<String, List<QuizAnswerModel>> mapAnswers =
+      <String, List<QuizAnswerModel>>{};
 
   int currentPage = 0;
 
@@ -116,15 +118,29 @@ class QuizScreenWM extends WidgetModel {
 
   void _writeAnswers() {
     //* Добавление выбранных вариантов
-    answers.addAll(_getSelectedAnswers());
+    final questionId = quizModel.content[currentPage].id;
+    final selectedAnswers = _getSelectedAnswers();
+
+    if (selectedAnswers.isNotEmpty) {
+      mapAnswers.update(
+        questionId,
+        (value) => value..addAll(selectedAnswers),
+        ifAbsent: () => selectedAnswers,
+      );
+    }
 
     //* Если что-то введено в текстовое поле
     if (textEditingController.text.isNotEmpty) {
-      answers.add(
-        QuizAnswerModel(
-          id: quizModel.content[currentPage].other!.id,
-          title: textEditingController.text,
-        ),
+      final messageAnswer = QuizAnswerModel(
+        id: quizModel.content[currentPage].other!.id,
+        title: textEditingController.text,
+        type: 'message',
+      );
+
+      mapAnswers.addAll(
+        <String, List<QuizAnswerModel>>{
+          quizModel.content[currentPage].other!.id: [messageAnswer],
+        },
       );
     }
   }
@@ -167,7 +183,7 @@ class QuizScreenWM extends WidgetModel {
 
     try {
       await QuizSaver.save(
-        answers,
+        mapAnswers,
       );
       await _updateUserInformation();
     } on DioError catch (e) {
@@ -214,28 +230,41 @@ class QuizScreenWM extends WidgetModel {
 
 class QuizSaver {
   static Future<BaseResponseRepository> save(
-    List<QuizAnswerModel> answers,
+    Map<String, List<QuizAnswerModel>> answers,
   ) async {
     final rh = RequestHandler();
+    final formData = _convertAnswers(answers);
+
     final resp = await rh.post<Map<String, dynamic>>(
       '/review/survey/save/',
       data: FormData.fromMap(
-        Map<String, dynamic>.fromIterable(
-          answers,
-          key: (dynamic e) => (e as QuizAnswerModel).id,
-          value: (dynamic e) => (e as QuizAnswerModel).title,
-        ),
+        formData,
       ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     );
 
     final data = resp.data!;
 
     return BaseResponseRepository.fromMap(data);
+  }
+
+  static Map<String, String> _convertAnswers(
+    Map<String, List<QuizAnswerModel>> answers,
+  ) {
+    return answers.entries.fold<Map<String, String>>(
+      <String, String>{},
+      (globalMap, element) {
+        final key = element.key;
+        final value = element.value;
+
+        return globalMap
+          ..addAll(<String, String>{
+            key: value.first.type == 'checkbox'
+                ? json.encode(value.map((e) => e.id).toList())
+                : value.first.type == 'radio'
+                    ? value.first.id
+                    : value.first.title,
+          });
+      },
+    );
   }
 }
