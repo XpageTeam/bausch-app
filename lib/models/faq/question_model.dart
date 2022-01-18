@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';
 
@@ -8,9 +10,17 @@ class QuestionModel implements MappableInterface<QuestionModel> {
   final String title;
 
   //* Ответ на вопрс
-  final String answer;
+  final String? answer;
 
-  QuestionModel({required this.id, required this.title, required this.answer});
+  //* Поля для формы
+  final List<QuestionField>? fields;
+
+  QuestionModel({
+    required this.id, 
+    required this.title, 
+    this.answer,
+    this.fields,
+  });
 
   factory QuestionModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
@@ -21,15 +31,18 @@ class QuestionModel implements MappableInterface<QuestionModel> {
       throw ResponseParseException('Не передана формулировка вопроса');
     }
 
-    if (map['answer'] == null) {
-      throw ResponseParseException('Не передан ответ на вопрос');
+    try {
+      return QuestionModel(
+        id: map['id'] as int,
+        title: map['title'] as String,
+        answer: map['answer'] as String?,
+        fields: (map['fields'] as List<dynamic>?)?.map((dynamic field){
+          return QuestionField.fromMap(field as Map<String, dynamic>);
+        }).toList(),
+      );
+    } catch (e) {
+      throw ResponseParseException('QuestionModel: $e');
     }
-
-    return QuestionModel(
-      id: map['id'] as int,
-      title: map['title'] as String,
-      answer: map['answer'] as String,
-    );
   }
 
   @override
@@ -38,6 +51,36 @@ class QuestionModel implements MappableInterface<QuestionModel> {
       'id': id,
       'title': title,
       'answer': answer,
+      'fields': fields,
     };
   }
+}
+
+
+class QuestionField {
+  final String title;
+  final String xmlID;
+  final bool required;
+  final String type;
+
+  const QuestionField({
+    required this.title,
+    required this.xmlID,
+    required this.required,
+    required this.type,
+  });
+
+  factory QuestionField.fromMap(Map<String, dynamic> map){
+    try {
+      return QuestionField(
+        title: map['title'] as String,
+        xmlID: map['xmlId'] as String,
+        required: map['required'] as bool,
+        type: map['type'] as String,
+      );
+    } catch (e) {
+      throw ResponseParseException('QuestionFields: $e');
+    }
+  }
+
 }

@@ -49,7 +49,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     return Scaffold(
       appBar: const DefaultAppBar(
         title: 'Добавить адрес',
@@ -84,6 +84,14 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(5),
                                 onTap: () {
+                                  final currentFocus = FocusScope.of(ctx);
+
+                                  debugPrint(currentFocus.toString());
+
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+
                                   //* Если выбрал улицу без номера дома
                                   if (state.models[i].data.house.isNotEmpty) {
                                     showModalBottomSheet<void>(
@@ -98,17 +106,9 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                               ? 'Добавить ${state.models[i].data.street}, ${state.models[i].data.house}?'
                                               : 'Добавить ${state.models[i].data.street}, ${state.models[i].data.house}/${state.models[i].data.block}?',
                                           yesCallback: () {
-                                            Navigator.of(context).pop();
+                                            // Navigator.of(ctx).pop();
 
-                                            final currentFocus =
-                                                FocusScope.of(context);
-
-                                            if (!currentFocus.hasPrimaryFocus) {
-                                              currentFocus.unfocus();
-                                            }
-
-                                            Navigator.of(context).pushNamed(
-                                              '/add_details',
+                                            Navigator.of(context).popAndPushNamed('/add_details',
                                               arguments: AddDetailsArguments(
                                                 adress: AdressModel(
                                                   street: state
@@ -123,8 +123,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                                       .postalCode,
                                                 ),
                                                 isFirstLaunch: true,
-                                              ),
-                                            );
+                                              ),);
                                           },
                                           noCallback: Navigator.of(context).pop,
                                         );

@@ -15,10 +15,12 @@ import 'package:url_launcher/url_launcher.dart';
 class QuestionScreenArguments {
   final QuestionModel question;
   final TopicModel topic;
+  final List<QuestionField>? fields;
 
   QuestionScreenArguments({
     required this.question,
     required this.topic,
+    this.fields,
   });
 }
 
@@ -32,10 +34,14 @@ class QuestionScreen extends StatelessWidget
   @override
   final TopicModel topic;
 
+  @override
+  final List<QuestionField>? fields;
+
   const QuestionScreen({
     required this.controller,
     required this.question,
     required this.topic,
+    this.fields,
     Key? key,
   }) : super(key: key);
 
@@ -80,7 +86,7 @@ class QuestionScreen extends StatelessWidget
                       height: 40,
                     ),
                     Html(
-                      data: question.answer,
+                      data: question.answer ?? '',
                       style: htmlStyles,
                       customRender: htmlCustomRender,
                       onLinkTap: (url, context, attributes, element) async {
@@ -113,6 +119,7 @@ class QuestionScreen extends StatelessWidget
           sliver: SupportSection(
             question: question,
             topic: topic,
+            fields: fields,
           ),
         ),
       ],

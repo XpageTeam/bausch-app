@@ -322,6 +322,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     .question,
                 topic:
                     (settings.arguments as ContactSupportScreenArguments).topic,
+                fields: (settings as ContactSupportScreenArguments).fields,
               );
               break;
 

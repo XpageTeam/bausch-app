@@ -9,8 +9,13 @@ import 'package:flutter/material.dart';
 class ContactSupportScreenArguments {
   final QuestionModel? question;
   final TopicModel? topic;
+  final List<QuestionField>? fields;
 
-  ContactSupportScreenArguments({this.question, this.topic});
+  ContactSupportScreenArguments({
+    this.question,
+    this.topic,
+    this.fields,
+  });
 }
 
 class ContactSupportScreen extends StatefulWidget
@@ -20,11 +25,14 @@ class ContactSupportScreen extends StatefulWidget
   final QuestionModel? question;
   @override
   final TopicModel? topic;
+  @override
+  final List<QuestionField>? fields;
 
   const ContactSupportScreen({
     required this.controller,
     this.question,
     this.topic,
+    this.fields,
     Key? key,
   }) : super(key: key);
 

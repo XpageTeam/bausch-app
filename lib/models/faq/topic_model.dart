@@ -29,13 +29,19 @@ class TopicModel implements MappableInterface<TopicModel> {
       throw ResponseParseException('Не передан список вопросов по теме');
     }
 
-    return TopicModel(
-      id: map['id'] as int,
-      title: map['title'] as String,
-      questions: (map['questions'] as List<dynamic>)
-          .map((dynamic e) => QuestionModel.fromMap(e as Map<String, dynamic>))
-          .toList(),
-    );
+    try {
+      return TopicModel(
+        id: map['id'] as int,
+        title: map['title'] as String,
+        questions: (map['questions'] as List<dynamic>)
+            .map((dynamic e) => QuestionModel.fromMap(e as Map<String, dynamic>))
+            .toList(),
+      );
+    } on ResponseParseException {
+      rethrow;
+    } catch (e) {
+      throw ResponseParseException('TopicModel: $e');
+    }
   }
 
   @override
