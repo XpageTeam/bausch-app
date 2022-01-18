@@ -7,6 +7,7 @@ import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:flutter/foundation.dart';
 
 class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final List<OpticShop> opticShops;
@@ -36,9 +37,13 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
 
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
-    wm.updateMapObjects(widget.opticShops);
-    wm.setCenterAction(widget.opticShops);
-    super.didUpdateWidget(oldWidget);
+      super.didUpdateWidget(oldWidget);
+
+    if(!listEquals(oldWidget.opticShops, widget.opticShops)){
+      wm.updateMapObjects(widget.opticShops);
+      wm.setCenterAction(widget.opticShops);
+    }
+
   }
 
   @override
@@ -54,8 +59,8 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
             streamedState: wm.mapObjectsStreamed,
             builder: (context, mapObjects) {
               return YandexMap(
-                liteModeEnabled: true,
-                mode2DEnabled: true,
+                // liteModeEnabled: true,
+                // mode2DEnabled: true,
                 mapObjects: mapObjects,
                 onMapCreated: (yandexMapController) {
                   wm
