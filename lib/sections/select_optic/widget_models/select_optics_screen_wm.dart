@@ -74,6 +74,7 @@ class SelectOpticScreenWM extends WidgetModel {
       await filteredOpticShopsStreamed.content(
         _getShopsByFilters(opticsByCurrentCity),
       );
+      
     }
 
     super.onLoad();
@@ -304,6 +305,7 @@ class SelectOpticScreenWM extends WidgetModel {
 
   List<OpticCity> _sort(List<OpticCity> cities) {
     if (cities.isEmpty) return [];
+    
     return cities..sort((a, b) => a.title.compareTo(b.title));
   }
 }

@@ -245,6 +245,9 @@ class OpticCititesRepository {
       );
     }
 
+
+
+
     final cityNames = <String>{};
 
     for (final discounOptic in repository.discountOptics) {
@@ -267,7 +270,7 @@ class OpticCititesRepository {
         var hasThisDiscount = false;
 
         for (final disountOpticShop in discounOptic.disountOpticShops!) {
-          if (disountOpticShop.address.startsWith(cityName)) {
+          if (disountOpticShop.city.toLowerCase() == cityName.toLowerCase()) {
             hasThisDiscount = true;
             opticShops.add(
               OpticShop(
