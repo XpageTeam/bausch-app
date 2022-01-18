@@ -117,9 +117,9 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
         );
         break;
 
-      case 'profile':
+      case 'profile_edit':
         await Keys.mainContentNav.currentState!.pushNamed(
-          '/profile',
+          '/profile_settings',
         );
         break;
 
