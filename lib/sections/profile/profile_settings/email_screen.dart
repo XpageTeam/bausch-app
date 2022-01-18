@@ -35,7 +35,7 @@ class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
         title: 'E-mail',
         backgroundColor: AppTheme.mystic,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,
         ),
@@ -77,7 +77,7 @@ class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
                     ? ''
                     : wm.isConfirmSended
                         ? 'Готово'
-                        : 'Добавить',
+                        : 'Отправить',
                 withInfo: false,
                 icon: isLoading ? const AnimatedLoader() : null,
                 onPressed: state && !isLoading

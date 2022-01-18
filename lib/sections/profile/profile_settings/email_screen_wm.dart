@@ -18,6 +18,8 @@ class EmailScreenWM extends WidgetModel {
   final sendConfirm = VoidAction();
   final buttonAction = VoidAction();
 
+  late UserWM userWM;
+
   bool isConfirmSended = false;
 
   EmailScreenWM({required this.context})
@@ -25,7 +27,7 @@ class EmailScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    final userWM = Provider.of<UserWM>(context, listen: false);
+    userWM = Provider.of<UserWM>(context, listen: false);
 
     emailController
       ..text = userWM.userData.value.data!.user.pendingEmail ??
@@ -73,7 +75,9 @@ class EmailScreenWM extends WidgetModel {
   void _validateForm() {
     const emailPattern = r'^[^@]+@[^@.]+\.[^@]+$';
 
-    if (RegExp(emailPattern).hasMatch(emailController.text)) {
+    if (RegExp(emailPattern).hasMatch(emailController.text) &&
+        emailController.text != userWM.userData.value.data?.user.email &&
+        emailController.text != userWM.userData.value.data?.user.pendingEmail) {
       formValidationState.accept(true);
     } else {
       formValidationState.accept(false);
