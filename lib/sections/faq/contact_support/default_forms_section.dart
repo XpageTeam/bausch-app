@@ -12,6 +12,9 @@ class DefaultFormsSection extends StatefulWidget {
   //final ContactSupportScreenArguments? arguments;
   final int? topic;
   final int? question;
+
+
+
   const DefaultFormsSection({
     this.topic,
     this.question,
@@ -41,13 +44,6 @@ class _DefaultFormsSectionState extends State<DefaultFormsSection> {
     if (widget.topic != null) {
       fieldsBloc.add(FieldsSetTopic(widget.topic!));
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    fieldsBloc.close();
-    formsCubit.close();
   }
 
   @override

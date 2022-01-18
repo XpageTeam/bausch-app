@@ -27,13 +27,6 @@ class _ExtraFormsSectionState extends State<ExtraFormsSection> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    fieldsBloc.close();
-    formsExtraBloc.close();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(
