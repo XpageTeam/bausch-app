@@ -16,9 +16,12 @@ import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
+import 'package:bausch/widgets/offers/offers_section_wm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+
+OffersSectionWM? bannersWm;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

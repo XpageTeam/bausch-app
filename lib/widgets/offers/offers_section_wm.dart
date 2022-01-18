@@ -24,6 +24,8 @@ class OffersSectionWM extends WidgetModel {
   final BuildContext context;
 
   late SharedPreferences preferences;
+  
+  Timer? updateTimer;
 
   OffersSectionWM({
     required this.type,
@@ -40,10 +42,21 @@ class OffersSectionWM extends WidgetModel {
       _loadData();
     });
 
+    updateTimer = Timer.periodic(const Duration(seconds: 10), (_){
+      // TODO(Danil): адовый костыль
+      loadDataAction();
+    });
+
     unawaited(loadDataAction());
 
 
     super.onLoad();
+  }
+
+  @override
+  void dispose() {
+    updateTimer?.cancel();
+    super.dispose();
   }
 
   @override

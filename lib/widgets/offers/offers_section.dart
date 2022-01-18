@@ -1,6 +1,7 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
@@ -23,11 +24,17 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (context) => OffersSectionWM(
-            type: type,
-            goodID: goodID,
-            context: context,
-          ),
+          widgetModelBuilder: (context) {
+            final wm = OffersSectionWM(
+              type: type,
+              goodID: goodID,
+              context: context,
+            );
+
+            bannersWm = wm;
+
+            return wm;
+          },
         );
 
   @override
@@ -36,6 +43,12 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
 }
 
 class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
+  @override
+  void dispose() {
+    bannersWm = null;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return EntityStateBuilder<List<Offer>>(
