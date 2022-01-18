@@ -11,12 +11,10 @@ class Utils {
     final url = '${isPhone ? 'tel:' : ''}$rawUrl';
 
     if (await canLaunch(url)) {
-      return launch(
-        url,
-      );
+      return launch(url);
     } else {
       return Future<bool>.error(
-        'Could not launch $url',
+        'Не удалось перейти по ссылке $url',
       );
     }
   }

@@ -38,24 +38,7 @@ class AddPointsDetailsWM extends WidgetModel {
   @override
   void onBind() {
     buttonAction.bind((_) {
-      switch (addPointsModel.type) {
-        case 'review':
-          _addPoints('/review/save/');
-          break;
-        case 'review_social':
-          _addPoints('/review/soc/save/');
-          break;
-        case 'vk':
-          debugPrint(addPointsModel.url);
-          Utils.tryLaunchUrl(
-            rawUrl: addPointsModel.url!,
-            isPhone: false,
-          );
-          break;
-        case 'invite_friend':
-          Utils.tryShare(text: addPointsModel.url);
-          break;
-      }
+      _btnAction();
     });
     super.onBind();
   }
@@ -67,6 +50,66 @@ class AddPointsDetailsWM extends WidgetModel {
       listen: false,
     );
     super.onLoad();
+  }
+
+  Future<void> _btnAction() async {
+    switch (addPointsModel.type) {
+      case 'review':
+        await _addPoints('/review/save/');
+        break;
+      case 'review_social':
+        await _addPoints('/review/soc/save/');
+        break;
+      case 'vk':
+        await _launchVKUrl(addPointsModel.url);
+        break;
+      case 'invite_friend':
+        await Utils.tryShare(text: addPointsModel.url);
+        break;
+    }
+  }
+
+  Future<void> _launchVKUrl(String? url) async {
+    unawaited(loadingState.accept(true));
+
+    CustomException? error;
+
+
+    try {
+      await AddPointsSaver.beforeLaunchVKUrl();
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      error = CustomException(
+        title: e.toString(),
+        ex: e,
+      );
+    }
+
+
+    unawaited(loadingState.accept(false));
+
+    if (error != null) {
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
+    } else {
+      await Utils.tryLaunchUrl(
+        rawUrl: url ?? '',
+        isPhone: false,
+      );
+    }
   }
 
   Future<void> _addPoints(String link) async {
@@ -156,5 +199,13 @@ class AddPointsSaver {
     );
 
     return BaseResponseRepository.fromMap(resp.data!);
+  }
+
+  static Future<void> beforeLaunchVKUrl() async {
+    final rh = RequestHandler();
+
+    await rh.post<Map<String, dynamic>>(
+      '/user/vk/',
+    );
   }
 }

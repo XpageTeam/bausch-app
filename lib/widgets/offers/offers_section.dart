@@ -56,7 +56,7 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
       loadingBuilder: (context, offers) {
         if (offers != null) {
           return Container(
-            margin: widget.margin,
+            margin: offers.isNotEmpty ? widget.margin : null,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: offers
@@ -85,7 +85,7 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
       },
       builder: (c, offers) {
         return Container(
-          margin: widget.margin,
+          margin: offers.isNotEmpty ? widget.margin : null,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: offers
