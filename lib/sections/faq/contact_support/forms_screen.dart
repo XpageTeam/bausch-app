@@ -17,6 +17,7 @@ class FormsScreen extends StatefulWidget {
   final QuestionModel? question;
 
   final TopicModel? topic;
+
   const FormsScreen({
     required this.controller,
     this.question,
@@ -39,6 +40,7 @@ class _FormsScreenState extends State<FormsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return BlocBuilder<FieldsBloc, FieldsState>(
       bloc: fieldsBloc,
       builder: (context, state) {
