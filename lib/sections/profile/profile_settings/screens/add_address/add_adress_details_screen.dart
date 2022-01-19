@@ -138,6 +138,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             labelText: 'Кв/офис',
                             controller: flatController,
                             inputType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
+                            
                           ),
                         ),
                         const SizedBox(
@@ -148,6 +150,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             labelText: 'Подъезд',
                             controller: entryController,
                             inputType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                           ),
                         ),
                         const SizedBox(
@@ -158,6 +161,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             labelText: 'Этаж',
                             controller: floorController,
                             inputType: TextInputType.number,
+                            textInputAction: TextInputAction.done,
                           ),
                         ),
                       ],
@@ -180,6 +184,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           street: widget.adress.street,
                           house: widget.adress.house,
                           city: widget.adress.city,
+                          region: widget.adress.region,
+                          settlement: widget.adress.settlement,
                           zipCode: widget.adress.zipCode,
                           flat: flatController.text.isNotEmpty
                               ? int.parse(flatController.text)

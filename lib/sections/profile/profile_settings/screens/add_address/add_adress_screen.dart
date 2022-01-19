@@ -81,14 +81,14 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(5),
                                 onTap: () {
-                                  final currentFocus = FocusScope.of(ctx);
-
-                                  if (!currentFocus.hasPrimaryFocus) {
-                                    currentFocus.unfocus();
-                                  }
-
                                   //* Если выбрал улицу без номера дома
                                   if (state.models[i].data.house.isNotEmpty) {
+                                    final currentFocus = FocusScope.of(ctx);
+
+                                    if (!currentFocus.hasPrimaryFocus) {
+                                      currentFocus.unfocus();
+                                    }
+                                    
                                     showModalBottomSheet<void>(
                                       context: context,
                                       shape: RoundedRectangleBorder(
@@ -116,9 +116,12 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                                       ? state
                                                           .models[i].data.house
                                                       : '${state.models[i].data.house}/${state.models[i].data.block}',
-                                                  region: state.models[i].data.region,
-                                                  city: state.models[i].data.city,
-                                                  settlement: state.models[i].data.settlement,
+                                                  region: state
+                                                      .models[i].data.region,
+                                                  city:
+                                                      state.models[i].data.city,
+                                                  settlement: state.models[i]
+                                                      .data.settlement,
                                                   zipCode: state.models[i].data
                                                       .postalCode,
                                                 ),

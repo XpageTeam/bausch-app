@@ -25,18 +25,14 @@ class AddressSelectScreenWM extends WidgetModel {
     required this.addressesList,
   })  : filteredAddressesList = StreamedState(addressesList),
         super(const WidgetModelDependencies()) {
-    // ignore: curly_braces_in_flow_control_structures
     for (final address in addressesList) {
 
-      debugPrint(address.fullAddress+' '+address.street+' '+address.house.toString());
-
-      if (citiesList.contains(address.city)) {
+      if (citiesList.contains(address.cityAndSettlement)) {
         continue;
       }
 
-      if (address.city != null) {
-        citiesList.add(address.city!);
-      }
+      
+      citiesList.add(address.cityAndSettlement);
     }
   }
 
@@ -79,11 +75,15 @@ class AddressSelectScreenWM extends WidgetModel {
   void _applyFilter(String cityName) {
     final addresses = <AdressModel>[];
 
+    debugPrint('Фильтр запущен: $cityName');
+
     for (final address in addressesList) {
-      if (address.city == cityName) {
+      if (address.cityAndSettlement == cityName) {
         addresses.add(address);
       }
     }
+
+    debugPrint('Массив адресов: ${addresses.map((e) => e.street+e.house!).toString()}');
 
     filteredAddressesList.accept(addresses);
   }

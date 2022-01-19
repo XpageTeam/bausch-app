@@ -38,8 +38,16 @@ class AdressModel implements MappableInterface<AdressModel> {
       address += '$region, ';
     }
 
+    address += cityAndSettlement;
+
+    return address;
+  }
+
+  String get cityAndSettlement {
+    var address = '';
+
     if (city != null){
-      address += '$city${settlement != null ? ' , ' : ''}';
+      address += '$city${settlement != null ? ', ' : ''}';
     }
 
     if (settlement != null){

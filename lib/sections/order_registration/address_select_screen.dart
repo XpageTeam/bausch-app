@@ -87,9 +87,13 @@ class _AddressSelectScreenState
               child: StreamedStateBuilder<List<AdressModel>>(
                 streamedState: wm.filteredAddressesList,
                 builder: (_, addressesList) {
+                  debugPrint(addressesList[0].street);
+
                   return ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemBuilder: (ctx, i) {
+                    itemBuilder: (_, i) {
+                      final address = addressesList[i];
+
                       return Padding(
                         padding: const EdgeInsets.only(
                           bottom: 4,
@@ -97,11 +101,11 @@ class _AddressSelectScreenState
                         child: FocusButton(
                           labelText: 'Адрес',
                           selectedText:
-                              '${widget.userAdresses[i].street}, ${widget.userAdresses[i].house}',
+                              '${address.street}, ${address.house}',
                           onPressed: () {
                             wm.addressSelectAction(
                               OrderAddressScreenArguments(
-                                adress: widget.userAdresses[i],
+                                adress: address,
                                 productItemModel: widget.productItemModel,
                                 orderRegistrationScreenWM:
                                     widget.orderRegistrationScreenWM,
