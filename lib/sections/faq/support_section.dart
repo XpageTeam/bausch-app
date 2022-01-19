@@ -11,10 +11,7 @@ class SupportSection extends StatelessWidget {
   final QuestionModel? question;
   final TopicModel? topic;
 
-  final List<QuestionField>? fields;
-
   const SupportSection({
-    this.fields,
     this.question,
     this.topic,
     Key? key,
@@ -22,6 +19,8 @@ class SupportSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('topic: $topic, question: $question');
+
     return SliverList(
       delegate: SliverChildListDelegate(
         [
