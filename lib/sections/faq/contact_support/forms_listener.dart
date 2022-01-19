@@ -18,7 +18,7 @@ class FormsListener extends StatelessWidget {
         BlocListener<FieldsBloc, FieldsState>(
           listener: (context, state) {
             if (state is FieldsFailed) {
-              showDefaultNotification(title: state.title);
+              showDefaultNotification(title: state.title, subtitle: state.subtitle);
             }
 
             if (state is FieldsSended) {
@@ -33,7 +33,7 @@ class FormsListener extends StatelessWidget {
         BlocListener<FormsCubit, FormsState>(
           listener: (context, state) {
             if (state is FormsFailed) {
-              showDefaultNotification(title: state.title);
+              showDefaultNotification(title: state.title, subtitle: state.subtitle);
               Navigator.of(context).pop();
             }
           },
