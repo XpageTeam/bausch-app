@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 // ignore_for_file: avoid-returning-widgets
 
 Widget childBuilder(FieldModel model, BuildContext context) {
+  debugPrint('тип поля: ${model.type}');
   switch (model.type) {
     case 'select':
       return Select(
