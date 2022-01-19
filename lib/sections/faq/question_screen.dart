@@ -15,12 +15,10 @@ import 'package:url_launcher/url_launcher.dart';
 class QuestionScreenArguments {
   final QuestionModel question;
   final TopicModel topic;
-  final List<QuestionField>? fields;
 
   QuestionScreenArguments({
     required this.question,
     required this.topic,
-    this.fields,
   });
 }
 
@@ -34,19 +32,18 @@ class QuestionScreen extends StatelessWidget
   @override
   final TopicModel topic;
 
-  @override
-  final List<QuestionField>? fields;
-
   const QuestionScreen({
     required this.controller,
     required this.question,
     required this.topic,
-    this.fields,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    debugPrint('topic: $topic, question: $question');
+
     return CustomSheetScaffold(
       controller: controller,
       appBar: const CustomSliverAppbar(
@@ -119,7 +116,6 @@ class QuestionScreen extends StatelessWidget
           sliver: SupportSection(
             question: question,
             topic: topic,
-            fields: fields,
           ),
         ),
       ],
