@@ -320,13 +320,13 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               break;
 
             case '/support':
+              final args = settings.arguments as ContactSupportScreenArguments;
+
+              debugPrint('topic1: ${args.topic}, question1: ${args.question}');
               page = ContactSupportScreen(
                 controller: controller,
-                question: (settings.arguments as ContactSupportScreenArguments)
-                    .question,
-                topic:
-                    (settings.arguments as ContactSupportScreenArguments).topic,
-                fields: (settings as ContactSupportScreenArguments).fields,
+                question: args.question,
+                topic: args.topic,
               );
               break;
 

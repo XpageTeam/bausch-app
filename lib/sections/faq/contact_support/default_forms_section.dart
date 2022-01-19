@@ -34,13 +34,16 @@ class _DefaultFormsSectionState extends State<DefaultFormsSection> {
 
     formsCubit = BlocProvider.of<FormsCubit>(context);
 
+    if (widget.topic != null) {
+      fieldsBloc.add(FieldsSetTopic(widget.topic!));
+    }
+
+    debugPrint('widget.question: ${widget.question}');
+
     if (widget.question != null) {
       fieldsBloc.add(FieldsSetQuestion(widget.question!));
     }
 
-    if (widget.topic != null) {
-      fieldsBloc.add(FieldsSetTopic(widget.topic!));
-    }
   }
 
   @override
