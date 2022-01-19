@@ -14,6 +14,7 @@ part 'fields_state.dart';
 class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
   FieldsBloc() : super(FieldsInitial()) {
     debugPrint('Q: ${state.question}, topic: ${state.topic}');
+
     on<FieldsEvent>((event, emit) async {
       if (event is FieldsSend) {
         emit(FieldsSending(
@@ -54,7 +55,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
       }
 
       if (event is FieldsSetTopic) {
-        //debugPrint(event.number.toString());
+        debugPrint('FieldsSetTopic: ${event.number}');
         emit(FieldsUpdated(
           email: state.email,
           topic: event.number,
@@ -65,7 +66,7 @@ class FieldsBloc extends Bloc<FieldsEvent, FieldsState> {
       }
 
       if (event is FieldsSetQuestion) {
-        debugPrint(event.number.toString());
+        debugPrint('FieldsSetQuestion: ${event.number}');
         emit(FieldsUpdated(
           email: state.email,
           topic: state.topic,
