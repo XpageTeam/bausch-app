@@ -1,8 +1,7 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
-import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
-import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/sections/order_registration/downloader/address_downloader.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +10,8 @@ import 'package:meta/meta.dart';
 part 'adresses_state.dart';
 
 class AdressesCubit extends Cubit<AdressesState> {
+  final _downloader = AddressDownloader();
+
   AdressesCubit() : super(AdressesInitial()) {
     getAdresses();
   }
@@ -18,23 +19,10 @@ class AdressesCubit extends Cubit<AdressesState> {
   Future<void> getAdresses() async {
     emit(AdressesLoading());
 
-    final rh = RequestHandler();
-
     try {
-      final parsedData = BaseResponseRepository.fromMap(
-        (await rh.get<Map<String, dynamic>>(
-          '/user/addresses/',
-        ))
-            .data!,
-      );
-
       emit(
         GetAdressesSuccess(
-          adresses: (parsedData.data as List<dynamic>)
-              // ignore: avoid_annotating_with_dynamic
-              .map((dynamic address) =>
-                  AdressModel.fromMap(address as Map<String, dynamic>))
-              .toList(),
+          adresses: await _downloader.loadData(),
         ),
       );
     } on ResponseParseException catch (e) {

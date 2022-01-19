@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -7,13 +9,13 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -58,8 +60,10 @@ class PartnersVerificationWM extends WidgetModel {
 
     CustomException? error;
 
+    PartnerOrderResponse? response;
+
     try {
-      await OrderPartnerItemSaver.save(
+      response = await OrderPartnerItemSaver.save(
         itemModel,
         'partner',
       );
@@ -82,8 +86,7 @@ class PartnersVerificationWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -98,6 +101,7 @@ class PartnersVerificationWM extends WidgetModel {
         (route) => route.isCurrent,
         arguments: ItemSheetScreenArguments(
           model: itemModel,
+          orderData: response,
         ),
       );
     }
@@ -105,11 +109,14 @@ class PartnersVerificationWM extends WidgetModel {
 }
 
 class OrderPartnerItemSaver {
-  static Future<BaseResponseRepository> save(
+  static Future<PartnerOrderResponse> save(
     CatalogItemModel model,
     String category,
   ) async {
     final rh = RequestHandler();
+
+
+
     final response =
         BaseResponseRepository.fromMap((await rh.put<Map<String, dynamic>>(
       '/order/partner/',
@@ -120,15 +127,9 @@ class OrderPartnerItemSaver {
           'category': category,
         },
       ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     ))
             .data!);
 
-    return response;
+    return PartnerOrderResponse.fromMap(response.data as Map<String, dynamic>);
   }
 }

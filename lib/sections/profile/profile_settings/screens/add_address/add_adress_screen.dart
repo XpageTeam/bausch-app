@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_details_screen.dart';
 import 'package:bausch/static/static_data.dart';
@@ -15,7 +14,6 @@ import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class AddAdressScreen extends StatefulWidget {
   const AddAdressScreen({Key? key}) : super(key: key);
@@ -71,7 +69,6 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
             BlocBuilder<DadataBloc, DadataState>(
               bloc: dadataBloc,
               builder: (context, state) {
-                debugPrint(state.toString());
                 if (state is DadataSuccess) {
                   //debugPrint(state.models[0].data.street);
                   if (state.models.isNotEmpty) {
@@ -85,8 +82,6 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                 borderRadius: BorderRadius.circular(5),
                                 onTap: () {
                                   final currentFocus = FocusScope.of(ctx);
-
-                                  debugPrint(currentFocus.toString());
 
                                   if (!currentFocus.hasPrimaryFocus) {
                                     currentFocus.unfocus();
@@ -108,7 +103,9 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                           yesCallback: () {
                                             // Navigator.of(ctx).pop();
 
-                                            Navigator.of(context).popAndPushNamed('/add_details',
+                                            Navigator.of(context)
+                                                .popAndPushNamed(
+                                              '/add_details',
                                               arguments: AddDetailsArguments(
                                                 adress: AdressModel(
                                                   street: state
@@ -119,11 +116,15 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                                       ? state
                                                           .models[i].data.house
                                                       : '${state.models[i].data.house}/${state.models[i].data.block}',
+                                                  region: state.models[i].data.region,
+                                                  city: state.models[i].data.city,
+                                                  settlement: state.models[i].data.settlement,
                                                   zipCode: state.models[i].data
                                                       .postalCode,
                                                 ),
                                                 isFirstLaunch: true,
-                                              ),);
+                                              ),
+                                            );
                                           },
                                           noCallback: Navigator.of(context).pop,
                                         );

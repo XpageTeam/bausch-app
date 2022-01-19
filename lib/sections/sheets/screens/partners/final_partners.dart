@@ -1,5 +1,6 @@
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -13,9 +14,12 @@ import 'package:flutter/material.dart';
 class FinalPartners extends StatelessWidget {
   final ScrollController controller;
   final PartnersItemModel model;
+  final PartnerOrderResponse? orderData;
+
   const FinalPartners({
     required this.controller,
     required this.model,
+    this.orderData,
     Key? key,
   }) : super(key: key);
 
@@ -42,29 +46,28 @@ class FinalPartners extends StatelessWidget {
                     top: 78,
                     bottom: 40,
                   ),
-                  // TODO(Nikolay): Нет данных.
                   child: Text(
-                    'Это ваш промокод на 45-дневную подписку на онлайн-кинотеатр More.TV',
+                    orderData?.title != null ? orderData!.title! : '',
                     style: AppStyles.h1,
                   ),
                 ),
-                if (model.poolPromoCode != null)
+                if (model.staticPromoCode != null)
                   ContainerWithPromocode(
-                    promocode: model.poolPromoCode!,
+                    promocode: model.staticPromoCode!,
                     onPressed: () =>
-                        Utils.copyStringToClipboard(model.poolPromoCode!),
+                        Utils.copyStringToClipboard(model.staticPromoCode!),
                   ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 12,
-                    bottom: 40,
+                if (orderData?.subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 12,
+                      bottom: 40,
+                    ),
+                    child: Text(
+                      orderData!.subtitle!,
+                      style: AppStyles.p1,
+                    ),
                   ),
-                  // TODO(Nikolay): Нет данных.
-                  child: Text(
-                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
-                    style: AppStyles.p1,
-                  ),
-                ),
                 BigCatalogItem(model: model),
               ],
             ),

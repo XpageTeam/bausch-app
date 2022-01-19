@@ -7,6 +7,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/offer/offer.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
@@ -206,10 +207,13 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               break;
 
             case '/final_partners':
+              final arguments = settings.arguments as ItemSheetScreenArguments;
+
               page = FinalPartners(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
+                model: arguments.model
                     as PartnersItemModel,
+                orderData: arguments.orderData as PartnerOrderResponse,
               );
               break;
 

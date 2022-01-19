@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
@@ -30,10 +31,14 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   @override
   final PromoItemModel model;
 
+  @override
+  final OrderData? orderData;
+
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
     required DiscountType discountType,
+    this.orderData,
     Key? key,
   }) : super(
           key: key,

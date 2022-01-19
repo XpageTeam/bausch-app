@@ -41,8 +41,8 @@ class OffersSectionWM extends WidgetModel {
       _loadData();
     });
 
-    updateTimer = Timer.periodic(const Duration(seconds: 10), (_){
-      // TODO(Danil): адовый костыль
+    updateTimer = Timer.periodic(const Duration(minutes: 3), (_){
+      // TODO(Danil): суровый костыль
       loadDataAction();
     });
 

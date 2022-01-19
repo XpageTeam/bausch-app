@@ -1,5 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -25,9 +26,13 @@ class FreePackagingScreen extends CoreMwwmWidget<FreePackagingScreenWM>
   @override
   final CatalogItemModel model;
 
+  @override
+  final OrderData? orderData;
+
   FreePackagingScreen({
     required this.controller,
     required this.model,
+    this.orderData,
     Key? key,
   }) : super(
           key: key,

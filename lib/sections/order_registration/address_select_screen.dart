@@ -41,6 +41,7 @@ class AddressSelectScreen extends CoreMwwmWidget<AddressSelectScreenWM>
           key: key,
           widgetModelBuilder: (context) => AddressSelectScreenWM(
             context: context,
+            addressesList: userAdresses,
           ),
         );
 
@@ -77,54 +78,40 @@ class _AddressSelectScreenState
                   return FocusButton(
                     labelText: 'Город',
                     selectedText: cityName,
-                    onPressed: () async {
-                      wm.setCityName(
-                        await Keys.mainNav.currentState!.push<String>(
-                          PageRouteBuilder<String>(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    CityScreen(),
-                          ),
-                        ),
-                      );
-                    },
+                    onPressed: wm.setCityNameAction,
                   );
                 },
               ),
             ),
             Flexible(
-              child: StreamedStateBuilder<String?>(
-                streamedState: wm.selectedCityName,
-                builder: (_, cityName) {
+              child: StreamedStateBuilder<List<AdressModel>>(
+                streamedState: wm.filteredAddressesList,
+                builder: (_, addressesList) {
                   return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (ctx, i) {
-                      if (cityName == widget.userAdresses[i].city) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 4,
-                          ),
-                          child: FocusButton(
-                            labelText: 'Адрес',
-                            selectedText:
-                                '${widget.userAdresses[i].street}, ${widget.userAdresses[i].house}',
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                '/order_address',
-                                arguments: OrderAddressScreenArguments(
-                                  adress: widget.userAdresses[i],
-                                  productItemModel: widget.productItemModel,
-                                  orderRegistrationScreenWM:
-                                      widget.orderRegistrationScreenWM,
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return Container();
-                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 4,
+                        ),
+                        child: FocusButton(
+                          labelText: 'Адрес',
+                          selectedText:
+                              '${widget.userAdresses[i].street}, ${widget.userAdresses[i].house}',
+                          onPressed: () {
+                            wm.addressSelectAction(
+                              OrderAddressScreenArguments(
+                                adress: widget.userAdresses[i],
+                                productItemModel: widget.productItemModel,
+                                orderRegistrationScreenWM:
+                                    widget.orderRegistrationScreenWM,
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     },
-                    itemCount: widget.userAdresses.length,
+                    itemCount: addressesList.length,
                   );
                 },
               ),

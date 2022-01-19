@@ -34,7 +34,7 @@ class NotificationItem extends StatelessWidget {
                 Text(
                   data.title,
                   style: AppStyles.p1,
-                  maxLines: 3,
+                  // maxLines: 3,
                 ),
                 if (data.formatedDate != null)
                   Container(

@@ -3,6 +3,7 @@ class DadataResponseDataModel {
   final String house;
   final String? block;
   final String? city;
+  final String? region;
   final String? settlement;
   final String? postalCode;
   //final String streetType;
@@ -11,6 +12,7 @@ class DadataResponseDataModel {
     required this.street,
     required this.house,
     this.city,
+    this.region,
     this.settlement,
     this.block,
     this.postalCode,
@@ -21,6 +23,7 @@ class DadataResponseDataModel {
       street: (map['street_with_type'] ?? '') as String,
       house: (map['house'] ?? '') as String,
       block: map['block'] as String?,
+      region: map['region_with_type'] as String?,
       city: map['city'] as String?,
       settlement: map['settlement'] as String?,
       postalCode: map['postal_code'] as String?,

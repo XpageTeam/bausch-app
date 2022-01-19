@@ -2,6 +2,7 @@
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/sheets/screens/webinars/all_webinars_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -13,8 +14,12 @@ import 'package:flutter/material.dart';
 
 class ItemSheetScreenArguments {
   final CatalogItemModel model;
+  final OrderData? orderData;
 
-  ItemSheetScreenArguments({required this.model});
+  ItemSheetScreenArguments({
+    required this.model,
+    this.orderData,
+  });
 }
 
 class SheetScreenArguments {

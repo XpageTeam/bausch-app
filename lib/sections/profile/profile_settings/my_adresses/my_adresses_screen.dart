@@ -77,14 +77,13 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   ),
                   separatorBuilder: (_, __) => const SizedBox(height: 4),
                   itemCount: state.adresses.length,
-                  itemBuilder: (context, i) {
+                  itemBuilder: (_, i) {
                     return AddressButton(
-                      labelText:
-                          '${state.adresses[i].city}, ${state.adresses[i].street}, ${state.adresses[i].house}',
-                      selectedText: (state.adresses[i].flat != null &&
-                              state.adresses[i].entry != null &&
+                      labelText: state.adresses[i].fullAddress,
+                      selectedText: (state.adresses[i].flat != null ||
+                              state.adresses[i].entry != null ||
                               state.adresses[i].floor != null)
-                          ? 'Кв.${state.adresses[i].flat},подъезд ${state.adresses[i].entry},этаж ${state.adresses[i].floor}'
+                          ? '${state.adresses[i].flat != null ? 'Кв. ${state.adresses[i].flat}' : ''}${state.adresses[i].entry != null ? ', подъезд ${state.adresses[i].entry}' : ''}${state.adresses[i].floor != null ? ', этаж ${state.adresses[i].floor}' : ''}'
                           : null,
                       onPressed: () {
                         Keys.mainContentNav.currentState!
