@@ -107,7 +107,6 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                       arguments: QuestionScreenArguments(
                         question: topicModel.questions[index],
                         topic: topicModel,
-                        fields: topicModel.questions[index].fields,
                       ),
                     );
                   },
