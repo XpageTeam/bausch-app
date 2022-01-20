@@ -297,7 +297,7 @@ class FormScreenWM extends WidgetModel {
       debugPrint(extraFieldsList.value.data.toString());
     } on DioError catch (e) {
       await extraFieldsList.error(CustomException(
-        title: 'При загрузке стандартных полей произошла ошибка',
+        title: 'При загрузке дополнительных полей произошла ошибка',
         subtitle: e.message,
         ex: e,
       ));

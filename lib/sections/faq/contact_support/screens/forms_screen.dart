@@ -13,6 +13,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -158,7 +159,7 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
                       return isLoading
                           ? const BlueButtonWithText(
                               text: '',
-                              icon: AnimatedLoader(),
+                              icon: UiCircleLoader(),
                               //onPressed: () {},
                             )
                           : BlueButtonWithText(
@@ -175,7 +176,7 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
             delegate: SliverChildListDelegate(
               [
                 const SizedBox(
-                  height: 120,
+                  height: 40,
                 ),
               ],
             ),

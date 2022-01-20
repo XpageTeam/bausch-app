@@ -32,8 +32,10 @@ Widget childBuilder(FieldModel model, BuildContext context) {
         model: model,
       );
 
+    case 'number':
+      return FormTextInput(model: model,type: TextInputType.number,);
     case 'string':
-      return FormTextInput(model: model);
+    
     default:
       return FormTextInput(model: model);
   }
