@@ -49,7 +49,7 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
       listener: (context, state) {
         if (state is GetAdressesSuccess) {
           if (state.adresses.isNotEmpty) {
-            final adressModel = state.adresses.last;
+            final adressModel = state.adresses.first;
             wm.address.accept(adressModel);
           }
         }
@@ -91,15 +91,13 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
 
                             address as AdressModel?;
 
-                            debugPrint(address?.cityAndSettlement);
-
                             if (address != null) {
                               await wm.address.accept(address);
                             }
                           },
                           title: Flexible(
                             child: Text(
-                              '${selectedAddress.cityAndSettlement}, ${selectedAddress.street}, ${selectedAddress.house}',
+                              '${selectedAddress.cityAndSettlement}, ${selectedAddress.street}, д ${selectedAddress.house}',
                               style: AppStyles.h2Bold,
                             ),
                           ),

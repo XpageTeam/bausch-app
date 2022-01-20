@@ -28,7 +28,7 @@ class BlueButtonWithText extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            icon ?? Container(),
+            if (icon != null) icon!,
             Padding(
               padding: EdgeInsets.only(left: icon == null ? 0 : 9),
               child: Text(
