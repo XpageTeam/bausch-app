@@ -1,9 +1,11 @@
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class FormTextArea extends StatefulWidget {
   final FieldModel model;
@@ -17,37 +19,43 @@ class FormTextArea extends StatefulWidget {
 }
 
 class _FormTextAreaState extends State<FormTextArea> {
-  final TextEditingController controller = TextEditingController();
+  late final TextEditingController controller;
+  late final FormScreenWM formSreenWM;
   //late FieldsBloc fieldsBloc;
 
   @override
   void initState() {
     super.initState();
+    formSreenWM = Provider.of<FormScreenWM>(
+      context,
+      listen: false,
+    );
     //fieldsBloc = BlocProvider.of<FieldsBloc>(context);
 
-    controller.addListener(
-      () {
-        if (controller.text.isNotEmpty) {
-          // fieldsBloc.add(
-          //   FieldsAddExtra(
-          //     extra: <String, dynamic>{
-          //       'extra[${widget.model.xmlId}]': controller.text,
-          //     },
-          //   ),
-          // );
-        }
+    switch (widget.model.xmlId) {
+      case 'comment':
+        controller = formSreenWM.commentController;
+        break;
+      default:
+        controller = TextEditingController()
+          ..addListener(() {
+            final data = formSreenWM.extraList.value.data!;
 
-        if (controller.text.isEmpty) {
-          // fieldsBloc.add(
-          //   FieldsRemoveExtra(
-          //     extra: <String, dynamic>{
-          //       'extra[${widget.model.xmlId}]': controller.text,
-          //     },
-          //   ),
-          // );
-        }
-      },
-    );
+            data.fields.add(
+              MapEntry(
+                'extra[${widget.model.xmlId}]',
+                controller.text,
+              ),
+            );
+
+            // Map<String, dynamic> map = formSreenWM.extraList.value.data!;
+            // map.addAll(<String, dynamic>{
+            //   'extra[${widget.model.xmlId}]': controller.text,
+            // });
+            formSreenWM.extraList.content(data);
+          });
+        break;
+    }
   }
 
   @override
@@ -81,10 +89,13 @@ class _FormTextAreaState extends State<FormTextArea> {
             ),
             IconButton(
               onPressed: () {
-                // Navigator.of(context).pushNamed(
-                //   '/add_files',
-                //   arguments: AttachFilesScreenArguments(fieldsBloc: fieldsBloc),
-                // );
+                Navigator.of(context).pushNamed(
+                  '/add_files',
+                  arguments: AttachFilesScreenArguments(
+                    fieldModel: widget.model,
+                    formScreenWM: formSreenWM,
+                  ),
+                );
               },
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),

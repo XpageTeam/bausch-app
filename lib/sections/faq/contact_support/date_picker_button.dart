@@ -1,8 +1,10 @@
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class DatePickerButton extends StatefulWidget {
   final FieldModel model;
@@ -17,13 +19,17 @@ class DatePickerButton extends StatefulWidget {
 
 class _DatePickerButtonState extends State<DatePickerButton> {
   //late FieldsBloc fieldsBloc;
+  late final FormScreenWM formSreenWM;
   String? value;
   DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    //fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+    formSreenWM = Provider.of<FormScreenWM>(
+      context,
+      listen: false,
+    );
   }
 
   @override
@@ -53,6 +59,21 @@ class _DatePickerButtonState extends State<DatePickerButton> {
         // fieldsBloc.add(FieldsAddExtra(extra: <String, dynamic>{
         //   'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
         // }));
+        final data = formSreenWM.extraList.value.data!;
+
+        data.fields.add(
+          MapEntry(
+            'extra[${widget.model.xmlId}]',
+            selectedDate.toIso8601String(),
+          ),
+        );
+
+        // Map<String, dynamic> map = <String, dynamic>{}
+        //   ..addAll(formSreenWM.extraList.value.data!);
+        // map.addAll(<String, dynamic>{
+        //   'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
+        // });
+        formSreenWM.extraList.content(data);
       });
     }
   }

@@ -3,6 +3,7 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class FormsContentDownloader {
@@ -83,6 +84,37 @@ class FormsContentDownloader {
             (dynamic item) => ValueModel.fromMap(item as Map<String, dynamic>),
           )
           .toList();
+    } on ResponseParseException {
+      rethrow;
+    } catch (e) {
+      throw ResponseParseException('loadExtraFields: ${e.toString()}');
+    }
+  }
+
+  Future<bool> sendData(
+    String email,
+    int topic,
+    int question,
+    String phone,
+    String comment,
+  ) async {
+    final result =
+        BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+      'faq/form/',
+      data: FormData.fromMap(
+        <String, dynamic>{
+          'email': email,
+          'topic': topic,
+          'question': question,
+          //'files': files,
+        },
+        //..addAll(extra),
+      ),
+    ))
+            .data!);
+
+    try {
+      return true;
     } on ResponseParseException {
       rethrow;
     } catch (e) {

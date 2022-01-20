@@ -1,22 +1,43 @@
+// ignore_for_file: unnecessary_statements
+
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/faq/contact_support/downloader/forms_content_downloader.dart';
+import 'package:bausch/sections/faq/contact_support/response/forms_response.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class FormScreenWM extends WidgetModel {
   final BuildContext context;
 
+  late final UserWM userWM;
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController =
+      MaskedTextController(mask: '+7 000 000 00 00');
+  final TextEditingController commentController = TextEditingController();
+
   final QuestionModel? question;
   final TopicModel? topic;
+
+  final sendAction = VoidAction();
+
+  final loadingState = StreamedState<bool>(false);
 
   final selectedTopic = StreamedState<ValueModel?>(null);
   final selectedQuestion = StreamedState<ValueModel?>(null);
@@ -32,6 +53,12 @@ class FormScreenWM extends WidgetModel {
   final questionsList =
       EntityStreamedState<List<ValueModel>>(const EntityState(data: []));
 
+  final extraList = EntityStreamedState<FormData>(
+    EntityState(
+      data: FormData.fromMap(<String, dynamic>{}),
+    ),
+  );
+
   final _downloader = FormsContentDownloader();
 
   FormScreenWM({
@@ -43,6 +70,12 @@ class FormScreenWM extends WidgetModel {
   @override
   void onLoad() {
     super.onLoad();
+
+    userWM = Provider.of<UserWM>(context, listen: false);
+
+    extraList.bind((val) {
+      debugPrint(val.toString());
+    });
 
     _loadDefaultFields();
     _loadCategoryList();
@@ -66,6 +99,79 @@ class FormScreenWM extends WidgetModel {
       );
       loadExtraFields(question!.id);
     }
+
+    if (userWM.userData.value.data!.user.name != null) {
+      nameController.text = userWM.userData.value.data!.user.name!;
+    }
+
+    if (userWM.userData.value.data!.user.email != null) {
+      emailController.text = userWM.userData.value.data!.user.email!;
+    }
+
+    phoneController.text = userWM.userData.value.data!.user.phone;
+  }
+
+  @override
+  void onBind() {
+    sendAction.bind((_) {
+      if (nameController.text.isNotEmpty ||
+          emailController.text.isNotEmpty ||
+          phoneController.text.isNotEmpty) {
+        sendData(
+          nameController.text,
+          emailController.text,
+          phoneController.text,
+          commentController.text,
+          selectedTopic.value!.id,
+          selectedQuestion.value!.id,
+        );
+      } else {
+        showDefaultNotification(title: 'Необходимо заполнить поля!');
+      }
+    });
+    super.onBind();
+  }
+
+  //* Отправка полей
+  Future<FormsResponse> sendData(
+    String name,
+    String email,
+    String phone,
+    String? comment,
+    int topic,
+    int question,
+  ) async {
+    final rh = RequestHandler();
+
+    unawaited(loadingState.accept(true));
+
+    final data = FormData.fromMap(
+      <String, dynamic>{
+        'fio': name,
+        'email': email,
+        'phone': phone,
+        'comment': comment,
+        'topic': topic,
+        'question': question,
+      },
+    );
+
+    data.fields.addAll(extraList.value.data!.fields);
+
+    data.files.addAll(extraList.value.data!.files);
+
+    data.files.forEach((element) {
+      debugPrint(element.value.isFinalized.toString());
+    });
+
+    final response =
+        BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+      '/faq/form/',
+      data: data,
+    ))
+            .data!);
+
+    return FormsResponse.fromMap(response.data as Map<String, dynamic>);
   }
 
   //* Получение списка категорий

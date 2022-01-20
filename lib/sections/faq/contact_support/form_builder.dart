@@ -18,11 +18,11 @@ Widget childBuilder(FieldModel model, BuildContext context) {
     //     );
     case 'textarea':
       return FormTextArea(model: model);
-    case 'number':
-      return FormTextInput(
-        model: model,
-        type: TextInputType.number,
-      );
+    // case 'number':
+    //   return FormTextInput(
+    //     model: model,
+    //     type: TextInputType.number,
+    //   );
     case 'date':
       return DatePickerButton(
         model: model,

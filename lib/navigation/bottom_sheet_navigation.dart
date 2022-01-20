@@ -331,9 +331,11 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
             case '/add_files':
               page = AttachFilesScreen(
-                  // fieldsBloc: (settings.arguments as AttachFilesScreenArguments)
-                  //     .fieldsBloc,
-                  );
+                formScreenWM: (settings.arguments as AttachFilesScreenArguments)
+                    .formScreenWM,
+                fieldModel: (settings.arguments as AttachFilesScreenArguments)
+                    .fieldModel,
+              );
               break;
 
             case '/content':

@@ -82,7 +82,6 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
               ],
             ),
           ),
-          TopicQuestionSelect(),
 
           //* Стандартные поля
           EntityStateBuilder<List<FieldModel>>(
@@ -114,6 +113,7 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
               );
             },
           ),
+          TopicQuestionSelect(),
 
           //* Дополнительные поля
           EntityStateBuilder<List<FieldModel>>(
@@ -148,13 +148,24 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: StaticData.sidePadding,
                   ),
-                  child: BlueButtonWithText(
-                    text: 'Отправить',
-                    //onPressed: null,
+                  child: StreamedStateBuilder<bool>(
+                    streamedState: wm.loadingState,
+                    builder: (_, isLoading) {
+                      return isLoading
+                          ? const BlueButtonWithText(
+                              text: '',
+                              icon: AnimatedLoader(),
+                              //onPressed: () {},
+                            )
+                          : BlueButtonWithText(
+                              text: 'Отправить',
+                              onPressed: wm.sendAction,
+                            );
+                    },
                   ),
                 ),
               ],

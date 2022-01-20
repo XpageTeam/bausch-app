@@ -2,7 +2,7 @@ import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/sections/faq/contact_support/forms_listener.dart';
 import 'package:bausch/sections/faq/contact_support/forms_provider.dart';
-import 'package:bausch/sections/faq/contact_support/forms_screen.dart';
+import 'package:bausch/sections/faq/contact_support/screens/forms_screen.dart';
 import 'package:flutter/material.dart';
 
 class ContactSupportScreenArguments {
