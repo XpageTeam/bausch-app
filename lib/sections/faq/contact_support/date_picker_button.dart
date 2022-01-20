@@ -59,21 +59,11 @@ class _DatePickerButtonState extends State<DatePickerButton> {
         // fieldsBloc.add(FieldsAddExtra(extra: <String, dynamic>{
         //   'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
         // }));
-        final data = formSreenWM.extraList.value.data!;
-
-        data.fields.add(
-          MapEntry(
-            'extra[${widget.model.xmlId}]',
-            selectedDate.toIso8601String(),
-          ),
-        );
-
-        // Map<String, dynamic> map = <String, dynamic>{}
-        //   ..addAll(formSreenWM.extraList.value.data!);
-        // map.addAll(<String, dynamic>{
-        //   'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
-        // });
-        formSreenWM.extraList.content(data);
+        Map<String, dynamic> map = formSreenWM.extraList.value.data!;
+        map.addAll(<String, dynamic>{
+          'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
+        });
+        formSreenWM.extraList.content(map);
       });
     }
   }

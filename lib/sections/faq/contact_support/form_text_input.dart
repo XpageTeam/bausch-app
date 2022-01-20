@@ -56,16 +56,12 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
       default:
         controller = TextEditingController()
           ..addListener(() {
-            final data = formSreenWM.extraList.value.data;
-
-            data!.fields
-                .add(MapEntry('extra[${widget.model.xmlId}]', controller.text));
-            // Map<String, dynamic> map = <String, dynamic>{}
-            //   ..addAll(formSreenWM.extraList.value.data!);
-            // map.addAll(<String, dynamic>{
-            //   'extra[${widget.model.xmlId}]': controller.text,
-            // });
-            formSreenWM.extraList.content(data);
+            Map<String, dynamic> map = <String, dynamic>{}
+              ..addAll(formSreenWM.extraList.value.data!);
+            map.addAll(<String, dynamic>{
+              'extra[${widget.model.xmlId}]': controller.text,
+            });
+            formSreenWM.extraList.content(map);
           });
     }
   }

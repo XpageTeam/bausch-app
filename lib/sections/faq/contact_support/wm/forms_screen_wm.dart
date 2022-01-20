@@ -53,9 +53,9 @@ class FormScreenWM extends WidgetModel {
   final questionsList =
       EntityStreamedState<List<ValueModel>>(const EntityState(data: []));
 
-  final extraList = EntityStreamedState<FormData>(
-    EntityState(
-      data: FormData.fromMap(<String, dynamic>{}),
+  final extraList = EntityStreamedState<Map<String, dynamic>>(
+    const EntityState(
+      data: <String, dynamic>{},
     ),
   );
 
@@ -133,7 +133,7 @@ class FormScreenWM extends WidgetModel {
   }
 
   //* Отправка полей
-  Future<FormsResponse> sendData(
+  Future<void> sendData(
     String name,
     String email,
     String phone,
@@ -141,37 +141,64 @@ class FormScreenWM extends WidgetModel {
     int topic,
     int question,
   ) async {
-    final rh = RequestHandler();
-
     unawaited(loadingState.accept(true));
 
-    final data = FormData.fromMap(
-      <String, dynamic>{
-        'fio': name,
-        'email': email,
-        'phone': phone,
-        'comment': comment,
-        'topic': topic,
-        'question': question,
-      },
-    );
+    final rh = RequestHandler();
 
-    data.fields.addAll(extraList.value.data!.fields);
+    CustomException? error;
 
-    data.files.addAll(extraList.value.data!.files);
+    try {
+      final response =
+          BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+        '/faq/form/',
+        data: FormData.fromMap(
+          <String, dynamic>{
+            'fio': name,
+            'email': email,
+            'phone': phone,
+            'comment': comment,
+            'topic': topic,
+            'question': question,
+          }..addAll(extraList.value.data!),
+        ),
+      ))
+              .data!);
 
-    data.files.forEach((element) {
-      debugPrint(element.value.isFinalized.toString());
-    });
+      //return FormsResponse.fromMap(response.data as Map<String, dynamic>);
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      error = CustomException(
+        title: e.toString(),
+        ex: e,
+      );
+    }
 
-    final response =
-        BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
-      '/faq/form/',
-      data: data,
-    ))
-            .data!);
+    unawaited(loadingState.accept(false));
 
-    return FormsResponse.fromMap(response.data as Map<String, dynamic>);
+    if (error != null) {
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
+    } else {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+      showDefaultNotification(
+        title: 'Ваше обращение успешно отправлено!',
+        success: true,
+      );
+    }
   }
 
   //* Получение списка категорий

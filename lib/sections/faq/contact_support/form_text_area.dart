@@ -39,20 +39,11 @@ class _FormTextAreaState extends State<FormTextArea> {
       default:
         controller = TextEditingController()
           ..addListener(() {
-            final data = formSreenWM.extraList.value.data!;
-
-            data.fields.add(
-              MapEntry(
-                'extra[${widget.model.xmlId}]',
-                controller.text,
-              ),
-            );
-
-            // Map<String, dynamic> map = formSreenWM.extraList.value.data!;
-            // map.addAll(<String, dynamic>{
-            //   'extra[${widget.model.xmlId}]': controller.text,
-            // });
-            formSreenWM.extraList.content(data);
+            Map<String, dynamic> map = formSreenWM.extraList.value.data!;
+            map.addAll(<String, dynamic>{
+              'extra[${widget.model.xmlId}]': controller.text,
+            });
+            formSreenWM.extraList.content(map);
           });
         break;
     }
