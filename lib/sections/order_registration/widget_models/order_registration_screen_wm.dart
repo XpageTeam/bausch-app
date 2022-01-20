@@ -125,13 +125,11 @@ class OrderRegistrationScreenWM extends WidgetModel {
     lastNameFieldEnabled = userWM.userData.value.data!.user.lastName == null;
 
     addAddressAction.bind((_) {
-      Navigator.of(context)
-          .pushNamed('/add_adress')
-          .then((needToReload){
-            if (needToReload != null && needToReload == true) {
-              adressesCubit.getAdresses();
-            }
-          });
+      Navigator.of(context).pushNamed('/add_adress').then((needToReload) {
+        if (needToReload != null && needToReload == true) {
+          adressesCubit.getAdresses();
+        }
+      });
     });
 
     makeOrderAction.bind((_) => _spendPoints());
@@ -163,6 +161,17 @@ class OrderRegistrationScreenWM extends WidgetModel {
         error = const CustomException(
           title: 'Необходимо ввести имя и фамилию',
         );
+        showTopError(error);
+        unawaited(loadingState.accept(false));
+        return;
+      }
+
+      if (userWM.userData.value.data!.user.email == null) {
+        error = const CustomException(
+          title: 'Необходимо указать почту в профиле',
+        );
+        showTopError(error);
+        unawaited(loadingState.accept(false));
         return;
       }
 
