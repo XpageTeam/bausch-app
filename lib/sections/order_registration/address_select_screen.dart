@@ -41,6 +41,7 @@ class AddressSelectScreen extends CoreMwwmWidget<AddressSelectScreenWM>
           widgetModelBuilder: (context) => AddressSelectScreenWM(
             context: context,
             addressesList: userAdresses,
+            selectedAddress: orderRegistrationScreenWM.address.value,
           ),
         );
 
@@ -97,7 +98,7 @@ class _AddressSelectScreenState
                         ),
                         child: FocusButton(
                           labelText: 'Адрес',
-                          selectedText: '${address.street}, ${address.house}',
+                          selectedText: '${address.street}, д ${address.house}',
                           onPressed: () {
                             wm.addressSelectAction(
                               address,

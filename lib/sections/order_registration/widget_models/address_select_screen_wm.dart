@@ -10,6 +10,8 @@ class AddressSelectScreenWM extends WidgetModel {
 
   final List<AdressModel> addressesList;
 
+  final AdressModel? selectedAddress;
+
   final StreamedState<List<AdressModel>> filteredAddressesList;
 
   final selectedCityName = StreamedState<String?>(null);
@@ -23,6 +25,7 @@ class AddressSelectScreenWM extends WidgetModel {
   AddressSelectScreenWM({
     required this.context,
     required this.addressesList,
+    this.selectedAddress,
   })  : filteredAddressesList = StreamedState(addressesList),
         super(const WidgetModelDependencies()) {
     for (final address in addressesList) {
@@ -66,8 +69,14 @@ class AddressSelectScreenWM extends WidgetModel {
       }
     });
 
-    if (citiesList.isNotEmpty) {
+    if (citiesList.isNotEmpty && selectedAddress == null) {
       selectedCityName.accept(citiesList[0]);
+    }
+
+    debugPrint(selectedAddress?.cityAndSettlement);
+
+    if (selectedAddress != null){
+      selectedCityName.accept(citiesList.firstWhere((city) => city == selectedAddress?.cityAndSettlement));
     }
 
     super.onBind();
