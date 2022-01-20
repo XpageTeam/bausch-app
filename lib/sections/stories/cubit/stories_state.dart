@@ -1,7 +1,11 @@
 part of 'stories_cubit.dart';
 
 @immutable
-abstract class StoriesState {}
+abstract class StoriesState {
+  final List<StoryModel?>? stories;
+
+  const StoriesState({this.stories});
+}
 
 class StoriesInitial extends StoriesState {}
 
@@ -9,13 +13,14 @@ class StoriesFailed extends StoriesState {
   final String title;
   final String? subtitle;
 
-  StoriesFailed({required this.title, this.subtitle});
+  const StoriesFailed({required this.title, this.subtitle});
 }
 
-class StoriesLoading extends StoriesState {}
+class StoriesLoading extends StoriesState {
+  const StoriesLoading({List<StoryModel?>? stories}) : super(stories: stories);
+}
 
 class StoriesSuccess extends StoriesState {
-  final List<StoryModel?> stories;
-
-  StoriesSuccess({required this.stories});
+  const StoriesSuccess({required List<StoryModel?>? stories})
+      : super(stories: stories);
 }

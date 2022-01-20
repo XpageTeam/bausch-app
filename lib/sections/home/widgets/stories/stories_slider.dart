@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/home/widgets/stories/story.dart';
 import 'package:bausch/sections/stories/cubit/stories_cubit.dart';
 import 'package:bausch/static/static_data.dart';
@@ -23,8 +24,10 @@ class _StoriesSliderState extends State<StoriesSlider> {
   @override
   void initState() {
     storiesCubit = StoriesCubit(
-    context: context,
-  );
+      context: context,
+    );
+
+    storiesCubitGlobal = storiesCubit;
     super.initState();
   }
 
@@ -39,7 +42,8 @@ class _StoriesSliderState extends State<StoriesSlider> {
     return BlocBuilder<StoriesCubit, StoriesState>(
       bloc: storiesCubit,
       builder: (context, state) {
-        if (state is StoriesSuccess) {
+        if (state is StoriesSuccess ||
+            (state is StoriesLoading && state.stories != null)) {
           return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               horizontal: StaticData.sidePadding,
@@ -48,7 +52,7 @@ class _StoriesSliderState extends State<StoriesSlider> {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: state.stories.map((item) {
+              children: state.stories!.map((item) {
                 if (item != null) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 4),
@@ -65,7 +69,9 @@ class _StoriesSliderState extends State<StoriesSlider> {
         }
         if (state is StoriesFailed) {
           debugPrint(state.title);
+          return const SizedBox();
         }
+
         return const Center(
           child: AnimatedLoader(),
         );

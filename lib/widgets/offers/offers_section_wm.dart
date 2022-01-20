@@ -38,7 +38,7 @@ class OffersSectionWM extends WidgetModel {
     preferences = await SharedPreferences.getInstance();
 
     loadDataAction.bind((_) {
-      _loadData();
+      loadData();
     });
 
     updateTimer = Timer.periodic(const Duration(minutes: 3), (_){
@@ -74,7 +74,11 @@ class OffersSectionWM extends WidgetModel {
     super.onBind();
   }
 
-  Future<void> _loadData() async {
+  Future<void> loadData() async {
+    final userWM = Provider.of<UserWM>(context, listen: false);
+
+    await userWM.updateUserDataAction();
+
     if (offersStreamed.value.isLoading) return;
 
     unawaited(offersStreamed.loading(offersStreamed.value.data));

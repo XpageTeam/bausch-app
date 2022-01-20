@@ -126,6 +126,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
     addAddressAction.bind((_) {
       Navigator.of(context).pushNamed('/add_adress').then((needToReload) {
+        debugPrint(needToReload.toString());
         if (needToReload != null && needToReload == true) {
           adressesCubit.getAdresses();
         }

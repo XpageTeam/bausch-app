@@ -16,13 +16,12 @@ class CodeSender {
 
     final deviceInfo = DeviceInfoPlugin();
 
-    final res =
-        BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
-      '/user/authentication/code/',
-      data: FormData.fromMap(
-        <String, dynamic>{
+    final res = BaseResponseRepository.fromMap(
+      (await rh.post<Map<String, dynamic>>(
+        '/user/authentication/code/',
+        data: json.encode({
           'code': code,
-          'isMobilePhoneConfirmed': jsonEncode(isMobilePhoneConfirmed),
+          'isMobilePhoneConfirmed': isMobilePhoneConfirmed,
           'device_id': Platform.isAndroid
               ? (await deviceInfo.androidInfo).androidId
               : Platform.isIOS
@@ -30,10 +29,10 @@ class CodeSender {
                   : Platform.isMacOS
                       ? (await deviceInfo.macOsInfo).systemGUID
                       : 'unknown',
-        },
-      ),
-    ))
-            .data!);
+        }),
+      ))
+          .data!,
+    );
 
     return CodeResponseModel.fromJson(res.data as Map<String, dynamic>);
   }

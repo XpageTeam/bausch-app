@@ -77,11 +77,10 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
           );
         }
 
-        if (widget.showLoader) {
-          return const Center(child: AnimatedLoader());
-        } else {
+        // if (widget.showLoader) {
+        //   return const Center(child: AnimatedLoader());
+        // } else {
           return const SizedBox();
-        }
       },
       builder: (c, offers) {
         return Container(

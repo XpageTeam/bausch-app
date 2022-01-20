@@ -22,7 +22,7 @@ class UserWM extends WidgetModel {
 
   UserWM() : super(const WidgetModelDependencies()) {
     updateUserDataAction.bind((_) {
-      _reloadUserData();
+      reloadUserData();
     });
 
     updateTimer = Timer.periodic(
@@ -82,7 +82,7 @@ class UserWM extends WidgetModel {
     await UserWriter.removeUser();
   }
 
-  Future<void> _reloadUserData() async {
+  Future<void> reloadUserData() async {
     try {
       final userRepo = await UserWriter.checkUserToken();
 
