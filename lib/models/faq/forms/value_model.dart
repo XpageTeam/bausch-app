@@ -10,7 +10,7 @@ class ValueModel {
   factory ValueModel.fromMap(Map<String, dynamic> map) {
     return ValueModel(
       id: map['id'] as int,
-      name: map['name'] as String,
+      name: (map['name'] ?? map['title']) as String,
     );
   }
 }

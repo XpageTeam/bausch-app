@@ -1,9 +1,11 @@
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class FormTextArea extends StatefulWidget {
   final FieldModel model;
@@ -17,37 +19,34 @@ class FormTextArea extends StatefulWidget {
 }
 
 class _FormTextAreaState extends State<FormTextArea> {
-  final TextEditingController controller = TextEditingController();
-  late FieldsBloc fieldsBloc;
+  late final TextEditingController controller;
+  late final FormScreenWM formSreenWM;
+  //late FieldsBloc fieldsBloc;
 
   @override
   void initState() {
     super.initState();
-    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
-
-    controller.addListener(
-      () {
-        if (controller.text.isNotEmpty) {
-          fieldsBloc.add(
-            FieldsAddExtra(
-              extra: <String, dynamic>{
-                'extra[${widget.model.xmlId}]': controller.text,
-              },
-            ),
-          );
-        }
-
-        if (controller.text.isEmpty) {
-          fieldsBloc.add(
-            FieldsRemoveExtra(
-              extra: <String, dynamic>{
-                'extra[${widget.model.xmlId}]': controller.text,
-              },
-            ),
-          );
-        }
-      },
+    formSreenWM = Provider.of<FormScreenWM>(
+      context,
+      listen: false,
     );
+    //fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+
+    switch (widget.model.xmlId) {
+      case 'comment':
+        controller = formSreenWM.commentController;
+        break;
+      default:
+        controller = TextEditingController()
+          ..addListener(() {
+            Map<String, dynamic> map = formSreenWM.extraList.value.data!;
+            map.addAll(<String, dynamic>{
+              'extra[${widget.model.xmlId}]': controller.text,
+            });
+            formSreenWM.extraList.content(map);
+          });
+        break;
+    }
   }
 
   @override
@@ -58,36 +57,44 @@ class _FormTextAreaState extends State<FormTextArea> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 4,
       ),
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          TextField(
-            controller: controller,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: 'Ваш комментарий',
-              hintStyle: AppStyles.h3,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            TextField(
+              controller: controller,
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: 'Ваш комментарий',
+                hintStyle: AppStyles.h3,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(
-                '/add_files',
-                arguments: AttachFilesScreenArguments(fieldsBloc: fieldsBloc),
-              );
-            },
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            iconSize: 16,
-            icon: const Icon(Icons.add_circle_outline_sharp),
-          ),
-        ],
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/add_files',
+                  arguments: AttachFilesScreenArguments(
+                    fieldModel: widget.model,
+                    formScreenWM: formSreenWM,
+                  ),
+                );
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              iconSize: 16,
+              icon: const Icon(Icons.add_circle_outline_sharp),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
+import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/bloc/attach/attach_bloc.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -7,23 +8,37 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:extended_image/extended_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 
 class AttachFilesScreenArguments {
-  final FieldsBloc fieldsBloc;
+  final FormScreenWM formScreenWM;
+  //final bool isExtra;
+  final FieldModel fieldModel;
 
-  AttachFilesScreenArguments({required this.fieldsBloc});
+  AttachFilesScreenArguments({
+    required this.formScreenWM,
+    //required this.isExtra,
+    required this.fieldModel,
+  });
 }
 
 class AttachFilesScreen extends StatefulWidget
     implements AttachFilesScreenArguments {
   @override
-  final FieldsBloc fieldsBloc;
+  final FormScreenWM formScreenWM;
+  // @override
+  // final bool isExtra;
+  @override
+  final FieldModel fieldModel;
   const AttachFilesScreen({
-    required this.fieldsBloc,
+    required this.formScreenWM,
+    //required this.isExtra,
+    required this.fieldModel,
     Key? key,
   }) : super(key: key);
 
@@ -45,7 +60,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
   void initState() {
     super.initState();
 
-    attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
+    //attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
   }
 
   @override
@@ -137,7 +152,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      basename(state.files[i].path),
+                                      state.files[i].name ?? '123',
                                       style: AppStyles.h2,
                                     ),
                                   ),
@@ -159,7 +174,28 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
               child: BlueButtonWithText(
                 text: 'Добавить',
                 onPressed: () {
-                  widget.fieldsBloc.add(FieldsAddFiles(files: state.files));
+                  //widget.fieldsBloc.add(FieldsAddFiles(files: state.files));
+                  List<dio.MultipartFile> files = state.files
+                      .map((PlatformFile e) =>
+                          dio.MultipartFile.fromFileSync(e.path!))
+                      .toList();
+                  Map<String, dynamic> map = <String, dynamic>{}
+                    ..addAll(widget.formScreenWM.extraList.value.data!);
+                  if (widget.fieldModel.type == 'file') {
+                    map.addAll(
+                      <String, dynamic>{
+                        'extra[${widget.fieldModel.xmlId}][]': files,
+                      },
+                    );
+                  } else {
+                    map.addAll(
+                      <String, dynamic>{
+                        'file[]': files,
+                      },
+                    );
+                  }
+                  widget.formScreenWM.extraList.content(map);
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                 },
               ),

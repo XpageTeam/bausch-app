@@ -211,8 +211,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
               page = FinalPartners(
                 controller: controller,
-                model: arguments.model
-                    as PartnersItemModel,
+                model: arguments.model as PartnersItemModel,
                 orderData: arguments.orderData as PartnerOrderResponse,
               );
               break;
@@ -332,8 +331,10 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
             case '/add_files':
               page = AttachFilesScreen(
-                fieldsBloc: (settings.arguments as AttachFilesScreenArguments)
-                    .fieldsBloc,
+                formScreenWM: (settings.arguments as AttachFilesScreenArguments)
+                    .formScreenWM,
+                fieldModel: (settings.arguments as AttachFilesScreenArguments)
+                    .fieldModel,
               );
               break;
 

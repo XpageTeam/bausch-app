@@ -2,7 +2,7 @@ part of 'attach_bloc.dart';
 
 @immutable
 abstract class AttachState {
-  final List<File> files;
+  final List<PlatformFile> files;
 
   const AttachState({required this.files});
 }
@@ -16,7 +16,7 @@ class AttachAdding extends AttachState {
 }
 
 class AttachAdded extends AttachState {
-  const AttachAdded({required List<File> files}) : super(files: files);
+  const AttachAdded({required List<PlatformFile> files}) : super(files: files);
 }
 
 class AttachStopped extends AttachState {
