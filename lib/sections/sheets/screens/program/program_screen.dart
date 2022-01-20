@@ -17,6 +17,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -266,7 +267,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
               builder: (_, loading) => CustomFloatingActionButton(
                 text: loading ? '' : 'Получить сертификат',
                 icon:
-                    loading ? const CircularProgressIndicator.adaptive() : null,
+                    loading ? const UiCircleLoader() : null,
                 onPressed: currentOptic != null
                     ? loading
                         ? null

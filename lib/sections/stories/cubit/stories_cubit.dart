@@ -23,12 +23,15 @@ class StoriesCubit extends Cubit<StoriesState> {
   }
 
   Future<void> loadData() async {
-    final userWM = Provider.of<UserWM>(context,listen: false);
+    final userWM = Provider.of<UserWM>(context, listen: false);
 
     final prefs = await SharedPreferences.getInstance();
 
-
-    emit(StoriesLoading());
+    emit(StoriesLoading(
+      stories:
+          state is StoriesSuccess ? (state as StoriesSuccess).stories : null,
+    ));
+    
     final rh = RequestHandler();
 
     try {
@@ -41,8 +44,11 @@ class StoriesCubit extends Cubit<StoriesState> {
           stories: (parsedData.data as List<dynamic>).map((dynamic e) {
             final model = StoryModel.fromMap(e as Map<String, dynamic>);
 
-            if (prefs.containsKey('user[${userWM.userData.value.data?.user.id}]story[${model.id}]')) {
-              if (prefs.getInt('user[${userWM.userData.value.data?.user.id}]story[${model.id}]')! <= model.views) {
+            if (prefs.containsKey(
+                'user[${userWM.userData.value.data?.user.id}]story[${model.id}]')) {
+              if (prefs.getInt(
+                      'user[${userWM.userData.value.data?.user.id}]story[${model.id}]')! <=
+                  model.views) {
                 return model;
               }
             } else {
@@ -68,8 +74,7 @@ class StoriesCubit extends Cubit<StoriesState> {
     } on SuccessFalse catch (e) {
       emit(
         StoriesFailed(
-          title: 'Ошибка при обработке запроса',
-          subtitle: e.toString(),
+          title: e.toString(),
         ),
       );
     }

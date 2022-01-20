@@ -79,7 +79,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   itemCount: state.adresses.length,
                   itemBuilder: (_, i) {
                     return AddressButton(
-                      labelText: '${state.adresses[i].cityAndSettlement}, ${state.adresses[i].street}',
+                      labelText: '${state.adresses[i].cityAndSettlement}, ${state.adresses[i].street}, д ${state.adresses[i].house}',
                       selectedText: (state.adresses[i].flat != null ||
                               state.adresses[i].entry != null ||
                               state.adresses[i].floor != null)

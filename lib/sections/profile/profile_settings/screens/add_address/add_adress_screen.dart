@@ -88,7 +88,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                     if (!currentFocus.hasPrimaryFocus) {
                                       currentFocus.unfocus();
                                     }
-                                    
+
                                     showModalBottomSheet<void>(
                                       context: context,
                                       shape: RoundedRectangleBorder(
@@ -147,20 +147,26 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                     );
                                   }
                                 },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      // state.models[i].data.house.isNotEmpty
-                                      //     ? state.models[i].data.block == null
-                                      //         ? '${state.models[i].data.street}, ${state.models[i].data.house}'
-                                      //         : '${state.models[i].data.street}, ${state.models[i].data.house}/${state.models[i].data.block}'
-                                      //     : state.models[i].data.street,
-                                      state.models[i].value,
-                                      style: AppStyles.h2,
-                                    ),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 7,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        // state.models[i].data.house.isNotEmpty
+                                        //     ? state.models[i].data.block == null
+                                        //         ? '${state.models[i].data.street}, ${state.models[i].data.house}'
+                                        //         : '${state.models[i].data.street}, ${state.models[i].data.house}/${state.models[i].data.block}'
+                                        //     : state.models[i].data.street,
+                                        state.models[i].value,
+                                        style: AppStyles.h2,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -171,7 +177,7 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                         separatorBuilder: (context, i) {
                           if (state.models[i].data.street.isNotEmpty) {
                             return const SizedBox(
-                              height: 30,
+                              height: 16,
                             );
                           } else {
                             return const SizedBox();

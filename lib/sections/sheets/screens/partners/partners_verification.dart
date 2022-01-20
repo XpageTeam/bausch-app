@@ -7,6 +7,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/text/remaining_points_text.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -95,7 +96,7 @@ class _PartnersVerificationState
           return isLoading
               ? const CustomFloatingActionButton(
                   text: '',
-                  icon: AnimatedLoader(),
+                  icon: UiCircleLoader(),
                 )
               : CustomFloatingActionButton(
                   text: 'Потратить ${widget.model.price} б',

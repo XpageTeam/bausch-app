@@ -252,9 +252,12 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 
-  // TODO(Nikita): Заменить на popUntil.withName
+  
   void _navigateBack() {
-    var count = 0;
-    Navigator.of(context).popUntil((_) => count++ >= 2);
+    // var count = 0;
+    // Navigator.of(context).popUntil((_) => count++ >= 2);
+
+    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 }

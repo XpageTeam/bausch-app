@@ -19,6 +19,7 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -138,12 +139,12 @@ class _OrderAddressScreenState
               return isLoading
                   ? const BlueButtonWithText(
                       text: '',
-                      icon: AnimatedLoader(),
+                      icon: UiCircleLoader(),
                     )
                   : BlueButtonWithText(
                       text: 'Перейти к заказу',
                       icon: Container(),
-                      // onPressed: wm.makeOrderAction,
+                      onPressed: wm.makeOrderAction,
                     );
             },
           ),

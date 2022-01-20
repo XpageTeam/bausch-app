@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:flutter/foundation.dart';
 
@@ -19,8 +21,8 @@ class AuthResponseModel {
         id: json['id'] as int,
         isEmailConfirmed: json['isEmailConfirmed'] as bool,
         isMobilePhoneConfirmed: json['isMobilePhoneConfirmed'] as bool,
-      );  
-    // ignore: avoid_catches_without_on_clauses
+      );
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException(e.toString());
     }
@@ -31,9 +33,9 @@ class AuthResponseModel {
     return 'AuhtResponseModel(id: $id, isEmailConfirmed: $isEmailConfirmed, isMobilePhoneConfirmed: $isMobilePhoneConfirmed)';
   }
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
+  String toJson() => json.encode({
         'id': id,
         'isEmailConfirmed': isEmailConfirmed,
         'isMobilePhoneConfirmed': isMobilePhoneConfirmed,
-      };
+      });
 }
