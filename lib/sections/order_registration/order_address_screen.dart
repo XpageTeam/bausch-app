@@ -143,7 +143,7 @@ class _OrderAddressScreenState
                   : BlueButtonWithText(
                       text: 'Перейти к заказу',
                       icon: Container(),
-                      // onPressed: wm.makeOrderAction,
+                      onPressed: wm.makeOrderAction,
                     );
             },
           ),

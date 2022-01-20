@@ -26,8 +26,10 @@ class CatalogItem extends StatelessWidget {
       onTap: model is WebinarItemModel
           ? () => onWebinarClick(context, model as WebinarItemModel)
           : model is PartnersItemModel && !(model as PartnersItemModel).isBought
-              ? () => onTap?.call()
-              : null,
+              ? onTap
+              : model is! PartnersItemModel
+                  ? onTap
+                  : null,
       child: Padding(
         padding: const EdgeInsets.only(
           //right: 4,

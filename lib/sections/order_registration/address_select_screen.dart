@@ -3,7 +3,6 @@ import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/order_address_screen.dart';
 import 'package:bausch/sections/order_registration/widget_models/address_select_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
-import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
@@ -87,8 +86,6 @@ class _AddressSelectScreenState
               child: StreamedStateBuilder<List<AdressModel>>(
                 streamedState: wm.filteredAddressesList,
                 builder: (_, addressesList) {
-                  debugPrint(addressesList[0].street);
-
                   return ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (_, i) {
@@ -100,16 +97,16 @@ class _AddressSelectScreenState
                         ),
                         child: FocusButton(
                           labelText: 'Адрес',
-                          selectedText:
-                              '${address.street}, ${address.house}',
+                          selectedText: '${address.street}, ${address.house}',
                           onPressed: () {
                             wm.addressSelectAction(
-                              OrderAddressScreenArguments(
-                                adress: address,
-                                productItemModel: widget.productItemModel,
-                                orderRegistrationScreenWM:
-                                    widget.orderRegistrationScreenWM,
-                              ),
+                              address,
+                              // OrderAddressScreenArguments(
+                              //   adress: address,
+                              //   productItemModel: widget.productItemModel,
+                              //   orderRegistrationScreenWM:
+                              //       widget.orderRegistrationScreenWM,
+                              // ),
                             );
                           },
                         ),

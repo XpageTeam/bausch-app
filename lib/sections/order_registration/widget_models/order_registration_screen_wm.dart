@@ -101,21 +101,21 @@ class OrderRegistrationScreenWM extends WidgetModel {
         if (productItemModel.specifications!.cylinder != null) {
           if (productItemModel.specifications!.cylinder!
               .contains(lensBloc.state.model.cylinder.toString())) {
-            diopters.accept(lensBloc.state.model.cylinder.toString());
+            cylinder.accept(lensBloc.state.model.cylinder.toString());
           }
         }
 
         if (productItemModel.specifications!.axis != null) {
           if (productItemModel.specifications!.axis!
               .contains(lensBloc.state.model.axis.toString())) {
-            diopters.accept(lensBloc.state.model.axis.toString());
+            axis.accept(lensBloc.state.model.axis.toString());
           }
         }
 
         if (productItemModel.specifications!.addiction != null) {
           if (productItemModel.specifications!.addiction!
               .contains(lensBloc.state.model.addict.toString())) {
-            diopters.accept(lensBloc.state.model.addict.toString());
+            addidations.accept(lensBloc.state.model.addict.toString());
           }
         }
       });
@@ -127,7 +127,11 @@ class OrderRegistrationScreenWM extends WidgetModel {
     addAddressAction.bind((_) {
       Navigator.of(context)
           .pushNamed('/add_adress')
-          .then((value) => adressesCubit.getAdresses());
+          .then((needToReload){
+            if (needToReload != null && needToReload == true) {
+              adressesCubit.getAdresses();
+            }
+          });
     });
 
     makeOrderAction.bind((_) => _spendPoints());
