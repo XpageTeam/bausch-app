@@ -25,11 +25,9 @@ class CatalogItem extends StatelessWidget {
     return InkWell(
       onTap: model is WebinarItemModel
           ? () => onWebinarClick(context, model as WebinarItemModel)
-          : model is PartnersItemModel && !(model as PartnersItemModel).isBought
+          : model is! PartnersItemModel
               ? onTap
-              : model is! PartnersItemModel
-                  ? onTap
-                  : null,
+              : null,
       child: Padding(
         padding: const EdgeInsets.only(
           //right: 4,
@@ -113,19 +111,12 @@ class CatalogItem extends StatelessWidget {
                             model as WebinarItemModel,
                           ),
                         )
-                      : model is PartnersItemModel &&
-                              (model as PartnersItemModel).isBought
-                          ? ButtonWithPoints(
-                              withIcon: false,
-                              price: 'Куплено',
-                              onPressed: () {},
-                            )
-                          : ButtonWithPoints(
-                              price: model.priceToString,
-                              onPressed: () {
-                                onTap?.call();
-                              },
-                            ),
+                      : ButtonWithPoints(
+                          price: model.priceToString,
+                          onPressed: () {
+                            onTap?.call();
+                          },
+                        ),
                 ),
               ),
               // const SizedBox(
