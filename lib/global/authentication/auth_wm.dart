@@ -36,9 +36,9 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.authenticated:
-          if (userWM.userData.value.data?.user.city == null ||
-              (userWM.userData.value.data?.user.email == null &&
-                  userWM.userData.value.data?.user.pendingEmail == null)) {
+          if (/*userWM.userData.value.data?.user.city == null ||*/
+              userWM.userData.value.data?.user.email == null &&
+                  userWM.userData.value.data?.user.pendingEmail == null) {
             targetPage = '/city_and_email';
           } else {
             targetPage = '/home';
