@@ -1,6 +1,7 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -129,17 +130,27 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate(
-                          const [
-                            DelayedAnimatedTranslateOpacity(
-                              offsetY: 30,
-                              child: ScoresSection(
-                                loadingAnimationDuration: Duration(
-                                  milliseconds: 2500,
-                                ),
-                                delay: Duration(
-                                  milliseconds: 1000,
-                                ),
-                              ),
+                          [
+                            EntityStateBuilder<UserRepository>(
+                              streamedState: userWM.userData,
+                              builder: (_, data) {
+                                if (data.balance.nearestExpiration?.amount !=
+                                    null) {
+                                  return const DelayedAnimatedTranslateOpacity(
+                                    offsetY: 30,
+                                    child: ScoresSection(
+                                      loadingAnimationDuration: Duration(
+                                        milliseconds: 2500,
+                                      ),
+                                      delay: Duration(
+                                        milliseconds: 1000,
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                return const SizedBox();
+                              },
                             ),
                           ],
                         ),
