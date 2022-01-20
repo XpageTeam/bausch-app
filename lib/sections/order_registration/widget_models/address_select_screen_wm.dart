@@ -59,7 +59,6 @@ class AddressSelectScreenWM extends WidgetModel {
     });
 
     selectedCityName.bind((cityName) {
-      debugPrint('Установлен город $cityName');
       if (cityName != null) {
         _applyFilter(cityName);
       }
@@ -75,15 +74,11 @@ class AddressSelectScreenWM extends WidgetModel {
   void _applyFilter(String cityName) {
     final addresses = <AdressModel>[];
 
-    debugPrint('Фильтр запущен: $cityName');
-
     for (final address in addressesList) {
       if (address.cityAndSettlement == cityName) {
         addresses.add(address);
       }
     }
-
-    debugPrint('Массив адресов: ${addresses.map((e) => e.street+e.house!).toString()}');
 
     filteredAddressesList.accept(addresses);
   }
