@@ -16,14 +16,14 @@ class DatePickerButton extends StatefulWidget {
 }
 
 class _DatePickerButtonState extends State<DatePickerButton> {
-  late FieldsBloc fieldsBloc;
+  //late FieldsBloc fieldsBloc;
   String? value;
   DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+    //fieldsBloc = BlocProvider.of<FieldsBloc>(context);
   }
 
   @override
@@ -50,9 +50,9 @@ class _DatePickerButtonState extends State<DatePickerButton> {
       setState(() {
         selectedDate = picked;
         value = selectedDate.toString();
-        fieldsBloc.add(FieldsAddExtra(extra: <String, dynamic>{
-          'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
-        }));
+        // fieldsBloc.add(FieldsAddExtra(extra: <String, dynamic>{
+        //   'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
+        // }));
       });
     }
   }

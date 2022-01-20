@@ -18,33 +18,33 @@ class FormTextArea extends StatefulWidget {
 
 class _FormTextAreaState extends State<FormTextArea> {
   final TextEditingController controller = TextEditingController();
-  late FieldsBloc fieldsBloc;
+  //late FieldsBloc fieldsBloc;
 
   @override
   void initState() {
     super.initState();
-    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+    //fieldsBloc = BlocProvider.of<FieldsBloc>(context);
 
     controller.addListener(
       () {
         if (controller.text.isNotEmpty) {
-          fieldsBloc.add(
-            FieldsAddExtra(
-              extra: <String, dynamic>{
-                'extra[${widget.model.xmlId}]': controller.text,
-              },
-            ),
-          );
+          // fieldsBloc.add(
+          //   FieldsAddExtra(
+          //     extra: <String, dynamic>{
+          //       'extra[${widget.model.xmlId}]': controller.text,
+          //     },
+          //   ),
+          // );
         }
 
         if (controller.text.isEmpty) {
-          fieldsBloc.add(
-            FieldsRemoveExtra(
-              extra: <String, dynamic>{
-                'extra[${widget.model.xmlId}]': controller.text,
-              },
-            ),
-          );
+          // fieldsBloc.add(
+          //   FieldsRemoveExtra(
+          //     extra: <String, dynamic>{
+          //       'extra[${widget.model.xmlId}]': controller.text,
+          //     },
+          //   ),
+          // );
         }
       },
     );
@@ -58,36 +58,41 @@ class _FormTextAreaState extends State<FormTextArea> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 4,
       ),
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          TextField(
-            controller: controller,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: 'Ваш комментарий',
-              hintStyle: AppStyles.h3,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            TextField(
+              controller: controller,
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: 'Ваш комментарий',
+                hintStyle: AppStyles.h3,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(
-                '/add_files',
-                arguments: AttachFilesScreenArguments(fieldsBloc: fieldsBloc),
-              );
-            },
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            iconSize: 16,
-            icon: const Icon(Icons.add_circle_outline_sharp),
-          ),
-        ],
+            IconButton(
+              onPressed: () {
+                // Navigator.of(context).pushNamed(
+                //   '/add_files',
+                //   arguments: AttachFilesScreenArguments(fieldsBloc: fieldsBloc),
+                // );
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              iconSize: 16,
+              icon: const Icon(Icons.add_circle_outline_sharp),
+            ),
+          ],
+        ),
       ),
     );
   }

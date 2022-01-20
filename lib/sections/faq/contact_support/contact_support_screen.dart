@@ -31,19 +31,14 @@ class ContactSupportScreen extends StatelessWidget
   }) : super(key: key);
 
   @override
-  
   Widget build(BuildContext context) {
     debugPrint('topic: $topic, question: $question');
 
-    return FormsProvider(
-      child: FormsListener(
-        child: FormsScreen(
-          controller: controller,
-          topic: topic,
-          question: question,
-          // fields: fields,
-        ),
-      ),
+    return FormsScreen(
+      controller: controller,
+      topic: topic,
+      question: question,
+      // fields: fields,
     );
   }
 }

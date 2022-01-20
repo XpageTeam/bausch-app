@@ -5,18 +5,26 @@ import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
 import 'package:bausch/sections/faq/bloc/values/values_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 class Select extends StatefulWidget {
   final String? value;
   final FieldModel model;
+  final VoidCallback? onPressed;
   //final ContactSupportScreenArguments? arguments;
+  final StreamedState<ValueModel?> state;
+
   const Select({
     required this.model,
+    required this.state,
+    this.onPressed,
     //this.arguments,
     this.value,
     Key? key,
@@ -27,77 +35,28 @@ class Select extends StatefulWidget {
 }
 
 class _SelectState extends State<Select> {
-  late FieldsBloc fieldsBloc;
-  late FormsExtraBloc formsExtraBloc;
-  late ValuesBloc valuesBloc;
-  late String? _value;
+  //late String? _value;
+  late final FormScreenWM formScreenWM;
 
   @override
   void initState() {
     super.initState();
+    formScreenWM = Provider.of<FormScreenWM>(context, listen: false);
 
-    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
-    formsExtraBloc = BlocProvider.of<FormsExtraBloc>(context);
-    valuesBloc = BlocProvider.of<ValuesBloc>(context);
-
-    _value = widget.model.name;
-
-    //debugPrint(widget.model.values.toString() + 'azaz');
-
-    if (widget.model.xmlId == 'category') {
-      if (fieldsBloc.state.topic != 0) {
-        final ValueModel value = widget.model.values!
-            .firstWhere((element) => element.id == fieldsBloc.state.topic);
-        valuesBloc.add(UpdateValues(id: fieldsBloc.state.topic));
-
-        _value = value.name;
-      } else {
-        _value = widget.model.name;
-      }
-    }
-
-    if (widget.model.xmlId == 'question') {
-      if (fieldsBloc.state.question != 0) {
-        // final ValueModel value = widget.model.values!
-        //     .firstWhere((element) => element.id == fieldsBloc.state.question);
-        // _value = value.name;
-
-        //valuesBloc.loadData(fieldsBloc.state.topic);
-        fieldsBloc.add(
-          FieldsSetQuestion(fieldsBloc.state.question),
-        );
-
-        formsExtraBloc.add(
-          FormsExtraChangeId(id: fieldsBloc.state.question),
-        );
-
-        debugPrint('${valuesBloc.state}');
-      } else {
-        _value = widget.model.name;
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    fieldsBloc.close();
+    //_value = widget.model.name;
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: BlocBuilder<FieldsBloc, FieldsState>(
-        bloc: fieldsBloc,
-        builder: (context, state) {
-          if (widget.model.xmlId == 'question') {
-            if (state.question == 0) {
-              _value = widget.model.name;
-            }
-          }
+      padding: const EdgeInsets.only(
+        bottom: 4,
+      ),
+      child: StreamedStateBuilder<ValueModel?>(
+        streamedState: widget.state,
+        builder: (_, value) {
           return SelectButton(
-            value: _value ?? widget.model.name,
+            value: value?.name ?? widget.model.name,
             color: Colors.white,
             onPressed: () {
               showCupertinoModalPopup<void>(
@@ -107,9 +66,7 @@ class _SelectState extends State<Select> {
                     widget.model.name,
                     style: AppStyles.p1,
                   ),
-                  actions: widget.model.xmlId == 'question'
-                      ? valuesList(valuesBloc.state.values, context)
-                      : valuesList(widget.model.values!, context),
+                  actions: valuesList(widget.model.values ?? [], context),
                 ),
               );
             },
@@ -127,38 +84,17 @@ class _SelectState extends State<Select> {
         .map(
           (e) => CupertinoActionSheetAction(
             onPressed: () {
-              setState(() {
-                _value = e.name;
-              });
-
-              if (widget.model.xmlId == 'category') {
-                fieldsBloc
-                  ..add(
-                    FieldsSetTopic(e.id),
-                  )
-                  ..add(const FieldsSetQuestion(0));
-
-                formsExtraBloc.add(
-                  FormsExtraChangeId(id: e.id),
-                );
-                valuesBloc.add(UpdateValues(id: e.id));
-              } else if (widget.model.xmlId == 'question') {
-                fieldsBloc.add(
-                  FieldsSetQuestion(e.id),
-                );
-
-                formsExtraBloc.add(
-                  FormsExtraChangeId(id: e.id),
-                );
-              } else {
-                fieldsBloc.add(
-                  FieldsAddExtra(
-                    extra: <String, dynamic>{
-                      'extra[${widget.model.xmlId}]': e.id,
-                    },
-                  ),
-                );
+              if (widget.model.xmlId == 'topic') {
+                formScreenWM.loadQuestionsList(e.id);
               }
+
+              if (widget.model.xmlId == 'question') {
+                formScreenWM.loadExtraFields(e.id);
+              }
+
+              widget.state.accept(
+                ValueModel(id: e.id, name: e.name),
+              );
 
               Navigator.of(_context).pop();
             },

@@ -13,17 +13,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 
 class AttachFilesScreenArguments {
-  final FieldsBloc fieldsBloc;
+  //final FieldsBloc fieldsBloc;
 
-  AttachFilesScreenArguments({required this.fieldsBloc});
+  AttachFilesScreenArguments();
 }
 
 class AttachFilesScreen extends StatefulWidget
     implements AttachFilesScreenArguments {
-  @override
-  final FieldsBloc fieldsBloc;
+  // @override
+  // final FieldsBloc fieldsBloc;
   const AttachFilesScreen({
-    required this.fieldsBloc,
+    // required this.fieldsBloc,
     Key? key,
   }) : super(key: key);
 
@@ -45,7 +45,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
   void initState() {
     super.initState();
 
-    attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
+    //attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
   }
 
   @override
@@ -159,7 +159,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
               child: BlueButtonWithText(
                 text: 'Добавить',
                 onPressed: () {
-                  widget.fieldsBloc.add(FieldsAddFiles(files: state.files));
+                  //widget.fieldsBloc.add(FieldsAddFiles(files: state.files));
                   Navigator.of(context).pop();
                 },
               ),

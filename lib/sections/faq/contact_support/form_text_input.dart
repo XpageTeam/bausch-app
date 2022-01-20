@@ -29,12 +29,11 @@ class FormTextInput extends StatefulWidget {
 
 class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
   final TextEditingController controller = TextEditingController();
-  late FieldsBloc fieldsBloc;
 
   @override
   void initState() {
     super.initState();
-    fieldsBloc = BlocProvider.of<FieldsBloc>(context);
+    //fieldsBloc = BlocProvider.of<FieldsBloc>(context);
 
     final userWM = Provider.of<UserWM>(context, listen: false);
 
@@ -42,9 +41,9 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
       case 'email':
         controller.addListener(
           () {
-            fieldsBloc.add(
-              FieldsSetEmail(controller.text),
-            );
+            // fieldsBloc.add(
+            //   FieldsSetEmail(controller.text),
+            // );
           },
         );
 
@@ -54,23 +53,23 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
         controller.addListener(
           () {
             if (controller.text.isNotEmpty) {
-              fieldsBloc.add(
-                FieldsAddExtra(
-                  extra: <String, dynamic>{
-                    'extra[${widget.model.xmlId}]': controller.text,
-                  },
-                ),
-              );
+              // fieldsBloc.add(
+              //   FieldsAddExtra(
+              //     extra: <String, dynamic>{
+              //       'extra[${widget.model.xmlId}]': controller.text,
+              //     },
+              //   ),
+              // );
             }
 
             if (controller.text.isEmpty) {
-              fieldsBloc.add(
-                FieldsRemoveExtra(
-                  extra: <String, dynamic>{
-                    'extra[${widget.model.xmlId}]': controller.text,
-                  },
-                ),
-              );
+              // fieldsBloc.add(
+              //   FieldsRemoveExtra(
+              //     extra: <String, dynamic>{
+              //       'extra[${widget.model.xmlId}]': controller.text,
+              //     },
+              //   ),
+              // );
             }
           },
         );
