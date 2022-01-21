@@ -223,19 +223,24 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                         vertical: 40,
                       ),
                       child: StreamedStateBuilder<bool>(
-                        streamedState: wm.loadingState,
-                        builder: (_, isLoading) {
-                          return isLoading
-                              ? const BlueButtonWithText(
-                                  text: '',
-                                  icon: UiCircleLoader(),
-                                )
-                              : BlueButtonWithText(
-                                  text: 'Далее',
-                                  onPressed: wm.canMoveToNextPage
-                                      ? () => wm.buttonAction()
-                                      : null,
-                                );
+                        streamedState: wm.canMoveToNextPage,
+                        builder: (_, canMoveNextPage) {
+                          return StreamedStateBuilder<bool>(
+                            streamedState: wm.loadingState,
+                            builder: (_, isLoading) {
+                              return isLoading
+                                  ? const BlueButtonWithText(
+                                      text: '',
+                                      icon: UiCircleLoader(),
+                                    )
+                                  : BlueButtonWithText(
+                                      text: 'Далее',
+                                      onPressed: canMoveNextPage
+                                          ? () => wm.buttonAction()
+                                          : null,
+                                    );
+                            },
+                          );
                         },
                       ),
                     ),

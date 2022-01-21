@@ -28,6 +28,9 @@ class QuizScreenWM extends WidgetModel {
   final keyForOffset = GlobalKey();
 
   final textEditingController = TextEditingController();
+
+  final canMoveToNextPage = StreamedState<bool>(false);
+
   late final UserWM userWm;
   late final FocusNode focusNode;
 
@@ -46,18 +49,6 @@ class QuizScreenWM extends WidgetModel {
   int currentPage = 0;
 
   String get progressText => '${currentPage + 1}/${quizModel.content.length}';
-
-  bool get canMoveToNextPage {
-    final isNotRequired = !quizModel.content[currentPage].isRequired;
-
-    if (isNotRequired) return true;
-
-    if (selectedIndexes.value.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   QuizScreenWM({
     required this.context,
@@ -110,7 +101,11 @@ class QuizScreenWM extends WidgetModel {
         }
         selectedIndexes.accept(selectedIndexes.value);
       }
+
+      _chekMoveNextPage();
     });
+
+    _chekMoveNextPage();
 
     super.onBind();
   }
@@ -142,6 +137,8 @@ class QuizScreenWM extends WidgetModel {
         },
       );
     }
+
+    _chekMoveNextPage();
   }
 
   void _moveToNexPage() {
@@ -159,6 +156,8 @@ class QuizScreenWM extends WidgetModel {
     if (keyForOffset.currentContext != null) {
       Scrollable.ensureVisible(keyForOffset.currentContext!);
     }
+
+    _chekMoveNextPage();
   }
 
   List<QuizAnswerModel> _getSelectedAnswers() {
@@ -224,6 +223,21 @@ class QuizScreenWM extends WidgetModel {
     if (userRepository == null) return;
 
     await userWm.userData.content(userRepository);
+  }
+
+  void _chekMoveNextPage() {
+    final isNotRequired = !quizModel.content[currentPage].isRequired;
+
+    if (isNotRequired){
+      canMoveToNextPage.accept(true);
+      return;
+    }
+
+    if (selectedIndexes.value.isNotEmpty) {
+      canMoveToNextPage.accept(true);
+    } else {
+      canMoveToNextPage.accept(false);
+    }
   }
 }
 

@@ -42,7 +42,7 @@ class QuestionScreen extends StatelessWidget
   @override
   Widget build(BuildContext context) {
 
-    debugPrint('topic: $topic, question: $question');
+    debugPrint('topic: $topic, question: $question, text: ${question.answer}');
 
     return CustomSheetScaffold(
       controller: controller,
