@@ -1,5 +1,4 @@
 import 'package:bausch/sections/select_optic/map_body.dart';
-import 'package:bausch/sections/select_optic/widget_models/map_body_wm.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_container_with_button.dart';

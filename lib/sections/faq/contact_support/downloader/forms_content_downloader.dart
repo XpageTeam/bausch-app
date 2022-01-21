@@ -1,10 +1,11 @@
+// ignore_for_file: avoid_catches_without_on_clauses, avoid_annotating_with_dynamic
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 class FormsContentDownloader {
   final rh = RequestHandler();
@@ -98,8 +99,7 @@ class FormsContentDownloader {
     String phone,
     String comment,
   ) async {
-    final result =
-        BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+    BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
       'faq/form/',
       data: FormData.fromMap(
         <String, dynamic>{
@@ -111,7 +111,7 @@ class FormsContentDownloader {
         //..addAll(extra),
       ),
     ))
-            .data!);
+        .data!);
 
     try {
       return true;

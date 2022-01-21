@@ -10,10 +10,8 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:extended_image/extended_image.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
 
 class AttachFilesScreenArguments {
   final FormScreenWM formScreenWM;
@@ -152,7 +150,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      state.files[i].name ?? '123',
+                                      state.files[i].name,
                                       style: AppStyles.h2,
                                     ),
                                   ),
@@ -174,13 +172,15 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
               child: BlueButtonWithText(
                 text: 'Добавить',
                 onPressed: () {
-                  //widget.fieldsBloc.add(FieldsAddFiles(files: state.files));
-                  List<dio.MultipartFile> files = state.files
-                      .map((PlatformFile e) =>
-                          dio.MultipartFile.fromFileSync(e.path!))
+
+                  final files = state.files
+                      .map((file) =>
+                          dio.MultipartFile.fromFileSync(file.path!))
                       .toList();
-                  Map<String, dynamic> map = <String, dynamic>{}
+
+                  final map = <String, dynamic>{}
                     ..addAll(widget.formScreenWM.extraList.value.data!);
+                    
                   if (widget.fieldModel.type == 'file') {
                     map.addAll(
                       <String, dynamic>{

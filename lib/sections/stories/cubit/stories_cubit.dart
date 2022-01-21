@@ -31,7 +31,7 @@ class StoriesCubit extends Cubit<StoriesState> {
       stories:
           state is StoriesSuccess ? (state as StoriesSuccess).stories : null,
     ));
-    
+
     final rh = RequestHandler();
 
     try {
@@ -45,9 +45,11 @@ class StoriesCubit extends Cubit<StoriesState> {
             final model = StoryModel.fromMap(e as Map<String, dynamic>);
 
             if (prefs.containsKey(
-                'user[${userWM.userData.value.data?.user.id}]story[${model.id}]')) {
+              'user[${userWM.userData.value.data?.user.id}]story[${model.id}]',
+            )) {
               if (prefs.getInt(
-                      'user[${userWM.userData.value.data?.user.id}]story[${model.id}]')! <=
+                    'user[${userWM.userData.value.data?.user.id}]story[${model.id}]',
+                  )! <=
                   model.views) {
                 return model;
               }

@@ -20,7 +20,7 @@ class ProfileStatus extends StatelessWidget {
         return InkWell(
           onTap: () async {
             await Keys.mainContentNav.currentState!.pushNamed('/profile');
-            bannersWm?.loadDataAction();
+            await bannersWm?.loadDataAction();
           },
           child: Row(
             children: [

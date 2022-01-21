@@ -1,5 +1,4 @@
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 

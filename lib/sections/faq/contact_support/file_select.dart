@@ -6,7 +6,6 @@ import 'package:bausch/theme/styles.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:dio/dio.dart' as dio;
 
 class FileSelect extends StatefulWidget {
   final FieldModel model;
@@ -21,7 +20,6 @@ class _FileSelectState extends State<FileSelect> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     formScreenWM = Provider.of<FormScreenWM>(context, listen: false);

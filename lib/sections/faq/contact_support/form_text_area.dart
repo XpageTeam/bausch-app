@@ -1,10 +1,10 @@
+// ignore_for_file: cascade_invocations
+
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class FormTextArea extends StatefulWidget {
@@ -39,10 +39,12 @@ class _FormTextAreaState extends State<FormTextArea> {
       default:
         controller = TextEditingController()
           ..addListener(() {
-            Map<String, dynamic> map = formSreenWM.extraList.value.data!;
+            final map = formSreenWM.extraList.value.data!;
+
             map.addAll(<String, dynamic>{
               'extra[${widget.model.xmlId}]': controller.text,
             });
+            
             formSreenWM.extraList.content(map);
           });
         break;

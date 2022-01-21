@@ -43,6 +43,8 @@ class MapBodyWM extends WidgetModel {
   void Function(OpticShop shop)? onPlacemarkPressed;
   void Function(CustomException exception)? onGetUserPositionError;
 
+  Random rng = Random();
+
   MapBodyWM({
     required this.initOpticShops,
   }) : super(
@@ -102,8 +104,6 @@ class MapBodyWM extends WidgetModel {
 
     super.onBind();
   }
-
-  Random rng = Random();
 
   void _updateClusterMapObject(
     List<OpticShop> shopList, [

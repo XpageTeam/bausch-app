@@ -2,7 +2,6 @@
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
-import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/certificate_model.dart';

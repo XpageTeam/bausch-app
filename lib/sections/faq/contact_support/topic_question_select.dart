@@ -44,7 +44,6 @@ class _TopicQuestionSelectState extends State<TopicQuestionSelect> {
           [
             EntityStateBuilder<List<ValueModel>>(
               streamedState: formScreenWM.topicsList,
-              loadingChild: const SizedBox(),
               errorChild: Text(formScreenWM.topicsList.value.error.toString()),
               builder: (_, state) {
                 return Select(

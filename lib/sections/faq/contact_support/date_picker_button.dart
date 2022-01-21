@@ -1,9 +1,7 @@
 import 'package:bausch/models/faq/forms/field_model.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class DatePickerButton extends StatefulWidget {
@@ -59,10 +57,13 @@ class _DatePickerButtonState extends State<DatePickerButton> {
         // fieldsBloc.add(FieldsAddExtra(extra: <String, dynamic>{
         //   'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
         // }));
-        Map<String, dynamic> map = formSreenWM.extraList.value.data!;
+        final map = formSreenWM.extraList.value.data!;
+
+        // ignore: cascade_invocations
         map.addAll(<String, dynamic>{
           'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
         });
+        
         formSreenWM.extraList.content(map);
       });
     }

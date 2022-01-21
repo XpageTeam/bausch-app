@@ -1,12 +1,10 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_email_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';

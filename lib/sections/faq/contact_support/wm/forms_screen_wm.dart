@@ -13,7 +13,6 @@ import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/faq/contact_support/downloader/forms_content_downloader.dart';
-import 'package:bausch/sections/faq/contact_support/response/forms_response.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -148,8 +147,7 @@ class FormScreenWM extends WidgetModel {
     CustomException? error;
 
     try {
-      final response =
-          BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+      BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         '/faq/form/',
         data: FormData.fromMap(
           <String, dynamic>{
@@ -162,7 +160,7 @@ class FormScreenWM extends WidgetModel {
           }..addAll(extraList.value.data!),
         ),
       ))
-              .data!);
+          .data!);
 
       //return FormsResponse.fromMap(response.data as Map<String, dynamic>);
     } on DioError catch (e) {
@@ -201,34 +199,6 @@ class FormScreenWM extends WidgetModel {
     }
   }
 
-  //* Получение списка категорий
-  Future<void> _loadCategoryList() async {
-    if (topicsList.value.isLoading) return;
-
-    unawaited(topicsList.loading());
-
-    try {
-      await topicsList.content(await _downloader.loadCategoryList());
-    } on DioError catch (e) {
-      await topicsList.error(CustomException(
-        title: 'При загрузке стандартных полей произошла ошибка',
-        subtitle: e.message,
-        ex: e,
-      ));
-    } on ResponseParseException catch (e) {
-      await topicsList.error(CustomException(
-        title: 'При обработке ответа от сервера произошла ошибка',
-        subtitle: e.toString(),
-        ex: e,
-      ));
-    } on SuccessFalse catch (e) {
-      await topicsList.error(CustomException(
-        title: e.toString(),
-        ex: e,
-      ));
-    }
-  }
-
   //* Получение списка вопросов
   Future<void> loadQuestionsList(int topic) async {
     if (questionsList.value.isLoading) return;
@@ -251,34 +221,6 @@ class FormScreenWM extends WidgetModel {
       ));
     } on SuccessFalse catch (e) {
       await questionsList.error(CustomException(
-        title: e.toString(),
-        ex: e,
-      ));
-    }
-  }
-
-  //* Получение стандартных полей
-  Future<void> _loadDefaultFields() async {
-    if (defaultFieldsList.value.isLoading) return;
-
-    unawaited(defaultFieldsList.loading());
-
-    try {
-      await defaultFieldsList.content(await _downloader.loadDefaultFields());
-    } on DioError catch (e) {
-      await defaultFieldsList.error(CustomException(
-        title: 'При загрузке стандартных полей произошла ошибка',
-        subtitle: e.message,
-        ex: e,
-      ));
-    } on ResponseParseException catch (e) {
-      await defaultFieldsList.error(CustomException(
-        title: 'При обработке ответа от сервера произошла ошибка',
-        subtitle: e.toString(),
-        ex: e,
-      ));
-    } on SuccessFalse catch (e) {
-      await defaultFieldsList.error(CustomException(
         title: e.toString(),
         ex: e,
       ));
@@ -309,6 +251,62 @@ class FormScreenWM extends WidgetModel {
       ));
     } on SuccessFalse catch (e) {
       await extraFieldsList.error(CustomException(
+        title: e.toString(),
+        ex: e,
+      ));
+    }
+  }
+
+  //* Получение списка категорий
+  Future<void> _loadCategoryList() async {
+    if (topicsList.value.isLoading) return;
+
+    unawaited(topicsList.loading());
+
+    try {
+      await topicsList.content(await _downloader.loadCategoryList());
+    } on DioError catch (e) {
+      await topicsList.error(CustomException(
+        title: 'При загрузке стандартных полей произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      ));
+    } on ResponseParseException catch (e) {
+      await topicsList.error(CustomException(
+        title: 'При обработке ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      ));
+    } on SuccessFalse catch (e) {
+      await topicsList.error(CustomException(
+        title: e.toString(),
+        ex: e,
+      ));
+    }
+  }
+
+  //* Получение стандартных полей
+  Future<void> _loadDefaultFields() async {
+    if (defaultFieldsList.value.isLoading) return;
+
+    unawaited(defaultFieldsList.loading());
+
+    try {
+      await defaultFieldsList.content(await _downloader.loadDefaultFields());
+    } on DioError catch (e) {
+      await defaultFieldsList.error(CustomException(
+        title: 'При загрузке стандартных полей произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      ));
+    } on ResponseParseException catch (e) {
+      await defaultFieldsList.error(CustomException(
+        title: 'При обработке ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      ));
+    } on SuccessFalse catch (e) {
+      await defaultFieldsList.error(CustomException(
         title: e.toString(),
         ex: e,
       ));

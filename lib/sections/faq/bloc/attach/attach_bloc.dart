@@ -1,11 +1,6 @@
-import 'dart:collection';
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:meta/meta.dart';
-
-import 'package:dio/dio.dart' as dio;
 
 part 'attach_event.dart';
 part 'attach_state.dart';
@@ -41,7 +36,7 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
       // );
 
       //* Убираю дубликаты
-      final files = LinkedHashSet<dio.MultipartFile>.from(state.files).toList();
+      // final files = LinkedHashSet<dio.MultipartFile>.from(state.files).toList();
 
       return AttachAdded(files: result.files);
     } else {

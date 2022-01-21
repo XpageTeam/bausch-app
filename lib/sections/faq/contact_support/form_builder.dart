@@ -3,7 +3,6 @@ import 'package:bausch/sections/faq/contact_support/date_picker_button.dart';
 import 'package:bausch/sections/faq/contact_support/file_select.dart';
 import 'package:bausch/sections/faq/contact_support/form_text_area.dart';
 import 'package:bausch/sections/faq/contact_support/form_text_input.dart';
-import 'package:bausch/sections/faq/contact_support/select.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: avoid-returning-widgets

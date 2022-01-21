@@ -80,11 +80,10 @@ class ScoresSection extends StatelessWidget {
                     ),
                     child: CustomLineLoadingIndicator(
                       text: repo.lineLoadingText,
-                      // TODO(Nikolay): Нет данных. Откуда берется максимальное количество дней?.
                       maxDays: 365,
                       daysRemain: s.connectionState == ConnectionState.done
                           ? daysRemain
-                          : 364, // TODO(Nikolay): Нет данных. Откуда берется предыдущий остаток дней? (например брать предыдущий день от того, который приходит с сервера).
+                          : 364,
                       animationDuration: loadingAnimationDuration,
                     ),
                   );

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 
 class FormsResponse {

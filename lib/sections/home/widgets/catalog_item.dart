@@ -34,7 +34,6 @@ class CatalogItem extends StatelessWidget {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // TODO(Nikita): подставить норм картинку
                     if (model.picture != null)
                       Image.asset(
                         // model.img ?? 'assets/free-packaging.png',

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/notification_item.dart';
 import 'package:bausch/static/static_data.dart';

@@ -8,7 +8,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
-import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:extended_image/extended_image.dart';

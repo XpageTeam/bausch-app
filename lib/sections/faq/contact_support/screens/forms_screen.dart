@@ -2,7 +2,6 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/default_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/extra_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/topic_question_select.dart';
@@ -15,7 +14,6 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -114,7 +112,7 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
               );
             },
           ),
-          TopicQuestionSelect(),
+          const TopicQuestionSelect(),
 
           //* Дополнительные поля
           EntityStateBuilder<List<FieldModel>>(

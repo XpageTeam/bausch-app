@@ -1,4 +1,3 @@
-import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';

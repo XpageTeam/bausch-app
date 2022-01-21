@@ -5,7 +5,6 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
-import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';

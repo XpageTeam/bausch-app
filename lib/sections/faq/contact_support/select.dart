@@ -1,16 +1,10 @@
-// ignore_for_file: omit_local_variable_types
-
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
-import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
-import 'package:bausch/sections/faq/bloc/values/values_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 

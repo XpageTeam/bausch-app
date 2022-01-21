@@ -1,6 +1,5 @@
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
-import 'package:bausch/sections/order_registration/order_address_screen.dart';
 import 'package:bausch/sections/order_registration/widget_models/address_select_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';

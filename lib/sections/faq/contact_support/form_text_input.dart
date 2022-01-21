@@ -1,12 +1,10 @@
+// ignore_for_file: cascade_invocations
+
 import 'package:after_layout/after_layout.dart';
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class FormTextInput extends StatefulWidget {
@@ -37,7 +35,8 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
     super.initState();
     //fieldsBloc = BlocProvider.of<FieldsBloc>(context);
 
-    final userWM = Provider.of<UserWM>(context, listen: false);
+    // final userWM = Provider.of<UserWM>(context, listen: false);
+
     final formSreenWM = Provider.of<FormScreenWM>(
       context,
       listen: false,
@@ -56,11 +55,13 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
       default:
         controller = TextEditingController()
           ..addListener(() {
-            Map<String, dynamic> map = <String, dynamic>{}
+            final map = <String, dynamic>{}
               ..addAll(formSreenWM.extraList.value.data!);
+              
             map.addAll(<String, dynamic>{
               'extra[${widget.model.xmlId}]': controller.text,
             });
+            
             formSreenWM.extraList.content(map);
           });
     }
