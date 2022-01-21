@@ -10,12 +10,6 @@ class PrimaryDataDownloader {
     final res = BaseResponseRepository.fromMap(
       (await rh.get<Map<String, dynamic>>(
         '/selection/data/',
-        options: rh.cacheOptions
-            ?.copyWith(
-              maxStale: const Duration(days: 2),
-              policy: CachePolicy.request,
-            )
-            .toOptions(),
       ))
           .data!,
     );

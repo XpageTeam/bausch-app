@@ -200,12 +200,6 @@ class DiscountOpticsLoader {
           'category': category,
           'productCode': productCode,
         },
-        options: rh.cacheOptions
-            ?.copyWith(
-              maxStale: const Duration(days: 2),
-              policy: CachePolicy.request,
-            )
-            .toOptions(),
       ))
           .data!,
     );

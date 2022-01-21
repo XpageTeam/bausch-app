@@ -34,12 +34,6 @@ class InterestingProductsDownloader {
     final response =
         BaseResponseRepository.fromMap((await rh.get<Map<String, dynamic>>(
       '/catalog/products/interesting/',
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     ))
             .data!);
 
@@ -60,12 +54,6 @@ class ProductsDownloader {
       queryParameters: <String, dynamic>{
         'section': section,
       },
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     ))
             .data!);
 

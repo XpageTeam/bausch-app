@@ -141,12 +141,6 @@ class OrderDiscountSaver {
           'productCode': model.code,
         },
       ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     );
 
     final data = resp.data!;

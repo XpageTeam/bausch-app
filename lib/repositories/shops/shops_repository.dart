@@ -119,12 +119,6 @@ class AllOpticsDownloader{
     final res = BaseResponseRepository.fromMap(
       (await rh.get<Map<String, dynamic>>(
         '/optics/',
-        options: rh.cacheOptions
-            ?.copyWith(
-              maxStale: const Duration(days: 1),
-              policy: CachePolicy.request,
-            )
-            .toOptions(),
       ))
           .data!,
     );

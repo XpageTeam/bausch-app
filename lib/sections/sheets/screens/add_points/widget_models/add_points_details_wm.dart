@@ -190,12 +190,6 @@ class AddPointsSaver {
           'reviewScreenshot': await MultipartFile.fromFile(file.path),
         },
       ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     );
 
     return BaseResponseRepository.fromMap(resp.data!);

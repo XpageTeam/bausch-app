@@ -38,12 +38,6 @@ class OffersRepositoryDownloader {
           'type': type,
           'good': goodID,
         },
-        options: rh.cacheOptions
-            ?.copyWith(
-              maxStale: const Duration(days: 1),
-              policy: CachePolicy.request,
-            )
-            .toOptions(),
       ))
           .data!,
     );

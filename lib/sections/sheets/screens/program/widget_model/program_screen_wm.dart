@@ -194,12 +194,6 @@ class ProgramSertificatSaver {
           'name': name,
           'opticAddress': opticAddress,
         }),
-        options: rh.cacheOptions
-            ?.copyWith(
-              maxStale: const Duration(days: 1),
-              policy: CachePolicy.request,
-            )
-            .toOptions(),
       ))
           .data!,
     );

@@ -135,12 +135,6 @@ class OrderWebinarSaver {
           'price': model.price,
         },
       ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     ))
             .data!);
 
