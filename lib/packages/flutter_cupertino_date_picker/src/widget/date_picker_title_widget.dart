@@ -1,4 +1,4 @@
-// ignore_for_file: always_use_package_imports
+// ignore_for_file: always_use_package_imports, prefer_const_constructors_in_immutables,member-ordering-extended,avoid-returning-widgets
 
 import 'package:flutter/material.dart';
 
@@ -46,13 +46,13 @@ class DatePickerTitleWidget extends StatelessWidget {
     if (isCustomTitleWidget()) {
       // has custom title button widget
       if (pickerTheme.cancel == null) {
-        return Offstage();
+        return const Offstage();
       }
     }
 
-    Widget? cancelWidget = pickerTheme.cancel;
+    var cancelWidget = pickerTheme.cancel;
     if (cancelWidget == null) {
-      TextStyle textStyle = pickerTheme.cancelTextStyle ??
+      final textStyle = pickerTheme.cancelTextStyle ??
           TextStyle(
             color: Theme.of(context).unselectedWidgetColor,
             fontSize: 16.0,
@@ -63,11 +63,11 @@ class DatePickerTitleWidget extends StatelessWidget {
       );
     }
 
-    return Container(
+    return SizedBox(
       height: pickerTheme.titleHeight,
       child: TextButton(
         child: cancelWidget,
-        onPressed: () => this.onCancel(),
+        onPressed: onCancel,
       ),
     );
   }
@@ -77,13 +77,13 @@ class DatePickerTitleWidget extends StatelessWidget {
     if (isCustomTitleWidget()) {
       // has custom title button widget
       if (pickerTheme.confirm == null) {
-        return Offstage();
+        return const Offstage();
       }
     }
 
-    Widget? confirmWidget = pickerTheme.confirm;
+    var confirmWidget = pickerTheme.confirm;
     if (confirmWidget == null) {
-      TextStyle textStyle = pickerTheme.confirmTextStyle ??
+      final textStyle = pickerTheme.confirmTextStyle ??
           TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 16.0,
@@ -94,11 +94,11 @@ class DatePickerTitleWidget extends StatelessWidget {
       );
     }
 
-    return Container(
+    return SizedBox(
       height: pickerTheme.titleHeight,
       child: TextButton(
         child: confirmWidget,
-        onPressed: () => this.onConfirm(),
+        onPressed: onConfirm,
       ),
     );
   }

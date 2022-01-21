@@ -17,18 +17,18 @@ class _StringsSrLatin extends _StringsI18n {
   @override
   List<String> getMonths() {
     return [
-      "Januar",
-      "Februar",
-      "Mart",
-      "April",
-      "Maj",
-      "Jun",
-      "Jul",
-      "Avgust",
-      "Septembar",
-      "Octobar",
-      "Novembar",
-      "Decembar"
+      'Januar',
+      'Februar',
+      'Mart',
+      'April',
+      'Maj',
+      'Jun',
+      'Jul',
+      'Avgust',
+      'Septembar',
+      'Octobar',
+      'Novembar',
+      'Decembar',
     ];
   }
 
@@ -40,26 +40,26 @@ class _StringsSrLatin extends _StringsI18n {
   @override
   List<String> getWeeksFull() {
     return [
-      "Ponedeljak",
-      "Utorak",
-      "Sreda",
-      "Četvrtak",
-      "Petak",
-      "Subota",
-      "Nedelja",
+      'Ponedeljak',
+      'Utorak',
+      'Sreda',
+      'Četvrtak',
+      'Petak',
+      'Subota',
+      'Nedelja',
     ];
   }
 
   @override
   List<String>? getWeeksShort() {
     return [
-      "Pon",
-      "Uto",
-      "Sre",
-      "Čet",
-      "Pet",
-      "Sub",
-      "Ned",
+      'Pon',
+      'Uto',
+      'Sre',
+      'Čet',
+      'Pet',
+      'Sub',
+      'Ned',
     ];
   }
 }

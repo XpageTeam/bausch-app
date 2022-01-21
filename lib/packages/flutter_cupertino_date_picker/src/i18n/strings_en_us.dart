@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_single_quotes
+
 part of 'date_picker_i18n.dart';
 
 /// English (EN) United States
@@ -28,7 +30,7 @@ class _StringsEnUs extends _StringsI18n {
       "September",
       "October",
       "November",
-      "December"
+      "December",
     ];
   }
 

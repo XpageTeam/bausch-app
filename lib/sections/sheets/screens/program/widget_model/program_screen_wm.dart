@@ -10,6 +10,7 @@ import 'package:bausch/models/program/primary_data_downloader.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,8 @@ class ProgramScreenWM extends WidgetModel {
 
   Future<void> _getSertificat() async {
     unawaited(loadingStreamed.accept(true));
+    CustomException? ex;
+
     ProgramSaverResponse? response;
     try {
       response = await ProgramSertificatSaver.save(
@@ -74,34 +77,27 @@ class ProgramScreenWM extends WidgetModel {
         },
       );
     } on DioError catch (e) {
-      unawaited(
-        primaryDataStreamed.error(
-          CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.message,
-          ),
-        ),
+      ex = CustomException(
+        title: 'Невозможно загрузить предложение',
+        subtitle: e.message,
       );
     } on ResponseParseException catch (e) {
-      unawaited(
-        primaryDataStreamed.error(
-          CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'Невозможно загрузить предложение',
+        subtitle: e.toString(),
       );
     } on SuccessFalse catch (e) {
-      unawaited(
-        primaryDataStreamed.error(
-          CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'Невозможно загрузить предложение',
+        subtitle: e.toString(),
       );
     }
+
     unawaited(loadingStreamed.accept(false));
+
+    if (ex != null) {
+      showTopError(ex);
+    }
   }
 
   void _initUserData() {

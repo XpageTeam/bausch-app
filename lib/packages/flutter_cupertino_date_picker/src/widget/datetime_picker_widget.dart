@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_parenthesis, always_declare_return_types, prefer_single_quotes, always_use_package_imports, no_logic_in_create_state
+// ignore_for_file: always_use_package_imports, no_logic_in_create_state, prefer_typing_uninitialized_variables, type_annotate_public_apis, avoid_dynamic_calls,avoid-returning-widgets,member-ordering-extended, always_put_required_named_parameters_first, avoid_multiple_declarations_per_line, cascade_invocations, omit_local_variable_types
 
 import 'dart:math';
 
@@ -22,16 +22,18 @@ class DateTimePickerWidget extends StatefulWidget {
     this.minDateTime,
     this.maxDateTime,
     this.initDateTime,
-    this.dateFormat: DATETIME_PICKER_TIME_FORMAT,
-    this.locale: DATETIME_PICKER_LOCALE_DEFAULT,
-    this.pickerTheme: DateTimePickerTheme.Default,
+    this.dateFormat = DATETIME_PICKER_TIME_FORMAT,
+    this.locale = DATETIME_PICKER_LOCALE_DEFAULT,
+    this.pickerTheme = DateTimePickerTheme.Default,
     this.minuteDivider = 1,
     this.onCancel,
     this.onChange,
     this.onConfirm,
   }) : super(key: key) {
-    DateTime minTime = minDateTime ?? DateTime.parse(DATE_PICKER_MIN_DATETIME);
-    DateTime maxTime = maxDateTime ?? DateTime.parse(DATE_PICKER_MAX_DATETIME);
+    final DateTime minTime =
+        minDateTime ?? DateTime.parse(DATE_PICKER_MIN_DATETIME);
+    final DateTime maxTime =
+        maxDateTime ?? DateTime.parse(DATE_PICKER_MAX_DATETIME);
     assert(minTime.compareTo(maxTime) < 0);
   }
 
@@ -45,7 +47,11 @@ class DateTimePickerWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _DateTimePickerWidgetState(
-      minDateTime, maxDateTime, initDateTime, minuteDivider);
+        minDateTime,
+        maxDateTime,
+        initDateTime,
+        minuteDivider,
+      );
 }
 
 class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
@@ -61,27 +67,25 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
       _minuteScrollCtrl = FixedExtentScrollController(),
       _secondScrollCtrl = FixedExtentScrollController();
 
-  Map<String, FixedExtentScrollController> _scrollCtrlMap = Map();
-  Map<String, List<int>> _valueRangeMap = Map();
+  Map<String, FixedExtentScrollController> _scrollCtrlMap = {};
+  Map<String, List<int>> _valueRangeMap = {};
 
   bool _isChangeTimeRange = false;
 
-  final DateTime _baselineDate = DateTime(1900, 1, 1);
+  final DateTime _baselineDate = DateTime(1900);
 
-  _DateTimePickerWidgetState(DateTime? minTime, DateTime? maxTime,
-      DateTime? initTime, int minuteDivider) {
+  _DateTimePickerWidgetState(
+    DateTime? minTime,
+    DateTime? maxTime,
+    DateTime? initTime,
+    int minuteDivider,
+  ) {
     // check minTime value
-    if (minTime == null) {
-      minTime = DateTime.parse(DATE_PICKER_MIN_DATETIME);
-    }
+    minTime ??= DateTime.parse(DATE_PICKER_MIN_DATETIME);
     // check maxTime value
-    if (maxTime == null) {
-      maxTime = DateTime.parse(DATE_PICKER_MAX_DATETIME);
-    }
+    maxTime ??= DateTime.parse(DATE_PICKER_MAX_DATETIME);
     // check initTime value
-    if (initTime == null) {
-      initTime = DateTime.now();
-    }
+    initTime ??= DateTime.now();
     // limit initTime value
     if (initTime.compareTo(minTime) < 0) {
       initTime = minTime;
@@ -100,7 +104,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
     // limit the range of date
     _dayRange = _calcDayRange();
-    int currDate = initTime.difference(_baselineDate).inDays;
+    final int currDate = initTime.difference(_baselineDate).inDays;
     _currDay = min(max(_dayRange.first, currDate), _dayRange.last);
 
     // limit the range of hour
@@ -121,14 +125,16 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     _hourScrollCtrl =
         FixedExtentScrollController(initialItem: _currHour - _hourRange.first);
     _minuteScrollCtrl = FixedExtentScrollController(
-        initialItem: (_currMinute - _minuteRange.first) ~/ _minuteDivider);
+      initialItem: (_currMinute - _minuteRange.first) ~/ _minuteDivider,
+    );
     _secondScrollCtrl = FixedExtentScrollController(
-        initialItem: _currSecond - _secondRange.first);
+      initialItem: _currSecond - _secondRange.first,
+    );
 
     _scrollCtrlMap = {
       'H': _hourScrollCtrl,
       'm': _minuteScrollCtrl,
-      's': _secondScrollCtrl
+      's': _secondScrollCtrl,
     };
     _valueRangeMap = {'H': _hourRange, 'm': _minuteRange, 's': _secondRange};
   }
@@ -137,19 +143,21 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Material(
-          color: Colors.transparent, child: _renderPickerView(context)),
+        color: Colors.transparent,
+        child: _renderPickerView(context),
+      ),
     );
   }
 
   /// render time picker widgets
   Widget _renderPickerView(BuildContext context) {
-    Widget pickerWidget = _renderDatePickerWidget();
+    final Widget pickerWidget = _renderDatePickerWidget();
 
     // display the title widget
     if (widget.pickerTheme.title != null || widget.pickerTheme.showTitle) {
-      Widget titleWidget = DatePickerTitleWidget(
-        () => _onPressedCancel(),
-        () => _onPressedConfirm(),
+      final Widget titleWidget = DatePickerTitleWidget(
+        _onPressedCancel,
+        _onPressedConfirm,
         pickerTheme: widget.pickerTheme,
         locale: widget.locale,
       );
@@ -169,9 +177,15 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   /// pressed confirm widget
   void _onPressedConfirm() {
     if (widget.onConfirm != null) {
-      DateTime day = _baselineDate.add(Duration(days: _currDay));
-      DateTime dateTime = DateTime(
-          day.year, day.month, day.day, _currHour, _currMinute, _currSecond);
+      final DateTime day = _baselineDate.add(Duration(days: _currDay));
+      final DateTime dateTime = DateTime(
+        day.year,
+        day.month,
+        day.day,
+        _currHour,
+        _currMinute,
+        _currSecond,
+      );
       widget.onConfirm!(dateTime, _calcSelectIndexList());
     }
     Navigator.pop(context);
@@ -180,9 +194,15 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   /// notify selected datetime changed
   void _onSelectedChange() {
     if (widget.onChange != null) {
-      DateTime day = _baselineDate.add(Duration(days: _currDay));
-      DateTime dateTime = DateTime(
-          day.year, day.month, day.day, _currHour, _currMinute, _currSecond);
+      final DateTime day = _baselineDate.add(Duration(days: _currDay));
+      final DateTime dateTime = DateTime(
+        day.year,
+        day.month,
+        day.day,
+        _currHour,
+        _currMinute,
+        _currSecond,
+      );
       widget.onChange!(dateTime, _calcSelectIndexList());
     }
   }
@@ -211,33 +231,32 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   /// render the picker widget of year、month and day
   Widget _renderDatePickerWidget() {
-    List<Widget> pickers = [];
-    List<String> formatArr = DateTimeFormatter.splitDateFormat(
-        widget.dateFormat,
-        mode: DateTimePickerMode.datetime);
-    int count = formatArr.length;
-    int dayFlex = count > 3 ? count - 1 : count;
+    final List<Widget> pickers = [];
+    final List<String> formatArr = DateTimeFormatter.splitDateFormat(
+      widget.dateFormat,
+      mode: DateTimePickerMode.datetime,
+    );
+    final int count = formatArr.length;
+    final int dayFlex = count > 3 ? count - 1 : count;
 
     // render day picker column
-    String dayFormat = formatArr.removeAt(0);
-    Widget dayPickerColumn = _renderDatePickerColumnComponent(
+    final String dayFormat = formatArr.removeAt(0);
+    final Widget dayPickerColumn = _renderDatePickerColumnComponent(
       _dayScrollCtrl,
       _dayRange,
       dayFormat,
-      (value) {
-        _changeDaySelection(value);
-      },
+      _changeDaySelection,
       flex: dayFlex,
-      itemBuilder: (BuildContext context, int index) =>
+      itemBuilder: (context, index) =>
           _renderDayPickerItemComponent(_dayRange.first + index, dayFormat),
     );
     pickers.add(dayPickerColumn);
 
     // render time picker column
-    formatArr.forEach((format) {
-      List<int> valueRange = _findPickerItemRange(format);
+    for (final format in formatArr) {
+      final List<int> valueRange = _findPickerItemRange(format);
 
-      Widget pickerColumn = _renderDatePickerColumnComponent(
+      final Widget pickerColumn = _renderDatePickerColumnComponent(
         _findScrollCtrl(format),
         valueRange,
         format,
@@ -254,9 +273,11 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         minuteDivider: widget.minuteDivider,
       );
       pickers.add(pickerColumn);
-    });
+    }
     return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, children: pickers);
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: pickers,
+    );
   }
 
   Widget _renderDatePickerColumnComponent(
@@ -268,20 +289,19 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     required int flex,
     IndexedWidgetBuilder? itemBuilder,
   }) {
-    IndexedWidgetBuilder builder = itemBuilder != null
-        ? itemBuilder
-        : (context, index) {
-            int value = valueRange.first + index;
+    final IndexedWidgetBuilder builder = itemBuilder ??
+        (context, index) {
+          int value = valueRange.first + index;
 
-            if (format.contains('m')) {
-              value = minuteDivider! * index;
-            }
+          if (format.contains('m')) {
+            value = minuteDivider! * index;
+          }
 
-            return _renderDatePickerItemComponent(value, format);
-          };
+          return _renderDatePickerItemComponent(value, format);
+        };
 
-    Widget columnWidget = Container(
-      padding: EdgeInsets.all(8.0),
+    final Widget columnWidget = Container(
+      padding: const EdgeInsets.all(8.0),
       width: double.infinity,
       height: widget.pickerTheme.pickerHeight,
       decoration: BoxDecoration(color: widget.pickerTheme.backgroundColor),
@@ -304,8 +324,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   int _calculateMinuteChildCount(List<int> valueRange, int divider) {
     if (divider == 0) {
-      debugPrint("Cant devide by 0");
-      return (valueRange.last - valueRange.first + 1);
+      debugPrint('Cant devide by 0');
+      return valueRange.last - valueRange.first + 1;
     }
 
     return (valueRange.last - valueRange.first + 1) ~/ divider;
@@ -313,7 +333,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   /// render day picker item
   Widget _renderDayPickerItemComponent(int value, String? format) {
-    DateTime dateTime = _baselineDate.add(Duration(days: value));
+    final DateTime dateTime = _baselineDate.add(Duration(days: value));
     return Container(
       height: widget.pickerTheme.itemHeight,
       alignment: Alignment.center,
@@ -340,7 +360,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   /// change the selection of day picker
   void _changeDaySelection(int days) {
-    int value = _dayRange.first + days;
+    final int value = _dayRange.first + days;
     if (_currDay != value) {
       _currDay = value;
       _changeTimeRange();
@@ -350,7 +370,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   /// change the selection of hour picker
   void _changeHourSelection(int index) {
-    int value = _hourRange.first + index;
+    final int value = _hourRange.first + index;
     if (_currHour != value) {
       _currHour = value;
       _changeTimeRange();
@@ -360,7 +380,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   /// change the selection of minute picker
   void _changeMinuteSelection(int index) {
-    int value = index * _minuteDivider;
+    final int value = index * _minuteDivider;
 //    int value = _minuteRange.first + index;
     if (_currMinute != value) {
       _currMinute = value;
@@ -371,7 +391,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   /// change the selection of second picker
   void _changeSecondSelection(int index) {
-    int value = _secondRange.first + index;
+    final int value = _secondRange.first + index;
     if (_currSecond != value) {
       _currSecond = value;
       _onSelectedChange();
@@ -385,24 +405,24 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     }
     _isChangeTimeRange = true;
 
-    List<int> hourRange = _calcHourRange();
-    bool hourRangeChanged = _hourRange.first != hourRange.first ||
+    final List<int> hourRange = _calcHourRange();
+    final bool hourRangeChanged = _hourRange.first != hourRange.first ||
         _hourRange.last != hourRange.last;
     if (hourRangeChanged) {
       // selected day changed
       _currHour = max(min(_currHour, hourRange.last), hourRange.first);
     }
 
-    List<int> minuteRange = _calcMinuteRange();
-    bool minuteRangeChanged = _minuteRange.first != minuteRange.first ||
+    final List<int> minuteRange = _calcMinuteRange();
+    final bool minuteRangeChanged = _minuteRange.first != minuteRange.first ||
         _minuteRange.last != minuteRange.last;
     if (minuteRangeChanged) {
       // selected hour changed
       _currMinute = max(min(_currMinute, minuteRange.last), minuteRange.first);
     }
 
-    List<int> secondRange = _calcSecondRange();
-    bool secondRangeChanged = _secondRange.first != secondRange.first ||
+    final List<int> secondRange = _calcSecondRange();
+    final bool secondRangeChanged = _secondRange.first != secondRange.first ||
         _secondRange.last != secondRange.last;
     if (secondRangeChanged) {
       // second range changed, need limit the value of selected second
@@ -421,7 +441,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
     if (hourRangeChanged) {
       // CupertinoPicker refresh data not working (https://github.com/flutter/flutter/issues/22999)
-      int currHour = _currHour;
+      final int currHour = _currHour;
       _hourScrollCtrl.jumpToItem(hourRange.last - hourRange.first);
       if (currHour < hourRange.last) {
         _hourScrollCtrl.jumpToItem(currHour - hourRange.first);
@@ -430,7 +450,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
     if (minuteRangeChanged) {
       // CupertinoPicker refresh data not working (https://github.com/flutter/flutter/issues/22999)
-      int currMinute = _currMinute;
+      final int currMinute = _currMinute;
       _minuteScrollCtrl
           .jumpToItem((minuteRange.last - minuteRange.first) ~/ _minuteDivider);
       if (currMinute < minuteRange.last) {
@@ -440,7 +460,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
     if (secondRangeChanged) {
       // CupertinoPicker refresh data not working (https://github.com/flutter/flutter/issues/22999)
-      int currSecond = _currSecond;
+      final int currSecond = _currSecond;
       _secondScrollCtrl.jumpToItem(secondRange.last - secondRange.first);
       if (currSecond < secondRange.last) {
         _secondScrollCtrl.jumpToItem(currSecond - secondRange.first);
@@ -452,16 +472,16 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   /// calculate selected index list
   List<int> _calcSelectIndexList() {
-    int hourIndex = _currHour - _hourRange.first;
-    int minuteIndex = _currMinute - _minuteRange.first;
-    int secondIndex = _currSecond - _secondRange.first;
+    final int hourIndex = _currHour - _hourRange.first;
+    final int minuteIndex = _currMinute - _minuteRange.first;
+    final int secondIndex = _currSecond - _secondRange.first;
     return [hourIndex, minuteIndex, secondIndex];
   }
 
   /// calculate the range of day
   List<int> _calcDayRange() {
-    int minDays = _minTime.difference(_baselineDate).inDays;
-    int maxDays = _maxTime.difference(_baselineDate).inDays;
+    final int minDays = _minTime.difference(_baselineDate).inDays;
+    final int maxDays = _maxTime.difference(_baselineDate).inDays;
     return [minDays, maxDays];
   }
 
@@ -480,9 +500,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   /// calculate the range of minute
   List<int> _calcMinuteRange({int? currHour}) {
     int minMinute = 0, maxMinute = 59;
-    if (currHour == null) {
-      currHour = _currHour;
-    }
+    currHour ??= _currHour;
 
     if (_currDay == _dayRange.first && currHour == _minTime.hour) {
       // selected minimum day、hour, limit minute range
@@ -499,12 +517,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   List<int> _calcSecondRange({int? currHour, int? currMinute}) {
     int minSecond = 0, maxSecond = 59;
 
-    if (currHour == null) {
-      currHour = _currHour;
-    }
-    if (currMinute == null) {
-      currMinute = _currMinute;
-    }
+    currHour ??= _currHour;
+    currMinute ??= _currMinute;
 
     if (_currDay == _dayRange.first &&
         currHour == _minTime.hour &&

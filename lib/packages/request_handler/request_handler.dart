@@ -153,10 +153,10 @@ class RequestHandler {
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
                   'is_ios': options.headers?.containsKey('is_ios') != null
-                    ? options.headers != null
-                      ? options.headers!['is_ios']
-                      : Platform.isIOS
-                    : Platform.isIOS,
+                      ? options.headers != null
+                          ? options.headers!['is_ios']
+                          : Platform.isIOS
+                      : Platform.isIOS,
                 },
               )
             : Options(
@@ -216,10 +216,10 @@ class RequestHandler {
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
                   'is_ios': options.headers?.containsKey('is_ios') != null
-                    ? options.headers != null
-                      ? options.headers!['is_ios']
-                      : Platform.isIOS
-                    : Platform.isIOS,
+                      ? options.headers != null
+                          ? options.headers!['is_ios']
+                          : Platform.isIOS
+                      : Platform.isIOS,
                 },
               )
             : Options(
@@ -277,10 +277,10 @@ class RequestHandler {
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
                   'is_ios': options.headers?.containsKey('is_ios') != null
-                    ? options.headers != null
-                      ? options.headers!['is_ios']
-                      : Platform.isIOS
-                    : Platform.isIOS,
+                      ? options.headers != null
+                          ? options.headers!['is_ios']
+                          : Platform.isIOS
+                      : Platform.isIOS,
                 },
               )
             : Options(
@@ -336,10 +336,10 @@ class RequestHandler {
                           : ''
                       : _userWM?.userData.value.data?.user.token ?? '',
                   'is_ios': options.headers?.containsKey('is_ios') != null
-                    ? options.headers != null
-                      ? options.headers!['is_ios']
-                      : Platform.isIOS
-                    : Platform.isIOS,
+                      ? options.headers != null
+                          ? options.headers!['is_ios']
+                          : Platform.isIOS
+                      : Platform.isIOS,
                 },
               )
             : Options(

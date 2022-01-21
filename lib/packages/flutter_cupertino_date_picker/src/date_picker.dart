@@ -1,10 +1,9 @@
 // ignore_for_file: always_use_package_imports, prefer_const_constructors_in_immutables, parameter_assignments, member-ordering-extended, avoid_multiple_declarations_per_line, always_put_required_named_parameters_first
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'date_picker_theme.dart';
 import 'date_picker_constants.dart';
+import 'date_picker_theme.dart';
 import 'date_time_formatter.dart';
 import 'i18n/date_picker_i18n.dart';
 import 'widget/date_picker_widget.dart';
@@ -46,9 +45,9 @@ class DatePicker {
     DateTime? maxDateTime,
     DateTime? initialDateTime,
     String? dateFormat,
-    DateTimePickerLocale locale: DATETIME_PICKER_LOCALE_DEFAULT,
-    DateTimePickerMode pickerMode: DateTimePickerMode.date,
-    DateTimePickerTheme pickerTheme: DateTimePickerTheme.Default,
+    DateTimePickerLocale locale = DATETIME_PICKER_LOCALE_DEFAULT,
+    DateTimePickerMode pickerMode = DateTimePickerMode.date,
+    DateTimePickerTheme pickerTheme = DateTimePickerTheme.Default,
     DateVoidCallback? onCancel,
     DateVoidCallback? onClose,
     DateValueCallback? onChange,
@@ -64,7 +63,7 @@ class DatePicker {
     initialDateTime ??= DateTime.now();
 
     // Set value of date format
-    if (dateFormat != null && dateFormat.length > 0) {
+    if (dateFormat != null && dateFormat.isNotEmpty) {
       // Check whether date format is legal or not
       if (DateTimeFormatter.isDayFormat(dateFormat)) {
         if (pickerMode == DateTimePickerMode.time) {
@@ -160,9 +159,12 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
   }
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
-    double height = pickerTheme.pickerHeight;
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    var height = pickerTheme.pickerHeight;
     if (pickerTheme.title != null || pickerTheme.showTitle) {
       height += pickerTheme.titleHeight;
     }
@@ -186,7 +188,7 @@ class _DatePickerComponent extends StatelessWidget {
   final double _pickerHeight;
 
   _DatePickerComponent(this.route, double pickerHeight)
-      : this._pickerHeight = pickerHeight;
+      : _pickerHeight = pickerHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -239,11 +241,13 @@ class _DatePickerComponent extends StatelessWidget {
     return GestureDetector(
       child: AnimatedBuilder(
         animation: route.animation!,
-        builder: (BuildContext context, Widget? child) {
+        builder: (context, child) {
           return ClipRect(
             child: CustomSingleChildLayout(
-              delegate: _BottomPickerLayout(route.animation?.value,
-                  contentHeight: _pickerHeight),
+              delegate: _BottomPickerLayout(
+                route.animation?.value,
+                contentHeight: _pickerHeight,
+              ),
               child: pickerWidget,
             ),
           );
@@ -264,15 +268,14 @@ class _BottomPickerLayout extends SingleChildLayoutDelegate {
     return BoxConstraints(
       minWidth: constraints.maxWidth,
       maxWidth: constraints.maxWidth,
-      minHeight: 0.0,
       maxHeight: contentHeight,
     );
   }
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
-    if (progress == null) return Offset(0.0, 0.0);
-    double height = size.height - childSize.height * progress!;
+    if (progress == null) return Offset.zero;
+    final height = size.height - childSize.height * progress!;
     return Offset(0.0, height);
   }
 

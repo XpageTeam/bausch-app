@@ -266,8 +266,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
               streamedState: wm.loadingStreamed,
               builder: (_, loading) => CustomFloatingActionButton(
                 text: loading ? '' : 'Получить сертификат',
-                icon:
-                    loading ? const UiCircleLoader() : null,
+                icon: loading ? const UiCircleLoader() : null,
                 onPressed: currentOptic != null
                     ? loading
                         ? null

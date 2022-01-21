@@ -84,6 +84,20 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
+                  SliverToBoxAdapter(
+                    child: TextButton(
+                      onPressed: () {
+                        showSheet<void>(
+                          context,
+                          SimpleSheetModel(
+                            name: 'name',
+                            type: 'program',
+                          ),
+                        );
+                      },
+                      child: Text('123'),
+                    ),
+                  ),
                   PullToRefreshContainer((info) {
                     return SliverList(
                       // backgroundColor: AppTheme.mystic,
