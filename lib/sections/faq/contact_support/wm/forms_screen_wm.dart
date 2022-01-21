@@ -28,7 +28,7 @@ class FormScreenWM extends WidgetModel {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController =
-      MaskedTextController(mask: '+7 000 000 00 00');
+      MaskedTextController(mask: '+0 000 000 00 00');
   final TextEditingController commentController = TextEditingController();
 
   final QuestionModel? question;
