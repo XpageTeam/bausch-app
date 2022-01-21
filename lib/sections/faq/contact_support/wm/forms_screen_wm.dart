@@ -38,6 +38,8 @@ class FormScreenWM extends WidgetModel {
 
   final loadingState = StreamedState<bool>(false);
 
+  final buttonEnabledState = StreamedState<bool>(false);
+
   final selectedTopic = StreamedState<ValueModel?>(null);
   final selectedQuestion = StreamedState<ValueModel?>(null);
 
@@ -74,6 +76,15 @@ class FormScreenWM extends WidgetModel {
 
     extraList.bind((val) {
       debugPrint(val.toString());
+      _validate();
+    });
+
+    selectedTopic.bind((_) {
+      _validate();
+    });
+
+    selectedQuestion.bind((_) {
+      _validate();
     });
 
     _loadDefaultFields();
@@ -107,26 +118,24 @@ class FormScreenWM extends WidgetModel {
       emailController.text = userWM.userData.value.data!.user.email!;
     }
 
-    phoneController.text = userWM.userData.value.data!.user.phone;
+    phoneController
+      ..text = userWM.userData.value.data!.user.phone
+      ..addListener(_validate);
+    nameController.addListener(_validate);
+    emailController.addListener(_validate);
   }
 
   @override
   void onBind() {
     sendAction.bind((_) {
-      if (nameController.text.isNotEmpty ||
-          emailController.text.isNotEmpty ||
-          phoneController.text.isNotEmpty) {
-        sendData(
-          nameController.text,
-          emailController.text,
-          phoneController.text,
-          commentController.text,
-          selectedTopic.value!.id,
-          selectedQuestion.value!.id,
-        );
-      } else {
-        showDefaultNotification(title: 'Необходимо заполнить поля!');
-      }
+      sendData(
+        nameController.text,
+        emailController.text,
+        phoneController.text,
+        commentController.text,
+        selectedTopic.value?.id ?? 0,
+        selectedQuestion.value?.id ?? 0,
+      );
     });
     super.onBind();
   }
@@ -161,8 +170,6 @@ class FormScreenWM extends WidgetModel {
         ),
       ))
           .data!);
-
-      //return FormsResponse.fromMap(response.data as Map<String, dynamic>);
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -310,6 +317,19 @@ class FormScreenWM extends WidgetModel {
         title: e.toString(),
         ex: e,
       ));
+    }
+  }
+
+  void _validate() {
+    if (nameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        phoneController.text.isNotEmpty &&
+        (extraFieldsList.value.data!.length == extraList.value.data!.length) &&
+        selectedTopic.value != null &&
+        selectedQuestion.value != null) {
+      buttonEnabledState.accept(true);
+    } else {
+      buttonEnabledState.accept(false);
     }
   }
 }

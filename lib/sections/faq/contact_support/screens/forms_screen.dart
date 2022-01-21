@@ -152,17 +152,26 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
                     horizontal: StaticData.sidePadding,
                   ),
                   child: StreamedStateBuilder<bool>(
-                    streamedState: wm.loadingState,
-                    builder: (_, isLoading) {
-                      return isLoading
-                          ? const BlueButtonWithText(
-                              text: '',
-                              icon: UiCircleLoader(),
-                              //onPressed: () {},
+                    streamedState: wm.buttonEnabledState,
+                    builder: (_, isEnabled) {
+                      return isEnabled
+                          ? StreamedStateBuilder<bool>(
+                              streamedState: wm.loadingState,
+                              builder: (_, isLoading) {
+                                return isLoading
+                                    ? const BlueButtonWithText(
+                                        text: '',
+                                        icon: UiCircleLoader(),
+                                        //onPressed: () {},
+                                      )
+                                    : BlueButtonWithText(
+                                        text: 'Отправить',
+                                        onPressed: wm.sendAction,
+                                      );
+                              },
                             )
-                          : BlueButtonWithText(
+                          : const BlueButtonWithText(
                               text: 'Отправить',
-                              onPressed: wm.sendAction,
                             );
                     },
                   ),
