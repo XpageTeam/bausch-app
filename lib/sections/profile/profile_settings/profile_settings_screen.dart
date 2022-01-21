@@ -2,6 +2,7 @@
 
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
@@ -15,7 +16,6 @@ import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -117,14 +117,23 @@ class _ProfileSettingsScreenState
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            DiscountInfo(
-                              color: AppTheme.turquoiseBlue,
-                              text: (userData.user.isEmailConfirmed != null &&
-                                          !userData.user.isEmailConfirmed!) ||
-                                      userData.user.pendingEmail != null
-                                  ? 'подтвердить'
-                                  : 'подтверждён',
-                            ),
+                            if ((userData.user.isEmailConfirmed != null &&
+                                    !userData.user.isEmailConfirmed!) ||
+                                userData.user.pendingEmail != null)
+                              GestureDetector(
+                                onTap: wm.confirmEmail,
+                                child: DiscountInfo(
+                                  text: 'подтвердить',
+                                  color: AppTheme.turquoiseBlue,
+                                ),
+                              )
+                            else
+                              GestureDetector(
+                                child: DiscountInfo(
+                                  text: 'подтверждён',
+                                  color: AppTheme.turquoiseBlue,
+                                ),
+                              ),
                           ],
                         ),
                       );
@@ -165,28 +174,6 @@ class _ProfileSettingsScreenState
                           debugPrint('onchanged');
 
                           wm.setBirthDate(date);
-
-                          // showModalBottomSheet<void>(
-                          //   context: Keys.mainNav.currentContext!,
-                          //   shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(5),
-                          //   ),
-                          //   builder: (context) {
-                          //     return CustomAlertDialog(
-                          //       yesText: 'Продолжить',
-                          //       noText: 'Отмена',
-                          //       text:
-                          //           'После установки сменить дату рождения будет невозможно!',
-                          //       yesCallback: () {
-                          //         wm.setBirthDate(date);
-                          //         Navigator.of(context).pop();
-                          //       },
-                          //       noCallback: () {
-                          //         Navigator.of(context).pop();
-                          //       },
-                          //     );
-                          //   },
-                          // );
                         },
                       );
                     },

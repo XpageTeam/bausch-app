@@ -1,4 +1,12 @@
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/sections/faq/bloc/forms_extra/forms_extra_bloc.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +27,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   final changeCityAction = StreamedAction<String?>();
 
+  final confirmEmail = VoidAction();
+
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
 
@@ -34,6 +44,10 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
     changeCityAction.bind(setCityName);
 
+    confirmEmail.bind((_) {
+      sendEmailConfirmation();
+    });
+
     super.onBind();
   }
 
@@ -45,6 +59,47 @@ class ProfileSettingsScreenWM extends WidgetModel {
     nameController.dispose();
     lastNameController.dispose();
     phoneController.dispose();
+  }
+
+  void sendEmailConfirmation() async {
+    final rh = RequestHandler();
+
+    CustomException? error;
+
+    try {
+      final result =
+          BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+        '/user/email/confirm/',
+      ))
+              .data!);
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'Ошибка при обработке ответа от сервера',
+        subtitle: e.toString(),
+      );
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'Ошибка при отправке запроса',
+        subtitle: e.toString(),
+      );
+      // ignore: unused_catch_clause
+    } on SuccessFalse catch (e) {
+      error = const CustomException(
+        title: 'что-то пошло не так',
+      );
+    }
+
+    if (error != null) {
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
+    } else {
+      showDefaultNotification(
+        title: 'Письмо для подтверждения почты успешно отправлено!',
+        success: true,
+      );
+    }
   }
 
   void setValues() {
@@ -60,7 +115,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
       nameController.text = userWM.userData.value.data!.user.name ?? '';
       lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
       phoneController.text = userWM.userData.value.data!.user.phone;
-    // ignore: avoid_catches_without_on_clauses
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       debugPrint(e.toString());
     }
