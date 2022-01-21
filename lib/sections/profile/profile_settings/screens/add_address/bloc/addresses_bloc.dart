@@ -14,14 +14,17 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
   AddressesBloc() : super(AddressesInitial()) {
     on<AddressesEvent>((event, emit) async {
       if (event is AddressesSend) {
+        emit(AddressesSending());
         emit(await sendAddress(event.address));
       }
 
       if (event is AddressesDelete) {
+        emit(AddressesSending());
         emit(await deleteAddress(event.id));
       }
 
       if (event is AddressUpdate) {
+        emit(AddressesSending());
         emit(await updateAddress(event.address));
       }
     });
@@ -31,7 +34,6 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
     final rh = RequestHandler();
 
     try {
-
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
           '/user/address/',

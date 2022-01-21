@@ -54,6 +54,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   bool floorControllerIsEmpty = true;
   bool entryControllerIsEmpty = true;
 
+  bool isButtonPressed = false;
+
   late TextEditingController flatController;
   late TextEditingController entryController;
   late TextEditingController floorController;
@@ -100,6 +102,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
               title: state.title,
               subtitle: state.subtitle,
             );
+            isButtonPressed = false;
           }
 
           if (state is AddressesSended) {
@@ -111,8 +114,9 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
           }
         },
         child: BlocBuilder<AddressesBloc, AddressesState>(
-          bloc: addressesBloc,
+          //bloc: addressesBloc,
           builder: (context, state) {
+            debugPrint(state.toString());
             return Scaffold(
               appBar: const DefaultAppBar(
                 title: 'Адрес доставки',
@@ -180,32 +184,41 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   children: [
                     BlueButtonWithText(
                       text: 'Сохранить',
-                      onPressed: () {
-                        final model = AdressModel(
-                          id: widget.adress.id,
-                          street: widget.adress.street,
-                          house: widget.adress.house,
-                          city: widget.adress.city,
-                          region: widget.adress.region,
-                          settlement: widget.adress.settlement,
-                          zipCode: widget.adress.zipCode,
-                          flat: flatController.text.isNotEmpty
-                              ? int.parse(flatController.text)
-                              : null,
-                          entry: entryController.text.isNotEmpty
-                              ? int.parse(entryController.text)
-                              : null,
-                          floor: floorController.text.isNotEmpty
-                              ? int.parse(floorController.text)
-                              : null,
-                        );
+                      onPressed: !isButtonPressed
+                          ? () {
+                              //* чтобы не было двойных нажатий
+                              setState(() {
+                                isButtonPressed = true;
+                              });
 
-                        if (widget.isFirstLaunch) {
-                          addressesBloc.add(AddressesSend(address: model));
-                        } else {
-                          addressesBloc.add(AddressUpdate(address: model));
-                        }
-                      },
+                              final model = AdressModel(
+                                id: widget.adress.id,
+                                street: widget.adress.street,
+                                house: widget.adress.house,
+                                city: widget.adress.city,
+                                region: widget.adress.region,
+                                settlement: widget.adress.settlement,
+                                zipCode: widget.adress.zipCode,
+                                flat: flatController.text.isNotEmpty
+                                    ? int.parse(flatController.text)
+                                    : null,
+                                entry: entryController.text.isNotEmpty
+                                    ? int.parse(entryController.text)
+                                    : null,
+                                floor: floorController.text.isNotEmpty
+                                    ? int.parse(floorController.text)
+                                    : null,
+                              );
+
+                              if (widget.isFirstLaunch) {
+                                addressesBloc
+                                    .add(AddressesSend(address: model));
+                              } else {
+                                addressesBloc
+                                    .add(AddressUpdate(address: model));
+                              }
+                            }
+                          : null,
                     ),
                     if (!widget.isFirstLaunch)
                       Padding(

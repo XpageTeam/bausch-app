@@ -58,6 +58,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.3
   equatable: ^2.0.3
 
+
   # better_player:
   #   path: lib/packages/better_player
   vimeoplayer_trinity:
