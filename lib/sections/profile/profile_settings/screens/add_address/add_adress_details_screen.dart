@@ -96,7 +96,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       child: BlocListener<AddressesBloc, AddressesState>(
         listener: (context, state) {
           if (state is AddressesFailed) {
-            showDefaultNotification(title: state.title);
+            showDefaultNotification(
+              title: state.title,
+              subtitle: state.subtitle,
+            );
           }
 
           if (state is AddressesSended) {
@@ -139,7 +142,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             controller: flatController,
                             inputType: TextInputType.number,
                             textInputAction: TextInputAction.next,
-                            
                           ),
                         ),
                         const SizedBox(
@@ -252,7 +254,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 
-  
   void _navigateBack() {
     // var count = 0;
     // Navigator.of(context).popUntil((_) => count++ >= 2);
