@@ -51,6 +51,8 @@ class LoginWM extends WidgetModel {
 
   final sendCodeAction = VoidAction();
 
+  final resendSMSAction = VoidAction();
+
   final policyAcceptAction = VoidAction();
 
   Timer? smsTimer;
@@ -164,6 +166,11 @@ class LoginWM extends WidgetModel {
         _startResendTimer(300);
       }
     });
+
+
+    resendSMSAction.bind((_) {
+      _resendSMS();
+    });
   }
 
   void _checkAuth() {
@@ -251,6 +258,46 @@ class LoginWM extends WidgetModel {
     } on ResponseParseException catch (e) {
       error = CustomException(
         title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      error = CustomException(
+        title: e.toString(),
+        ex: e,
+      );
+    }
+
+    if (error != null) {
+      showTopError(error);
+    }
+
+    codeController.text = '';
+
+    unawaited(loginProcessedState.accept(false));
+  }
+
+  Future<void> _resendSMS() async {
+    unawaited(loginProcessedState.accept(true));
+    // unawaited(authRequestResult.loading());
+
+    CustomException? error;
+
+    try {
+      // await authRequestResult.content(
+        await PhoneSender.resendSMS(phoneController.text);
+      // );
+
+      await smsSendCounter.accept(smsSendCounter.value + 1);
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
       );

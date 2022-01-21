@@ -7,17 +7,29 @@ class PhoneSender {
   static Future<AuthResponseModel> send(String phone) async {
     final rh = RequestHandler();
 
-    final res =
-        BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
-      '/user/authentication/',
-      data: FormData.fromMap(
-        <String, dynamic>{
-          'phone': phone,
-        },
-      ),
-    ))
-            .data!);
+    final res = BaseResponseRepository.fromMap(
+      (await rh.post<Map<String, dynamic>>(
+        '/user/authentication/',
+        data: FormData.fromMap(
+          <String, dynamic>{
+            'phone': phone,
+          },
+        ),
+      ))
+          .data!,
+    );
 
     return AuthResponseModel.fromJson(res.data as Map<String, dynamic>);
+  }
+
+  static Future<BaseResponseRepository> resendSMS(String phone) async {
+    final rh = RequestHandler();
+
+    return BaseResponseRepository.fromMap(
+      (await rh.post<Map<String, dynamic>>(
+        '/user/authentication/resend/',
+      ))
+          .data!,
+    );
   }
 }

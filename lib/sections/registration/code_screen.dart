@@ -76,14 +76,12 @@ class _CodeScreenState extends State<CodeScreen> {
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
               ),
-              onPressed: () {
-                loginWM.sendPhoneAction(false);
-              },
+              onPressed: loginWM.resendSMSAction,
             );
           }
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
     );
   }
 }
