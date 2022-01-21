@@ -2,6 +2,8 @@ import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DatePickerButton extends StatefulWidget {
@@ -43,29 +45,30 @@ class _DatePickerButtonState extends State<DatePickerButton> {
   }
 
   Future<void> selectDate(BuildContext context) async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
+    DatePicker.showDatePicker(
+      context,
+      initialDateTime: DateTime.now(),
+      minDateTime: DateTime(1900, 8),
+      maxDateTime: DateTime.now(),
+      locale: DateTimePickerLocale.ru,
+      onCancel: () {},
+      onConfirm: (date, i) {
+        if (date != selectedDate) {
+          setState(() {
+            selectedDate = date;
+            value = DateFormat('d.M.y').format(selectedDate);
+
+            final map = formSreenWM.extraList.value.data!;
+
+            final newMap = <String, dynamic>{
+              ...map,
+              'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
+            };
+
+            formSreenWM.extraList.content(newMap);
+          });
+        }
+      },
     );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        value = selectedDate.toString();
-        // fieldsBloc.add(FieldsAddExtra(extra: <String, dynamic>{
-        //   'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
-        // }));
-        final map = formSreenWM.extraList.value.data!;
-
-        // ignore: cascade_invocations
-        map.addAll(<String, dynamic>{
-          'extra[${widget.model.xmlId}]': selectedDate.toIso8601String(),
-        });
-        
-        formSreenWM.extraList.content(map);
-      });
-    }
   }
 }
