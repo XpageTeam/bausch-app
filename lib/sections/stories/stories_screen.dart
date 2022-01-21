@@ -276,7 +276,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           loadStateChanged: loadStateChangedFunction,
         );
 
-        final stream = (img as Image).image.resolve(ImageConfiguration.empty);
+        final stream = (img as ExtendedImage).image.resolve(ImageConfiguration.empty);
 
         final completer = Completer<void>();
 
