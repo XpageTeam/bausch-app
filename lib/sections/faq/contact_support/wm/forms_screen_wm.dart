@@ -74,19 +74,6 @@ class FormScreenWM extends WidgetModel {
 
     userWM = Provider.of<UserWM>(context, listen: false);
 
-    extraList.bind((val) {
-      debugPrint(val.toString());
-      _validate();
-    });
-
-    selectedTopic.bind((_) {
-      _validate();
-    });
-
-    selectedQuestion.bind((_) {
-      _validate();
-    });
-
     _loadDefaultFields();
     _loadCategoryList();
 
@@ -137,6 +124,20 @@ class FormScreenWM extends WidgetModel {
         selectedQuestion.value?.id ?? 0,
       );
     });
+
+    extraList.bind((val) {
+      debugPrint(val.toString());
+      _validate();
+    });
+
+    selectedTopic.bind((_) {
+      _validate();
+    });
+
+    selectedQuestion.bind((_) {
+      _validate();
+    });
+
     super.onBind();
   }
 
@@ -243,7 +244,6 @@ class FormScreenWM extends WidgetModel {
     try {
       await extraFieldsList
           .content(await _downloader.loadExtraFields(question));
-      debugPrint(extraFieldsList.value.data.toString());
     } on DioError catch (e) {
       await extraFieldsList.error(CustomException(
         title: 'При загрузке дополнительных полей произошла ошибка',
@@ -324,7 +324,8 @@ class FormScreenWM extends WidgetModel {
     if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
-        (extraFieldsList.value.data!.length == extraList.value.data!.length) &&
+        ((extraFieldsList.value.data?.length == extraList.value.data?.length) ||
+            extraFieldsList.value.data == null) &&
         selectedTopic.value != null &&
         selectedQuestion.value != null) {
       buttonEnabledState.accept(true);

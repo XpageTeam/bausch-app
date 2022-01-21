@@ -30,7 +30,7 @@ class ContactSupportScreen extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('topic: $topic, question: $question');
+    debugPrint('topic: ${topic?.id}, question: ${question?.id}');
 
     return FormsScreen(
       controller: controller,

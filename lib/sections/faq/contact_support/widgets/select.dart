@@ -80,6 +80,7 @@ class _SelectState extends State<Select> {
             onPressed: () {
               if (widget.model.xmlId == 'topic') {
                 formScreenWM.loadQuestionsList(e.id);
+                formScreenWM.selectedQuestion.accept(null);
               }
 
               if (widget.model.xmlId == 'question') {
