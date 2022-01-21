@@ -6,6 +6,7 @@ import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class FormsContentDownloader {
   final rh = RequestHandler();
@@ -40,10 +41,16 @@ class FormsContentDownloader {
             .data!);
 
     try {
-      return (result.data as List<dynamic>)
+      // return (result.data as List<dynamic>)
+      //     .map((dynamic item) =>
+      //         FieldModel.fromMap(item as Map<String, dynamic>))
+      //     .toList();
+      final list = (result.data as List<dynamic>)
           .map((dynamic item) =>
               FieldModel.fromMap(item as Map<String, dynamic>))
           .toList();
+      debugPrint(list.toString());
+      return list;
     } on ResponseParseException {
       rethrow;
     } catch (e) {

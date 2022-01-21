@@ -47,8 +47,7 @@ class FormScreenWM extends WidgetModel {
 
   final defaultFieldsList =
       EntityStreamedState<List<FieldModel>>(const EntityState(data: []));
-  final extraFieldsList =
-      EntityStreamedState<List<FieldModel>>(const EntityState(data: []));
+  final extraFieldsList = EntityStreamedState<List<FieldModel>>()..content([]);
 
   final topicsList = EntityStreamedState<List<ValueModel>>();
   final questionsList =
@@ -242,8 +241,11 @@ class FormScreenWM extends WidgetModel {
     unawaited(extraFieldsList.loading());
 
     try {
-      await extraFieldsList
-          .content(await _downloader.loadExtraFields(question));
+      final list = await _downloader.loadExtraFields(question);
+
+      await extraFieldsList.content(list);
+
+      _validate();
     } on DioError catch (e) {
       await extraFieldsList.error(CustomException(
         title: 'При загрузке дополнительных полей произошла ошибка',
@@ -321,11 +323,12 @@ class FormScreenWM extends WidgetModel {
   }
 
   void _validate() {
+    debugPrint(extraFieldsList.value.data?.length.toString());
+    debugPrint(extraList.value.data?.length.toString());
     if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
-        ((extraFieldsList.value.data?.length == extraList.value.data?.length) ||
-            extraFieldsList.value.data == null) &&
+        (extraFieldsList.value.data?.length == extraList.value.data?.length) &&
         selectedTopic.value != null &&
         selectedQuestion.value != null) {
       buttonEnabledState.accept(true);
