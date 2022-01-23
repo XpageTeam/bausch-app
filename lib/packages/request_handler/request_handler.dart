@@ -29,20 +29,7 @@ class RequestHandler {
   Dio? _dio;
 
   RequestHandler._init() {
-    _dio = Dio(
-      BaseOptions(
-        baseUrl: StaticData.apiUrl,
-        connectTimeout: 10000,
-        receiveTimeout: 20000,
-        // headers: <String, dynamic>{
-        // 	if (UserRepository.currentUser != null)
-        // 		'token': UserRepository.currentUser!.token,
-        // },
-      ),
-    );
-
-    // ! debugPrint('userToken2: ${UserRepository.currentUser?.token}');
-    // print("store: $store");
+    _dio = _createDio();
   }
 
   factory RequestHandler.setContext(BuildContext context) {
@@ -144,28 +131,7 @@ class RequestHandler {
         path,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
-        options: options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                  'is_ios': options.headers?.containsKey('is_ios') != null
-                      ? options.headers != null
-                          ? options.headers!['is_ios']
-                          : Platform.isIOS
-                      : Platform.isIOS,
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'is_ios': Platform.isIOS,
-                },
-              ),
+        options: _getOptions(options),
         queryParameters: queryParameters,
       );
     } on DioError catch (e) {
@@ -207,28 +173,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                  'is_ios': options.headers?.containsKey('is_ios') != null
-                      ? options.headers != null
-                          ? options.headers!['is_ios']
-                          : Platform.isIOS
-                      : Platform.isIOS,
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'is_ios': Platform.isIOS,
-                },
-              ),
+        options: _getOptions(options),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -268,28 +213,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                  'is_ios': options.headers?.containsKey('is_ios') != null
-                      ? options.headers != null
-                          ? options.headers!['is_ios']
-                          : Platform.isIOS
-                      : Platform.isIOS,
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'is_ios': Platform.isIOS,
-                },
-              ),
+        options: _getOptions(options),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -327,7 +251,25 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options != null
+        options: _getOptions(options),
+        cancelToken: cancelToken,
+      );
+    } on DioError catch (e) {
+      final result = e.response;
+
+      debugPrint('statusCode: ${result?.statusCode}');
+
+      if ((result?.statusCode == 401 || result?.statusCode == 403) &&
+          globalContext != null) {
+        Provider.of<AuthWM>(globalContext!, listen: false).logout();
+      }
+
+      rethrow;
+    }
+  }
+
+  Options? _getOptions(Options? options){
+    return options != null
             ? options.copyWith(
                 headers: <String, dynamic>{
                   'x-api-key': options.headers?.containsKey('x-api-key') != null
@@ -348,20 +290,16 @@ class RequestHandler {
                     'x-api-key': _userWM?.userData.value.data?.user.token,
                   'is_ios': Platform.isIOS,
                 },
-              ),
-        cancelToken: cancelToken,
-      );
-    } on DioError catch (e) {
-      final result = e.response;
+              );
+  }
 
-      debugPrint('statusCode: ${result?.statusCode}');
-
-      if ((result?.statusCode == 401 || result?.statusCode == 403) &&
-          globalContext != null) {
-        Provider.of<AuthWM>(globalContext!, listen: false).logout();
-      }
-
-      rethrow;
-    }
+  Dio _createDio() {
+    return Dio(
+      BaseOptions(
+        baseUrl: StaticData.apiUrl,
+        connectTimeout: 20000,
+        receiveTimeout: 40000,
+      ),
+    );
   }
 }
