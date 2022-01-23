@@ -80,15 +80,15 @@ class _ScrollableProfileContentState
                           'Уведомления ${wm.notificationsList.value.data!.length}',
                       ],
                       onChanged: (i) {
-                        if (i == 0) {
-                          setState(() {
+                        setState(() {
+                          if (i == 0) {
                             isOrdersEnabled = true;
-                          });
-                        } else {
-                          setState(() {
+                          } else {
                             isOrdersEnabled = false;
-                          });
-                        }
+                          }
+
+                          widget.controller.jumpTo(0);
+                        });
                       },
                     ),
                   ),
