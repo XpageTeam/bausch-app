@@ -45,12 +45,7 @@ class NotificationSection extends StatelessWidget {
     }
 
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(
-        StaticData.sidePadding,
-        20,
-        StaticData.sidePadding,
-        0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
       sliver: SliverList(
         // TODO(Danil): Гоша должен доделать
         // CustomRadio(
