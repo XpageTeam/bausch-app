@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:meta/meta.dart';
@@ -20,11 +24,14 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
   Future<AttachState> _attachFile() async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      type: FileType.image,
+      type: Platform.isAndroid ? FileType.custom : FileType.image,
+      allowedExtensions: Platform.isAndroid ? StaticData.fileTypes : null,
     );
 
     if (result != null) {
       //state.files.addAll(result.files.map((e)  => await dio.MultipartFile.fromFile(File(e.path!).path)).toList());
+
+      final files = <PlatformFile>[];
 
       // await Future.forEach(
       //   result.files,
@@ -35,10 +42,20 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
       //   },
       // );
 
+      for (final file in result.files) {
+        if (file.size <= StaticData.maxFileSize) {
+          files.add(file);
+        }
+      }
+
+      if (files.length != result.files.length){
+        showDefaultNotification(title: StaticData.maxFilesSizeText);
+      }
+
       //* Убираю дубликаты
       // final files = LinkedHashSet<dio.MultipartFile>.from(state.files).toList();
 
-      return AttachAdded(files: result.files);
+      return AttachAdded(files: files);
     } else {
       return AttachStopped();
     }
