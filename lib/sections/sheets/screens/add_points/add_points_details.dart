@@ -145,7 +145,8 @@ class _AddPointsDetailsState
                                               .btnIcon!,
                                           height: 15,
                                           printError: false,
-                                          loadStateChanged: loadStateChangedFunction,
+                                          loadStateChanged:
+                                              loadStateChangedFunction,
                                         )
                                       : null,
                                 );

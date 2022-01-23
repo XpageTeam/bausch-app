@@ -74,7 +74,6 @@ class AddPointsDetailsWM extends WidgetModel {
 
     CustomException? error;
 
-
     try {
       await AddPointsSaver.beforeLaunchVKUrl();
     } on DioError catch (e) {
@@ -95,7 +94,6 @@ class AddPointsDetailsWM extends WidgetModel {
         ex: e,
       );
     }
-
 
     unawaited(loadingState.accept(false));
 
@@ -119,8 +117,16 @@ class AddPointsDetailsWM extends WidgetModel {
 
     try {
       final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
+        type: Platform.isAndroid ? FileType.custom : FileType.image,
+        allowedExtensions: Platform.isAndroid ? StaticData.fileTypes : null,
       );
+
+      if (result != null && result.files.isNotEmpty) {
+        if (result.files.first.size <= StaticData.maxFileSize) {
+          throw SuccessFalse(StaticData.maxFilesSizeText);
+        }
+      }
+
       late File file;
 
       if (result != null) {
