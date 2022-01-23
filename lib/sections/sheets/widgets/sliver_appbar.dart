@@ -41,7 +41,7 @@ class CustomSliverAppbar extends StatelessWidget {
                         color: AppTheme.mineShaft,
                       ),
                       // backgroundColor: iconColor,
-                      backgroundColor: AppTheme.turquoiseBlue,
+                      backgroundColor: iconColor,
                     ),
                 NormalIconButton(
                   onPressed: () {
@@ -55,7 +55,7 @@ class CustomSliverAppbar extends StatelessWidget {
                     color: AppTheme.mineShaft,
                   ),
                   // backgroundColor: iconColor,
-                  backgroundColor: AppTheme.turquoiseBlue,
+                  backgroundColor: iconColor,
                 ),
               ],
             )
@@ -73,7 +73,7 @@ class CustomSliverAppbar extends StatelessWidget {
                     color: AppTheme.mineShaft,
                   ),
                   // backgroundColor: iconColor,
-                  backgroundColor: AppTheme.turquoiseBlue,
+                  backgroundColor: iconColor,
                 ),
               ],
             ),
