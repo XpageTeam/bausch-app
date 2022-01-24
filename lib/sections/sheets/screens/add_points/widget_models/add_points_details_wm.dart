@@ -14,7 +14,6 @@ import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart'
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

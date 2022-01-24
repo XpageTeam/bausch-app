@@ -1,7 +1,6 @@
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class PrimaryDataDownloader {
   static Future<PrimaryData> load() async {

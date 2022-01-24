@@ -16,7 +16,6 @@ import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packagi
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

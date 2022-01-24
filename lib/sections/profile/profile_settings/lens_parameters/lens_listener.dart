@@ -13,7 +13,6 @@ class LensListener extends StatelessWidget {
     return BlocListener<LensBloc, LensState>(
       listener: (context, state) {
         if (state is LensFailed) {
-          // TODO(Nikita): поменять на другой
           showDefaultNotification(
             title: state.title,
             subtitle: state.subtitle,
@@ -21,7 +20,6 @@ class LensListener extends StatelessWidget {
         }
 
         if (state is LensSuccess) {
-          // TODO(Nikita): поменять на другой
           showDefaultNotification(
             title: 'Параметры успешно изменены',
             success: true,

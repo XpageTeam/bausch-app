@@ -14,7 +14,6 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_s
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -238,9 +237,6 @@ class OpticCititesRepository {
         ],
       );
     }
-
-
-
 
     final cityNames = <String>{};
 

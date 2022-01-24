@@ -74,7 +74,7 @@ class _DiscountOpticsScreenState
       },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.all(18),
-        icon: SizedBox(),
+        icon: const SizedBox(),
         iconColor: iconColor,
       ),
       slivers: [
