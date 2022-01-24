@@ -1,4 +1,3 @@
-import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
