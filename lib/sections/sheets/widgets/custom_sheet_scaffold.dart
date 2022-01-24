@@ -10,6 +10,7 @@ class CustomSheetScaffold extends StatelessWidget {
   final bool resizeToAvoidBottomInset;
   //final bool withAppBar;
   final Widget? appBar;
+
   final bool hideBottomNavBarThenKeyboard;
   final ValueChanged<double>? onScrolled;
 
