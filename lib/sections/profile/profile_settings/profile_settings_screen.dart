@@ -217,7 +217,7 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            Padding(
+            /*Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: FocusButton(
                 labelText: 'Параметры контактных линз',
@@ -227,12 +227,12 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            // const Padding(
-            //   padding: EdgeInsets.only(bottom: 40),
-            //   child: FocusButton(
-            //     labelText: 'Привязать аккаунт',
-            //   ),
-            // ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 40),
+              child: FocusButton(
+                labelText: 'Привязать аккаунт',
+              ),
+            ),*/
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: TextButton(
