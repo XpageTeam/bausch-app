@@ -212,25 +212,36 @@ class FormScreenWM extends WidgetModel {
 
     unawaited(questionsList.loading());
 
+    CustomException? error;
+
     try {
       await questionsList.content(await _downloader.loadQuestionsList(topic));
     } on DioError catch (e) {
-      await questionsList.error(CustomException(
-        title: 'При загрузке стандартных полей произошла ошибка',
+      error = CustomException(
+        title: 'При загрузке списка вопросов произошла ошибка',
         subtitle: e.message,
         ex: e,
-      ));
+      );
     } on ResponseParseException catch (e) {
-      await questionsList.error(CustomException(
+      error = CustomException(
         title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
-      ));
+      );
     } on SuccessFalse catch (e) {
-      await questionsList.error(CustomException(
+      error = CustomException(
         title: e.toString(),
         ex: e,
-      ));
+      );
+    }
+
+    if (error != null) {
+      // ignore: use_build_context_synchronously
+      //Navigator.of(context).pop();
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
     }
   }
 
@@ -240,6 +251,8 @@ class FormScreenWM extends WidgetModel {
 
     unawaited(extraFieldsList.loading());
 
+    CustomException? error;
+
     try {
       final list = await _downloader.loadExtraFields(question);
 
@@ -247,22 +260,31 @@ class FormScreenWM extends WidgetModel {
 
       _validate();
     } on DioError catch (e) {
-      await extraFieldsList.error(CustomException(
+      error = CustomException(
         title: 'При загрузке дополнительных полей произошла ошибка',
         subtitle: e.message,
         ex: e,
-      ));
+      );
     } on ResponseParseException catch (e) {
-      await extraFieldsList.error(CustomException(
+      error = CustomException(
         title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
-      ));
+      );
     } on SuccessFalse catch (e) {
-      await extraFieldsList.error(CustomException(
+      error = CustomException(
         title: e.toString(),
         ex: e,
-      ));
+      );
+    }
+
+    if (error != null) {
+      // ignore: use_build_context_synchronously
+      //Navigator.of(context).pop();
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
     }
   }
 
@@ -272,25 +294,36 @@ class FormScreenWM extends WidgetModel {
 
     unawaited(topicsList.loading());
 
+    CustomException? error;
+
     try {
       await topicsList.content(await _downloader.loadCategoryList());
     } on DioError catch (e) {
-      await topicsList.error(CustomException(
-        title: 'При загрузке стандартных полей произошла ошибка',
+      error = CustomException(
+        title: 'При загрузке списка категорий произошла ошибка',
         subtitle: e.message,
         ex: e,
-      ));
+      );
     } on ResponseParseException catch (e) {
-      await topicsList.error(CustomException(
+      error = CustomException(
         title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
-      ));
+      );
     } on SuccessFalse catch (e) {
-      await topicsList.error(CustomException(
+      error = CustomException(
         title: e.toString(),
         ex: e,
-      ));
+      );
+    }
+
+    if (error != null) {
+      // ignore: use_build_context_synchronously
+      //Navigator.of(context).pop();
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
     }
   }
 
@@ -300,25 +333,36 @@ class FormScreenWM extends WidgetModel {
 
     unawaited(defaultFieldsList.loading());
 
+    CustomException? error;
+
     try {
       await defaultFieldsList.content(await _downloader.loadDefaultFields());
     } on DioError catch (e) {
-      await defaultFieldsList.error(CustomException(
+      error = CustomException(
         title: 'При загрузке стандартных полей произошла ошибка',
         subtitle: e.message,
         ex: e,
-      ));
+      );
     } on ResponseParseException catch (e) {
-      await defaultFieldsList.error(CustomException(
+      error = CustomException(
         title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
-      ));
+      );
     } on SuccessFalse catch (e) {
-      await defaultFieldsList.error(CustomException(
+      error = CustomException(
         title: e.toString(),
         ex: e,
-      ));
+      );
+    }
+
+    if (error != null) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+      showDefaultNotification(
+        title: error.title,
+        subtitle: error.subtitle,
+      );
     }
   }
 

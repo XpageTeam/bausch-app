@@ -108,18 +108,6 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
                 ],
               ),
             ),
-            errorBuilder: (context, e) {
-              e as CustomException;
-              debugPrint(e.title);
-
-              return SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const SizedBox(),
-                  ],
-                ),
-              );
-            },
             builder: (_, state) {
               return DefaultFormsSection(
                 defaultFields: state,
@@ -140,18 +128,6 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
                 ],
               ),
             ),
-            errorBuilder: (context, e) {
-              e as CustomException;
-              debugPrint(e.title);
-
-              return SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const SizedBox(),
-                  ],
-                ),
-              );
-            },
             builder: (_, state) {
               return ExtraFormsSection(
                 exrtaFields: state,
