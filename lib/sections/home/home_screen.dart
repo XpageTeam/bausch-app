@@ -3,6 +3,7 @@ import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
+import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
@@ -201,13 +202,36 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                           [
                             DelayedAnimatedTranslateOpacity(
                               offsetY: 50,
-                              child: OffersSection(
-                                margin: const EdgeInsets.only(
-                                  bottom: 20,
-                                  left: StaticData.sidePadding,
-                                  right: StaticData.sidePadding,
-                                ),
-                                type: OfferType.homeScreen,
+                              child: EntityStateBuilder<OffersRepository>(
+                                streamedState: wm.banners,
+                                loadingBuilder: (context, repo) {
+                                  if (repo != null) {
+                                    return OffersSection(
+                                      repo: repo,
+                                      margin: const EdgeInsets.only(
+                                        bottom: 20,
+                                        left: StaticData.sidePadding,
+                                        right: StaticData.sidePadding,
+                                      ),
+                                      type: OfferType.homeScreen,
+                                    );
+                                  }
+
+
+                                  return const SizedBox();
+                                },
+                                builder: (_, repo) {
+                                  return OffersSection(
+                                    repo: repo,
+                                    mainScreenWM: wm,
+                                    margin: const EdgeInsets.only(
+                                      bottom: 20,
+                                      left: StaticData.sidePadding,
+                                      right: StaticData.sidePadding,
+                                    ),
+                                    type: OfferType.homeScreen,
+                                  );
+                                },
                               ),
                               //  OfferWidget(),
                             ),

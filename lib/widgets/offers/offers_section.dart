@@ -1,8 +1,10 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/home/widgets/offer_widget.dart';
+import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
@@ -14,9 +16,12 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
   final bool showLoader;
   final EdgeInsets? margin;
+  final MainScreenWM? mainScreenWM;
 
   OffersSection({
     required OfferType type,
+    OffersRepository? repo,
+    this.mainScreenWM,
     this.showLoader = true,
     this.margin,
     int? goodID,
@@ -24,15 +29,12 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
   }) : super(
           key: key,
           widgetModelBuilder: (context) {
-            final wm = OffersSectionWM(
+            return OffersSectionWM(
+              loadedRepository: repo,
               type: type,
               goodID: goodID,
               context: context,
             );
-
-            bannersWm = wm;
-
-            return wm;
           },
         );
 
@@ -146,6 +148,10 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
         break;
     }
 
-    await wm.loadDataAction();
+    if (widget.mainScreenWM != null){
+      await widget.mainScreenWM?.loadBannersAction();
+    } else {
+      await wm.loadDataAction();
+    }
   }
 }
