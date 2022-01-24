@@ -86,7 +86,7 @@ class _FinalDiscountOpticsState
                 EntityStateBuilder<String>(
                   streamedState: wm.promocodeState,
                   errorChild: ContainerWithPromocode(
-                    promocode: 'Промокод появится в истории заказов!',
+                    promocode: 'Промокод будет доступен в истории заказов!',
                     withIcon: false,
                     onPressed: () {},
                   ),

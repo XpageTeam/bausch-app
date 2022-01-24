@@ -55,14 +55,13 @@ class FinalConsultationWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
 
     if (error != null) {
-      showTopError(error);
+      //showTopError(error);
       await promocodeState.error(error);
     }
   }

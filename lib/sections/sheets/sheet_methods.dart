@@ -21,7 +21,7 @@ Future<void> showSheet<T>(
     maxHeight: 0.95,
     anchors: [0, 0.6, 0.95],
     context: context,
-    //isCollapsible: false,
+    isCollapsible: true,
     builder: (context, controller, d) {
       return SheetWidget(
         child: BottomSheetNavigation<T>(

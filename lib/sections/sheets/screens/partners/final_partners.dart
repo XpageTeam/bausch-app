@@ -1,8 +1,10 @@
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
+import 'package:bausch/sections/sheets/screens/partners/widget_models/final_partners_wm.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/sections/sheets/widgets/loading_code_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -10,24 +12,38 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
-class FinalPartners extends StatelessWidget {
+class FinalPartners extends CoreMwwmWidget<FinalPartnersWM> {
   final ScrollController controller;
   final PartnersItemModel model;
   final PartnerOrderResponse? orderData;
 
-  const FinalPartners({
+  FinalPartners({
     required this.controller,
     required this.model,
     this.orderData,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => FinalPartnersWM(
+            context: context,
+            itemModel: model,
+            orderId: orderData?.orderID,
+          ),
+        );
 
+  @override
+  WidgetState<CoreMwwmWidget<FinalPartnersWM>, FinalPartnersWM>
+      createWidgetState() => _FinalPartnersState();
+}
+
+class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.sulu,
-      controller: controller,
+      controller: widget.controller,
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.all(18),
         icon: Container(height: 1),
@@ -47,46 +63,67 @@ class FinalPartners extends StatelessWidget {
                     bottom: 40,
                   ),
                   child: Text(
-                    orderData?.title != null ? orderData!.title! : '',
+                    widget.orderData?.title != null
+                        ? widget.orderData!.title!
+                        : '',
                     style: AppStyles.h1,
                   ),
                 ),
-                if (model.staticPromoCode != null)
+                if (widget.model.staticPromoCode != null &&
+                    widget.model.staticPromoCode!.isNotEmpty)
                   ContainerWithPromocode(
-                    promocode: model.staticPromoCode!,
-                    onPressed: () =>
-                        Utils.copyStringToClipboard(model.staticPromoCode!),
+                    promocode: widget.model.staticPromoCode!,
+                    onPressed: () => Utils.copyStringToClipboard(
+                      widget.model.staticPromoCode!,
+                    ),
+                  )
+                else
+                  EntityStateBuilder<String>(
+                    streamedState: wm.promocodeState,
+                    errorChild: ContainerWithPromocode(
+                      promocode: 'Промокод будет доступен в истории заказов!',
+                      withIcon: false,
+                      onPressed: () {},
+                    ),
+                    loadingChild: const LoadingCodeContainer(
+                      text: 'Генерируем ваш промокод...',
+                    ),
+                    builder: (_, state) {
+                      return ContainerWithPromocode(
+                        promocode: state,
+                      );
+                    },
                   ),
-                if (orderData?.subtitle != null)
+                if (widget.orderData?.subtitle != null)
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 12,
                       bottom: 40,
                     ),
                     child: Text(
-                      orderData!.subtitle!,
+                      widget.orderData!.subtitle!,
                       style: AppStyles.p1,
                     ),
                   ),
-                BigCatalogItem(model: model),
+                BigCatalogItem(model: widget.model),
               ],
             ),
           ),
         ),
       ],
-      bottomNavBar: model.poolPromoCode != null
+      bottomNavBar: widget.model.poolPromoCode != null
           ? BottomButtonWithRoundedCorners(
-              text: model.link != null
+              text: widget.model.link != null
                   ? 'Скопировать код и перейти на сайт'
                   : 'На главную',
               withInfo: false,
-              onPressed: model.link != null
+              onPressed: widget.model.link != null
                   ? () {
                       Utils.copyStringToClipboard(
-                        model.poolPromoCode!,
+                        widget.model.poolPromoCode!,
                       );
                       Utils.tryLaunchUrl(
-                        rawUrl: model.link!,
+                        rawUrl: widget.model.link!,
                         isPhone: false,
                       );
                     }
