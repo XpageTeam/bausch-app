@@ -9,6 +9,7 @@ import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
@@ -46,6 +47,7 @@ class FormsScreen extends CoreMwwmWidget<FormScreenWM> {
 }
 
 class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
+  Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return Provider(
@@ -56,8 +58,20 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
       child: CustomSheetScaffold(
         resizeToAvoidBottomInset: false,
         controller: widget.controller,
-        appBar: const CustomSliverAppbar(
-          padding: EdgeInsets.symmetric(
+        onScrolled: (offset) {
+          if (offset > 60) {
+            setState(() {
+              iconColor = AppTheme.turquoiseBlue;
+            });
+          } else {
+            setState(() {
+              iconColor = Colors.white;
+            });
+          }
+        },
+        appBar: CustomSliverAppbar(
+          iconColor: iconColor,
+          padding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 14,
           ),

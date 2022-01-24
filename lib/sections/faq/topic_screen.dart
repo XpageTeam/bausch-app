@@ -28,7 +28,7 @@ class TopicScreenArguments {
   });
 }
 
-class TopicScreen extends StatelessWidget implements TopicScreenArguments {
+class TopicScreen extends StatefulWidget implements TopicScreenArguments {
   final ScrollController controller;
 
   @override
@@ -44,11 +44,29 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
   }) : super(key: key);
 
   @override
+  State<TopicScreen> createState() => _TopicScreenState();
+}
+
+class _TopicScreenState extends State<TopicScreen> {
+  Color iconColor = Colors.white;
+  @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
-      controller: controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.symmetric(
+      controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
+      appBar: CustomSliverAppbar(
+        iconColor: iconColor,
+        padding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 14,
         ),
@@ -77,7 +95,7 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                         top: 43,
                       ),
                       child: Text(
-                        title,
+                        widget.title,
                         style: AppStyles.h2,
                       ),
                     ),
@@ -99,20 +117,20 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
                 ),
                 child: WhiteButton(
                   style: AppStyles.h3,
-                  text: topicModel.questions[index].title,
+                  text: widget.topicModel.questions[index].title,
                   icon: Container(),
                   onPressed: () {
                     Navigator.of(context).pushNamed(
                       '/question',
                       arguments: QuestionScreenArguments(
-                        question: topicModel.questions[index],
-                        topic: topicModel,
+                        question: widget.topicModel.questions[index],
+                        topic: widget.topicModel,
                       ),
                     );
                   },
                 ),
               ),
-              childCount: topicModel.questions.length,
+              childCount: widget.topicModel.questions.length,
             ),
           ),
         ),
@@ -121,7 +139,7 @@ class TopicScreen extends StatelessWidget implements TopicScreenArguments {
             horizontal: StaticData.sidePadding,
           ),
           sliver: SupportSection(
-            topic: topicModel,
+            topic: widget.topicModel,
           ),
         ),
       ],

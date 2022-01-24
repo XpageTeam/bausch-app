@@ -35,14 +35,26 @@ class PartnersScreen extends CoreMwwmWidget<PartnersScreenWM> {
 
 class _PartnersScreenState
     extends WidgetState<PartnersScreen, PartnersScreenWM> {
+  Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.all(18),
         icon: Container(height: 1),
-        //iconColor: AppTheme.mystic,
+        iconColor: iconColor,
       ),
       slivers: [
         SliverList(

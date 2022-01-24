@@ -45,14 +45,26 @@ class QuizScreen extends CoreMwwmWidget<QuizScreenWM>
 }
 
 class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
+  Color iconColor = AppTheme.mystic;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = AppTheme.mystic;
+          });
+        }
+      },
       resizeToAvoidBottomInset: false,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
-        iconColor: AppTheme.mystic,
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(

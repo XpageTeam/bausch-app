@@ -5,6 +5,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
@@ -42,12 +43,25 @@ class DiscountOpticsVerification
 
 class _DiscountOpticsVerificationState extends WidgetState<
     DiscountOpticsVerification, DiscountOpticsVerificationWM> {
+  Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        iconColor: iconColor,
       ),
       slivers: [
         SliverList(

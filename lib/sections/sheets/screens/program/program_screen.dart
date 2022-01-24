@@ -44,6 +44,7 @@ class ProgramScreen extends CoreMwwmWidget<ProgramScreenWM> {
 class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   TextEditingController nameController = TextEditingController();
   int gValue = 0;
+  Color iconColor = Colors.white;
 
   @override
   void dispose() {
@@ -69,11 +70,23 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
       builder: (context, primaryData) {
         return CustomSheetScaffold(
           controller: widget.controller,
+          onScrolled: (offset) {
+            if (offset > 60) {
+              setState(() {
+                iconColor = AppTheme.turquoiseBlue;
+              });
+            } else {
+              setState(() {
+                iconColor = Colors.white;
+              });
+            }
+          },
           resizeToAvoidBottomInset: false,
           hideBottomNavBarThenKeyboard: true,
           appBar: CustomSliverAppbar(
             padding: const EdgeInsets.all(18),
             icon: Container(),
+            iconColor: iconColor,
           ),
           slivers: [
             SliverPadding(

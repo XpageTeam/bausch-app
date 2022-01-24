@@ -11,10 +11,12 @@ class CustomSheetScaffold extends StatelessWidget {
   //final bool withAppBar;
   final Widget? appBar;
   final bool hideBottomNavBarThenKeyboard;
+  final ValueChanged<double>? onScrolled;
 
   const CustomSheetScaffold({
     required this.controller,
     required this.slivers,
+    this.onScrolled,
     this.resizeToAvoidBottomInset = true,
     this.hideBottomNavBarThenKeyboard = false,
     this.appBar,
@@ -37,26 +39,34 @@ class CustomSheetScaffold extends StatelessWidget {
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
-            CustomScrollView(
-              controller: controller,
-              slivers: slivers
-                ..add(
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      if (hideBottomNavBarThenKeyboard)
-                        KeyboardVisibilityBuilder(
-                          builder: (p0, isKeyboardVisible) {
-                            if (isKeyboardVisible) {
-                              return bottomNavBar ?? const SizedBox();
-                            }
+            NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (onScrolled != null) {
+                  onScrolled!(notification.metrics.pixels);
+                }
+                return true;
+              },
+              child: CustomScrollView(
+                controller: controller,
+                slivers: slivers
+                  ..add(
+                    SliverList(
+                      delegate: SliverChildListDelegate([
+                        if (hideBottomNavBarThenKeyboard)
+                          KeyboardVisibilityBuilder(
+                            builder: (p0, isKeyboardVisible) {
+                              if (isKeyboardVisible) {
+                                return bottomNavBar ?? const SizedBox();
+                              }
 
-                            return const SizedBox();
-                          },
-                        ),
-                    ]),
+                              return const SizedBox();
+                            },
+                          ),
+                      ]),
+                    ),
                   ),
-                ),
-              physics: const BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
+              ),
             ),
             if (appBar != null)
               Positioned(

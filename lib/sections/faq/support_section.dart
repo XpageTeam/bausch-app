@@ -21,9 +21,11 @@ class SupportSection extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('topic: $topic, question: $question');
 
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        [
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
           Padding(
             padding: const EdgeInsets.only(
               top: 8,

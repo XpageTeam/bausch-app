@@ -1,4 +1,4 @@
-// ignore_for_file: always_use_package_imports, prefer_const_constructors_in_immutables,member-ordering-extended,avoid-returning-widgets
+// ignore_for_file: always_use_package_imports, prefer_const_constructors_in_immutables,member-ordering-extended,avoid-returning-widgets, always_put_required_named_parameters_first, avoid_multiple_declarations_per_line
 
 import 'package:flutter/material.dart';
 

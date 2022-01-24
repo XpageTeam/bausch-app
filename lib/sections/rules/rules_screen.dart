@@ -1,12 +1,13 @@
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class RulesScreen extends StatelessWidget {
+class RulesScreen extends StatefulWidget {
   final ScrollController controller;
   final String data;
 
@@ -17,15 +18,33 @@ class RulesScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<RulesScreen> createState() => _RulesScreenState();
+}
+
+class _RulesScreenState extends State<RulesScreen> {
+  Color iconColor = Colors.white;
+  @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
-      controller: controller,
+      controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 14,
         ),
         icon: Container(),
+        iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(
@@ -37,7 +56,7 @@ class RulesScreen extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 Html(
-                  data: data,
+                  data: widget.data,
                   onLinkTap: (url, context, attributes, element) async {
                     if (url != null) {
                       if (await canLaunch(url)) {

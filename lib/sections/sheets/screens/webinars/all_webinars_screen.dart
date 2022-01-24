@@ -6,6 +6,7 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
@@ -31,6 +32,8 @@ class _WebinarsScreenState extends State<AllWebinarsScreen> {
   late final CatalogItemModel model;
   late final List<CatalogItemModel> webinars;
 
+  Color iconColor = Colors.white;
+
   @override
   void initState() {
     super.initState();
@@ -43,9 +46,21 @@ class _WebinarsScreenState extends State<AllWebinarsScreen> {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.all(18),
         icon: Container(height: 1),
+        iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(

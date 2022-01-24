@@ -1,4 +1,3 @@
-
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/screens/consultation/widget_model/consultation_verification_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
@@ -37,13 +36,26 @@ class ConsultationVerification
 
 class _ConsultationVerificationState
     extends WidgetState<ConsultationVerification, ConsultationVerificationWM> {
+  Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.mystic,
       controller: widget.controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = AppTheme.mystic;
+          });
+        }
+      },
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        iconColor: iconColor,
       ),
       slivers: [
         SliverList(

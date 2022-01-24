@@ -56,14 +56,26 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
 
 class _DiscountOpticsScreenState
     extends WidgetState<DiscountOpticsScreen, DiscountOpticsScreenWM> {
+  Color iconColor = AppTheme.mystic;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = AppTheme.mystic;
+          });
+        }
+      },
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
         icon: SizedBox(),
-        iconColor: AppTheme.mystic,
+        iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(

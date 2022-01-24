@@ -19,7 +19,7 @@ class FinalAddPointsArguments {
   FinalAddPointsArguments({required this.points});
 }
 
-class FinalAddPointsScreen extends StatelessWidget
+class FinalAddPointsScreen extends StatefulWidget
     implements FinalAddPointsArguments {
   final ScrollController controller;
   @override
@@ -32,10 +32,27 @@ class FinalAddPointsScreen extends StatelessWidget
   }) : super(key: key);
 
   @override
+  State<FinalAddPointsScreen> createState() => _FinalAddPointsScreenState();
+}
+
+class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
+  Color iconColor = Colors.white;
+  @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.sulu,
-      controller: controller,
+      controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.only(
           top: 14,
@@ -44,6 +61,7 @@ class FinalAddPointsScreen extends StatelessWidget
         icon: Container(
           height: 1,
         ),
+        iconColor: iconColor,
       ),
       slivers: [
         SliverList(
@@ -79,7 +97,7 @@ class FinalAddPointsScreen extends StatelessWidget
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            '+$points',
+                            '+${widget.points}',
                             maxLines: 1,
                             style: const TextStyle(
                               color: AppTheme.mineShaft,

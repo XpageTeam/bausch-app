@@ -49,17 +49,29 @@ class FreePackagingScreen extends CoreMwwmWidget<FreePackagingScreenWM>
 
 class _FreePackagingScreenState
     extends WidgetState<FreePackagingScreen, FreePackagingScreenWM> {
+  Color iconColor = AppTheme.mystic;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.mystic,
       controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.all(18),
         icon: Container(
           height: 1,
         ),
-        iconColor: AppTheme.mystic,
+        iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(

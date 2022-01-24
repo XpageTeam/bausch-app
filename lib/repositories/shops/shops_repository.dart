@@ -2,7 +2,6 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class ShopsRepository {
   final List<ShopModel> shops;
@@ -111,8 +110,7 @@ class CityModel {
   }
 }
 
-class AllOpticsDownloader{
-  
+class AllOpticsDownloader {
   static Future<CitiesRepository> load() async {
     final rh = RequestHandler();
 

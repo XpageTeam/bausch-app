@@ -46,6 +46,8 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
 
   late bool isPointsEnough;
 
+  Color iconColor = AppTheme.mystic;
+
   @override
   void initState() {
     super.initState();
@@ -65,9 +67,20 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
-        iconColor: AppTheme.mystic,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = AppTheme.mystic;
+          });
+        }
+      },
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(

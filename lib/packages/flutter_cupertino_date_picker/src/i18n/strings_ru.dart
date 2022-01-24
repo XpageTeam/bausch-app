@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 part of 'date_picker_i18n.dart';
 
 /// Russian (RU)

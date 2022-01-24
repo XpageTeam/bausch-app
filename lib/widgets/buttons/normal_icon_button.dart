@@ -14,9 +14,12 @@ class NormalIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
       height: 44,
       width: 44,
+      duration: const Duration(
+        milliseconds: 300,
+      ),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: backgroundColor,

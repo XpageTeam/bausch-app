@@ -4,6 +4,7 @@ import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,7 @@ class QuestionScreenArguments {
   });
 }
 
-class QuestionScreen extends StatelessWidget
-    implements QuestionScreenArguments {
+class QuestionScreen extends StatefulWidget implements QuestionScreenArguments {
   final ScrollController controller;
 
   @override
@@ -40,14 +40,33 @@ class QuestionScreen extends StatelessWidget
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<QuestionScreen> createState() => _QuestionScreenState();
+}
 
-    debugPrint('topic: $topic, question: $question, text: ${question.answer}');
+class _QuestionScreenState extends State<QuestionScreen> {
+  Color iconColor = Colors.white;
+  @override
+  Widget build(BuildContext context) {
+    debugPrint(
+      'topic: ${widget.topic}, question: ${widget.question}, text: ${widget.question.answer}',
+    );
 
     return CustomSheetScaffold(
-      controller: controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.symmetric(
+      controller: widget.controller,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          setState(() {
+            iconColor = AppTheme.turquoiseBlue;
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
+      appBar: CustomSliverAppbar(
+        iconColor: iconColor,
+        padding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 14,
         ),
@@ -76,14 +95,14 @@ class QuestionScreen extends StatelessWidget
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      question.title,
+                      widget.question.title,
                       style: AppStyles.h2,
                     ),
                     const SizedBox(
                       height: 40,
                     ),
                     Html(
-                      data: question.answer ?? '',
+                      data: widget.question.answer ?? '',
                       style: htmlStyles,
                       customRender: htmlCustomRender,
                       onLinkTap: (url, context, attributes, element) async {
@@ -114,8 +133,8 @@ class QuestionScreen extends StatelessWidget
             horizontal: StaticData.sidePadding,
           ),
           sliver: SupportSection(
-            question: question,
-            topic: topic,
+            question: widget.question,
+            topic: widget.topic,
           ),
         ),
       ],
