@@ -121,7 +121,7 @@ class AddPointsDetailsWM extends WidgetModel {
       );
 
       if (result != null && result.files.isNotEmpty) {
-        if (result.files.first.size <= StaticData.maxFileSize) {
+        if (result.files.first.size > StaticData.maxFileSize) {
           throw SuccessFalse(StaticData.maxFilesSizeText);
         }
       }
