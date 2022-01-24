@@ -62,7 +62,7 @@ class _FreePackagingScreenState
           });
         } else {
           setState(() {
-            iconColor = Colors.white;
+            iconColor = AppTheme.mystic;
           });
         }
       },

@@ -23,9 +23,11 @@ class ContainerWithPromocode extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              promocode,
-              style: AppStyles.h2,
+            Flexible(
+              child: Text(
+                promocode,
+                style: AppStyles.h2,
+              ),
             ),
             if (withIcon == true)
               Row(

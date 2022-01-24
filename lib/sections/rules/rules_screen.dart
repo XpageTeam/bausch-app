@@ -27,24 +27,24 @@ class _RulesScreenState extends State<RulesScreen> {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      onScrolled: (offset) {
-        if (offset > 60) {
-          setState(() {
-            iconColor = AppTheme.turquoiseBlue;
-          });
-        } else {
-          setState(() {
-            iconColor = Colors.white;
-          });
-        }
-      },
+      // onScrolled: (offset) {
+      //   if (offset > 60) {
+      //     setState(() {
+      //       iconColor = AppTheme.turquoiseBlue;
+      //     });
+      //   } else {
+      //     setState(() {
+      //       iconColor = Colors.white;
+      //     });
+      //   }
+      //},
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 14,
         ),
         icon: Container(),
-        iconColor: iconColor,
+        //iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(

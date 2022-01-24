@@ -317,11 +317,13 @@ class _NoDiscountsAvailable extends StatelessWidget {
 class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final Optic discountOptic;
   final DiscountType discountType;
+  final int? orderId;
 
   DiscountOpticsArguments({
     required this.discountOptic,
     required this.discountType,
     required CatalogItemModel model,
+    this.orderId,
   }) : super(
           model: model,
         );

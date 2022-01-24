@@ -1,7 +1,10 @@
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/models/orders_data/order_data.dart';
+import 'package:bausch/sections/sheets/screens/consultation/widget_model/final_consultation_wm.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/sections/sheets/widgets/loading_code_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -9,22 +12,39 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
-class FinalConsultation extends StatelessWidget {
+class FinalConsultation extends CoreMwwmWidget<FinalConsultationWM> {
   final ScrollController controller;
   final ConsultationItemModel model;
+  final OrderData orderData;
 
-  const FinalConsultation({
+  FinalConsultation({
     required this.controller,
     required this.model,
+    required this.orderData,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) => FinalConsultationWM(
+            context: context,
+            itemModel: model,
+            orderId: orderData.orderID,
+          ),
+        );
 
+  @override
+  WidgetState<CoreMwwmWidget<FinalConsultationWM>, FinalConsultationWM>
+      createWidgetState() => _FinalConsultationState();
+}
+
+class _FinalConsultationState
+    extends WidgetState<FinalConsultation, FinalConsultationWM> {
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.sulu,
-      controller: controller,
+      controller: widget.controller,
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.all(18),
         icon: Container(
@@ -51,8 +71,22 @@ class FinalConsultation extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     top: 40,
                   ),
-                  child: ContainerWithPromocode(
-                    promocode: model.poolPromoCode,
+                  child: EntityStateBuilder<String>(
+                    streamedState: wm.promocodeState,
+                    errorChild: ContainerWithPromocode(
+                      promocode:
+                          'К сожалению, не получилось загрузить промокод',
+                      withIcon: false,
+                      onPressed: () {},
+                    ),
+                    loadingChild: const LoadingCodeContainer(
+                      text: 'Генерируем ваш промокод...',
+                    ),
+                    builder: (_, state) {
+                      return ContainerWithPromocode(
+                        promocode: state,
+                      );
+                    },
                   ),
                 ),
                 Padding(
@@ -66,7 +100,7 @@ class FinalConsultation extends StatelessWidget {
                     style: AppStyles.p1,
                   ),
                 ),
-                BigCatalogItem(model: model),
+                BigCatalogItem(model: widget.model),
               ],
             ),
           ),
@@ -76,7 +110,7 @@ class FinalConsultation extends StatelessWidget {
         text: 'Скопировать код и перейти на сайт',
         onPressed: () {
           Utils.copyStringToClipboard(
-            model.poolPromoCode,
+            'model.poolPromoCode',
           );
           // TODO(Nikolay): Нужна ссылка.
           // Utils.tryLaunchUrl(

@@ -11,6 +11,7 @@ import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/sections/sheets/widgets/code_downloader/code_downloader.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -25,7 +26,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final DiscountType discountType;
 
   final loadingState = StreamedState<bool>(false);
+  final codeLoadingState = StreamedState<bool>(false);
   final spendPointsAction = VoidAction();
+
+  final promocodeState = EntityStreamedState<String?>();
 
   late int points;
   late int remains;
@@ -68,12 +72,16 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
     CustomException? error;
 
+    int orderId = 0;
+
     try {
-      await OrderDiscountSaver.save(
+      var response = await OrderDiscountSaver.save(
         discountOptic,
         itemModel,
         discountType.asString,
       );
+
+      orderId = (response.data as Map<String, dynamic>)['orderId'] as int;
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
@@ -93,8 +101,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -111,6 +118,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
           model: itemModel,
           discountOptic: discountOptic,
           discountType: discountType,
+          orderId: orderId,
         ),
       );
     }
