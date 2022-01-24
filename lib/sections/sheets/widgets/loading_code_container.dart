@@ -17,9 +17,9 @@ class LoadingCodeContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
-            children: [
+            children: const [
               UiCircleLoader(),
-              const SizedBox(
+              SizedBox(
                 width: 9,
               ),
             ],

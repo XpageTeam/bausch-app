@@ -1,5 +1,4 @@
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
@@ -87,7 +86,7 @@ class _FinalDiscountOpticsState
                 EntityStateBuilder<String>(
                   streamedState: wm.promocodeState,
                   errorChild: ContainerWithPromocode(
-                    promocode: 'К сожалению, не получилось загрузить промокод',
+                    promocode: 'Промокод появится в истории заказов!',
                     withIcon: false,
                     onPressed: () {},
                   ),

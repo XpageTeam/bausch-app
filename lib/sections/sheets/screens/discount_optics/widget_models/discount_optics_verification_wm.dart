@@ -11,7 +11,6 @@ import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/sections/sheets/widgets/code_downloader/code_downloader.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -72,10 +71,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
     CustomException? error;
 
-    int orderId = 0;
+    late int orderId;
 
     try {
-      var response = await OrderDiscountSaver.save(
+      final response = await OrderDiscountSaver.save(
         discountOptic,
         itemModel,
         discountType.asString,

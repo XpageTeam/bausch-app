@@ -74,8 +74,7 @@ class _FinalConsultationState
                   child: EntityStateBuilder<String>(
                     streamedState: wm.promocodeState,
                     errorChild: ContainerWithPromocode(
-                      promocode:
-                          'К сожалению, не получилось загрузить промокод',
+                      promocode: 'Промокод появится в истории заказов!',
                       withIcon: false,
                       onPressed: () {},
                     ),
