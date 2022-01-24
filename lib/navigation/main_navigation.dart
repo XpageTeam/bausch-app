@@ -124,7 +124,7 @@ class _MainNavigationState extends State<MainNavigation>
 
               case '/home':
               default:
-                page = const HomeScreen();
+                page = HomeScreen();
                 showAnimation = false;
             }
 
