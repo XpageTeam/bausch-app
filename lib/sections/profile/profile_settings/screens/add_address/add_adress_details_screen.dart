@@ -112,6 +112,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
               Navigator.of(context).pop();
             }
           }
+
+          if (state is AddressesDeleted){
+            _navigateBack();
+          }
         },
         child: BlocBuilder<AddressesBloc, AddressesState>(
           //bloc: addressesBloc,
@@ -238,13 +242,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                     addressesBloc.add(
                                       AddressesDelete(id: widget.adress.id!),
                                     );
-
-                                    //widget.adressesCubit?.getAdresses();
-
-                                    debugPrint('delete');
-                                    debugPrint(addressesBloc.state.toString());
-
-                                    _navigateBack();
                                   },
                                   noCallback: () {
                                     Navigator.of(context).pop();

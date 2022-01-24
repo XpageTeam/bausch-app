@@ -11,6 +11,8 @@ class AddressesSending extends AddressesState {}
 
 class AddressesSended extends AddressesState {}
 
+class AddressesDeleted extends AddressesState {}
+
 class AddressesFailed extends AddressesState {
   final String title;
   final String? subtitle;
