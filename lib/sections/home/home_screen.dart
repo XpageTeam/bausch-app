@@ -1,6 +1,7 @@
 import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
@@ -8,8 +9,8 @@ import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
-import 'package:bausch/sections/stories/cubit/stories_cubit.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
@@ -20,35 +21,35 @@ import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
+///! место для костылей
 OffersSectionWM? bannersWm;
-StoriesCubit? storiesCubitGlobal;
 
 Future<void> voidFunction() async {
   return;
 }
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends CoreMwwmWidget<MainScreenWM> {
+  HomeScreen({Key? key})
+      : super(
+          key: key,
+          widgetModelBuilder: (context) {
+            return MainScreenWM(context: context);
+          },
+        );
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createWidgetState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  late final AuthWM authWM;
-  late final UserWM userWM;
-
+class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
   double bottomHeigth = 0.0;
 
   @override
   void initState() {
     super.initState();
-    authWM = Provider.of<AuthWM>(context, listen: false);
-    userWM = Provider.of<UserWM>(context, listen: false);
   }
 
   @override
@@ -62,29 +63,17 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: StreamedStateBuilder<AuthStatus>(
-          streamedState: authWM.authStatus,
+          streamedState: wm.authWM.authStatus,
           builder: (_, status) {
             return PullToRefreshNotification(
               refreshOffset: 60,
               maxDragOffset: 80,
               color: Colors.black,
-              onRefresh: () async {
-                // await Future<void>.delayed(const Duration(seconds: 10));
-
-                await Future.wait<void>([
-                  userWM.reloadUserData(),
-                  bannersWm?.loadData() ?? voidFunction(),
-                  storiesCubitGlobal?.loadData() ?? voidFunction(),
-                ]);
-
-                // await bannersWm?.loadData();
-
-                return true;
-              },
+              onRefresh: wm.homeScreenRefresh,
               child: CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  SliverToBoxAdapter(
+                  /*SliverToBoxAdapter(
                     child: TextButton(
                       onPressed: () {
                         showSheet<void>(
@@ -97,15 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       child: Text('123'),
                     ),
-                  ),
+                  ),*/
                   PullToRefreshContainer((info) {
                     return SliverList(
-                      // backgroundColor: AppTheme.mystic,
-                      // toolbarHeight: info?.dragOffset ?? 0,
-                      // expandedHeight: info?.dragOffset,
-                      // collapsedHeight: info?.dragOffset,
-                      // title:
-
                       delegate: SliverChildListDelegate([
                         ClipRect(
                           child: SizedBox(
@@ -146,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         delegate: SliverChildListDelegate(
                           [
                             EntityStateBuilder<UserRepository>(
-                              streamedState: userWM.userData,
+                              streamedState: wm.userWM.userData,
                               builder: (_, data) {
                                 if (data.balance.nearestExpiration?.amount !=
                                     null) {
@@ -178,9 +161,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       sliver: SliverList(
                         delegate: SliverChildListDelegate(
                           [
-                            const DelayedAnimatedTranslateOpacity(
+                            DelayedAnimatedTranslateOpacity(
                               offsetY: 40,
-                              child: StoriesSlider(),
+                              child: EntityStateBuilder<List<StoryModel?>>(
+                                streamedState: wm.storiesList,
+                                loadingBuilder: (_, items) {
+                                  if (items != null) {
+                                    return StoriesSlider(items: items);
+                                  }
+
+                                  return const SizedBox();
+                                },
+                                builder: (_, items) {
+                                  return StoriesSlider(items: items);
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -207,17 +202,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   SliverPadding(
                     key: spendPointsPositionKey,
                     padding: const EdgeInsets.only(
-                      bottom: 40,
                       left: StaticData.sidePadding,
                       right: StaticData.sidePadding,
                     ),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate(
-                        const [
+                        [
                           //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                           DelayedAnimatedTranslateOpacity(
                             offsetY: 60,
-                            child: SpendScores(),
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SpendScores(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
+                                return SpendScores(
+                                  catalogList: catalogItems,
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -268,10 +279,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: AppTheme.mineShaft,
               ),
               onPressed: () {
-                debugPrint(context.toString());
                 showSheet<void>(
                   context,
-                  SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+                  SimpleSheetModel(
+                    name: 'Добавить баллы',
+                    type: 'add_points',
+                  ),
                 );
               },
             );
