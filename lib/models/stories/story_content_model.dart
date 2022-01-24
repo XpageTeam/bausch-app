@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';
 import 'package:bausch/models/stories/product_model.dart';
@@ -46,20 +48,24 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
       throw ResponseParseException('Не передано название истории');
     }
 
-    return StoryContentModel(
-      //id: map['id'] as int,
-      title: (map['title'] ?? 'Title') as String,
-      description: map['description'] as String,
-      productModel: map['product'] != null
-          ? ProductModel.fromMap(map['product'] as Map<String, dynamic>)
-          : null,
-      file: map['file'] as String,
-      preview: map['preview'] as String,
-      link: map['link'] as String,
-      textBtn: map['text_btn'] as String,
-      textAfter: map['text_after'] as String,
-      isVideo: map['is_video'] as bool,
-    );
+    try {
+      return StoryContentModel(
+        //id: map['id'] as int,
+        title: (map['title'] ?? 'Title') as String,
+        description: map['description'] as String,
+        productModel: map['product'] != null
+            ? ProductModel.fromMap(map['product'] as Map<String, dynamic>)
+            : null,
+        file: map['file'] as String,
+        preview: map['preview'] as String,
+        link: map['link'] as String,
+        textBtn: map['text_btn'] as String,
+        textAfter: map['text_after'] as String,
+        isVideo: map['is_video'] as bool,
+      );
+    } catch (e) {
+      throw ResponseParseException('StoryContentModel: $e');
+    }
   }
 
   @override

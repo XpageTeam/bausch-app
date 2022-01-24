@@ -217,7 +217,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                                     );
                                   }
 
-
                                   return const SizedBox();
                                 },
                                 builder: (_, repo) {
@@ -311,30 +310,39 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
       bottomNavigationBar: EntityStateBuilder<bool>(
         streamedState: wm.allDataLoadedState,
         builder: (_, allDataState) {
-          return DelayedAnimatedTranslateOpacity(
-            offsetY: 10,
-            child: LayoutBuilder(
-              builder: (ctx, constraints) {
-                bottomHeigth = constraints.minHeight;
-                return CustomFloatingActionButton(
-                  text: 'Добавить баллы',
-                  icon: const Icon(
-                    Icons.add,
-                    color: AppTheme.mineShaft,
-                  ),
-                  onPressed: () {
-                    showSheet<void>(
-                      context,
-                      SimpleSheetModel(
-                        name: 'Добавить баллы',
-                        type: 'add_points',
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-            animationDuration: Duration.zero,
+          if (allDataState) {
+            return DelayedAnimatedTranslateOpacity(
+              offsetY: 10,
+              child: LayoutBuilder(
+                builder: (ctx, constraints) {
+                  bottomHeigth = constraints.minHeight;
+                  return CustomFloatingActionButton(
+                    text: 'Добавить баллы',
+                    icon: const Icon(
+                      Icons.add,
+                      color: AppTheme.mineShaft,
+                    ),
+                    onPressed: () {
+                      showSheet<void>(
+                        context,
+                        SimpleSheetModel(
+                          name: 'Добавить баллы',
+                          type: 'add_points',
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              animationDuration: Duration.zero,
+            );
+          }
+
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              SizedBox(),
+            ],
           );
         },
       ),
