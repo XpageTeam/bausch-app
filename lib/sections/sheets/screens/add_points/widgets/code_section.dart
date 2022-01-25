@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:bausch/models/add_points/product_code_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points_code/add_points_code_bloc.dart';
+import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
@@ -65,6 +66,16 @@ class _CodeSectionState extends State<CodeSection> {
           listener: (context, state) {
             if (state is AddPointsCodeFailed) {
               showDefaultNotification(title: state.title);
+            }
+            if (state is AddPointsCodeSendSuccess) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/final_addpoints',
+                (route) => route.isCurrent,
+                arguments: FinalAddPointsArguments(
+                  //TODO(Nikita): Добавить кол-во баллов
+                  points: '500',
+                ),
+              );
             }
           },
           child: BlocBuilder<AddPointsCodeBloc, AddPointsCodeState>(

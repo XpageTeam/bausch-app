@@ -61,6 +61,7 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                 shadowColor: Colors.transparent,
                 backgroundColor: AppTheme.mystic,
                 collapsedHeight: 90,
+                elevation: 0,
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 20,
