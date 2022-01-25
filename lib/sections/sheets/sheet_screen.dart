@@ -90,6 +90,7 @@ class _SheetScreenState extends State<SheetScreen> {
             pinned: true,
             elevation: 0,
             toolbarHeight: 100,
+            backgroundColor: AppTheme.mystic,
             flexibleSpace: Container(
               color: AppTheme.mystic,
               padding: const EdgeInsets.fromLTRB(

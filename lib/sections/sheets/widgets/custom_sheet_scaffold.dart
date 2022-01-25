@@ -45,7 +45,7 @@ class CustomSheetScaffold extends StatelessWidget {
                 if (onScrolled != null) {
                   onScrolled!(notification.metrics.pixels);
                 }
-                return true;
+                return false;
               },
               child: CustomScrollView(
                 controller: controller,

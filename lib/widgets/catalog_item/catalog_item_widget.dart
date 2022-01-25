@@ -271,6 +271,8 @@ void callback(CatalogItemModel _model) {
           discountType: DiscountType.offline,
           controller: ScrollController(),
           model: _model as PromoItemModel,
+          //TODO(Nikita): убрать
+          orderId: 2,
           buttonText: 'Готово',
         );
       },

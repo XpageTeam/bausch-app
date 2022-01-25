@@ -25,7 +25,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final DiscountType discountType;
 
   final loadingState = StreamedState<bool>(false);
+  final codeLoadingState = StreamedState<bool>(false);
   final spendPointsAction = VoidAction();
+
+  final promocodeState = EntityStreamedState<String?>();
 
   late int points;
   late int remains;
@@ -68,12 +71,16 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
     CustomException? error;
 
+    late int orderId;
+
     try {
-      await OrderDiscountSaver.save(
+      final response = await OrderDiscountSaver.save(
         discountOptic,
         itemModel,
         discountType.asString,
       );
+
+      orderId = (response.data as Map<String, dynamic>)['orderId'] as int;
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
@@ -93,8 +100,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -111,6 +117,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
           model: itemModel,
           discountOptic: discountOptic,
           discountType: discountType,
+          orderId: orderId,
         ),
       );
     }

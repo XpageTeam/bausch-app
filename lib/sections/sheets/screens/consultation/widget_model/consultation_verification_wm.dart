@@ -5,6 +5,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/partners/widget_models/partners_verification_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
@@ -55,8 +56,10 @@ class ConsultationVerificationWM extends WidgetModel {
 
     CustomException? error;
 
+    PartnerOrderResponse? response;
+
     try {
-      await OrderPartnerItemSaver.save(
+      response = await OrderPartnerItemSaver.save(
         itemModel,
         'consultation',
       );
@@ -95,6 +98,7 @@ class ConsultationVerificationWM extends WidgetModel {
         (route) => route.isCurrent,
         arguments: ItemSheetScreenArguments(
           model: itemModel,
+          orderData: response,
         ),
       );
     }
