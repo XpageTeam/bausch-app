@@ -22,14 +22,16 @@ class OffersSectionWM extends WidgetModel {
   final loadDataAction = VoidAction();
 
   final BuildContext context;
+  final OffersRepository? loadedRepository;
 
   late SharedPreferences preferences;
-  
+
   Timer? updateTimer;
 
   OffersSectionWM({
     required this.type,
     required this.context,
+    this.loadedRepository,
     this.goodID,
   }) : super(const WidgetModelDependencies());
 
@@ -37,17 +39,24 @@ class OffersSectionWM extends WidgetModel {
   Future<void> onLoad() async {
     preferences = await SharedPreferences.getInstance();
 
-    loadDataAction.bind((_) {
-      loadData();
-    });
+    if (loadedRepository == null) {
+      loadDataAction.bind((_) {
+        loadData();
+      });
 
-    updateTimer = Timer.periodic(const Duration(minutes: 3), (_){
-      // TODO(Danil): суровый костыль
-      loadDataAction();
-    });
+      updateTimer = Timer.periodic(const Duration(minutes: 3), (_) {
+        // TODO(Danil): суровый костыль
+        loadDataAction();
+      });
 
-    unawaited(loadDataAction());
-
+      unawaited(loadDataAction());
+    } else {
+      unawaited(offersStreamed.content(
+        await _filterOffers(
+          loadedRepository!.offerList,
+        ),
+      ));
+    }
 
     super.onLoad();
   }

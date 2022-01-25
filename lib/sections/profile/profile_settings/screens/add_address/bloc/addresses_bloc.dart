@@ -74,7 +74,7 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
             .data!,
       );
 
-      return AddressesSended();
+      return AddressesDeleted();
     } on ResponseParseException catch (e) {
       return AddressesFailed(
         title: 'Ошибка при обработке ответа от сервера',

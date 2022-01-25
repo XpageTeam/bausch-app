@@ -268,29 +268,34 @@ class RequestHandler {
     }
   }
 
-  Options? _getOptions(Options? options){
+  Options? _getOptions(Options? options) {
     return options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                  'is_ios': options.headers?.containsKey('is_ios') != null
-                      ? options.headers != null
-                          ? options.headers!['is_ios']
-                          : Platform.isIOS
-                      : Platform.isIOS,
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                  'is_ios': Platform.isIOS,
-                },
-              );
+        ? options.copyWith(
+            headers: options.headers != null
+                ? (options.headers!
+                  ..addAll(
+                    <String, dynamic>{
+                      'x-api-key':
+                          options.headers!.containsKey('x-api-key')
+                              ? options.headers!['x-api-key']
+                              : _userWM?.userData.value.data?.user.token ?? '',
+                      'is-ios': options.headers!.containsKey('is-ios')
+                          ? options.headers!['is-ios']
+                          : Platform.isIOS.toString(),
+                    },
+                  ))
+                : <String, dynamic>{
+                    'x-api-key': _userWM?.userData.value.data?.user.token ?? '',
+                    'is-ios': Platform.isIOS.toString(),
+                  },
+          )
+        : Options(
+            headers: <String, dynamic>{
+              if (_userWM?.userData.value.data?.user.token != null)
+                'x-api-key': _userWM?.userData.value.data?.user.token,
+              'is-ios': Platform.isIOS.toString(),
+            },
+          );
   }
 
   Dio _createDio() {
