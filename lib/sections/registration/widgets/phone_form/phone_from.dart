@@ -2,7 +2,9 @@ import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/login/models/login_text.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -33,6 +35,13 @@ class PhoneForm extends StatelessWidget {
         StreamedStateBuilder<bool>(
           streamedState: wm.sendPhoneBtnActive,
           builder: (_, state) {
+            if (!state) {
+              return const BlueButtonWithText(
+                text: '',
+                icon: UiCircleLoader(),
+              );
+            }
+
             return BlueButtonWithText(
               text: 'Продолжить',
               // ignore: unnecessary_lambdas
