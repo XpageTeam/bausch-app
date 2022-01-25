@@ -29,9 +29,11 @@ class _HtmlScreenState extends State<HtmlScreen> {
       controller: widget.controller,
       onScrolled: (offset) {
         if (offset > 60) {
-          setState(() {
-            iconColor = AppTheme.turquoiseBlue;
-          });
+          if (iconColor != AppTheme.turquoiseBlue) {
+            setState(() {
+              iconColor = AppTheme.turquoiseBlue;
+            });
+          }
         } else {
           setState(() {
             iconColor = Colors.white;

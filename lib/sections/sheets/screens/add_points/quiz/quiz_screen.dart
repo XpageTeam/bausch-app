@@ -52,9 +52,11 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
       controller: widget.controller,
       onScrolled: (offset) {
         if (offset > 60) {
-          setState(() {
-            iconColor = AppTheme.turquoiseBlue;
-          });
+          if (iconColor != AppTheme.turquoiseBlue) {
+            setState(() {
+              iconColor = AppTheme.turquoiseBlue;
+            });
+          }
         } else {
           setState(() {
             iconColor = AppTheme.mystic;

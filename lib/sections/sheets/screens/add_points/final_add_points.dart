@@ -42,17 +42,6 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.sulu,
       controller: widget.controller,
-      onScrolled: (offset) {
-        if (offset > 60) {
-          setState(() {
-            iconColor = AppTheme.turquoiseBlue;
-          });
-        } else {
-          setState(() {
-            iconColor = Colors.white;
-          });
-        }
-      },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.only(
           top: 14,

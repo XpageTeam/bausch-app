@@ -10,10 +10,13 @@ class CustomSliverAppbar extends StatelessWidget {
 
   final Color iconColor;
 
+  final ScrollController? scrollController;
+
   const CustomSliverAppbar({
     this.icon,
     this.padding,
     this.iconColor = Colors.white,
+    this.scrollController,
     Key? key,
   }) : super(key: key);
 
@@ -26,55 +29,57 @@ class CustomSliverAppbar extends StatelessWidget {
             right: 6,
             left: 6,
           ),
-      child: Navigator.of(context).canPop()
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                icon ??
-                    NormalIconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(
-                        Icons.chevron_left_rounded,
-                        size: 20,
-                        color: AppTheme.mineShaft,
+      child: NotificationListener<ScrollNotification>(
+        child: Navigator.of(context).canPop()
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  icon ??
+                      NormalIconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(
+                          Icons.chevron_left_rounded,
+                          size: 20,
+                          color: AppTheme.mineShaft,
+                        ),
+                        // backgroundColor: iconColor,
+                        backgroundColor: iconColor,
                       ),
-                      // backgroundColor: iconColor,
-                      backgroundColor: iconColor,
+                  NormalIconButton(
+                    onPressed: () {
+                      icon != null
+                          ? Navigator.of(context).pop()
+                          : Keys.mainContentNav.currentState!.pop();
+                    },
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      size: 20,
+                      color: AppTheme.mineShaft,
                     ),
-                NormalIconButton(
-                  onPressed: () {
-                    icon != null
-                        ? Navigator.of(context).pop()
-                        : Keys.mainContentNav.currentState!.pop();
-                  },
-                  icon: const Icon(
-                    Icons.close_rounded,
-                    size: 20,
-                    color: AppTheme.mineShaft,
+                    backgroundColor: iconColor,
                   ),
-                  backgroundColor: iconColor,
-                ),
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(),
-                NormalIconButton(
-                  onPressed: () {
-                    Keys.mainContentNav.currentState!.pop();
-                  },
-                  icon: const Icon(
-                    Icons.close_rounded,
-                    size: 20,
-                    color: AppTheme.mineShaft,
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  NormalIconButton(
+                    onPressed: () {
+                      Keys.mainContentNav.currentState!.pop();
+                    },
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      size: 20,
+                      color: AppTheme.mineShaft,
+                    ),
+                    backgroundColor: iconColor,
                   ),
-                  backgroundColor: iconColor,
-                ),
-              ],
-            ),
+                ],
+              ),
+      ),
     );
   }
 }

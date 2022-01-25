@@ -1,6 +1,7 @@
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -26,24 +27,26 @@ class _RulesScreenState extends State<RulesScreen> {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      // onScrolled: (offset) {
-      //   if (offset > 60) {
-      //     setState(() {
-      //       iconColor = AppTheme.turquoiseBlue;
-      //     });
-      //   } else {
-      //     setState(() {
-      //       iconColor = Colors.white;
-      //     });
-      //   }
-      //},
+      onScrolled: (offset) {
+        if (offset > 60) {
+          if (iconColor != AppTheme.turquoiseBlue) {
+            setState(() {
+              iconColor = AppTheme.turquoiseBlue;
+            });
+          }
+        } else {
+          setState(() {
+            iconColor = Colors.white;
+          });
+        }
+      },
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 14,
         ),
         icon: Container(),
-        //iconColor: iconColor,
+        iconColor: iconColor,
       ),
       slivers: [
         SliverPadding(
