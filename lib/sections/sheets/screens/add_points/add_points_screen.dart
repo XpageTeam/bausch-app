@@ -1,4 +1,5 @@
-import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points/add_points_bloc.dart';
+import 'package:bausch/models/add_points/add_points_model.dart';
+import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
@@ -8,20 +9,28 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Add_points
 //* list
-class AddPointsScreen extends StatefulWidget {
+class AddPointsScreen extends CoreMwwmWidget<AddPointsWM> {
   final ScrollController controller;
-  const AddPointsScreen({required this.controller, Key? key}) : super(key: key);
+  AddPointsScreen({
+    required this.controller,
+    Key? key,
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) {
+            return AddPointsWM(context: context);
+          },
+        );
 
   @override
-  State<AddPointsScreen> createState() => _AddPointsScreenState();
+  WidgetState<CoreMwwmWidget<AddPointsWM>, AddPointsWM> createWidgetState() =>
+      _AddPointsScreenState();
 }
 
-class _AddPointsScreenState extends State<AddPointsScreen> {
-  final addPointsBloc = AddPointsBloc();
-
+class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
@@ -43,77 +52,79 @@ class _AddPointsScreenState extends State<AddPointsScreen> {
             ),
           ),
         ),
-        SliverAppBar(
-          pinned: true,
-          shadowColor: Colors.transparent,
-          backgroundColor: AppTheme.mystic,
-          collapsedHeight: 90,
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: StaticData.sidePadding,
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/add-points.png',
-                  height: 66,
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  'Добавить ещё',
-                  style: AppStyles.h1,
-                ),
-              ],
-            ),
-          ),
-        ),
-        BlocBuilder<AddPointsBloc, AddPointsState>(
-          bloc: addPointsBloc,
-          builder: (context, state) {
-            if (state is AddPointsGetSuccess) {
-              return SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: index == state.models.length - 1
-                              ? StaticData.sidePadding
-                              : 4,
-                        ),
-                        child: AddItem(model: state.models[index]),
-                      );
-                    },
-                    childCount: state.models.length,
+        EntityStateBuilder<List<AddPointsModel>>(
+          streamedState: wm.addPointsList,
+          loadingChild: SliverList(delegate: SliverChildListDelegate([])),
+          builder: (_, items) {
+            if (items.isNotEmpty) {
+              return SliverAppBar(
+                pinned: true,
+                shadowColor: Colors.transparent,
+                backgroundColor: AppTheme.mystic,
+                collapsedHeight: 90,
+                flexibleSpace: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: StaticData.sidePadding,
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/add-points.png',
+                        height: 66,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'Добавить ещё',
+                        style: AppStyles.h1,
+                      ),
+                    ],
                   ),
                 ),
               );
             }
-            if (state is AddPointsLoading) {
-              return SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const Center(
-                      child: AnimatedLoader(),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return SliverList(
+
+            return SliverList(delegate: SliverChildListDelegate([]));
+          },
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: StaticData.sidePadding,
+          ),
+          sliver: EntityStateBuilder<List<AddPointsModel>>(
+            streamedState: wm.addPointsList,
+            loadingChild: SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  Container(),
+                  const Center(
+                    child: AnimatedLoader(),
+                  ),
                 ],
               ),
-            );
-          },
+            ),
+            builder: (_, items) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (_, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index == items.length - 1
+                            ? StaticData.sidePadding
+                            : 4,
+                      ),
+                      child: AddItem(
+                        model: items[index],
+                        wm: wm,
+                      ),
+                    );
+                  },
+                  childCount: items.length,
+                ),
+              );
+            },
+          ),
         ),
       ],
     );
