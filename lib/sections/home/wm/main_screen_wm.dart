@@ -23,7 +23,7 @@ Future<void> voidFunction() async {
 class MainScreenWM extends WidgetModel {
   final allDataLoadedState = EntityStreamedState<bool>();
 
-  final storiesList = EntityStreamedState<List<StoryModel?>>();
+  final storiesList = EntityStreamedState<List<StoryModel>>();
   final catalog = EntityStreamedState<List<BaseCatalogSheetModel>>();
   final banners = EntityStreamedState<OffersRepository>();
 
