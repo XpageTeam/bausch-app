@@ -1,20 +1,23 @@
+import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
-  static Future<bool> tryLaunchUrl({
+  static Future<void> tryLaunchUrl({
     required String rawUrl,
-    required bool isPhone,
+    bool isPhone = false,
+    void Function(CustomException ex)? onError,
   }) async {
-    final url = '${isPhone ? 'tel:' : ''}$rawUrl';
+    final uri = Uri(scheme: isPhone ? 'tel' : '', path: rawUrl);
+    final uriString = uri.toString();
 
-    if (await canLaunch(url)) {
-      return launch(url);
+    if (await canLaunch(uriString)) {
+      await launch(uriString);
     } else {
-      return Future<bool>.error(
-        'Не удалось перейти по ссылке $url',
+      onError?.call(
+        CustomException(title: 'Не удалось перейти по ссылке $rawUrl'),
       );
     }
   }

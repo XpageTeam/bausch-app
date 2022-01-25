@@ -43,12 +43,12 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
       // );
 
       for (final file in result.files) {
-        if (file.size > StaticData.maxFileSize) {
+        if (file.size <= StaticData.maxFileSize) {
           files.add(file);
         }
       }
 
-      if (files.length != result.files.length){
+      if (files.length != result.files.length) {
         showDefaultNotification(title: StaticData.maxFilesSizeText);
       }
 

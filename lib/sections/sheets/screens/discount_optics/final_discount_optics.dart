@@ -131,7 +131,12 @@ class _FinalDiscountOpticsState
                         widget.discountOptic!.link != null) {
                       Utils.tryLaunchUrl(
                         rawUrl: widget.discountOptic!.link!,
-                        isPhone: false,
+                        onError: (ex) {
+                          showDefaultNotification(
+                            title: ex.title,
+                            subtitle: ex.subtitle,
+                          );
+                        },
                       );
                     } else {
                       showTopError(

@@ -104,7 +104,12 @@ class AddPointsDetailsWM extends WidgetModel {
     } else {
       await Utils.tryLaunchUrl(
         rawUrl: url ?? '',
-        isPhone: false,
+        onError: (ex) {
+          showDefaultNotification(
+            title: ex.title,
+            subtitle: ex.subtitle,
+          );
+        },
       );
     }
   }

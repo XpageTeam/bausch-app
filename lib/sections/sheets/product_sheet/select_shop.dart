@@ -3,6 +3,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dar
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -91,9 +92,13 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                             Flexible(
                               child: GestureDetector(
                                 onTap: () => Utils.tryLaunchUrl(
-                                  rawUrl: widget.discountOptics[i].link!
-                                      .replaceFirst('https://', ''),
-                                  isPhone: false,
+                                  rawUrl: widget.discountOptics[i].link!,
+                                  onError: (ex) {
+                                    showDefaultNotification(
+                                      title: ex.title,
+                                      subtitle: ex.subtitle,
+                                    );
+                                  },
                                 ),
                                 child: Text(
                                   widget.discountOptics[i].link!

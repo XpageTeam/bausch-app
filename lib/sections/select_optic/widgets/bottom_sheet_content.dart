@@ -3,6 +3,7 @@ import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:flutter/material.dart';
 
@@ -135,8 +136,15 @@ class BottomSheetContent extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: GestureDetector(
-                  onTap: () =>
-                      Utils.tryLaunchUrl(rawUrl: site!, isPhone: false),
+                  onTap: () => Utils.tryLaunchUrl(
+                    rawUrl: site!,
+                    onError: (ex) {
+                      showDefaultNotification(
+                        title: ex.title,
+                        subtitle: ex.subtitle,
+                      );
+                    },
+                  ),
                   child: Text(
                     site!,
                     style: AppStyles.p1.copyWith(
