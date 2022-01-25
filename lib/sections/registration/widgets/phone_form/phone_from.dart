@@ -32,19 +32,22 @@ class PhoneForm extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         StreamedStateBuilder<bool>(
-          streamedState: wm.sendPhoneBtnActive,
-          builder: (_, state) {
-            if (!state) {
-              return const BlueButtonWithText(
-                text: '',
-                icon: UiCircleLoader(),
-              );
-            }
-
-            return BlueButtonWithText(
-              text: 'Продолжить',
-              // ignore: unnecessary_lambdas
-              onPressed: state ? () => wm.sendPhoneAction(null) : null,
+          streamedState: wm.loginProcessedState,
+          builder: (_, isLoading) {
+            return StreamedStateBuilder<bool>(
+              streamedState: wm.sendPhoneBtnActive,
+              builder: (_, state) {
+                return BlueButtonWithText(
+                  text: isLoading ? '' : 'Продолжить',
+                  icon: isLoading ? const UiCircleLoader() : null,
+                  // ignore: unnecessary_lambdas
+                  onPressed: state
+                      ? !isLoading
+                          ? () => wm.sendPhoneAction(null)
+                          : null
+                      : null,
+                );
+              },
             );
           },
         ),
