@@ -12,12 +12,12 @@ import 'package:flutter/material.dart';
 class FinalWebinar extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  final String videoId;
+  final List<String> videoIds;
 
   const FinalWebinar({
     required this.controller,
     required this.model,
-    required this.videoId,
+    required this.videoIds,
     Key? key,
   }) : super(key: key);
 
@@ -66,10 +66,10 @@ class FinalWebinar extends StatelessWidget {
         text: 'Перейти к просмотру',
         onPressed: () {
           Keys.mainContentNav.currentState!.pop();
-          
+
           showDialog<void>(
             context: context,
-            builder: (context) => WebinarPopup(videoId: videoId),
+            builder: (context) => WebinarPopup(videoId: videoIds.first),
           );
         },
       ),

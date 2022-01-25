@@ -105,7 +105,7 @@ class WebinarVerificationWM extends WidgetModel {
         (route) => route.isCurrent,
         arguments: FinalWebinarArguments(
           model: itemModel,
-          videoId: itemModel.videoIds.first,
+          videoIds: itemModel.videoIds,
         ),
 
         //  SheetScreenArguments(model: itemModel),
@@ -115,10 +115,10 @@ class WebinarVerificationWM extends WidgetModel {
 }
 
 class FinalWebinarArguments extends ItemSheetScreenArguments {
-  final String videoId;
+  final List<String> videoIds;
   FinalWebinarArguments({
     required CatalogItemModel model,
-    required this.videoId,
+    required this.videoIds,
   }) : super(model: model);
 }
 

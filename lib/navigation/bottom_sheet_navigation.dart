@@ -196,7 +196,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               page = FinalWebinar(
                 controller: controller,
                 model: (settings.arguments as FinalWebinarArguments).model,
-                videoId: (settings.arguments as FinalWebinarArguments).videoId,
+                videoIds:
+                    (settings.arguments as FinalWebinarArguments).videoIds,
               );
               break;
 
