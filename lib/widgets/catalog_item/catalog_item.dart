@@ -131,17 +131,17 @@ class CatalogItem extends StatelessWidget {
 
   void onWebinarClick(BuildContext context, WebinarItemModel model) {
     if (model.canWatch) {
-      // if (model.videoIds.length > 1) {
-      // allWebinarsCallback?.call(model);
-      // } else {
-      showDialog<void>(
-        context: context,
-        builder: (context) => WebinarPopup(
-          // TODO(Danil): массив id
-          videoId: model.videoIds.first,
-        ),
-      );
-      // }
+      if (model.videoIds.length > 1) {
+        allWebinarsCallback?.call(model);
+      } else {
+        showDialog<void>(
+          context: context,
+          builder: (context) => WebinarPopup(
+            // TODO(Danil): массив id
+            videoId: model.videoIds.first,
+          ),
+        );
+      }
     } else {
       onTap?.call();
     }

@@ -179,7 +179,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/verification_webinar':
               page = WebinarVerification(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model: (settings.arguments as ItemSheetScreenArguments).model
+                    as WebinarItemModel,
               );
               break;
 
