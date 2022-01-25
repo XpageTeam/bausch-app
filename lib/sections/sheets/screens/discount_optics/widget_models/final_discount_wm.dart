@@ -7,7 +7,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/code_downloader/code_downloader.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -20,6 +20,9 @@ class FinalDiscountWM extends WidgetModel {
   final DiscountType discountType;
 
   final promocodeState = EntityStreamedState<String>();
+  final enabledState = StreamedState<bool>(false);
+
+  final VoidAction buttonAction = VoidAction();
 
   FinalDiscountWM({
     required this.context,
@@ -34,8 +37,16 @@ class FinalDiscountWM extends WidgetModel {
   @override
   void onLoad() {
     _getPromocode();
-
     super.onLoad();
+  }
+
+  @override
+  void onBind() {
+    buttonAction.bind((_) {
+      Keys.mainContentNav.currentState!.pop();
+    });
+
+    super.onBind();
   }
 
   Future<void> _getPromocode() async {
@@ -47,6 +58,7 @@ class FinalDiscountWM extends WidgetModel {
       await promocodeState.content(
         await CodeDownloader.downloadCode(orderId),
       );
+      unawaited(enabledState.accept(true));
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',

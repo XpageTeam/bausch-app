@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
-import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/code_downloader/code_downloader.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -17,6 +17,10 @@ class FinalPartnersWM extends WidgetModel {
   final int? orderId;
 
   final promocodeState = EntityStreamedState<String>();
+  final enabledState = StreamedState<bool>(false);
+
+  final VoidAction buttonAction = VoidAction();
+  final VoidAction copyAndLaunch = VoidAction();
 
   FinalPartnersWM({
     required this.context,
@@ -33,6 +37,25 @@ class FinalPartnersWM extends WidgetModel {
     super.onLoad();
   }
 
+  @override
+  void onBind() {
+    buttonAction.bind((_) {
+      Keys.mainContentNav.currentState!.pop();
+    });
+
+    copyAndLaunch.bind((_) {
+      Utils.copyStringToClipboard(
+        itemModel.staticPromoCode!,
+      );
+      Utils.tryLaunchUrl(
+        rawUrl: itemModel.link!,
+        isPhone: false,
+      );
+    });
+
+    super.onBind();
+  }
+
   Future<void> _getPromocode() async {
     await promocodeState.loading('Генерируем ваш промокод...');
 
@@ -43,6 +66,7 @@ class FinalPartnersWM extends WidgetModel {
         await promocodeState.content(
           await CodeDownloader.downloadCode(orderId!),
         );
+        unawaited(enabledState.accept(true));
       } else {
         error = const CustomException(title: 'Не передан orderId');
       }

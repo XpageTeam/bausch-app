@@ -105,17 +105,26 @@ class _FinalConsultationState
           ),
         ),
       ],
-      bottomNavBar: BottomButtonWithRoundedCorners(
-        text: 'Скопировать код и перейти на сайт',
-        onPressed: () {
-          Utils.copyStringToClipboard(
-            'model.poolPromoCode',
+      bottomNavBar: StreamedStateBuilder<bool>(
+        streamedState: wm.enabledState,
+        builder: (_, enabled) {
+          return BottomButtonWithRoundedCorners(
+            text: enabled ? 'Скопировать код и перейти на сайт' : 'На главную',
+            onPressed: enabled
+                ? () {
+                    Utils.copyStringToClipboard(
+                      wm.promocodeState.value.data!,
+                    );
+                    // TODO(Nikolay): Нужна ссылка.
+                    // Utils.tryLaunchUrl(
+                    //   rawUrl: model.link!,
+                    //   isPhone: false,
+                    // );
+                  }
+                : () {
+                    wm.buttonAction();
+                  },
           );
-          // TODO(Nikolay): Нужна ссылка.
-          // Utils.tryLaunchUrl(
-          //   rawUrl: model.link!,
-          //   isPhone: false,
-          // );
         },
       ),
     );

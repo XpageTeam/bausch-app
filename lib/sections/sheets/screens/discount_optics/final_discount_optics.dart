@@ -115,27 +115,37 @@ class _FinalDiscountOpticsState
           ),
         ),
       ],
-      bottomNavBar: BottomButtonWithRoundedCorners(
-        text: widget.discountType == DiscountType.offline
-            ? 'На главную'
-            : 'Скопировать код и перейти на сайт',
-        onPressed: widget.discountType == DiscountType.onlineShop
-            ? () {
-                Utils.copyStringToClipboard(widget.model.code);
+      bottomNavBar: StreamedStateBuilder<bool>(
+        streamedState: wm.enabledState,
+        builder: (_, enabled) {
+          return BottomButtonWithRoundedCorners(
+            text: (widget.discountType == DiscountType.offline || !enabled)
+                ? 'На главную'
+                : 'Скопировать код и перейти на сайт',
+            onPressed: (widget.discountType == DiscountType.onlineShop &&
+                    enabled)
+                ? () {
+                    Utils.copyStringToClipboard(wm.promocodeState.value.data!);
 
-                if (widget.discountOptic != null &&
-                    widget.discountOptic!.link != null) {
-                  Utils.tryLaunchUrl(
-                    rawUrl: widget.discountOptic!.link!,
-                    isPhone: false,
-                  );
-                } else {
-                  showTopError(
-                    const CustomException(title: 'Не удалось перейти на сайт'),
-                  );
-                }
-              }
-            : null,
+                    if (widget.discountOptic != null &&
+                        widget.discountOptic!.link != null) {
+                      Utils.tryLaunchUrl(
+                        rawUrl: widget.discountOptic!.link!,
+                        isPhone: false,
+                      );
+                    } else {
+                      showTopError(
+                        const CustomException(
+                          title: 'Не удалось перейти на сайт',
+                        ),
+                      );
+                    }
+                  }
+                : () {
+                    wm.buttonAction();
+                  },
+          );
+        },
       ),
     );
   }

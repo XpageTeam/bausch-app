@@ -8,7 +8,6 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
-import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';

@@ -17,19 +17,19 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class FinalPartners extends CoreMwwmWidget<FinalPartnersWM> {
   final ScrollController controller;
   final PartnersItemModel model;
-  final PartnerOrderResponse? orderData;
+  final PartnerOrderResponse orderData;
 
   FinalPartners({
     required this.controller,
     required this.model,
-    this.orderData,
+    required this.orderData,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => FinalPartnersWM(
             context: context,
             itemModel: model,
-            orderId: orderData?.orderID,
+            orderId: orderData.orderID,
           ),
         );
 
@@ -63,8 +63,8 @@ class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
                     bottom: 40,
                   ),
                   child: Text(
-                    widget.orderData?.title != null
-                        ? widget.orderData!.title!
+                    widget.orderData.title != null
+                        ? widget.orderData.title!
                         : '',
                     style: AppStyles.h1,
                   ),
@@ -94,14 +94,14 @@ class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
                       );
                     },
                   ),
-                if (widget.orderData?.subtitle != null)
+                if (widget.orderData.subtitle != null)
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 12,
                       bottom: 40,
                     ),
                     child: Text(
-                      widget.orderData!.subtitle!,
+                      widget.orderData.subtitle!,
                       style: AppStyles.p1,
                     ),
                   ),
@@ -111,7 +111,8 @@ class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
           ),
         ),
       ],
-      bottomNavBar: widget.model.poolPromoCode != null
+      bottomNavBar: (widget.model.staticPromoCode != null &&
+              widget.model.staticPromoCode!.isNotEmpty)
           ? BottomButtonWithRoundedCorners(
               text: widget.model.link != null
                   ? 'Скопировать код и перейти на сайт'
@@ -119,17 +120,30 @@ class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
               withInfo: false,
               onPressed: widget.model.link != null
                   ? () {
-                      Utils.copyStringToClipboard(
-                        widget.model.poolPromoCode!,
-                      );
-                      Utils.tryLaunchUrl(
-                        rawUrl: widget.model.link!,
-                        isPhone: false,
-                      );
+                      wm.copyAndLaunch();
                     }
-                  : null,
+                  : () {
+                      wm.buttonAction();
+                    },
             )
-          : null,
+          : StreamedStateBuilder<bool>(
+              streamedState: wm.enabledState,
+              builder: (_, enabled) {
+                return BottomButtonWithRoundedCorners(
+                  text: (widget.model.link != null && enabled)
+                      ? 'Скопировать код и перейти на сайт'
+                      : 'На главную',
+                  withInfo: false,
+                  onPressed: (widget.model.link != null && enabled)
+                      ? () {
+                          wm.copyAndLaunch();
+                        }
+                      : () {
+                          wm.buttonAction();
+                        },
+                );
+              },
+            ),
     );
   }
 }

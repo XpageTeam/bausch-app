@@ -23,6 +23,7 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -88,20 +89,20 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                   child: CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [
-                      /*SliverToBoxAdapter(
-                        child: TextButton(
-                          onPressed: () {
-                            showSheet<void>(
-                              context,
-                              SimpleSheetModel(
-                                name: 'name',
-                                type: 'program',
-                              ),
-                            );
-                          },
-                          child: Text('123'),
-                        ),
-                      ),*/
+                      // SliverToBoxAdapter(
+                      //   child: TextButton(
+                      //     onPressed: () {
+                      //       showSheet<void>(
+                      //         context,
+                      //         SimpleSheetModel(
+                      //           name: 'name',
+                      //           type: 'program',
+                      //         ),
+                      //       );
+                      //     },
+                      //     child: const Text('open progarm screen'),
+                      //   ),
+                      // ),
                       PullToRefreshContainer((info) {
                         return SliverList(
                           delegate: SliverChildListDelegate([
