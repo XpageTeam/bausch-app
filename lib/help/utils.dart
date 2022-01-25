@@ -5,13 +5,29 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
+  static Future<bool> launchUrl({
+    required String rawUrl,
+    required bool isPhone,
+  }) async {
+    final url = '${isPhone ? 'tel:' : ''}$rawUrl';
+
+    if (await canLaunch(url)) {
+      return launch(url);
+    } else {
+      return Future<bool>.error(
+        'Не удалось перейти по ссылке $url',
+      );
+    }
+  }
+
   static Future<void> tryLaunchUrl({
     required String rawUrl,
     bool isPhone = false,
     void Function(CustomException ex)? onError,
   }) async {
-    final uri = Uri(scheme: isPhone ? 'tel' : '', path: rawUrl);
-    final uriString = uri.toString();
+    // final uri = Uri(scheme: isPhone ? 'tel' : 'https', path: rawUrl);
+    // final uriString = uri.toString();
+    final uriString = '${isPhone ? 'tel:' : ''}$rawUrl';
 
     if (await canLaunch(uriString)) {
       await launch(uriString);
