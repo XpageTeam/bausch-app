@@ -4,7 +4,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 
 class StoriesSlider extends StatelessWidget {
-  final List<StoryModel?> items;
+  final List<StoryModel> items;
 
   const StoriesSlider({
     required this.items,
@@ -22,16 +22,12 @@ class StoriesSlider extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: items.map((item) {
-          if (item != null) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: Story(
-                model: item,
-              ),
-            );
-          }
-          return Container();
-          // returnStories(item);
+          return Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: Story(
+              model: item,
+            ),
+          );
         }).toList(),
       ),
     );

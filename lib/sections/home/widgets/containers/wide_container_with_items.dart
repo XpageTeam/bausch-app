@@ -89,50 +89,66 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
                 Center(
                   child: SizedBox(
                     height: 32,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: GridView.count(
+                      crossAxisCount: 3,
+                      childAspectRatio: 3.7,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
                       children: [
                         if (widget.model.logos!.length >= 1)
-                          Flexible(
-                            flex: 5,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 20,
+                            ),
                             child: ExtendedImage.network(
                               widget.model.logos![0],
                               printError: false,
                               loadStateChanged: loadStateChangedFunction,
                             ),
                           ),
-                        if (widget.model.logos!.length >= 1)
-                          Expanded(
-                            child: Center(
-                              child: Container(
-                                color: AppTheme.mystic,
-                                width: 2,
-                                height: 32,
+                        // if (widget.model.logos!.length >= 1)
+                        //   Expanded(
+                        //     child: Center(
+                        //       child: Container(
+                        //         color: AppTheme.mystic,
+                        //         width: 2,
+                        //         height: 32,
+                        //       ),
+                        //     ),
+                        //   ),
+                        if (widget.model.logos!.length >= 2)
+                          Container(
+                            decoration: const BoxDecoration(
+                              border: Border.symmetric(
+                                vertical: BorderSide(
+                                  width: 2,
+                                  color: AppTheme.mystic,
+                                ),
                               ),
                             ),
-                          ),
-                        if (widget.model.logos!.length >= 2)
-                          Flexible(
-                            flex: 3,
                             child: ExtendedImage.network(
                               widget.model.logos![1],
                               printError: false,
                               loadStateChanged: loadStateChangedFunction,
                             ),
                           ),
-                        if (widget.model.logos!.length >= 2)
-                          Expanded(
-                            child: Center(
-                              child: Container(
-                                color: AppTheme.mystic,
-                                width: 2,
-                                height: 32,
-                              ),
-                            ),
-                          ),
+                        // if (widget.model.logos!.length >= 2)
+                        //   Expanded(
+                        //     child: Center(
+                        //       child: Container(
+                        //         color: AppTheme.mystic,
+                        //         width: 2,
+                        //         height: 32,
+                        //       ),
+                        //     ),
+                        //   ),
                         if (widget.model.logos!.length >= 3)
-                          Flexible(
-                            flex: 3,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 10,
+                              left: 20,
+                            ),
                             child: ExtendedImage.network(
                               widget.model.logos![2],
                               printError: false,

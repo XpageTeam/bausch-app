@@ -10,48 +10,34 @@ import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenRequester {
-  final rh = RequestHandler();
+  final _rh = RequestHandler();
 
-  final prefs = SharedPreferences.getInstance();
+  // final prefs = SharedPreferences.getInstance();
 
   /// Загружает сторисы
-  Future<List<StoryModel?>> loadStories(int userID) async {
+  Future<List<StoryModel>> loadStories(int userID) async {
     final parsedData = BaseResponseRepository.fromMap(
-      (await rh.get<Map<String, dynamic>>('/stories/')).data!,
+      (await _rh.get<Map<String, dynamic>>('/stories/')).data!,
     );
 
-    final _prefs = await prefs;
+    // final _prefs = await prefs;
 
-    var items = (parsedData.data as List<dynamic>).map((dynamic e) {
-      final model = StoryModel.fromMap(e as Map<String, dynamic>);
-
-      if (_prefs.containsKey(
-        'user[$userID]story[${model.id}]',
-      )) {
-        if (_prefs.getInt(
-              'user[$userID]story[${model.id}]',
-            )! <=
-            model.views) {
-          return model;
-        }
-      } else {
-        return model;
-      }
+    return (parsedData.data as List<dynamic>).map((dynamic e) {
+      return StoryModel.fromMap(e as Map<String, dynamic>);
     }).toList();
 
-    items = items..removeWhere((element) => element == null);
+    // items = items..removeWhere((element) => element == null);
 
-    return items;
+    // return items;
   }
 
   Future<List<BaseCatalogSheetModel>> loadCatalog() async {
     final parsedData = BaseResponseRepository.fromMap(
-      (await rh.get<Map<String, dynamic>>(
+      (await _rh.get<Map<String, dynamic>>(
         'catalog/sections/',
-        options: rh.cacheOptions
+        options: _rh.cacheOptions
             ?.copyWith(
               maxStale: const Duration(hours: 5),
               policy: CachePolicy.request,

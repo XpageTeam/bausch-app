@@ -179,7 +179,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                               [
                                 DelayedAnimatedTranslateOpacity(
                                   offsetY: 40,
-                                  child: EntityStateBuilder<List<StoryModel?>>(
+                                  child: EntityStateBuilder<List<StoryModel>>(
                                     streamedState: wm.storiesList,
                                     loadingBuilder: (_, items) {
                                       if (items != null) {
