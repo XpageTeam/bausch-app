@@ -34,8 +34,6 @@ class CertificateOrderModel extends BaseOrderModel {
         title: map['title'] as String,
         coupon: Coupon.fromMap(map['coupon'] as Map<String, dynamic>),
       );
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException(e.toString());
     }

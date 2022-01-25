@@ -27,7 +27,6 @@ class AddPointsModel {
   });
 
   factory AddPointsModel.fromMap(Map<String, dynamic> map) {
-
     try {
       return AddPointsModel(
         id: map['id'] as int,

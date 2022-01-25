@@ -34,11 +34,13 @@ class TopicModel implements MappableInterface<TopicModel> {
         id: map['id'] as int,
         title: map['title'] as String,
         questions: (map['questions'] as List<dynamic>)
-            .map((dynamic e) => QuestionModel.fromMap(e as Map<String, dynamic>))
+            .map(
+              (dynamic e) => QuestionModel.fromMap(
+                e as Map<String, dynamic>,
+              ),
+            )
             .toList(),
       );
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('TopicModel: $e');
     }

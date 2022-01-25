@@ -74,8 +74,6 @@ class HomeScreenRequester {
           return CatalogSheetModel.fromMap(sheet);
         }
       }).toList();
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadCatalog: $e');
     }

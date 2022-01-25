@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 
@@ -42,14 +44,18 @@ class PromoItemModel extends CatalogItemModel {
       throw ResponseParseException('Не передана цена товара');
     }
 
-    return PromoItemModel(
-      id: map['id'] as int,
-      name: (map['name'] ?? map['title']) as String,
-      previewText: map['preview_text'] as String,
-      detailText: map['detail_text'] as String,
-      picture: map['picture'] as String?,
-      price: (map['price'] ?? 150) as int,
-      code: map['code'] as String,
-    );
+    try {
+      return PromoItemModel(
+        id: map['id'] as int,
+        name: (map['name'] ?? map['title']) as String,
+        previewText: map['preview_text'] as String,
+        detailText: map['detail_text'] as String,
+        picture: map['picture'] as String?,
+        price: (map['price'] ?? 150) as int,
+        code: map['code'] as String,
+      );
+    } catch (e) {
+      throw ResponseParseException('PromoItemModel: $e');
+    }
   }
 }

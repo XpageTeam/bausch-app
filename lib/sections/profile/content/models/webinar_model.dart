@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 
@@ -39,9 +41,6 @@ class WebinarOrderModel extends BaseOrderModel {
           return item as String;
         }).toList(),
       );
-    } on ResponseParseException {
-      rethrow;
-      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('WebinarOrderModel: ${e.toString()}');
     }

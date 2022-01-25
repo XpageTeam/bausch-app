@@ -22,8 +22,6 @@ class AddPointsRequester {
           return AddPointsModel.fromMap(item);
         }
       }).toList();
-    } on ResponseParseException{
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadAddMore: $e');
     }

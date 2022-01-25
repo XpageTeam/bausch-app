@@ -22,8 +22,6 @@ class AddressDownloader {
           .map((dynamic address) =>
               AdressModel.fromMap(address as Map<String, dynamic>))
           .toList();
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('AddressDownloader: $e');
     }

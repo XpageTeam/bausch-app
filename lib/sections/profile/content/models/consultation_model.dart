@@ -35,8 +35,6 @@ class ConsultationOrderModel extends BaseOrderModel {
         product:
             OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
       );
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException(e.toString());
     }

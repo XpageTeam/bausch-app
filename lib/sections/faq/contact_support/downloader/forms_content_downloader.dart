@@ -23,8 +23,6 @@ class FormsContentDownloader {
           .map((dynamic item) =>
               FieldModel.fromMap(item as Map<String, dynamic>))
           .toList();
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadDefaultFields: ${e.toString()}');
     }
@@ -51,8 +49,6 @@ class FormsContentDownloader {
           .toList();
       debugPrint(list.toString());
       return list;
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadExtraFields: ${e.toString()}');
     }
@@ -71,8 +67,6 @@ class FormsContentDownloader {
             (dynamic item) => ValueModel.fromMap(item as Map<String, dynamic>),
           )
           .toList();
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadExtraFields: ${e.toString()}');
     }
@@ -92,8 +86,6 @@ class FormsContentDownloader {
             (dynamic item) => ValueModel.fromMap(item as Map<String, dynamic>),
           )
           .toList();
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadExtraFields: ${e.toString()}');
     }
@@ -122,8 +114,6 @@ class FormsContentDownloader {
 
     try {
       return true;
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadExtraFields: ${e.toString()}');
     }

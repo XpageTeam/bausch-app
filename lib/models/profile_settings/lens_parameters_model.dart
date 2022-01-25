@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/mappable_object.dart';
 
 class LensParametersModel implements MappableInterface<LensParametersModel> {
@@ -14,12 +17,16 @@ class LensParametersModel implements MappableInterface<LensParametersModel> {
   });
 
   factory LensParametersModel.fromMap(Map<String, dynamic> map) {
-    return LensParametersModel(
-      cylinder: map['cyl'] as num,
-      diopter: map['diopter'] as num,
-      axis: map['axis'] as num,
-      addict: map['addict'] as num,
-    );
+    try {
+      return LensParametersModel(
+        cylinder: map['cyl'] as num,
+        diopter: map['diopter'] as num,
+        axis: map['axis'] as num,
+        addict: map['addict'] as num,
+      );
+    } catch (e) {
+      throw ResponseParseException('LensParametersModel: $e');
+    }
   }
 
   @override

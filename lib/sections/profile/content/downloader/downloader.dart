@@ -48,8 +48,6 @@ class ProfileContentDownloader {
             }
           }).toList() ??
           [];
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadOrderHistory: ${e.toString()}');
     }
@@ -71,8 +69,6 @@ class ProfileContentDownloader {
                 NotificationModel.fromMap(item as Map<String, dynamic>),
           )
           .toList();
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('loadNotificationsList: ${e.toString()}');
     }

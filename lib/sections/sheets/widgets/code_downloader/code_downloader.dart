@@ -37,8 +37,6 @@ class CodeDownloader {
         ))
             .data!,
       );
-    } on ResponseParseException {
-      rethrow;
     } catch (e) {
       throw ResponseParseException('CodeDownloader: $e');
     }

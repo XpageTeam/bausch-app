@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
@@ -60,14 +62,18 @@ class CatalogItemModel {
       throw ResponseParseException('Не передан идентификатор');
     }
 
-    return CatalogItemModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      previewText: map['preview_text'] as String,
-      detailText: map['detail_text'] as String,
-      picture: map['picture'] as String,
-      price: map['price'] as int,
-    );
+    try {
+      return CatalogItemModel(
+        id: map['id'] as int,
+        name: map['name'] as String,
+        previewText: map['preview_text'] as String,
+        detailText: map['detail_text'] as String,
+        picture: map['picture'] as String,
+        price: map['price'] as int,
+      );
+    } catch (e) {
+      throw ResponseParseException('CatalogItemModel: $e');
+    }
   }
 
   factory CatalogItemModel.mayBeInterestingItemFromJson(
