@@ -35,7 +35,7 @@ class PartnersScreen extends CoreMwwmWidget<PartnersScreenWM> {
 
 class _PartnersScreenState
     extends WidgetState<PartnersScreen, PartnersScreenWM> {
-  Color iconColor = Colors.white;
+  Color iconColor = AppTheme.mystic;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
@@ -49,7 +49,7 @@ class _PartnersScreenState
           }
         } else {
           setState(() {
-            iconColor = Colors.white;
+            iconColor = AppTheme.mystic;
           });
         }
       },
