@@ -1,4 +1,3 @@
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/sheets/screens/webinars/widget_models/webinar_verification_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';

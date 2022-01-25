@@ -2,7 +2,6 @@ import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/login/models/login_text.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';

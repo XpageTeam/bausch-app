@@ -65,6 +65,7 @@ class WebinarVerificationWM extends WidgetModel {
     //String? videoId;
 
     try {
+      // ignore: unused_local_variable
       final repository = await OrderWebinarSaver.save(
         itemModel,
       );
