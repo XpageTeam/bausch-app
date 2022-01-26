@@ -51,7 +51,7 @@ class _ConsultationVerificationState
           }
         } else {
           setState(() {
-            iconColor = AppTheme.mystic;
+            iconColor = Colors.white;
           });
         }
       },

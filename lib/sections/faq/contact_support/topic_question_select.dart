@@ -60,7 +60,7 @@ class _TopicQuestionSelectState extends State<TopicQuestionSelect> {
             EntityStateBuilder<List<ValueModel>>(
               streamedState: formScreenWM.questionsList,
               builder: (_, state) {
-                return state != null && state.isNotEmpty
+                return state.isNotEmpty
                     ? Select(
                         state: formScreenWM.selectedQuestion,
                         model: FieldModel(
