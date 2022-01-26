@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
@@ -71,16 +72,14 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
     CustomException? error;
 
-    late int orderId;
+    late PartnerOrderResponse result;
 
     try {
-      final response = await OrderDiscountSaver.save(
+      result = await OrderDiscountSaver.save(
         discountOptic,
         itemModel,
         discountType.asString,
       );
-
-      orderId = (response.data as Map<String, dynamic>)['orderId'] as int;
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
@@ -117,7 +116,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
           model: itemModel,
           discountOptic: discountOptic,
           discountType: discountType,
-          orderId: orderId,
+          orderDataResponse: result,
         ),
       );
     }
@@ -125,7 +124,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 }
 
 class OrderDiscountSaver {
-  static Future<BaseResponseRepository> save(
+  static Future<PartnerOrderResponse> save(
     Optic optic,
     PromoItemModel model,
     String category,
@@ -142,6 +141,7 @@ class OrderDiscountSaver {
           // 'color':,
           // 'cylinder':,
           // 'axis':,
+          'shopName': optic.title,
           'category': category,
           'shopCode': optic.shopCode,
           'productCode': model.code,
@@ -149,8 +149,8 @@ class OrderDiscountSaver {
       ),
     );
 
-    final data = resp.data!;
+    final data = BaseResponseRepository.fromMap(resp.data!);
 
-    return BaseResponseRepository.fromMap(data);
+    return PartnerOrderResponse.fromMap(data as Map<String, dynamic>);
   }
 }

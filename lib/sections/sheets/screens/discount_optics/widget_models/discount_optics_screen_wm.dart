@@ -85,6 +85,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
               model: itemModel,
               discountOptic: currentDiscountOptic.value!,
               discountType: discountType,
+              orderDataResponse: null,
             ),
           );
         }

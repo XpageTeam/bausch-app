@@ -1,6 +1,7 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
@@ -286,13 +287,13 @@ class _NoDiscountsAvailable extends StatelessWidget {
 class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final Optic discountOptic;
   final DiscountType discountType;
-  final int? orderId;
+  final PartnerOrderResponse? orderDataResponse;
 
   DiscountOpticsArguments({
     required this.discountOptic,
     required this.discountType,
     required CatalogItemModel model,
-    this.orderId,
+    required this.orderDataResponse,
   }) : super(
           model: model,
         );
