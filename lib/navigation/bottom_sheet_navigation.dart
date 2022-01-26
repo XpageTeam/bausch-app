@@ -120,6 +120,15 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     controller: controller,
                     data: args as String,
                   );
+                } else if (sheetModel.type == 'support'){
+                  final _args = args as ContactSupportScreenArguments;
+
+                page = ContactSupportScreen(
+                  controller: controller,
+                  question: _args.question,
+                  topic: _args.topic,
+                );
+                break;
                 } else {
                   page = SheetScreen(
                     sheetModel: sheetModel,

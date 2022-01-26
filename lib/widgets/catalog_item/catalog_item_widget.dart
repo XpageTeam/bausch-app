@@ -1,12 +1,19 @@
 // ignore_for_file: avoid-returning-widgets
 
+import 'dart:async';
+
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/models/faq/question_model.dart';
+import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -15,6 +22,7 @@ import 'package:bausch/widgets/point_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -157,11 +165,13 @@ class CatalogItemWidget extends StatelessWidget {
                           style: AppStyles.p1,
                           children: [
                             if (deliveryInfo!
-                                .toLowerCase()
-                                .contains('доставлен'))
+                                    .toLowerCase()
+                                    .contains('доставлен') ||
+                                deliveryInfo!
+                                    .toLowerCase()
+                                    .contains('выполнен'))
                               TextSpan(
                                 style: AppStyles.p1Grey,
-                                // TODO(all): сделать открытие всплывашки
                                 children: [
                                   const TextSpan(
                                     text: 'Eсли нет, пишите ',
@@ -171,6 +181,75 @@ class CatalogItemWidget extends StatelessWidget {
                                     style: AppStyles.p1Grey.copyWith(
                                       decoration: TextDecoration.underline,
                                     ),
+                                    
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        // unawaited(showSheet<List<TopicModel>>(
+                                        //   context,
+                                        //   SimpleSheetModel(
+                                        //     name: 'Частые вопросы',
+                                        //     type: 'faq',
+                                        //   ),
+                                        //   [],
+                                        // ));
+
+                                        // await Future<void>.delayed(const Duration(seconds: 1));
+
+                                        // await Keys.bottomNav.currentState!
+                                        //     .pushNamedAndRemoveUntil(
+                                        //   '/support',
+                                        //   (route) => false,
+                                        //   arguments:
+                                        //       ContactSupportScreenArguments(
+                                        //     question: QuestionModel(
+                                        //       id: 179,
+                                        //       title: '',
+                                        //     ),
+                                        //     topic: TopicModel(
+                                        //       id: 24,
+                                        //       title: '',
+                                        //       questions: [],
+                                        //     ),
+                                        //   ),
+                                        // );
+
+                                        showSheet<
+                                            ContactSupportScreenArguments>(
+                                          context,
+                                          SimpleSheetModel(
+                                            name: 'Обратиться в поддержку',
+                                            type: 'support',
+                                          ),
+                                          ContactSupportScreenArguments(
+                                            question: QuestionModel(
+                                              id: 179,
+                                              title: 'Заказ: я не получил(а) бесплатные линзы (прошло более 60 дней)',
+                                            ),
+                                            topic: TopicModel(
+                                              id: 24,
+                                              title: 'Программа Лояльности',
+                                              questions: [],
+                                            ),
+                                            orderID: model.id,
+                                          ),
+                                        );
+
+                                        // Navigator.of(context).pushNamed(
+                                        //   '/support',
+                                        //   arguments:
+                                        //       ContactSupportScreenArguments(
+                                        //     question: QuestionModel(
+                                        //       id: 179,
+                                        //       title: '',
+                                        //     ),
+                                        //     topic: TopicModel(
+                                        //       id: 24,
+                                        //       title: '',
+                                        //       questions: [],
+                                        //     ),
+                                        //   ),
+                                        // );
+                                      },
                                   ),
                                   const TextSpan(
                                     text: ', разберемся',
