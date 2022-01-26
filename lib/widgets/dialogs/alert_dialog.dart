@@ -41,7 +41,6 @@ class CustomAlertDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            // TODO(Nikita): не забыть при слиянии
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
