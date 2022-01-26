@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
+import 'dart:async';
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -15,10 +17,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-
-Future<void> voidFunction() async {
-  return;
-}
 
 class MainScreenWM extends WidgetModel {
   final allDataLoadedState = EntityStreamedState<bool>();
@@ -38,11 +36,19 @@ class MainScreenWM extends WidgetModel {
 
   final _requester = HomeScreenRequester();
 
+  late Timer? _reloadDataTimer;
+
   MainScreenWM({
     required this.context,
   })  : userWM = Provider.of<UserWM>(context, listen: false),
         authWM = Provider.of<AuthWM>(context, listen: false),
         super(const WidgetModelDependencies());
+
+  @override
+  void dispose() {
+    _reloadDataTimer?.cancel();
+    super.dispose();
+  }
 
   @override
   void onBind() {
@@ -62,7 +68,12 @@ class MainScreenWM extends WidgetModel {
 
     loadAllDataAction();
 
-    _loadStories();
+    _reloadDataTimer = Timer.periodic(
+      const Duration(minutes: 5),
+      (timer) {
+        homeScreenRefresh();
+      },
+    );
   }
 
   /// Перезагружает данные

@@ -88,20 +88,20 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                   child: CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [
-                      // SliverToBoxAdapter(
-                      //   child: TextButton(
-                      //     onPressed: () {
-                      //       showSheet<void>(
-                      //         context,
-                      //         SimpleSheetModel(
-                      //           name: 'name',
-                      //           type: 'program',
-                      //         ),
-                      //       );
-                      //     },
-                      //     child: const Text('open progarm screen'),
-                      //   ),
-                      // ),
+                      SliverToBoxAdapter(
+                        child: TextButton(
+                          onPressed: () {
+                            showSheet<void>(
+                              context,
+                              SimpleSheetModel(
+                                name: 'name',
+                                type: 'program',
+                              ),
+                            );
+                          },
+                          child: const Text('open progarm screen'),
+                        ),
+                      ),
                       PullToRefreshContainer((info) {
                         return SliverList(
                           delegate: SliverChildListDelegate([
