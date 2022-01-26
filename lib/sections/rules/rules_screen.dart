@@ -47,6 +47,7 @@ class _RulesScreenState extends State<RulesScreen> {
         ),
         icon: Container(),
         iconColor: iconColor,
+        colorAnimated: false,
       ),
       slivers: [
         SliverPadding(

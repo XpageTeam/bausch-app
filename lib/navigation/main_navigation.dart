@@ -22,7 +22,6 @@ import 'package:bausch/sections/registration/screens/city_email/city_and_email_s
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 //* Навигатор для страниц приложения
 class MainNavigation extends StatefulWidget {

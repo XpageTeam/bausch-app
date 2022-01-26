@@ -12,9 +12,12 @@ class CustomSliverAppbar extends StatelessWidget {
 
   final ScrollController? scrollController;
 
+  final bool colorAnimated;
+
   const CustomSliverAppbar({
     this.icon,
     this.padding,
+    this.colorAnimated = true,
     this.iconColor = Colors.white,
     this.scrollController,
     Key? key,
@@ -36,6 +39,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 children: [
                   icon ??
                       NormalIconButton(
+                        isAnimated: colorAnimated,
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -48,6 +52,7 @@ class CustomSliverAppbar extends StatelessWidget {
                         backgroundColor: iconColor,
                       ),
                   NormalIconButton(
+                    isAnimated: colorAnimated,
                     onPressed: () {
                       icon != null
                           ? Navigator.of(context).pop()
@@ -67,6 +72,7 @@ class CustomSliverAppbar extends StatelessWidget {
                 children: [
                   Container(),
                   NormalIconButton(
+                    isAnimated: colorAnimated,
                     onPressed: () {
                       Keys.mainContentNav.currentState!.pop();
                     },
