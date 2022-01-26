@@ -1,5 +1,4 @@
 import 'package:bausch/models/stories/story_model.dart';
-import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
