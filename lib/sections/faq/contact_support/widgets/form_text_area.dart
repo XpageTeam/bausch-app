@@ -1,7 +1,6 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bausch/models/faq/forms/field_model.dart';
-import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';

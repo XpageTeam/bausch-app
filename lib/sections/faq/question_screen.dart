@@ -18,8 +18,8 @@ class QuestionScreenArguments {
   final TopicModel topic;
 
   QuestionScreenArguments({
-    this.question,
     required this.topic,
+    this.question,
   });
 }
 
@@ -34,8 +34,8 @@ class QuestionScreen extends StatefulWidget implements QuestionScreenArguments {
 
   const QuestionScreen({
     required this.controller,
-    this.question,
     required this.topic,
+    this.question,
     Key? key,
   }) : super(key: key);
 
