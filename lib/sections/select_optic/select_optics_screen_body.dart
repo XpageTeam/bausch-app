@@ -12,10 +12,13 @@ class SelectOpticScreenBody extends StatelessWidget {
   final void Function(OpticShop selectedShop) onOpticShopSelect;
   // final void Function(MapBodyWM mapBodyWm) whenCompleteModalBottomSheet;
 
+  final String selectButtonText;
+
   const SelectOpticScreenBody({
     required this.currentPage,
     required this.opticShops,
     required this.onOpticShopSelect,
+    required this.selectButtonText,
     // required this.whenCompleteModalBottomSheet,
     Key? key,
   }) : super(key: key);
@@ -29,6 +32,7 @@ class SelectOpticScreenBody extends StatelessWidget {
             onOpticShopSelect: onOpticShopSelect,
           )
         : MapBody(
+            selectButtonText: selectButtonText,
             opticShops: opticShops,
             onOpticShopSelect: onOpticShopSelect,
             shopsEmptyCallback: (mapBodyWm) {

@@ -246,7 +246,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                   builder: (_, currentOptic) => WhiteButton(
                     text: currentOptic == null
                         ? 'Выбрать оптику'
-                        : currentOptic.title,
+                        : wm.fullAddress,
                     icon: Padding(
                       padding: const EdgeInsets.only(
                         right: 12,
@@ -262,9 +262,15 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       Keys.mainNav.currentState!.push<void>(
                         MaterialPageRoute(
                           builder: (context) => SelectOpticScreen(
-                            onOpticSelect: (optic, city) {
-                              wm.selectOptic(optic);
+                            selectButtonText: 'Выбрать оптику',
+                            onOpticSelect: (optic, city, shop) {
                               wm.city = city;
+
+                              if (shop != null) {
+                                wm.selectOptic(optic.copyWith(shops: [shop]));
+                              } else {
+                                wm.selectOptic(optic);
+                              }
                             },
                           ),
                         ),
@@ -285,7 +291,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 onPressed: currentOptic != null
                     ? loading
                         ? null
-                        : () => wm.getSertificatAction()
+                        : () => wm.getCertificateAction()
                     : null,
               ),
             ),
