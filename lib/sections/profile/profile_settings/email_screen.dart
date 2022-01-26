@@ -8,6 +8,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -79,7 +80,7 @@ class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
                         ? 'Готово'
                         : 'Отправить',
                 withInfo: false,
-                icon: isLoading ? const AnimatedLoader() : null,
+                icon: isLoading ? const UiCircleLoader() : null,
                 onPressed: state && !isLoading
                     ? () {
                         if (wm.isConfirmSended) {
