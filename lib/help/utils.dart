@@ -1,5 +1,6 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -59,5 +60,11 @@ class Utils {
       title: notificationText,
       success: true,
     );
+  }
+
+  static void unfocus(BuildContext context) {
+    if (FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
   }
 }

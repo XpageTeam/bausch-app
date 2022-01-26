@@ -7,7 +7,6 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -51,6 +50,7 @@ class _EmailScreenState extends WidgetState<EmailScreen, EmailScreenWM> {
               child: NativeTextInput(
                 labelText: 'E-mail',
                 controller: wm.emailController,
+                autofocus: true,
               ),
             ),
             StreamedStateBuilder<bool>(

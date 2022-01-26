@@ -97,7 +97,8 @@ class _ProfileSettingsScreenState
                         icon: Container(),
                         onPressed: () async {
                           wm.setEmail(
-                            await Keys.mainNav.currentState!.push<String>(
+                            await Keys.mainContentNav.currentState!
+                                .push<String>(
                               PageRouteBuilder<String>(
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) =>

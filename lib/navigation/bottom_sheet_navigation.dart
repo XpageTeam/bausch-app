@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'dart:io';
 
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
@@ -69,304 +72,324 @@ class BottomSheetNavigation<T> extends StatelessWidget {
       data: MediaQuery.of(context).copyWith(
         textScaleFactor: 1.0,
       ),
-      child: Navigator(
-        key: Keys.bottomNav,
-        initialRoute: '/',
-        onGenerateRoute: (settings) {
-          Widget page;
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          Utils.unfocus(context);
+        },
+        child: Navigator(
+          key: Keys.bottomNav,
+          requestFocus: false,
+          initialRoute: '/',
+          onPopPage: (route, dynamic settings) {
+            Utils.unfocus(context);
+            return true;
+          },
+          onGenerateRoute: (settings) {
+            Widget page;
 
-          final arguments = initialRoute != null
-              ? args ?? settings.arguments
-              : settings.arguments;
+            Utils.unfocus(context);
 
-          switch (initialRoute ?? settings.name) {
-            case '/':
-              if (sheetModel.type == 'online_consultation') {
-                page = ConsultationScreen(
+            final arguments = initialRoute != null
+                ? args ?? settings.arguments
+                : settings.arguments;
+
+            switch (initialRoute ?? settings.name) {
+              case '/':
+                if (sheetModel.type == 'online_consultation') {
+                  page = ConsultationScreen(
+                    controller: controller,
+                    model: (args as List<CatalogItemModel>).first
+                        as ConsultationItemModel,
+                  );
+                } else if (sheetModel.type == 'program') {
+                  page = ProgramScreen(
+                    controller: controller,
+                  );
+                } else if (sheetModel.type == 'add_points') {
+                  page = AddPointsScreen(
+                    controller: controller,
+                  );
+                } else if (sheetModel.type == 'faq') {
+                  page = TopicsScreen(
+                    controller: controller,
+                    topics: args as List<TopicModel>,
+                  );
+                } else if (sheetModel.type == 'rules') {
+                  page = RulesScreen(
+                    controller: controller,
+                    data: args as String,
+                  );
+                } else {
+                  page = SheetScreen(
+                    sheetModel: sheetModel,
+                    controller: controller,
+                    items: args as List<CatalogItemModel>,
+                    //path: path(sheetModel.type),
+                  );
+                }
+
+                break;
+
+              case '/free_product':
+                page = FreePackagingScreen(
                   controller: controller,
-                  model: (args as List<CatalogItemModel>).first
-                      as ConsultationItemModel,
+                  model: (arguments as ItemSheetScreenArguments).model,
                 );
-              } else if (sheetModel.type == 'program') {
-                page = ProgramScreen(
-                  controller: controller,
-                );
-              } else if (sheetModel.type == 'add_points') {
+                break;
+
+              case '/add_points':
                 page = AddPointsScreen(
                   controller: controller,
                 );
-              } else if (sheetModel.type == 'faq') {
+                break;
+
+              case '/offline':
+                page = DiscountOpticsScreen(
+                  controller: controller,
+                  model: (arguments as ItemSheetScreenArguments).model
+                      as PromoItemModel,
+                  discountType: DiscountType.offline,
+                );
+                break;
+
+              case '/onlineShop':
+                page = DiscountOpticsScreen(
+                  controller: controller,
+                  model: (arguments as ItemSheetScreenArguments).model
+                      as PromoItemModel,
+                  discountType: DiscountType.onlineShop,
+                );
+                break;
+
+              case '/promo_code_immediately':
+                page = PartnersScreen(
+                  controller: controller,
+                  model: (arguments as ItemSheetScreenArguments).model
+                      as PartnersItemModel,
+                );
+                break;
+
+              case '/promo_code_video':
+                page = WebinarScreen(
+                  controller: controller,
+                  model: (arguments as ItemSheetScreenArguments).model
+                      as WebinarItemModel,
+                );
+
+                break;
+
+              case '/verification_discount_optics':
+                page = DiscountOpticsVerification(
+                  controller: controller,
+                  model: (settings.arguments as DiscountOpticsArguments).model
+                      as PromoItemModel,
+                  discountType: (settings.arguments as DiscountOpticsArguments)
+                      .discountType,
+                  discountOptic: (settings.arguments as DiscountOpticsArguments)
+                      .discountOptic,
+                );
+                break;
+
+              case '/verification_webinar':
+                page = WebinarVerification(
+                  controller: controller,
+                  model: (settings.arguments as ItemSheetScreenArguments).model
+                      as WebinarItemModel,
+                );
+                break;
+
+              case '/verification_partners':
+                page = PartnersVerification(
+                  controller: controller,
+                  model: (settings.arguments as ItemSheetScreenArguments).model
+                      as PartnersItemModel,
+                );
+                break;
+
+              case '/final_webinar':
+                page = FinalWebinar(
+                  controller: controller,
+                  model: (settings.arguments as FinalWebinarArguments).model,
+                  videoIds:
+                      (settings.arguments as FinalWebinarArguments).videoIds,
+                );
+                break;
+
+              case '/all_webinars':
+                page = AllWebinarsScreen(
+                  controller: controller,
+                  arguments: settings.arguments as AllWebinarsScreenArguments,
+                );
+                break;
+
+              case '/final_partners':
+                final arguments =
+                    settings.arguments as ItemSheetScreenArguments;
+
+                page = FinalPartners(
+                  controller: controller,
+                  model: arguments.model as PartnersItemModel,
+                  orderData: arguments.orderData as PartnerOrderResponse,
+                );
+                break;
+
+              case '/final_discount_optics':
+                page = FinalDiscountOptics(
+                  controller: controller,
+                  model: (settings.arguments as DiscountOpticsArguments).model
+                      as PromoItemModel,
+                  discountType: (settings.arguments as DiscountOpticsArguments)
+                      .discountType,
+                  discountOptic: (settings.arguments as DiscountOpticsArguments)
+                      .discountOptic,
+                  orderId:
+                      (settings.arguments as DiscountOpticsArguments).orderId!,
+                );
+                break;
+
+              case '/online_consultation':
+                page = ConsultationScreen(
+                  controller: controller,
+                  model:
+                      (settings.arguments as ConsultationScreenArguments).model,
+                );
+                break;
+
+              case '/program':
+                page = ProgramScreen(controller: controller);
+                break;
+
+              case '/final_program':
+                final arguments = settings.arguments as Map<String, dynamic>;
+                page = FinalProgramScreen(
+                  controller: controller,
+                  optic: arguments['optic'] as Optic,
+                  response: arguments['response'] as ProgramSaverResponse,
+                );
+                break;
+
+              case '/addpoints_details':
+                page = AddPointsDetails(
+                  model:
+                      (settings.arguments as AddPointsDetailsArguments).model,
+                  controller: controller,
+                );
+                break;
+
+              case '/addpoints_quiz':
+                page = QuizScreen(
+                  controller: controller,
+                  model: (settings.arguments as QuizScreenArguments).model,
+                );
+                break;
+
+              case '/final_addpoints':
+                page = FinalAddPointsScreen(
+                  controller: controller,
+                  points:
+                      (settings.arguments as FinalAddPointsArguments).points,
+                );
+                break;
+
+              case '/verification_consultation':
+                page = ConsultationVerification(
+                  controller: controller,
+                  model: (settings.arguments as ItemSheetScreenArguments).model
+                      as ConsultationItemModel,
+                );
+                break;
+
+              case '/final_consultation':
+                page = FinalConsultation(
+                  controller: controller,
+                  model: (settings.arguments as ItemSheetScreenArguments).model
+                      as ConsultationItemModel,
+                  orderData: (settings.arguments as ItemSheetScreenArguments)
+                      .orderData!,
+                );
+                break;
+
+              case '/faq_topics':
                 page = TopicsScreen(
                   controller: controller,
-                  topics: args as List<TopicModel>,
+                  topics: (settings.arguments as TopicsScreenArguments).topics,
                 );
-              } else if (sheetModel.type == 'rules') {
+                break;
+
+              case '/faq_topic':
+                page = TopicScreen(
+                  controller: controller,
+                  title: (settings.arguments as TopicScreenArguments).title,
+                  topicModel:
+                      (settings.arguments as TopicScreenArguments).topicModel,
+                );
+                break;
+
+              case '/rules':
                 page = RulesScreen(
                   controller: controller,
                   data: args as String,
                 );
-              } else {
-                page = SheetScreen(
-                  sheetModel: sheetModel,
+                break;
+
+              case '/question':
+                page = QuestionScreen(
                   controller: controller,
-                  items: args as List<CatalogItemModel>,
-                  //path: path(sheetModel.type),
+                  question:
+                      (settings.arguments as QuestionScreenArguments).question,
+                  topic: (settings.arguments as QuestionScreenArguments).topic,
                 );
-              }
+                break;
 
-              break;
+              case '/support':
+                final args =
+                    settings.arguments as ContactSupportScreenArguments;
 
-            case '/free_product':
-              page = FreePackagingScreen(
-                controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model,
-              );
-              break;
+                debugPrint(
+                  'topic1: ${args.topic}, question1: ${args.question}',
+                );
+                page = ContactSupportScreen(
+                  controller: controller,
+                  question: args.question,
+                  topic: args.topic,
+                );
+                break;
 
-            case '/add_points':
-              page = AddPointsScreen(
-                controller: controller,
-              );
-              break;
+              case '/add_files':
+                page = AttachFilesScreen(
+                  formScreenWM:
+                      (settings.arguments as AttachFilesScreenArguments)
+                          .formScreenWM,
+                  fieldModel: (settings.arguments as AttachFilesScreenArguments)
+                      .fieldModel,
+                );
+                break;
 
-            case '/offline':
-              page = DiscountOpticsScreen(
-                controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model
-                    as PromoItemModel,
-                discountType: DiscountType.offline,
-              );
-              break;
+              case '/content':
+                page = HtmlScreen(
+                  controller: controller,
+                  offer: arguments as Offer,
+                );
+                break;
 
-            case '/onlineShop':
-              page = DiscountOpticsScreen(
-                controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model
-                    as PromoItemModel,
-                discountType: DiscountType.onlineShop,
-              );
-              break;
+              default:
+                page = Container();
+            }
 
-            case '/promo_code_immediately':
-              page = PartnersScreen(
-                controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model
-                    as PartnersItemModel,
-              );
-              break;
+            initialRoute = null;
 
-            case '/promo_code_video':
-              page = WebinarScreen(
-                controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model
-                    as WebinarItemModel,
-              );
-
-              break;
-
-            case '/verification_discount_optics':
-              page = DiscountOpticsVerification(
-                controller: controller,
-                model: (settings.arguments as DiscountOpticsArguments).model
-                    as PromoItemModel,
-                discountType: (settings.arguments as DiscountOpticsArguments)
-                    .discountType,
-                discountOptic: (settings.arguments as DiscountOpticsArguments)
-                    .discountOptic,
-              );
-              break;
-
-            case '/verification_webinar':
-              page = WebinarVerification(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as WebinarItemModel,
-              );
-              break;
-
-            case '/verification_partners':
-              page = PartnersVerification(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as PartnersItemModel,
-              );
-              break;
-
-            case '/final_webinar':
-              page = FinalWebinar(
-                controller: controller,
-                model: (settings.arguments as FinalWebinarArguments).model,
-                videoIds:
-                    (settings.arguments as FinalWebinarArguments).videoIds,
-              );
-              break;
-
-            case '/all_webinars':
-              page = AllWebinarsScreen(
-                controller: controller,
-                arguments: settings.arguments as AllWebinarsScreenArguments,
-              );
-              break;
-
-            case '/final_partners':
-              final arguments = settings.arguments as ItemSheetScreenArguments;
-
-              page = FinalPartners(
-                controller: controller,
-                model: arguments.model as PartnersItemModel,
-                orderData: arguments.orderData as PartnerOrderResponse,
-              );
-              break;
-
-            case '/final_discount_optics':
-              page = FinalDiscountOptics(
-                controller: controller,
-                model: (settings.arguments as DiscountOpticsArguments).model
-                    as PromoItemModel,
-                discountType: (settings.arguments as DiscountOpticsArguments)
-                    .discountType,
-                discountOptic: (settings.arguments as DiscountOpticsArguments)
-                    .discountOptic,
-                orderId:
-                    (settings.arguments as DiscountOpticsArguments).orderId!,
-              );
-              break;
-
-            case '/online_consultation':
-              page = ConsultationScreen(
-                controller: controller,
-                model:
-                    (settings.arguments as ConsultationScreenArguments).model,
-              );
-              break;
-
-            case '/program':
-              page = ProgramScreen(controller: controller);
-              break;
-
-            case '/final_program':
-              final arguments = settings.arguments as Map<String, dynamic>;
-              page = FinalProgramScreen(
-                controller: controller,
-                optic: arguments['optic'] as Optic,
-                response: arguments['response'] as ProgramSaverResponse,
-              );
-              break;
-
-            case '/addpoints_details':
-              page = AddPointsDetails(
-                model: (settings.arguments as AddPointsDetailsArguments).model,
-                controller: controller,
-              );
-              break;
-
-            case '/addpoints_quiz':
-              page = QuizScreen(
-                controller: controller,
-                model: (settings.arguments as QuizScreenArguments).model,
-              );
-              break;
-
-            case '/final_addpoints':
-              page = FinalAddPointsScreen(
-                controller: controller,
-                points: (settings.arguments as FinalAddPointsArguments).points,
-              );
-              break;
-
-            case '/verification_consultation':
-              page = ConsultationVerification(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as ConsultationItemModel,
-              );
-              break;
-
-            case '/final_consultation':
-              page = FinalConsultation(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as ConsultationItemModel,
-                orderData:
-                    (settings.arguments as ItemSheetScreenArguments).orderData!,
-              );
-              break;
-
-            case '/faq_topics':
-              page = TopicsScreen(
-                controller: controller,
-                topics: (settings.arguments as TopicsScreenArguments).topics,
-              );
-              break;
-
-            case '/faq_topic':
-              page = TopicScreen(
-                controller: controller,
-                title: (settings.arguments as TopicScreenArguments).title,
-                topicModel:
-                    (settings.arguments as TopicScreenArguments).topicModel,
-              );
-              break;
-
-            case '/rules':
-              page = RulesScreen(
-                controller: controller,
-                data: args as String,
-              );
-              break;
-
-            case '/question':
-              page = QuestionScreen(
-                controller: controller,
-                question:
-                    (settings.arguments as QuestionScreenArguments).question,
-                topic: (settings.arguments as QuestionScreenArguments).topic,
-              );
-              break;
-
-            case '/support':
-              final args = settings.arguments as ContactSupportScreenArguments;
-
-              debugPrint('topic1: ${args.topic}, question1: ${args.question}');
-              page = ContactSupportScreen(
-                controller: controller,
-                question: args.question,
-                topic: args.topic,
-              );
-              break;
-
-            case '/add_files':
-              page = AttachFilesScreen(
-                formScreenWM: (settings.arguments as AttachFilesScreenArguments)
-                    .formScreenWM,
-                fieldModel: (settings.arguments as AttachFilesScreenArguments)
-                    .fieldModel,
-              );
-              break;
-
-            case '/content':
-              page = HtmlScreen(
-                controller: controller,
-                offer: arguments as Offer,
-              );
-              break;
-
-            default:
-              page = Container();
-          }
-
-          initialRoute = null;
-
-          if (Platform.isIOS) {
-            return CupertinoPageRoute<void>(builder: (context) {
-              return page;
-            });
-          } else {
-            return MaterialPageRoute<void>(builder: (context) {
-              return page;
-            });
-          }
-        },
+            if (Platform.isIOS) {
+              return CupertinoPageRoute<void>(builder: (context) {
+                return page;
+              });
+            } else {
+              return MaterialPageRoute<void>(builder: (context) {
+                return page;
+              });
+            }
+          },
+        ),
       ),
     );
   }
