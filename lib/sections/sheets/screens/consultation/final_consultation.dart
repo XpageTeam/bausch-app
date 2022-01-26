@@ -59,14 +59,14 @@ class _FinalConsultationState
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(top: 78),
-                  // TODO(Nikolay): Нет данных.
-                  child: Text(
-                    'Вот ваш промокод на онлайн-консультацию',
-                    style: AppStyles.h1,
+                if (widget.orderData.title != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 78),
+                    child: Text(
+                      widget.orderData.title!,
+                      style: AppStyles.h1,
+                    ),
                   ),
-                ),
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 40,
@@ -88,17 +88,17 @@ class _FinalConsultationState
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 12,
-                    bottom: 40,
+                if (widget.orderData.subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 12,
+                      bottom: 40,
+                    ),
+                    child: Text(
+                      widget.orderData.subtitle!,
+                      style: AppStyles.p1,
+                    ),
                   ),
-                  // TODO(Nikolay): Нет данных.
-                  child: Text(
-                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
-                    style: AppStyles.p1,
-                  ),
-                ),
                 BigCatalogItem(model: widget.model),
               ],
             ),
