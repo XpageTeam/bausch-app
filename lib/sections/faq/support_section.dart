@@ -19,7 +19,6 @@ class SupportSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('topic: $topic, question: $question');
 
     return SliverFillRemaining(
       hasScrollBody: false,
