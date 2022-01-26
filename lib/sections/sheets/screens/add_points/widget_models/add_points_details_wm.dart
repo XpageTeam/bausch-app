@@ -12,6 +12,7 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -24,6 +25,8 @@ class AddPointsDetailsWM extends WidgetModel {
   final AddPointsModel addPointsModel;
 
   final loadingState = StreamedState<bool>(false);
+
+  final colorState = StreamedState<Color>(AppTheme.mystic);
 
   final buttonAction = VoidAction();
 

@@ -150,10 +150,16 @@ class CatalogItemWidget extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(top: 26),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      'assets/substract.png',
-                      height: 15,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 4,
+                      ),
+                      child: Image.asset(
+                        'assets/substract.png',
+                        height: 15,
+                      ),
                     ),
                     const SizedBox(
                       width: 4,
@@ -181,7 +187,6 @@ class CatalogItemWidget extends StatelessWidget {
                                     style: AppStyles.p1Grey.copyWith(
                                       decoration: TextDecoration.underline,
                                     ),
-                                    
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         // unawaited(showSheet<List<TopicModel>>(
@@ -223,7 +228,8 @@ class CatalogItemWidget extends StatelessWidget {
                                           ContactSupportScreenArguments(
                                             question: QuestionModel(
                                               id: 179,
-                                              title: 'Заказ: я не получил(а) бесплатные линзы (прошло более 60 дней)',
+                                              title:
+                                                  'Заказ: я не получил(а) бесплатные линзы (прошло более 60 дней)',
                                             ),
                                             topic: TopicModel(
                                               id: 24,

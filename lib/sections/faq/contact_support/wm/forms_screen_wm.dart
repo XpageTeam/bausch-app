@@ -25,6 +25,8 @@ class FormScreenWM extends WidgetModel {
 
   late final UserWM userWM;
 
+  final colorState = StreamedState<Color>(Colors.white);
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController =

@@ -31,6 +31,8 @@ class QuizScreenWM extends WidgetModel {
 
   final canMoveToNextPage = StreamedState<bool>(false);
 
+  final colorState = StreamedState<Color>(Colors.white);
+
   late final UserWM userWm;
   late final FocusNode focusNode;
 
@@ -228,7 +230,7 @@ class QuizScreenWM extends WidgetModel {
   void _chekMoveNextPage() {
     final isNotRequired = !quizModel.content[currentPage].isRequired;
 
-    if (isNotRequired){
+    if (isNotRequired) {
       canMoveToNextPage.accept(true);
       return;
     }

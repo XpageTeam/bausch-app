@@ -61,23 +61,22 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
         controller: widget.controller,
         onScrolled: (offset) {
           if (offset > 60) {
-            if (iconColor != AppTheme.turquoiseBlue) {
-              setState(() {
-                iconColor = AppTheme.turquoiseBlue;
-              });
-            }
+            wm.colorState.accept(AppTheme.turquoiseBlue);
           } else {
-            setState(() {
-              iconColor = Colors.white;
-            });
+            wm.colorState.accept(Colors.white);
           }
         },
-        appBar: CustomSliverAppbar(
-          iconColor: iconColor,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 14,
-          ),
+        appBar: StreamedStateBuilder<Color>(
+          streamedState: wm.colorState,
+          builder: (_, color) {
+            return CustomSliverAppbar(
+              iconColor: color,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 14,
+              ),
+            );
+          },
         ),
         slivers: [
           SliverList(

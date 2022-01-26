@@ -119,7 +119,6 @@ class LoginWM extends WidgetModel {
     authRequestResult.bind((value) {
       if (authRequestResult.value.isLoading) return;
 
-
       if (authRequestResult.value.hasError) {
         showTopError(authRequestResult.value.error as CustomException);
       }
@@ -166,7 +165,6 @@ class LoginWM extends WidgetModel {
         _startResendTimer(300);
       }
     });
-
 
     resendSMSAction.bind((_) {
       _resendSMS();
@@ -273,6 +271,7 @@ class LoginWM extends WidgetModel {
     }
 
     codeController.text = '';
+    phoneController.text = '';
 
     unawaited(loginProcessedState.accept(false));
   }
@@ -285,7 +284,7 @@ class LoginWM extends WidgetModel {
 
     try {
       // await authRequestResult.content(
-        await PhoneSender.resendSMS(phoneController.text);
+      await PhoneSender.resendSMS(phoneController.text);
       // );
 
       await smsSendCounter.accept(smsSendCounter.value + 1);
@@ -356,7 +355,6 @@ class LoginWM extends WidgetModel {
     smsResendSeconds.accept(seconds);
 
     smsTimer?.cancel();
-    
 
     smsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       smsResendSeconds.accept(smsResendSeconds.value - 1);

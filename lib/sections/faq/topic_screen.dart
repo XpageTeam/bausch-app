@@ -6,6 +6,7 @@ import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/sections/sheets/wm/bottom_sheet_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -14,6 +15,7 @@ import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* FAQ
 //* topic
@@ -28,7 +30,8 @@ class TopicScreenArguments {
   });
 }
 
-class TopicScreen extends StatefulWidget implements TopicScreenArguments {
+class TopicScreen extends CoreMwwmWidget<BottomSheetWM>
+    implements TopicScreenArguments {
   final ScrollController controller;
 
   @override
@@ -36,18 +39,26 @@ class TopicScreen extends StatefulWidget implements TopicScreenArguments {
   @override
   final TopicModel topicModel;
 
-  const TopicScreen({
+  TopicScreen({
     required this.controller,
     required this.title,
     required this.topicModel,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) {
+            return BottomSheetWM(
+              color: Colors.white,
+            );
+          },
+        );
 
   @override
-  State<TopicScreen> createState() => _TopicScreenState();
+  WidgetState<CoreMwwmWidget<BottomSheetWM>, BottomSheetWM>
+      createWidgetState() => _TopicScreenState();
 }
 
-class _TopicScreenState extends State<TopicScreen> {
+class _TopicScreenState extends WidgetState<TopicScreen, BottomSheetWM> {
   Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
@@ -55,23 +66,22 @@ class _TopicScreenState extends State<TopicScreen> {
       controller: widget.controller,
       onScrolled: (offset) {
         if (offset > 60) {
-          if (iconColor != AppTheme.turquoiseBlue) {
-            setState(() {
-              iconColor = AppTheme.turquoiseBlue;
-            });
-          }
+          wm.colorState.accept(AppTheme.turquoiseBlue);
         } else {
-          setState(() {
-            iconColor = Colors.white;
-          });
+          wm.colorState.accept(Colors.white);
         }
       },
-      appBar: CustomSliverAppbar(
-        iconColor: iconColor,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 14,
-        ),
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            iconColor: color,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 14,
+            ),
+          );
+        },
       ),
       slivers: [
         SliverList(

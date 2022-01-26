@@ -1,5 +1,6 @@
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/wm/question_screen_wm.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -9,6 +10,7 @@ import 'package:bausch/theme/html_styles.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //* FAQ
@@ -23,7 +25,8 @@ class QuestionScreenArguments {
   });
 }
 
-class QuestionScreen extends StatefulWidget implements QuestionScreenArguments {
+class QuestionScreen extends CoreMwwmWidget<QuestionScreenWM>
+    implements QuestionScreenArguments {
   final ScrollController controller;
 
   @override
@@ -32,42 +35,47 @@ class QuestionScreen extends StatefulWidget implements QuestionScreenArguments {
   @override
   final TopicModel topic;
 
-  const QuestionScreen({
+  QuestionScreen({
     required this.controller,
     required this.topic,
     this.question,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) {
+            return QuestionScreenWM();
+          },
+        );
 
   @override
-  State<QuestionScreen> createState() => _QuestionScreenState();
+  WidgetState<CoreMwwmWidget<QuestionScreenWM>, QuestionScreenWM>
+      createWidgetState() => _QuestionScreenState();
 }
 
-class _QuestionScreenState extends State<QuestionScreen> {
-  Color iconColor = Colors.white;
+class _QuestionScreenState
+    extends WidgetState<QuestionScreen, QuestionScreenWM> {
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
       onScrolled: (offset) {
         if (offset > 60) {
-          if (iconColor != AppTheme.turquoiseBlue) {
-            setState(() {
-              iconColor = AppTheme.turquoiseBlue;
-            });
-          }
+          wm.colorState.accept(AppTheme.turquoiseBlue);
         } else {
-          setState(() {
-            iconColor = Colors.white;
-          });
+          wm.colorState.accept(Colors.white);
         }
       },
-      appBar: CustomSliverAppbar(
-        iconColor: iconColor,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 14,
-        ),
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            iconColor: color,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 14,
+            ),
+          );
+        },
       ),
       slivers: [
         SliverList(

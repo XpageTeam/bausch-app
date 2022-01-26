@@ -6,6 +6,7 @@ import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/sections/sheets/wm/bottom_sheet_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -14,6 +15,7 @@ import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ConsultationScreenArguments {
   final ConsultationItemModel model;
@@ -24,23 +26,30 @@ class ConsultationScreenArguments {
 }
 
 //catalog_online_consultation
-class ConsultationScreen extends StatefulWidget
+class ConsultationScreen extends CoreMwwmWidget<BottomSheetWM>
     implements ConsultationScreenArguments {
   final ScrollController controller;
   @override
   final ConsultationItemModel model;
 
-  const ConsultationScreen({
+  ConsultationScreen({
     required this.controller,
     required this.model,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) {
+            return BottomSheetWM(color: AppTheme.mystic);
+          },
+        );
 
   @override
-  State<ConsultationScreen> createState() => _ConsultationScreenState();
+  WidgetState<CoreMwwmWidget<BottomSheetWM>, BottomSheetWM>
+      createWidgetState() => _ConsultationScreenState();
 }
 
-class _ConsultationScreenState extends State<ConsultationScreen> {
+class _ConsultationScreenState
+    extends WidgetState<ConsultationScreen, BottomSheetWM> {
   late ConsultationItemModel model;
   num? userPoints;
 
@@ -69,20 +78,19 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
       controller: widget.controller,
       onScrolled: (offset) {
         if (offset > 60) {
-          if (iconColor != AppTheme.turquoiseBlue) {
-            setState(() {
-              iconColor = AppTheme.turquoiseBlue;
-            });
-          }
+          wm.colorState.accept(AppTheme.turquoiseBlue);
         } else {
-          setState(() {
-            iconColor = AppTheme.mystic;
-          });
+          wm.colorState.accept(AppTheme.mystic);
         }
       },
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        iconColor: iconColor,
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            padding: const EdgeInsets.all(18),
+            iconColor: color,
+          );
+        },
       ),
       slivers: [
         SliverPadding(
