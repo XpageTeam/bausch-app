@@ -232,7 +232,7 @@ class CatalogItemWidget extends StatelessWidget {
                                                   'Заказ: я не получил(а) бесплатные линзы (прошло более 60 дней)',
                                             ),
                                             topic: TopicModel(
-                                              id: 24,
+                                              id: 22,
                                               title: 'Программа Лояльности',
                                               questions: [],
                                             ),
