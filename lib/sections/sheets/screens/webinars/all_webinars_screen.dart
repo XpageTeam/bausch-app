@@ -110,7 +110,6 @@ class _WebinarsScreenState extends State<AllWebinarsScreen> {
                         CatalogItem(
                           model: webinars[i * 2],
                           onTap: () {
-                            // TODO(Nikolay): Сделать запуск плеера.
                             final webinar = webinars[i * 2] as WebinarItemModel;
                             showDialog<void>(
                               context: context,
