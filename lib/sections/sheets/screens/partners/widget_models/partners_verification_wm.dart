@@ -28,6 +28,8 @@ class PartnersVerificationWM extends WidgetModel {
 
   final spendPointsAction = VoidAction();
 
+  final colorState = StreamedState<Color>(Colors.white);
+
   int remains = 0;
 
   late UserWM userWm;
@@ -114,8 +116,6 @@ class OrderPartnerItemSaver {
     String category,
   ) async {
     final rh = RequestHandler();
-
-
 
     final response =
         BaseResponseRepository.fromMap((await rh.put<Map<String, dynamic>>(

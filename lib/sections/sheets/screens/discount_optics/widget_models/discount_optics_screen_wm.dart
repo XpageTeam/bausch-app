@@ -12,6 +12,7 @@ import 'package:bausch/repositories/discount_optics/discount_optics_repository.d
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -29,6 +30,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final discountOpticsStreamed = EntityStreamedState<List<Optic>>();
   final currentDiscountOptic = StreamedState<Optic?>(null);
   final setCurrentOptic = StreamedAction<Optic>();
+
+  final colorState = StreamedState<Color>(AppTheme.mystic);
 
   final buttonAction = VoidAction();
 

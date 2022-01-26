@@ -44,7 +44,6 @@ class ProgramScreen extends CoreMwwmWidget<ProgramScreenWM> {
 class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   TextEditingController nameController = TextEditingController();
   int gValue = 0;
-  Color iconColor = Colors.white;
 
   @override
   void dispose() {
@@ -72,23 +71,22 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
           controller: widget.controller,
           onScrolled: (offset) {
             if (offset > 60) {
-              if (iconColor != AppTheme.turquoiseBlue) {
-                setState(() {
-                  iconColor = AppTheme.turquoiseBlue;
-                });
-              }
+              wm.colorState.accept(AppTheme.turquoiseBlue);
             } else {
-              setState(() {
-                iconColor = Colors.white;
-              });
+              wm.colorState.accept(Colors.white);
             }
           },
           resizeToAvoidBottomInset: false,
           hideBottomNavBarThenKeyboard: true,
-          appBar: CustomSliverAppbar(
-            padding: const EdgeInsets.all(18),
-            icon: Container(),
-            iconColor: iconColor,
+          appBar: StreamedStateBuilder<Color>(
+            streamedState: wm.colorState,
+            builder: (_, color) {
+              return CustomSliverAppbar(
+                padding: const EdgeInsets.all(18),
+                icon: Container(),
+                iconColor: color,
+              );
+            },
           ),
           slivers: [
             SliverPadding(

@@ -44,20 +44,19 @@ class _ConsultationVerificationState
       controller: widget.controller,
       onScrolled: (offset) {
         if (offset > 60) {
-          if (iconColor != AppTheme.turquoiseBlue) {
-            setState(() {
-              iconColor = AppTheme.turquoiseBlue;
-            });
-          }
+          wm.colorState.accept(AppTheme.turquoiseBlue);
         } else {
-          setState(() {
-            iconColor = Colors.white;
-          });
+          wm.colorState.accept(Colors.white);
         }
       },
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        iconColor: iconColor,
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            padding: const EdgeInsets.all(18),
+            iconColor: color,
+          );
+        },
       ),
       slivers: [
         SliverList(

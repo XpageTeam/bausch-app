@@ -42,21 +42,20 @@ class _PartnersScreenState
       controller: widget.controller,
       onScrolled: (offset) {
         if (offset > 60) {
-          if (iconColor != AppTheme.turquoiseBlue) {
-            setState(() {
-              iconColor = AppTheme.turquoiseBlue;
-            });
-          }
+          wm.colorState.accept(AppTheme.turquoiseBlue);
         } else {
-          setState(() {
-            iconColor = AppTheme.mystic;
-          });
+          wm.colorState.accept(AppTheme.mystic);
         }
       },
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        icon: Container(height: 1),
-        iconColor: iconColor,
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            padding: const EdgeInsets.all(18),
+            icon: Container(height: 1),
+            iconColor: color,
+          );
+        },
       ),
       slivers: [
         SliverList(

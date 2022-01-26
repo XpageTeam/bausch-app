@@ -12,6 +12,8 @@ class WebinarScreenWM extends WidgetModel {
   final isEnough = StreamedState<bool>(true);
   final buttonAction = VoidAction();
 
+  final colorState = StreamedState<Color>(Colors.white);
+
   late int points;
   late int difference;
 

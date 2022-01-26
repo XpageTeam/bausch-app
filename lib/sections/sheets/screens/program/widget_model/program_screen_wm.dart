@@ -32,6 +32,8 @@ class ProgramScreenWM extends WidgetModel {
   final loadingStreamed = StreamedState<bool>(false);
   final getCertificateAction = VoidAction();
 
+  final colorState = StreamedState<Color>(Colors.white);
+
   String city = '';
 
   String get fullAddress {

@@ -24,6 +24,8 @@ class WebinarVerificationWM extends WidgetModel {
   final loadingState = StreamedState<bool>(false);
   final spendPointsAction = VoidAction();
 
+  final colorState = StreamedState<Color>(Colors.white);
+
   late int points;
   late int remains;
 

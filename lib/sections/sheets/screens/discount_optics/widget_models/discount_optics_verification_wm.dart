@@ -29,6 +29,8 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final codeLoadingState = StreamedState<bool>(false);
   final spendPointsAction = VoidAction();
 
+  final colorState = StreamedState<Color>(Colors.white);
+
   final promocodeState = EntityStreamedState<String?>();
 
   late int points;

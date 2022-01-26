@@ -1,6 +1,7 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -10,6 +11,9 @@ class PartnersScreenWM extends WidgetModel {
   final PartnersItemModel itemModel;
 
   final buttonAction = VoidAction();
+
+  final colorState = StreamedState<Color>(AppTheme.mystic);
+
   bool isEnough = false;
   int difference = 0;
 
