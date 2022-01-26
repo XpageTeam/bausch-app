@@ -18,9 +18,12 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* Program
 //* list
 class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
-  final void Function(Optic shop, String city) onOpticSelect;
+  final void Function(Optic optic, String city, OpticShop? shop) onOpticSelect;
+  final String selectButtonText;
+
   SelectOpticScreen({
     required this.onOpticSelect,
+    this.selectButtonText = 'Выбрать эту сеть оптик',
     List<OpticCity>? cities,
     Key? key,
   }) : super(
@@ -120,15 +123,17 @@ class _SelectOpticScreenState
                   return const SizedBox();
                 },
                 builder: (_, opticShops) => SelectOpticScreenBody(
+                  selectButtonText: widget.selectButtonText,
                   currentPage: currentPage,
                   opticShops: opticShops,
                   onOpticShopSelect: (selectedShop) =>
                       wm.onOpticShopSelectAction(
                     OpticShopParams(
                       selectedShop,
-                      (optic) => widget.onOpticSelect(
+                      (optic, shop) => widget.onOpticSelect(
                         optic,
                         wm.currentCityStreamed.value.data ?? '',
+                        shop,
                       ),
                     ),
                   ),

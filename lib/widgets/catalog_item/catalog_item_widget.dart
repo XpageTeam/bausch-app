@@ -32,7 +32,6 @@ class CatalogItemWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  // TODO(Nikita): Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
     debugPrint(model.picture);
@@ -271,8 +270,6 @@ void callback(CatalogItemModel _model) {
           discountType: DiscountType.offline,
           controller: ScrollController(),
           model: _model as PromoItemModel,
-          //TODO(Nikita): убрать
-          orderId: 2,
           buttonText: 'Готово',
         );
       },

@@ -15,10 +15,13 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final void Function(MapBodyWM wm) shopsEmptyCallback;
   final void Function(OpticShop shop) onOpticShopSelect;
 
+  final String selectButtonText;
+
   MapBody({
     required this.opticShops,
     required this.shopsEmptyCallback,
     required this.onOpticShopSelect,
+    required this.selectButtonText,
     Key? key,
   }) : super(
           key: key,
@@ -37,13 +40,12 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
 
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
-      super.didUpdateWidget(oldWidget);
+    super.didUpdateWidget(oldWidget);
 
-    if(!listEquals(oldWidget.opticShops, widget.opticShops)){
+    if (!listEquals(oldWidget.opticShops, widget.opticShops)) {
       wm.updateMapObjects(widget.opticShops);
       wm.setCenterAction(widget.opticShops);
     }
-
   }
 
   @override
@@ -89,7 +91,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                               ..pop()
                               ..pop();
                           },
-                          btnText: 'Выбрать эту сеть оптик',
+                          btnText: widget.selectButtonText,
                         ),
                       ).whenComplete(
                         () {

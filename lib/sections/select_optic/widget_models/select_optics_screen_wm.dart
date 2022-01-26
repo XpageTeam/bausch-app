@@ -23,7 +23,7 @@ extension ShopsContentTypeAsString on SelectOpticPage {
 
 class OpticShopParams {
   final OpticShop selectedShop;
-  final void Function(Optic optic) callback;
+  final void Function(Optic optic, OpticShop? shop) callback;
 
   OpticShopParams(this.selectedShop, this.callback);
 }
@@ -115,7 +115,7 @@ class SelectOpticScreenWM extends WidgetModel {
           if (optic.shops.any(
             (shop) => shop == params.selectedShop,
           )) {
-            params.callback(optic);
+            params.callback(optic, params.selectedShop);
             return;
           }
         }

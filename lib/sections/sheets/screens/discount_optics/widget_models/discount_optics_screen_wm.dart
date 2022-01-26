@@ -85,6 +85,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
               model: itemModel,
               discountOptic: currentDiscountOptic.value!,
               discountType: discountType,
+              orderDataResponse: null,
             ),
           );
         }
@@ -376,6 +377,24 @@ class Optic {
     this.logo,
     this.link,
   });
+
+  Optic copyWith({
+    int? id,
+    String? title,
+    List<OpticShop>? shops,
+    String? shopCode,
+    String? logo,
+    String? link,
+  }) {
+    return Optic(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      shops: shops ?? this.shops,
+      shopCode: shopCode ?? this.shopCode,
+      logo: logo ?? this.logo,
+      link: link ?? this.link,
+    );
+  }
 }
 
 class OpticShop extends Equatable {

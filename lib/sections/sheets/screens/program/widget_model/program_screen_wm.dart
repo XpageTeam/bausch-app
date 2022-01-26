@@ -30,9 +30,14 @@ class ProgramScreenWM extends WidgetModel {
   final whatDoYouUse = StreamedState<String>('');
 
   final loadingStreamed = StreamedState<bool>(false);
-  final getSertificatAction = VoidAction();
+  final getCertificateAction = VoidAction();
 
   String city = '';
+
+  String get fullAddress {
+    final optic = currentOpticStreamed.value;
+    return '${optic!.title}, г. $city, ${optic.shops.first.address}';
+  }
 
   ProgramScreenWM({
     required this.context,
@@ -50,12 +55,12 @@ class ProgramScreenWM extends WidgetModel {
   @override
   void onBind() {
     selectOptic.bind(currentOpticStreamed.accept);
-    getSertificatAction.bind((_) => _getSertificat());
+    getCertificateAction.bind((_) => _getCertificate());
 
     super.onBind();
   }
 
-  Future<void> _getSertificat() async {
+  Future<void> _getCertificate() async {
     unawaited(loadingStreamed.accept(true));
     CustomException? ex;
 
@@ -63,7 +68,8 @@ class ProgramScreenWM extends WidgetModel {
     try {
       response = await ProgramSertificatSaver.save(
         name: firstNameController.text,
-        opticAddress: '$city, ${currentOpticStreamed.value!.shops[0].address}',
+        opticAddress:
+            '$city, ${currentOpticStreamed.value!.shops.first.address}',
         whatDoYouUse: whatDoYouUse.value,
       );
 

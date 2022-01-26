@@ -139,7 +139,6 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
 
         break;
 
-      // TODO(Nikolay): Уточнить add_point (Нет данных).
       case 'add_points':
         await showSheet<void>(
           context,

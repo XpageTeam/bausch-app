@@ -1,6 +1,7 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/final_discount_wm.dart';
@@ -23,15 +24,16 @@ class FinalDiscountOptics extends CoreMwwmWidget<FinalDiscountWM> {
   final String? text;
   final String? buttonText;
 
-  final int orderId;
   final Optic? discountOptic;
   final DiscountType discountType;
+
+  final PartnerOrderResponse? orderData;
 
   FinalDiscountOptics({
     required this.controller,
     required this.model,
     required this.discountType,
-    required this.orderId,
+    this.orderData,
     this.discountOptic,
     this.buttonText,
     this.text,
@@ -43,7 +45,7 @@ class FinalDiscountOptics extends CoreMwwmWidget<FinalDiscountWM> {
             discountOptic: discountOptic,
             discountType: discountType,
             itemModel: model,
-            orderId: orderId,
+            orderId: orderData?.orderID,
           ),
         );
 
@@ -71,18 +73,20 @@ class _FinalDiscountOpticsState
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(top: 80, bottom: 40),
-                  child: Text(
-                    widget.text ??
-                        'Это ваш промокод на скидку 500 ₽ '
-                            'в ${widget.discountType == DiscountType.offline ? 'оптике' : 'интернет-магазине'} '
-                            ' ${widget.discountOptic != null ? widget.discountOptic!.title : ''}',
-                    // 'Вот ваш промокод на скидку 500 ₽ '
-                    // '${discountOptic != null ? 'в ${discountType == DiscountTypeClass.offline ? 'оптике' : 'интернет-магазине'} ${discountOptic!.title}' : ''}',
-                    style: AppStyles.h2,
+                if (widget.orderData?.title != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 80, bottom: 40),
+                    child: Text(
+                      widget.orderData!.title!,
+                      // widget.text ??
+                      //     'Это ваш промокод на скидку 500 ₽ '
+                      //         'в ${widget.discountType == DiscountType.offline ? 'оптике' : 'интернет-магазине'} '
+                      //         ' ${widget.discountOptic != null ? widget.discountOptic!.title : ''}',
+                      // 'Вот ваш промокод на скидку 500 ₽ '
+                      // '${discountOptic != null ? 'в ${discountType == DiscountTypeClass.offline ? 'оптике' : 'интернет-магазине'} ${discountOptic!.title}' : ''}',
+                      style: AppStyles.h2,
+                    ),
                   ),
-                ),
                 EntityStateBuilder<String>(
                   streamedState: wm.promocodeState,
                   errorChild: ContainerWithPromocode(
@@ -99,16 +103,17 @@ class _FinalDiscountOpticsState
                     );
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 12,
-                    bottom: 40,
+                if (widget.orderData?.subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 12,
+                      bottom: 40,
+                    ),
+                    child: Text(
+                      widget.orderData!.subtitle!,
+                      style: AppStyles.p1,
+                    ),
                   ),
-                  child: Text(
-                    'Промокод можно использовать в течение полугода. Он истечёт 28 февраля 2022 года. Промокод хранится в Профиле.',
-                    style: AppStyles.p1,
-                  ),
-                ),
                 BigCatalogItem(model: widget.model),
               ],
             ),

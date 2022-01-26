@@ -15,7 +15,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class FinalDiscountWM extends WidgetModel {
   final BuildContext context;
   final PromoItemModel itemModel;
-  final int orderId;
+  final int? orderId;
   final Optic? discountOptic;
   final DiscountType discountType;
 
@@ -28,7 +28,7 @@ class FinalDiscountWM extends WidgetModel {
     required this.context,
     required this.discountType,
     required this.itemModel,
-    required this.orderId,
+    this.orderId,
     this.discountOptic,
   }) : super(
           const WidgetModelDependencies(),
@@ -55,9 +55,11 @@ class FinalDiscountWM extends WidgetModel {
     CustomException? error;
 
     try {
-      await promocodeState.content(
-        await CodeDownloader.downloadCode(orderId),
-      );
+      if (orderId != null) {
+        await promocodeState.content(
+          await CodeDownloader.downloadCode(orderId!),
+        );
+      }
       unawaited(enabledState.accept(true));
     } on DioError catch (e) {
       error = CustomException(
