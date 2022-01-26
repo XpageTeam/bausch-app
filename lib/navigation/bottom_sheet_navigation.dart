@@ -227,8 +227,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     .discountType,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
-                orderId:
-                    (settings.arguments as DiscountOpticsArguments).orderId!,
+                orderData: (settings.arguments as DiscountOpticsArguments)
+                    .orderDataResponse,
               );
               break;
 
