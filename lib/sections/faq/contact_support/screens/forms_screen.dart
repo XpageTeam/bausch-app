@@ -1,6 +1,7 @@
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support/default_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/extra_forms_section.dart';
 import 'package:bausch/sections/faq/contact_support/topic_question_select.dart';
@@ -11,6 +12,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
@@ -115,6 +117,41 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
               );
             },
           ),
+
+          if (!wm.defaultFieldsList.value.hasError &&
+              !wm.defaultFieldsList.value.isLoading)
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                4,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    WhiteButton(
+                      text: 'Прикрепить файлы',
+                      icon: const SizedBox(),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          '/add_files',
+                          arguments: AttachFilesScreenArguments(
+                            fieldModel: FieldModel(
+                              id: 0,
+                              type: 'type',
+                              name: 'name',
+                              xmlId: 'xmlId',
+                            ),
+                            formScreenWM: wm,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
           const TopicQuestionSelect(),
 
           //* Дополнительные поля

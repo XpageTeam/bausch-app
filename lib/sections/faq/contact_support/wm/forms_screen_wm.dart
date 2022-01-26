@@ -50,10 +50,15 @@ class FormScreenWM extends WidgetModel {
   final extraFieldsList = EntityStreamedState<List<FieldModel>>()..content([]);
 
   final topicsList = EntityStreamedState<List<ValueModel>>();
-  final questionsList =
-      EntityStreamedState<List<ValueModel>>(const EntityState(data: []));
+  final questionsList = EntityStreamedState<List<ValueModel>>()..content([]);
 
   final extraList = EntityStreamedState<Map<String, dynamic>>(
+    const EntityState(
+      data: <String, dynamic>{},
+    ),
+  );
+
+  final filesList = EntityStreamedState<Map<String, dynamic>>(
     const EntityState(
       data: <String, dynamic>{},
     ),
@@ -166,7 +171,9 @@ class FormScreenWM extends WidgetModel {
             'comment': comment,
             'topic': topic,
             'question': question,
-          }..addAll(extraList.value.data!),
+          }
+            ..addAll(extraList.value.data!)
+            ..addAll(filesList.value.data!),
         ),
       ))
           .data!);
@@ -210,12 +217,13 @@ class FormScreenWM extends WidgetModel {
   Future<void> loadQuestionsList(int topic) async {
     if (questionsList.value.isLoading) return;
 
-    unawaited(questionsList.loading());
+    unawaited(questionsList.loading([]));
 
     CustomException? error;
 
     try {
       await questionsList.content(await _downloader.loadQuestionsList(topic));
+      _validate();
     } on DioError catch (e) {
       error = CustomException(
         title: 'При загрузке списка вопросов произошла ошибка',
@@ -367,14 +375,17 @@ class FormScreenWM extends WidgetModel {
   }
 
   void _validate() {
-    debugPrint(extraFieldsList.value.data?.length.toString());
-    debugPrint(extraList.value.data?.length.toString());
+    debugPrint(questionsList.value.data!.isNotEmpty.toString());
+    debugPrint((selectedQuestion.value != null).toString());
     if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
         (extraFieldsList.value.data?.length == extraList.value.data?.length) &&
         selectedTopic.value != null &&
-        selectedQuestion.value != null) {
+        ((questionsList.value.data!.isNotEmpty &&
+                selectedQuestion.value != null) ||
+            (questionsList.value.data!.isEmpty &&
+                selectedQuestion.value == null))) {
       buttonEnabledState.accept(true);
     } else {
       buttonEnabledState.accept(false);

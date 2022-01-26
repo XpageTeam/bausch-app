@@ -60,16 +60,18 @@ class _TopicQuestionSelectState extends State<TopicQuestionSelect> {
             EntityStateBuilder<List<ValueModel>>(
               streamedState: formScreenWM.questionsList,
               builder: (_, state) {
-                return Select(
-                  state: formScreenWM.selectedQuestion,
-                  model: FieldModel(
-                    id: 0,
-                    name: 'Вопрос',
-                    type: 'select',
-                    xmlId: 'question',
-                    values: state,
-                  ),
-                );
+                return state != null && state.isNotEmpty
+                    ? Select(
+                        state: formScreenWM.selectedQuestion,
+                        model: FieldModel(
+                          id: 0,
+                          name: 'Вопрос',
+                          type: 'select',
+                          xmlId: 'question',
+                          values: state,
+                        ),
+                      )
+                    : const SizedBox();
               },
             ),
           ],

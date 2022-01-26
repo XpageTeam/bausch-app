@@ -1,4 +1,5 @@
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
@@ -110,13 +111,23 @@ class _TopicsScreenState extends State<TopicsScreen> {
                   text: widget.topics[index].title,
                   icon: Container(),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      '/faq_topic',
-                      arguments: TopicScreenArguments(
-                        title: widget.topics[index].title,
-                        topicModel: widget.topics[index],
-                      ),
-                    );
+                    if (widget.topics[index].questions != null &&
+                        widget.topics[index].questions!.isNotEmpty) {
+                      Navigator.of(context).pushNamed(
+                        '/faq_topic',
+                        arguments: TopicScreenArguments(
+                          title: widget.topics[index].title,
+                          topicModel: widget.topics[index],
+                        ),
+                      );
+                    } else {
+                      Navigator.of(context).pushNamed(
+                        '/question',
+                        arguments: QuestionScreenArguments(
+                          topic: widget.topics[index],
+                        ),
+                      );
+                    }
                   },
                 ),
               ),

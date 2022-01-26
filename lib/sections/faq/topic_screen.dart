@@ -119,20 +119,20 @@ class _TopicScreenState extends State<TopicScreen> {
                 ),
                 child: WhiteButton(
                   style: AppStyles.h3,
-                  text: widget.topicModel.questions[index].title,
+                  text: widget.topicModel.questions![index].title,
                   icon: Container(),
                   onPressed: () {
                     Navigator.of(context).pushNamed(
                       '/question',
                       arguments: QuestionScreenArguments(
-                        question: widget.topicModel.questions[index],
+                        question: widget.topicModel.questions![index],
                         topic: widget.topicModel,
                       ),
                     );
                   },
                 ),
               ),
-              childCount: widget.topicModel.questions.length,
+              childCount: widget.topicModel.questions!.length,
             ),
           ),
         ),

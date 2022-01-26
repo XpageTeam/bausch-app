@@ -137,21 +137,45 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                             child: WhiteContainerWithRoundedCorners(
                               padding: const EdgeInsets.symmetric(vertical: 27),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 13,
-                                    ),
-                                    child: ExtendedImage.asset(
-                                      'assets/icons/document.png',
-                                      width: 16,
-                                      height: 16,
+                                  Flexible(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                          ),
+                                          child: ExtendedImage.asset(
+                                            'assets/icons/document.png',
+                                            width: 16,
+                                            height: 16,
+                                          ),
+                                        ),
+                                        Text(
+                                          state.files[i].name,
+                                          style: AppStyles.h2,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Flexible(
-                                    child: Text(
-                                      state.files[i].name,
-                                      style: AppStyles.h2,
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 12,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        attachBloc.add(AttachRemove(index: i));
+                                      },
+                                      child: ExtendedImage.asset(
+                                        'assets/icons/delete.png',
+                                        width: 16,
+                                        height: 16,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -172,29 +196,29 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
               child: BlueButtonWithText(
                 text: 'Добавить',
                 onPressed: () {
-
                   final files = state.files
-                      .map((file) =>
-                          dio.MultipartFile.fromFileSync(file.path!))
+                      .map((file) => dio.MultipartFile.fromFileSync(file.path!))
                       .toList();
 
                   final map = <String, dynamic>{}
                     ..addAll(widget.formScreenWM.extraList.value.data!);
-                    
+
                   if (widget.fieldModel.type == 'file') {
                     map.addAll(
                       <String, dynamic>{
                         'extra[${widget.fieldModel.xmlId}][]': files,
                       },
                     );
+                    widget.formScreenWM.extraList.content(map);
                   } else {
                     map.addAll(
                       <String, dynamic>{
                         'file[]': files,
                       },
                     );
+                    widget.formScreenWM.filesList.content(map);
                   }
-                  widget.formScreenWM.extraList.content(map);
+
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                 },

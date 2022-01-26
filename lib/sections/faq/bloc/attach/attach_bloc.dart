@@ -11,15 +11,21 @@ part 'attach_state.dart';
 
 class AttachBloc extends Bloc<AttachEvent, AttachState> {
   AttachBloc() : super(AttachInitial()) {
-    on<AttachEvent>((event, emit) async {
-      if (event is AttachAdd) {
-        emit(await _attachFile());
-      }
+    on<AttachEvent>(
+      (event, emit) async {
+        if (event is AttachAdd) {
+          emit(await _attachFile());
+        }
 
-      if (event is AttachAddFromOutside) {
-        emit(AttachAdded(files: event.files));
-      }
-    });
+        if (event is AttachAddFromOutside) {
+          emit(AttachAdded(files: event.files));
+        }
+
+        if (event is AttachRemove) {
+          emit(await _removeFile(event.index));
+        }
+      },
+    );
   }
   Future<AttachState> _attachFile() async {
     final result = await FilePicker.platform.pickFiles(
@@ -31,7 +37,7 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
     if (result != null) {
       //state.files.addAll(result.files.map((e)  => await dio.MultipartFile.fromFile(File(e.path!).path)).toList());
 
-      final files = <PlatformFile>[];
+      final files = <PlatformFile>[...state.files];
 
       // await Future.forEach(
       //   result.files,
@@ -59,6 +65,11 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
     } else {
       return AttachStopped();
     }
+  }
+
+  Future<AttachState> _removeFile(int i) async {
+    state.files.removeAt(i);
+    return AttachAdded(files: state.files);
   }
 }
 

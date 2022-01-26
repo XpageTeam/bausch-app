@@ -44,7 +44,7 @@ class _FormTextAreaState extends State<FormTextArea> {
             map.addAll(<String, dynamic>{
               'extra[${widget.model.xmlId}]': controller.text,
             });
-            
+
             formSreenWM.extraList.content(map);
           });
         break;
@@ -80,21 +80,21 @@ class _FormTextAreaState extends State<FormTextArea> {
                 hintStyle: AppStyles.h3,
               ),
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/add_files',
-                  arguments: AttachFilesScreenArguments(
-                    fieldModel: widget.model,
-                    formScreenWM: formSreenWM,
-                  ),
-                );
-              },
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              iconSize: 16,
-              icon: const Icon(Icons.add_circle_outline_sharp),
-            ),
+            // IconButton(
+            //   onPressed: () {
+            //     Navigator.of(context).pushNamed(
+            //       '/add_files',
+            //       arguments: AttachFilesScreenArguments(
+            //         fieldModel: widget.model,
+            //         formScreenWM: formSreenWM,
+            //       ),
+            //     );
+            //   },
+            //   padding: EdgeInsets.zero,
+            //   constraints: const BoxConstraints(),
+            //   iconSize: 16,
+            //   icon: const Icon(Icons.add_circle_outline_sharp),
+            // ),
           ],
         ),
       ),

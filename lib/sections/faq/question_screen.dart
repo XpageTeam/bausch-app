@@ -14,11 +14,11 @@ import 'package:url_launcher/url_launcher.dart';
 //* FAQ
 //* Answer
 class QuestionScreenArguments {
-  final QuestionModel question;
+  final QuestionModel? question;
   final TopicModel topic;
 
   QuestionScreenArguments({
-    required this.question,
+    this.question,
     required this.topic,
   });
 }
@@ -27,14 +27,14 @@ class QuestionScreen extends StatefulWidget implements QuestionScreenArguments {
   final ScrollController controller;
 
   @override
-  final QuestionModel question;
+  final QuestionModel? question;
 
   @override
   final TopicModel topic;
 
   const QuestionScreen({
     required this.controller,
-    required this.question,
+    this.question,
     required this.topic,
     Key? key,
   }) : super(key: key);
@@ -47,10 +47,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
   Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
-    debugPrint(
-      'topic: ${widget.topic}, question: ${widget.question}, text: ${widget.question.answer}',
-    );
-
     return CustomSheetScaffold(
       controller: widget.controller,
       onScrolled: (offset) {
@@ -97,14 +93,15 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.question.title,
+                      widget.question?.title ?? widget.topic.title,
                       style: AppStyles.h2,
                     ),
                     const SizedBox(
                       height: 40,
                     ),
                     Html(
-                      data: widget.question.answer ?? '',
+                      data: (widget.question?.answer ?? widget.topic.answer) ??
+                          '',
                       style: htmlStyles,
                       customRender: htmlCustomRender,
                       onLinkTap: (url, context, attributes, element) async {
