@@ -117,40 +117,43 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
             },
           ),
 
-          if (!wm.defaultFieldsList.value.hasError &&
-              !wm.defaultFieldsList.value.isLoading)
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                StaticData.sidePadding,
-                0,
-                StaticData.sidePadding,
-                4,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    WhiteButton(
-                      text: 'Прикрепить файлы',
-                      icon: const SizedBox(),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          '/add_files',
-                          arguments: AttachFilesScreenArguments(
-                            fieldModel: FieldModel(
-                              id: 0,
-                              type: 'type',
-                              name: 'name',
-                              xmlId: 'xmlId',
-                            ),
-                            formScreenWM: wm,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+          EntityStateBuilder<List<FieldModel>>(
+            streamedState: wm.defaultFieldsList,
+            builder: (_, state) {
+              return SliverPadding(
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  0,
+                  StaticData.sidePadding,
+                  4,
                 ),
-              ),
-            ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      WhiteButton(
+                        text: 'Прикрепить файлы',
+                        icon: const SizedBox(),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            '/add_files',
+                            arguments: AttachFilesScreenArguments(
+                              fieldModel: FieldModel(
+                                id: 0,
+                                type: 'type',
+                                name: 'name',
+                                xmlId: 'xmlId',
+                              ),
+                              formScreenWM: wm,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
           const TopicQuestionSelect(),
 
           //* Дополнительные поля

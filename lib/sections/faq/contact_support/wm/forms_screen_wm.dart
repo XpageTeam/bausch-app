@@ -13,6 +13,7 @@ import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/faq/contact_support/downloader/forms_content_downloader.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -206,8 +207,12 @@ class FormScreenWM extends WidgetModel {
         subtitle: error.subtitle,
       );
     } else {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
+      //* Чтобы не открывался пустой роут
+      if (Keys.bottomNav.currentState!.canPop()) {
+        Keys.bottomNav.currentState!.pop();
+      } else {
+        Keys.mainContentNav.currentState!.pop();
+      }
       showDefaultNotification(
         title: 'Ваше обращение успешно отправлено!',
         success: true,
