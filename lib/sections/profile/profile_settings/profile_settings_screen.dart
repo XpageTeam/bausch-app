@@ -74,6 +74,7 @@ class _ProfileSettingsScreenState
               child: NativeTextInput(
                 labelText: 'Имя',
                 controller: wm.nameController,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             Padding(
@@ -81,6 +82,7 @@ class _ProfileSettingsScreenState
               child: NativeTextInput(
                 labelText: 'Фамилия',
                 controller: wm.lastNameController,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             Padding(
@@ -171,6 +173,7 @@ class _ProfileSettingsScreenState
                         maxDateTime: DateTime.now(),
                         locale: DateTimePickerLocale.ru,
                         onCancel: () {},
+                        dateFormat: 'dd.MM.yyyy',
                         onConfirm: (date, i) {
                           debugPrint('onchanged');
 

@@ -30,6 +30,8 @@ class FormTextInput extends StatefulWidget {
 class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
   late final TextEditingController controller;
 
+  TextCapitalization textCapitalization = TextCapitalization.none;
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +50,7 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
         break;
       case 'fio':
         controller = formSreenWM.nameController;
+        textCapitalization = TextCapitalization.words;
         break;
       case 'phone':
         controller = formSreenWM.phoneController;
@@ -57,11 +60,11 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
           ..addListener(() {
             final map = <String, dynamic>{}
               ..addAll(formSreenWM.extraList.value.data!);
-              
+
             map.addAll(<String, dynamic>{
               'extra[${widget.model.xmlId}]': controller.text,
             });
-            
+
             formSreenWM.extraList.content(map);
           });
     }
@@ -78,6 +81,7 @@ class _FormTextInputState extends State<FormTextInput> with AfterLayoutMixin {
         maxLines: widget.maxLines,
         labelAlignment: widget.labelAlignment,
         decoration: widget.decoration,
+        textCapitalization: textCapitalization,
       ),
     );
   }

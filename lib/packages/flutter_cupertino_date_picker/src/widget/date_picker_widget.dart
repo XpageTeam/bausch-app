@@ -224,7 +224,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return Expanded(
       child: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 32),
           height: widget.pickerTheme.pickerHeight,
           decoration: BoxDecoration(color: widget.pickerTheme.backgroundColor),
           child: CupertinoPicker.builder(

@@ -183,6 +183,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         child: NativeTextInput(
                           labelText: 'Имя',
                           controller: wm.firstNameController,
+                          textCapitalization: TextCapitalization.words,
                         ),
                       ),
                       Padding(
@@ -192,6 +193,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         child: NativeTextInput(
                           labelText: 'Фамилия',
                           controller: wm.lastNameController,
+                          textCapitalization: TextCapitalization.words,
                         ),
                       ),
                       NativeTextInput(

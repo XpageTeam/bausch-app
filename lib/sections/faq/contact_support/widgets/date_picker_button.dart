@@ -51,6 +51,7 @@ class _DatePickerButtonState extends State<DatePickerButton> {
       minDateTime: DateTime(1900, 8),
       maxDateTime: DateTime.now(),
       locale: DateTimePickerLocale.ru,
+      dateFormat: 'dd.MM.yyyy',
       onCancel: () {},
       onConfirm: (date, i) {
         if (date != selectedDate) {

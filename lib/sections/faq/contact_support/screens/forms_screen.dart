@@ -119,6 +119,12 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
 
           EntityStateBuilder<List<FieldModel>>(
             streamedState: wm.defaultFieldsList,
+            errorChild: const SliverToBoxAdapter(
+              child: SizedBox(),
+            ),
+            loadingChild: const SliverToBoxAdapter(
+              child: SizedBox(),
+            ),
             builder: (_, state) {
               return SliverPadding(
                 padding: const EdgeInsets.fromLTRB(
