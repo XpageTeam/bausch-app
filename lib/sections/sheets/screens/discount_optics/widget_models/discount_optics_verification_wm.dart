@@ -138,6 +138,8 @@ class OrderDiscountSaver {
         <String, dynamic>{
           'productId': model.id,
           'price': model.price,
+          //TODO(all): неясно, откуда брать параметры
+
           // 'addressId':optic.,
           // 'diopters':model.,
           // 'color':,
@@ -153,6 +155,6 @@ class OrderDiscountSaver {
 
     final data = BaseResponseRepository.fromMap(resp.data!);
 
-    return PartnerOrderResponse.fromMap(data as Map<String, dynamic>);
+    return PartnerOrderResponse.fromMap(data.data as Map<String, dynamic>);
   }
 }
