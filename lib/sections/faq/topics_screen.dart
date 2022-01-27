@@ -1,4 +1,5 @@
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
@@ -131,12 +132,22 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
                         ),
                       );
                     } else {
-                      Navigator.of(context).pushNamed(
-                        '/question',
-                        arguments: QuestionScreenArguments(
-                          topic: widget.topics[index],
-                        ),
-                      );
+                      if (widget.topics[index].answer != null &&
+                          widget.topics[index].answer!.isNotEmpty) {
+                        Navigator.of(context).pushNamed(
+                          '/question',
+                          arguments: QuestionScreenArguments(
+                            topic: widget.topics[index],
+                          ),
+                        );
+                      } else {
+                        Navigator.of(context).pushNamed(
+                          '/support',
+                          arguments: ContactSupportScreenArguments(
+                            topic: widget.topics[index],
+                          ),
+                        );
+                      }
                     }
                   },
                 ),

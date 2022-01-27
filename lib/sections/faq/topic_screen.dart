@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/support_section.dart';
@@ -132,13 +133,25 @@ class _TopicScreenState extends WidgetState<TopicScreen, BottomSheetWM> {
                   text: widget.topicModel.questions![index].title,
                   icon: Container(),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      '/question',
-                      arguments: QuestionScreenArguments(
-                        question: widget.topicModel.questions![index],
-                        topic: widget.topicModel,
-                      ),
-                    );
+                    if (widget.topicModel.questions![index].answer != null &&
+                        widget
+                            .topicModel.questions![index].answer!.isNotEmpty) {
+                      Navigator.of(context).pushNamed(
+                        '/question',
+                        arguments: QuestionScreenArguments(
+                          question: widget.topicModel.questions![index],
+                          topic: widget.topicModel,
+                        ),
+                      );
+                    } else {
+                      Navigator.of(context).pushNamed(
+                        '/support',
+                        arguments: ContactSupportScreenArguments(
+                          topic: widget.topicModel,
+                          question: widget.topicModel.questions![index],
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
