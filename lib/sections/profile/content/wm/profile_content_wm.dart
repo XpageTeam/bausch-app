@@ -37,12 +37,21 @@ class ProfileContentWM extends WidgetModel {
       _loadAllData();
     });
 
-    
-
-
     allDataLoadAction();
 
     super.onLoad();
+  }
+
+  Future<bool> refreshOrders() async {
+    await _loadOrdersHistory();
+
+    return true;
+  }
+
+  Future<bool> refreshNotifications() async {
+    await _loadNotifications();
+
+    return true;
   }
 
   Future<void> _loadAllData() async {
@@ -54,13 +63,13 @@ class ProfileContentWM extends WidgetModel {
       _loadOrdersHistory(),
       _loadNotifications(),
     ]);
-    
-    if (orderHistoryList.value.hasError){
+
+    if (orderHistoryList.value.hasError) {
       await allDataLoadingState.error(orderHistoryList.value.error);
       return;
     }
 
-    if (notificationsList.value.hasError){
+    if (notificationsList.value.hasError) {
       await allDataLoadingState.error(notificationsList.value.error);
       return;
     }
@@ -75,20 +84,21 @@ class ProfileContentWM extends WidgetModel {
 
     try {
       // _downloader.loadNotificationsBanners();
-      await notificationsList.content(await _downloader.loadNotificationsList());
+      await notificationsList
+          .content(await _downloader.loadNotificationsList());
     } on DioError catch (e) {
       await notificationsList.error(CustomException(
         title: 'При загрузке уведомлений произошла ошибка',
         subtitle: e.message,
         ex: e,
       ));
-    } on ResponseParseException catch (e){
+    } on ResponseParseException catch (e) {
       await notificationsList.error(CustomException(
         title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
       ));
-    } on SuccessFalse catch (e){
+    } on SuccessFalse catch (e) {
       await notificationsList.error(CustomException(
         title: e.toString(),
         ex: e,
@@ -109,13 +119,13 @@ class ProfileContentWM extends WidgetModel {
         subtitle: e.message,
         ex: e,
       ));
-    } on ResponseParseException catch (e){
+    } on ResponseParseException catch (e) {
       await orderHistoryList.error(CustomException(
         title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
         ex: e,
       ));
-    } on SuccessFalse catch (e){
+    } on SuccessFalse catch (e) {
       await orderHistoryList.error(CustomException(
         title: e.toString(),
         ex: e,

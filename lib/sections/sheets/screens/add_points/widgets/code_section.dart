@@ -120,7 +120,7 @@ class _CodeSectionState extends State<CodeSection> {
                                   });
                                   addPointsCodeBloc.add(
                                     AddPointsCodeUpdateProduct(
-                                      product: state.models[i].id.toString(),
+                                      product: state.models[i].code.toString(),
                                     ),
                                   );
                                   Navigator.of(context).pop();
