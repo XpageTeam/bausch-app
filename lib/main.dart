@@ -10,11 +10,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mindbox/mindbox.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final config = Configuration(
+    domain: 'https://bausch.in-progress.ru/api/',
+    endpointIos: 'valeant-ios-sandbox',
+    endpointAndroid: 'valeant-android-sandbox',
+    subscribeCustomerIfCreated: true,
+  );
+
+  Mindbox.instance.init(configuration: config);
   runApp(MyApp());
 }
 

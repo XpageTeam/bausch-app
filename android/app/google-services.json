@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "56559090121",
+    "project_id": "bausch-lomb-87d53",
+    "storage_bucket": "bausch-lomb-87d53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56559090121:android:fb0268caa9c830f78c9018",
+        "android_client_info": {
+          "package_name": "mobile.bausch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56559090121-anq5eo3upcllnhtca8uifmsh7kbgdsns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtnzQFMfcPm-HknFhtJu2TLCuEJSl-f34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "56559090121-anq5eo3upcllnhtca8uifmsh7kbgdsns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

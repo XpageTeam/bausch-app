@@ -64,7 +64,12 @@ flutter {
     source '../..'
 }
 
+apply plugin: 'com.google.gms.google-services'
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.yandex.android:maps.mobile:4.0.0-full'
+
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'cloud.mindbox:mobile-sdk:1.2.0'
 }
