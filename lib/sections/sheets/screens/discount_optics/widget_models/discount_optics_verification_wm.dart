@@ -138,7 +138,7 @@ class OrderDiscountSaver {
         <String, dynamic>{
           'productId': model.id,
           'price': model.price,
-          //TODO(all): неясно, откуда брать параметры
+          // TODO(all): неясно, откуда брать параметры
 
           // 'addressId':optic.,
           // 'diopters':model.,

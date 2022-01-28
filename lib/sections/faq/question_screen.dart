@@ -1,7 +1,7 @@
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
-import 'package:bausch/sections/faq/wm/question_screen_wm.dart';
 import 'package:bausch/sections/faq/support_section.dart';
+import 'package:bausch/sections/faq/wm/question_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
