@@ -52,6 +52,7 @@ class AddPointsDetailsWM extends WidgetModel {
             return CustomAlertDialog(
               text: StaticData.maxFilesSizeText,
               yesText: 'Прикрепить файл',
+              noText: 'Отмена',
               yesCallback: _btnAction,
               noCallback: () {
                 Navigator.of(context).pop();
