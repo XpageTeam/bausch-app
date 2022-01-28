@@ -14,6 +14,7 @@ import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart'
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,27 @@ class AddPointsDetailsWM extends WidgetModel {
   @override
   void onBind() {
     buttonAction.bind((_) {
-      _btnAction();
+      if (addPointsModel.type == 'review' ||
+          addPointsModel.type == 'review_social') {
+        showModalBottomSheet<void>(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          builder: (context) {
+            return CustomAlertDialog(
+              text: StaticData.maxFilesSizeText,
+              yesText: 'Прикрепить файл',
+              yesCallback: _btnAction,
+              noCallback: () {
+                Navigator.of(context).pop();
+              },
+            );
+          },
+        );
+      } else {
+        _btnAction();
+      }
     });
     super.onBind();
   }
