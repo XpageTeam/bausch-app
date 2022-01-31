@@ -156,6 +156,9 @@ class AddPointsDetailsWM extends WidgetModel {
         }
       }
 
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+
       late File file;
 
       if (result != null) {
