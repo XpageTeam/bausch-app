@@ -185,8 +185,6 @@ class MainScreenWM extends WidgetModel {
   Future<void> _loadBanners() async {
     if (banners.value.isLoading) return;
 
-    await banners.loading(banners.value.data);
-
     CustomException? error;
 
     try {
@@ -221,6 +219,13 @@ class MainScreenWM extends WidgetModel {
 
     if (error != null) {
       showDefaultNotification(title: error.title, subtitle: error.subtitle);
+
+      await banners.content(
+        banners.value.data ??
+            OffersRepository(
+              offerList: [],
+            ),
+      );
     }
   }
 }

@@ -35,13 +35,13 @@ class StaticData {
     'jpg',
     'jpeg',
     'pdf',
-    'doc',
-    'docx',
-    'xls',
-    'xlsx',
-    'mp4',
-    'avi',
-    'mov',
+    // 'doc',
+    // 'docx',
+    // 'xls',
+    // 'xlsx',
+    // 'mp4',
+    // 'avi',
+    // 'mov',
   ];
 
   static int maxFileSize = 5*1024*1024;

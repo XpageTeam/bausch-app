@@ -205,9 +205,12 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                               child: EntityStateBuilder<OffersRepository>(
                                 streamedState: wm.banners,
                                 loadingBuilder: (context, repo) {
+
+
                                   if (repo != null) {
                                     return OffersSection(
                                       repo: repo,
+                                      mainScreenWM: wm,
                                       margin: const EdgeInsets.only(
                                         bottom: 20,
                                         left: StaticData.sidePadding,
@@ -220,6 +223,8 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                                   return const SizedBox();
                                 },
                                 builder: (_, repo) {
+
+
                                   return OffersSection(
                                     repo: repo,
                                     mainScreenWM: wm,
