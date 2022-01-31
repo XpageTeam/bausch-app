@@ -148,7 +148,7 @@ class OffersSectionWM extends WidgetModel {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
     return preferences.getStringList(
-          'user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
+          'type[${type.asString}]user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
         ) ??
         <String>[];
   }
@@ -162,7 +162,7 @@ class OffersSectionWM extends WidgetModel {
       );
 
     await preferences.setStringList(
-      'user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
+      'type[${type.asString}]user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
       removedOffersIds
           .map(
             (e) => e.toString(),
