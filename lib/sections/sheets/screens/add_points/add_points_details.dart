@@ -53,7 +53,7 @@ class _AddPointsDetailsState
         if (offset > 60) {
           wm.colorState.accept(AppTheme.turquoiseBlue);
         } else {
-          wm.colorState.accept(Colors.white);
+          wm.colorState.accept(AppTheme.mystic);
         }
       },
       appBar: StreamedStateBuilder<Color>(
