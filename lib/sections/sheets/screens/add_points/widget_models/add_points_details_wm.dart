@@ -53,7 +53,10 @@ class AddPointsDetailsWM extends WidgetModel {
               text: StaticData.maxFilesSizeText,
               yesText: 'Прикрепить файл',
               noText: 'Отмена',
-              yesCallback: _btnAction,
+              yesCallback: (){
+                Navigator.of(context).pop();
+                _btnAction();
+              },
               noCallback: () {
                 Navigator.of(context).pop();
               },
@@ -155,9 +158,6 @@ class AddPointsDetailsWM extends WidgetModel {
           throw SuccessFalse(StaticData.maxFilesSizeText);
         }
       }
-
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
 
       late File file;
 
