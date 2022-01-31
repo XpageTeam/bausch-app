@@ -9,7 +9,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mindbox/mindbox.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -75,48 +74,45 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
             lazy: false,
           ),
         ],
-        child: ScreenUtilInit(
-          designSize: const Size(375, 799),
-          builder: () => MaterialApp(
-            supportedLocales: const [
-              Locale('ru', ''),
-            ],
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            title: 'Bausch + Lomb',
-            navigatorKey: Keys.mainNav,
-            onGenerateRoute: (settings) => AppRouter.generateRoute(
-              settings,
-              context,
-              wm,
-            ),
-            theme: AppTheme.currentAppTheme,
-            home: Builder(
-              builder: (context) {
-                return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: 1.0,
-                  ),
-                  child: Builder(builder: (context) {
-                    RequestHandler.setContext(context);
+        child: MaterialApp(
+          supportedLocales: const [
+            Locale('ru', ''),
+          ],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          title: 'Bausch + Lomb',
+          navigatorKey: Keys.mainNav,
+          onGenerateRoute: (settings) => AppRouter.generateRoute(
+            settings,
+            context,
+            wm,
+          ),
+          theme: AppTheme.currentAppTheme,
+          home: Builder(
+            builder: (context) {
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  textScaleFactor: 1.0,
+                ),
+                child: Builder(builder: (context) {
+                  RequestHandler.setContext(context);
 
-                    return Provider(
-                      create: (context) => LoginWM(
-                        baseDependencies: const WidgetModelDependencies(),
-                        context: context,
-                      ),
-                      lazy: false,
-                      child: MainNavigation(
-                        authWM: wm,
-                      ),
-                    );
-                  }),
-                );
-              },
-            ),
+                  return Provider(
+                    create: (context) => LoginWM(
+                      baseDependencies: const WidgetModelDependencies(),
+                      context: context,
+                    ),
+                    lazy: false,
+                    child: MainNavigation(
+                      authWM: wm,
+                    ),
+                  );
+                }),
+              );
+            },
           ),
         ),
       ),

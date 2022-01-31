@@ -8,7 +8,6 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityAndEmailScreen extends CoreMwwmWidget<CityEmailScreenWM> {
@@ -149,11 +148,11 @@ class _CityAndEmailScreenState
         builder: (_, state) {
           if (state) {
             return Padding(
-              padding: EdgeInsets.fromLTRB(
+              padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
                 0,
                 StaticData.sidePadding,
-                41.sp,
+                41,
               ),
               child: BlueButtonWithText(
                 text: 'Готово',

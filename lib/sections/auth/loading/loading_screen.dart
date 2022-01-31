@@ -6,7 +6,6 @@ import 'package:bausch/sections/auth/loading/image_row.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iphone_has_notch/iphone_has_notch.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -19,7 +18,7 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
-    final spaceBetween = (MediaQuery.of(context).size.width - 114.sp * 2) / 3;
+    final spaceBetween = (MediaQuery.of(context).size.width - 114 * 2) / 3;
 
     return Scaffold(
       backgroundColor: AppTheme.turquoiseBlue,
@@ -83,11 +82,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   height: MediaQuery.of(context).size.height -
                       MediaQuery.of(context).padding.bottom -
                       MediaQuery.of(context).padding.top -
-                      86.sp -
+                      86 -
                       spaceBetween -
-                      80.sp -
-                      114.sp +
-                      (IphoneHasNotch.hasNotch ? 70.sp : 0.sp),
+                      80 -
+                      114 +
+                      (IphoneHasNotch.hasNotch ? 70 : 0),
                   //height: 400.sp,
                 ),
               ],
