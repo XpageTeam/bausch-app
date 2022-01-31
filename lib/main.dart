@@ -19,7 +19,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final config = Configuration(
-    domain: 'https://bausch.in-progress.ru/api/',
+    domain: 'bausch.mobile',
     endpointIos: 'valeant-ios-sandbox',
     endpointAndroid: 'valeant-android-sandbox',
     subscribeCustomerIfCreated: true,

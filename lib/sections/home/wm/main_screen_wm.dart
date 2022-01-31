@@ -118,7 +118,7 @@ class MainScreenWM extends WidgetModel {
 
     try {
       await storiesList.content(
-        await _requester.loadStories(userWM.userData.value.data!.user.id),
+        await _requester.loadStories(),
       );
     } on DioError catch (e) {
       error = CustomException(

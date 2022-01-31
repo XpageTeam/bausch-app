@@ -17,7 +17,7 @@ class HomeScreenRequester {
   // final prefs = SharedPreferences.getInstance();
 
   /// Загружает сторисы
-  Future<List<StoryModel>> loadStories(int userID) async {
+  Future<List<StoryModel>> loadStories() async {
     final parsedData = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>('/stories/')).data!,
     );
