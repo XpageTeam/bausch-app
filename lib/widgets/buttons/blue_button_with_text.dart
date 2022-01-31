@@ -19,7 +19,11 @@ class BlueButtonWithText extends StatelessWidget {
       height: 60,
       //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
       child: TextButton(
-        onPressed: onPressed,
+        onPressed: (){
+          if (onPressed != null) {
+            onPressed!();
+          }
+        },
         style: TextButton.styleFrom(
           backgroundColor: onPressed == null
               ? AppTheme.turquoiseBlue.withOpacity(0.5)
