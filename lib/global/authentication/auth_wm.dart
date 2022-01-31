@@ -131,7 +131,7 @@ class AuthWM extends WidgetModel {
 
     if (userWM.userData.value.hasError) {
       final error = userWM.userData.value.error as CustomException;
-      
+
       if (context != null) {
         await Navigator.of(context!).pushAndRemoveUntil<void>(
           PageRouteBuilder(
@@ -152,7 +152,7 @@ class AuthWM extends WidgetModel {
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) {
                 return ErrorPage(
-                  title: error!.title,
+                  title: error.title,
                   subtitle: error.subtitle,
                   buttonCallback: checkAuthAction,
                   buttonText: 'Обновить',
