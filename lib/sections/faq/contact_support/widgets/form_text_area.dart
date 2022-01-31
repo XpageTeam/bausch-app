@@ -18,6 +18,7 @@ class FormTextArea extends StatefulWidget {
 }
 
 class _FormTextAreaState extends State<FormTextArea> {
+  final focusNode = FocusNode();
   late final TextEditingController controller;
   late final FormScreenWM formSreenWM;
   //late FieldsBloc fieldsBloc;
@@ -25,6 +26,7 @@ class _FormTextAreaState extends State<FormTextArea> {
   @override
   void initState() {
     super.initState();
+
     formSreenWM = Provider.of<FormScreenWM>(
       context,
       listen: false,
@@ -58,45 +60,53 @@ class _FormTextAreaState extends State<FormTextArea> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 4,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
+    return GestureDetector(
+      onTap: setFocus,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 4,
         ),
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-        child: Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            TextField(
-              controller: controller,
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: 'Ваш комментарий',
-                hintStyle: AppStyles.h3,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              TextField(
+                controller: controller,
+                focusNode: focusNode,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  hintText: 'Ваш комментарий',
+                  hintStyle: AppStyles.h3,
+                ),
               ),
-            ),
-            // IconButton(
-            //   onPressed: () {
-            //     Navigator.of(context).pushNamed(
-            //       '/add_files',
-            //       arguments: AttachFilesScreenArguments(
-            //         fieldModel: widget.model,
-            //         formScreenWM: formSreenWM,
-            //       ),
-            //     );
-            //   },
-            //   padding: EdgeInsets.zero,
-            //   constraints: const BoxConstraints(),
-            //   iconSize: 16,
-            //   icon: const Icon(Icons.add_circle_outline_sharp),
-            // ),
-          ],
+              // IconButton(
+              //   onPressed: () {
+              //     Navigator.of(context).pushNamed(
+              //       '/add_files',
+              //       arguments: AttachFilesScreenArguments(
+              //         fieldModel: widget.model,
+              //         formScreenWM: formSreenWM,
+              //       ),
+              //     );
+              //   },
+              //   padding: EdgeInsets.zero,
+              //   constraints: const BoxConstraints(),
+              //   iconSize: 16,
+              //   icon: const Icon(Icons.add_circle_outline_sharp),
+              // ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void setFocus() {
+    FocusScope.of(context).requestFocus(focusNode);
   }
 }

@@ -220,13 +220,16 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-                        child: TextField(
-                          focusNode: wm.focusNode,
-                          controller: wm.textEditingController,
-                          maxLines: 4,
-                          decoration: InputDecoration(
-                            hintText: content.other!.title,
-                            hintStyle: AppStyles.h3,
+                        child: GestureDetector(
+                          onTap: wm.setFocus,
+                          child: TextField(
+                            focusNode: wm.focusNode,
+                            controller: wm.textEditingController,
+                            maxLines: 4,
+                            decoration: InputDecoration(
+                              hintText: content.other!.title,
+                              hintStyle: AppStyles.h3,
+                            ),
                           ),
                         ),
                       ),

@@ -112,6 +112,10 @@ class QuizScreenWM extends WidgetModel {
     super.onBind();
   }
 
+  void setFocus() {
+    FocusScope.of(context).requestFocus(focusNode);
+  }
+
   void _writeAnswers() {
     //* Добавление выбранных вариантов
     final questionId = quizModel.content[currentPage].id;
