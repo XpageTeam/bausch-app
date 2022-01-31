@@ -21,7 +21,10 @@ class TextButtonsListener extends StatelessWidget {
             if (state is FaqFailed) {
               Keys.mainNav.currentState!.pop();
 
-              showDefaultNotification(title: state.title, subtitle: state.subtitle);
+              showDefaultNotification(
+                title: state.title,
+                subtitle: state.subtitle,
+              );
             }
 
             if (state is FaqLoading) {
@@ -47,7 +50,10 @@ class TextButtonsListener extends StatelessWidget {
             if (state is RulesFailed) {
               Keys.mainNav.currentState!.pop();
 
-              showDefaultNotification(title: state.title);
+              showDefaultNotification(
+                title: state.title,
+                subtitle: state.subtitle,
+              );
             }
 
             if (state is RulesLoading) {
