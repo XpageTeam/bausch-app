@@ -7,7 +7,6 @@ import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/pages/error_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class RegScreenBody extends CoreMwwmWidget<LoginWM> {
@@ -54,30 +53,25 @@ class _RegScreenBody extends WidgetState<RegScreenBody, LoginWM> {
                   horizontal: StaticData.sidePadding,
                 ),
                 physics: const BouncingScrollPhysics(),
-                child: ScreenUtilInit(
-                  designSize: const Size(375, 800),
-                  builder: () {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          'Войти или создать профиль',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24.sp,
-                            height: 31 / 24,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 100.sp,
-                        ),
-                        PhoneForm(
-                          wm: wm,
-                          loginText: loginText,
-                        ),
-                      ],
-                    );
-                  },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Войти или создать профиль',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 24,
+                        height: 31 / 24,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    PhoneForm(
+                      wm: wm,
+                      loginText: loginText,
+                    ),
+                  ],
                 ),
               ),
             ),

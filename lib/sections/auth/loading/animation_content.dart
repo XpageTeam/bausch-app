@@ -2,7 +2,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AnimationContent extends StatelessWidget {
   const AnimationContent({Key? key}) : super(key: key);
@@ -18,13 +17,13 @@ class AnimationContent extends StatelessWidget {
             child: Center(
               child: Column(
 								mainAxisSize: MainAxisSize.min,
-                children: [
+                children: const [
                   Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20.sp),
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text(
                       'Пользуйтесь продукцией Bausch+Lomb и получайте любимые товары и другие привилегии',
                       style: TextStyle(
-                        fontSize:  24.sp, // 24.sm,
+                        fontSize:  24, // 24.sm,
                         height: 31 / 24,
                         fontWeight: FontWeight.w500,
                       ),
@@ -41,7 +40,7 @@ class AnimationContent extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 40.sp),
+            padding: const EdgeInsets.only(bottom: 40),
             child: BlueButtonWithText(
               text: 'Войти по номеру телефона',
               onPressed: () {

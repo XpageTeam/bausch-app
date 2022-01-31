@@ -8,7 +8,6 @@ import 'package:bausch/theme/styles.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StoriesBottommButton extends StatelessWidget {
   final String? link;
@@ -56,7 +55,7 @@ class StoriesBottommButton extends StatelessWidget {
                     ),
                     Flexible(
                       child: SizedBox(
-                        height: 100.sp,
+                        height: 100,
                         child: AspectRatio(
                           aspectRatio: 100 / 100,
                           child: ExtendedImage.network(
