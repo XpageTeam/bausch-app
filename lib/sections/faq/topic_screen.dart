@@ -135,7 +135,10 @@ class _TopicScreenState extends WidgetState<TopicScreen, BottomSheetWM> {
                   onPressed: () {
                     if (widget.topicModel.questions![index].answer != null &&
                         widget
-                            .topicModel.questions![index].answer!.isNotEmpty) {
+                            .topicModel.questions![index].answer!.isNotEmpty &&
+                        widget.topicModel.questions![index].answer!
+                            .trim()
+                            .isNotEmpty) {
                       Navigator.of(context).pushNamed(
                         '/question',
                         arguments: QuestionScreenArguments(
