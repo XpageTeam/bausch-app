@@ -132,8 +132,8 @@ class OrdersSection extends StatelessWidget {
                             detailText: '',
                             picture: order.product.imageLink,
                             price: order.price,
-                            poolPromoCode: '',
-                            staticPromoCode: '',
+                            poolPromoCode: order.coupon.code,
+                            staticPromoCode: order.coupon.code,
                           ),
                           deliveryInfo: order.status,
                           orderTitle:
