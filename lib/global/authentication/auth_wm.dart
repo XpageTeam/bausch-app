@@ -101,8 +101,8 @@ class AuthWM extends WidgetModel {
         await authStatus.accept(AuthStatus.unauthenticated);
         await userWM.userData.error(Exception('Необходима авторизация'));
       } else {
-        await authStatus.accept(AuthStatus.authenticated);
         await userWM.userData.content(user);
+        await authStatus.accept(AuthStatus.authenticated);
       }
     } on DioError catch (e) {
       await userWM.userData.error(
