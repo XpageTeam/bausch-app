@@ -57,7 +57,7 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
       },
       lazy: false,
       child: CustomSheetScaffold(
-        resizeToAvoidBottomInset: false,
+        //resizeToAvoidBottomInset: true,
         controller: widget.controller,
         onScrolled: (offset) {
           if (offset > 60) {

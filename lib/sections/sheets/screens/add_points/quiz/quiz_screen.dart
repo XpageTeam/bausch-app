@@ -56,7 +56,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
           wm.colorState.accept(Colors.white);
         }
       },
-      resizeToAvoidBottomInset: false,
+      //resizeToAvoidBottomInset: false,
       appBar: StreamedStateBuilder<Color>(
         streamedState: wm.colorState,
         builder: (_, color) {

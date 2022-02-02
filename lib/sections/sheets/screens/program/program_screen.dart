@@ -76,7 +76,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
               wm.colorState.accept(Colors.white);
             }
           },
-          resizeToAvoidBottomInset: false,
+          //resizeToAvoidBottomInset: false,
           hideBottomNavBarThenKeyboard: true,
           appBar: StreamedStateBuilder<Color>(
             streamedState: wm.colorState,
