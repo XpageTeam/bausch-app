@@ -91,13 +91,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       showSheet<void>(
-                      //         context,
-                      //         SimpleSheetModel(
-                      //           name: 'name',
-                      //           type: 'program',
-                      //         ),
-                      //       );
+                      //       showAnotherSheet<void>(context);
                       //     },
                       //     child: const Text('open progarm screen'),
                       //   ),
@@ -205,8 +199,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                               child: EntityStateBuilder<OffersRepository>(
                                 streamedState: wm.banners,
                                 loadingBuilder: (context, repo) {
-
-
                                   if (repo != null) {
                                     return OffersSection(
                                       repo: repo,
@@ -223,8 +215,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                                   return const SizedBox();
                                 },
                                 builder: (_, repo) {
-
-
                                   return OffersSection(
                                     repo: repo,
                                     mainScreenWM: wm,

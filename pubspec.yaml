@@ -80,7 +80,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
 
-  bottom_sheet: ^1.0.5
+  #bottom_sheet: ^1.0.5
   surf_mwwm: ^2.0.2
   provider: ^6.0.2
   auto_size_text: ^3.0.0
