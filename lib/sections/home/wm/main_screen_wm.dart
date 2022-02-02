@@ -112,14 +112,14 @@ class MainScreenWM extends WidgetModel {
   Future<void> _loadStories() async {
     if (storiesList.value.isLoading) return;
 
-    await storiesList.loading(storiesList.value.data);
+    // await storiesList.loading(storiesList.value.data);
 
     CustomException? error;
 
     try {
-      await storiesList.content(
-        await _requester.loadStories(),
-      );
+      final result = await _requester.loadStories();
+      await storiesList.content([]);
+      await storiesList.content(result);
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса приозошла ошибка',
@@ -188,11 +188,12 @@ class MainScreenWM extends WidgetModel {
     CustomException? error;
 
     try {
-      await banners.content(
-        await OffersRepositoryDownloader.load(
-          type: OfferType.homeScreen.asString,
-        ),
+      final result = await OffersRepositoryDownloader.load(
+        type: OfferType.homeScreen.asString,
       );
+      await banners.content(OffersRepository(offerList: []));
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+      await banners.content(result);
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса приозошла ошибка',
