@@ -150,6 +150,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                   minChildSize: wm.minChildSize,
                   maxChildSize: wm.maxChildSize,
                   initialChildSize: wm.minChildSize,
+                  snap: true,
                   builder: (context, controller) {
                     return Container(
                       color: AppTheme.mystic,

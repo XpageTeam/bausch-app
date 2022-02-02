@@ -271,7 +271,7 @@ class LoginWM extends WidgetModel {
     }
 
     codeController.text = '';
-    phoneController.text = '';
+    //phoneController.text = '';
 
     unawaited(loginProcessedState.accept(false));
   }
