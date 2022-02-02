@@ -20,10 +20,10 @@ class SheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final userWm = Provider.of<UserWM>(context);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      resizeToAvoidBottomInset: false,
-      body: Column(
+    return Material(
+      color: Colors.transparent,
+      //resizeToAvoidBottomInset: false,
+      child: Column(
         children: [
           //* Виджет с количеством баллов
           Row(
