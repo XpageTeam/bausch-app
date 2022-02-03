@@ -268,10 +268,11 @@ class LoginWM extends WidgetModel {
 
     if (error != null) {
       showTopError(error);
+    } else {
+      phoneController.text = '';
     }
 
     codeController.text = '';
-    //phoneController.text = '';
 
     unawaited(loginProcessedState.accept(false));
   }
