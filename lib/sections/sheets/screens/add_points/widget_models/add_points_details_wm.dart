@@ -29,6 +29,8 @@ class AddPointsDetailsWM extends WidgetModel {
 
   final colorState = StreamedState<Color>(AppTheme.mystic);
 
+  final linkController = TextEditingController();
+
   final buttonAction = VoidAction();
 
   late UserWM userWm;
@@ -53,7 +55,7 @@ class AddPointsDetailsWM extends WidgetModel {
               text: StaticData.maxFilesSizeText,
               yesText: 'Прикрепить файл',
               noText: 'Отмена',
-              yesCallback: (){
+              yesCallback: () {
                 Navigator.of(context).pop();
                 _btnAction();
               },
@@ -79,13 +81,36 @@ class AddPointsDetailsWM extends WidgetModel {
     super.onLoad();
   }
 
+  void _checkLink() {
+    if (linkController.text.isEmpty) {
+      showDefaultNotification(title: 'Необходимо указать ссылку на отзыв');
+      unawaited(loadingState.accept(false));
+    }
+  }
+
   Future<void> _btnAction() async {
     switch (addPointsModel.type) {
       case 'review':
-        await _addPoints('/review/save/');
+        if (linkController.text.isEmpty) {
+          showDefaultNotification(title: 'Необходимо указать ссылку на отзыв');
+          unawaited(loadingState.accept(false));
+          break;
+        }
+        await _addPoints(
+          '/review/save/',
+          linkController.text,
+        );
         break;
       case 'review_social':
-        await _addPoints('/review/soc/save/');
+        if (linkController.text.isEmpty) {
+          showDefaultNotification(title: 'Необходимо указать ссылку на отзыв');
+          unawaited(loadingState.accept(false));
+          break;
+        }
+        await _addPoints(
+          '/review/soc/save/',
+          linkController.text,
+        );
         break;
       case 'vk':
         await _launchVKUrl(addPointsModel.url);
@@ -142,7 +167,7 @@ class AddPointsDetailsWM extends WidgetModel {
     }
   }
 
-  Future<void> _addPoints(String link) async {
+  Future<void> _addPoints(String link, String reviewLink) async {
     unawaited(loadingState.accept(true));
 
     CustomException? error;
@@ -170,6 +195,7 @@ class AddPointsDetailsWM extends WidgetModel {
 
       await AddPointsSaver.save(
         link,
+        reviewLink,
         file,
       );
 
@@ -218,6 +244,7 @@ class AddPointsDetailsWM extends WidgetModel {
 class AddPointsSaver {
   static Future<BaseResponseRepository> save(
     String link,
+    String reviewLink,
     File file,
   ) async {
     final rh = RequestHandler();
@@ -226,6 +253,7 @@ class AddPointsSaver {
       data: FormData.fromMap(
         <String, dynamic>{
           'reviewScreenshot': await MultipartFile.fromFile(file.path),
+          'link': reviewLink,
         },
       ),
     );

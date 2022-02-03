@@ -8,6 +8,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -138,6 +139,17 @@ class _AddPointsDetailsState
                     // const SizedBox(
                     //   height: 4,
                     // ),
+                    if (wm.addPointsModel.type == 'review' ||
+                        wm.addPointsModel.type == 'review_social')
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 4,
+                        ),
+                        child: NativeTextInput(
+                          labelText: 'Ссылка на отзыв',
+                          controller: wm.linkController,
+                        ),
+                      ),
                     if (wm.addPointsModel.detailModel.btnName != null)
                       StreamedStateBuilder<bool>(
                         streamedState: wm.loadingState,
