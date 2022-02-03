@@ -18,7 +18,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final config = Configuration(
-    domain: 'bausch.mobile',
+    domain: 'api.mindbox.ru',
     endpointIos: 'valeant-ios-sandbox',
     endpointAndroid: 'valeant-android-sandbox',
     subscribeCustomerIfCreated: true,

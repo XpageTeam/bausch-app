@@ -81,7 +81,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   ),
                   height: MediaQuery.of(context).size.height -
                       MediaQuery.of(context).padding.bottom -
-                      //MediaQuery.of(context).padding.top -
+                      (IphoneHasNotch.hasNotch
+                          ? MediaQuery.of(context).padding.top
+                          : 0) -
                       86 -
                       spaceBetween -
                       80 -

@@ -95,6 +95,16 @@ class AuthWM extends WidgetModel {
     await userWM.userData.loading();
 
     try {
+      // throw DioError(
+      //   requestOptions: RequestOptions(
+      //     path: '',
+      //   ),
+      //   type: DioErrorType.response,
+      //   response: Response<void>(
+      //     requestOptions: RequestOptions(path: ''),
+      //     statusCode: 403,
+      //   ),
+      // );
       final user = await UserWriter.checkUserToken();
 
       if (user == null) {
@@ -105,6 +115,12 @@ class AuthWM extends WidgetModel {
         await authStatus.accept(AuthStatus.authenticated);
       }
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
+        await authStatus.accept(AuthStatus.unauthenticated);
+        await userWM.userData.error(Exception('Необходима авторизация'));
+
+        return;
+      }
       await userWM.userData.error(
         CustomException(
           title: 'При отправке запроса произошла ошибка',
