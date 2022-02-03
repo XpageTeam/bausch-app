@@ -6,6 +6,7 @@ import 'package:bausch/navigation/main_navigation.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -19,8 +20,8 @@ void main() {
 
   final config = Configuration(
     domain: 'api.mindbox.ru',
-    endpointIos: 'valeant-ios-sandbox',
-    endpointAndroid: 'valeant-android-sandbox',
+    endpointIos: 'valeant-ios${ kDebugMode ? '-sandbox' : ''}',
+    endpointAndroid: 'valeant-android${ kDebugMode ? '-sandbox' : ''}',
     subscribeCustomerIfCreated: true,
   );
 
