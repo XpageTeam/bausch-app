@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -161,11 +162,13 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
   },
 
   'img': (ctx, widget) {
-    //debugPrint(ctx.tree.element!.attributes['src']);
+    var imgUrl = ctx.tree.element!.attributes['src'] ?? '';
 
-    final imgUrl = ctx.tree.element!.attributes['src'];
+    if (!imgUrl.startsWith('http')){
+      imgUrl = '${StaticData.defaultImageSource}$imgUrl';
+    }
 
-    if (imgUrl == null && imgUrl!.isEmpty) return const SizedBox();
+    // if (imgUrl == null && imgUrl.isEmpty) return const SizedBox();
 
     try {
       if (imgUrl.endsWith('.svg')) {
