@@ -4,8 +4,12 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/may_be_interesting_item.dart';
+import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
@@ -43,6 +47,8 @@ class MayBeInterestingWM extends WidgetModel {
   Future<void> _loadCatalogItems() async {
     try {
       final repository = await InterestingProductsDownloader.load();
+
+      debugPrint(repository.items.toString());
 
       unawaited(
         catalogItems.content(repository.items),
@@ -103,7 +109,7 @@ class MayBeInterestingWM extends WidgetModel {
         subtitle: e.toString(),
         ex: e,
       );
-    // ignore: avoid_catches_without_on_clauses
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       ex = CustomException(
         title: 'Произошла ошибка',
@@ -124,14 +130,28 @@ class MayBeInterestingWM extends WidgetModel {
   }
 
   void _showBottomSheet(CatalogItemModel model, String section) {
-    showSheet<ItemSheetScreenArguments>(
-      context,
-      SimpleSheetModel(
-        name: 'Title',
-        type: section,
-      ),
-      ItemSheetScreenArguments(model: model),
-      '/$section',
-    );
+    if (section == 'online_consultation') {
+      showSheet<List<CatalogItemModel>>(
+        context,
+        CatalogSheetWithoutLogosModel(
+          id: 0,
+          name: 'online_consultation',
+          type: section,
+          icon: model.picture!,
+          count: 1,
+        ),
+        [model],
+      );
+    } else {
+      showSheet<ItemSheetScreenArguments>(
+        context,
+        SimpleSheetModel(
+          name: 'Title',
+          type: section,
+        ),
+        ItemSheetScreenArguments(model: model),
+        '/$section',
+      );
+    }
   }
 }
