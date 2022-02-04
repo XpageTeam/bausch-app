@@ -1,76 +1,62 @@
+import 'dart:async';
+
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/may_be_interesting_item.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/sections/sheets/wm/bottom_sheet_wm.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 //catalog_webinar
-class AllWebinarsScreen extends CoreMwwmWidget<BottomSheetWM> {
+class AllWebinarsScreen extends CoreMwwmWidget<AllWebinarsScreenWM> {
   final ScrollController controller;
-
-  final AllWebinarsScreenArguments arguments;
 
   AllWebinarsScreen({
     required this.controller,
-    required this.arguments,
+    required ItemSheetScreenArguments arguments,
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (context) {
-            return BottomSheetWM(color: Colors.white);
-          },
+          widgetModelBuilder: (context) => AllWebinarsScreenWM(arguments),
         );
 
   @override
-  WidgetState<CoreMwwmWidget<BottomSheetWM>, BottomSheetWM>
-      createWidgetState() => _WebinarsScreenState();
+  WidgetState<CoreMwwmWidget<AllWebinarsScreenWM>, AllWebinarsScreenWM>
+      createWidgetState() => _AllWebinarsScreenState();
 }
 
-class _WebinarsScreenState
-    extends WidgetState<AllWebinarsScreen, BottomSheetWM> {
-  late final CatalogItemModel model;
-  late final List<CatalogItemModel> webinars;
+class _AllWebinarsScreenState
+    extends WidgetState<AllWebinarsScreen, AllWebinarsScreenWM> {
+  // late final CatalogItemModel model;
+  // late final List<CatalogItemModel> webinars;
 
-  Color iconColor = Colors.white;
+  // @override
+  // void initState() {
+  //   super.initState();
 
-  @override
-  void initState() {
-    super.initState();
-
-    model = widget.arguments.model;
-    webinars = widget.arguments.webinars;
-  }
+  //   model = widget.arguments.model;
+  // }
 
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      onScrolled: (offset) {
-        if (offset > 60) {
-          wm.colorState.accept(AppTheme.turquoiseBlue);
-        } else {
-          wm.colorState.accept(Colors.white);
-        }
-      },
-      appBar: StreamedStateBuilder<Color>(
-        streamedState: wm.colorState,
-        builder: (_, color) {
-          return CustomSliverAppbar(
-            padding: const EdgeInsets.all(18),
-            icon: Container(height: 1),
-            iconColor: color,
-          );
-        },
+      appBar: CustomSliverAppbar(
+        padding: const EdgeInsets.all(18),
+        icon: Container(height: 1),
       ),
       slivers: [
         SliverPadding(
@@ -84,15 +70,15 @@ class _WebinarsScreenState
             delegate: SliverChildListDelegate(
               [
                 TopSection.webinar(
-                  model,
+                  wm.catalogModel,
                   widget.key,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 InfoSection(
-                  text: model.previewText,
-                  secondText: model.detailText,
+                  text: wm.catalogModel.previewText,
+                  secondText: wm.catalogModel.detailText,
                 ),
                 const SizedBox(
                   height: 40,
@@ -107,62 +93,71 @@ class _WebinarsScreenState
             right: StaticData.sidePadding,
             bottom: 40,
           ),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, i) => IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        CatalogItem(
-                          model: webinars[i * 2],
-                          onTap: () {
-                            final webinar = webinars[i * 2] as WebinarItemModel;
-                            showDialog<void>(
-                              context: context,
-                              builder: (context) => WebinarPopup(
-                                // TODO(Danil): массив id
-                                videoId: webinar.videoIds.first,
-                              ),
-                            );
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: webinars[i * 2].shield,
-                        ),
-                      ],
-                    ),
-                    if (webinars.asMap().containsKey(i * 2 + 1))
-                      Stack(
+          sliver: SliverToBoxAdapter(
+            child: EntityStateBuilder<List<WebinarItemModel>>(
+              streamedState: wm.webinarsStreamed,
+              loadingChild: const Center(child: AnimatedLoader(),),
+              builder: (_, webinars) => SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: List.generate(
+                    (webinars.length % 2) == 0
+                        ? webinars.length ~/ 2
+                        : webinars.length ~/ 2 + 1,
+                    (i) => IntrinsicHeight(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CatalogItem(
-                            model: webinars[i * 2 + 1],
-                            onTap: () {
-                              final webinar =
-                                  webinars[i * 2 + 1] as WebinarItemModel;
-                              showDialog<void>(
-                                context: context,
-                                builder: (context) => WebinarPopup(
-                                  // TODO(Danil): массив id
-                                  videoId: webinar.videoIds.first,
+                          Stack(
+                            children: [
+                              CatalogItem(
+                                model: webinars[i * 2],
+                                onTap: () {
+                                  // TODO(Nikolay): Сделать запуск плеера.
+                                  final webinar = webinars[i * 2];
+                                  showDialog<void>(
+                                    context: context,
+                                    builder: (context) => WebinarPopup(
+                                      // TODO(Danil): массив id
+                                      videoId: webinar.videoIds.first,
+                                    ),
+                                  );
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: webinars[i * 2].shield,
+                              ),
+                            ],
+                          ),
+                          if (webinars.asMap().containsKey(i * 2 + 1))
+                            Stack(
+                              children: [
+                                CatalogItem(
+                                  model: webinars[i * 2 + 1],
+                                  onTap: () {
+                                    final webinar = webinars[i * 2 + 1];
+                                    showDialog<void>(
+                                      context: context,
+                                      builder: (context) => WebinarPopup(
+                                        // TODO(Danil): массив id
+                                        videoId: webinar.videoIds.first,
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: webinars[i * 2 + 1].shield,
-                          ),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: webinars[i * 2 + 1].shield,
+                                ),
+                              ],
+                            ),
                         ],
                       ),
-                  ],
+                    ),
+                  ),
                 ),
               ),
-              childCount: (webinars.length % 2) == 0
-                  ? webinars.length ~/ 2
-                  : webinars.length ~/ 2 + 1,
             ),
           ),
         ),
@@ -178,11 +173,62 @@ class _WebinarsScreenState
   }
 }
 
-class AllWebinarsScreenArguments extends ItemSheetScreenArguments {
-  final List<CatalogItemModel> webinars;
+class AllWebinarsScreenWM extends WidgetModel {
+  final ItemSheetScreenArguments arguments;
+  late final CatalogItemModel catalogModel = arguments.model;
 
-  AllWebinarsScreenArguments({
-    required CatalogItemModel model,
-    required this.webinars,
-  }) : super(model: model);
+  final webinarsStreamed = EntityStreamedState<List<WebinarItemModel>>();
+
+  AllWebinarsScreenWM(this.arguments)
+      : super(
+          const WidgetModelDependencies(),
+        ) {
+    _loadWebinars();
+  }
+
+  Future<void> _loadWebinars() async {
+    unawaited(webinarsStreamed.loading());
+
+    CustomException? ex;
+
+    try {
+      final repository = await ProductsDownloader.load('promo_code_video');
+      final webinars = repository.items
+          .map((e) => e as WebinarItemModel)
+          .where((webinar) => webinar.videoIds.length == 1)
+          .toList();
+
+      unawaited(webinarsStreamed.content(webinars));
+    } on DioError catch (e) {
+      ex = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      ex = CustomException(
+        title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      ex = CustomException(
+        title: e.toString(),
+        ex: e,
+      );
+    }
+
+    if (ex != null) {
+      // TODO(Nikolay): Доделать вывод ошибки.
+    }
+  }
 }
+
+// class AllWebinarsScreenArguments extends ItemSheetScreenArguments {
+//   final List<CatalogItemModel> webinars;
+
+//   AllWebinarsScreenArguments({
+//     required CatalogItemModel model,
+//     required this.webinars,
+//   }) : super(model: model);
+// }

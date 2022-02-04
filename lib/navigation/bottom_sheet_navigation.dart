@@ -227,7 +227,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               case '/all_webinars':
                 page = AllWebinarsScreen(
                   controller: controller,
-                  arguments: settings.arguments as AllWebinarsScreenArguments,
+                  arguments: arguments as ItemSheetScreenArguments,
                 );
                 break;
 

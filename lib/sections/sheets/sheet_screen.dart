@@ -201,9 +201,8 @@ class _SheetScreenState extends State<SheetScreen> {
 
     Navigator.of(context).pushNamed(
       '/all_webinars',
-      arguments: AllWebinarsScreenArguments(
+      arguments: ItemSheetScreenArguments(
         model: webinar,
-        webinars: webinars,
       ),
     );
   }
