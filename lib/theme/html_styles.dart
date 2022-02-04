@@ -5,8 +5,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/parser.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final Map<String, Style> htmlStyles = {
   'a': Style(
