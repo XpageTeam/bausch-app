@@ -15,6 +15,7 @@ import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart'
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -277,7 +278,19 @@ class CatalogItemWidget extends StatelessWidget {
                   text: txt(model),
                   icon: icon(model),
                   onPressed: () {
-                    callback(model);
+                    callback(
+                      model,
+                      allWebinarsOpen: () =>
+                          showSheet<ItemSheetScreenArguments>(
+                        context,
+                        SimpleSheetModel(
+                          name: 'Title',
+                          type: 'promo_code_video',
+                        ),
+                        ItemSheetScreenArguments(model: model),
+                        '/all_webinars',
+                      ),
+                    );
                   },
                 ),
               ),
@@ -328,15 +341,19 @@ Widget icon(CatalogItemModel _model) {
   }
 }
 
-void callback(CatalogItemModel _model) {
+void callback(CatalogItemModel _model, {VoidCallback? allWebinarsOpen}) {
   if (_model is WebinarItemModel) {
-    showDialog<void>(
-      context: Keys.mainNav.currentContext!,
-      // TODO(Danil): массив id
-      builder: (context) => WebinarPopup(
-        videoId: _model.videoIds.first,
-      ),
-    );
+    if (_model.videoIds.length > 1) {
+      allWebinarsOpen?.call();
+    } else {
+      showDialog<void>(
+        context: Keys.mainNav.currentContext!,
+        // TODO(Danil): массив id
+        builder: (context) => WebinarPopup(
+          videoId: _model.videoIds.first,
+        ),
+      );
+    }
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
     showDefaultNotification(
