@@ -159,20 +159,31 @@ class _AddPointsDetailsState
                                   text: '',
                                   icon: UiCircleLoader(),
                                 )
-                              : BlueButtonWithText(
-                                  text: wm.addPointsModel.detailModel.btnName!,
-                                  onPressed: wm.buttonAction,
-                                  icon: wm.addPointsModel.detailModel.btnIcon !=
-                                          null
-                                      ? ExtendedImage.network(
-                                          wm.addPointsModel.detailModel
-                                              .btnIcon!,
-                                          height: 15,
-                                          printError: false,
-                                          loadStateChanged:
-                                              loadStateChangedFunction,
-                                        )
-                                      : null,
+                              : StreamedStateBuilder<bool>(
+                                  streamedState: wm.buttonEnabledState,
+                                  builder: (_, enabled) {
+                                    return BlueButtonWithText(
+                                      text: wm
+                                          .addPointsModel.detailModel.btnName!,
+                                      onPressed: enabled
+                                          ? () {
+                                              wm.buttonAction();
+                                            }
+                                          : null,
+                                      icon: wm.addPointsModel.detailModel
+                                                  .btnIcon !=
+                                              null
+                                          ? ExtendedImage.network(
+                                              wm.addPointsModel.detailModel
+                                                  .btnIcon!,
+                                              height: 15,
+                                              printError: false,
+                                              loadStateChanged:
+                                                  loadStateChangedFunction,
+                                            )
+                                          : null,
+                                    );
+                                  },
                                 );
                         },
                       ),
