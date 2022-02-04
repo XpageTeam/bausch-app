@@ -27,6 +27,8 @@ class AddPointsDetailsWM extends WidgetModel {
 
   final loadingState = StreamedState<bool>(false);
 
+  final buttonEnabledState = StreamedState<bool>(false);
+
   final colorState = StreamedState<Color>(AppTheme.mystic);
 
   final linkController = TextEditingController();
@@ -69,6 +71,19 @@ class AddPointsDetailsWM extends WidgetModel {
         _btnAction();
       }
     });
+
+    if (addPointsModel.type == 'review' ||
+        addPointsModel.type == 'review_social') {
+      linkController.addListener(() {
+        if (linkController.text.isEmpty) {
+          buttonEnabledState.accept(false);
+        } else {
+          buttonEnabledState.accept(true);
+        }
+      });
+    } else {
+      buttonEnabledState.accept(true);
+    }
     super.onBind();
   }
 
@@ -81,32 +96,15 @@ class AddPointsDetailsWM extends WidgetModel {
     super.onLoad();
   }
 
-  void _checkLink() {
-    if (linkController.text.isEmpty) {
-      showDefaultNotification(title: 'Необходимо указать ссылку на отзыв');
-      unawaited(loadingState.accept(false));
-    }
-  }
-
   Future<void> _btnAction() async {
     switch (addPointsModel.type) {
       case 'review':
-        if (linkController.text.isEmpty) {
-          showDefaultNotification(title: 'Необходимо указать ссылку на отзыв');
-          unawaited(loadingState.accept(false));
-          break;
-        }
         await _addPoints(
           '/review/save/',
           linkController.text,
         );
         break;
       case 'review_social':
-        if (linkController.text.isEmpty) {
-          showDefaultNotification(title: 'Необходимо указать ссылку на отзыв');
-          unawaited(loadingState.accept(false));
-          break;
-        }
         await _addPoints(
           '/review/soc/save/',
           linkController.text,
