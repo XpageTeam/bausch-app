@@ -178,7 +178,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                          bottom: 20,
+                          bottom: 4,
                         ),
                         child: NativeTextInput(
                           labelText: 'Имя',
@@ -188,7 +188,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          bottom: 20,
+                          bottom: 4,
                         ),
                         child: NativeTextInput(
                           labelText: 'Фамилия',
@@ -362,7 +362,6 @@ class _ProductItem extends StatelessWidget {
         16,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
