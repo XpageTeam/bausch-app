@@ -53,7 +53,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
         if (offset > 60) {
           wm.colorState.accept(AppTheme.turquoiseBlue);
         } else {
-          wm.colorState.accept(Colors.white);
+          wm.colorState.accept(AppTheme.mystic);
         }
       },
       //resizeToAvoidBottomInset: false,
