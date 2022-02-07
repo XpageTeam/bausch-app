@@ -78,19 +78,20 @@ class _WebinarsScreenState extends WidgetState<WebinarScreen, WebinarScreenWM> {
                 TopSection.webinar(
                   widget.model,
                   widget.key,
-                  wm.difference > 0
-                      ? Padding(
-                          padding: const EdgeInsets.only(
-                            top: 4,
-                          ),
-                          child: PointsInfo(
-                            text: 'Не хватает ${wm.difference}',
-                          ),
-                        )
-                      : Image.asset(
-                          'assets/play-video.png',
-                          height: 28,
-                        ),
+                  // wm.difference > 0
+                  //     ? Padding(
+                  //         padding: const EdgeInsets.only(
+                  //           top: 4,
+                  //         ),
+                  //         child: PointsInfo(
+                  //           text: 'Не хватает ${wm.difference}',
+                  //         ),
+                  //       )
+                  //     :
+                  Image.asset(
+                    'assets/play-video.png',
+                    height: 28,
+                  ),
                 ),
                 const SizedBox(
                   height: 4,

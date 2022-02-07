@@ -92,11 +92,12 @@ class _DiscountOpticsScreenState
               [
                 TopSection.product(
                   widget.model,
-                  wm.difference > 0
-                      ? PointsInfo(
-                          text: 'Не хватает ${wm.difference}',
-                        )
-                      : const DiscountInfo(text: 'Скидка 500 ₽ '),
+                  // wm.difference > 0
+                  //     ? PointsInfo(
+                  //         text: 'Не хватает ${wm.difference}',
+                  //       )
+                  //     :
+                  const DiscountInfo(text: 'Скидка 500 ₽ '),
                   widget.key,
                 ),
                 const SizedBox(
