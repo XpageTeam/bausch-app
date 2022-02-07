@@ -39,6 +39,7 @@ void showLoader(BuildContext context) {
   showDialog<void>(
     context: context,
     barrierDismissible: false,
+    barrierColor: Colors.black.withOpacity(0.8),
     builder: (context) {
       return const Center(
         child: AnimatedLoader(),

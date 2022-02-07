@@ -41,7 +41,7 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.sulu,
-      controller: widget.controller,
+      controller: ScrollController(),
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.only(
           top: 14,
@@ -53,70 +53,78 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
         iconColor: iconColor,
       ),
       slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  const CircleAvatar(
+        SliverFillRemaining(
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircleAvatar(
                     radius: 165,
                     backgroundColor: Colors.white,
                   ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 3,
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
+                  ),
+                  Flexible(
+                    child: ClipRRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                        child: Container(
+                          color: Colors.white.withOpacity(0.16),
+                          //height: MediaQuery.of(context).size.height / 3,
+                          constraints: const BoxConstraints.expand(),
+                        ),
                       ),
-                      ClipRRect(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-                          child: Container(
-                            color: Colors.white.withOpacity(0.16),
-                            height: MediaQuery.of(context).size.height / 3,
-                          ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 4.5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        '+${widget.points}',
+                        maxLines: 1,
+                        style: const TextStyle(
+                          color: AppTheme.mineShaft,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 85,
+                          height: 80 / 85,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                      const PointWidget(
+                        radius: 18,
+                        textStyle: TextStyle(
+                          color: AppTheme.mineShaft,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 27,
+                          height: 25 / 27,
+                          leadingDistribution: TextLeadingDistribution.even,
                         ),
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AutoSizeText(
-                            '+${widget.points}',
-                            maxLines: 1,
-                            style: const TextStyle(
-                              color: AppTheme.mineShaft,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 85,
-                              height: 80 / 85,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                          const PointWidget(
-                            radius: 18,
-                            textStyle: TextStyle(
-                              color: AppTheme.mineShaft,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 27,
-                              height: 25 / 27,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      AutoSizeText(
-                        'Спасибо, что вы с нами!',
-                        maxLines: 2,
-                        style: AppStyles.h1,
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  AutoSizeText(
+                    'Спасибо, что вы с нами!',
+                    maxLines: 2,
+                    style: AppStyles.h1,
                   ),
                 ],
               ),

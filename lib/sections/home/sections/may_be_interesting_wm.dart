@@ -48,7 +48,7 @@ class MayBeInterestingWM extends WidgetModel {
     try {
       final repository = await InterestingProductsDownloader.load();
 
-      debugPrint(repository.items.toString());
+      debugPrint(repository.items.first.picture);
 
       unawaited(
         catalogItems.content(repository.items),

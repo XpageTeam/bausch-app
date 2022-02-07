@@ -94,6 +94,8 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
+                                      barrierColor:
+                                          Colors.black.withOpacity(0.8),
                                       builder: (context) {
                                         return CustomAlertDialog(
                                           text: state.models[i].data.block ==
