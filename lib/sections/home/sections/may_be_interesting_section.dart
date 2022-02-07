@@ -39,7 +39,7 @@ class _MayBeInterestingState
         if (items.isEmpty) return const SizedBox();
 
         return Column(
-          mainAxisSize: MainAxisSize.min,
+          //mainAxisSize: MainAxisSize.min,
           children: [
             Align(
               alignment: Alignment.centerLeft,
@@ -70,6 +70,7 @@ class _MayBeInterestingState
               builder: (context, model) {
                 return CatalogItem(
                   model: model,
+                  onTap: () => wm.onTapAction(model),
                 );
               },
             ),

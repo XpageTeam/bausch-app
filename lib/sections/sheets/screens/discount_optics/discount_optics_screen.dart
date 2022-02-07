@@ -21,6 +21,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -91,7 +92,11 @@ class _DiscountOpticsScreenState
               [
                 TopSection.product(
                   widget.model,
-                  const DiscountInfo(text: 'Скидка 500 ₽ '),
+                  wm.difference > 0
+                      ? PointsInfo(
+                          text: 'Не хватает ${wm.difference}',
+                        )
+                      : const DiscountInfo(text: 'Скидка 500 ₽ '),
                   widget.key,
                 ),
                 const SizedBox(

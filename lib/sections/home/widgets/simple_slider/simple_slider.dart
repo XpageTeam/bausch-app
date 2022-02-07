@@ -40,7 +40,7 @@ class _SlimpleSliderState<T>
                         width)
                     .round() -
                 1;
-            debugPrint(position.toString());
+            //debugPrint(position.toString());
             if (position >= 0) {
               if (widget.items.length > 2) {
                 wm.lastItemState.accept((position / 2).ceil());

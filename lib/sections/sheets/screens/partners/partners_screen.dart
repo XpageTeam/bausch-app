@@ -8,6 +8,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -66,6 +67,11 @@ class _PartnersScreenState
                 child: TopSection.partners(
                   widget.model,
                   widget.key,
+                  wm.difference > 0
+                      ? PointsInfo(
+                          text: 'Не хватает ${wm.difference}',
+                        )
+                      : const SizedBox(),
                 ),
               ),
               Padding(

@@ -15,6 +15,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,10 @@ class _AllWebinarsScreenState
                 TopSection.webinar(
                   wm.catalogModel,
                   widget.key,
+                  Image.asset(
+                    'assets/play-video.png',
+                    height: 28,
+                  ),
                 ),
                 const SizedBox(
                   height: 4,
@@ -96,7 +101,9 @@ class _AllWebinarsScreenState
           sliver: SliverToBoxAdapter(
             child: EntityStateBuilder<List<WebinarItemModel>>(
               streamedState: wm.webinarsStreamed,
-              loadingChild: const Center(child: AnimatedLoader(),),
+              loadingChild: const Center(
+                child: AnimatedLoader(),
+              ),
               builder: (_, webinars) => SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
