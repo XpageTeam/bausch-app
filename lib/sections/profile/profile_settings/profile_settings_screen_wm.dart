@@ -21,6 +21,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final selectedBirthDate = StreamedState<DateTime?>(null);
   final enteredEmail = StreamedState<String?>(null);
 
+  final showBanner = StreamedState<bool>(false);
+
   //final emailController = TextEditingController();
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -116,6 +118,9 @@ class ProfileSettingsScreenWM extends WidgetModel {
       nameController.text = userWM.userData.value.data!.user.name ?? '';
       lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
       phoneController.text = userWM.userData.value.data!.user.phone;
+      if (selectedBirthDate.value != null) {
+        showBanner.accept(true);
+      }
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       debugPrint(e.toString());
@@ -167,5 +172,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
     selectedBirthDate.accept(
       birthDate ?? userWM.userData.value.data!.user.birthDate,
     );
+
+    showBanner.accept(true);
   }
 }

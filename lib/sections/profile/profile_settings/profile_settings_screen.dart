@@ -185,9 +185,16 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: const ProfileSettingsBanner(),
+            StreamedStateBuilder<bool>(
+              streamedState: wm.showBanner,
+              builder: (_, showing) {
+                return showing
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: const ProfileSettingsBanner(),
+                      )
+                    : const SizedBox();
+              },
             ),
             /* Padding(
               padding: EdgeInsets.only(bottom: 4),

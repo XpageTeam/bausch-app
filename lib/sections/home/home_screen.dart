@@ -295,8 +295,15 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                           delegate: SliverChildListDelegate(
                             [
                               //* Вам может быть интересно
-                              MayBeInteresting(
-                                text: 'Вам может быть интересно',
+                              StreamedStateBuilder<bool>(
+                                streamedState: wm.mayBeInterestingState,
+                                builder: (_, enabled) {
+                                  return enabled
+                                      ? MayBeInteresting(
+                                          text: 'Вам может быть интересно',
+                                        )
+                                      : const SizedBox();
+                                },
                               ),
 
                               //* Текстовые кнопки(Частые вопросы и тд)

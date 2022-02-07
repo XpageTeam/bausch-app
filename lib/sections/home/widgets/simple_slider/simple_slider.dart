@@ -33,9 +33,9 @@ class _SlimpleSliderState<T>
       children: [
         NotificationListener<ScrollNotification>(
           onNotification: (notification) {
-            var width =
+            final width =
                 notification.metrics.maxScrollExtent / widget.items.length;
-            var position = ((notification.metrics.maxScrollExtent -
+            final position = ((notification.metrics.maxScrollExtent -
                             notification.metrics.extentAfter) /
                         width)
                     .round() -
@@ -65,8 +65,8 @@ class _SlimpleSliderState<T>
                     child: Container(
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width / 2 -
-                            //StaticData.sidePadding * 2 -
-                            4,
+                            StaticData.sidePadding -
+                            2,
                       ),
                       child: widget.builder(
                         context,
