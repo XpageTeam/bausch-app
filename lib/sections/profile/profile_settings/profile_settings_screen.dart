@@ -168,7 +168,7 @@ class _ProfileSettingsScreenState
                     onPressed: () {
                       DatePicker.showDatePicker(
                         context,
-                        initialDateTime: DateTime.now(),
+                        initialDateTime: DateTime(2004),
                         minDateTime: DateTime(1900, 8),
                         maxDateTime: DateTime.now(),
                         locale: DateTimePickerLocale.ru,

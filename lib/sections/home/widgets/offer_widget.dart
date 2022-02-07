@@ -50,6 +50,7 @@ class _OfferWidgetState extends State<OfferWidget> {
                     child: Text(
                       widget.offer.title,
                       style: AppStyles.h1,
+                      maxLines: 2,
                     ),
                   ),
                   const SizedBox(
@@ -65,8 +66,7 @@ class _OfferWidgetState extends State<OfferWidget> {
                             style: AppStyles.p1,
                           ),
                         ),
-                      if (widget.offer.description == null)
-                        const SizedBox(),
+                      if (widget.offer.description == null) const SizedBox(),
                       InkWell(
                         onTap: widget.onPressed,
                         child: Stack(
