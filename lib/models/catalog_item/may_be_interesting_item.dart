@@ -61,4 +61,21 @@ class ProductsDownloader {
       type: section,
     );
   }
+
+  static Future<CatalogItemModel> getProductById(
+    int id, {
+    required String type,
+  }) async {
+    final rh = RequestHandler();
+    final response =
+        BaseResponseRepository.fromMap((await rh.get<Map<String, dynamic>>(
+      'catalog/${id}/detail/',
+    ))
+            .data!);
+
+    return CatalogItemModel.itemByTypeFromJson(
+      response.data as Map<String, dynamic>,
+      type,
+    );
+  }
 }

@@ -80,15 +80,10 @@ class MayBeInterestingWM extends WidgetModel {
     CustomException? ex;
 
     try {
-      final repository = await ProductsDownloader.load(model!.type!);
-      if (repository.items.any((item) => item.id == model.id)) {
-        itemModel = repository.items.firstWhere((item) => item.id == model.id);
-      } else {
-        ex = const CustomException(
-          title: 'Ошибка',
-          subtitle: 'Товар не найден',
-        );
-      }
+      itemModel = await ProductsDownloader.getProductById(
+        model!.id,
+        type: model.type!,
+      );
     } on DioError catch (e) {
       ex = CustomException(
         title: 'При отправке запроса произошла ошибка',

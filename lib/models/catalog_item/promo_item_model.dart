@@ -5,6 +5,10 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 
 class PromoItemModel extends CatalogItemModel {
   final String code;
+
+  final bool? availability;
+  final bool? isBought;
+
   PromoItemModel({
     required int id,
     required String name,
@@ -13,6 +17,8 @@ class PromoItemModel extends CatalogItemModel {
     required String? picture,
     required int price,
     required this.code,
+    this.availability,
+    this.isBought,
     String? type,
   }) : super(
           id: id,
@@ -52,7 +58,9 @@ class PromoItemModel extends CatalogItemModel {
         detailText: map['detail_text'] as String,
         picture: map['picture'] as String?,
         price: (map['price'] ?? 150) as int,
-        code: map['code'] as String,
+        code: (map['code'] as String?) ?? (map['mb_code'] as int).toString(),
+        availability: (map['availability'] as bool?) ?? false,
+        isBought: (map['isBought'] as bool?) ?? false,
       );
     } catch (e) {
       throw ResponseParseException('PromoItemModel: $e');
