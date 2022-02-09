@@ -13,6 +13,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -108,36 +109,35 @@ class _ConsultationScreenState
               [
                 TopSection.consultation(
                   widget.model,
-                  // wm.difference > 0
-                  //     ? PointsInfo(
-                  //         text: 'Не хватает ${wm.difference}',
-                  //       )
-                  //     :
-                  Row(
-                    children: [
-                      if (model.length != null)
-                        Image.asset(
-                          'assets/icons/time.png',
-                          height: 16,
+                  wm.difference > 0
+                      ? PointsInfo(
+                          text: 'Не хватает ${wm.difference}',
+                        )
+                      : Row(
+                          children: [
+                            if (model.length != null)
+                              Image.asset(
+                                'assets/icons/time.png',
+                                height: 16,
+                              ),
+                            if (model.length != null)
+                              const SizedBox(
+                                width: 4,
+                              ),
+                            if (model.length != null)
+                              Text(
+                                '${model.length} ${HelpFunctions.wordByCount(
+                                  model.length!,
+                                  [
+                                    'минут',
+                                    'минута',
+                                    'минуты',
+                                  ],
+                                )}',
+                                style: AppStyles.p1,
+                              ),
+                          ],
                         ),
-                      if (model.length != null)
-                        const SizedBox(
-                          width: 4,
-                        ),
-                      if (model.length != null)
-                        Text(
-                          '${model.length} ${HelpFunctions.wordByCount(
-                            model.length!,
-                            [
-                              'минут',
-                              'минута',
-                              'минуты',
-                            ],
-                          )}',
-                          style: AppStyles.p1,
-                        ),
-                    ],
-                  ),
                   widget.key,
                 ),
                 const SizedBox(

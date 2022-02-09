@@ -1,29 +1,34 @@
 import 'package:bausch/models/offer/offer.dart';
+import 'package:bausch/sections/home/widgets/offer_widget_wm.dart';
+import 'package:bausch/sections/home/widgets/splitted_text.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
-class OfferWidget extends StatefulWidget {
+class OfferWidget extends CoreMwwmWidget<OfferWidgetWM> {
   final Offer offer;
 
   final VoidCallback? onClose;
   final VoidCallback? onPressed;
 
-  const OfferWidget({
+  OfferWidget({
     required this.offer,
     this.onClose,
     this.onPressed,
     Key? key,
   }) : super(
           key: key,
+          widgetModelBuilder: (context) => OfferWidgetWM(),
         );
 
   @override
-  State<StatefulWidget> createState() => _OfferWidgetState();
+  WidgetState<CoreMwwmWidget<OfferWidgetWM>, OfferWidgetWM>
+      createWidgetState() => _OfferWidgetState();
 }
 
-class _OfferWidgetState extends State<OfferWidget> {
+class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -47,10 +52,30 @@ class _OfferWidgetState extends State<OfferWidget> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(right: 30),
-                    child: Text(
-                      widget.offer.title,
-                      style: AppStyles.h1,
-                      maxLines: 2,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final impl = SplittedTextImpl();
+                        final splittedText = impl.getSplittedText(
+                          constraints.maxWidth,
+                          AppStyles.h1,
+                          widget.offer.title,
+                        );
+                        if (splittedText.length > 2 &&
+                            wm.remainingStrings.isEmpty) {
+                          for (var i = 2; i < splittedText.length; i++) {
+                            wm.remainingStrings.add(splittedText[i]);
+                          }
+
+                          wm.remainingString.accept(
+                            wm.remainingStrings.join(),
+                          );
+                        }
+                        return Text(
+                          widget.offer.title,
+                          style: AppStyles.h1,
+                          maxLines: 2,
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(
@@ -59,14 +84,22 @@ class _OfferWidgetState extends State<OfferWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (widget.offer.description != null)
-                        Flexible(
-                          child: Text(
-                            widget.offer.description!,
-                            style: AppStyles.p1,
-                          ),
-                        ),
-                      if (widget.offer.description == null) const SizedBox(),
+                      StreamedStateBuilder<String>(
+                        streamedState: wm.remainingString,
+                        builder: (_, remaining) {
+                          return (widget.offer.description != null ||
+                                  remaining.isNotEmpty)
+                              ? Flexible(
+                                  child: Text(
+                                    remaining.isNotEmpty
+                                        ? '$remaining\n${widget.offer.description ?? ''}'
+                                        : widget.offer.description ?? '',
+                                    style: AppStyles.p1,
+                                  ),
+                                )
+                              : const SizedBox();
+                        },
+                      ),
                       InkWell(
                         onTap: widget.onPressed,
                         child: Stack(

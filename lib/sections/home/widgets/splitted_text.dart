@@ -1,58 +1,66 @@
-// ignore_for_file: avoid_redundant_argument_values, cascade_invocations
+// ignore_for_file: avoid_redundant_argument_values, cascade_invocations, one_member_abstracts
 
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 
 abstract class SplittedText {
-  List<String> getSplittedText(Size pageSize, TextStyle textStyle, String text);
+  List<String> getSplittedText(
+    double maxWidth,
+    TextStyle textStyle,
+    String text,
+  );
 }
 
 class SplittedTextImpl extends SplittedText {
   @override
   List<String> getSplittedText(
-    Size pageSize,
+    double maxWidth,
     TextStyle textStyle,
     String text,
   ) {
-    final _pageTexts = <String>[];
+    final lineTexts = <String>[];
     final textSpan = TextSpan(text: text, style: textStyle);
-    final textPainter = TextPainter(
+    final _textPainter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
     );
-    textPainter.layout(
-      minWidth: 0,
-      maxWidth: pageSize.width,
+    _textPainter.layout(
+      maxWidth: maxWidth,
     );
 
-    final lines = textPainter.computeLineMetrics();
-    var currentPageBottom = pageSize.height;
-    var currentPageStartIndex = 0;
-    var currentPageEndIndex = 0;
+    final selection =
+        TextSelection(baseOffset: 0, extentOffset: textSpan.text!.length);
 
-    for (var i = 0; i < lines.length; i++) {
-      final line = lines[i];
+    final boxes = _textPainter.getBoxesForSelection(selection);
 
-      final left = line.left;
-      final top = line.baseline - line.ascent;
-      final bottom = line.baseline + line.descent;
+    var start = 0;
+    int end;
 
-      // Current line overflow page
-      if (currentPageBottom < bottom) {
-        // https://stackoverflow.com/questions/56943994/how-to-get-the-raw-text-from-a-flutter-textbox/56943995#56943995
-        currentPageEndIndex =
-            textPainter.getPositionForOffset(Offset(left, top)).offset;
-        final pageText =
-            text.substring(currentPageStartIndex, currentPageEndIndex) ?? "";
-        _pageTexts.add(pageText);
+    final reg = RegExp('[^А-Яа-яA-Za-z0-9().,;?]');
 
-        currentPageStartIndex = currentPageEndIndex;
-        currentPageBottom = top + pageSize.height;
+    for (final box in boxes) {
+      end = _textPainter
+          .getPositionForOffset(
+            Offset(
+              box.left,
+              box.bottom,
+            ),
+          )
+          .offset;
+
+      final line = text.substring(
+        start,
+        end,
+      );
+      if (line.isNotEmpty) {
+        lineTexts.add(line.replaceAll(reg, ' '));
       }
+      start = end;
     }
 
-    final lastPageText = text.substring(currentPageStartIndex) ?? "";
-    _pageTexts.add(lastPageText);
-    return _pageTexts;
+    final extra = text.substring(start);
+    lineTexts.add(extra.replaceAll(reg, ' '));
+
+    return lineTexts;
   }
 }
