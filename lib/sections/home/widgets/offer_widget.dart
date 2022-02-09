@@ -54,11 +54,13 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                     margin: const EdgeInsets.only(right: 30),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
+                        //* разбиваю текст на подстроки
                         final splittedText = HelpFunctions.getSplittedText(
                           constraints.maxWidth,
                           AppStyles.h1,
                           widget.offer.title,
                         );
+
                         if (splittedText.length > 2 &&
                             wm.remainingStrings.isEmpty) {
                           for (var i = 2; i < splittedText.length; i++) {

@@ -99,7 +99,13 @@ class _DiscountOpticsScreenState
                   height: 4,
                 ),
                 if (wm.difference > 0)
-                  Warning.warning('Не хватает ${wm.difference} баллов')
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 4,
+                    ),
+                    child:
+                        Warning.warning('Не хватает ${wm.difference} баллов'),
+                  )
                 else
                   const SizedBox(),
                 InfoSection(
