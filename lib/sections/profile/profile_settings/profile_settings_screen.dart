@@ -168,7 +168,7 @@ class _ProfileSettingsScreenState
                     onPressed: () {
                       DatePicker.showDatePicker(
                         context,
-                        initialDateTime: DateTime.now(),
+                        initialDateTime: DateTime(2004),
                         minDateTime: DateTime(1900, 8),
                         maxDateTime: DateTime.now(),
                         locale: DateTimePickerLocale.ru,
@@ -185,9 +185,16 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: const ProfileSettingsBanner(),
+            StreamedStateBuilder<bool>(
+              streamedState: wm.showBanner,
+              builder: (_, showing) {
+                return showing
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: const ProfileSettingsBanner(),
+                      )
+                    : const SizedBox();
+              },
             ),
             /* Padding(
               padding: EdgeInsets.only(bottom: 4),
@@ -246,6 +253,7 @@ class _ProfileSettingsScreenState
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
+                    barrierColor: Colors.black.withOpacity(0.8),
                     builder: (context) {
                       return CustomAlertDialog(
                         text: 'Уходите?',

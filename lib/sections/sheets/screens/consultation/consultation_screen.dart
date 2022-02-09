@@ -3,16 +3,17 @@ import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
+import 'package:bausch/sections/sheets/screens/consultation/widget_model/consultation_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/sections/sheets/wm/bottom_sheet_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -26,7 +27,7 @@ class ConsultationScreenArguments {
 }
 
 //catalog_online_consultation
-class ConsultationScreen extends CoreMwwmWidget<BottomSheetWM>
+class ConsultationScreen extends CoreMwwmWidget<ConsultationScreenWM>
     implements ConsultationScreenArguments {
   final ScrollController controller;
   @override
@@ -39,17 +40,20 @@ class ConsultationScreen extends CoreMwwmWidget<BottomSheetWM>
   }) : super(
           key: key,
           widgetModelBuilder: (context) {
-            return BottomSheetWM(color: AppTheme.mystic);
+            return ConsultationScreenWM(
+              context: context,
+              itemModel: model,
+            );
           },
         );
 
   @override
-  WidgetState<CoreMwwmWidget<BottomSheetWM>, BottomSheetWM>
+  WidgetState<CoreMwwmWidget<ConsultationScreenWM>, ConsultationScreenWM>
       createWidgetState() => _ConsultationScreenState();
 }
 
 class _ConsultationScreenState
-    extends WidgetState<ConsultationScreen, BottomSheetWM> {
+    extends WidgetState<ConsultationScreen, ConsultationScreenWM> {
   late ConsultationItemModel model;
   num? userPoints;
 
@@ -105,31 +109,35 @@ class _ConsultationScreenState
               [
                 TopSection.consultation(
                   widget.model,
-                  Row(
-                    children: [
-                      if (model.length != null)
-                        Image.asset(
-                          'assets/icons/time.png',
-                          height: 16,
+                  wm.difference > 0
+                      ? PointsInfo(
+                          text: 'Не хватает ${wm.difference}',
+                        )
+                      : Row(
+                          children: [
+                            if (model.length != null)
+                              Image.asset(
+                                'assets/icons/time.png',
+                                height: 16,
+                              ),
+                            if (model.length != null)
+                              const SizedBox(
+                                width: 4,
+                              ),
+                            if (model.length != null)
+                              Text(
+                                '${model.length} ${HelpFunctions.wordByCount(
+                                  model.length!,
+                                  [
+                                    'минут',
+                                    'минута',
+                                    'минуты',
+                                  ],
+                                )}',
+                                style: AppStyles.p1,
+                              ),
+                          ],
                         ),
-                      if (model.length != null)
-                        const SizedBox(
-                          width: 4,
-                        ),
-                      if (model.length != null)
-                        Text(
-                          '${model.length} ${HelpFunctions.wordByCount(
-                            model.length!,
-                            [
-                              'минут',
-                              'минута',
-                              'минуты',
-                            ],
-                          )}',
-                          style: AppStyles.p1,
-                        ),
-                    ],
-                  ),
                   widget.key,
                 ),
                 const SizedBox(

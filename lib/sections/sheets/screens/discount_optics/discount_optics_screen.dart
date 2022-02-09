@@ -21,6 +21,7 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -97,6 +98,16 @@ class _DiscountOpticsScreenState
                 const SizedBox(
                   height: 4,
                 ),
+                if (wm.difference > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 4,
+                    ),
+                    child:
+                        Warning.warning('Не хватает ${wm.difference} баллов'),
+                  )
+                else
+                  const SizedBox(),
                 InfoSection(
                   text: widget.model.previewText,
                   secondText: '',

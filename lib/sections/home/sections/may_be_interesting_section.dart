@@ -1,7 +1,10 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_wm.dart';
+import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
+import 'package:bausch/sections/home/widgets/slider/indicators_row.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
@@ -36,6 +39,7 @@ class _MayBeInterestingState
         if (items.isEmpty) return const SizedBox();
 
         return Column(
+          //mainAxisSize: MainAxisSize.min,
           children: [
             Align(
               alignment: Alignment.centerLeft,
@@ -49,17 +53,26 @@ class _MayBeInterestingState
               height: 20,
             ),
 
-            // Слайдер с товаром
-            ItemSlider<CatalogItemModel>(
+            // // Слайдер с товаром
+            // ItemSlider<CatalogItemModel>(
+            //   items: items,
+            //   itemBuilder: (context, model) => CatalogItem(
+            //     model: model,
+            //     onTap: () => wm.onTapAction(model),
+            //   ),
+            //   indicatorBuilder: (context, isActive) => Indicator(
+            //     isActive: isActive,
+            //     animationDuration: const Duration(milliseconds: 300),
+            //   ),
+            // ),
+            SimpleSlider<CatalogItemModel>(
               items: items,
-              itemBuilder: (context, model) => CatalogItem(
-                model: model,
-                onTap: () => wm.onTapAction(model),
-              ),
-              indicatorBuilder: (context, isActive) => Indicator(
-                isActive: isActive,
-                animationDuration: const Duration(milliseconds: 300),
-              ),
+              builder: (context, model) {
+                return CatalogItem(
+                  model: model,
+                  onTap: () => wm.onTapAction(model),
+                );
+              },
             ),
           ],
         );

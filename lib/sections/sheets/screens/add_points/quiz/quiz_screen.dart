@@ -168,44 +168,49 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
                             padding: EdgeInsets.only(
                               bottom: content.answers.length - 1 == i ? 0 : 4,
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              padding: const EdgeInsets.only(
-                                top: 12,
-                                left: 12,
-                                right: 12,
-                                bottom: 20,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      content.answers[i].title,
-                                      style: AppStyles.h3,
+                            child: GestureDetector(
+                              onTap: () {
+                                wm.addToAnswersAction(i);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                padding: const EdgeInsets.only(
+                                  top: 12,
+                                  left: 12,
+                                  right: 12,
+                                  bottom: 20,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        content.answers[i].title,
+                                        style: AppStyles.h3,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  StreamedStateBuilder<List<int>>(
-                                    streamedState: wm.selectedIndexes,
-                                    builder: (_, selected) {
-                                      return CustomRadio(
-                                        value: i,
-                                        selected:
-                                            selected.any((index) => index == i),
-                                        onChanged: (v) {
-                                          wm.addToAnswersAction(i);
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    StreamedStateBuilder<List<int>>(
+                                      streamedState: wm.selectedIndexes,
+                                      builder: (_, selected) {
+                                        return CustomRadio(
+                                          value: i,
+                                          selected: selected
+                                              .any((index) => index == i),
+                                          onChanged: (v) {
+                                            wm.addToAnswersAction(i);
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );

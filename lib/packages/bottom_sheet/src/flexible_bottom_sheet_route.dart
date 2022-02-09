@@ -149,7 +149,8 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => isDismissible;
 
   @override
-  Color? get barrierColor => isModal ? Colors.black54 : const Color(0x00FFFFFF);
+  Color? get barrierColor =>
+      isModal ? Colors.black.withOpacity(0.8) : const Color(0x00FFFFFF);
 
   late AnimationController _animationController;
 

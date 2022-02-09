@@ -25,9 +25,7 @@ class CatalogItem extends StatelessWidget {
     return InkWell(
       onTap: model is WebinarItemModel
           ? () => onWebinarClick(context, model as WebinarItemModel)
-          : model is! PartnersItemModel
-              ? onTap
-              : null,
+          : onTap,
       child: Padding(
         padding: const EdgeInsets.only(
           //right: 4,
@@ -69,6 +67,7 @@ class CatalogItem extends StatelessWidget {
                       ? ExtendedImage.network(
                           model.picture!,
                           printError: false,
+                          borderRadius: BorderRadius.circular(5),
                           loadStateChanged: loadStateChangedFunction,
                         )
                       : null,
@@ -136,6 +135,7 @@ class CatalogItem extends StatelessWidget {
       } else {
         showDialog<void>(
           context: context,
+          barrierColor: Colors.black.withOpacity(0.8),
           builder: (context) => WebinarPopup(
             // TODO(Danil): массив id
             videoId: model.videoIds.first,

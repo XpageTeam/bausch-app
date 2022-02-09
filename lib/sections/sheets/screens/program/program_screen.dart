@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/home/widgets/slider/indicator.dart';
 import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
 import 'package:bausch/sections/profile/widgets/half_blured_circle.dart';
@@ -134,15 +135,15 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 sliver: SliverToBoxAdapter(
                   child: _InfoBlock(
                     headerText: 'В программе участвуют',
-                    content: ItemSlider<Product>(
+                    content: SimpleSlider<Product>(
                       items: primaryData.products,
-                      itemBuilder: (context, product) => _ProductItem(
+                      builder: (context, product) => _ProductItem(
                         product: product,
                       ),
-                      indicatorBuilder: (context, isActive) => Indicator(
-                        isActive: isActive,
-                        animationDuration: const Duration(milliseconds: 300),
-                      ),
+                      // indicatorBuilder: (context, isActive) => Indicator(
+                      //   isActive: isActive,
+                      //   animationDuration: const Duration(milliseconds: 300),
+                      // ),
                     ),
                   ),
                 ),

@@ -42,6 +42,7 @@ class AppTheme {
         ),
         scaffoldBackgroundColor: mystic,
         primarySwatch: turquoiseBlueMaterial,
+
         // appBarTheme: const AppBarTheme(
         //   systemOverlayStyle: SystemUiOverlayStyle(
         //     statusBarColor: mystic,

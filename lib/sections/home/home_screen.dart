@@ -3,6 +3,7 @@ import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
@@ -12,6 +13,7 @@ import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -91,7 +93,19 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       showAnotherSheet<void>(context);
+                      //       showFlexibleBottomSheet<void>(
+                      //         context: context,
+                      //         minHeight: 0,
+                      //         initHeight: 0.95,
+                      //         maxHeight: 0.95,
+                      //         anchors: [0, 0.6, 0.95],
+                      //         builder: (context, controller, d) {
+                      //           return FinalAddPointsScreen(
+                      //             controller: controller,
+                      //             points: '500',
+                      //           );
+                      //         },
+                      //       );
                       //     },
                       //     child: const Text('open progarm screen'),
                       //   ),
@@ -281,8 +295,15 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                           delegate: SliverChildListDelegate(
                             [
                               //* Вам может быть интересно
-                              MayBeInteresting(
-                                text: 'Вам может быть интересно',
+                              StreamedStateBuilder<bool>(
+                                streamedState: wm.mayBeInterestingState,
+                                builder: (_, enabled) {
+                                  return enabled
+                                      ? MayBeInteresting(
+                                          text: 'Вам может быть интересно',
+                                        )
+                                      : const SizedBox();
+                                },
                               ),
 
                               //* Текстовые кнопки(Частые вопросы и тд)
