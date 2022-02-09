@@ -1,6 +1,6 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/offer/offer.dart';
 import 'package:bausch/sections/home/widgets/offer_widget_wm.dart';
-import 'package:bausch/sections/home/widgets/splitted_text.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -54,8 +54,7 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                     margin: const EdgeInsets.only(right: 30),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        final impl = SplittedTextImpl();
-                        final splittedText = impl.getSplittedText(
+                        final splittedText = HelpFunctions.getSplittedText(
                           constraints.maxWidth,
                           AppStyles.h1,
                           widget.offer.title,
