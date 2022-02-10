@@ -33,6 +33,9 @@ class HelpFunctions {
   static String formatPhone(String phone) {
     final regex = RegExp('[^0-9]');
     final cleanPhone = phone.replaceAll(regex, '');
+    if (cleanPhone.length != 11) {
+      return cleanPhone;
+    }
     final res =
         '${cleanPhone.substring(0, 1) == '7' ? '+' : ''}${cleanPhone.substring(0, 1)} ${cleanPhone.substring(1, 4)} ${cleanPhone.substring(4, 7)}-${cleanPhone.substring(7, 9)}-${cleanPhone.substring(9)}';
 
