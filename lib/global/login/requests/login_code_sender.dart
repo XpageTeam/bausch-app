@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:bausch/global/login/models/code_response_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mindbox/mindbox.dart';
 
 class CodeSender {

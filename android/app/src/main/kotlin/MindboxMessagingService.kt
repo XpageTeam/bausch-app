@@ -15,7 +15,7 @@ class MindboxMessagingService : FirebaseMessagingService() {
             context = applicationContext,
             activities = mapOf(),
             message = remoteMessage,
-            channelId = "mb_channel", // Идентификатор канала для уведомлений, отправленных из Mindbox
+            channelId = "push_messages", // Идентификатор канала для уведомлений, отправленных из Mindbox
             channelName = "Получение уведомлений", // Название канала
             pushSmallIcon = android.R.drawable.ic_dialog_info, // Маленька иконка для уведомлений
             defaultActivity = MainActivity::class.java,

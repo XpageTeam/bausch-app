@@ -21,7 +21,7 @@ void main() {
   final config = Configuration(
     domain: 'api.mindbox.ru',
     endpointIos: 'valeant-ios${ kDebugMode ? '-sandbox' : ''}',
-    endpointAndroid: 'valeant-android${ kDebugMode ? '-sandbox' : ''}',
+    endpointAndroid: 'valeant-android',
     subscribeCustomerIfCreated: true,
   );
 
