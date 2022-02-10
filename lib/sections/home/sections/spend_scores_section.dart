@@ -40,9 +40,10 @@ class SpendScores extends StatelessWidget {
                     model: catItem as CatalogSheetWithLogosModel,
                   );
                 } else if (catItem.type == 'online_consultation') {
-                  return WideContainerWithoutItems(
-                    model: catItem as CatalogSheetWithoutLogosModel,
-                  );
+                  // return WideContainerWithoutItems(
+                  //   model: catItem as CatalogSheetWithoutLogosModel,
+                  // );
+                  return const SizedBox();
                 } else {
                   return SmallContainer(
                     model: catItem as CatalogSheetModel,

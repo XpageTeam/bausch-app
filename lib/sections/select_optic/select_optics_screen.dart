@@ -115,11 +115,11 @@ class _SelectOpticScreenState
                 // TODO(Nikolay): Чекнуть.
                 errorBuilder: (context, e) {
                   final ex = e as CustomException;
-                  debugPrint(ex.subtitle);
-                  // showDefaultNotification(
-                  //   title: ex.title,
-                  //   subtitle: ex.subtitle,
-                  // );
+                  //debugPrint(ex.subtitle);
+                  showDefaultNotification(
+                    title: ex.title,
+                    subtitle: ex.subtitle,
+                  );
 
                   return const SizedBox();
                 },
