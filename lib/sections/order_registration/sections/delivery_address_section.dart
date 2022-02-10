@@ -97,7 +97,7 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
                           },
                           title: Flexible(
                             child: Text(
-                              '${selectedAddress.cityAndSettlement}, ${selectedAddress.street}, д ${selectedAddress.house}',
+                              '${selectedAddress.cityAndSettlement} ${selectedAddress.street}, д ${selectedAddress.house}',
                               style: AppStyles.h2Bold,
                             ),
                           ),

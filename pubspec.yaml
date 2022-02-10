@@ -87,7 +87,7 @@ dependencies:
   csv: ^5.0.1
   easy_mask: ^2.0.1
   package_info: ^2.0.2
-  yandex_mapkit: ^2.0.1
+  yandex_mapkit: 2.0.1
   device_info_plus: ^3.2.1
   pull_to_refresh_notification: ^2.3.0
   mindbox: ^1.0.1

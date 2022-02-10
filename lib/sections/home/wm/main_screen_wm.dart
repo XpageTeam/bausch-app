@@ -63,7 +63,7 @@ class MainScreenWM extends WidgetModel {
     userWM.subscribe<EntityState<UserRepository>>(
       userWM.userData.stream,
       (value) {
-        if (value.data != null){
+        if (value.data != null) {
           if (value.data!.balance.total > 0) {
             mayBeInterestingState.accept(true);
           } else {
