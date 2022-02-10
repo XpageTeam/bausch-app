@@ -12,7 +12,6 @@ import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:dio/dio.dart';
@@ -64,10 +63,12 @@ class MainScreenWM extends WidgetModel {
     userWM.subscribe<EntityState<UserRepository>>(
       userWM.userData.stream,
       (value) {
-        if (value.data!.balance.total > 0) {
-          mayBeInterestingState.accept(true);
-        } else {
-          mayBeInterestingState.accept(false);
+        if (value.data != null){
+          if (value.data!.balance.total > 0) {
+            mayBeInterestingState.accept(true);
+          } else {
+            mayBeInterestingState.accept(false);
+          }
         }
       },
     );

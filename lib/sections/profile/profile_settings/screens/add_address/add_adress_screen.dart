@@ -118,8 +118,13 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                                       ? state
                                                           .models[i].data.house
                                                       : '${state.models[i].data.house}/${state.models[i].data.block}',
-                                                  region: state
-                                                      .models[i].data.region,
+                                                  region: state.models[i].data
+                                                              .region
+                                                              ?.toLowerCase() ==
+                                                          'г ${state.models[i].data.city?.toLowerCase()}'
+                                                      ? null
+                                                      : state.models[i].data
+                                                          .region,
                                                   city:
                                                       state.models[i].data.city,
                                                   settlement: state.models[i]
