@@ -38,6 +38,12 @@ class AddItem extends StatelessWidget {
           unawaited(wm.loadInfoAction());
         } else if (model.type == 'double_points') {
           debugPrint('double points');
+        } else if (model.type == 'birthday') {
+          await Keys.mainContentNav.currentState!.pushNamed(
+            '/profile_settings',
+          );
+
+          unawaited(wm.loadInfoAction());
         } else {
           await Navigator.of(context).pushNamed(
             '/addpoints_details',

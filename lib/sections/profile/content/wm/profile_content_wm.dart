@@ -80,7 +80,7 @@ class ProfileContentWM extends WidgetModel {
   Future<void> _loadNotifications() async {
     if (notificationsList.value.isLoading) return;
 
-    unawaited(notificationsList.loading());
+    unawaited(notificationsList.loading(notificationsList.value.data));
 
     try {
       // _downloader.loadNotificationsBanners();
@@ -109,7 +109,7 @@ class ProfileContentWM extends WidgetModel {
   Future<void> _loadOrdersHistory() async {
     if (orderHistoryList.value.isLoading) return;
 
-    unawaited(orderHistoryList.loading());
+    unawaited(orderHistoryList.loading(orderHistoryList.value.data));
 
     try {
       await orderHistoryList.content(await _downloader.loadOrderHistory());

@@ -154,11 +154,13 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                                             height: 16,
                                           ),
                                         ),
-                                        Text(
-                                          state.files[i].name,
-                                          style: AppStyles.h2,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                        Flexible(
+                                          child: Text(
+                                            state.files[i].name,
+                                            style: AppStyles.h2,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                       ],
                                     ),

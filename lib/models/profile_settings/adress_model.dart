@@ -34,7 +34,7 @@ class AdressModel implements MappableInterface<AdressModel> {
   String get fullAddress {
     var address = '';
 
-    if (region != null && region != ''){
+    if (region != null && region != '') {
       address += '$region, ';
     }
 
@@ -46,11 +46,12 @@ class AdressModel implements MappableInterface<AdressModel> {
   String get cityAndSettlement {
     var address = '';
 
-    if (city != null && city != ''){
-      address += '$city${settlement != null ? ', ' : ''}';
+    if (city != null && city != '') {
+      address +=
+          '$city${settlement != null && settlement!.isNotEmpty ? ', ' : ''}';
     }
 
-    if (settlement != null && settlement != ''){
+    if (settlement != null && settlement != '') {
       address += settlement!;
     }
 
@@ -96,7 +97,7 @@ class AdressModel implements MappableInterface<AdressModel> {
         settlement: map['settlement'] as String?,
         zipCode: (map['zip'] as int? ?? '').toString(),
       );
-    // ignore: avoid_catches_without_on_clauses
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('AdressModel: $e');
     }
