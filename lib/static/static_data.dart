@@ -46,7 +46,7 @@ class StaticData {
     // 'mov',
   ];
 
-  static int maxFileSize = 5*1024*1024;
+  static int maxFileSize = 5 * 1024 * 1024;
 
   static String maxFilesSizeText = 'Размер файла не должен превышать 5мб';
 }

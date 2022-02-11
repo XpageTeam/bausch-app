@@ -9,12 +9,8 @@ class CodeDownloader {
 
   //* Делаю два запроса параллельно
   static Future<String> downloadCode(int id) async {
-    await Future.wait(
-      [
-        loadData(id),
-        waitForTimer(),
-      ],
-    );
+    await waitForTimer();
+    await loadData(id);
     if ((_parsedData.data as Map<String, dynamic>)['promocode'] != null) {
       return (_parsedData.data as Map<String, dynamic>)['promocode'] as String;
     } else {
@@ -24,7 +20,7 @@ class CodeDownloader {
 
   //* Таймер
   static Future<void> waitForTimer() async {
-    await Future<void>.delayed(const Duration(seconds: 7));
+    await Future<void>.delayed(const Duration(seconds: 15));
   }
 
   //* Получаю промокод по id заказа
