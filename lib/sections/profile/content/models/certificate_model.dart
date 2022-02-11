@@ -42,14 +42,22 @@ class CertificateOrderModel extends BaseOrderModel {
 
 class Coupon {
   final String? code;
+  final String? title;
+  final String? warning;
 
   const Coupon({
     required this.code,
+    this.title,
+    this.warning,
   });
 
   factory Coupon.fromMap(Map<String, dynamic> map) {
     try {
-      return Coupon(code: map['code'] as String?);
+      return Coupon(
+        code: map['code'] as String? ?? '',
+        title: map['title'] as String?,
+        warning: map['warning'] as String?,
+      );
     } catch (e) {
       throw ResponseParseException(e.toString());
     }

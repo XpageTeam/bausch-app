@@ -8,7 +8,6 @@ import cloud.mindbox.mobile_sdk.Mindbox
 import com.yandex.mapkit.MapKitFactory
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
-//import cloud.mindbox.mobile_sdk
 
 
 class MainActivity: FlutterActivity() {
