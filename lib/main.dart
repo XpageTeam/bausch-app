@@ -12,6 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mindbox/mindbox.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 void main() {
@@ -91,28 +92,32 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
             wm,
           ),
           theme: AppTheme.currentAppTheme,
-          home: Builder(
-            builder: (context) {
-              return MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                  textScaleFactor: 1.0,
-                ),
-                child: Builder(builder: (context) {
-                  RequestHandler.setContext(context);
+          home: ResponsiveWrapper.builder(
+            Builder(
+              builder: (context) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaleFactor: 1.0,
+                  ),
+                  child: Builder(builder: (context) {
+                    RequestHandler.setContext(context);
 
-                  return Provider(
-                    create: (context) => LoginWM(
-                      baseDependencies: const WidgetModelDependencies(),
-                      context: context,
-                    ),
-                    lazy: false,
-                    child: MainNavigation(
-                      authWM: wm,
-                    ),
-                  );
-                }),
-              );
-            },
+                    return Provider(
+                      create: (context) => LoginWM(
+                        baseDependencies: const WidgetModelDependencies(),
+                        context: context,
+                      ),
+                      lazy: false,
+                      child: MainNavigation(
+                        authWM: wm,
+                      ),
+                    );
+                  }),
+                );
+              },
+            ),
+            minWidth: 375,
+            defaultScale: true,
           ),
         ),
       ),
