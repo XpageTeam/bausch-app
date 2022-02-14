@@ -16,24 +16,26 @@ class AnimationContent extends StatelessWidget {
           Expanded(
             child: Center(
               child: Column(
-								mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.min,
                 children: const [
                   Padding(
                     padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text(
                       'Пользуйтесь продукцией Bausch+Lomb и получайте любимые товары и другие привилегии',
                       style: TextStyle(
-                        fontSize:  24, // 24.sm,
+                        fontSize: 24, // 24.sm,
                         height: 31 / 24,
                         fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Text(
-                    'Региструйте коды с упаковки,\nкопите баллы и тратьте их ',
-                    style: AppStyles.p1Grey,
-                    textAlign: TextAlign.center,
+                  Flexible(
+                    child: Text(
+                      'Региструйте коды с упаковки,\nкопите баллы и тратьте их ',
+                      style: AppStyles.p1Grey,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
@@ -44,8 +46,7 @@ class AnimationContent extends StatelessWidget {
             child: BlueButtonWithText(
               text: 'Войти по номеру телефона',
               onPressed: () {
-                Keys.mainContentNav.currentState!
-                    .pushNamed('/registration');
+                Keys.mainContentNav.currentState!.pushNamed('/registration');
               },
             ),
           ),

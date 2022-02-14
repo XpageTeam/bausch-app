@@ -58,9 +58,8 @@ class WhiteButton extends StatelessWidget {
                 ),
               ),
               const Icon(
-                Icons.arrow_forward_ios_sharp,
+                Icons.chevron_right,
                 color: AppTheme.mineShaft,
-                size: 20,
               ),
             ],
           ),

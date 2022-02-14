@@ -117,7 +117,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
               },
             ),
             minWidth: 375,
-            defaultScale: true,
+            //defaultScale: true,
           ),
         ),
       ),
