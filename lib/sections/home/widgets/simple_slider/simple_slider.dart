@@ -77,35 +77,37 @@ class _SlimpleSliderState<T>
             ),
           ),
         ),
-        const SizedBox(
-          height: 24,
-        ),
-        StreamedStateBuilder<int>(
-          streamedState: wm.lastItemState,
-          builder: (_, position) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                (widget.items.length / 2).ceil(),
-                (index) => Padding(
-                  padding: EdgeInsets.only(
-                    right: index != widget.items.length ? 4 : 0,
-                  ),
-                  child: Container(
-                    height: 4,
-                    width: (MediaQuery.of(context).size.width -
-                            101 * 2 -
-                            4 * (widget.items.length - 1)) /
-                        widget.items.length,
-                    color: index == position
-                        ? AppTheme.turquoiseBlue
-                        : Colors.white,
+        if (widget.items.length > 2) ...[
+          const SizedBox(
+            height: 24,
+          ),
+          StreamedStateBuilder<int>(
+            streamedState: wm.lastItemState,
+            builder: (_, position) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  (widget.items.length / 2).ceil(),
+                  (index) => Padding(
+                    padding: EdgeInsets.only(
+                      right: index != widget.items.length ? 4 : 0,
+                    ),
+                    child: Container(
+                      height: 4,
+                      width: (MediaQuery.of(context).size.width -
+                              101 * 2 -
+                              4 * (widget.items.length - 1)) /
+                          widget.items.length,
+                      color: index == position
+                          ? AppTheme.turquoiseBlue
+                          : Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
+        ],
       ],
     );
   }
