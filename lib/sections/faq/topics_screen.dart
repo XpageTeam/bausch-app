@@ -83,7 +83,7 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Center(
                       child: Text(
                         'Частые вопросы',
@@ -91,7 +91,7 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         right: StaticData.sidePadding,
                         left: StaticData.sidePadding,
                         top: 42,

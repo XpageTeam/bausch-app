@@ -69,7 +69,7 @@ class _CodeScreenState extends State<CodeScreen> {
             );
           } else {
             return TextButton(
-              child: Text(
+              child: const Text(
                 'Отправить новый код',
                 style: AppStyles.h2,
               ),

@@ -34,8 +34,8 @@ class _LensParametersSectionState extends State<LensParametersSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(
+        const Padding(
+          padding: EdgeInsets.only(
             bottom: 20,
           ),
           child: Text(

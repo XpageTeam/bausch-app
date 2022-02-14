@@ -124,7 +124,7 @@ class AddItem extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               'Заполнить профиль',
                               style: AppStyles.h2,

@@ -77,7 +77,7 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                       const SizedBox(
                         width: 4,
                       ),
-                      Text(
+                      const Text(
                         'Добавить ещё',
                         style: AppStyles.h1,
                       ),

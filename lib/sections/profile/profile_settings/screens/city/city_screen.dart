@@ -101,7 +101,7 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                                         );
                                       }
 
-                                      return Center(
+                                      return const Center(
                                         child: Text(
                                           'Поиск не принёс результатов :(',
                                           style: AppStyles.h2,
@@ -113,7 +113,7 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                                     streamedState: wm.filteredCitiesList,
                                     builder: (_, citiesList) {
                                       if (citiesList.isEmpty) {
-                                        return Center(
+                                        return const Center(
                                           child: Text(
                                             'Поиск не принёс результатов :(',
                                             style: AppStyles.h2,

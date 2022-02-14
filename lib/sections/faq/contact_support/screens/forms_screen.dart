@@ -82,8 +82,8 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                     top: 26,
                     bottom: 42,
                   ),

@@ -72,13 +72,13 @@ class _ConsultationVerificationState
                     const SizedBox(
                       height: 78,
                     ),
-                    Text(
+                    const Text(
                       'Подтвердите заказ',
                       style: AppStyles.h1,
                     ),
                     Column(
-                      children: [
-                        const SizedBox(
+                      children: const [
+                        SizedBox(
                           height: 12,
                         ),
                         Text(

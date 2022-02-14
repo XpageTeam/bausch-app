@@ -1,7 +1,5 @@
 // ignore_for_file: avoid-returning-widgets
 
-import 'dart:async';
-
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
@@ -103,7 +101,7 @@ class CatalogItemWidget extends StatelessWidget {
                               const SizedBox(
                                 width: 4,
                               ),
-                              PointWidget(textStyle: AppStyles.h2),
+                              const PointWidget(textStyle: AppStyles.h2),
                             ],
                           ),
                         ),

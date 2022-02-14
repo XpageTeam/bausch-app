@@ -84,7 +84,7 @@ class _QuestionScreenState
               const SizedBox(
                 height: 26,
               ),
-              Center(
+              const Center(
                 child: Text(
                   'Частые вопросы',
                   style: AppStyles.h2,

@@ -19,14 +19,13 @@ class SupportSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SliverFillRemaining(
       hasScrollBody: false,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               top: 8,
               bottom: 40,
             ),

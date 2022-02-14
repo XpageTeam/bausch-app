@@ -57,7 +57,7 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Адрес доставки',
             style: AppStyles.h1,
           ),
@@ -124,7 +124,7 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
 
           OrderButton(
             onPressed: wm.addAddressAction,
-            title: Text(
+            title: const Text(
               'Добавить новый адрес',
               style: AppStyles.h2Bold,
             ),

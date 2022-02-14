@@ -56,4 +56,5 @@ Widget? loadStateChangedFunction(ExtendedImageState state) {
   if (state.extendedImageLoadState == LoadState.loading) {
     return const SizedBox();
   }
+  return null;
 }

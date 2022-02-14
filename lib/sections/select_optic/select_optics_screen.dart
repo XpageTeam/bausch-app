@@ -194,7 +194,7 @@ class _SelectCityButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       'Город',
                       style: AppStyles.p1Grey,
                     ),

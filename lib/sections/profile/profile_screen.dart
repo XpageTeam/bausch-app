@@ -90,7 +90,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                                   borderRadius: BorderRadius.circular(5),
                                   color: AppTheme.sulu,
                                 ),
-                                child: Text(
+                                child: const Text(
                                   'Классный друг',
                                   style: AppStyles.h1,
                                 ),

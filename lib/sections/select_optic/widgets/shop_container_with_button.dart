@@ -79,7 +79,7 @@ class ShopContainerWithButton extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20.0),
             child: BlueButton(
               onPressed: () => onOpticShopSelect(shop),
-              children: [
+              children: const [
                 Text(
                   'Выбрать оптику',
                   style: AppStyles.h2Bold,

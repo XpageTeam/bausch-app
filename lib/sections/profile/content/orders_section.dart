@@ -174,7 +174,7 @@ class OrdersSection extends StatelessWidget {
             )
           : SliverList(
               delegate: SliverChildListDelegate([
-                Center(
+                const Center(
                   child: Text(
                     'История заказов пуста :(',
                     textAlign: TextAlign.center,

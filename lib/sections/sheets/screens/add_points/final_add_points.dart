@@ -121,7 +121,7 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  AutoSizeText(
+                  const AutoSizeText(
                     'Спасибо, что вы с нами!',
                     maxLines: 2,
                     style: AppStyles.h1,

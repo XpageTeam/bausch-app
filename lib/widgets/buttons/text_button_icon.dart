@@ -15,7 +15,7 @@ class CustomTextButtonIcon extends StatelessWidget {
         'assets/icons/delete.png',
         height: 16,
       ),
-      label: Text(
+      label: const Text(
         'Удалить адрес',
         style: AppStyles.h2,
       ),

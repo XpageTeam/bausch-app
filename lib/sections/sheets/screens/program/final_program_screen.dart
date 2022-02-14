@@ -39,8 +39,8 @@ class FinalProgramScreen extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(top: 80, bottom: 40),
+                const Padding(
+                  padding: EdgeInsets.only(top: 80, bottom: 40),
                   child: Text(
                     'Это ваш сертификат на бесплатную диагностику зрения и первую пару контактных линз',
                     style: AppStyles.h1,
@@ -59,8 +59,8 @@ class FinalProgramScreen extends StatelessWidget {
                     style: AppStyles.p1,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 20),
                   child: Text(
                     'Запишитесь в оптику заранее',
                     style: AppStyles.h1,

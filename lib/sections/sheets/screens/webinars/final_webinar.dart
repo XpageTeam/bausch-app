@@ -39,15 +39,15 @@ class FinalWebinar extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(top: 78),
+                const Padding(
+                  padding: EdgeInsets.only(top: 78),
                   child: Text(
                     'Ваш доступ к записи вебинара',
                     style: AppStyles.h1,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                     top: 12,
                     bottom: 40,
                   ),

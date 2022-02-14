@@ -84,7 +84,7 @@ class _CodeSectionState extends State<CodeSection> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Ввести код с упаковки',
                     style: AppStyles.h1,
                   ),
@@ -106,7 +106,7 @@ class _CodeSectionState extends State<CodeSection> {
                       showCupertinoModalPopup<void>(
                         context: context,
                         builder: (context) => CupertinoActionSheet(
-                          title: Text(
+                          title: const Text(
                             'Продукт',
                             style: AppStyles.p1,
                           ),

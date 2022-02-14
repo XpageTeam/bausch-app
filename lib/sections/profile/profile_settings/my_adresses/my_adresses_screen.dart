@@ -79,7 +79,8 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   itemCount: state.adresses.length,
                   itemBuilder: (_, i) {
                     return AddressButton(
-                      labelText: '${state.adresses[i].cityAndSettlement}, ${state.adresses[i].street}, д ${state.adresses[i].house}',
+                      labelText:
+                          '${state.adresses[i].cityAndSettlement}, ${state.adresses[i].street}, д ${state.adresses[i].house}',
                       selectedText: (state.adresses[i].flat != null ||
                               state.adresses[i].entry != null ||
                               state.adresses[i].floor != null)
@@ -102,8 +103,8 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                   },
                 );
               } else {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
+                return const Padding(
+                  padding: EdgeInsets.symmetric(
                     horizontal: StaticData.sidePadding,
                   ),
                   child: Text(

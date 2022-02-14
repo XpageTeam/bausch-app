@@ -15,7 +15,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
-import 'package:bausch/widgets/points_info.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';

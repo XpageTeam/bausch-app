@@ -21,7 +21,7 @@ class ShopListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return shopList.isEmpty
-        ? Center(
+        ? const Center(
             child: Text(
               'Пусто',
               style: AppStyles.p1,

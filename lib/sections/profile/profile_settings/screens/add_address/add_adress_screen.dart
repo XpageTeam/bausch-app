@@ -195,8 +195,8 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                       ),
                     );
                   } else {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 30),
+                    return const Padding(
+                      padding: EdgeInsets.only(top: 30),
                       child: Text(
                         'По вашему запросу ничего не найдено',
                         style: AppStyles.h2,
@@ -205,8 +205,8 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                   }
                 }
                 if (state is DadataInitial) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 30),
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 30),
                     child: Text(
                       'Начните вводить адрес',
                       style: AppStyles.h2,

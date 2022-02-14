@@ -34,7 +34,7 @@ class _RecipientSectionState extends State<RecipientSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Получатель',
             style: AppStyles.h1,
           ),

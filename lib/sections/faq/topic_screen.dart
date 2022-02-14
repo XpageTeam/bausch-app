@@ -95,7 +95,7 @@ class _TopicScreenState extends WidgetState<TopicScreen, BottomSheetWM> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
+                    const Center(
                       child: Text(
                         'Частые вопросы',
                         style: AppStyles.h2,

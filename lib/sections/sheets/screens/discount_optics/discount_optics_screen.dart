@@ -21,7 +21,6 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
-import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -159,8 +158,8 @@ class _DiscountOpticsScreenState
                 style: AppStyles.h1,
               ),
               if (wm.discountType == DiscountType.offline)
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                     top: 12,
                   ),
                   child: Text(
@@ -278,9 +277,9 @@ class _NoDiscountsAvailable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    return const SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(
+        padding: EdgeInsets.fromLTRB(
           StaticData.sidePadding,
           20,
           StaticData.sidePadding,

@@ -1,10 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_wm.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
-import 'package:bausch/sections/home/widgets/slider/indicator.dart';
-import 'package:bausch/sections/home/widgets/slider/indicators_row.dart';
-import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';

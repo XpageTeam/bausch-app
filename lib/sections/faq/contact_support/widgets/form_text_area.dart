@@ -79,7 +79,7 @@ class _FormTextAreaState extends State<FormTextArea> {
                 controller: controller,
                 focusNode: focusNode,
                 maxLines: 4,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Ваш комментарий',
                   hintStyle: AppStyles.h3,
                 ),

@@ -69,7 +69,7 @@ class ProductsDownloader {
     final rh = RequestHandler();
     final response =
         BaseResponseRepository.fromMap((await rh.get<Map<String, dynamic>>(
-      'catalog/${id}/detail/',
+      'catalog/$id/detail/',
     ))
             .data!);
 
