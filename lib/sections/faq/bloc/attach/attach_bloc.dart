@@ -54,7 +54,7 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
         }
       }
 
-      if (files.length != result.files.length) {
+      if (files.length != result.files.length + state.files.length) {
         showDefaultNotification(title: StaticData.maxFilesSizeText);
       }
 
