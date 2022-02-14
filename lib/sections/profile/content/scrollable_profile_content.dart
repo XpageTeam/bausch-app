@@ -30,8 +30,6 @@ class _ScrollableProfileContentState
     extends WidgetState<ScrollableProfileContent, ProfileContentWM> {
   bool isOrdersEnabled = true;
 
-  int groupChecked = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -121,13 +119,7 @@ class _ScrollableProfileContentState
                 ] else ...[
                   //* Вкладка с уведомлениями (с переключателем)
                   NotificationSection(
-                    groupChecked: groupChecked,
                     items: wm.notificationsList.value.data!,
-                    onChanged: (newGroupChecked) => setState(
-                      () {
-                        groupChecked = newGroupChecked;
-                      },
-                    ),
                   ),
                 ],
                 SliverList(
