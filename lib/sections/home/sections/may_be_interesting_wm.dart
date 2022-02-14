@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -114,6 +116,9 @@ class MayBeInterestingWM extends WidgetModel {
 
     if (ex != null) {
       showTopError(ex);
+      if (Keys.mainContentNav.currentState!.canPop()) {
+        Keys.mainContentNav.currentState!.pop();
+      }
       return;
     }
 
