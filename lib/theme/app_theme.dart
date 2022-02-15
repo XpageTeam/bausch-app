@@ -30,6 +30,10 @@ class AppTheme {
 
   static ThemeData get currentAppTheme => ThemeData(
         fontFamily: 'Euclid Circular A',
+        scrollbarTheme: ScrollbarThemeData(
+          radius: const Radius.circular(10),
+          thumbColor: MaterialStateProperty.all(Colors.transparent),
+        ),
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: turquoiseBlue,
           selectionColor: turquoiseBlue,

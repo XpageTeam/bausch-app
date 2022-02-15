@@ -1,3 +1,5 @@
+import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
@@ -14,6 +16,9 @@ class CustomSheetScaffold extends StatelessWidget {
   final bool hideBottomNavBarThenKeyboard;
   final ValueChanged<double>? onScrolled;
 
+  /// следует ли показывать скроллбар
+  final bool showScrollbar;
+
   const CustomSheetScaffold({
     required this.controller,
     required this.slivers,
@@ -24,6 +29,7 @@ class CustomSheetScaffold extends StatelessWidget {
     this.bottomNavBar,
     this.backgroundColor,
     this.floatingActionButton,
+    this.showScrollbar = false,
     Key? key,
   }) : super(key: key);
 
@@ -47,27 +53,24 @@ class CustomSheetScaffold extends StatelessWidget {
                 }
                 return false;
               },
-              child: CustomScrollView(
-                controller: controller,
-                slivers: slivers
-                  ..add(
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        if (hideBottomNavBarThenKeyboard)
-                          KeyboardVisibilityBuilder(
-                            builder: (p0, isKeyboardVisible) {
-                              if (isKeyboardVisible) {
-                                return bottomNavBar ?? const SizedBox();
-                              }
-
-                              return const SizedBox();
-                            },
+              child: showScrollbar
+                  ? Theme(
+                      data: Theme.of(context).copyWith(
+                        scrollbarTheme: ScrollbarThemeData(
+                          thumbColor: MaterialStateProperty.all(
+                            showScrollbar
+                                ? AppTheme.turquoiseBlue
+                                : Colors.transparent,
                           ),
-                      ]),
-                    ),
-                  ),
-                physics: const BouncingScrollPhysics(),
-              ),
+                        ),
+                      ),
+                      child: Scrollbar(
+                        controller: controller,
+                        isAlwaysShown: true,
+                        child: getScrollView(),
+                      ),
+                    )
+                  : getScrollView(),
             ),
             if (appBar != null)
               Positioned(
@@ -90,6 +93,30 @@ class CustomSheetScaffold extends StatelessWidget {
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
+    );
+  }
+
+  Widget getScrollView() {
+    return CustomScrollView(
+      controller: controller,
+      slivers: slivers
+        ..add(
+          SliverList(
+            delegate: SliverChildListDelegate([
+              if (hideBottomNavBarThenKeyboard)
+                KeyboardVisibilityBuilder(
+                  builder: (p0, isKeyboardVisible) {
+                    if (isKeyboardVisible) {
+                      return bottomNavBar ?? const SizedBox();
+                    }
+
+                    return const SizedBox();
+                  },
+                ),
+            ]),
+          ),
+        ),
+      physics: const BouncingScrollPhysics(),
     );
   }
 }
