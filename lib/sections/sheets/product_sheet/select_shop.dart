@@ -1,3 +1,4 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
@@ -82,9 +83,10 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 20.0),
-                            child: Text(
+                            child: AutoSizeText(
                               widget.discountOptics[i].title,
                               style: AppStyles.h2,
+                              maxLines: 2,
                             ),
                           ),
                           if (widget.discountOptics[i].link!.isNotEmpty &&
