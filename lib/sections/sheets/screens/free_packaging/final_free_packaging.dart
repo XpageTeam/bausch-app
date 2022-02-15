@@ -24,6 +24,7 @@ class FinalFreePackaging extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       //resizeToAvoidBottomInset: false,
+      showScrollbar: true,
       backgroundColor: AppTheme.sulu,
       controller: controller,
       appBar: CustomSliverAppbar(

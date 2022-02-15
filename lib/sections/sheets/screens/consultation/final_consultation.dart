@@ -74,7 +74,7 @@ class _FinalConsultationState
                   child: EntityStateBuilder<String>(
                     streamedState: wm.promocodeState,
                     errorChild: ContainerWithPromocode(
-                      promocode: 'Промокод будет доступен в истории заказов!',
+                      promocode: 'Промокод будет доступен в истории заказов через несколько минут',
                       withIcon: false,
                       onPressed: () {},
                     ),
