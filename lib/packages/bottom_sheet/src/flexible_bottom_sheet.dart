@@ -192,32 +192,30 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
           _controller =
               controller as FlexibleDraggableScrollableSheetScrollController;
 
-          // return AnimatedPadding(
-          //   duration: const Duration(milliseconds: 100),
-          //   padding: EdgeInsets.only(
-          //     bottom: MediaQuery.of(context).viewInsets.bottom,
-          //   ),
-          //   child: _Content(
-          //     builder: widget.builder,
-          //     controller: _controller,
-          //     decoration: widget.decoration,
-          //     bodyBuilder: widget.bodyBuilder,
-          //     headerBuilder: widget.headerBuilder,
-          //     minHeaderHeight: widget.minHeaderHeight,
-          //     maxHeaderHeight: widget.maxHeaderHeight,
-          //     currentExtent: _currentExtent,
-          //   ),
-          // );
-          return _Content(
-            builder: widget.builder,
-            controller: _controller,
-            decoration: widget.decoration,
-            bodyBuilder: widget.bodyBuilder,
-            headerBuilder: widget.headerBuilder,
-            minHeaderHeight: widget.minHeaderHeight,
-            maxHeaderHeight: widget.maxHeaderHeight,
-            currentExtent: _currentExtent,
+          return AnimatedPadding(
+            duration: const Duration(milliseconds: 100),
+            padding: EdgeInsets.zero,
+            child: _Content(
+              builder: widget.builder,
+              controller: _controller,
+              decoration: widget.decoration,
+              bodyBuilder: widget.bodyBuilder,
+              headerBuilder: widget.headerBuilder,
+              minHeaderHeight: widget.minHeaderHeight,
+              maxHeaderHeight: widget.maxHeaderHeight,
+              currentExtent: _currentExtent,
+            ),
           );
+          // return _Content(
+          //   builder: widget.builder,
+          //   controller: _controller,
+          //   decoration: widget.decoration,
+          //   bodyBuilder: widget.bodyBuilder,
+          //   headerBuilder: widget.headerBuilder,
+          //   minHeaderHeight: widget.minHeaderHeight,
+          //   maxHeaderHeight: widget.maxHeaderHeight,
+          //   currentExtent: _currentExtent,
+          // );
         },
         expand: widget.isExpand,
       ),
