@@ -14,7 +14,7 @@ class CodeDownloader {
     if ((_parsedData.data as Map<String, dynamic>)['promocode'] != null) {
       return (_parsedData.data as Map<String, dynamic>)['promocode'] as String;
     } else {
-      return 'Промокод будет доступен в истории заказов!';
+      return 'Промокод будет доступен в истории заказов через несколько минут';
     }
   }
 
