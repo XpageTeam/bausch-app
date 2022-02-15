@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/mappable_object.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
+import 'package:bausch/sections/home/widgets/stories/stories_wm.dart';
 import 'package:bausch/sections/home/widgets/stories/story.dart';
 import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class StoryWM extends WidgetModel {
   final StreamedState<int> viewsConunt;
   final isVisible = StreamedState<bool>(true);
 
+  // final int storyIndex;
+
   final checkVisibleAction = VoidAction();
   final incViewCountAction = VoidAction();
   final showStoryAction = StreamedAction<StoryModel>();
@@ -25,9 +28,12 @@ class StoryWM extends WidgetModel {
   BuildContext? context;
   UserWM? userWM;
 
+  StoriesWM? storiesWM;
+
   StoryWM({
     required this.id,
     required int views,
+    // required this.storyIndex,
     this.context,
   })  : viewsConunt = StreamedState(views),
         super(const WidgetModelDependencies());
@@ -57,12 +63,15 @@ class StoryWM extends WidgetModel {
 
   Future<void> _showStory(StoryModel? model) async {
     if (context != null && model != null) {
+      storiesWM = Provider.of<StoriesWM>(context!, listen: false);
+
       await Navigator.push<dynamic>(
         context!,
         MaterialPageRoute<dynamic>(
           builder: (context) {
             return StoriesScreen(
-              storyModel: model,
+              storyModel: id,
+              stories: storiesWM!.stories,
             );
           },
         ),
@@ -113,13 +122,17 @@ class StoryModel implements MappableInterface<StoryModel> {
 
   final StoryWM wm;
 
+  // final int storyIndex;
+
   StoryModel({
     required this.id,
     required this.content,
+    // required this.storyIndex,
     required int views,
   }) : wm = StoryWM(
           id: id,
           views: views,
+          // storyIndex: storyIndex,
         );
 
   factory StoryModel.fromMap(Map<String, dynamic> map) {

@@ -1,4 +1,5 @@
-import 'package:bausch/static/static_data.dart';
+//ignore_for_file: avoid-returning-widgets
+
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -71,6 +72,27 @@ class CustomSheetScaffold extends StatelessWidget {
                       ),
                     )
                   : getScrollView(),
+              // child: CustomScrollView(
+              //   controller: controller,
+              //   slivers: slivers
+              //     ..add(
+              //       SliverList(
+              //         delegate: SliverChildListDelegate([
+              //           if (hideBottomNavBarThenKeyboard)
+              //             KeyboardVisibilityBuilder(
+              //               builder: (p0, isKeyboardVisible) {
+              //                 if (isKeyboardVisible) {
+              //                   return bottomNavBar ?? const SizedBox();
+              //                 }
+
+              //                 return const SizedBox();
+              //               },
+              //             ),
+              //         ]),
+              //       ),
+              //     ),
+              //   physics: const BouncingScrollPhysics(),
+              // ),
             ),
             if (appBar != null)
               Positioned(
