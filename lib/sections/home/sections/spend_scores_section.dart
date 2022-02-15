@@ -1,8 +1,10 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/home/widgets/containers/small_container.dart';
 import 'package:bausch/sections/home/widgets/containers/wide_container_with_items.dart';
+import 'package:bausch/sections/home/widgets/containers/wide_container_without_items.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +40,7 @@ class SpendScores extends StatelessWidget {
                     model: catItem as CatalogSheetWithLogosModel,
                   );
                 } else if (catItem.type == 'online_consultation') {
+                  // TODO тупое говно
                   // return WideContainerWithoutItems(
                   //   model: catItem as CatalogSheetWithoutLogosModel,
                   // );
