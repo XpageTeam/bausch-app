@@ -105,16 +105,31 @@ class QuizScreenWM extends WidgetModel {
         selectedIndexes.accept(selectedIndexes.value);
       }
 
+      if (index == contentStreamed.value.answers.length - 1) {
+        FocusScope.of(context).requestFocus(focusNode);
+      }
+
       _chekMoveNextPage();
     });
 
     _chekMoveNextPage();
 
+    focusNode.addListener(() {
+      // TODO(Nikita): сделать скролл к полю
+      if (focusNode.hasFocus){
+        setFocus();
+      }
+    });
+
     super.onBind();
   }
 
   void setFocus() {
-    FocusScope.of(context).requestFocus(focusNode);
+    final targetIndex = contentStreamed.value.answers.length - 1;
+
+    if (!selectedIndexes.value.contains(targetIndex)) {
+      addToAnswersAction(targetIndex);
+    }
   }
 
   void _writeAnswers() {
