@@ -44,6 +44,7 @@ class CustomSheetScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+        extendBody: true,
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -68,10 +69,10 @@ class CustomSheetScaffold extends StatelessWidget {
                       child: Scrollbar(
                         controller: controller,
                         isAlwaysShown: true,
-                        child: getScrollView(),
+                        child: getScrollView(context),
                       ),
                     )
-                  : getScrollView(),
+                  : getScrollView(context),
               // child: CustomScrollView(
               //   controller: controller,
               //   slivers: slivers
@@ -118,7 +119,7 @@ class CustomSheetScaffold extends StatelessWidget {
     );
   }
 
-  Widget getScrollView() {
+  Widget getScrollView(BuildContext context) {
     return CustomScrollView(
       controller: controller,
       slivers: slivers

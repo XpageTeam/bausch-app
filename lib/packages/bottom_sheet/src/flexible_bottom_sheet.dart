@@ -192,30 +192,32 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
           _controller =
               controller as FlexibleDraggableScrollableSheetScrollController;
 
-          return AnimatedPadding(
-            duration: const Duration(milliseconds: 100),
-            padding: EdgeInsets.zero,
-            child: _Content(
-              builder: widget.builder,
-              controller: _controller,
-              decoration: widget.decoration,
-              bodyBuilder: widget.bodyBuilder,
-              headerBuilder: widget.headerBuilder,
-              minHeaderHeight: widget.minHeaderHeight,
-              maxHeaderHeight: widget.maxHeaderHeight,
-              currentExtent: _currentExtent,
-            ),
-          );
-          // return _Content(
-          //   builder: widget.builder,
-          //   controller: _controller,
-          //   decoration: widget.decoration,
-          //   bodyBuilder: widget.bodyBuilder,
-          //   headerBuilder: widget.headerBuilder,
-          //   minHeaderHeight: widget.minHeaderHeight,
-          //   maxHeaderHeight: widget.maxHeaderHeight,
-          //   currentExtent: _currentExtent,
+          // return AnimatedPadding(
+          //   duration: const Duration(milliseconds: 100),
+          //   padding: EdgeInsets.only(
+          //     bottom: MediaQuery.of(context).viewInsets.bottom,
+          //   ),
+          //   child: _Content(
+          //     builder: widget.builder,
+          //     controller: _controller,
+          //     decoration: widget.decoration,
+          //     bodyBuilder: widget.bodyBuilder,
+          //     headerBuilder: widget.headerBuilder,
+          //     minHeaderHeight: widget.minHeaderHeight,
+          //     maxHeaderHeight: widget.maxHeaderHeight,
+          //     currentExtent: _currentExtent,
+          //   ),
           // );
+          return _Content(
+            builder: widget.builder,
+            controller: _controller,
+            decoration: widget.decoration,
+            bodyBuilder: widget.bodyBuilder,
+            headerBuilder: widget.headerBuilder,
+            minHeaderHeight: widget.minHeaderHeight,
+            maxHeaderHeight: widget.maxHeaderHeight,
+            currentExtent: _currentExtent,
+          );
         },
         expand: widget.isExpand,
       ),
@@ -260,29 +262,30 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
 
   void _keyboardClosed() {}
 
+  //* Убрал, тк выбрасывалась ошибка: scrollController attached to multiple scrollView's
   void _preScroll() {
-    if (FocusManager.instance.primaryFocus == null) return;
+    // if (FocusManager.instance.primaryFocus == null) return;
 
-    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    // final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-    if (_controller.extent.currentExtent == widget.maxHeight &&
-        keyboardHeight != 0) {
-      final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
-      final widgetHeight = FocusManager.instance.primaryFocus!.size.height;
-      final screenHeight = MediaQuery.of(context).size.height;
+    // if (_controller.extent.currentExtent == widget.maxHeight &&
+    //     keyboardHeight != 0) {
+    //   final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
+    //   final widgetHeight = FocusManager.instance.primaryFocus!.size.height;
+    //   final screenHeight = MediaQuery.of(context).size.height;
 
-      final valueToScroll =
-          keyboardHeight - (screenHeight - (widgetOffset + widgetHeight));
-      if (valueToScroll > 0) {
-        Future<void>.delayed(const Duration(milliseconds: 100)).then((_) {
-          _controller.animateTo(
-            _controller.offset + valueToScroll + 10,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.linear,
-          );
-        });
-      }
-    }
+    //   final valueToScroll =
+    //       keyboardHeight - (screenHeight - (widgetOffset + widgetHeight));
+    //   if (valueToScroll > 0) {
+    //     Future<void>.delayed(const Duration(milliseconds: 100)).then((_) {
+    //       _controller.animateTo(
+    //         _controller.offset + valueToScroll + 10,
+    //         duration: const Duration(milliseconds: 200),
+    //         curve: Curves.linear,
+    //       );
+    //     });
+    //   }
+    // }
   }
 
   bool _startScroll(ScrollStartNotification notification) {
