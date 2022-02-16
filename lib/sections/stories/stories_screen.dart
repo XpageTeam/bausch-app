@@ -11,6 +11,7 @@ import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
@@ -103,6 +104,7 @@ class _StoriesScreenState extends State<StoriesScreen>
 
     return PageView.builder(
       controller: _pageController,
+      dragStartBehavior: DragStartBehavior.down,
       //physics: const NeverScrollableScrollPhysics(),
       onPageChanged: (i) {
         debugPrint('page $i');
@@ -115,13 +117,19 @@ class _StoriesScreenState extends State<StoriesScreen>
       itemCount: widget.stories.length,
 
       itemBuilder: (context, i) {
-        final story = widget.stories[i].content[_currentIndex];
+        //* костыль, чтобы не появлялся серый экран, когда проскроллил не до конца
+        final story = widget.stories[i].content[
+            _currentIndex < widget.stories[i].content.length - 1
+                ? _currentIndex
+                : 0];
         return Scaffold(
           backgroundColor: Colors.black,
           body: GestureDetector(
             onTapUp: (details) => _onTapUp(details, story),
-            onLongPressStart: (details) => _onLongPressStart(details, story),
-            onLongPressEnd: (details) => _onLongPressEnd(details, story),
+            onLongPressStart: (details) => _onLongPressStart(story),
+            onLongPressEnd: (details) => _onLongPressEnd(story),
+            // onHorizontalDragStart: (details) => _onLongPressStart(story),
+            // onHorizontalDragEnd: (details) => _onLongPressEnd(story),
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -341,7 +349,7 @@ class _StoriesScreenState extends State<StoriesScreen>
   }
 
   void _onLongPressStart(
-    LongPressStartDetails details,
+    //LongPressStartDetails details,
     StoryContentModel story,
   ) {
     _animController.stop();
@@ -352,7 +360,7 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void _onLongPressEnd(LongPressEndDetails details, StoryContentModel story) {
+  void _onLongPressEnd(StoryContentModel story) {
     _animController.forward();
     if (story.isVideo) {
       _videoPlayerController.play();
