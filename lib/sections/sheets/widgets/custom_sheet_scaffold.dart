@@ -44,7 +44,6 @@ class CustomSheetScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        extendBody: true,
         body: Stack(
           alignment: Alignment.topCenter,
           children: [

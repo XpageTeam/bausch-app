@@ -4,9 +4,7 @@ import 'dart:async';
 
 import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
-import 'package:bausch/sections/home/widgets/stories/stories_wm.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
-import 'package:bausch/sections/stories/story_background.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/html_styles.dart';
@@ -14,7 +12,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 //тут ничего почти не менял,добавил методы _onLongPressStart , _onLongPressEnd
