@@ -19,7 +19,9 @@ class TextButtonsListener extends StatelessWidget {
         BlocListener<FaqCubit, FaqState>(
           listener: (context, state) {
             if (state is FaqFailed) {
-              Keys.mainNav.currentState!.pop();
+              if (Keys.mainNav.currentState!.canPop()) {
+                Keys.mainNav.currentState!.pop();
+              }
 
               showDefaultNotification(
                 title: state.title,
@@ -32,23 +34,27 @@ class TextButtonsListener extends StatelessWidget {
             }
 
             if (state is FaqSuccess) {
-              Keys.mainNav.currentState!.pop();
+              if (Keys.mainNav.currentState!.canPop()) {
+                Keys.mainNav.currentState!.pop();
 
-              showSheet<List<TopicModel>>(
-                context,
-                SimpleSheetModel(
-                  name: 'Частые вопросы',
-                  type: 'faq',
-                ),
-                state.topics,
-              );
+                showSheet<List<TopicModel>>(
+                  context,
+                  SimpleSheetModel(
+                    name: 'Частые вопросы',
+                    type: 'faq',
+                  ),
+                  state.topics,
+                );
+              }
             }
           },
         ),
         BlocListener<RulesCubit, RulesState>(
           listener: (context, state) {
             if (state is RulesFailed) {
-              Keys.mainNav.currentState!.pop();
+              if (Keys.mainNav.currentState!.canPop()) {
+                Keys.mainNav.currentState!.pop();
+              }
 
               showDefaultNotification(
                 title: state.title,
@@ -61,15 +67,17 @@ class TextButtonsListener extends StatelessWidget {
             }
 
             if (state is RulesSuccess) {
-              Keys.mainNav.currentState!.pop();
-              showSheet<String>(
-                context,
-                SimpleSheetModel(
-                  name: 'Правила',
-                  type: 'rules',
-                ),
-                state.data,
-              );
+              if (Keys.mainNav.currentState!.canPop()) {
+                Keys.mainNav.currentState!.pop();
+                showSheet<String>(
+                  context,
+                  SimpleSheetModel(
+                    name: 'Правила',
+                    type: 'rules',
+                  ),
+                  state.data,
+                );
+              }
             }
           },
         ),

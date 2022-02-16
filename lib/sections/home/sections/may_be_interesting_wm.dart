@@ -109,8 +109,6 @@ class MayBeInterestingWM extends WidgetModel {
       );
     }
 
-    Keys.mainNav.currentState!.pop();
-
     if (ex != null) {
       showTopError(ex);
       if (Keys.mainContentNav.currentState!.canPop()) {
@@ -120,7 +118,13 @@ class MayBeInterestingWM extends WidgetModel {
     }
 
     if (itemModel != null) {
-      _showBottomSheet(itemModel, model!.type!);
+      if (Keys.mainNav.currentState!.canPop()) {
+        _showBottomSheet(itemModel, model!.type!);
+      }
+    }
+
+    if (Keys.mainNav.currentState!.canPop()) {
+      Keys.mainNav.currentState!.pop();
     }
   }
 

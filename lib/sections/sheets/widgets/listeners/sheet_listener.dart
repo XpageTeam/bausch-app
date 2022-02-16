@@ -21,8 +21,11 @@ class SheetListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<CatalogItemCubit, CatalogItemState>(
       listener: (context, state) {
+        debugPrint(state.toString());
         if (state is CatalogItemFailed) {
-          Keys.mainNav.currentState!.pop();
+          if (Keys.mainNav.currentState!.canPop()) {
+            Keys.mainNav.currentState!.pop();
+          }
           showDefaultNotification(
             title: state.title,
           );
@@ -33,12 +36,14 @@ class SheetListener extends StatelessWidget {
         }
 
         if (state is CatalogItemSuccess) {
-          Keys.mainNav.currentState!.pop();
-          showSheet<List<CatalogItemModel>>(
-            context,
-            model,
-            state.items,
-          );
+          if (Keys.mainNav.currentState!.canPop()) {
+            Keys.mainNav.currentState!.pop();
+            showSheet<List<CatalogItemModel>>(
+              context,
+              model,
+              state.items,
+            );
+          }
         }
       },
       child: child,
