@@ -44,6 +44,13 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
 
 class _MyAppState extends WidgetState<MyApp, AuthWM> {
   @override
+  void initState() {
+    super.initState();
+
+    RequestHandler.setContext(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -92,32 +99,25 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
             wm,
           ),
           theme: AppTheme.currentAppTheme,
-          home: ResponsiveWrapper.builder(
-            Builder(
-              builder: (context) {
-                return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: 1.0,
+          home: Builder(
+            builder: (context) {
+              return ResponsiveWrapper.builder(
+                Provider(
+                  create: (context) => LoginWM(
+                    baseDependencies: const WidgetModelDependencies(),
+                    context: context,
                   ),
-                  child: Builder(builder: (context) {
-                    RequestHandler.setContext(context);
-
-                    return Provider(
-                      create: (context) => LoginWM(
-                        baseDependencies: const WidgetModelDependencies(),
-                        context: context,
-                      ),
-                      lazy: false,
-                      child: MainNavigation(
-                        authWM: wm,
-                      ),
-                    );
-                  }),
-                );
-              },
-            ),
-            minWidth: 375,
-            //defaultScale: true,
+                  lazy: false,
+                  child: MainNavigation(
+                    authWM: wm,
+                  ),
+                ),
+                minWidth: 375,
+                mediaQueryData: MediaQuery.of(context).copyWith(
+                  textScaleFactor: 1.0,
+                ),
+              );
+            },
           ),
         ),
       ),

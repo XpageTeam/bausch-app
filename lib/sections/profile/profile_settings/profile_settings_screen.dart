@@ -228,6 +228,14 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: NativeTextInput(
+                labelText: 'Антон',
+                controller: TextEditingController(),
+                textCapitalization: TextCapitalization.words,
+              ),
+            ),
             /*Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: FocusButton(
