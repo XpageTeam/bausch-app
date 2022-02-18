@@ -7,8 +7,11 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/may_be_interesting_item.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
@@ -129,28 +132,42 @@ class MayBeInterestingWM extends WidgetModel {
   }
 
   void _showBottomSheet(CatalogItemModel model, String section) {
-    if (section == 'online_consultation') {
-      showSheet<List<CatalogItemModel>>(
-        context,
-        CatalogSheetWithoutLogosModel(
-          id: 0,
-          name: 'online_consultation',
-          type: section,
-          icon: model.picture!,
-          count: 1,
-        ),
-        [model],
-      );
+    if (model.isSection != null && model.isSection!) {
+      // showSheet<List<CatalogItemModel>>(
+      //   context,
+      //   BaseCatalogSheetModel(
+      //     id: model.id,
+      //     name: 'name',
+      //     type: section,
+      //     icon: model.picture!,
+      //     count: 1,
+      //   ),
+      //   [],
+      // );
     } else {
-      showSheet<ItemSheetScreenArguments>(
-        context,
-        SimpleSheetModel(
-          name: 'Title',
-          type: section,
-        ),
-        ItemSheetScreenArguments(model: model),
-        '/$section',
-      );
+      if (section == 'online_consultation') {
+        showSheet<List<CatalogItemModel>>(
+          context,
+          CatalogSheetWithoutLogosModel(
+            id: 0,
+            name: 'online_consultation',
+            type: section,
+            icon: model.picture!,
+            count: 1,
+          ),
+          [model],
+        );
+      } else {
+        showSheet<ItemSheetScreenArguments>(
+          context,
+          SimpleSheetModel(
+            name: 'Title',
+            type: section,
+          ),
+          ItemSheetScreenArguments(model: model),
+          '/$section',
+        );
+      }
     }
   }
 }

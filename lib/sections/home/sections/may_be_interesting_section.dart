@@ -1,10 +1,18 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
+import 'package:bausch/sections/home/sections/may_be_interesting_methods.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_wm.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
+import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
+import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class MayBeInteresting extends CoreMwwmWidget<MayBeInterestingWM> {
@@ -64,10 +72,22 @@ class _MayBeInterestingState
             SimpleSlider<CatalogItemModel>(
               items: items,
               builder: (context, model) {
-                return CatalogItem(
-                  model: model,
-                  onTap: () => wm.onTapAction(model),
-                );
+                final cubit = CatalogItemCubit(section: model.type!);
+                return (model.isSection != null && model.isSection!)
+                    ? BlocProvider(
+                        create: (context) => cubit,
+                        child: SheetListener(
+                          model: sheetModel(model),
+                          child: CatalogItem(
+                            model: model,
+                            onTap: cubit.loadData,
+                          ),
+                        ),
+                      )
+                    : CatalogItem(
+                        model: model,
+                        onTap: () => wm.onTapAction(model),
+                      );
               },
             ),
           ],

@@ -31,6 +31,9 @@ class CatalogItemModel {
   // //* Это для "вам может быть интересно"
   final String? type;
 
+  //* Для "вам может быть интересно"
+  final bool? isSection;
+
   String get priceToString => HelpFunctions.partitionNumber(price);
   //  HelpFunctions.partitionNumber(price);
 
@@ -55,6 +58,7 @@ class CatalogItemModel {
     required this.picture,
     required this.price,
     this.type,
+    this.isSection,
   });
 
   factory CatalogItemModel.fromMap(Map<String, dynamic> map) {
@@ -87,6 +91,7 @@ class CatalogItemModel {
       picture: json['picture'] as String,
       price: json['price'] as int,
       type: json['type'] as String,
+      isSection:  json['is_section'] as bool,
     );
   }
   factory CatalogItemModel.itemByTypeFromJson(
