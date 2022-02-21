@@ -1,5 +1,8 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/orders_data/order_data.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
+import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/select_shop.dart';
@@ -11,7 +14,6 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/how_to_use_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
-import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -30,10 +32,14 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   @override
   final PromoItemModel model;
 
+  @override
+  final OrderData? orderData;
+
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
     required DiscountType discountType,
+    this.orderData,
     Key? key,
   }) : super(
           key: key,
@@ -55,20 +61,29 @@ class _DiscountOpticsScreenState
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: const CustomSliverAppbar(
-        padding: EdgeInsets.all(18),
-        icon: SizedBox(
-          height: 1,
-          width: 1,
-        ),
-        iconColor: AppTheme.mystic,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          wm.colorState.accept(AppTheme.turquoiseBlue);
+        } else {
+          wm.colorState.accept(AppTheme.mystic);
+        }
+      },
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            padding: const EdgeInsets.all(18),
+            icon: const SizedBox(),
+            iconColor: color,
+          );
+        },
       ),
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(
             top: 12,
-            left: 12,
-            right: 12,
+            left: StaticData.sidePadding,
+            right: StaticData.sidePadding,
             bottom: 4,
           ),
           sliver: SliverList(
@@ -82,6 +97,16 @@ class _DiscountOpticsScreenState
                 const SizedBox(
                   height: 4,
                 ),
+                if (wm.difference > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 4,
+                    ),
+                    child:
+                        Warning.warning('Не хватает ${wm.difference} баллов'),
+                  )
+                else
+                  const SizedBox(),
                 InfoSection(
                   text: widget.model.previewText,
                   secondText: '',
@@ -98,99 +123,115 @@ class _DiscountOpticsScreenState
             StaticData.sidePadding,
             12,
             StaticData.sidePadding,
-            40,
+            20,
           ),
           sliver: LegalInfo(
             texts: wm.legalInfoTexts,
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-          ),
-          //TODO(Nikita): customCheckBox
-          sliver: SliverToBoxAdapter(
-            child: EntityStateBuilder<List<Optic>>(
-              streamedState: wm.discountOpticsStreamed,
-              loadingChild: const Center(
-                child: AnimatedLoader(),
+        EntityStateBuilder<List<Optic>>(
+          streamedState: wm.discountOpticsStreamed,
+          loadingChild: SliverList(
+            delegate: SliverChildListDelegate([
+              const Padding(
+                padding: EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  20,
+                  StaticData.sidePadding,
+                  20,
+                ),
+                child: Center(
+                  child: AnimatedLoader(),
+                ),
               ),
-              builder: (_, discountOptics) => discountOptics.isEmpty
-                  ? Text(
-                      'Нет доступных скидок',
-                      style: AppStyles.h1,
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          wm.selectHeaderText,
-                          style: AppStyles.h1,
-                        ),
-                        if (wm.discountType == DiscountType.offline)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 12,
-                            ),
-                            child: Text(
-                              'Скидкой можно воспользоваться в любой из оптик сети.',
-                              style: AppStyles.p1,
-                            ),
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: StreamedStateBuilder<Optic?>(
-                            streamedState: wm.currentDiscountOptic,
-                            builder: (_, selectedOptic) => SelectShopSection(
-                              selectedOptic: selectedOptic,
-                              discountOptics: discountOptics,
-                              onChanged: wm.setCurrentOptic,
-                              discountType: wm.discountType,
-                            ),
-                          ),
-                        ),
-                        if (wm.discountType == DiscountType.offline)
-                          StreamedStateBuilder<Optic?>(
-                            streamedState: wm.currentDiscountOptic,
-                            builder: (_, currentDiscountOptic) => Padding(
-                              padding: const EdgeInsets.only(
-                                top: 30,
-                                bottom: 4,
-                              ),
-                              child: WhiteButton(
-                                text: currentDiscountOptic != null
-                                    ? currentDiscountOptic.title
-                                    : 'Адреса оптик',
-                                icon: Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 12,
-                                    top: 16,
-                                    bottom: 16,
-                                  ),
-                                  child: Image.asset(
-                                    'assets/icons/map-marker.png',
-                                    height: 16,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Keys.mainNav.currentState!.push<void>(
-                                    MaterialPageRoute(
-                                      builder: (context) => SelectOpticScreen(
-                                        cities: wm.cities,
-                                        onOpticSelect: wm.setCurrentOptic,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        Warning.warning(wm.warningText),
-                      ],
-                    ),
-            ),
+            ]),
           ),
+          errorChild: const _NoDiscountsAvailable(),
+          builder: (_, discountOptics) {
+            if (discountOptics.isEmpty) {
+              return const _NoDiscountsAvailable();
+            }
+
+            final items = <Widget>[
+              Text(
+                wm.selectHeaderText,
+                style: AppStyles.h1,
+              ),
+              if (wm.discountType == DiscountType.offline)
+                const Padding(
+                  padding: EdgeInsets.only(
+                    top: 12,
+                  ),
+                  child: Text(
+                    'Скидкой можно воспользоваться в любой из оптик сети.',
+                    style: AppStyles.p1,
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: StreamedStateBuilder<Optic?>(
+                  streamedState: wm.currentDiscountOptic,
+                  builder: (_, selectedOptic) => SelectShopSection(
+                    selectedOptic: selectedOptic,
+                    discountOptics: discountOptics,
+                    onChanged: wm.setCurrentOptic,
+                    discountType: wm.discountType,
+                  ),
+                ),
+              ),
+              if (wm.discountType == DiscountType.offline)
+                StreamedStateBuilder<Optic?>(
+                  streamedState: wm.currentDiscountOptic,
+                  builder: (_, currentDiscountOptic) => Padding(
+                    padding: const EdgeInsets.only(
+                      top: 30,
+                      bottom: 4,
+                    ),
+                    child: WhiteButton(
+                      text: currentDiscountOptic != null
+                          ? currentDiscountOptic.title
+                          : 'Адреса оптик',
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                          top: 16,
+                          bottom: 16,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/map-marker.png',
+                          height: 16,
+                        ),
+                      ),
+                      onPressed: () => Keys.mainNav.currentState!.push<void>(
+                        MaterialPageRoute(
+                          builder: (context) => SelectOpticScreen(
+                            cities: wm.cities,
+                            onOpticSelect: (optic, _, __) =>
+                                wm.setCurrentOptic(optic),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              Warning.warning(wm.warningText),
+            ];
+
+            return SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                20,
+                StaticData.sidePadding,
+                20,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (_, index) => items[index],
+                  childCount: items.length,
+                ),
+              ),
+            );
+          },
         ),
         SliverPadding(
           padding: const EdgeInsets.symmetric(
@@ -200,7 +241,7 @@ class _DiscountOpticsScreenState
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: const EdgeInsets.only(top: 40, bottom: 20),
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
                   child: HowToUsePromocode(text: wm.howToUseText),
                 ),
               ],
@@ -231,14 +272,38 @@ class _DiscountOpticsScreenState
   }
 }
 
+class _NoDiscountsAvailable extends StatelessWidget {
+  const _NoDiscountsAvailable({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          StaticData.sidePadding,
+          20,
+          StaticData.sidePadding,
+          20,
+        ),
+        child: Text(
+          'Нет доступных скидок',
+          style: AppStyles.h1,
+        ),
+      ),
+    );
+  }
+}
+
 class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final Optic discountOptic;
   final DiscountType discountType;
+  final PartnerOrderResponse? orderDataResponse;
 
   DiscountOpticsArguments({
     required this.discountOptic,
     required this.discountType,
     required CatalogItemModel model,
+    required this.orderDataResponse,
   }) : super(
           model: model,
         );

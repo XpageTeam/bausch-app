@@ -66,7 +66,7 @@ class _LensParametersScreenState extends State<LensParametersContent> {
             ),
             child: Column(
               children: [
-                LensParametersButtonsSection(),
+                const LensParametersButtonsSection(),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 4),
                   child: BlueButtonWithText(

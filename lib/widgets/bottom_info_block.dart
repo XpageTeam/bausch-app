@@ -17,7 +17,7 @@ class InfoBlock extends StatelessWidget {
       ),
       //height: 60,
       color: AppTheme.mystic,
-      child: SafeArea(
+      child: const SafeArea(
         bottom: false,
         child: Center(
           child: Text(

@@ -8,15 +8,15 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
+//import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +34,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
   final loadingState = StreamedState<bool>(false);
   final loadingLensState = StreamedState<bool>(false);
+
+  final address = StreamedState<AdressModel?>(null);
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -55,7 +57,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
   late UserWM userWM;
 
-  late AdressModel address;
+  //late AdressModel address;
 
   late AdressesCubit adressesCubit;
 
@@ -99,21 +101,21 @@ class OrderRegistrationScreenWM extends WidgetModel {
         if (productItemModel.specifications!.cylinder != null) {
           if (productItemModel.specifications!.cylinder!
               .contains(lensBloc.state.model.cylinder.toString())) {
-            diopters.accept(lensBloc.state.model.cylinder.toString());
+            cylinder.accept(lensBloc.state.model.cylinder.toString());
           }
         }
 
         if (productItemModel.specifications!.axis != null) {
           if (productItemModel.specifications!.axis!
               .contains(lensBloc.state.model.axis.toString())) {
-            diopters.accept(lensBloc.state.model.axis.toString());
+            axis.accept(lensBloc.state.model.axis.toString());
           }
         }
 
         if (productItemModel.specifications!.addiction != null) {
           if (productItemModel.specifications!.addiction!
               .contains(lensBloc.state.model.addict.toString())) {
-            diopters.accept(lensBloc.state.model.addict.toString());
+            addidations.accept(lensBloc.state.model.addict.toString());
           }
         }
       });
@@ -123,9 +125,12 @@ class OrderRegistrationScreenWM extends WidgetModel {
     lastNameFieldEnabled = userWM.userData.value.data!.user.lastName == null;
 
     addAddressAction.bind((_) {
-      Navigator.of(context)
-          .pushNamed('/add_adress')
-          .then((value) => adressesCubit.getAdresses());
+      Navigator.of(context).pushNamed('/add_adress').then((needToReload) {
+        debugPrint(needToReload.toString());
+        if (needToReload != null && needToReload == true) {
+          adressesCubit.getAdresses();
+        }
+      });
     });
 
     makeOrderAction.bind((_) => _spendPoints());
@@ -157,12 +162,44 @@ class OrderRegistrationScreenWM extends WidgetModel {
         error = const CustomException(
           title: 'Необходимо ввести имя и фамилию',
         );
+        showTopError(error);
+        unawaited(loadingState.accept(false));
         return;
+      }
+
+      if (userWM.userData.value.data!.user.email == null) {
+        error = const CustomException(
+          title: 'Необходимо указать почту в профиле',
+        );
+        showTopError(error);
+        unawaited(loadingState.accept(false));
+        return;
+      }
+
+      // TODO(Nikita): придумать нормальное решение
+      if (productItemModel.specifications != null) {
+        if ((productItemModel.specifications!.diopters != null &&
+                diopters.value == null) ||
+            (productItemModel.specifications!.cylinder != null &&
+                cylinder.value == null) ||
+            (productItemModel.specifications!.addiction != null &&
+                addidations.value == null) ||
+            (productItemModel.specifications!.axis != null &&
+                axis.value == null) ||
+            (productItemModel.specifications!.color != null &&
+                color.value == null)) {
+          error = const CustomException(
+            title: 'Необходимо выбрать параметры контактных линз',
+          );
+          showTopError(error);
+          unawaited(loadingState.accept(false));
+          return;
+        }
       }
 
       await OrderFreePackagingSaver.save(
         productItemModel,
-        address,
+        address.value!,
         diopters: diopters.value,
         cylinder: cylinder.value,
         axis: axis.value,
@@ -190,8 +227,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -248,12 +284,6 @@ class OrderFreePackagingSaver {
           if (color != null) 'color': color,
         },
       ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     );
 
     final data = resp.data!;

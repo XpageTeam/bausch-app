@@ -1,13 +1,11 @@
-// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_annotating_with_dynamic, avoid_catches_without_on_clauses
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class WebinarItemModel extends CatalogItemModel
-    implements MappableInterface<WebinarItemModel> {
+class WebinarItemModel extends CatalogItemModel {
   //* Идентификатор ролика
-  final List<String> videoId;
+  final List<String> videoIds;
   final bool availability;
   final bool? isBought;
 
@@ -20,7 +18,7 @@ class WebinarItemModel extends CatalogItemModel
     required String detailText,
     required String picture,
     required int price,
-    required this.videoId,
+    required this.videoIds,
     required this.availability,
     this.isBought,
     String? type,
@@ -54,26 +52,24 @@ class WebinarItemModel extends CatalogItemModel
       throw ResponseParseException('Не передана цена товара');
     }
 
-    return WebinarItemModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      previewText: map['preview_text'] as String,
-      detailText: map['detail_text'] as String,
-      picture: map['picture'] as String,
-      price: map['price'] as int,
-      videoId: map['video_vimeo_id'] != null
-          ? (map['video_vimeo_id'] as List<dynamic>)
-              .map((dynamic e) => e as String)
-              .toList()
-          : [''],
-      availability: map['availability'] as bool,
-      isBought: map['isBought'] as bool?,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return WebinarItemModel(
+        id: map['id'] as int,
+        name: map['name'] as String,
+        previewText: map['preview_text'] as String,
+        detailText: map['detail_text'] as String,
+        picture: map['picture'] as String,
+        price: map['price'] as int,
+        videoIds: map['video_vimeo_id'] != null
+            ? (map['video_vimeo_id'] as List<dynamic>)
+                .map((dynamic e) => e as String)
+                .toList()
+            : [''],
+        availability: map['availability'] as bool,
+        isBought: map['isBought'] as bool?,
+      );
+    } catch (e) {
+      throw ResponseParseException('WebinarItemModel: $e');
+    }
   }
 }

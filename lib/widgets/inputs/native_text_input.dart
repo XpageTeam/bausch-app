@@ -22,10 +22,13 @@ class NativeTextInput extends StatefulWidget {
   final AlignmentGeometry? labelAlignment;
   final Color? cursorColor;
   final bool? enabled;
+  final TextInputAction? textInputAction;
+  final TextCapitalization textCapitalization;
 
   const NativeTextInput({
     required this.labelText,
     required this.controller,
+    this.textCapitalization = TextCapitalization.none,
     this.labelAlignment,
     this.backgroundColor,
     this.onChanged,
@@ -37,6 +40,7 @@ class NativeTextInput extends StatefulWidget {
     this.cursorColor,
     this.autofocus = false,
     this.enabled,
+    this.textInputAction,
     Key? key,
   }) : super(key: key);
 
@@ -102,7 +106,7 @@ class _NativeTextInputState extends State<NativeTextInput>
             ),
 
             //* Само текстовое поле (декорации вынес в AppTheme)
-            child: Platform.isIOS
+            child: Platform.isIOS && (widget.enabled != null && widget.enabled!)
                 ? CupertinoTextField.borderless(
                     cursorColor: widget.cursorColor ?? AppTheme.turquoiseBlue,
                     padding: EdgeInsets.zero,
@@ -115,6 +119,8 @@ class _NativeTextInputState extends State<NativeTextInput>
                     inputFormatters: widget.inputFormatters,
                     autofocus: widget.autofocus,
                     enabled: widget.enabled,
+                    textInputAction: widget.textInputAction,
+                    textCapitalization: widget.textCapitalization,
                   )
                 : TextField(
                     enabled: widget.enabled,
@@ -127,6 +133,8 @@ class _NativeTextInputState extends State<NativeTextInput>
                     maxLines: widget.maxLines,
                     inputFormatters: widget.inputFormatters,
                     autofocus: widget.autofocus,
+                    textInputAction: widget.textInputAction,
+                    textCapitalization: widget.textCapitalization,
                   ),
           ),
 

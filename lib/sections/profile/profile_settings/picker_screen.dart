@@ -72,7 +72,6 @@ class _PickerScreenState extends State<PickerScreen> {
                   ),
                 ),
               ),
-              //TODO(Nikita): не забыть при слиянии
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -80,7 +79,6 @@ class _PickerScreenState extends State<PickerScreen> {
                   style: AppStyles.h1,
                 ),
               ),
-              //TODO(Nikita): Придумать что-то с оверлеем, чтобы не выглядело так стремно при переходе
               Flexible(
                 child: Stack(
                   children: [

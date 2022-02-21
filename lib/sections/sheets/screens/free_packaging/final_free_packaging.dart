@@ -24,6 +24,7 @@ class FinalFreePackaging extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       //resizeToAvoidBottomInset: false,
+      showScrollbar: true,
       backgroundColor: AppTheme.sulu,
       controller: controller,
       appBar: CustomSliverAppbar(
@@ -41,8 +42,8 @@ class FinalFreePackaging extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(top: 78),
+                const Padding(
+                  padding: EdgeInsets.only(top: 78),
                   child: Text(
                     'Заказ успешно оформлен',
                     style: AppStyles.h1,
@@ -51,8 +52,8 @@ class FinalFreePackaging extends StatelessWidget {
                 // DefaultTextInput(
                 //     labelText: 'labelText',
                 //     controller: TextEditingController()),
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                     top: 12,
                     bottom: 40,
                   ),
@@ -94,19 +95,7 @@ class FinalFreePackaging extends StatelessWidget {
           ),
         ),
       ],
-      bottomNavBar: BottomButtonWithRoundedCorners(
-        onPressed: () {
-          Keys.mainNav.currentState!.pop();
-          Keys.mainNav.currentState!.pop();
-          Keys.mainNav.currentState!.pop();
-          Keys.mainContentNav.currentState!.pushNamedAndRemoveUntil(
-            '/home',
-            (route) => route.isCurrent,
-          );
-
-          //Keys.mainNav.pop();
-        },
-      ),
+      bottomNavBar: const BottomButtonWithRoundedCorners(),
     );
   }
 }

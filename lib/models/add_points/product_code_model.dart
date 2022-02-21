@@ -1,6 +1,8 @@
-import 'package:bausch/models/mappable_object.dart';
+// ignore_for_file: avoid_catches_without_on_clauses
 
-class ProductCodeModel implements MappableInterface<ProductCodeModel> {
+import 'package:bausch/exceptions/response_parse_exception.dart';
+
+class ProductCodeModel {
   final int id;
   final String title;
   final String code;
@@ -12,16 +14,14 @@ class ProductCodeModel implements MappableInterface<ProductCodeModel> {
   });
 
   factory ProductCodeModel.fromMap(Map<String, dynamic> map) {
-    return ProductCodeModel(
-      id: map['id'] as int,
-      title: map['title'] as String,
-      code: map['code'] as String,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return ProductCodeModel(
+        id: map['id'] as int,
+        title: map['title'] as String,
+        code: map['code'] as String,
+      );
+    } catch (e) {
+      throw ResponseParseException('ProductCodeModel: $e');
+    }
   }
 }

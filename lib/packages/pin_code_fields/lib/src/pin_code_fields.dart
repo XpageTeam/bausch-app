@@ -357,7 +357,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     );
     _offsetAnimation = Tween<Offset>(
       begin: Offset.zero,
-      end:  Offset.zero,
+      end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.elasticIn,
@@ -430,6 +430,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       default:
         break;
     }
+    return null;
   }
 
   // Assigning the text controller, if empty assiging a new one.
@@ -497,9 +498,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       });
     }
   }
-	
+
   @override
-  void dispose() {/*
+  void dispose() {
+    /*
     if (widget.autoDisposeControllers) {
       _textEditingController!.dispose();
       _focusNode!.dispose();

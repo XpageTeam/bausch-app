@@ -13,7 +13,7 @@ class HowToUsePromocode extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Как воспользоваться промокодом',
           style: AppStyles.h1,
         ),

@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'dart:io';
+
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -27,20 +29,7 @@ class RequestHandler {
   Dio? _dio;
 
   RequestHandler._init() {
-    _dio = Dio(
-      BaseOptions(
-        baseUrl: StaticData.apiUrl,
-        connectTimeout: 20000,
-        receiveTimeout: 40000,
-        // headers: <String, dynamic>{
-        // 	if (UserRepository.currentUser != null)
-        // 		'token': UserRepository.currentUser!.token,
-        // },
-      ),
-    );
-
-    // ! debugPrint('userToken2: ${UserRepository.currentUser?.token}');
-    // print("store: $store");
+    _dio = _createDio();
   }
 
   factory RequestHandler.setContext(BuildContext context) {
@@ -142,22 +131,7 @@ class RequestHandler {
         path,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
-        options: options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                },
-              ),
+        options: _getOptions(options),
         queryParameters: queryParameters,
       );
     } on DioError catch (e) {
@@ -199,22 +173,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                },
-              ),
+        options: _getOptions(options),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -254,22 +213,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                },
-              ),
+        options: _getOptions(options),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -307,22 +251,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options != null
-            ? options.copyWith(
-                headers: <String, dynamic>{
-                  'x-api-key': options.headers?.containsKey('x-api-key') != null
-                      ? options.headers != null
-                          ? options.headers!['x-api-key']
-                          : ''
-                      : _userWM?.userData.value.data?.user.token ?? '',
-                },
-              )
-            : Options(
-                headers: <String, dynamic>{
-                  if (_userWM?.userData.value.data?.user.token != null)
-                    'x-api-key': _userWM?.userData.value.data?.user.token,
-                },
-              ),
+        options: _getOptions(options),
         cancelToken: cancelToken,
       );
     } on DioError catch (e) {
@@ -337,5 +266,45 @@ class RequestHandler {
 
       rethrow;
     }
+  }
+
+  Options? _getOptions(Options? options) {
+    return options != null
+        ? options.copyWith(
+            headers: options.headers != null
+                ? (options.headers!
+                  ..addAll(
+                    <String, dynamic>{
+                      'x-api-key':
+                          options.headers!.containsKey('x-api-key')
+                              ? options.headers!['x-api-key']
+                              : _userWM?.userData.value.data?.user.token ?? '',
+                      'is-ios': options.headers!.containsKey('is-ios')
+                          ? options.headers!['is-ios']
+                          : Platform.isIOS.toString(),
+                    },
+                  ))
+                : <String, dynamic>{
+                    'x-api-key': _userWM?.userData.value.data?.user.token ?? '',
+                    'is-ios': Platform.isIOS.toString(),
+                  },
+          )
+        : Options(
+            headers: <String, dynamic>{
+              if (_userWM?.userData.value.data?.user.token != null)
+                'x-api-key': _userWM?.userData.value.data?.user.token,
+              'is-ios': Platform.isIOS.toString(),
+            },
+          );
+  }
+
+  Dio _createDio() {
+    return Dio(
+      BaseOptions(
+        baseUrl: StaticData.apiUrl,
+        connectTimeout: 20000,
+        receiveTimeout: 40000,
+      ),
+    );
   }
 }

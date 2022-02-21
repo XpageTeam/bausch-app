@@ -1,10 +1,14 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class PromoItemModel extends CatalogItemModel
-    implements MappableInterface<PromoItemModel> {
+class PromoItemModel extends CatalogItemModel {
   final String code;
+
+  final bool? availability;
+  final bool? isBought;
+
   PromoItemModel({
     required int id,
     required String name,
@@ -13,6 +17,8 @@ class PromoItemModel extends CatalogItemModel
     required String? picture,
     required int price,
     required this.code,
+    this.availability,
+    this.isBought,
     String? type,
   }) : super(
           id: id,
@@ -21,7 +27,7 @@ class PromoItemModel extends CatalogItemModel
           detailText: detailText,
           picture: picture,
           price: price,
-          type:type,
+          type: type,
         );
 
   factory PromoItemModel.fromMap(Map<String, dynamic> map) {
@@ -44,20 +50,20 @@ class PromoItemModel extends CatalogItemModel
       throw ResponseParseException('Не передана цена товара');
     }
 
-    return PromoItemModel(
-      id: map['id'] as int,
-      name: (map['name'] ?? map['title']) as String,
-      previewText: map['preview_text'] as String,
-      detailText: map['detail_text'] as String,
-      picture: map['picture'] as String?,
-      price: (map['price'] ?? 150) as int,
-      code: map['code'] as String,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return PromoItemModel(
+        id: map['id'] as int,
+        name: (map['name'] ?? map['title']) as String,
+        previewText: map['preview_text'] as String,
+        detailText: map['detail_text'] as String,
+        picture: map['picture'] as String?,
+        price: (map['price'] ?? 150) as int,
+        code: (map['code'] as String?) ?? (map['mb_code'] as int).toString(),
+        availability: (map['availability'] as bool?) ?? false,
+        isBought: (map['isBought'] as bool?) ?? false,
+      );
+    } catch (e) {
+      throw ResponseParseException('PromoItemModel: $e');
+    }
   }
 }

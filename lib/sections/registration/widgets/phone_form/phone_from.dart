@@ -3,6 +3,7 @@ import 'package:bausch/global/login/models/login_text.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -31,12 +32,22 @@ class PhoneForm extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         StreamedStateBuilder<bool>(
-          streamedState: wm.sendPhoneBtnActive,
-          builder: (_, state) {
-            return BlueButtonWithText(
-              text: 'Продолжить',
-              // ignore: unnecessary_lambdas
-              onPressed: state ? () => wm.sendPhoneAction() : null,
+          streamedState: wm.loginProcessedState,
+          builder: (_, isLoading) {
+            return StreamedStateBuilder<bool>(
+              streamedState: wm.sendPhoneBtnActive,
+              builder: (_, state) {
+                return BlueButtonWithText(
+                  text: isLoading ? '' : 'Продолжить',
+                  icon: isLoading ? const UiCircleLoader() : null,
+                  // ignore: unnecessary_lambdas
+                  onPressed: state
+                      ? !isLoading
+                          ? () => wm.sendPhoneAction(null)
+                          : null
+                      : null,
+                );
+              },
             );
           },
         ),

@@ -1,12 +1,17 @@
 import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
+import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/support_section.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
+import 'package:bausch/sections/sheets/wm/bottom_sheet_wm.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* FAQ
 //* topics
@@ -19,32 +24,54 @@ class TopicsScreenArguments {
   });
 }
 
-class TopicsScreen extends StatefulWidget implements TopicsScreenArguments {
+class TopicsScreen extends CoreMwwmWidget<BottomSheetWM>
+    implements TopicsScreenArguments {
   final ScrollController controller;
   @override
   final List<TopicModel> topics;
-  const TopicsScreen({
+  TopicsScreen({
     required this.controller,
     required this.topics,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          widgetModelBuilder: (context) {
+            return BottomSheetWM(
+              color: Colors.white,
+            );
+          },
+        );
 
   @override
-  State<TopicsScreen> createState() => _TopicsScreenState();
+  WidgetState<CoreMwwmWidget<BottomSheetWM>, BottomSheetWM>
+      createWidgetState() => _TopicsScreenState();
 }
 
-class _TopicsScreenState extends State<TopicsScreen> {
+class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
+  Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 14,
-        ),
-        icon: Container(height: 1),
-        //iconColor: AppTheme.mystic,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          wm.colorState.accept(AppTheme.turquoiseBlue);
+        } else {
+          wm.colorState.accept(Colors.white);
+        }
+      },
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 14,
+            ),
+            icon: Container(height: 1),
+            iconColor: color,
+          );
+        },
       ),
       slivers: [
         SliverList(
@@ -56,7 +83,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Center(
                       child: Text(
                         'Частые вопросы',
@@ -64,7 +91,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         right: StaticData.sidePadding,
                         left: StaticData.sidePadding,
                         top: 42,
@@ -95,13 +122,34 @@ class _TopicsScreenState extends State<TopicsScreen> {
                   text: widget.topics[index].title,
                   icon: Container(),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      '/faq_topic',
-                      arguments: TopicScreenArguments(
-                        title: widget.topics[index].title,
-                        topicModel: widget.topics[index],
-                      ),
-                    );
+                    if (widget.topics[index].questions != null &&
+                        widget.topics[index].questions!.isNotEmpty) {
+                      Navigator.of(context).pushNamed(
+                        '/faq_topic',
+                        arguments: TopicScreenArguments(
+                          title: widget.topics[index].title,
+                          topicModel: widget.topics[index],
+                        ),
+                      );
+                    } else {
+                      if (widget.topics[index].answer != null &&
+                          widget.topics[index].answer!.isNotEmpty &&
+                          widget.topics[index].answer!.trim().isNotEmpty) {
+                        Navigator.of(context).pushNamed(
+                          '/question',
+                          arguments: QuestionScreenArguments(
+                            topic: widget.topics[index],
+                          ),
+                        );
+                      } else {
+                        Navigator.of(context).pushNamed(
+                          '/support',
+                          arguments: ContactSupportScreenArguments(
+                            topic: widget.topics[index],
+                          ),
+                        );
+                      }
+                    }
                   },
                 ),
               ),

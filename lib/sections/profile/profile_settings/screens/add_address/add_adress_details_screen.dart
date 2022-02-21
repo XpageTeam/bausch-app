@@ -15,7 +15,7 @@ import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,6 +54,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   bool floorControllerIsEmpty = true;
   bool entryControllerIsEmpty = true;
 
+  bool isButtonPressed = false;
+
   late TextEditingController flatController;
   late TextEditingController entryController;
   late TextEditingController floorController;
@@ -73,25 +75,20 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   void initState() {
     super.initState();
 
-    //addressesBloc = BlocProvider.of<AddressesBloc>(context);
-
-    flatController = TextEditingController(
+    flatController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.flat == null ? '' : widget.adress.flat.toString(),
-    )..addListener(() {
-        setState(() {});
-      });
+    );
 
-    entryController = TextEditingController(
+    entryController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.entry == null ? '' : widget.adress.entry.toString(),
-    )..addListener(() {
-        setState(() {});
-      });
+    );
 
-    floorController = TextEditingController(
+    floorController = MaskedTextController(
+      mask: '0000',
       text: widget.adress.floor == null ? '' : widget.adress.floor.toString(),
-    )..addListener(() {
-        setState(() {});
-      });
+    );
   }
 
   @override
@@ -101,7 +98,11 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       child: BlocListener<AddressesBloc, AddressesState>(
         listener: (context, state) {
           if (state is AddressesFailed) {
-            showDefaultNotification(title: state.title);
+            showDefaultNotification(
+              title: state.title,
+              subtitle: state.subtitle,
+            );
+            isButtonPressed = false;
           }
 
           if (state is AddressesSended) {
@@ -111,10 +112,15 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
               Navigator.of(context).pop();
             }
           }
+
+          if (state is AddressesDeleted){
+            _navigateBack();
+          }
         },
         child: BlocBuilder<AddressesBloc, AddressesState>(
-          bloc: addressesBloc,
+          //bloc: addressesBloc,
           builder: (context, state) {
+            debugPrint(state.toString());
             return Scaffold(
               appBar: const DefaultAppBar(
                 title: 'Адрес доставки',
@@ -143,6 +149,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             labelText: 'Кв/офис',
                             controller: flatController,
                             inputType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                           ),
                         ),
                         const SizedBox(
@@ -153,6 +160,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             labelText: 'Подъезд',
                             controller: entryController,
                             inputType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                           ),
                         ),
                         const SizedBox(
@@ -163,6 +171,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                             labelText: 'Этаж',
                             controller: floorController,
                             inputType: TextInputType.number,
+                            textInputAction: TextInputAction.done,
                           ),
                         ),
                       ],
@@ -179,17 +188,30 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   children: [
                     BlueButtonWithText(
                       text: 'Сохранить',
-                      onPressed: ((floorController.text.isNotEmpty) &&
-                              (flatController.text.isNotEmpty) &&
-                              (entryController.text.isNotEmpty))
+                      onPressed: !isButtonPressed
                           ? () {
+                              //* чтобы не было двойных нажатий
+                              setState(() {
+                                isButtonPressed = true;
+                              });
+
                               final model = AdressModel(
                                 id: widget.adress.id,
                                 street: widget.adress.street,
                                 house: widget.adress.house,
-                                flat: int.parse(flatController.text),
-                                entry: int.parse(entryController.text),
-                                floor: int.parse(floorController.text),
+                                city: widget.adress.city,
+                                region: widget.adress.region,
+                                settlement: widget.adress.settlement,
+                                zipCode: widget.adress.zipCode,
+                                flat: flatController.text.isNotEmpty
+                                    ? int.parse(flatController.text)
+                                    : null,
+                                entry: entryController.text.isNotEmpty
+                                    ? int.parse(entryController.text)
+                                    : null,
+                                floor: floorController.text.isNotEmpty
+                                    ? int.parse(floorController.text)
+                                    : null,
                               );
 
                               if (widget.isFirstLaunch) {
@@ -200,11 +222,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                     .add(AddressUpdate(address: model));
                               }
                             }
-                          : () {
-                              showDefaultNotification(
-                                title: 'Необходимо заполнить все поля',
-                              );
-                            },
+                          : null,
                     ),
                     if (!widget.isFirstLaunch)
                       Padding(
@@ -224,13 +242,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                     addressesBloc.add(
                                       AddressesDelete(id: widget.adress.id!),
                                     );
-
-                                    //widget.adressesCubit?.getAdresses();
-
-                                    debugPrint('delete');
-                                    debugPrint(addressesBloc.state.toString());
-
-                                    _navigateBack();
                                   },
                                   noCallback: () {
                                     Navigator.of(context).pop();
@@ -253,9 +264,11 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 
-  //TODO(Nikita): Заменить на popUntil.withName
   void _navigateBack() {
+    // var count = 0;
+    // Navigator.of(context).popUntil((_) => count++ >= 2);
+
     Navigator.of(context).pop();
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 }

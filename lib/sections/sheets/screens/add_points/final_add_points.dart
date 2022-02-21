@@ -8,21 +8,40 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/point_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //* Add_points
 //* final
-class FinalAddPointsScreen extends StatelessWidget {
-  final ScrollController controller;
-  const FinalAddPointsScreen({required this.controller, Key? key})
-      : super(key: key);
 
+class FinalAddPointsArguments {
+  final String points;
+
+  FinalAddPointsArguments({required this.points});
+}
+
+class FinalAddPointsScreen extends StatefulWidget
+    implements FinalAddPointsArguments {
+  final ScrollController controller;
+  @override
+  final String points;
+
+  const FinalAddPointsScreen({
+    required this.controller,
+    required this.points,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<FinalAddPointsScreen> createState() => _FinalAddPointsScreenState();
+}
+
+class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
+  Color iconColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.sulu,
-      controller: controller,
+      controller: ScrollController(),
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.only(
           top: 14,
@@ -31,72 +50,81 @@ class FinalAddPointsScreen extends StatelessWidget {
         icon: Container(
           height: 1,
         ),
+        iconColor: iconColor,
       ),
       slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  const CircleAvatar(
+        SliverFillRemaining(
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircleAvatar(
                     radius: 165,
                     backgroundColor: Colors.white,
                   ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 3,
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
+                  ),
+                  Flexible(
+                    child: ClipRRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                        child: Container(
+                          color: Colors.white.withOpacity(0.16),
+                          //height: MediaQuery.of(context).size.height / 3,
+                          constraints: const BoxConstraints.expand(),
+                        ),
                       ),
-                      ClipRRect(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-                          child: Container(
-                            color: Colors.white.withOpacity(0.16),
-                            height: MediaQuery.of(context).size.height / 3,
-                          ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 4.5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        '+${widget.points}',
+                        maxLines: 1,
+                        style: const TextStyle(
+                          color: AppTheme.mineShaft,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 85,
+                          height: 80 / 85,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                      const PointWidget(
+                        radius: 18,
+                        textStyle: TextStyle(
+                          color: AppTheme.mineShaft,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 27,
+                          height: 25 / 27,
+                          leadingDistribution: TextLeadingDistribution.even,
                         ),
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          AutoSizeText(
-                            '+500',
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: AppTheme.mineShaft,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 85,
-                              height: 80 / 85,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                          PointWidget(
-                            radius: 18,
-                            textStyle: TextStyle(
-                              color: AppTheme.mineShaft,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 27,
-                              height: 25 / 27,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      AutoSizeText(
-                        'Спасибо, что вы с нами!',
-                        maxLines: 2,
-                        style: AppStyles.h1,
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const AutoSizeText(
+                    'Спасибо, что вы с нами!',
+                    maxLines: 2,
+                    style: AppStyles.h1,
                   ),
                 ],
               ),
@@ -104,9 +132,16 @@ class FinalAddPointsScreen extends StatelessWidget {
           ),
         ),
       ],
-      bottomNavBar: const CustomFloatingActionButton(
+      bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить баллы',
         topPadding: 12,
+        onPressed: () {
+          if (spendPointsPositionKey.currentContext != null) {
+            Scrollable.ensureVisible(spendPointsPositionKey.currentContext!);
+          }
+
+          Keys.mainContentNav.currentState!.pop();
+        },
       ),
     );
   }

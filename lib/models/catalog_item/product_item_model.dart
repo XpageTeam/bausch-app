@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/specification/specifications_model.dart';
@@ -43,20 +45,23 @@ class ProductItemModel extends CatalogItemModel
       throw ResponseParseException('Не передана цена товара');
     }
 
-    return ProductItemModel(
-      id: map['id'] as int,
-      //TODO(Nikita): Попросить сделать одинаковые названия
-      name: (map['name'] ?? map['title']) as String,
-      previewText: map['preview_text'] as String,
-      detailText: map['detail_text'] as String,
-      picture: map['picture'] as String?,
-      price: (map['price'] ?? 150) as int,
-      specifications: map['specifications'] != null
-          ? SpecificationsModel.fromMap(
-              map['specifications'] as Map<String, dynamic>,
-            )
-          : null,
-    );
+    try {
+      return ProductItemModel(
+        id: map['id'] as int,
+        name: (map['name'] ?? map['title']) as String,
+        previewText: map['preview_text'] as String,
+        detailText: map['detail_text'] as String,
+        picture: map['picture'] as String?,
+        price: (map['price'] ?? 150) as int,
+        specifications: map['specifications'] != null
+            ? SpecificationsModel.fromMap(
+                map['specifications'] as Map<String, dynamic>,
+              )
+            : null,
+      );
+    } catch (e) {
+      throw ResponseParseException('ProductItemModel: $e');
+    }
   }
 
   @override

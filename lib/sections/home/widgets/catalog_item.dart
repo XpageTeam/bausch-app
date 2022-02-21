@@ -34,7 +34,6 @@ class CatalogItem extends StatelessWidget {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // TODO(Nikita): подставить норм картинку
                     if (model.picture != null)
                       Image.asset(
                         // model.img ?? 'assets/free-packaging.png',
@@ -59,7 +58,7 @@ class CatalogItem extends StatelessWidget {
                 ButtonWithPoints(
                   price: model.priceToString,
                   onPressed: () {
-                    // TODO: Реализовать onPressed.
+                    // TODO(all): Реализовать onPressed.
                   },
                 ),
               ],

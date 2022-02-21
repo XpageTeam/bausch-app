@@ -17,6 +17,7 @@ class HelpFunctions {
   }
 
   static Future<void> launchURL(String _url) async {
+    // ignore: only_throw_errors
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
@@ -32,10 +33,65 @@ class HelpFunctions {
   static String formatPhone(String phone) {
     final regex = RegExp('[^0-9]');
     final cleanPhone = phone.replaceAll(regex, '');
+    if (cleanPhone.length != 11) {
+      return cleanPhone;
+    }
     final res =
         '${cleanPhone.substring(0, 1) == '7' ? '+' : ''}${cleanPhone.substring(0, 1)} ${cleanPhone.substring(1, 4)} ${cleanPhone.substring(4, 7)}-${cleanPhone.substring(7, 9)}-${cleanPhone.substring(9)}';
 
     return res;
+  }
+
+  static List<String> getSplittedText(
+    double maxWidth,
+    TextStyle textStyle,
+    String text,
+  ) {
+    final lineTexts = <String>[];
+    final textSpan = TextSpan(text: text, style: textStyle);
+    final _textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    )..layout(
+        maxWidth: maxWidth,
+      );
+
+    final selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: textSpan.text!.length,
+    );
+
+    final boxes = _textPainter.getBoxesForSelection(selection);
+
+    var start = 0;
+    int end;
+
+    final reg = RegExp('[^А-Яа-яA-Za-z0-9().,;?]');
+
+    for (final box in boxes) {
+      end = _textPainter
+          .getPositionForOffset(
+            Offset(
+              box.left,
+              box.bottom,
+            ),
+          )
+          .offset;
+
+      final line = text.substring(
+        start,
+        end,
+      );
+      if (line.isNotEmpty) {
+        lineTexts.add(line.replaceAll(reg, ' '));
+      }
+      start = end;
+    }
+
+    final extra = text.substring(start);
+    lineTexts.add(extra.replaceAll(reg, ' '));
+
+    return lineTexts;
   }
 }
 

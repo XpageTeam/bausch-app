@@ -47,9 +47,9 @@ class User {
         phone: json['phone'] as String,
         pendingEmail: json['pendingEmail'] as String?,
         isMobilePhoneConfirmed: json['isMobilePhoneConfirmed'] as bool,
-        birthDate: json['birthDate'] == null
-            ? null
-            : DateTime.parse(json['birthDate'] as String),
+        birthDate: DateTime.tryParse(
+          (json['birthDate'] as String? ?? '').split('+')[0],
+        ),
         city: json['city'] as String?,
         isEmailConfirmed: json['isEmailConfirmed'] as bool?,
       );
@@ -61,7 +61,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, token: $token, name: $name, lastName: $lastName, secondName: $secondName, email: $email, phone: $phone, isMobilePhoneConfirmed: $isMobilePhoneConfirmed, birthDate: $birthDate, city: $city)';
+    return 'User(id: $id, token: $token, name: $name, lastName: $lastName, secondName: $secondName, email: $email, phone: $phone, isMobilePhoneConfirmed: $isMobilePhoneConfirmed, birthDate: $birthDate, city: $city, isEmailConfirmed: $isEmailConfirmed, pendingEmail: $pendingEmail)';
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -75,6 +75,8 @@ class User {
         'isMobilePhoneConfirmed': isMobilePhoneConfirmed,
         'birthDate': birthDate?.toIso8601String(),
         'city': city,
+        'isEmailConfirmed': isEmailConfirmed,
+        'pendingEmail': pendingEmail,
       };
 
   User copyWith({
@@ -88,6 +90,8 @@ class User {
     bool? isMobilePhoneConfirmed,
     DateTime? birthDate,
     String? city,
+    bool? isEmailConfirmed,
+    String? pendingEmail,
   }) {
     return User(
       id: id ?? this.id,
@@ -100,6 +104,8 @@ class User {
       isMobilePhoneConfirmed:
           isMobilePhoneConfirmed ?? this.isMobilePhoneConfirmed,
       birthDate: birthDate ?? this.birthDate,
+      isEmailConfirmed: isEmailConfirmed ?? this.isEmailConfirmed,
+      pendingEmail: pendingEmail ?? this.pendingEmail,
       city: city ?? this.city,
     );
   }

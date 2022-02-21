@@ -23,7 +23,7 @@ class ProfileSettingsBanner extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          Flexible(
+          const Flexible(
             child: Text(
               'В День Рождения мы начислим в подарок 50 баллов.',
               style: AppStyles.h2Bold,

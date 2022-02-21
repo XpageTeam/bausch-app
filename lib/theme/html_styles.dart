@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/html_parser.dart';
-import 'package:flutter_html/style.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 final Map<String, Style> htmlStyles = {
   'a': Style(
@@ -156,6 +159,29 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
     );
+  },
+
+  'img': (ctx, widget) {
+    var imgUrl = ctx.tree.element!.attributes['src'] ?? '';
+
+    if (!imgUrl.startsWith('http')){
+      imgUrl = '${StaticData.defaultImageSource}$imgUrl';
+    }
+
+    // if (imgUrl == null && imgUrl.isEmpty) return const SizedBox();
+
+    try {
+      if (imgUrl.endsWith('.svg')) {
+        return SvgPicture.network(
+          imgUrl,
+        );
+      }
+      return Image.network(imgUrl);
+    } catch (e) {
+      throw const CustomException(
+        title: 'Невозможно открыть картинку по ссылке',
+      );
+    }
   },
 };
 

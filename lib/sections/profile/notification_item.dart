@@ -1,11 +1,16 @@
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
 import 'package:flutter/material.dart';
 
 class NotificationItem extends StatelessWidget {
-  const NotificationItem({Key? key}) : super(key: key);
+  final NotificationModel data;
+
+  const NotificationItem({
+    required this.data,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,26 +31,30 @@ class NotificationItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AutoSizeText(
-                  'Регистрация в программе лояльности',
+                Text(
+                  data.title,
                   style: AppStyles.p1,
-                  maxLines: 3,
+                  // maxLines: 3,
                 ),
-                const SizedBox(
-                  height: 2,
-                ),
-                AutoSizeText(
-                  '29.06.2021',
-                  style: AppStyles.p1Grey,
-                  maxLines: 3,
-                ),
+                if (data.formatedDate != null)
+                  Container(
+                    margin: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      data.formatedDate!,
+                      style: AppStyles.p1Grey,
+                      maxLines: 3,
+                    ),
+                  ),
               ],
             ),
           ),
           const SizedBox(
             width: 15,
           ),
-          const ButtonContent(price: '+500'),
+          if (data.points != null)
+            ButtonContent(
+              price: data.formatedPrice,
+            ),
         ],
       ),
     );

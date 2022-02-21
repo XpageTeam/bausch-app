@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
@@ -15,22 +14,9 @@ part 'dadata_event.dart';
 part 'dadata_state.dart';
 
 class DadataBloc extends Bloc<DadataEvent, DadataState> {
-  final String city;
-  final dio = Dio(
-    BaseOptions(
-      baseUrl:
-          'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address',
-      connectTimeout: 20000,
-      receiveTimeout: 40000,
-      contentType: 'application/json',
-      responseType: ResponseType.json,
-      headers: <String, dynamic>{
-        'Authorization': 'Token ${StaticData.dadataApiKey}',
-      },
-    ),
-  );
+  // final String city;
 
-  DadataBloc({required this.city}) : super(DadataInitial()) {
+  DadataBloc(/*{required this.city}*/) : super(DadataInitial()) {
     on<DadataChangeText>((event, emit) async {
       emit(DadataLoading());
       emit(await _sendRequest(event.text));
@@ -51,17 +37,18 @@ class DadataBloc extends Bloc<DadataEvent, DadataState> {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Token ${StaticData.vitaminkaKey}',
+          'Authorization': 'Token ${StaticData.dadataApiKey}',
         },
         body: json.encode(
           {
             'query': userText,
-            'locations': [
-              {'city': city},
-              // {"street": userText}
-            ],
-            // 'from_bound': {'value': 'house'},
-            // 'to_bound': {'value': 'house'},
+            'count': 15,
+            // 'locations': [
+            //   {'city': city},
+            //   // {"street": userText}
+            // ],
+            'from_bound': {'value': 'street'},
+            'to_bound': {'value': 'house'},
           },
         ),
       );

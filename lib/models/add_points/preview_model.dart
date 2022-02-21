@@ -1,6 +1,10 @@
-import 'package:bausch/models/mappable_object.dart';
 
-class PreviewModel implements MappableInterface<PreviewModel> {
+
+// ignore_for_file: avoid_catches_without_on_clauses
+
+import 'package:bausch/exceptions/response_parse_exception.dart';
+
+class PreviewModel{
   final String title;
 
   final String description;
@@ -11,15 +15,14 @@ class PreviewModel implements MappableInterface<PreviewModel> {
   });
 
   factory PreviewModel.fromMap(Map<String, dynamic> map) {
-    return PreviewModel(
-      title: map['title'] as String,
-      description: map['description'] as String,
-    );
+    try {
+      return PreviewModel(
+        title: map['title'] as String,
+        description: map['description'] as String,
+      );
+    } catch (e) {
+      throw ResponseParseException('PreviewModel: $e');
+    }
   }
 
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
-  }
 }

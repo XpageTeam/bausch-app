@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: avoid-returning-widgets
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -29,6 +30,10 @@ class AppTheme {
 
   static ThemeData get currentAppTheme => ThemeData(
         fontFamily: 'Euclid Circular A',
+        scrollbarTheme: ScrollbarThemeData(
+          radius: const Radius.circular(10),
+          thumbColor: MaterialStateProperty.all(Colors.transparent),
+        ),
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: turquoiseBlue,
           selectionColor: turquoiseBlue,
@@ -41,6 +46,7 @@ class AppTheme {
         ),
         scaffoldBackgroundColor: mystic,
         primarySwatch: turquoiseBlueMaterial,
+
         // appBarTheme: const AppBarTheme(
         //   systemOverlayStyle: SystemUiOverlayStyle(
         //     statusBarColor: mystic,
@@ -48,4 +54,11 @@ class AppTheme {
         //   ),
         // ),
       );
+}
+
+Widget? loadStateChangedFunction(ExtendedImageState state) {
+  if (state.extendedImageLoadState == LoadState.loading) {
+    return const SizedBox();
+  }
+  return null;
 }

@@ -1,7 +1,9 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class BigCatalogItem extends StatelessWidget {
@@ -53,8 +55,10 @@ class BigCatalogItem extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 100 / 100,
               child: model.picture != null
-                  ? Image.network(
+                  ? ExtendedImage.network(
                       model.picture!,
+                      printError: false,
+                      loadStateChanged: loadStateChangedFunction,
                     )
                   : null,
             ),

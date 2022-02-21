@@ -8,20 +8,22 @@ abstract class ValuesState {
 }
 
 class ValuesInitial extends ValuesState {
-  ValuesInitial() : super(values: []);
+  const ValuesInitial() : super(values: const []);
 }
 
 class ValuesLoading extends ValuesState {
-  ValuesLoading() : super(values: []);
+  const ValuesLoading() : super(values: const []);
 }
 
 class ValuesFailed extends ValuesState {
   final String title;
   final String? subtitle;
 
-  ValuesFailed({required this.title, this.subtitle}) : super(values: []);
+  const ValuesFailed({required this.title, this.subtitle})
+      : super(values: const []);
 }
 
 class ValuesSuccess extends ValuesState {
-  const ValuesSuccess({required List<ValueModel> values}) : super(values: values);
+  const ValuesSuccess({required List<ValueModel> values})
+      : super(values: values);
 }

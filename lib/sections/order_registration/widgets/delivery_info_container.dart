@@ -26,7 +26,7 @@ class DeliveryInfoContainer extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              Flexible(
+              const Flexible(
                 child: Text(
                   'Доставка в течение 60 рабочих дней',
                   style: AppStyles.h2Bold,

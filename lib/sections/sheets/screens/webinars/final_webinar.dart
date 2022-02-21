@@ -12,12 +12,12 @@ import 'package:flutter/material.dart';
 class FinalWebinar extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
-  final String videoId;
+  final List<String> videoIds;
 
   const FinalWebinar({
     required this.controller,
     required this.model,
-    required this.videoId,
+    required this.videoIds,
     Key? key,
   }) : super(key: key);
 
@@ -39,15 +39,15 @@ class FinalWebinar extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(top: 78),
+                const Padding(
+                  padding: EdgeInsets.only(top: 78),
                   child: Text(
                     'Ваш доступ к записи вебинара',
                     style: AppStyles.h1,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
+                const Padding(
+                  padding: EdgeInsets.only(
                     top: 12,
                     bottom: 40,
                   ),
@@ -65,11 +65,11 @@ class FinalWebinar extends StatelessWidget {
       bottomNavBar: BottomButtonWithRoundedCorners(
         text: 'Перейти к просмотру',
         onPressed: () {
-          Keys.mainNav.currentState!.pop();
+          Keys.mainContentNav.currentState!.pop();
 
           showDialog<void>(
-            context: Keys.mainNav.currentContext!,
-            builder: (context) => VimeoPopup(videoId: videoId),
+            context: context,
+            builder: (context) => WebinarPopup(videoId: videoIds.first),
           );
         },
       ),

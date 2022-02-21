@@ -8,7 +8,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class CityEmailScreenWM extends WidgetModel {
   final BuildContext context;
 
-  final selectedCityName = StreamedState<String?>(null);
+  // final selectedCityName = StreamedState<String?>(null);
   final codeScreenAuthTrue = StreamedState<bool>(false);
 
   final emailFieldController = TextEditingController();
@@ -23,10 +23,10 @@ class CityEmailScreenWM extends WidgetModel {
 
   CityEmailScreenWM({
     required this.context,
-    String? cityName,
+    // String? cityName,
     String? email,
   }) : super(const WidgetModelDependencies()) {
-    selectedCityName.accept(cityName);
+    // selectedCityName.accept(cityName);
     emailFieldController.text = email ?? '';
   }
 
@@ -42,9 +42,9 @@ class CityEmailScreenWM extends WidgetModel {
       }
     });
 
-    subscribe<String?>(selectedCityName.stream, (value) {
-      _validateForm();
-    });
+    // subscribe<String?>(selectedCityName.stream, (value) {
+    //   _validateForm();
+    // });
 
     emailFieldController.addListener(_validateForm);
 
@@ -57,10 +57,10 @@ class CityEmailScreenWM extends WidgetModel {
 
     super.dispose();
   }
-
+  /*
   void setCityName(String? cityName) {
     selectedCityName.accept(cityName);
-  }
+  }*/
 
   // TODO(Danil): вывести лоадер
   Future<void> _setUserCityAndEmail() async {
@@ -68,7 +68,7 @@ class CityEmailScreenWM extends WidgetModel {
 
     if (await userWM.updateUserData(userWM.userData.value.data!.user.copyWith(
       email: emailFieldController.text,
-      city: selectedCityName.value,
+      // city: selectedCityName.value,
     ))) {
       await codeScreenAuthTrue.accept(true);
     }
@@ -77,8 +77,8 @@ class CityEmailScreenWM extends WidgetModel {
   void _validateForm() {
     const phonePattern = r'^[^@]+@[^@.]+\.[^@]+$';
 
-    if (selectedCityName.value != null &&
-        selectedCityName.value != '' &&
+    if (/*selectedCityName.value != null &&
+        selectedCityName.value != '' &&*/
         RegExp(phonePattern).hasMatch(emailFieldController.text)) {
       formValidationState.accept(true);
     } else {

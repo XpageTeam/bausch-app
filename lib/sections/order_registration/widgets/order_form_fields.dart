@@ -38,6 +38,7 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
             labelText: 'Имя',
             controller: wm.nameController,
             enabled: wm.nameFieldEnabled,
+            textCapitalization: TextCapitalization.words,
           ),
         ),
         Container(
@@ -46,6 +47,7 @@ class _OrderFormFieldsState extends State<OrderFormFields> {
             labelText: 'Фамилия',
             controller: wm.lastNameController,
             enabled: wm.lastNameFieldEnabled,
+            textCapitalization: TextCapitalization.words,
           ),
         ),
         Container(

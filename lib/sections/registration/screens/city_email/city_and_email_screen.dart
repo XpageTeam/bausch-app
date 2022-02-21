@@ -1,18 +1,13 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_email_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityAndEmailScreen extends CoreMwwmWidget<CityEmailScreenWM> {
@@ -45,14 +40,15 @@ class _CityAndEmailScreenState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 40),
                 child: Text(
-                  'Отлично, осталось выбрать город и указать электронную почту',
+                  // 'Отлично, осталось выбрать город и указать электронную почту',
+                  'Отлично, осталось указать электронную почту',
                   style: AppStyles.h1,
                 ),
               ),
-              StreamedStateBuilder<String?>(
+              /*StreamedStateBuilder<String?>(
                 streamedState: wm.selectedCityName,
                 builder: (_, cityName) {
                   return FocusButton(
@@ -61,7 +57,7 @@ class _CityAndEmailScreenState
                     onPressed: () async {
                       // Keys.mainNav.currentState!.pushNamed('/city');
 
-                      // TODO: сделать через pushNamed
+                      // TODO(all): сделать через pushNamed
                       wm.setCityName(
                         await Keys.mainNav.currentState!.push<String>(
                           PageRouteBuilder<String>(
@@ -74,7 +70,7 @@ class _CityAndEmailScreenState
                     },
                   );
                 },
-              ),
+              ),*/
               const SizedBox(
                 height: 4,
               ),
@@ -152,11 +148,11 @@ class _CityAndEmailScreenState
         builder: (_, state) {
           if (state) {
             return Padding(
-              padding: EdgeInsets.fromLTRB(
+              padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
                 0,
                 StaticData.sidePadding,
-                41.sp,
+                41,
               ),
               child: BlueButtonWithText(
                 text: 'Готово',

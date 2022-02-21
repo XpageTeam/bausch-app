@@ -1,7 +1,9 @@
-import 'package:bausch/models/dadata/dadata_response_data_model.dart';
-import 'package:bausch/models/mappable_object.dart';
+// ignore_for_file: avoid_catches_without_on_clauses
 
-class DadataResponseModel implements MappableInterface<DadataResponseModel> {
+import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/models/dadata/dadata_response_data_model.dart';
+
+class DadataResponseModel {
   final String value;
   final String unrestrictedValue;
   final DadataResponseDataModel data;
@@ -13,17 +15,16 @@ class DadataResponseModel implements MappableInterface<DadataResponseModel> {
   });
 
   factory DadataResponseModel.fromMap(Map<String, dynamic> map) {
-    return DadataResponseModel(
-      value: (map['value'] ?? '') as String,
-      unrestrictedValue: (map['unrestrictedValue'] ?? '') as String,
-      data:
-          DadataResponseDataModel.fromMap(map['data'] as Map<String, dynamic>),
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return DadataResponseModel(
+        value: (map['value'] ?? '') as String,
+        unrestrictedValue: (map['unrestrictedValue'] ?? '') as String,
+        data: DadataResponseDataModel.fromMap(
+          map['data'] as Map<String, dynamic>,
+        ),
+      );
+    } catch (e) {
+      throw ResponseParseException('DadataResponseModel: $e');
+    }
   }
 }

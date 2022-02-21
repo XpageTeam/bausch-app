@@ -1,6 +1,8 @@
-import 'package:bausch/models/mappable_object.dart';
+// ignore_for_file: avoid_catches_without_on_clauses
 
-class ValueModel implements MappableInterface<ValueModel> {
+import 'package:bausch/exceptions/response_parse_exception.dart';
+
+class ValueModel {
   final int id;
   final String name;
 
@@ -10,15 +12,13 @@ class ValueModel implements MappableInterface<ValueModel> {
   });
 
   factory ValueModel.fromMap(Map<String, dynamic> map) {
-    return ValueModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return ValueModel(
+        id: map['id'] as int,
+        name: (map['name'] ?? map['title']) as String,
+      );
+    } catch (e) {
+      throw ResponseParseException('ValueModel: $e');
+    }
   }
 }

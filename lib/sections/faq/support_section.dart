@@ -10,15 +10,22 @@ import 'package:flutter/material.dart';
 class SupportSection extends StatelessWidget {
   final QuestionModel? question;
   final TopicModel? topic;
-  const SupportSection({this.question, this.topic, Key? key}) : super(key: key);
+
+  const SupportSection({
+    this.question,
+    this.topic,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        [
-          Padding(
-            padding: const EdgeInsets.only(
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(
               top: 8,
               bottom: 40,
             ),

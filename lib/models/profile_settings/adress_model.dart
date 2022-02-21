@@ -4,22 +4,59 @@ import 'package:bausch/models/mappable_object.dart';
 class AdressModel implements MappableInterface<AdressModel> {
   final int? id;
 
-  //* Улица
+  /// Улица
   final String street;
 
-  //* Номер дома
+  /// Номер дома
   final String? house;
 
-  //* Номер квартиры
+  /// Номер квартиры
   final int? flat;
 
-  //* Номер подъезда
+  /// Номер подъезда
   final int? entry;
 
-  //* этаж
+  /// этаж
   final int? floor;
 
+  /// регион
+  final String? region;
+
+  /// Город
   final String? city;
+
+  /// посёлок\село
+  final String? settlement;
+
+  /// индекс
+  final String? zipCode;
+
+  String get fullAddress {
+    var address = '';
+
+    if (region != null && region != '') {
+      address += '$region, ';
+    }
+
+    address += cityAndSettlement;
+
+    return address;
+  }
+
+  String get cityAndSettlement {
+    var address = '';
+
+    if (city != null && city != '') {
+      address +=
+          '$city${settlement != null && settlement!.isNotEmpty ? ', ' : ''}';
+    }
+
+    if (settlement != null && settlement != '') {
+      address += settlement!;
+    }
+
+    return address;
+  }
 
   AdressModel({
     required this.street,
@@ -28,35 +65,42 @@ class AdressModel implements MappableInterface<AdressModel> {
     this.flat,
     this.entry,
     this.floor,
+    this.region,
     this.city,
+    this.settlement,
+    this.zipCode,
   });
 
   factory AdressModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
-      ResponseParseException('Не передан id');
+      ResponseParseException('AdressModel: Не передан id');
     }
 
     if (map['street'] == null) {
-      ResponseParseException('Не передано название улицы');
+      ResponseParseException('AdressModel: Не передано название улицы');
     }
 
     if (map['house'] == null) {
-      ResponseParseException('Не передан номер дома');
+      ResponseParseException('AdressModel: Не передан номер дома');
     }
 
-    if (map['flat'] == null) {
-      ResponseParseException('Не передан номер квартиры');
+    try {
+      return AdressModel(
+        id: map['id'] as int,
+        street: map['street'] as String,
+        house: map['house'] as String,
+        flat: map['flat'] as int?,
+        entry: map['entry'] as int?,
+        floor: map['floor'] as int?,
+        region: map['region'] as String?,
+        city: map['city'] as String?,
+        settlement: map['settlement'] as String?,
+        zipCode: (map['zip'] as int? ?? '').toString(),
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('AdressModel: $e');
     }
-
-    return AdressModel(
-      id: map['id'] as int,
-      street: map['street'] as String,
-      house: map['house'] as String,
-      flat: map['flat'] as int,
-      entry: map['entry'] as int,
-      floor: map['floor'] as int,
-      city: map['city'] as String,
-    );
   }
 
   @override
@@ -67,6 +111,10 @@ class AdressModel implements MappableInterface<AdressModel> {
       'flat': flat,
       'entry': entry,
       'floor': floor,
+      'region': region,
+      'settlement': settlement,
+      'city': city,
+      'zip': zipCode,
     };
   }
 }

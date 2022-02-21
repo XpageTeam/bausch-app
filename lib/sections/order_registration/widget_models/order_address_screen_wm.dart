@@ -6,12 +6,13 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
+//import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -81,9 +82,9 @@ class OrderAddressScreenWM extends WidgetModel {
       id: adress.id,
       street: adress.street,
       house: adress.house,
-      flat: int.parse(flatController.text),
-      entry: int.parse(entryController.text),
-      floor: int.parse(floorController.text),
+      flat: int.tryParse(flatController.text),
+      entry: int.tryParse(entryController.text),
+      floor: int.tryParse(floorController.text),
     );
 
     try {
@@ -119,8 +120,7 @@ class OrderAddressScreenWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }

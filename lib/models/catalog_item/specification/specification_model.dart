@@ -1,6 +1,8 @@
-import 'package:bausch/models/mappable_object.dart';
+// ignore_for_file: avoid_catches_without_on_clauses
 
-class SpecificationModel implements MappableInterface<SpecificationModel> {
+import 'package:bausch/exceptions/response_parse_exception.dart';
+
+class SpecificationModel {
   final String title;
   final String value;
 
@@ -10,15 +12,13 @@ class SpecificationModel implements MappableInterface<SpecificationModel> {
   });
 
   factory SpecificationModel.fromMap(Map<String, dynamic> map) {
-    return SpecificationModel(
-      title: map['title'] as String,
-      value: map['value'] as String,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return SpecificationModel(
+        title: map['title'] as String,
+        value: map['value'] as String,
+      );
+    } catch (e) {
+      throw ResponseParseException('SpecificationModel: $e');
+    }
   }
 }

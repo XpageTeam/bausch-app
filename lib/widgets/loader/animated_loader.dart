@@ -1,5 +1,5 @@
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/loader/default_circle.dart';
+import 'package:bausch/widgets/loader/animated_loader_circle.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedLoader extends StatefulWidget {
@@ -101,7 +101,7 @@ class _AnimatedLoaderState extends State<AnimatedLoader>
           animation: _controller,
           builder: (context, _) => Transform.translate(
             offset: Offset(-_moveAnimation.value, 0),
-            child: const DefaultCircle(
+            child: const AnimatedLoaderCircle(
               color: AppTheme.sulu,
             ),
           ),
@@ -110,7 +110,7 @@ class _AnimatedLoaderState extends State<AnimatedLoader>
           animation: _controller,
           builder: (context, _) => Transform.translate(
             offset: Offset(_moveAnimation.value, 0),
-            child: const DefaultCircle(),
+            child: const AnimatedLoaderCircle(),
           ),
         ),
       ],

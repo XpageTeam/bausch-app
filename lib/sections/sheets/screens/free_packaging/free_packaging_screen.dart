@@ -1,7 +1,6 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
-import 'package:bausch/sections/home/sections/offers/offer_type.dart';
-import 'package:bausch/sections/home/sections/offers/offers_section.dart';
+import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -13,6 +12,8 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/offers/offer_type.dart';
+import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -25,9 +26,13 @@ class FreePackagingScreen extends CoreMwwmWidget<FreePackagingScreenWM>
   @override
   final CatalogItemModel model;
 
+  @override
+  final OrderData? orderData;
+
   FreePackagingScreen({
     required this.controller,
     required this.model,
+    this.orderData,
     Key? key,
   }) : super(
           key: key,
@@ -49,12 +54,24 @@ class _FreePackagingScreenState
     return CustomSheetScaffold(
       backgroundColor: AppTheme.mystic,
       controller: widget.controller,
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        icon: Container(
-          height: 1,
-        ),
-        iconColor: AppTheme.mystic,
+      onScrolled: (offset) {
+        if (offset > 60) {
+          wm.colorState.accept(AppTheme.turquoiseBlue);
+        } else {
+          wm.colorState.accept(AppTheme.mystic);
+        }
+      },
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            padding: const EdgeInsets.all(18),
+            icon: Container(
+              height: 1,
+            ),
+            iconColor: color,
+          );
+        },
       ),
       slivers: [
         SliverPadding(

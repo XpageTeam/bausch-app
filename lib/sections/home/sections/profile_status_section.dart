@@ -1,5 +1,6 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -17,8 +18,9 @@ class ProfileStatus extends StatelessWidget {
       builder: (_, userData) {
         debugPrint(userData.toString());
         return InkWell(
-          onTap: () {
-            Keys.mainContentNav.currentState!.pushNamed('/profile');
+          onTap: () async {
+            await Keys.mainContentNav.currentState!.pushNamed('/profile');
+            await bannersWm?.loadDataAction();
           },
           child: Row(
             children: [
@@ -40,7 +42,6 @@ class ProfileStatus extends StatelessWidget {
                         userData.userName,
                         style: AppStyles.h1,
                       ),
-                      //TODO: показать что есть новые уведомления
                       // const CircleAvatar(
                       //   radius: 5,
                       //   backgroundColor: AppTheme.turquoiseBlue,

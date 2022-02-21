@@ -1,84 +1,58 @@
-// ignore_for_file: unused_import
-
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
-import 'package:bausch/sections/home/cubit/catalogsheet_cubit.dart';
 import 'package:bausch/sections/home/widgets/containers/small_container.dart';
 import 'package:bausch/sections/home/widgets/containers/wide_container_with_items.dart';
 import 'package:bausch/sections/home/widgets/containers/wide_container_without_items.dart';
-import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SpendScores extends StatefulWidget {
-  const SpendScores({Key? key}) : super(key: key);
-
-  @override
-  State<SpendScores> createState() => _SpendScoresState();
-}
-
-class _SpendScoresState extends State<SpendScores> {
-  CatalogSheetCubit catalogSheetCubit = CatalogSheetCubit();
-
-  @override
-  void dispose() {
-    super.dispose();
-    catalogSheetCubit.close();
-  }
+class SpendScores extends StatelessWidget {
+  final List<BaseCatalogSheetModel> catalogList;
+  const SpendScores({
+    required this.catalogList,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CatalogSheetCubit, CatalogSheetState>(
-      bloc: catalogSheetCubit,
-      builder: (context, state) {
-        if (state is CatalogSheetSuccess) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Потратить баллы',
-                style: AppStyles.h1,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Flexible(
-                child: Wrap(
-                  //mainAxisSize: MainAxisSize.min,
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: List.generate(
-                    Models.sheets.length,
-                    (i) {
-                      if (state.models[i].type == 'offline') {
-                        return WideContainerWithItems(
-                          model: state.models[i] as CatalogSheetWithLogosModel,
-                        );
-                      } else if (state.models[i].type ==
-                          'online_consultation') {
-                        return WideContainerWithoutItems(
-                          model:
-                              state.models[i] as CatalogSheetWithoutLogosModel,
-                        );
-                      } else {
-                        return SmallContainer(
-                          model: state.models[i] as CatalogSheetModel,
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ],
-          );
-        }
-        return Container();
-      },
+    return Container(
+      margin: const EdgeInsets.only(bottom: 40),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Потратить баллы',
+            style: AppStyles.h1,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Flexible(
+            child: Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: catalogList.map((catItem) {
+                if (catItem.type == 'offline') {
+                  return WideContainerWithItems(
+                    model: catItem as CatalogSheetWithLogosModel,
+                  );
+                } else if (catItem.type == 'online_consultation') {
+                  return WideContainerWithoutItems(
+                    model: catItem as CatalogSheetWithoutLogosModel,
+                  );
+                } else {
+                  return SmallContainer(
+                    model: catItem as CatalogSheetModel,
+                  );
+                }
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

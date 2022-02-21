@@ -1,9 +1,10 @@
 import UIKit
 import Flutter
 import YandexMapsMobile
+import mindbox_ios
 
 @UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: MindboxFlutterAppDelegate {
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?

@@ -17,7 +17,7 @@ class AppRouter {
     BuildContext context,
     AuthWM authWM,
   ) {
-    final path = settings.name!.split('/');
+    // final path = settings.name!.split('/');
 
     Widget targetPage = const Scaffold(
       body: Center(

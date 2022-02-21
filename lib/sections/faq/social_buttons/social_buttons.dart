@@ -1,6 +1,9 @@
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/faq/social_buttons/cubit/social_cubit.dart';
-import 'package:bausch/static/utils.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,8 +24,8 @@ class _SocialButtonsState extends State<SocialButtons> {
         if (state is SocialSuccess) {
           return Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
+              const Padding(
+                padding: EdgeInsets.only(
                   top: 40,
                   bottom: 14,
                 ),
@@ -46,13 +49,20 @@ class _SocialButtonsState extends State<SocialButtons> {
                           //debugPrint(state.models[i].url);
                           Utils.tryLaunchUrl(
                             rawUrl: state.models[i].url,
-                            isPhone: false,
+                            onError: (ex) {
+                              showDefaultNotification(
+                                title: ex.title,
+                                subtitle: ex.subtitle,
+                              );
+                            },
                           );
                         },
                         padding: EdgeInsets.zero,
-                        icon: Image.network(
+                        icon: ExtendedImage.network(
                           state.models[i].icon,
                           height: 16,
+                          printError: false,
+                          loadStateChanged: loadStateChangedFunction,
                         ),
                       ),
                     );

@@ -35,7 +35,7 @@ class LoginWM extends WidgetModel {
 
   final phoneInputFormaters = <TextInputFormatter>[
     TextInputMask(
-      mask: r'\+7 \99 999 99 99',
+      mask: r'\+7 999 999 99 99',
     ),
   ];
 
@@ -47,11 +47,15 @@ class LoginWM extends WidgetModel {
 
   final authRequestResult = EntityStreamedState<AuthResponseModel>()..loading();
 
-  final sendPhoneAction = VoidAction();
+  final sendPhoneAction = StreamedAction<bool?>();
 
   final sendCodeAction = VoidAction();
 
+  final resendSMSAction = VoidAction();
+
   final policyAcceptAction = VoidAction();
+
+  Timer? smsTimer;
 
   LoginWM({
     required WidgetModelDependencies baseDependencies,
@@ -61,9 +65,10 @@ class LoginWM extends WidgetModel {
     debugPrint('loginConstructor');
 
     var prevPhoneValue = '';
+    var canUnfocus = false;
 
     phoneController.addListener(() {
-      debugPrint(phoneController.text);
+      debugPrint('number: ${phoneController.text}');
       if ((phoneController.text == '+7 97' ||
               phoneController.text == '+7 98' ||
               phoneController.text == '+7 99') &&
@@ -85,12 +90,16 @@ class LoginWM extends WidgetModel {
 
       prevPhoneValue = phoneController.text;
 
-      if (phoneController.text.length >= 16) {
+      if (phoneController.text.length >= 16 && canUnfocus) {
         final currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
         }
+
+        canUnfocus = false;
+      } else {
+        canUnfocus = true;
       }
 
       _checkBtnActive();
@@ -108,9 +117,7 @@ class LoginWM extends WidgetModel {
     });
 
     authRequestResult.bind((value) {
-      if (authRequestResult.value.isLoading) {
-        return;
-      }
+      if (authRequestResult.value.isLoading) return;
 
       if (authRequestResult.value.hasError) {
         showTopError(authRequestResult.value.error as CustomException);
@@ -127,14 +134,17 @@ class LoginWM extends WidgetModel {
             ),
           );
         }
-        // debugPrint(context.toString());
-        // Keys.mainContentNav.currentState!.pushNamed('/code');
       }
     });
 
     //* подписка на нажатие кнопки
-    sendPhoneAction.bind((_) {
-      smsSendCounter.accept(0);
+    /// если state == null - значит нужно сбрасывать счётчик
+    sendPhoneAction.bind((state) {
+      // debugPrint((state ??= false).toString());
+
+      if (state == null) {
+        smsSendCounter.accept(0);
+      }
 
       _sendPhone();
     });
@@ -142,10 +152,6 @@ class LoginWM extends WidgetModel {
     //* переключение состояния кнопки при отправке запроса
     loginProcessedState.bind((_) {
       sendPhoneBtnActive.accept(!loginProcessedState.value);
-
-      debugPrint(sendPhoneBtnActive.value.toString());
-
-      // TODO(Danil): показывать лоадер
     });
 
     sendCodeAction.bind((_) {
@@ -159,17 +165,18 @@ class LoginWM extends WidgetModel {
         _startResendTimer(300);
       }
     });
-  }
 
-  @override
-  void dispose() {
-    // phoneController.dispose();
-    // codeController.dispose();
-    super.dispose();
+    resendSMSAction.bind((_) {
+      _resendSMS();
+    });
   }
 
   void _checkAuth() {
-    Provider.of<AuthWM>(context, listen: false).checkAuthAction();
+    final authWM = Provider.of<AuthWM>(context, listen: false);
+
+    debugPrint(authWM.toString());
+
+    authWM.checkAuthAction();
   }
 
   void _checkBtnActive() {
@@ -209,8 +216,7 @@ class LoginWM extends WidgetModel {
     } on SuccessFalse catch (e) {
       await authRequestResult.error(
         CustomException(
-          title: 'Произошла ошибка',
-          subtitle: e.toString(),
+          title: e.toString(),
           ex: e,
         ),
       );
@@ -220,6 +226,8 @@ class LoginWM extends WidgetModel {
   }
 
   Future<void> _sendCode() async {
+    if (loginProcessedState.value) return;
+
     unawaited(loginProcessedState.accept(true));
 
     CustomException? error;
@@ -232,6 +240,11 @@ class LoginWM extends WidgetModel {
       );
 
       await UserWriter.writeToken(res.xApiToken);
+
+      //* Очистка полей после отправки кода
+      // phoneController.text = '';
+
+      debugPrint(codeController.text);
 
       _checkAuth();
     } on DioError catch (e) {
@@ -248,8 +261,49 @@ class LoginWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
+        title: e.toString(),
+        ex: e,
+      );
+    }
+
+    if (error != null) {
+      showTopError(error);
+    } else {
+      phoneController.text = '';
+    }
+
+    codeController.text = '';
+
+    unawaited(loginProcessedState.accept(false));
+  }
+
+  Future<void> _resendSMS() async {
+    unawaited(loginProcessedState.accept(true));
+    // unawaited(authRequestResult.loading());
+
+    CustomException? error;
+
+    try {
+      // await authRequestResult.content(
+      await PhoneSender.resendSMS(phoneController.text);
+      // );
+
+      await smsSendCounter.accept(smsSendCounter.value + 1);
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'При обработке ответа от сервера произошла ошибка',
         subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      error = CustomException(
+        title: e.toString(),
         ex: e,
       );
     }
@@ -257,6 +311,8 @@ class LoginWM extends WidgetModel {
     if (error != null) {
       showTopError(error);
     }
+
+    codeController.text = '';
 
     unawaited(loginProcessedState.accept(false));
   }
@@ -299,7 +355,9 @@ class LoginWM extends WidgetModel {
   void _startResendTimer(int seconds) {
     smsResendSeconds.accept(seconds);
 
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    smsTimer?.cancel();
+
+    smsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       smsResendSeconds.accept(smsResendSeconds.value - 1);
 
       if (smsResendSeconds.value <= 0) {

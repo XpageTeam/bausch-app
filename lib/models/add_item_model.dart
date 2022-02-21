@@ -1,7 +1,6 @@
 import 'package:bausch/help/help_functions.dart';
-import 'package:bausch/models/mappable_object.dart';
 
-class AddItemModel implements MappableInterface<AddItemModel> {
+class AddItemModel {
   final String title;
   final String subtitle;
   final String price;
@@ -22,9 +21,4 @@ class AddItemModel implements MappableInterface<AddItemModel> {
     this.type = 'add',
   });
 
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
-  }
 }

@@ -1,7 +1,9 @@
-import 'package:bausch/models/catalog_item/product_item_model.dart';
-import 'package:bausch/models/mappable_object.dart';
+// ignore_for_file: avoid_catches_without_on_clauses
 
-class ProgramModel implements MappableInterface<ProgramModel> {
+import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/models/catalog_item/product_item_model.dart';
+
+class ProgramModel {
   final String title;
 
   final String description;
@@ -21,22 +23,20 @@ class ProgramModel implements MappableInterface<ProgramModel> {
   });
 
   factory ProgramModel.fromMap(Map<String, dynamic> map) {
-    return ProgramModel(
-      title: map['title'] as String,
-      description: map['description'] as String,
-      products: (map['products'] as List<dynamic>)
-          // ignore: avoid_annotating_with_dynamic
-          .map((dynamic product) =>
-              ProductItemModel.fromMap(product as Map<String, dynamic>))
-          .toList(),
-      importantToKnow: List.from(map['importantToKnow'] as List<dynamic>),
-      whatDoYouUse: List.from(map['whatDoYouUse'] as List<dynamic>),
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return ProgramModel(
+        title: map['title'] as String,
+        description: map['description'] as String,
+        products: (map['products'] as List<dynamic>)
+            // ignore: avoid_annotating_with_dynamic
+            .map((dynamic product) =>
+                ProductItemModel.fromMap(product as Map<String, dynamic>))
+            .toList(),
+        importantToKnow: List.from(map['importantToKnow'] as List<dynamic>),
+        whatDoYouUse: List.from(map['whatDoYouUse'] as List<dynamic>),
+      );
+    } catch (e) {
+      throw ResponseParseException('ProgramModel: $e');
+    }
   }
 }

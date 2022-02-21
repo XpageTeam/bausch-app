@@ -1,21 +1,26 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
+import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
-import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 class ItemSheetScreenArguments {
   final CatalogItemModel model;
+  final OrderData? orderData;
 
-  ItemSheetScreenArguments({required this.model});
+  ItemSheetScreenArguments({
+    required this.model,
+    this.orderData,
+  });
 }
 
 class SheetScreenArguments {
@@ -69,37 +74,8 @@ class _SheetScreenState extends State<SheetScreen> {
     return CustomSheetScaffold(
       controller: widget.controller,
       slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 20,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Row(
-                  children: [
-                    Image.asset(
-                      setTheImg(widget.sheetModel.type),
-                      height: 60,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Flexible(
-                      child: Text(
-                        widget.sheetModel.name,
-                        style: AppStyles.h1,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
         if (widget.items.isEmpty)
-          SliverFillRemaining(
+          const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
               child: Text(
@@ -108,7 +84,39 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
             ),
           ),
-        if (widget.items.isNotEmpty)
+        if (widget.items.isNotEmpty) ...[
+          SliverAppBar(
+            pinned: true,
+            elevation: 0,
+            toolbarHeight: 100,
+            backgroundColor: AppTheme.mystic,
+            flexibleSpace: Container(
+              color: AppTheme.mystic,
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                20,
+                StaticData.sidePadding,
+                20,
+              ),
+              child: Row(
+                children: [
+                  Image.asset(
+                    setTheImg(widget.sheetModel.type),
+                    height: 60,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Flexible(
+                    child: Text(
+                      widget.sheetModel.name,
+                      style: AppStyles.h1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           SliverPadding(
             padding: const EdgeInsets.only(
               left: 12,
@@ -134,10 +142,11 @@ class _SheetScreenState extends State<SheetScreen> {
                                 ),
                               );
                             },
+                            allWebinarsCallback: _openAllWebinars,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: shield(widget.items[i * 2]),
+                            child: widget.items[i * 2].shield,
                           ),
                         ],
                       ),
@@ -154,10 +163,11 @@ class _SheetScreenState extends State<SheetScreen> {
                                   ),
                                 );
                               },
+                              allWebinarsCallback: _openAllWebinars,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(12.0),
-                              child: shield(widget.items[i * 2 + 1]),
+                              child: widget.items[i * 2 + 1].shield,
                             ),
                           ],
                         ),
@@ -170,6 +180,7 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
             ),
           ),
+        ],
       ],
       bottomNavBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -181,17 +192,18 @@ class _SheetScreenState extends State<SheetScreen> {
       ),
     );
   }
-}
 
-Widget shield(CatalogItemModel _model) {
-  if (_model is WebinarItemModel) {
-    return Image.asset(
-      'assets/play-video.png',
-      height: 28,
+  void _openAllWebinars(WebinarItemModel webinar) {
+    // ignore: unused_local_variable
+    final webinars = widget.items
+        .where((e) => (e as WebinarItemModel).videoIds.length == 1)
+        .toList();
+
+    Navigator.of(context).pushNamed(
+      '/all_webinars',
+      arguments: ItemSheetScreenArguments(
+        model: webinar,
+      ),
     );
-  } else if (_model is PromoItemModel) {
-    return const DiscountInfo(text: '–500 ₽');
-  } else {
-    return Container();
   }
 }

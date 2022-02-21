@@ -1,8 +1,12 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class SelectShopSection extends StatefulWidget {
@@ -79,22 +83,30 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 20.0),
-                            child: Text(
+                            child: AutoSizeText(
                               widget.discountOptics[i].title,
                               style: AppStyles.h2,
+                              maxLines: 2,
                             ),
                           ),
                           if (widget.discountOptics[i].link!.isNotEmpty &&
                               widget.discountType == DiscountType.onlineShop)
-                            GestureDetector(
-                              onTap: () {
-                                // TODO(Nikolay): Переход на сайт.
-                              },
-                              child: AutoSizeText(
-                                widget.discountOptics[i].link!
-                                    .replaceFirst('https://', ''),
-                                style: AppStyles.p1Underlined,
-                                maxLines: 1,
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: () => Utils.tryLaunchUrl(
+                                  rawUrl: widget.discountOptics[i].link!,
+                                  onError: (ex) {
+                                    showDefaultNotification(
+                                      title: ex.title,
+                                      subtitle: ex.subtitle,
+                                    );
+                                  },
+                                ),
+                                child: Text(
+                                  widget.discountOptics[i].link!
+                                      .replaceFirst('https://', ''),
+                                  style: AppStyles.p1Underlined,
+                                ),
                               ),
                             ),
                         ],
@@ -104,9 +116,11 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                       child: widget.discountOptics[i].logo != null
                           ? Padding(
                               padding: const EdgeInsets.only(left: 12.0),
-                              child: Image.network(
+                              child: ExtendedImage.network(
                                 widget.discountOptics[i].logo!,
+                                printError: false,
                                 width: MediaQuery.of(context).size.width / 5,
+                                loadStateChanged: loadStateChangedFunction,
                               ),
                             )
                           : const SizedBox(),

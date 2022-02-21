@@ -1,7 +1,6 @@
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class CatalogItemsRepository {
   final List<CatalogItemModel> items;
@@ -34,12 +33,6 @@ class InterestingProductsDownloader {
     final response =
         BaseResponseRepository.fromMap((await rh.get<Map<String, dynamic>>(
       '/catalog/products/interesting/',
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     ))
             .data!);
 
@@ -60,18 +53,29 @@ class ProductsDownloader {
       queryParameters: <String, dynamic>{
         'section': section,
       },
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     ))
             .data!);
 
     return CatalogItemsRepository.fromList(
       response.data as List<dynamic>,
       type: section,
+    );
+  }
+
+  static Future<CatalogItemModel> getProductById(
+    int id, {
+    required String type,
+  }) async {
+    final rh = RequestHandler();
+    final response =
+        BaseResponseRepository.fromMap((await rh.get<Map<String, dynamic>>(
+      'catalog/$id/detail/',
+    ))
+            .data!);
+
+    return CatalogItemModel.itemByTypeFromJson(
+      response.data as Map<String, dynamic>,
+      type,
     );
   }
 }

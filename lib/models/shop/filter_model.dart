@@ -7,15 +7,14 @@ class Filter extends Equatable {
   final int id;
   final String title;
 
+  @override
+  List<Object?> get props => [id, title];
+
   const Filter({
     required this.id,
     required this.title,
   });
 
-
-  @override
-  List<Object?> get props => [id, title];
-  
   static List<Filter> getFiltersFromShopList(List<ShopModel> shops) {
     final filtersMap = <String, Filter>{
       'Все оптики': const Filter(
@@ -99,5 +98,4 @@ class Filter extends Equatable {
 
     return filtersMap.values.toList();
   }
-
 }

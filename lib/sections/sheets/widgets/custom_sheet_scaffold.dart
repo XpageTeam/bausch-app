@@ -1,4 +1,8 @@
+//ignore_for_file: avoid-returning-widgets
+
+import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class CustomSheetScaffold extends StatelessWidget {
   final ScrollController controller;
@@ -9,14 +13,24 @@ class CustomSheetScaffold extends StatelessWidget {
   final bool resizeToAvoidBottomInset;
   //final bool withAppBar;
   final Widget? appBar;
+
+  final bool hideBottomNavBarThenKeyboard;
+  final ValueChanged<double>? onScrolled;
+
+  /// следует ли показывать скроллбар
+  final bool showScrollbar;
+
   const CustomSheetScaffold({
     required this.controller,
     required this.slivers,
+    this.onScrolled,
     this.resizeToAvoidBottomInset = true,
+    this.hideBottomNavBarThenKeyboard = false,
     this.appBar,
     this.bottomNavBar,
     this.backgroundColor,
     this.floatingActionButton,
+    this.showScrollbar = false,
     Key? key,
   }) : super(key: key);
 
@@ -33,10 +47,52 @@ class CustomSheetScaffold extends StatelessWidget {
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
-            CustomScrollView(
-              controller: controller,
-              slivers: slivers,
-              physics: const BouncingScrollPhysics(),
+            NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (onScrolled != null) {
+                  onScrolled!(notification.metrics.pixels);
+                }
+                return false;
+              },
+              child: showScrollbar
+                  ? Theme(
+                      data: Theme.of(context).copyWith(
+                        scrollbarTheme: ScrollbarThemeData(
+                          thumbColor: MaterialStateProperty.all(
+                            showScrollbar
+                                ? AppTheme.turquoiseBlue
+                                : Colors.transparent,
+                          ),
+                        ),
+                      ),
+                      child: Scrollbar(
+                        controller: controller,
+                        isAlwaysShown: true,
+                        child: getScrollView(context),
+                      ),
+                    )
+                  : getScrollView(context),
+              // child: CustomScrollView(
+              //   controller: controller,
+              //   slivers: slivers
+              //     ..add(
+              //       SliverList(
+              //         delegate: SliverChildListDelegate([
+              //           if (hideBottomNavBarThenKeyboard)
+              //             KeyboardVisibilityBuilder(
+              //               builder: (p0, isKeyboardVisible) {
+              //                 if (isKeyboardVisible) {
+              //                   return bottomNavBar ?? const SizedBox();
+              //                 }
+
+              //                 return const SizedBox();
+              //               },
+              //             ),
+              //         ]),
+              //       ),
+              //     ),
+              //   physics: const BouncingScrollPhysics(),
+              // ),
             ),
             if (appBar != null)
               Positioned(
@@ -47,10 +103,42 @@ class CustomSheetScaffold extends StatelessWidget {
               ),
           ],
         ),
-        bottomNavigationBar: bottomNavBar,
+        bottomNavigationBar: KeyboardVisibilityBuilder(
+          builder: (p0, isKeyboardVisible) {
+            if (!isKeyboardVisible || !hideBottomNavBarThenKeyboard) {
+              return bottomNavBar ?? const SizedBox();
+            }
+
+            return const SizedBox();
+          },
+        ),
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
+    );
+  }
+
+  Widget getScrollView(BuildContext context) {
+    return CustomScrollView(
+      controller: controller,
+      slivers: slivers
+        ..add(
+          SliverList(
+            delegate: SliverChildListDelegate([
+              if (hideBottomNavBarThenKeyboard)
+                KeyboardVisibilityBuilder(
+                  builder: (p0, isKeyboardVisible) {
+                    if (isKeyboardVisible) {
+                      return bottomNavBar ?? const SizedBox();
+                    }
+
+                    return const SizedBox();
+                  },
+                ),
+            ]),
+          ),
+        ),
+      physics: const BouncingScrollPhysics(),
     );
   }
 }

@@ -1,8 +1,9 @@
-import 'package:bausch/models/mappable_object.dart';
+// ignore_for_file: avoid_catches_without_on_clauses
+
+import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 
-class CatalogSheetModel extends BaseCatalogSheetModel
-    implements MappableInterface<CatalogSheetModel> {
+class CatalogSheetModel extends BaseCatalogSheetModel {
   CatalogSheetModel({
     required int id,
     required String name,
@@ -18,20 +19,18 @@ class CatalogSheetModel extends BaseCatalogSheetModel
         );
 
   factory CatalogSheetModel.fromMap(Map<String, dynamic> map) {
-    return CatalogSheetModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      type: map['type'] as String,
-      icon: (map['icon'] ??
-              'https://baush-app.xpager.ru/upload/uf/aa5/heterm9de8wkk1pvr37o5rqxrymh66cd.jpg')
-          as String,
-      count: map['count'] as int,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return CatalogSheetModel(
+        id: map['id'] as int,
+        name: map['name'] as String,
+        type: map['type'] as String,
+        icon: (map['icon'] ??
+                'https://bausch.in-progress.ru/upload/uf/aa5/heterm9de8wkk1pvr37o5rqxrymh66cd.jpg')
+            as String,
+        count: map['count'] as int,
+      );
+    } catch (e) {
+      throw ResponseParseException('CatalogSheetModel: $e');
+    }
   }
 }

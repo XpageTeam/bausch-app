@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'dart:io';
 
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
@@ -7,6 +10,7 @@ import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/offer/offer.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/faq/attach_files_screen.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
@@ -21,8 +25,6 @@ import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart'
 import 'package:bausch/sections/sheets/screens/consultation/consultation_screen.dart';
 import 'package:bausch/sections/sheets/screens/consultation/consultation_verification.dart';
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
-import 'package:bausch/sections/sheets/screens/discount_online/discount_online_verification.dart';
-import 'package:bausch/sections/sheets/screens/discount_online/final_discount_online.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
@@ -30,12 +32,13 @@ import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_op
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/html/html_screen.dart';
-import 'package:bausch/sections/sheets/screens/parners/final_partners.dart';
-import 'package:bausch/sections/sheets/screens/parners/partners_screen.dart';
-import 'package:bausch/sections/sheets/screens/parners/partners_verification.dart';
+import 'package:bausch/sections/sheets/screens/partners/final_partners.dart';
+import 'package:bausch/sections/sheets/screens/partners/partners_screen.dart';
+import 'package:bausch/sections/sheets/screens/partners/partners_verification.dart';
 import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/screens/program/program_screen.dart';
-import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/program/widget_model/program_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/webinars/all_webinars_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/final_webinar.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_screen.dart';
 import 'package:bausch/sections/sheets/screens/webinars/webinar_verification.dart';
@@ -45,6 +48,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class BottomSheetNavigation<T> extends StatelessWidget {
   final ScrollController controller;
   final BaseCatalogSheetModel sheetModel;
@@ -64,15 +68,23 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(
-        textScaleFactor: 1.0,
-      ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        Utils.unfocus(context);
+      },
       child: Navigator(
         key: Keys.bottomNav,
+        requestFocus: false,
         initialRoute: '/',
+        onPopPage: (route, dynamic settings) {
+          Utils.unfocus(context);
+          return true;
+        },
         onGenerateRoute: (settings) {
           Widget page;
+
+          Utils.unfocus(context);
 
           final arguments = initialRoute != null
               ? args ?? settings.arguments
@@ -103,6 +115,14 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 page = RulesScreen(
                   controller: controller,
                   data: args as String,
+                );
+              } else if (sheetModel.type == 'support') {
+                final _args = args as ContactSupportScreenArguments;
+
+                page = ContactSupportScreen(
+                  controller: controller,
+                  question: _args.question,
+                  topic: _args.topic,
                 );
               } else {
                 page = SheetScreen(
@@ -175,18 +195,11 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               );
               break;
 
-            case '/verification_discount_online':
-              page = DiscountOnlineVerification(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as PromoItemModel,
-              );
-              break;
-
             case '/verification_webinar':
               page = WebinarVerification(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model,
+                model: (settings.arguments as ItemSheetScreenArguments).model
+                    as WebinarItemModel,
               );
               break;
 
@@ -202,15 +215,25 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               page = FinalWebinar(
                 controller: controller,
                 model: (settings.arguments as FinalWebinarArguments).model,
-                videoId: (settings.arguments as FinalWebinarArguments).videoId,
+                videoIds:
+                    (settings.arguments as FinalWebinarArguments).videoIds,
+              );
+              break;
+
+            case '/all_webinars':
+              page = AllWebinarsScreen(
+                controller: controller,
+                arguments: arguments as ItemSheetScreenArguments,
               );
               break;
 
             case '/final_partners':
+              final arguments = settings.arguments as ItemSheetScreenArguments;
+
               page = FinalPartners(
                 controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as PartnersItemModel,
+                model: arguments.model as PartnersItemModel,
+                orderData: arguments.orderData as PartnerOrderResponse,
               );
               break;
 
@@ -223,13 +246,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     .discountType,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
-              );
-              break;
-            case '/final_discount_online':
-              page = FinalDiscountOnline(
-                controller: controller,
-                model: (settings.arguments as ItemSheetScreenArguments).model
-                    as PromoItemModel,
+                orderData: (settings.arguments as DiscountOpticsArguments)
+                    .orderDataResponse,
               );
               break;
 
@@ -271,6 +289,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/final_addpoints':
               page = FinalAddPointsScreen(
                 controller: controller,
+                points: (settings.arguments as FinalAddPointsArguments).points,
               );
               break;
 
@@ -285,8 +304,10 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/final_consultation':
               page = FinalConsultation(
                 controller: controller,
-                model:
-                    (settings.arguments as ItemSheetScreenArguments).model as ConsultationItemModel,
+                model: (settings.arguments as ItemSheetScreenArguments).model
+                    as ConsultationItemModel,
+                orderData:
+                    (settings.arguments as ItemSheetScreenArguments).orderData!,
               );
               break;
 
@@ -323,19 +344,24 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               break;
 
             case '/support':
+              final args = settings.arguments as ContactSupportScreenArguments;
+
+              debugPrint(
+                'topic1: ${args.topic}, question1: ${args.question}',
+              );
               page = ContactSupportScreen(
                 controller: controller,
-                question: (settings.arguments as ContactSupportScreenArguments)
-                    .question,
-                topic:
-                    (settings.arguments as ContactSupportScreenArguments).topic,
+                question: args.question,
+                topic: args.topic,
               );
               break;
 
             case '/add_files':
               page = AttachFilesScreen(
-                fieldsBloc: (settings.arguments as AttachFilesScreenArguments)
-                    .fieldsBloc,
+                formScreenWM: (settings.arguments as AttachFilesScreenArguments)
+                    .formScreenWM,
+                fieldModel: (settings.arguments as AttachFilesScreenArguments)
+                    .fieldModel,
               );
               break;
 

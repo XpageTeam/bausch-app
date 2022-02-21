@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
-import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -14,9 +15,7 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart';
 
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -40,22 +39,13 @@ class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
 class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
   late UserWM userWM;
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    //userWM = Provider.of<UserWM>(context);
-  }
+  late AuthWM authWM;
 
   @override
   Widget build(BuildContext context) {
     userWM = Provider.of<UserWM>(context);
+    authWM = Provider.of<AuthWM>(context);
+
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       appBar: DefaultAppBar(
@@ -84,6 +74,7 @@ class _ProfileSettingsScreenState
               child: NativeTextInput(
                 labelText: 'Имя',
                 controller: wm.nameController,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             Padding(
@@ -91,6 +82,7 @@ class _ProfileSettingsScreenState
               child: NativeTextInput(
                 labelText: 'Фамилия',
                 controller: wm.lastNameController,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             Padding(
@@ -107,7 +99,8 @@ class _ProfileSettingsScreenState
                         icon: Container(),
                         onPressed: () async {
                           wm.setEmail(
-                            await Keys.mainNav.currentState!.push<String>(
+                            await Keys.mainContentNav.currentState!
+                                .push<String>(
                               PageRouteBuilder<String>(
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) =>
@@ -122,21 +115,31 @@ class _ProfileSettingsScreenState
                   EntityStateBuilder<UserRepository>(
                     streamedState: userWM.userData,
                     builder: (_, userData) {
-                      return userData.user.isEmailConfirmed != null &&
-                              !userData.user.isEmailConfirmed!
-                          ? Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: const [
-                                  DiscountInfo(
-                                    color: AppTheme.turquoiseBlue,
-                                    text: 'подтвердить',
-                                  ),
-                                ],
-                              ), // TODO(Nikita): Вывести статус
-                            )
-                          : Container();
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            if ((userData.user.isEmailConfirmed != null &&
+                                    !userData.user.isEmailConfirmed!) ||
+                                userData.user.pendingEmail != null)
+                              GestureDetector(
+                                onTap: wm.confirmEmail,
+                                child: DiscountInfo(
+                                  text: 'подтвердить',
+                                  color: AppTheme.turquoiseBlue,
+                                ),
+                              )
+                            else
+                              GestureDetector(
+                                child: DiscountInfo(
+                                  text: 'подтверждён',
+                                  color: AppTheme.turquoiseBlue,
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -162,52 +165,38 @@ class _ProfileSettingsScreenState
                         ? DateFormat('dd.MM.yyyy').format(birthDate)
                         : null,
                     icon: Container(),
-                    onPressed: wm.selectedBirthDate.value == null
-                        ? () {
-                            DatePicker.showDatePicker(
-                              context,
-                              initialDateTime: DateTime.now(),
-                              minDateTime: DateTime(1900, 8),
-                              maxDateTime: DateTime(2101),
-                              locale: DateTimePickerLocale.ru,
-                              onCancel: () {},
-                              onConfirm: (date, i) {
-                                debugPrint('onchanged');
+                    onPressed: () {
+                      DatePicker.showDatePicker(
+                        context,
+                        initialDateTime: DateTime(2004),
+                        minDateTime: DateTime(1900, 8),
+                        maxDateTime: DateTime.now(),
+                        locale: DateTimePickerLocale.ru,
+                        onCancel: () {},
+                        dateFormat: 'dd.MM.yyyy',
+                        onConfirm: (date, i) {
+                          debugPrint('onchanged');
 
-                                showModalBottomSheet<void>(
-                                  context: Keys.mainNav.currentContext!,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  builder: (context) {
-                                    return CustomAlertDialog(
-                                      yesText: 'Продолжить',
-                                      noText: 'Отмена',
-                                      text:
-                                          'После установки сменить дату рождения будет невозможно!',
-                                      yesCallback: () {
-                                        wm.setBirthDate(date);
-                                        Navigator.of(context).pop();
-                                      },
-                                      noCallback: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          }
-                        : null,
+                          wm.setBirthDate(date);
+                        },
+                      );
+                    },
                   );
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: const ProfileSettingsBanner(),
+            StreamedStateBuilder<bool>(
+              streamedState: wm.showBanner,
+              builder: (_, showing) {
+                return showing
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: const ProfileSettingsBanner(),
+                      )
+                    : const SizedBox();
+              },
             ),
-            Padding(
+            /* Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(
                 streamedState: wm.selectedCityName,
@@ -216,8 +205,8 @@ class _ProfileSettingsScreenState
                     labelText: 'Город',
                     selectedText: cityName,
                     onPressed: () async {
-                      wm.setCityName(
-                        await Keys.mainNav.currentState!.push<String>(
+                      await wm.changeCityAction(
+                        await Keys.mainNav.currentState!.push<String?>(
                           PageRouteBuilder<String>(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
@@ -229,9 +218,9 @@ class _ProfileSettingsScreenState
                   );
                 },
               ),
-            ),
+            ), */
             Padding(
-              padding: EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(bottom: 4),
               child: FocusButton(
                 labelText: 'Мои адреса',
                 onPressed: () {
@@ -239,7 +228,7 @@ class _ProfileSettingsScreenState
                 },
               ),
             ),
-            Padding(
+            /*Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: FocusButton(
                 labelText: 'Параметры контактных линз',
@@ -253,6 +242,40 @@ class _ProfileSettingsScreenState
               padding: EdgeInsets.only(bottom: 40),
               child: FocusButton(
                 labelText: 'Привязать аккаунт',
+              ),
+            ),*/
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: TextButton(
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    barrierColor: Colors.black.withOpacity(0.8),
+                    builder: (context) {
+                      return CustomAlertDialog(
+                        text: 'Уходите?',
+                        yesCallback: () {
+                          authWM.logout();
+                        },
+                        noCallback: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                  );
+                },
+                style: TextButton.styleFrom(
+                  primary: Colors.transparent,
+                ),
+                child: Text(
+                  'Выйти',
+                  style: AppStyles.h2.copyWith(
+                    color: AppTheme.grey,
+                  ),
+                ),
               ),
             ),
             Padding(

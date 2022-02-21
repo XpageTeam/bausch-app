@@ -1,9 +1,7 @@
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
-import 'package:bausch/sections/order_registration/order_address_screen.dart';
 import 'package:bausch/sections/order_registration/widget_models/address_select_screen_wm.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
-import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
@@ -41,6 +39,8 @@ class AddressSelectScreen extends CoreMwwmWidget<AddressSelectScreenWM>
           key: key,
           widgetModelBuilder: (context) => AddressSelectScreenWM(
             context: context,
+            addressesList: userAdresses,
+            selectedAddress: orderRegistrationScreenWM.address.value,
           ),
         );
 
@@ -77,54 +77,42 @@ class _AddressSelectScreenState
                   return FocusButton(
                     labelText: 'Город',
                     selectedText: cityName,
-                    onPressed: () async {
-                      wm.setCityName(
-                        await Keys.mainNav.currentState!.push<String>(
-                          PageRouteBuilder<String>(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    CityScreen(),
-                          ),
-                        ),
-                      );
-                    },
+                    onPressed: wm.setCityNameAction,
                   );
                 },
               ),
             ),
             Flexible(
-              child: StreamedStateBuilder<String?>(
-                streamedState: wm.selectedCityName,
-                builder: (_, cityName) {
+              child: StreamedStateBuilder<List<AdressModel>>(
+                streamedState: wm.filteredAddressesList,
+                builder: (_, addressesList) {
                   return ListView.builder(
-                    itemBuilder: (ctx, i) {
-                      if (cityName == widget.userAdresses[i].city) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 4,
-                          ),
-                          child: FocusButton(
-                            labelText: 'Адрес',
-                            selectedText:
-                                '${widget.userAdresses[i].street}, ${widget.userAdresses[i].house}',
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                '/order_address',
-                                arguments: OrderAddressScreenArguments(
-                                  adress: widget.userAdresses[i],
-                                  productItemModel: widget.productItemModel,
-                                  orderRegistrationScreenWM:
-                                      widget.orderRegistrationScreenWM,
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return Container();
-                      }
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (_, i) {
+                      final address = addressesList[i];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 4,
+                        ),
+                        child: FocusButton(
+                          labelText: 'Адрес',
+                          selectedText: '${address.street}, д ${address.house}',
+                          onPressed: () {
+                            wm.addressSelectAction(
+                              address,
+                              // OrderAddressScreenArguments(
+                              //   adress: address,
+                              //   productItemModel: widget.productItemModel,
+                              //   orderRegistrationScreenWM:
+                              //       widget.orderRegistrationScreenWM,
+                              // ),
+                            );
+                          },
+                        ),
+                      );
                     },
-                    itemCount: widget.userAdresses.length,
+                    itemCount: addressesList.length,
                   );
                 },
               ),

@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/product_item_model.dart';
+import 'package:bausch/models/profile_settings/adress_model.dart';
 
 import 'package:bausch/sections/order_registration/sections/delivery_address_section.dart';
 import 'package:bausch/sections/order_registration/sections/lens_parameters_section.dart';
@@ -9,7 +10,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -94,24 +95,29 @@ class _OrderRegistrationScreenState
           ),
         ),
       ),
-      bottomNavigationBar: StreamedStateBuilder<bool>(
-        streamedState: wm.loadingState,
-        builder: (_, isLoading) {
-          return isLoading
-              ? const CustomFloatingActionButton(
-                  text: '',
-                  icon: AnimatedLoader(),
-                )
-              : CustomFloatingActionButton(
-                  text: 'Потратить ${wm.productItemModel.priceToString} б',
-                  icon: Container(),
-                  onPressed: ((wm.nameController.text.isNotEmpty) ||
-                          (wm.lastNameController.text.isNotEmpty))
-                      ? () {
-                          wm.makeOrderAction();
-                        }
-                      : null,
-                );
+      bottomNavigationBar: StreamedStateBuilder<AdressModel?>(
+        streamedState: wm.address,
+        builder: (_, adress) {
+          return StreamedStateBuilder<bool>(
+            streamedState: wm.loadingState,
+            builder: (_, isLoading) {
+              return isLoading
+                  ? const CustomFloatingActionButton(
+                      text: '',
+                      icon: UiCircleLoader(),
+                    )
+                  : CustomFloatingActionButton(
+                      text: 'Потратить ${wm.productItemModel.priceToString} б',
+                      onPressed: ((wm.nameController.text.isNotEmpty) ||
+                                  (wm.lastNameController.text.isNotEmpty)) &&
+                              adress != null
+                          ? () {
+                              wm.makeOrderAction();
+                            }
+                          : null,
+                    );
+            },
+          );
         },
       ),
     );

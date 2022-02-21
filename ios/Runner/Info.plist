@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>cloud.Mindbox.$(PRODUCT_BUNDLE_IDENTIFIER).GDAppRefresh</string>
+		<string>cloud.Mindbox.$(PRODUCT_BUNDLE_IDENTIFIER).GDAppProcessing</string>
+		<string>cloud.Mindbox.$(PRODUCT_BUNDLE_IDENTIFIER).DBCleanAppProcessing</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -30,6 +36,12 @@
 	<string>Разрешите приложению доступ к геоданным чтобы оно могло отобразить ваше местоположение на карте. Это нужно, например, чтобы вы могли найти ближайшие к вам оптики</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Для прикрепления файлов к форме обратной связи нужен доступ к медиабиблиотеке</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -39,6 +51,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 
 class WebinarOrderModel extends BaseOrderModel {
   final List<String> videoList;
+  final OrderProductModel product;
 
   WebinarOrderModel({
     required int id,
@@ -11,7 +14,7 @@ class WebinarOrderModel extends BaseOrderModel {
     required int price,
     required String status,
     required String category,
-    required OrderProductModel product,
+    required this.product,
     required this.videoList,
   }) : super(
           id: id,
@@ -20,7 +23,6 @@ class WebinarOrderModel extends BaseOrderModel {
           price: price,
           status: status,
           category: category,
-          product: product,
         );
 
   factory WebinarOrderModel.fromMap(Map<String, dynamic> map) {
@@ -39,11 +41,8 @@ class WebinarOrderModel extends BaseOrderModel {
           return item as String;
         }).toList(),
       );
-    } on ResponseParseException {
-      rethrow;
-      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException(e.toString());
+      throw ResponseParseException('WebinarOrderModel: ${e.toString()}');
     }
   }
 }

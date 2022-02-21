@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
@@ -14,7 +15,6 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -26,7 +26,12 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final DiscountType discountType;
 
   final loadingState = StreamedState<bool>(false);
+  final codeLoadingState = StreamedState<bool>(false);
   final spendPointsAction = VoidAction();
+
+  final colorState = StreamedState<Color>(Colors.white);
+
+  final promocodeState = EntityStreamedState<String?>();
 
   late int points;
   late int remains;
@@ -69,8 +74,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
     CustomException? error;
 
+    late PartnerOrderResponse result;
+
     try {
-      await OrderDiscountSaver.save(
+      result = await OrderDiscountSaver.save(
         discountOptic,
         itemModel,
         discountType.asString,
@@ -94,8 +101,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -112,6 +118,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
           model: itemModel,
           discountOptic: discountOptic,
           discountType: discountType,
+          orderDataResponse: result,
         ),
       );
     }
@@ -119,7 +126,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 }
 
 class OrderDiscountSaver {
-  static Future<BaseResponseRepository> save(
+  static Future<PartnerOrderResponse> save(
     Optic optic,
     PromoItemModel model,
     String category,
@@ -131,26 +138,23 @@ class OrderDiscountSaver {
         <String, dynamic>{
           'productId': model.id,
           'price': model.price,
+          // TODO(all): неясно, откуда брать параметры
+
           // 'addressId':optic.,
           // 'diopters':model.,
           // 'color':,
           // 'cylinder':,
           // 'axis':,
+          'shopName': optic.title,
           'category': category,
           'shopCode': optic.shopCode,
           'productCode': model.code,
         },
       ),
-      options: rh.cacheOptions
-          ?.copyWith(
-            maxStale: const Duration(days: 1),
-            policy: CachePolicy.request,
-          )
-          .toOptions(),
     );
 
-    final data = resp.data!;
+    final data = BaseResponseRepository.fromMap(resp.data!);
 
-    return BaseResponseRepository.fromMap(data);
+    return PartnerOrderResponse.fromMap(data.data as Map<String, dynamic>);
   }
 }

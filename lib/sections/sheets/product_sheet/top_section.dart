@@ -37,7 +37,7 @@ class TopSection extends StatelessWidget {
   TopSection.packaging({
     required CatalogItemModel model,
     required Widget leftIcon,
-    GlobalKey<NavigatorState>? rightKey,
+    // GlobalKey<NavigatorState>? rightKey,
     Key? key,
   }) : this(
           model: model,
@@ -53,7 +53,7 @@ class TopSection extends StatelessWidget {
           ),
         );
 
-  TopSection.webinar(CatalogItemModel model, Key? key)
+  TopSection.webinar(CatalogItemModel model, Key? key, Widget leftIcon)
       : this(
           model: model,
           isFull: true,
@@ -61,10 +61,7 @@ class TopSection extends StatelessWidget {
           key: key,
           leftIcon: Padding(
             padding: const EdgeInsets.all(12),
-            child: Image.asset(
-              'assets/play-video.png',
-              height: 28,
-            ),
+            child: leftIcon,
           ),
         );
 
@@ -80,20 +77,26 @@ class TopSection extends StatelessWidget {
           leftIcon: Padding(
             padding: const EdgeInsets.only(
               left: 12,
-              top: 20,
+              top: 16,
             ),
             child: leftIcon,
           ),
         );
 
   // ignore: avoid_unused_constructor_parameters
-  TopSection.partners(CatalogItemModel model, Key? key)
+  TopSection.partners(CatalogItemModel model, Key? key, Widget leftIcon)
       : this(
           model: model,
           isFull: true,
           withPrice: true,
           key: key,
-          leftIcon: Container(),
+          leftIcon: Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              top: 16,
+            ),
+            child: leftIcon,
+          ),
         );
 
   @override

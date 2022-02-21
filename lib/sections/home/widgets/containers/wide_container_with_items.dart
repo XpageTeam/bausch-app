@@ -9,6 +9,7 @@ import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -88,48 +89,70 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
                 Center(
                   child: SizedBox(
                     height: 32,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: GridView.count(
+                      crossAxisCount: 3,
+                      childAspectRatio: 3.7,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
                       children: [
                         if (widget.model.logos!.length >= 1)
-                          Flexible(
-                            flex: 5,
-                            child: Image.network(
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 20,
+                            ),
+                            child: ExtendedImage.network(
                               widget.model.logos![0],
+                              printError: false,
+                              loadStateChanged: loadStateChangedFunction,
                             ),
                           ),
-                        if (widget.model.logos!.length >= 1)
-                          Expanded(
-                            child: Center(
-                              child: Container(
-                                color: AppTheme.mystic,
-                                width: 2,
-                                height: 32,
+                        // if (widget.model.logos!.length >= 1)
+                        //   Expanded(
+                        //     child: Center(
+                        //       child: Container(
+                        //         color: AppTheme.mystic,
+                        //         width: 2,
+                        //         height: 32,
+                        //       ),
+                        //     ),
+                        //   ),
+                        if (widget.model.logos!.length >= 2)
+                          Container(
+                            decoration: const BoxDecoration(
+                              border: Border.symmetric(
+                                vertical: BorderSide(
+                                  width: 2,
+                                  color: AppTheme.mystic,
+                                ),
                               ),
                             ),
-                          ),
-                        if (widget.model.logos!.length >= 2)
-                          Flexible(
-                            flex: 3,
-                            child: Image.network(
+                            child: ExtendedImage.network(
                               widget.model.logos![1],
+                              printError: false,
+                              loadStateChanged: loadStateChangedFunction,
                             ),
                           ),
-                        if (widget.model.logos!.length >= 2)
-                          Expanded(
-                            child: Center(
-                              child: Container(
-                                color: AppTheme.mystic,
-                                width: 2,
-                                height: 32,
-                              ),
-                            ),
-                          ),
+                        // if (widget.model.logos!.length >= 2)
+                        //   Expanded(
+                        //     child: Center(
+                        //       child: Container(
+                        //         color: AppTheme.mystic,
+                        //         width: 2,
+                        //         height: 32,
+                        //       ),
+                        //     ),
+                        //   ),
                         if (widget.model.logos!.length >= 3)
-                          Flexible(
-                            flex: 3,
-                            child: Image.network(
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 10,
+                              left: 20,
+                            ),
+                            child: ExtendedImage.network(
                               widget.model.logos![2],
+                              printError: false,
+                              loadStateChanged: loadStateChangedFunction,
                             ),
                           ),
                       ],

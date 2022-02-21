@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
@@ -42,16 +45,24 @@ class _MainNavigationState extends State<MainNavigation>
         await Keys.mainContentNav.currentState!.maybePop();
         return false;
       },
-      child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaleFactor: 1.0,
-        ),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          Utils.unfocus(context);
+        },
         child: Navigator(
           key: Keys.mainContentNav,
+          requestFocus: false,
           initialRoute: '/',
+          onPopPage: (route, dynamic settings) {
+            Utils.unfocus(context);
+            return false;
+          },
           onGenerateRoute: (settings) {
             Widget page;
             var showAnimation = true;
+
+            Utils.unfocus(context);
 
             switch (settings.name) {
               case '/':
@@ -119,13 +130,12 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               // case '/shops':
-              //   // TODO(Nikolay): Пробрасывать список оптик.
               //   page = SelectOpticScreen();
               //   break;
 
               case '/home':
               default:
-                page = const HomeScreen();
+                page = HomeScreen();
                 showAnimation = false;
             }
 

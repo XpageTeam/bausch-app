@@ -6,13 +6,15 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +30,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final discountOpticsStreamed = EntityStreamedState<List<Optic>>();
   final currentDiscountOptic = StreamedState<Optic?>(null);
   final setCurrentOptic = StreamedAction<Optic>();
+
+  final colorState = StreamedState<Color>(AppTheme.mystic);
 
   final buttonAction = VoidAction();
 
@@ -84,6 +88,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
               model: itemModel,
               discountOptic: currentDiscountOptic.value!,
               discountType: discountType,
+              orderDataResponse: null,
             ),
           );
         }
@@ -95,12 +100,15 @@ class DiscountOpticsScreenWM extends WidgetModel {
   Future<void> _loadDiscountOptics() async {
     unawaited(discountOpticsStreamed.loading());
 
+    CustomException? ex;
+
     try {
       final repository = OpticCititesRepository.fromDiscountOpticsRepository(
         await DiscountOpticsLoader.load(
           discountType.asString,
           itemModel.code,
         ),
+        discountType.asString,
       );
 
       cities = repository.cities;
@@ -115,37 +123,37 @@ class DiscountOpticsScreenWM extends WidgetModel {
       }
 
       unawaited(
-        discountOpticsStreamed.content(
-          discountOptics,
-        ),
+        discountOpticsStreamed.content(discountOptics),
       );
     } on DioError catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'При отправке запроса произошла ошибка',
-            subtitle: e.message,
-          ),
-        ),
+      ex = CustomException(
+        title: 'При отправке запроса произошла ошибка',
+        subtitle: e.message,
       );
+      unawaited(discountOpticsStreamed.error(ex));
     } on ResponseParseException catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'При чтении ответа от сервера произошла ошибка',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'При чтении ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
       );
+      unawaited(discountOpticsStreamed.error(ex));
     } on SuccessFalse catch (e) {
-      unawaited(
-        discountOpticsStreamed.error(
-          CustomException(
-            title: 'Произошла ошибка',
-            subtitle: e.toString(),
-          ),
-        ),
+      ex = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
       );
+      unawaited(discountOpticsStreamed.error(ex));
+      // ignore: avoid_catches_without_on_clauses
+    } //catch (e) {
+    //   ex = CustomException(
+    //     title: 'Произошла ошибка',
+    //     subtitle: e.toString(),
+    //   );
+    //   unawaited(discountOpticsStreamed.error(ex));
+    // }
+
+    if (ex != null) {
+      showTopError(ex);
     }
   }
 
@@ -195,12 +203,6 @@ class DiscountOpticsLoader {
           'category': category,
           'productCode': productCode,
         },
-        options: rh.cacheOptions
-            ?.copyWith(
-              maxStale: const Duration(days: 2),
-              policy: CachePolicy.request,
-            )
-            .toOptions(),
       ))
           .data!,
     );
@@ -216,20 +218,37 @@ class OpticCititesRepository {
 
   factory OpticCititesRepository.fromDiscountOpticsRepository(
     DiscountOpticsRepository repository,
+    String category,
   ) {
+    if (category == 'onlineShop') {
+      return OpticCititesRepository(
+        [
+          OpticCity(
+            title: '',
+            optics: repository.discountOptics
+                .map(
+                  (e) => Optic(
+                    id: e.id,
+                    title: e.title,
+                    shops: [],
+                    shopCode: e.shopCode,
+                    logo: e.logo,
+                    link: e.link,
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      );
+    }
+
     final cityNames = <String>{};
 
     for (final discounOptic in repository.discountOptics) {
-      for (final discountOpticShop in discounOptic.disountOpticShops!) {
-        final mayBeDirtyCityName = discountOpticShop.address.split(',').first;
-
-        if (mayBeDirtyCityName.split(' ').length > 1) {
+      if (discounOptic.disountOpticShops != null) {
+        for (final discountOpticShop in discounOptic.disountOpticShops!) {
           cityNames.add(
-            mayBeDirtyCityName.split(' ')[1],
-          );
-        } else {
-          cityNames.add(
-            mayBeDirtyCityName,
+            discountOpticShop.city,
           );
         }
       }
@@ -245,7 +264,7 @@ class OpticCititesRepository {
         var hasThisDiscount = false;
 
         for (final disountOpticShop in discounOptic.disountOpticShops!) {
-          if (disountOpticShop.address.startsWith(cityName)) {
+          if (disountOpticShop.city.toLowerCase() == cityName.toLowerCase()) {
             hasThisDiscount = true;
             opticShops.add(
               OpticShop(
@@ -283,44 +302,52 @@ class OpticCititesRepository {
     return OpticCititesRepository(cities);
   }
 
-  // TODO(Nikolay): Сделать фабрику для списка всех адресов.
   factory OpticCititesRepository.fromCitiesRepository(
     CitiesRepository repository,
   ) {
     final cities = <OpticCity>[];
 
     for (final city in repository.cities) {
-      if (!cities.any((element) => element.title == city.name)) {
-        final optics = city.shopsRepository.shops
-            .where((e) => e.coords != null)
-            .map(
-              (e) => Optic(
-                id: e.id,
-                title: e.name,
-                shops: [
-                  OpticShop(
-                    title: e.name,
-                    phones: e.phones,
-                    address: e.address,
-                    city: city.name,
-                    coords: e.coords!,
-                  ),
-                ],
-              ),
-            )
-            .toList();
+      final shopsMap = <String, List<OpticShop>>{};
 
-        cities.add(
-          OpticCity(
-            id: city.id,
-            title: city.name,
-            optics: optics,
-          ),
+      for (final shop in city.shopsRepository.shops) {
+        shopsMap.update(
+          shop.name,
+          (shops) => shops
+            ..add(
+              _getOpticShopFromShopModel(shop: shop, cityName: city.name),
+            ),
+          ifAbsent: () =>
+              [_getOpticShopFromShopModel(shop: shop, cityName: city.name)],
         );
       }
+      final optics = shopsMap.entries
+          .map((e) => Optic(id: city.id, title: e.key, shops: e.value))
+          .toList();
+
+      cities.add(
+        OpticCity(
+          id: city.id,
+          title: city.name,
+          optics: optics,
+        ),
+      );
     }
 
     return OpticCititesRepository(cities);
+  }
+
+  static OpticShop _getOpticShopFromShopModel({
+    required ShopModel shop,
+    required String cityName,
+  }) {
+    return OpticShop(
+      title: shop.name,
+      phones: shop.phones,
+      address: shop.address,
+      city: cityName,
+      coords: shop.coords!,
+    );
   }
 }
 
@@ -353,6 +380,24 @@ class Optic {
     this.logo,
     this.link,
   });
+
+  Optic copyWith({
+    int? id,
+    String? title,
+    List<OpticShop>? shops,
+    String? shopCode,
+    String? logo,
+    String? link,
+  }) {
+    return Optic(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      shops: shops ?? this.shops,
+      shopCode: shopCode ?? this.shopCode,
+      logo: logo ?? this.logo,
+      link: link ?? this.link,
+    );
+  }
 }
 
 class OpticShop extends Equatable {

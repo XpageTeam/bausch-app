@@ -1,8 +1,10 @@
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'dart:async';
+
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart';
+import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -12,26 +14,45 @@ import 'package:flutter/material.dart';
 //* Элемент, после нажатия на который, происходит переход на страницу добавления баллов
 class AddItem extends StatelessWidget {
   final AddPointsModel model;
-  const AddItem({required this.model, Key? key}) : super(key: key);
+
+  final AddPointsWM wm;
+
+  const AddItem({
+    required this.model,
+    required this.wm,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (model.type == 'quiz') {
-          Navigator.of(context).pushNamed(
+          await Navigator.of(context).pushNamed(
             '/addpoints_quiz',
             arguments: QuizScreenArguments(
               model: model as QuizModel,
             ),
           );
+
+          unawaited(wm.loadInfoAction());
+        } else if (model.type == 'double_points') {
+          debugPrint('double points');
+        } else if (model.type == 'birthday') {
+          await Keys.mainContentNav.currentState!.pushNamed(
+            '/profile_settings',
+          );
+
+          unawaited(wm.loadInfoAction());
         } else {
-          Navigator.of(context).pushNamed(
+          await Navigator.of(context).pushNamed(
             '/addpoints_details',
             arguments: AddPointsDetailsArguments(
               model: model,
             ),
           );
+
+          unawaited(wm.loadInfoAction());
         }
       },
       child: Container(
@@ -53,18 +74,17 @@ class AddItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AutoSizeText(
+                      Text(
                         model.previewModel.title,
                         style: AppStyles.h2,
-                        maxLines: 3,
+                        // maxLines: 3,
                       ),
                       const SizedBox(
                         height: 2,
                       ),
-                      AutoSizeText(
+                      Text(
                         model.previewModel.description,
                         style: AppStyles.p1,
-                        maxLines: 3,
                       ),
                     ],
                   ),
@@ -82,11 +102,13 @@ class AddItem extends StatelessWidget {
                   bottom: 12,
                 ),
                 child: TextButton(
-                  onPressed: () {
-                    Keys.mainContentNav.currentState!.pushNamed(
+                  onPressed: () async {
+                    await Keys.mainContentNav.currentState!.pushNamed(
                       '/profile_settings',
                     );
-                    Keys.mainContentNav.currentState!.pop();
+
+                    unawaited(wm.loadInfoAction());
+                    // Keys.mainContentNav.currentState!.pop();
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: AppTheme.mystic,
@@ -102,7 +124,7 @@ class AddItem extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               'Заполнить профиль',
                               style: AppStyles.h2,

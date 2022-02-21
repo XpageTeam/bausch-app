@@ -1,6 +1,8 @@
-import 'package:bausch/models/mappable_object.dart';
+// ignore_for_file: avoid_catches_without_on_clauses
 
-class DetailModel implements MappableInterface<DetailModel> {
+import 'package:bausch/exceptions/response_parse_exception.dart';
+
+class DetailModel {
   final String title;
 
   final String icon;
@@ -20,21 +22,18 @@ class DetailModel implements MappableInterface<DetailModel> {
   });
 
   factory DetailModel.fromMap(Map<String, dynamic> map) {
-    return DetailModel(
-      title: (map['title'] ?? 'title') as String,
-      icon: (map['icon'] ??
-              'https://bausch.in-progress.ru/upload/uf/4fa/0ds4e7fo757lrxzlbxn5ji44co0vow8h.png')
-          as String,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      btnName: map['btn_name'] != null ? map['btn_name'] as String : null,
-      btnIcon: map['btn_icon'] != null ? map['btn_icon'] as String : null,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    try {
+      return DetailModel(
+        title: (map['title'] ?? 'title') as String,
+        icon: (map['icon'] ??
+                'https://bausch.in-progress.ru/upload/uf/4fa/0ds4e7fo757lrxzlbxn5ji44co0vow8h.png')
+            as String,
+        description: map['description'] as String?,
+        btnName: map['btn_name'] as String?,
+        btnIcon: map['btn_icon'] as String?,
+      );
+    } catch (e) {
+      throw ResponseParseException('DetailModel: $e');
+    }
   }
 }

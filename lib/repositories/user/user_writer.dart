@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// TODO(Danil): реализовать выход и удаление пользователя
+
 class UserWriter {
   /// Если в [SharedPreferences] записан пользователя - он будет возвращён этим методом
   static Future<UserRepository?> checkUserToken() async {
@@ -16,13 +16,9 @@ class UserWriter {
 
       final userToken = prefs.getString('userToken');
 
-      debugPrint('$userToken read');
-
       if (userToken == null) {
         return null;
       }
-
-      // await removeUser();
 
       return await getUserFromServer(userToken);
       // ignore: avoid_catches_without_on_clauses
@@ -40,6 +36,8 @@ class UserWriter {
 
   static Future<void> writeToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
+
+    debugPrint(token);
 
     await prefs.setString('userToken', token);
   }

@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:intl/intl.dart';
 
 abstract class BaseOrderModel {
   final int id;
@@ -7,7 +8,8 @@ abstract class BaseOrderModel {
   final int price;
   final String status;
   final String category;
-  final OrderProductModel product;
+
+  String get formatedDate => DateFormat('dd.MM.yyyy').format(date);
 
   const BaseOrderModel({
     required this.id,
@@ -16,7 +18,6 @@ abstract class BaseOrderModel {
     required this.price,
     required this.status,
     required this.category,
-    required this.product,
   });
 }
 
@@ -37,7 +38,7 @@ class OrderProductModel {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException(e.toString());
+      throw ResponseParseException('OrderProductModel: ${e.toString()}');
     }
   }
 }

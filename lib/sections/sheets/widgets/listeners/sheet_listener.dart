@@ -1,5 +1,4 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -22,8 +21,11 @@ class SheetListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<CatalogItemCubit, CatalogItemState>(
       listener: (context, state) {
+        debugPrint(state.toString());
         if (state is CatalogItemFailed) {
-          Keys.mainNav.currentState!.pop();
+          if (Keys.mainNav.currentState!.canPop()) {
+            Keys.mainNav.currentState!.pop();
+          }
           showDefaultNotification(
             title: state.title,
           );
@@ -34,15 +36,14 @@ class SheetListener extends StatelessWidget {
         }
 
         if (state is CatalogItemSuccess) {
-          Keys.mainNav.currentState!.pop();
-          showSheet<List<CatalogItemModel>>(
-            // state.items.first is ConsultationItemModel
-            //     ? Keys.mainNav.currentContext!
-            //     :
-            context,
-            model,
-            state.items,
-          );
+          if (Keys.mainNav.currentState!.canPop()) {
+            Keys.mainNav.currentState!.pop();
+            showSheet<List<CatalogItemModel>>(
+              context,
+              model,
+              state.items,
+            );
+          }
         }
       },
       child: child,

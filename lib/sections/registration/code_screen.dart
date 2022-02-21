@@ -3,6 +3,7 @@ import 'package:bausch/sections/registration/widgets/code_form/code_form.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -22,6 +23,10 @@ class _CodeScreenState extends State<CodeScreen> {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
       extendBody: true,
+      appBar: const DefaultAppBar(
+        title: '',
+        backgroundColor: Colors.transparent,
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
@@ -64,23 +69,19 @@ class _CodeScreenState extends State<CodeScreen> {
             );
           } else {
             return TextButton(
-              child: Text(
+              child: const Text(
                 'Отправить новый код',
                 style: AppStyles.h2,
               ),
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
-                //alignment: Alignment.centerLeft,
               ),
-              // ignore: unnecessary_lambdas
-              onPressed: () {
-                loginWM.sendPhoneAction();
-              },
+              onPressed: loginWM.resendSMSAction,
             );
           }
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
     );
   }
 }

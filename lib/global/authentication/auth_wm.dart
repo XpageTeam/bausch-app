@@ -1,5 +1,11 @@
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/error_page.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -21,11 +27,8 @@ class AuthWM extends WidgetModel {
 
   BuildContext? context;
 
-  AuthWM(this.userWM) : super(const WidgetModelDependencies());
-
-  @override
-  void onLoad() {
-    subscribe(authStatus.stream, (value) {
+  AuthWM(this.userWM) : super(const WidgetModelDependencies()) {
+    authStatus.bind((value) {
       late String targetPage;
 
       switch (authStatus.value) {
@@ -38,8 +41,9 @@ class AuthWM extends WidgetModel {
           break;
 
         case AuthStatus.authenticated:
-          if (userWM.userData.value.data?.user.city == null ||
-              userWM.userData.value.data?.user.email == null) {
+          if (/*userWM.userData.value.data?.user.city == null ||*/
+              userWM.userData.value.data?.user.email == null &&
+                  userWM.userData.value.data?.user.pendingEmail == null) {
             targetPage = '/city_and_email';
           } else {
             targetPage = '/home';
@@ -57,11 +61,17 @@ class AuthWM extends WidgetModel {
       //   (route) => false,
       // );
 
-      debugPrint(targetPage);
-      debugPrint('context $context');
+      // debugPrint(targetPage);
+      debugPrint('context в авторизации: $context');
 
       if (context != null) {
         Navigator.of(context!).pushNamedAndRemoveUntil(
+          targetPage,
+          (route) => false,
+        );
+      } else if (Keys.mainContentNav.currentContext != null) {
+        Navigator.of(Keys.mainContentNav.currentContext!)
+            .pushNamedAndRemoveUntil(
           targetPage,
           (route) => false,
         );
@@ -69,27 +79,106 @@ class AuthWM extends WidgetModel {
     });
 
     checkAuthAction.bind((value) {
-      if (userWM.userData.value.isLoading) return;
-
-      userWM.userData.loading();
-
-      UserWriter.checkUserToken().then((user) {
-        if (user == null) {
-          authStatus.accept(AuthStatus.unauthenticated);
-          userWM.userData.error(Exception('Необходима авторизация'));
-        } else {
-          authStatus.accept(AuthStatus.authenticated);
-          userWM.userData.content(user);
-        }
-      });
+      _checkUserAuth();
     });
-
-    super.onLoad();
   }
 
-	/// выход
-  void logout(){
-		userWM.logout();
-		authStatus.accept(AuthStatus.unauthenticated);
+  /// выход
+  void logout() {
+    userWM.logout();
+    authStatus.accept(AuthStatus.unauthenticated);
+  }
+
+  Future<void> _checkUserAuth() async {
+    if (userWM.userData.value.isLoading) return;
+
+    await userWM.userData.loading();
+
+    try {
+      // throw DioError(
+      //   requestOptions: RequestOptions(
+      //     path: '',
+      //   ),
+      //   type: DioErrorType.response,
+      //   response: Response<void>(
+      //     requestOptions: RequestOptions(path: ''),
+      //     statusCode: 403,
+      //   ),
+      // );
+      final user = await UserWriter.checkUserToken();
+
+      if (user == null) {
+        await authStatus.accept(AuthStatus.unauthenticated);
+        await userWM.userData.error(Exception('Необходима авторизация'));
+      } else {
+        await userWM.userData.content(user);
+        await authStatus.accept(AuthStatus.authenticated);
+      }
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
+        await authStatus.accept(AuthStatus.unauthenticated);
+        await userWM.userData.error(Exception('Необходима авторизация'));
+
+        return;
+      }
+      await userWM.userData.error(
+        CustomException(
+          title: 'При отправке запроса произошла ошибка',
+          subtitle: e.toString(),
+          ex: e,
+        ),
+      );
+    } on ResponseParseException catch (e) {
+      await userWM.userData.error(
+        CustomException(
+          title: 'При обработке овтета от сервера произошла ошибка',
+          subtitle: e.toString(),
+          ex: e,
+        ),
+      );
+    } on SuccessFalse catch (e) {
+      await userWM.userData.error(
+        CustomException(
+          title: e.toString(),
+          ex: e,
+        ),
+      );
+    }
+
+    if (userWM.userData.value.hasError) {
+      final error = userWM.userData.value.error as CustomException;
+
+      if (context != null) {
+        await Navigator.of(context!).pushAndRemoveUntil<void>(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return ErrorPage(
+                title: error.title,
+                subtitle: error.subtitle,
+                buttonCallback: checkAuthAction,
+                buttonText: 'Обновить',
+              );
+            },
+          ),
+          (route) => false,
+        );
+      } else {
+        if (Keys.mainContentNav.currentContext != null) {
+          await Navigator.of(context!).pushAndRemoveUntil<void>(
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) {
+                return ErrorPage(
+                  title: error.title,
+                  subtitle: error.subtitle,
+                  buttonCallback: checkAuthAction,
+                  buttonText: 'Обновить',
+                );
+              },
+            ),
+            (route) => false,
+          );
+        }
+      }
+    }
   }
 }

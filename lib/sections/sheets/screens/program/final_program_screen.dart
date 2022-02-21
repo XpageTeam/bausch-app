@@ -1,10 +1,10 @@
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/program/widget_model/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/static/utils.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
@@ -39,8 +39,8 @@ class FinalProgramScreen extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.only(top: 80, bottom: 40),
+                const Padding(
+                  padding: EdgeInsets.only(top: 80, bottom: 40),
                   child: Text(
                     'Это ваш сертификат на бесплатную диагностику зрения и первую пару контактных линз',
                     style: AppStyles.h1,
@@ -55,12 +55,12 @@ class FinalProgramScreen extends StatelessWidget {
                     bottom: 40,
                   ),
                   child: Text(
-                    'Воспользуйтесь сертификатом до 30 августа 2021 и получите двойные баллы. Сертификат хранится в личном кабинете, его можно использовать в течение двух недель.',
+                    response.subtitle,
                     style: AppStyles.p1,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 20),
                   child: Text(
                     'Запишитесь в оптику заранее',
                     style: AppStyles.h1,

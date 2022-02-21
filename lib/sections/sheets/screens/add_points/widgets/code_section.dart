@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:bausch/models/add_points/product_code_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points_code/add_points_code_bloc.dart';
+import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
@@ -10,7 +11,6 @@ import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CodeSection extends StatefulWidget {
@@ -67,6 +67,16 @@ class _CodeSectionState extends State<CodeSection> {
             if (state is AddPointsCodeFailed) {
               showDefaultNotification(title: state.title);
             }
+            if (state is AddPointsCodeSendSuccess) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/final_addpoints',
+                (route) => route.isCurrent,
+                arguments: FinalAddPointsArguments(
+                  // TODO(Nikita): Добавить кол-во баллов
+                  points: '500',
+                ),
+              );
+            }
           },
           child: BlocBuilder<AddPointsCodeBloc, AddPointsCodeState>(
             builder: (context, state) {
@@ -74,7 +84,7 @@ class _CodeSectionState extends State<CodeSection> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Ввести код с упаковки',
                     style: AppStyles.h1,
                   ),
@@ -96,7 +106,10 @@ class _CodeSectionState extends State<CodeSection> {
                       showCupertinoModalPopup<void>(
                         context: context,
                         builder: (context) => CupertinoActionSheet(
-                          title: const Text('Продукт'),
+                          title: const Text(
+                            'Продукт',
+                            style: AppStyles.p1,
+                          ),
                           actions: List.generate(
                             state.models.length,
                             (i) {
@@ -107,12 +120,15 @@ class _CodeSectionState extends State<CodeSection> {
                                   });
                                   addPointsCodeBloc.add(
                                     AddPointsCodeUpdateProduct(
-                                      product: state.models[i].id.toString(),
+                                      product: state.models[i].code.toString(),
                                     ),
                                   );
                                   Navigator.of(context).pop();
                                 },
-                                child: Text(state.models[i].title),
+                                child: Text(
+                                  state.models[i].title,
+                                  style: AppStyles.h2,
+                                ),
                               );
                             },
                           ),

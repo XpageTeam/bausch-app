@@ -1,14 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
-import 'package:bausch/sections/home/widgets/slider/indicator.dart';
-import 'package:bausch/sections/home/widgets/slider/item_slider.dart';
+import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/profile/widgets/half_blured_circle.dart';
+import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/sections/sheets/screens/program/program_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/program/widget_model/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
-import 'package:bausch/sections/shops/select_optics_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -17,7 +16,9 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/text/bulleted_list.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -67,9 +68,24 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
       builder: (context, primaryData) {
         return CustomSheetScaffold(
           controller: widget.controller,
-          appBar: CustomSliverAppbar(
-            padding: const EdgeInsets.all(18),
-            icon: Container(),
+          onScrolled: (offset) {
+            if (offset > 60) {
+              wm.colorState.accept(AppTheme.turquoiseBlue);
+            } else {
+              wm.colorState.accept(Colors.white);
+            }
+          },
+          //resizeToAvoidBottomInset: false,
+          hideBottomNavBarThenKeyboard: true,
+          appBar: StreamedStateBuilder<Color>(
+            streamedState: wm.colorState,
+            builder: (_, color) {
+              return CustomSliverAppbar(
+                padding: const EdgeInsets.all(18),
+                icon: Container(),
+                iconColor: color,
+              );
+            },
           ),
           slivers: [
             SliverPadding(
@@ -106,29 +122,30 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 ),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                StaticData.sidePadding,
-                0,
-                StaticData.sidePadding,
-                40.0,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: _InfoBlock(
-                  headerText: 'В программе участвуют',
-                  content: ItemSlider<Product>(
-                    items: primaryData.products,
-                    itemBuilder: (context, product) => _ProductItem(
-                      product: product,
-                    ),
-                    indicatorBuilder: (context, isActive) => Indicator(
-                      isActive: isActive,
-                      animationDuration: const Duration(milliseconds: 300),
+            if (primaryData.products.isNotEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  0,
+                  StaticData.sidePadding,
+                  40.0,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: _InfoBlock(
+                    headerText: 'В программе участвуют',
+                    content: SimpleSlider<Product>(
+                      items: primaryData.products,
+                      builder: (context, product) => _ProductItem(
+                        product: product,
+                      ),
+                      // indicatorBuilder: (context, isActive) => Indicator(
+                      //   isActive: isActive,
+                      //   animationDuration: const Duration(milliseconds: 300),
+                      // ),
                     ),
                   ),
                 ),
               ),
-            ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
@@ -160,20 +177,22 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                          bottom: 20,
+                          bottom: 4,
                         ),
                         child: NativeTextInput(
                           labelText: 'Имя',
                           controller: wm.firstNameController,
+                          textCapitalization: TextCapitalization.words,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          bottom: 20,
+                          bottom: 4,
                         ),
                         child: NativeTextInput(
                           labelText: 'Фамилия',
                           controller: wm.lastNameController,
+                          textCapitalization: TextCapitalization.words,
                         ),
                       ),
                       NativeTextInput(
@@ -205,9 +224,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         ),
                         child: CustomRadioButton(
                           text: primaryData.whatDoYouUse[i],
-                          onPressed: () => debugPrint(
-                            primaryData.whatDoYouUse[i],
-                          ),
+                          onPressed: wm.whatDoYouUse.accept,
                         ),
                       ),
                     ),
@@ -228,7 +245,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                   builder: (_, currentOptic) => WhiteButton(
                     text: currentOptic == null
                         ? 'Выбрать оптику'
-                        : currentOptic.title,
+                        : wm.fullAddress,
                     icon: Padding(
                       padding: const EdgeInsets.only(
                         right: 12,
@@ -244,7 +261,16 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       Keys.mainNav.currentState!.push<void>(
                         MaterialPageRoute(
                           builder: (context) => SelectOpticScreen(
-                            onOpticSelect: wm.selectOptic,
+                            selectButtonText: 'Выбрать оптику',
+                            onOpticSelect: (optic, city, shop) {
+                              wm.city = city;
+
+                              if (shop != null) {
+                                wm.selectOptic(optic.copyWith(shops: [shop]));
+                              } else {
+                                wm.selectOptic(optic);
+                              }
+                            },
                           ),
                         ),
                       );
@@ -260,12 +286,11 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
               streamedState: wm.loadingStreamed,
               builder: (_, loading) => CustomFloatingActionButton(
                 text: loading ? '' : 'Получить сертификат',
-                icon:
-                    loading ? const CircularProgressIndicator.adaptive() : null,
+                icon: loading ? const UiCircleLoader() : null,
                 onPressed: currentOptic != null
                     ? loading
                         ? null
-                        : () => wm.getSertificatAction()
+                        : () => wm.getCertificateAction()
                     : null,
               ),
             ),
@@ -313,12 +338,7 @@ class _HeaderContainer extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.fromLTRB(
-        12,
-        27,
-        12,
-        31,
-      ),
+      padding: const EdgeInsets.fromLTRB(12, 27, 12, 31),
       color: AppTheme.sulu,
     );
   }
@@ -341,14 +361,15 @@ class _ProductItem extends StatelessWidget {
         16,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
-            child: Image.network(
+            child: ExtendedImage.network(
               product.picture,
               height: 100,
               width: 100,
+              printError: false,
+              loadStateChanged: loadStateChangedFunction,
             ),
           ),
           Flexible(

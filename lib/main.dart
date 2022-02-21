@@ -9,12 +9,23 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mindbox/mindbox.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final config = Configuration(
+    domain: 'api.mindbox.ru',
+    endpointIos: 'valeant-ios',
+    endpointAndroid: 'valeant-android',
+    subscribeCustomerIfCreated: true,
+  );
+
+  Mindbox.instance.init(configuration: config);
   runApp(MyApp());
 }
 
@@ -33,12 +44,23 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
 
 class _MyAppState extends WidgetState<MyApp, AuthWM> {
   @override
+  void initState() {
+    super.initState();
+
+    RequestHandler.setContext(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
     );
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
 
     return OverlaySupport(
       toastTheme: ToastThemeData(
@@ -60,48 +82,42 @@ class _MyAppState extends WidgetState<MyApp, AuthWM> {
             lazy: false,
           ),
         ],
-        child: ScreenUtilInit(
-          designSize: const Size(375, 799),
-          builder: () => MaterialApp(
-            supportedLocales: const [
-              Locale('ru', ''),
-            ],
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            title: 'Bausch + Lomb',
-            navigatorKey: Keys.mainNav,
-            onGenerateRoute: (settings) => AppRouter.generateRoute(
-              settings,
-              context,
-              wm,
-            ),
-            theme: AppTheme.currentAppTheme,
-            home: Builder(
-              builder: (context) {
-                return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: 1.0,
+        child: MaterialApp(
+          supportedLocales: const [
+            Locale('ru', ''),
+          ],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          title: 'Bausch + Lomb',
+          navigatorKey: Keys.mainNav,
+          onGenerateRoute: (settings) => AppRouter.generateRoute(
+            settings,
+            context,
+            wm,
+          ),
+          theme: AppTheme.currentAppTheme,
+          home: Builder(
+            builder: (context) {
+              return ResponsiveWrapper.builder(
+                Provider(
+                  create: (context) => LoginWM(
+                    baseDependencies: const WidgetModelDependencies(),
+                    context: context,
                   ),
-                  child: Builder(builder: (context) {
-                    RequestHandler.setContext(context);
-
-                    return Provider(
-                      create: (context) => LoginWM(
-                        baseDependencies: const WidgetModelDependencies(),
-                        context: context,
-                      ),
-                      lazy: false,
-                      child: MainNavigation(
-                        authWM: wm,
-                      ),
-                    );
-                  }),
-                );
-              },
-            ),
+                  lazy: false,
+                  child: MainNavigation(
+                    authWM: wm,
+                  ),
+                ),
+                minWidth: 375,
+                mediaQueryData: MediaQuery.of(context).copyWith(
+                  textScaleFactor: 1.0,
+                ),
+              );
+            },
           ),
         ),
       ),

@@ -1,5 +1,6 @@
+import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/sections/faq/bloc/attach/attach_bloc.dart';
-import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
+import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -7,22 +8,35 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
 
 class AttachFilesScreenArguments {
-  final FieldsBloc fieldsBloc;
+  final FormScreenWM formScreenWM;
+  //final bool isExtra;
+  final FieldModel fieldModel;
 
-  AttachFilesScreenArguments({required this.fieldsBloc});
+  AttachFilesScreenArguments({
+    required this.formScreenWM,
+    //required this.isExtra,
+    required this.fieldModel,
+  });
 }
 
 class AttachFilesScreen extends StatefulWidget
     implements AttachFilesScreenArguments {
   @override
-  final FieldsBloc fieldsBloc;
+  final FormScreenWM formScreenWM;
+  // @override
+  // final bool isExtra;
+  @override
+  final FieldModel fieldModel;
   const AttachFilesScreen({
-    required this.fieldsBloc,
+    required this.formScreenWM,
+    //required this.isExtra,
+    required this.fieldModel,
     Key? key,
   }) : super(key: key);
 
@@ -44,7 +58,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
   void initState() {
     super.initState();
 
-    attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
+    //attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
   }
 
   @override
@@ -73,7 +87,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                           backgroundColor: AppTheme.mystic,
                           topRightWidget: NormalIconButton(
                             icon: const Icon(Icons.close),
-                            onPressed: () {},
+                            onPressed: Keys.mainContentNav.currentState?.pop,
                           ),
                         ),
                       ),
@@ -88,12 +102,12 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                                 attachBloc.add(AttachAdd());
                               },
                               child: Row(
-                                children: [
-                                  const Icon(
+                                children: const [
+                                  Icon(
                                     Icons.add_circle_outline_rounded,
                                     color: AppTheme.mineShaft,
                                   ),
-                                  const SizedBox(
+                                  SizedBox(
                                     width: 12,
                                   ),
                                   Text(
@@ -123,16 +137,47 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                             child: WhiteContainerWithRoundedCorners(
                               padding: const EdgeInsets.symmetric(vertical: 27),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 13),
-                                    child: Icon(Icons.filter),
-                                  ),
                                   Flexible(
-                                    child: Text(
-                                      basename(state.files[i].path),
-                                      style: AppStyles.h2,
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                          ),
+                                          child: ExtendedImage.asset(
+                                            'assets/icons/document.png',
+                                            width: 16,
+                                            height: 16,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            state.files[i].name,
+                                            style: AppStyles.h2,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 12,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        attachBloc.add(AttachRemove(index: i));
+                                      },
+                                      child: ExtendedImage.asset(
+                                        'assets/icons/delete.png',
+                                        width: 16,
+                                        height: 16,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -153,7 +198,30 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
               child: BlueButtonWithText(
                 text: 'Добавить',
                 onPressed: () {
-                  widget.fieldsBloc.add(FieldsAddFiles(files: state.files));
+                  final files = state.files
+                      .map((file) => dio.MultipartFile.fromFileSync(file.path!))
+                      .toList();
+
+                  final map = <String, dynamic>{}
+                    ..addAll(widget.formScreenWM.extraList.value.data!);
+
+                  if (widget.fieldModel.type == 'file') {
+                    map.addAll(
+                      <String, dynamic>{
+                        'extra[${widget.fieldModel.xmlId}][]': files,
+                      },
+                    );
+                    widget.formScreenWM.extraList.content(map);
+                  } else {
+                    map.addAll(
+                      <String, dynamic>{
+                        'file[]': files,
+                      },
+                    );
+                    widget.formScreenWM.filesList.content(map);
+                  }
+
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                 },
               ),

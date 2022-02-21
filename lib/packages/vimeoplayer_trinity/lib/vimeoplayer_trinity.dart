@@ -32,8 +32,11 @@ class VimeoPlayer extends StatefulWidget {
 
   final Widget? loaderWidget;
 
+  final VoidCallback onError;
+
   const VimeoPlayer({
     required this.id,
+    required this.onError,
     this.autoPlay = false,
     this.looping = false,
     this.controlsConfig,
@@ -68,16 +71,18 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
     //Initializing video controllers when receiving data from Vimeo
     _quality.getQualitiesSync().then((dynamic value) {
       value as SplayTreeMap<String, String>?;
-      
+
       _qualityValue = value != null ? value[value.lastKey()] : null;
 
       // Create resolutions map
       final resolutionsMap = SplayTreeMap<String, String>();
-      if (value != null)
-      // ignore: curly_braces_in_flow_control_structures
-      for (final key in value.keys) {
-        final processedKey = key.split(' ')[0];
-        resolutionsMap[processedKey] = value[key]!;
+      if (value != null) {
+        for (final key in value.keys) {
+          final processedKey = key.split(' ')[0];
+          resolutionsMap[processedKey] = value[key]!;
+        }
+      } else {
+        widget.onError();
       }
 
       final betterPlayerDataSource = BetterPlayerDataSource(

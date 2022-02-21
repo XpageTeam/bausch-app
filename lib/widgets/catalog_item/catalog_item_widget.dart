@@ -5,24 +5,33 @@ import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/models/faq/question_model.dart';
+import 'package:bausch/models/faq/topic_model.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
+//import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/shims/dart_ui_real.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
   final String? orderTitle;
   final String? address;
   final String? deliveryInfo;
+
   const CatalogItemWidget({
     required this.model,
     this.orderTitle,
@@ -31,9 +40,9 @@ class CatalogItemWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  //TODO(Nikita) : Добавить блок с промокодом, где нужно
   @override
   Widget build(BuildContext context) {
+    debugPrint(model.picture);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -76,37 +85,35 @@ class CatalogItemWidget extends StatelessWidget {
                           style: AppStyles.h2Bold,
                         ),
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
 
                       //* Цена и виджет баллов
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              model.priceToString,
-                              style: AppStyles.h2Bold,
-                            ),
+                      if (model.price > 0)
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  model.priceToString,
+                                  style: AppStyles.h2Bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              const PointWidget(textStyle: AppStyles.h2),
+                            ],
                           ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          PointWidget(textStyle: AppStyles.h2),
-                        ],
-                      ),
+                        ),
 
                       //* Адрес
                       if (model is ProductItemModel && address != null)
                         Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 30),
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 2),
-                              child: Text(
-                                address!,
-                                style: AppStyles.p1Grey,
-                              ),
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 2),
+                            child: Text(
+                              'Адрес: $address',
+                              style: AppStyles.p1Grey,
                             ),
                           ),
                         ),
@@ -122,10 +129,17 @@ class CatalogItemWidget extends StatelessWidget {
                   // ),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: model.picture != null
-                      ? Image.asset(
-                          img(model)!, //! model.img
-                          scale: 3,
-                        )
+                      ? !model.picture!.contains('http')
+                          ? ExtendedImage.asset(
+                              img(model)!, //! model.img
+                              scale: 3,
+                            )
+                          : ExtendedImage.network(
+                              model.picture!,
+                              scale: 3,
+                              printError: false,
+                              loadStateChanged: loadStateChangedFunction,
+                            )
                       : null,
                 ),
               ],
@@ -133,45 +147,127 @@ class CatalogItemWidget extends StatelessWidget {
 
             //* Информация о доставке
             if ((model is ProductItemModel) && deliveryInfo != null)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/substract.png',
-                    height: 15,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Flexible(
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Доставлен. ',
-                        style: AppStyles.p1,
-                        children: [
-                          TextSpan(
-                            style: AppStyles.p1Grey,
-                            // TODO сделать открытие всплывашки
-                            children: [
-                              const TextSpan(
-                                text: 'Eсли нет, пишите ',
-                              ),
-                              TextSpan(
-                                text: 'сюда',
-                                style: AppStyles.p1Grey.copyWith(
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              const TextSpan(
-                                text: ', разберемся',
-                              ),
-                            ],
-                          ),
-                        ],
+              Container(
+                margin: const EdgeInsets.only(top: 26),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 4,
+                      ),
+                      child: Image.asset(
+                        'assets/substract.png',
+                        height: 15,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Flexible(
+                      child: RichText(
+                        text: TextSpan(
+                          text: '$deliveryInfo. ',
+                          style: AppStyles.p1,
+                          children: [
+                            if (deliveryInfo!
+                                    .toLowerCase()
+                                    .contains('доставлен') ||
+                                deliveryInfo!
+                                    .toLowerCase()
+                                    .contains('выполнен'))
+                              TextSpan(
+                                style: AppStyles.p1Grey,
+                                children: [
+                                  const TextSpan(
+                                    text: 'Eсли нет, пишите ',
+                                  ),
+                                  TextSpan(
+                                    text: 'сюда',
+                                    style: AppStyles.p1Grey.copyWith(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        // unawaited(showSheet<List<TopicModel>>(
+                                        //   context,
+                                        //   SimpleSheetModel(
+                                        //     name: 'Частые вопросы',
+                                        //     type: 'faq',
+                                        //   ),
+                                        //   [],
+                                        // ));
+
+                                        // await Future<void>.delayed(const Duration(seconds: 1));
+
+                                        // await Keys.bottomNav.currentState!
+                                        //     .pushNamedAndRemoveUntil(
+                                        //   '/support',
+                                        //   (route) => false,
+                                        //   arguments:
+                                        //       ContactSupportScreenArguments(
+                                        //     question: QuestionModel(
+                                        //       id: 179,
+                                        //       title: '',
+                                        //     ),
+                                        //     topic: TopicModel(
+                                        //       id: 24,
+                                        //       title: '',
+                                        //       questions: [],
+                                        //     ),
+                                        //   ),
+                                        // );
+
+                                        showSheet<
+                                            ContactSupportScreenArguments>(
+                                          context,
+                                          SimpleSheetModel(
+                                            name: 'Обратиться в поддержку',
+                                            type: 'support',
+                                          ),
+                                          ContactSupportScreenArguments(
+                                            question: QuestionModel(
+                                              id: 179,
+                                              title:
+                                                  'Заказ: я не получил(а) бесплатные линзы (прошло более 60 дней)',
+                                            ),
+                                            topic: TopicModel(
+                                              id: 22,
+                                              title: 'Программа Лояльности',
+                                              questions: [],
+                                            ),
+                                            orderID: model.id,
+                                          ),
+                                        );
+
+                                        // Navigator.of(context).pushNamed(
+                                        //   '/support',
+                                        //   arguments:
+                                        //       ContactSupportScreenArguments(
+                                        //     question: QuestionModel(
+                                        //       id: 179,
+                                        //       title: '',
+                                        //     ),
+                                        //     topic: TopicModel(
+                                        //       id: 24,
+                                        //       title: '',
+                                        //       questions: [],
+                                        //     ),
+                                        //   ),
+                                        // );
+                                      },
+                                  ),
+                                  const TextSpan(
+                                    text: ', разберемся',
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             if (model is! ProductItemModel)
               Container(
@@ -180,7 +276,19 @@ class CatalogItemWidget extends StatelessWidget {
                   text: txt(model),
                   icon: icon(model),
                   onPressed: () {
-                    callback(model);
+                    callback(
+                      model,
+                      allWebinarsOpen: () =>
+                          showSheet<ItemSheetScreenArguments>(
+                        context,
+                        SimpleSheetModel(
+                          name: 'Title',
+                          type: 'promo_code_video',
+                        ),
+                        ItemSheetScreenArguments(model: model),
+                        '/all_webinars',
+                      ),
+                    );
                   },
                 ),
               ),
@@ -209,7 +317,7 @@ String txt(CatalogItemModel _model) {
   if (_model is WebinarItemModel) {
     return 'Перейти к просмотру';
   } else if (_model is PartnersItemModel) {
-    return _model.poolPromoCode;
+    return _model.poolPromoCode ?? '';
   } else {
     return (_model as PromoItemModel).code;
   }
@@ -231,18 +339,25 @@ Widget icon(CatalogItemModel _model) {
   }
 }
 
-void callback(CatalogItemModel _model) {
+void callback(CatalogItemModel _model, {VoidCallback? allWebinarsOpen}) {
   if (_model is WebinarItemModel) {
-    showDialog<void>(
-      context: Keys.mainNav.currentContext!,
-      // TODO(Danil): массив id
-      builder: (context) => VimeoPopup(
-        videoId: _model.videoId.first,
-      ),
-    );
+    if (_model.videoIds.length > 1) {
+      allWebinarsOpen?.call();
+    } else {
+      showDialog<void>(
+        context: Keys.mainNav.currentContext!,
+        // TODO(Danil): массив id
+        builder: (context) => WebinarPopup(
+          videoId: _model.videoIds.first,
+        ),
+      );
+    }
   } else if (_model is PartnersItemModel) {
     Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
-    showDefaultNotification(title: 'Скопировано!');
+    showDefaultNotification(
+      title: 'Скопировано!',
+      success: true,
+    );
   } else {
     // TODO(Nikolay): Это должно не так вызываться.
     showFlexibleBottomSheet<void>(

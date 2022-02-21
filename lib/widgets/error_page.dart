@@ -3,7 +3,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ErrorPage extends StatelessWidget {
   final String title;
@@ -23,15 +22,18 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,
-      body: ScreenUtilInit(
-        designSize: const Size(375, 799),
-        builder: () {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: StaticData.sidePadding,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: StaticData.sidePadding,
+          vertical: 30,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Center(
                   child: Image.asset(
@@ -47,10 +49,10 @@ class ErrorPage extends StatelessWidget {
                   child: Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppTheme.mineShaft,
                       fontWeight: FontWeight.w500,
-                      fontSize: 24.sp,
+                      fontSize: 24,
                       height: 31 / 24,
                     ),
                   ),
@@ -59,24 +61,25 @@ class ErrorPage extends StatelessWidget {
                   Text(
                     subtitle!,
                     style: AppStyles.p1Grey,
+                    textAlign: TextAlign.center,
                   ),
               ],
             ),
-          );
-        },
+            if (buttonText != null && buttonCallback != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
+                  bottom: 10,
+                ),
+                child: BlueButtonWithText(
+                  text: buttonText!,
+                  onPressed: buttonCallback,
+                ),
+              ),
+          ],
+        ),
       ),
-      floatingActionButton: buttonText != null
-          ? Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: buttonText!,
-                onPressed: buttonCallback,
-              ),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 class CustomRadio extends StatefulWidget {
   final int? value;
   final int? groupValue;
+  final bool? selected;
+
   final ValueChanged<bool?>? onChanged;
   final String? text;
 
   const CustomRadio({
     required this.value,
-    required this.groupValue,
     required this.onChanged,
+    this.selected,
+    this.groupValue,
     this.text,
     Key? key,
   }) : super(key: key);
@@ -24,14 +27,14 @@ class _CustomRadioState extends State<CustomRadio> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        widget.onChanged!.call(true);
-      },
+      onTap: () => widget.onChanged?.call(true),
       child: Row(
         children: [
           CustomCheckbox(
             // ignore: avoid_bool_literals_in_conditional_expressions
-            value: widget.value == widget.groupValue,
+            value: widget.groupValue != null
+                ? widget.value == widget.groupValue
+                : widget.selected,
             onChanged: widget.onChanged,
             borderRadius: 180,
           ),

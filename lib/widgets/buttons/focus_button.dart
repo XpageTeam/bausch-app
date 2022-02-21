@@ -29,29 +29,31 @@ class FocusButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: selectedText == null
-                ? const EdgeInsets.only(top: 26, bottom: 28)
-                : const EdgeInsets.only(top: 10, bottom: 18),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  labelText,
-                  style: selectedText == null
-                      ? AppStyles.h2GreyBold
-                      : AppStyles.p1Grey,
-                ),
-                if (selectedText != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: Text(
-                      selectedText!,
-                      style: AppStyles.h2,
-                    ),
+          Flexible(
+            child: Padding(
+              padding: selectedText == null
+                  ? const EdgeInsets.only(top: 26, bottom: 28)
+                  : const EdgeInsets.only(top: 10, bottom: 18),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    labelText,
+                    style: selectedText == null
+                        ? AppStyles.h2GreyBold
+                        : AppStyles.p1Grey,
                   ),
-              ],
+                  if (selectedText != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        selectedText!,
+                        style: AppStyles.h2,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
           icon ??
