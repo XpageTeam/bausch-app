@@ -299,6 +299,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                               ),
 
                               //* Текстовые кнопки(Частые вопросы и тд)
+                              const SizedBox(height: 40),
                               const TextButtonsSection(),
                               const SizedBox(
                                 height: 100,

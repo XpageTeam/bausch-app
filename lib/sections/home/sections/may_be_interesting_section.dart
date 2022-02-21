@@ -1,8 +1,4 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
-import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
-import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_methods.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_wm.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';

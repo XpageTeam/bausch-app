@@ -40,11 +40,9 @@ class SpendScores extends StatelessWidget {
                     model: catItem as CatalogSheetWithLogosModel,
                   );
                 } else if (catItem.type == 'online_consultation') {
-                  // TODO тупое говно
-                  // return WideContainerWithoutItems(
-                  //   model: catItem as CatalogSheetWithoutLogosModel,
-                  // );
-                  return const SizedBox();
+                  return WideContainerWithoutItems(
+                    model: catItem as CatalogSheetWithoutLogosModel,
+                  );
                 } else {
                   return SmallContainer(
                     model: catItem as CatalogSheetModel,
