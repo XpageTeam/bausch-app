@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -70,6 +72,7 @@ class ProgramScreenWM extends WidgetModel {
     try {
       response = await ProgramSertificatSaver.save(
         name: firstNameController.text,
+        opticName: currentOpticStreamed.value?.shops.first.title ?? 'null',
         opticAddress:
             '$city, ${currentOpticStreamed.value!.shops.first.address}',
         whatDoYouUse: whatDoYouUse.value,
@@ -85,18 +88,17 @@ class ProgramScreenWM extends WidgetModel {
       );
     } on DioError catch (e) {
       ex = CustomException(
-        title: 'Невозможно загрузить предложение',
+        title: 'При отправке запроса произошла ошибка',
         subtitle: e.message,
       );
     } on ResponseParseException catch (e) {
       ex = CustomException(
-        title: 'Невозможно загрузить предложение',
+        title: 'Не удалось обработать ответ от сервера',
         subtitle: e.toString(),
       );
     } on SuccessFalse catch (e) {
       ex = CustomException(
-        title: 'Невозможно загрузить предложение',
-        subtitle: e.toString(),
+        title: e.toString(),
       );
     }
 
@@ -129,7 +131,7 @@ class ProgramScreenWM extends WidgetModel {
       unawaited(
         primaryDataStreamed.error(
           CustomException(
-            title: 'Невозможно загрузить предложение',
+            title: 'При отправке запроса произошла ошибка',
             subtitle: e.message,
           ),
         ),
@@ -138,7 +140,7 @@ class ProgramScreenWM extends WidgetModel {
       unawaited(
         primaryDataStreamed.error(
           CustomException(
-            title: 'Невозможно загрузить предложение',
+            title: 'Не удалось обработать ответ от сервера',
             subtitle: e.toString(),
           ),
         ),
@@ -147,8 +149,7 @@ class ProgramScreenWM extends WidgetModel {
       unawaited(
         primaryDataStreamed.error(
           CustomException(
-            title: 'Невозможно загрузить предложение',
-            subtitle: e.toString(),
+            title: e.toString(),
           ),
         ),
       );
@@ -168,20 +169,15 @@ class ProgramSaverResponse {
   });
 
   factory ProgramSaverResponse.fromJson(Map<String, dynamic> map) {
-    if (map['title'] == null) {
-      throw ResponseParseException('Неудалось получить сертификат');
+    try {
+      return ProgramSaverResponse(
+        title: map['title'] as String,
+        promocode: map['promocode'] as String,
+        subtitle: map['subtitle'] as String,
+      );
+    } catch (e) {
+      throw ResponseParseException('ProgramSaverResponse: $e');
     }
-    if (map['promocode'] == null) {
-      throw ResponseParseException('Неудалось получить сертификат');
-    }
-    if (map['subtitle'] == null) {
-      throw ResponseParseException('Неудалось получить сертификат');
-    }
-    return ProgramSaverResponse(
-      title: map['title'] as String,
-      promocode: map['promocode'] as String,
-      subtitle: map['subtitle'] as String,
-    );
   }
 }
 
@@ -189,6 +185,7 @@ class ProgramSertificatSaver {
   static Future<ProgramSaverResponse> save({
     required String name,
     required String opticAddress,
+    required String opticName,
     String? whatDoYouUse,
   }) async {
     final rh = RequestHandler();
@@ -199,6 +196,7 @@ class ProgramSertificatSaver {
         data: FormData.fromMap(<String, dynamic>{
           'whatDoYouUse': whatDoYouUse,
           'name': name,
+          'opticName': opticName,
           'opticAddress': opticAddress,
         }),
       ))
