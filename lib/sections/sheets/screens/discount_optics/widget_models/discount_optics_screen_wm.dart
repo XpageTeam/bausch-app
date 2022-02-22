@@ -10,8 +10,10 @@ import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -30,6 +32,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final discountOpticsStreamed = EntityStreamedState<List<Optic>>();
   final currentDiscountOptic = StreamedState<Optic?>(null);
   final setCurrentOptic = StreamedAction<Optic>();
+  final selectCity = VoidAction();
+  final currentCity = StreamedState<String?>(null);
 
   final colorState = StreamedState<Color>(AppTheme.mystic);
 
@@ -42,8 +46,10 @@ class DiscountOpticsScreenWM extends WidgetModel {
   late final String warningText;
   late final String howToUseText;
 
-  late int difference;
+  List<Optic> allOptics = [];
+  Set<String> citiesForOnlineShop = {};
 
+  late int difference;
   bool get isEnough => difference <= 0;
 
   DiscountOpticsScreenWM({
@@ -94,7 +100,35 @@ class DiscountOpticsScreenWM extends WidgetModel {
         }
       },
     );
+    selectCity.bind((_) => _selectCity());
+
     super.onBind();
+  }
+
+  Future<void> _selectCity() async {
+    final cityName = await Keys.mainNav.currentState!.push<String>(
+      PageRouteBuilder<String>(
+        pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
+          citiesWithShops: citiesForOnlineShop.toList(),
+        ),
+      ),
+    );
+
+    if (cityName != null && cityName != currentCity.value) {
+      await currentDiscountOptic.accept(null);
+      unawaited(currentCity.accept(cityName));
+      unawaited(
+        discountOpticsStreamed.content(
+          allOptics
+              .where(
+                (optic) =>
+                    optic.cities != null &&
+                    optic.cities!.any((element) => element == cityName),
+              )
+              .toList(),
+        ),
+      );
+    }
   }
 
   Future<void> _loadDiscountOptics() async {
@@ -122,6 +156,15 @@ class DiscountOpticsScreenWM extends WidgetModel {
         }
       }
 
+      if (discountType == DiscountType.onlineShop) {
+        citiesForOnlineShop =
+            discountOptics.where((optic) => optic.cities != null).fold(
+          {},
+          (arr, optic) => arr..addAll(optic.cities!),
+        );
+      }
+
+      allOptics = discountOptics;
       unawaited(
         discountOpticsStreamed.content(discountOptics),
       );
@@ -234,6 +277,7 @@ class OpticCititesRepository {
                     shopCode: e.shopCode,
                     logo: e.logo,
                     link: e.link,
+                    cities: e.cities,
                   ),
                 )
                 .toList(),
@@ -371,6 +415,7 @@ class Optic {
   final String? logo;
   final String? link;
   final List<OpticShop> shops;
+  final List<String>? cities;
 
   const Optic({
     required this.id,
@@ -379,6 +424,7 @@ class Optic {
     this.shopCode,
     this.logo,
     this.link,
+    this.cities,
   });
 
   Optic copyWith({

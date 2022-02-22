@@ -112,7 +112,6 @@ class _SelectOpticScreenState
                 loadingChild: const Center(
                   child: AnimatedLoader(),
                 ),
-                // TODO(Nikolay): Чекнуть.
                 errorBuilder: (context, e) {
                   final ex = e as CustomException;
                   //debugPrint(ex.subtitle);
