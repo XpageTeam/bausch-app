@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class StaticData {
   static const defaultImageSource = 'http://ultralinzi.ru/';
 
+  static const privacyPolicyLink = 'https://ultralinzi.ru/upload/politika_o_konfidencialnosty.pdf';
+
   static const dadataApiKey = 'c5884c57a17def3fe99c96a9ee13b15554680669';
   // ignore: use_raw_strings
   static const dadataSecretKey = 'R_SHe3@bFx\$DOP28yrMgm_%&M';

@@ -1,4 +1,5 @@
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -24,7 +25,9 @@ class CatalogItem extends StatelessWidget {
     return InkWell(
       onTap: model is WebinarItemModel
           ? () => onWebinarClick(context, model as WebinarItemModel)
-          : onTap,
+          : model is PartnersItemModel && !(model as PartnersItemModel).isBought
+              ? onTap
+              : null,
       child: Padding(
         padding: const EdgeInsets.only(
           //right: 4,
@@ -109,12 +112,18 @@ class CatalogItem extends StatelessWidget {
                             model as WebinarItemModel,
                           ),
                         )
-                      : ButtonWithPoints(
-                          price: model.priceToString,
-                          onPressed: () {
-                            onTap?.call();
-                          },
-                        ),
+                      : model is PartnersItemModel &&
+                              !(model as PartnersItemModel).isBought
+                          ? ButtonWithPoints(
+                              price: model.priceToString,
+                              onPressed: () {
+                                onTap?.call();
+                              },
+                            )
+                          : ButtonWithPoints(
+                              price: 'Куплено',
+                              onPressed: (){},
+                            ),
                 ),
               ),
               // const SizedBox(
