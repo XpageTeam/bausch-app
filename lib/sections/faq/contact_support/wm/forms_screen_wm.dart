@@ -17,6 +17,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -66,6 +67,8 @@ class FormScreenWM extends WidgetModel {
       data: <String, dynamic>{},
     ),
   );
+
+  final localFileStorage = <String, List<PlatformFile>>{};
 
   final _downloader = FormsContentDownloader();
 
@@ -164,6 +167,24 @@ class FormScreenWM extends WidgetModel {
     CustomException? error;
 
     try {
+      //* Попытка сделать так, чтобы файлы файналайзились каждый раз заново
+      var extraMap = <String, dynamic>{};
+      var filesMap = <String, dynamic>{};
+
+      if (extraList.value.data!.isNotEmpty) {
+        extraMap = <String, dynamic>{}
+          ..addAll(extraList.value.data!)
+          ..values.map((dynamic e) =>
+              MultipartFile.fromFileSync((e as PlatformFile).path!));
+      }
+
+      if (filesList.value.data!.isNotEmpty) {
+        filesMap = <String, dynamic>{}
+          ..addAll(filesList.value.data!)
+          ..values.map((dynamic e) =>
+              MultipartFile.fromFileSync((e as PlatformFile).path!));
+      }
+
       BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         '/faq/form/',
         data: FormData.fromMap(
@@ -175,8 +196,8 @@ class FormScreenWM extends WidgetModel {
             'topic': topic,
             'question': question,
           }
-            ..addAll(extraList.value.data!)
-            ..addAll(filesList.value.data!),
+            ..addAll(extraMap)
+            ..addAll(filesMap),
         ),
       ))
           .data!);

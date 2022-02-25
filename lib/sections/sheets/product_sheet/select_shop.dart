@@ -1,3 +1,4 @@
+//ignore_for_file: avoid-unnecessary-setstate
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';

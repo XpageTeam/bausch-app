@@ -10,6 +10,7 @@ import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:extended_image/extended_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -59,6 +60,34 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
     super.initState();
 
     //attachBloc.add(AttachAddFromOutside(files: widget.fieldsBloc.state.files));
+
+    if (widget.formScreenWM.localFileStorage.isNotEmpty) {
+      if (widget.fieldModel.type == 'file') {
+        if (widget.formScreenWM.localFileStorage.containsKey(
+          'extra[${widget.fieldModel.xmlId}][]',
+        )) {
+          attachBloc.add(
+            AttachAddFromOutside(
+              files: widget.formScreenWM
+                      .localFileStorage['extra[${widget.fieldModel.xmlId}][]']
+                  as List<PlatformFile>,
+            ),
+          );
+        }
+      } else {
+        if (widget.formScreenWM.localFileStorage.containsKey(
+          'file[]',
+        )) {
+          debugPrint(widget.formScreenWM.localFileStorage['file[]'].toString());
+          attachBloc.add(
+            AttachAddFromOutside(
+              files: widget.formScreenWM.localFileStorage['file[]']
+                  as List<PlatformFile>,
+            ),
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -198,24 +227,37 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
               child: BlueButtonWithText(
                 text: 'Добавить',
                 onPressed: () {
-                  final files = state.files
-                      .map((file) => dio.MultipartFile.fromFileSync(file.path!))
-                      .toList();
+                  // final files = state.files
+                  //     .map((file) => dio.MultipartFile.fromFileSync(file.path!))
+                  //     .toList();
 
                   final map = <String, dynamic>{}
                     ..addAll(widget.formScreenWM.extraList.value.data!);
 
                   if (widget.fieldModel.type == 'file') {
+                    //* Чтобы потом можно было открыть
+                    widget.formScreenWM.localFileStorage.addAll(
+                      <String, List<PlatformFile>>{
+                        'extra[${widget.fieldModel.xmlId}][]': state.files,
+                      },
+                    );
+
                     map.addAll(
                       <String, dynamic>{
-                        'extra[${widget.fieldModel.xmlId}][]': files,
+                        'extra[${widget.fieldModel.xmlId}][]': state.files,
                       },
                     );
                     widget.formScreenWM.extraList.content(map);
                   } else {
+                    //* Чтобы потом можно было открыть
+                    widget.formScreenWM.localFileStorage.addAll(
+                      <String, List<PlatformFile>>{
+                        'file[]': state.files,
+                      },
+                    );
                     map.addAll(
                       <String, dynamic>{
-                        'file[]': files,
+                        'file[]': state.files,
                       },
                     );
                     widget.formScreenWM.filesList.content(map);
