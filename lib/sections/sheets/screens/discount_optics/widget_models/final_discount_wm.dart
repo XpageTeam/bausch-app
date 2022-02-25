@@ -75,8 +75,7 @@ class FinalDiscountWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       error = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }

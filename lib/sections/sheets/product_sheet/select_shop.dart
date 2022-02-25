@@ -34,6 +34,10 @@ class _SelectShopSectionState extends State<SelectShopSection> {
 
   @override
   void didUpdateWidget(covariant SelectShopSection oldWidget) {
+    if (widget.selectedOptic == null) {
+      setState(() => _selectedIndex = -1);
+    }
+
     if (widget.selectedOptic != null) {
       final optics = widget.discountOptics;
       for (var i = 0; i < optics.length; i++) {

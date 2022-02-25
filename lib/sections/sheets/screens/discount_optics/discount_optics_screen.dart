@@ -157,6 +157,30 @@ class _DiscountOpticsScreenState
                 wm.selectHeaderText,
                 style: AppStyles.h1,
               ),
+              if (wm.discountType == DiscountType.onlineShop && wm.citiesForOnlineShop.isNotEmpty)
+                StreamedStateBuilder<String?>(
+                  streamedState: wm.currentCity,
+                  builder: (_, currentCity) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
+                      child: WhiteButton(
+                        text: currentCity ?? 'Город доставки',
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 12,
+                            top: 16,
+                            bottom: 16,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/map-marker.png',
+                            height: 16,
+                          ),
+                        ),
+                        onPressed: wm.selectCity,
+                      ),
+                    );
+                  },
+                ),
               if (wm.discountType == DiscountType.offline)
                 const Padding(
                   padding: EdgeInsets.only(

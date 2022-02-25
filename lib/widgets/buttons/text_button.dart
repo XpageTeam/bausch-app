@@ -13,30 +13,6 @@ class CustomTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return TextButton(
-    //   onPressed: onPressed,
-    //   style: TextButton.styleFrom(
-    //     padding: EdgeInsets.zero,
-    //   ),
-    //   child:
-    // Row(
-    //     crossAxisAlignment: CrossAxisAlignment.end,
-    //     children: [
-    //       Text(
-    //         title,
-    //         style: AppStyles.h1,
-    //       ),
-    //       const SizedBox(
-    //         width: 4,
-    //       ),
-    //       const Icon(
-    //         Icons.arrow_forward_ios_sharp,
-    //         color: AppTheme.mineShaft,
-    //         size: 20,
-    //       ),
-    //     ],
-    //   ),
-    // );
     return InkWell(
       splashColor: AppTheme.turquoiseBlue,
       borderRadius: BorderRadius.circular(5),
@@ -46,11 +22,33 @@ class CustomTextButton extends StatelessWidget {
           vertical: 10.0,
           // horizontal: 12,
         ),
-        child: Row(
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: title,
+                style: AppStyles.h1,
+              ),
+              WidgetSpan(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 4),
+                  child: const Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: AppTheme.mineShaft,
+                    size: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        /*child: Row(
           children: [
-            Text(
-              title,
-              style: AppStyles.h1,
+            Flexible(
+              child: Text(
+                title,
+                style: AppStyles.h1,
+              ),
             ),
             const SizedBox(
               width: 4,
@@ -61,7 +59,7 @@ class CustomTextButton extends StatelessWidget {
               size: 16,
             ),
           ],
-        ),
+        ),*/
       ),
     );
   }

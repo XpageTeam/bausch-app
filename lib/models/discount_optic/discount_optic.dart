@@ -11,6 +11,7 @@ class DiscountOptic {
   final String? logo;
   final String link;
   final List<DiscountOpticShop>? disountOpticShops;
+  final List<String>? cities;
 
   DiscountOptic({
     required this.id,
@@ -19,6 +20,7 @@ class DiscountOptic {
     required this.link,
     required this.disountOpticShops,
     this.logo,
+    this.cities,
   });
 
   factory DiscountOptic.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,13 @@ class DiscountOptic {
                   ),
                 ),
               )
+            : null,
+        cities: json['cities'] != null
+            ? List<String>.from(
+                (json['cities'] as List<dynamic>)
+                    // ignore: avoid_annotating_with_dynamic
+                    .map<String>((dynamic e) => e as String),
+              ).toList()
             : null,
       );
     } catch (e) {

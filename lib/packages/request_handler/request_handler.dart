@@ -137,7 +137,7 @@ class RequestHandler {
     } on DioError catch (e) {
       final result = e.response;
 
-      debugPrint('statusCode: ${result?.statusCode}');
+      debugPrint('statusCode get ($path): ${result?.statusCode}');
 
       if ((result?.statusCode == 401 || result?.statusCode == 403) &&
           globalContext != null) {
@@ -181,7 +181,7 @@ class RequestHandler {
     } on DioError catch (e) {
       final result = e.response;
 
-      debugPrint('statusCode: ${result?.statusCode}');
+      debugPrint('statusCode post ($path): ${result?.statusCode}');
 
       if ((result?.statusCode == 401 || result?.statusCode == 403) &&
           globalContext != null) {
@@ -221,7 +221,7 @@ class RequestHandler {
     } on DioError catch (e) {
       final result = e.response;
 
-      debugPrint('statusCode: ${result?.statusCode}');
+      debugPrint('statusCode put ($path): ${result?.statusCode}');
 
       if ((result?.statusCode == 401 || result?.statusCode == 403) &&
           globalContext != null) {
@@ -257,7 +257,7 @@ class RequestHandler {
     } on DioError catch (e) {
       final result = e.response;
 
-      debugPrint('statusCode: ${result?.statusCode}');
+      debugPrint('statusCode delete ($path): ${result?.statusCode}');
 
       if ((result?.statusCode == 401 || result?.statusCode == 403) &&
           globalContext != null) {

@@ -64,8 +64,7 @@ class MayBeInterestingWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
     }
@@ -97,8 +96,7 @@ class MayBeInterestingWM extends WidgetModel {
       );
     } on SuccessFalse catch (e) {
       ex = CustomException(
-        title: 'Произошла ошибка',
-        subtitle: e.toString(),
+        title: e.toString(),
         ex: e,
       );
       // ignore: avoid_catches_without_on_clauses
