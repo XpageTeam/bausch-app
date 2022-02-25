@@ -168,21 +168,19 @@ class FormScreenWM extends WidgetModel {
 
     try {
       //* Попытка сделать так, чтобы файлы файналайзились каждый раз заново
-      var extraMap = <String, dynamic>{};
-      var filesMap = <String, dynamic>{};
+      final filesMap = <String, dynamic>{};
+      if (localFileStorage.isNotEmpty) {
+        localFileStorage.forEach(
+          (k, v) {
+            final files = v
+                .map((file) => MultipartFile.fromFileSync(file.path!))
+                .toList();
 
-      if (extraList.value.data!.isNotEmpty) {
-        extraMap = <String, dynamic>{}
-          ..addAll(extraList.value.data!)
-          ..values.map((dynamic e) =>
-              MultipartFile.fromFileSync((e as PlatformFile).path!));
-      }
-
-      if (filesList.value.data!.isNotEmpty) {
-        filesMap = <String, dynamic>{}
-          ..addAll(filesList.value.data!)
-          ..values.map((dynamic e) =>
-              MultipartFile.fromFileSync((e as PlatformFile).path!));
+            filesMap.addAll(
+              <String, List<MultipartFile>>{k: files},
+            );
+          },
+        );
       }
 
       BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
@@ -195,9 +193,8 @@ class FormScreenWM extends WidgetModel {
             'comment': comment,
             'topic': topic,
             'question': question,
-          }
-            ..addAll(extraMap)
-            ..addAll(filesMap),
+          }..addAll(filesMap),
+          //..addAll(filesList.value.data!),
         ),
       ))
           .data!);
@@ -403,8 +400,6 @@ class FormScreenWM extends WidgetModel {
   }
 
   void _validate() {
-    debugPrint(questionsList.value.data!.isNotEmpty.toString());
-    debugPrint((selectedQuestion.value != null).toString());
     if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&

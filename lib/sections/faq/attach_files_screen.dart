@@ -97,182 +97,205 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
         topLeft: Radius.circular(5),
         topRight: Radius.circular(5),
       ),
-      child: BlocBuilder<AttachBloc, AttachState>(
-        bloc: attachBloc,
-        builder: (context, state) {
-          return Scaffold(
-            body: CustomScrollView(
-              slivers: [
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 14,
-                          bottom: 30,
-                        ),
-                        child: DefaultAppBar(
-                          title: 'Прикрепить файл',
-                          backgroundColor: AppTheme.mystic,
-                          topRightWidget: NormalIconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: Keys.mainContentNav.currentState?.pop,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: StaticData.sidePadding,
-                        ),
-                        child: Column(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                attachBloc.add(AttachAdd());
-                              },
-                              child: Row(
-                                children: const [
-                                  Icon(
-                                    Icons.add_circle_outline_rounded,
-                                    color: AppTheme.mineShaft,
-                                  ),
-                                  SizedBox(
-                                    width: 12,
-                                  ),
-                                  Text(
-                                    'Прикрепить файл',
-                                    style: AppStyles.h2,
-                                  ),
-                                ],
+      child: BlocProvider(
+        create: (context) => attachBloc,
+        child: BlocListener<AttachBloc, AttachState>(
+          listener: (context, state) {
+            if (state is AttachAdded) {
+              _update(state.files);
+            }
+          },
+          child: BlocBuilder<AttachBloc, AttachState>(
+            bloc: attachBloc,
+            builder: (context, state) {
+              return Scaffold(
+                body: CustomScrollView(
+                  slivers: [
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 14,
+                              bottom: 30,
+                            ),
+                            child: DefaultAppBar(
+                              title: 'Прикрепить файл',
+                              backgroundColor: AppTheme.mystic,
+                              topRightWidget: NormalIconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed:
+                                    Keys.mainContentNav.currentState?.pop,
                               ),
                             ),
-                            const SizedBox(
-                              height: 30,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: StaticData.sidePadding,
                             ),
-                          ],
-                        ),
+                            child: Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    attachBloc.add(AttachAdd());
+                                  },
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.add_circle_outline_rounded,
+                                        color: AppTheme.mineShaft,
+                                      ),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      Text(
+                                        'Прикрепить файл',
+                                        style: AppStyles.h2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                if (state is AttachAdded)
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, i) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
-                            child: WhiteContainerWithRoundedCorners(
-                              padding: const EdgeInsets.symmetric(vertical: 27),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                          ),
+                    ),
+                    if (state is AttachAdded)
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, i) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: WhiteContainerWithRoundedCorners(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 27),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                              ),
+                                              child: ExtendedImage.asset(
+                                                'assets/icons/document.png',
+                                                width: 16,
+                                                height: 16,
+                                              ),
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                state.files[i].name,
+                                                style: AppStyles.h2,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 12,
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {
+                                            attachBloc
+                                                .add(AttachRemove(index: i));
+                                          },
                                           child: ExtendedImage.asset(
-                                            'assets/icons/document.png',
+                                            'assets/icons/delete.png',
                                             width: 16,
                                             height: 16,
                                           ),
                                         ),
-                                        Flexible(
-                                          child: Text(
-                                            state.files[i].name,
-                                            style: AppStyles.h2,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 12,
-                                    ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        attachBloc.add(AttachRemove(index: i));
-                                      },
-                                      child: ExtendedImage.asset(
-                                        'assets/icons/delete.png',
-                                        width: 16,
-                                        height: 16,
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                        childCount: state.files.length,
+                                ),
+                              );
+                            },
+                            childCount: state.files.length,
+                          ),
+                        ),
                       ),
-                    ),
+                  ],
+                ),
+                floatingActionButton: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
                   ),
-              ],
-            ),
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: BlueButtonWithText(
-                text: 'Добавить',
-                onPressed: () {
-                  // final files = state.files
-                  //     .map((file) => dio.MultipartFile.fromFileSync(file.path!))
-                  //     .toList();
-
-                  final map = <String, dynamic>{}
-                    ..addAll(widget.formScreenWM.extraList.value.data!);
-
-                  if (widget.fieldModel.type == 'file') {
-                    //* Чтобы потом можно было открыть
-                    widget.formScreenWM.localFileStorage.addAll(
-                      <String, List<PlatformFile>>{
-                        'extra[${widget.fieldModel.xmlId}][]': state.files,
-                      },
-                    );
-
-                    map.addAll(
-                      <String, dynamic>{
-                        'extra[${widget.fieldModel.xmlId}][]': state.files,
-                      },
-                    );
-                    widget.formScreenWM.extraList.content(map);
-                  } else {
-                    //* Чтобы потом можно было открыть
-                    widget.formScreenWM.localFileStorage.addAll(
-                      <String, List<PlatformFile>>{
-                        'file[]': state.files,
-                      },
-                    );
-                    map.addAll(
-                      <String, dynamic>{
-                        'file[]': state.files,
-                      },
-                    );
-                    widget.formScreenWM.filesList.content(map);
-                  }
-
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-          );
-        },
+                  child: BlueButtonWithText(
+                    text: 'Добавить',
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerFloat,
+              );
+            },
+          ),
+        ),
       ),
     );
+  }
+
+  void _update(List<PlatformFile> files) {
+    var m = <String, dynamic>{}
+      ..addAll(widget.formScreenWM.extraList.value.data!);
+
+    debugPrint('len: ${files.length}');
+
+    if (widget.fieldModel.type == 'file') {
+      if (files.isNotEmpty) {
+        m.addAll(
+          <String, dynamic>{
+            'extra[${widget.fieldModel.xmlId}][]': files,
+          },
+        );
+        widget.formScreenWM.localFileStorage.addAll(
+          <String, List<PlatformFile>>{
+            'extra[${widget.fieldModel.xmlId}][]': files,
+          },
+        );
+      } else {
+        m.remove('extra[${widget.fieldModel.xmlId}][]');
+        widget.formScreenWM.localFileStorage
+            .remove('extra[${widget.fieldModel.xmlId}][]');
+      }
+      widget.formScreenWM.extraList.content(m);
+    } else {
+      if (files.isNotEmpty) {
+        m.addAll(
+          <String, dynamic>{
+            'file[]': files,
+          },
+        );
+        widget.formScreenWM.localFileStorage.addAll(
+          <String, List<PlatformFile>>{
+            'file[]': files,
+          },
+        );
+      } else {
+        m.remove('file[]');
+
+        widget.formScreenWM.localFileStorage.remove('file[]');
+      }
+      widget.formScreenWM.filesList.content(m);
+    }
   }
 }
