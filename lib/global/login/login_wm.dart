@@ -344,8 +344,7 @@ class LoginWM extends WidgetModel {
     } on SuccessFalse catch (e) {
       await loginText.error(
         CustomException(
-          title: 'Произошла ошибка',
-          subtitle: e.toString(),
+          title: e.toString(),
           ex: e,
         ),
       );
