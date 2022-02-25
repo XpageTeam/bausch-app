@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:after_layout/after_layout.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
@@ -183,6 +184,7 @@ class _MainNavigationState extends State<MainNavigation>
       debugPrint('authStart');
 
       if (Keys.mainContentNav.currentContext != null) {
+        RequestHandler.setContext(context);
         widget.authWM.context = Keys.mainContentNav.currentContext;
         widget.authWM.checkAuthAction();
       } else {
