@@ -47,10 +47,18 @@ class AddPointsDetailsWM extends WidgetModel {
     buttonAction.bind((_) {
       if (addPointsModel.type == 'review' ||
           addPointsModel.type == 'review_social') {
+        //* Если открыта клавиатура
+        if (FocusScope.of(context).hasFocus) {
+          FocusScope.of(context).unfocus();
+        }
+
         showModalBottomSheet<void>(
           context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(5),
+              topRight: Radius.circular(5),
+            ),
           ),
           barrierColor: Colors.black.withOpacity(0.8),
           builder: (context) {
