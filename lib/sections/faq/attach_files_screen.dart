@@ -257,7 +257,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
 
   void _update(List<PlatformFile> files) {
     final m = <String, dynamic>{}
-      ..addAll(widget.formScreenWM.extraList.value.data!);
+      ..addAll(widget.formScreenWM.extraFilesList.value.data!);
 
     debugPrint('len: ${files.length}');
 
@@ -278,7 +278,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
         widget.formScreenWM.localFileStorage
             .remove('extra[${widget.fieldModel.xmlId}][]');
       }
-      widget.formScreenWM.extraList.content(m);
+      widget.formScreenWM.extraFilesList.content(m);
     } else {
       if (files.isNotEmpty) {
         m.addAll(

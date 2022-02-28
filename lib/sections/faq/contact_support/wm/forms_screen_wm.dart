@@ -62,6 +62,12 @@ class FormScreenWM extends WidgetModel {
     ),
   );
 
+  final extraFilesList = EntityStreamedState<Map<String, dynamic>>(
+    const EntityState(
+      data: <String, dynamic>{},
+    ),
+  );
+
   final filesList = EntityStreamedState<Map<String, dynamic>>(
     const EntityState(
       data: <String, dynamic>{},
@@ -140,6 +146,10 @@ class FormScreenWM extends WidgetModel {
       _validate();
     });
 
+    extraFilesList.bind((val) {
+      _validate();
+    });
+
     selectedTopic.bind((_) {
       _validate();
     });
@@ -193,7 +203,9 @@ class FormScreenWM extends WidgetModel {
             'comment': comment,
             'topic': topic,
             'question': question,
-          }..addAll(filesMap),
+          }
+            ..addAll(filesMap)
+            ..addAll(extraList.value.data!),
           //..addAll(filesList.value.data!),
         ),
       ))
@@ -400,10 +412,17 @@ class FormScreenWM extends WidgetModel {
   }
 
   void _validate() {
+    debugPrint(
+      'extra ${extraList.value.data!}',
+    );
+
+    debugPrint('extraFiles ${extraFilesList.value.data!.length}');
     if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
-        (extraFieldsList.value.data?.length == extraList.value.data?.length) &&
+        (extraFieldsList.value.data!.length ==
+            (extraList.value.data!.length +
+                extraFilesList.value.data!.length)) &&
         selectedTopic.value != null &&
         ((questionsList.value.data!.isNotEmpty &&
                 selectedQuestion.value != null) ||
