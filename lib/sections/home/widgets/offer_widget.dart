@@ -49,6 +49,7 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                 bottom: 30,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     margin: const EdgeInsets.only(right: 30),

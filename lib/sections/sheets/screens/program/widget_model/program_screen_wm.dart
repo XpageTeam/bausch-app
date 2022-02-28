@@ -30,6 +30,7 @@ class ProgramScreenWM extends WidgetModel {
 
   final currentOpticStreamed = StreamedState<Optic?>(null);
   final whatDoYouUse = StreamedState<String>('');
+  final whatDoYouUseIndex = StreamedState<int>(0);
 
   final loadingStreamed = StreamedState<bool>(false);
   final getCertificateAction = VoidAction();

@@ -15,19 +15,28 @@ import 'package:flutter/material.dart';
 
 class FinalAddPointsArguments {
   final String points;
+  final String? message;
 
-  FinalAddPointsArguments({required this.points});
+  FinalAddPointsArguments({
+    required this.points,
+    this.message,
+  });
 }
 
 class FinalAddPointsScreen extends StatefulWidget
     implements FinalAddPointsArguments {
   final ScrollController controller;
+
   @override
   final String points;
+
+  @override
+  final String? message;
 
   const FinalAddPointsScreen({
     required this.controller,
     required this.points,
+    this.message,
     Key? key,
   }) : super(key: key);
 
@@ -121,10 +130,16 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const AutoSizeText(
-                    'Спасибо, что вы с нами!',
-                    maxLines: 2,
-                    style: AppStyles.h1,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding * 2,
+                    ),
+                    child: AutoSizeText(
+                      widget.message ?? 'Спасибо, что вы с нами!',
+                      maxLines: 2,
+                      style: AppStyles.h1,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),

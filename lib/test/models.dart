@@ -78,62 +78,15 @@ class Models {
   // ];
 
   static List<CatalogItemModel> items = [
-    ProductItemModel(
+    CatalogItemModel(
       id: 0,
       name: '0. Раствор Biotrue универсальный(300 мл)',
       price: 1300,
       picture: 'assets/discountOptics/1.png',
       detailText: '',
       previewText: '',
-    ),
-    WebinarItemModel(
-      id: 1,
-      name: '1. Раствор Biotrue универсальный(300 мл)',
-      price: 1300,
-      picture: 'assets/discountOptics/1.png',
-      detailText: '',
-      previewText: '',
-      videoIds: [''],
-      availability: true,
-      isBought: true,
-    ),
-    PartnersItemModel(
-      id: 2,
-      name: '2. Biotrue one day (30 линз в упаковке)',
-      price: 600,
-      picture: 'assets/discountOptics/1.png',
-      detailText: '',
-      previewText: '',
-      poolPromoCode: '6СС5165АDF345',
-      staticPromoCode: 'jij',
-    ),
-    ProductItemModel(
-      id: 0,
-      name: '0. Раствор Biotrue универсальный(300 мл)',
-      price: 1300,
-      picture: 'assets/discountOptics/1.png',
-      detailText: '',
-      previewText: '',
-    ),
-    WebinarItemModel(
-      id: 1,
-      name: '1. Раствор Biotrue универсальный(300 мл)',
-      price: 1300,
-      picture: 'assets/discountOptics/1.png',
-      detailText: '',
-      previewText: '',
-      videoIds: [''],
-      availability: true,
-      isBought: false,
-    ),
-    PromoItemModel(
-      id: 2,
-      name: '2. Biotrue one day (30 линз в упаковке)',
-      price: 600,
-      picture: 'https://i.ibb.co/YtS92L4/1.png',
-      detailText: '',
-      previewText: '',
-      code: '123',
+      type: 'offline',
+      isSection: true,
     ),
   ];
 

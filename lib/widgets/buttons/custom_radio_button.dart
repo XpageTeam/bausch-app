@@ -5,11 +5,18 @@ import 'package:flutter/material.dart';
 
 class CustomRadioButton extends StatefulWidget {
   final String text;
-  final void Function(String whatDoYouUse) onPressed;
+  final int? value;
+  final int? groupValue;
+  // final void Function(String whatDoYouUse) onPressed;
+  final ValueChanged<bool?>? onChanged;
+  final bool? selected;
 
   const CustomRadioButton({
     required this.text,
-    required this.onPressed,
+    required this.onChanged,
+    this.groupValue,
+    this.value,
+    this.selected,
     Key? key,
   }) : super(key: key);
 
@@ -23,12 +30,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          value = !value;
-        });
-        widget.onPressed(widget.text);
-      },
+      onTap: () => widget.onChanged?.call(true),
       child: WhiteContainerWithRoundedCorners(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
@@ -44,14 +46,11 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
               ),
             ),
             CustomCheckbox(
-              value: value,
+              value: widget.groupValue != null
+                  ? widget.value == widget.groupValue
+                  : widget.selected,
+              onChanged: widget.onChanged,
               borderRadius: 180,
-              onChanged: (newValue) {
-                setState(() {
-                  value = newValue ?? false;
-                });
-                widget.onPressed(widget.text);
-              },
             ),
           ],
         ),

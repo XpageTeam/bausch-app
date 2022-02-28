@@ -222,9 +222,20 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                           bottom:
                               i != primaryData.whatDoYouUse.length - 1 ? 4 : 0,
                         ),
-                        child: CustomRadioButton(
-                          text: primaryData.whatDoYouUse[i],
-                          onPressed: wm.whatDoYouUse.accept,
+                        child: StreamedStateBuilder<int>(
+                          streamedState: wm.whatDoYouUseIndex,
+                          builder: (_, index) {
+                            return CustomRadioButton(
+                              text: primaryData.whatDoYouUse[i],
+                              value: i,
+                              selected: index == i,
+                              onChanged: (value) {
+                                wm.whatDoYouUseIndex.accept(i);
+                                wm.whatDoYouUse
+                                    .accept(primaryData.whatDoYouUse[i]);
+                              },
+                            );
+                          },
                         ),
                       ),
                     ),

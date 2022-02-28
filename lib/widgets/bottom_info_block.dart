@@ -4,15 +4,19 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class InfoBlock extends StatelessWidget {
-  const InfoBlock({Key? key}) : super(key: key);
+  final double topPadding;
+  const InfoBlock({
+    this.topPadding = 4,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         left: StaticData.sidePadding,
         right: StaticData.sidePadding,
-        top: 4,
+        top: topPadding,
         bottom: 19,
       ),
       //height: 60,

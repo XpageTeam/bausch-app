@@ -178,6 +178,7 @@ class AddPointsDetailsWM extends WidgetModel {
     unawaited(loadingState.accept(true));
 
     CustomException? error;
+    String? message;
 
     try {
       final result = await FilePicker.platform.pickFiles(
@@ -200,11 +201,13 @@ class AddPointsDetailsWM extends WidgetModel {
         return;
       }
 
-      await AddPointsSaver.save(
+      final response = await AddPointsSaver.save(
         link,
         reviewLink,
         file,
       );
+
+      message = response.message;
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
@@ -242,6 +245,7 @@ class AddPointsDetailsWM extends WidgetModel {
         (route) => route.isCurrent,
         arguments: FinalAddPointsArguments(
           points: addPointsModel.reward,
+          message: message,
         ),
       );
     }
