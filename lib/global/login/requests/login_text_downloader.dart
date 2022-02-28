@@ -12,7 +12,7 @@ class LoginTextDownloader {
         '/static/regText/',
         options: rh.cacheOptions
             ?.copyWith(
-              maxStale: const Duration(days: 2),
+              maxStale: const Nullable(Duration(days: 2)),
               policy: CachePolicy.request,
             )
             .toOptions(),
