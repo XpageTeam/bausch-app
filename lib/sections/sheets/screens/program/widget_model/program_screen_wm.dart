@@ -77,6 +77,12 @@ class ProgramScreenWM extends WidgetModel {
         opticAddress:
             '$city, ${currentOpticStreamed.value!.shops.first.address}',
         whatDoYouUse: whatDoYouUse.value,
+        opticEmail: currentOpticStreamed.value?.shops.first.email ?? 'null',
+        opticManager: currentOpticStreamed.value?.shops.first.manager ?? 'null',
+        opticPhone:
+            (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
+                ? currentOpticStreamed.value!.shops.first.phones.first
+                : '',
       );
 
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
@@ -187,6 +193,9 @@ class ProgramSertificatSaver {
     required String name,
     required String opticAddress,
     required String opticName,
+    required String opticManager,
+    required String opticPhone,
+    required String opticEmail,
     String? whatDoYouUse,
   }) async {
     final rh = RequestHandler();
@@ -199,6 +208,9 @@ class ProgramSertificatSaver {
           'name': name,
           'opticName': opticName,
           'opticAddress': opticAddress,
+          'opticPhone': opticPhone,
+          'opticEmail': opticEmail,
+          'opticManager': opticManager,
         }),
       ))
           .data!,

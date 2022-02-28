@@ -22,11 +22,19 @@ class ShopModel {
   ///* Координаты магазина
   final Point? coords;
 
-  ShopModel({
+  /// email Менеджера
+  final String? manager;
+
+  /// email магазина
+  final String? email;
+
+  const ShopModel({
     required this.id,
     required this.name,
     required this.address,
     required this.phones,
+    this.email,
+    this.manager,
     this.site,
     this.coords,
   });
@@ -47,6 +55,9 @@ class ShopModel {
           )
           .toList(),
       site: map['site'] as String?,
+      email: map['email'] as String?,
+      manager: map['manager_email'] as String?,
+
       coords: map['coordinates'] != null
           ? Point(
               latitude:
