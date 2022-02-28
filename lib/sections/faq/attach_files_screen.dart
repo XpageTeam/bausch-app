@@ -101,7 +101,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
         create: (context) => attachBloc,
         child: BlocListener<AttachBloc, AttachState>(
           listener: (context, state) {
-            if (state is AttachAdded) {
+            if (state is AttachRemoved) {
               _update(state.files);
             }
           },
@@ -164,7 +164,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                         ],
                       ),
                     ),
-                    if (state is AttachAdded)
+                    if (state is AttachAdded || state is AttachRemoved)
                       SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         sliver: SliverList(
@@ -240,6 +240,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
                   child: BlueButtonWithText(
                     text: 'Добавить',
                     onPressed: () {
+                      _update(state.files);
                       Navigator.of(context).pop();
                     },
                   ),
@@ -255,7 +256,7 @@ class _AttachFilesScreenState extends State<AttachFilesScreen> {
   }
 
   void _update(List<PlatformFile> files) {
-    var m = <String, dynamic>{}
+    final m = <String, dynamic>{}
       ..addAll(widget.formScreenWM.extraList.value.data!);
 
     debugPrint('len: ${files.length}');

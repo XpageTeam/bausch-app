@@ -71,7 +71,7 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
   Future<AttachState> _removeFile(int i) async {
     state.files.removeAt(i);
     debugPrint(state.files.length.toString());
-    return AttachAdded(files: state.files);
+    return AttachRemoved(files: state.files);
   }
 }
 
