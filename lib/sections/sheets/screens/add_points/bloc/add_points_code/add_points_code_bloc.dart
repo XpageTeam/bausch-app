@@ -101,8 +101,7 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
     final rh = RequestHandler();
 
     try {
-      // final parsedData =
-      BaseResponseRepository.fromMap(
+      final parsedData = BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
           '/user/points/add/',
           data: FormData.fromMap(
@@ -119,6 +118,7 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
         models: state.models,
         code: state.code,
         product: state.product,
+        points: (parsedData.data as Map<String, dynamic>)['amount'] as int,
       );
     } on ResponseParseException catch (e) {
       return AddPointsCodeFailed(

@@ -79,9 +79,9 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
               right: 14,
               top: 7,
             ),
-            child: const CircleAvatar(
+            child: CircleAvatar(
               radius: 3,
-              backgroundColor: AppTheme.mineShaft,
+              backgroundColor: ctx.tree.style.color,
             ),
           ),
           Flexible(
