@@ -41,9 +41,11 @@ class _CustomRadioState extends State<CustomRadio> {
           const SizedBox(
             width: 12,
           ),
-          Text(
-            widget.text ?? '',
-            style: AppStyles.h2,
+          Flexible(
+            child: Text(
+              widget.text ?? '',
+              style: AppStyles.h2,
+            ),
           ),
         ],
       ),

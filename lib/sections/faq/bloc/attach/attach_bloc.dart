@@ -4,6 +4,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'attach_event.dart';
@@ -69,7 +70,8 @@ class AttachBloc extends Bloc<AttachEvent, AttachState> {
 
   Future<AttachState> _removeFile(int i) async {
     state.files.removeAt(i);
-    return AttachAdded(files: state.files);
+    debugPrint(state.files.length.toString());
+    return AttachRemoved(files: state.files);
   }
 }
 

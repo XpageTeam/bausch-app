@@ -316,6 +316,8 @@ class OpticCititesRepository {
                 phones: disountOpticShop.phone,
                 title: discounOptic.title,
                 city: disountOpticShop.city,
+                email: disountOpticShop.email,
+                manager: disountOpticShop.manager,
               ),
             );
           }
@@ -390,6 +392,9 @@ class OpticCititesRepository {
       address: shop.address,
       city: cityName,
       coords: shop.coords!,
+      email: shop.email,
+      manager: shop.manager,
+      site: shop.site,
     );
   }
 }
@@ -451,6 +456,8 @@ class OpticShop extends Equatable {
   final String address;
   final String city;
   final String? site;
+  final String? email;
+  final String? manager;
 
   final Point coords;
 
@@ -463,6 +470,8 @@ class OpticShop extends Equatable {
     required this.address,
     required this.city,
     required this.coords,
+    this.manager,
+    this.email,
     this.site,
   });
 }

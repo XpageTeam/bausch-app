@@ -17,6 +17,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -61,11 +62,19 @@ class FormScreenWM extends WidgetModel {
     ),
   );
 
+  final extraFilesList = EntityStreamedState<Map<String, dynamic>>(
+    const EntityState(
+      data: <String, dynamic>{},
+    ),
+  );
+
   final filesList = EntityStreamedState<Map<String, dynamic>>(
     const EntityState(
       data: <String, dynamic>{},
     ),
   );
+
+  final localFileStorage = <String, List<PlatformFile>>{};
 
   final _downloader = FormsContentDownloader();
 
@@ -137,6 +146,10 @@ class FormScreenWM extends WidgetModel {
       _validate();
     });
 
+    extraFilesList.bind((val) {
+      _validate();
+    });
+
     selectedTopic.bind((_) {
       _validate();
     });
@@ -164,6 +177,22 @@ class FormScreenWM extends WidgetModel {
     CustomException? error;
 
     try {
+      //* Попытка сделать так, чтобы файлы файналайзились каждый раз заново
+      final filesMap = <String, dynamic>{};
+      if (localFileStorage.isNotEmpty) {
+        localFileStorage.forEach(
+          (k, v) {
+            final files = v
+                .map((file) => MultipartFile.fromFileSync(file.path!))
+                .toList();
+
+            filesMap.addAll(
+              <String, List<MultipartFile>>{k: files},
+            );
+          },
+        );
+      }
+
       BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         '/faq/form/',
         data: FormData.fromMap(
@@ -175,8 +204,9 @@ class FormScreenWM extends WidgetModel {
             'topic': topic,
             'question': question,
           }
-            ..addAll(extraList.value.data!)
-            ..addAll(filesList.value.data!),
+            ..addAll(filesMap)
+            ..addAll(extraList.value.data!),
+          //..addAll(filesList.value.data!),
         ),
       ))
           .data!);
@@ -382,12 +412,17 @@ class FormScreenWM extends WidgetModel {
   }
 
   void _validate() {
-    debugPrint(questionsList.value.data!.isNotEmpty.toString());
-    debugPrint((selectedQuestion.value != null).toString());
+    debugPrint(
+      'extra ${extraList.value.data!}',
+    );
+
+    debugPrint('extraFiles ${extraFilesList.value.data!.length}');
     if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
-        (extraFieldsList.value.data?.length == extraList.value.data?.length) &&
+        (extraFieldsList.value.data!.length ==
+            (extraList.value.data!.length +
+                extraFilesList.value.data!.length)) &&
         selectedTopic.value != null &&
         ((questionsList.value.data!.isNotEmpty &&
                 selectedQuestion.value != null) ||

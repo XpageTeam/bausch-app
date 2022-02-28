@@ -58,7 +58,11 @@ class _SlimpleSliderState<T>
                   widget.items.length,
                   (index) => Padding(
                     padding: EdgeInsets.only(
-                      right: index == widget.items.length - 1 ? 0 : 4,
+                      right: widget.items.length > 1
+                          ? index == widget.items.length - 1
+                              ? 0
+                              : 4
+                          : MediaQuery.of(context).size.width / 2,
                     ),
                     child: Container(
                       constraints: BoxConstraints(

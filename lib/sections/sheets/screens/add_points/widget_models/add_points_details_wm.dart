@@ -47,10 +47,18 @@ class AddPointsDetailsWM extends WidgetModel {
     buttonAction.bind((_) {
       if (addPointsModel.type == 'review' ||
           addPointsModel.type == 'review_social') {
+        //* Если открыта клавиатура
+        if (FocusScope.of(context).hasFocus) {
+          FocusScope.of(context).unfocus();
+        }
+
         showModalBottomSheet<void>(
           context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(5),
+              topRight: Radius.circular(5),
+            ),
           ),
           barrierColor: Colors.black.withOpacity(0.8),
           builder: (context) {
@@ -170,6 +178,7 @@ class AddPointsDetailsWM extends WidgetModel {
     unawaited(loadingState.accept(true));
 
     CustomException? error;
+    String? message;
 
     try {
       final result = await FilePicker.platform.pickFiles(
@@ -192,11 +201,13 @@ class AddPointsDetailsWM extends WidgetModel {
         return;
       }
 
-      await AddPointsSaver.save(
+      final response = await AddPointsSaver.save(
         link,
         reviewLink,
         file,
       );
+
+      message = response.message;
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
@@ -234,6 +245,7 @@ class AddPointsDetailsWM extends WidgetModel {
         (route) => route.isCurrent,
         arguments: FinalAddPointsArguments(
           points: addPointsModel.reward,
+          message: message,
         ),
       );
     }

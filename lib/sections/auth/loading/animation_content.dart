@@ -14,31 +14,32 @@ class AnimationContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text(
-                      'Пользуйтесь продукцией Bausch+Lomb и получайте любимые товары и другие привилегии',
-                      style: TextStyle(
-                        fontSize: 24, // 24.sm,
-                        height: 31 / 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 40,
+                    bottom: 20,
                   ),
-                  Flexible(
-                    child: Text(
-                      'Региструйте коды с упаковки,\nкопите баллы и тратьте их ',
-                      style: AppStyles.p1Grey,
-                      textAlign: TextAlign.center,
+                  child: Text(
+                    'Программа лояльности Bausch+Lomb FRIENDS',
+                    style: TextStyle(
+                      fontSize: 24, // 24.sm,
+                      height: 31 / 24,
+                      fontWeight: FontWeight.w500,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                ],
-              ),
+                ),
+                Flexible(
+                  child: Text(
+                    'Копите баллы, обменивайте их на скидки\nи другие поощрения ',
+                    style: AppStyles.p1Grey,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(

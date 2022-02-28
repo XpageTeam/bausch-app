@@ -72,8 +72,7 @@ class _CodeSectionState extends State<CodeSection> {
                 '/final_addpoints',
                 (route) => route.isCurrent,
                 arguments: FinalAddPointsArguments(
-                  // TODO(Nikita): Добавить кол-во баллов
-                  points: '500',
+                  points: state.points.toString(),
                 ),
               );
             }

@@ -43,7 +43,9 @@ class CustomFloatingActionButton extends StatelessWidget {
           if (withInfo)
             Container(
               color: AppTheme.mystic,
-              child: const InfoBlock(),
+              child: const InfoBlock(
+                topPadding: 0,
+              ),
             ),
         ],
       ),
