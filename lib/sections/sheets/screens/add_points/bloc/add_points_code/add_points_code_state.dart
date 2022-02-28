@@ -59,10 +59,13 @@ class AddPointsCodeUpdated extends AddPointsCodeState {
 }
 
 class AddPointsCodeSendSuccess extends AddPointsCodeState {
+  final int points;
+
   const AddPointsCodeSendSuccess({
     required List<ProductCodeModel> models,
     required String code,
     required String product,
+    required this.points,
   }) : super(
           models: models,
           code: code,
