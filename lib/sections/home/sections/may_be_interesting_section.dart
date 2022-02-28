@@ -41,6 +41,9 @@ class _MayBeInterestingState
         return Column(
           //mainAxisSize: MainAxisSize.min,
           children: [
+            const SizedBox(
+              height: 40,
+            ),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -85,6 +88,9 @@ class _MayBeInterestingState
                         onTap: () => wm.onTapAction(model),
                       );
               },
+            ),
+            const SizedBox(
+              height: 30,
             ),
           ],
         );

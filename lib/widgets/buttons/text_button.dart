@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 class CustomTextButton extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
-  final TextStyle? optionalStyle;
   const CustomTextButton({
     required this.title,
-    this.optionalStyle,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -29,7 +27,7 @@ class CustomTextButton extends StatelessWidget {
             children: [
               TextSpan(
                 text: title,
-                style: optionalStyle ?? AppStyles.h1,
+                style: AppStyles.h1,
               ),
               WidgetSpan(
                 child: Container(

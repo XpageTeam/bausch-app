@@ -412,15 +412,15 @@ class FormScreenWM extends WidgetModel {
   }
 
   void _validate() {
-    debugPrint(
-      'extra ${extraList.value.data!}',
-    );
+    // debugPrint(
+    //   'extra ${extraList.value.data!}',
+    // );
 
-    debugPrint('extraFiles ${extraFilesList.value.data!.length}');
+    // debugPrint('extraFiles ${extraFilesList.value.data!.length}');
     if (nameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
-        (extraFieldsList.value.data!.length ==
+        (extraFieldsList.value.data?.length ==
             (extraList.value.data!.length +
                 extraFilesList.value.data!.length)) &&
         selectedTopic.value != null &&

@@ -54,11 +54,7 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
               },
             ),
             CustomTextButton(
-              title: 'Обработка персональных данных',
-              //* Не получилось использовать AutoSizeText
-              optionalStyle: AppStyles.h1.copyWith(
-                fontSize: 20,
-              ),
+              title: 'Обработка персональных\nданных',
               onPressed: () async {
                 if (await canLaunch(StaticData.privacyPolicyLink)) {
                   await launch(StaticData.privacyPolicyLink);
