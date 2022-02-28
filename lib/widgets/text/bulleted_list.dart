@@ -59,7 +59,10 @@ class BulletedRow extends StatelessWidget {
         // ),
         Text(
           '•',
-          style: dotStyle ?? AppStyles.p1,
+          style: dotStyle?.copyWith(color: textStyle?.color) ??
+              AppStyles.p1.copyWith(
+                color: textStyle?.color ?? AppStyles.p1.color,
+              ),
         ),
         const SizedBox(
           width: 14,
