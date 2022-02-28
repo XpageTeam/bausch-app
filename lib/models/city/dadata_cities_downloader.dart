@@ -22,7 +22,7 @@ class CitiesDownloader {
         '/static/cities/',
         options: _rh.cacheOptions
             ?.copyWith(
-              maxStale: const Duration(days: 10),
+              maxStale: const Nullable(Duration(days: 10)),
               policy: CachePolicy.request,
             )
             .toOptions(),

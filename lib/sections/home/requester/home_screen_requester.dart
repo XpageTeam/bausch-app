@@ -39,7 +39,7 @@ class HomeScreenRequester {
         'catalog/sections/',
         options: _rh.cacheOptions
             ?.copyWith(
-              maxStale: const Duration(hours: 5),
+              maxStale: const Nullable(Duration(hours: 5)),
               policy: CachePolicy.request,
             )
             .toOptions(),
