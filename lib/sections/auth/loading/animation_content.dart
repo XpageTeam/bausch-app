@@ -21,7 +21,7 @@ class AnimationContent extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 20),
                     child: Text(
-                      'Пользуйтесь продукцией Bausch+Lomb и получайте любимые товары и другие привилегии',
+                      'Программа лояльности Bausch+Lomb FRIENDS',
                       style: TextStyle(
                         fontSize: 24, // 24.sm,
                         height: 31 / 24,
@@ -32,7 +32,7 @@ class AnimationContent extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      'Регистрируйте коды с упаковки, \nкопите баллы и тратье их ',
+                      'Копите баллы, обменивайте их на скидки\nи другие поощрения ',
                       style: AppStyles.p1Grey,
                       textAlign: TextAlign.center,
                     ),
