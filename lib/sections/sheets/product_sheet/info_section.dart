@@ -22,63 +22,61 @@ class InfoSection extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: StaticData.sidePadding,
-            right: StaticData.sidePadding,
-            top: 20,
-            bottom: 40,
-          ),
-          child: Column(
-            children: [
-              Html(
-                data: text,
-                style: htmlStyles,
-                customRender: htmlCustomRender,
-                onLinkTap: (url, context, attributes, element) async {
-                  if (url != null) {
-                    if (await canLaunch(url)) {
-                      try {
-                        await launch(url);
+        padding: const EdgeInsets.only(
+          left: StaticData.sidePadding,
+          right: StaticData.sidePadding,
+          top: 20,
+          bottom: 40,
+        ),
+        child: Column(
+          children: [
+            Html(
+              data: text,
+              style: htmlStyles,
+              customRender: htmlCustomRender,
+              onLinkTap: (url, context, attributes, element) async {
+                if (url != null) {
+                  if (await canLaunch(url)) {
+                    try {
+                      await launch(url);
 
-                        return;
-                        // ignore: avoid_catches_without_on_clauses
-                      } catch (e) {
-                        debugPrint('url: $url - не может быть открыт');
-                      }
+                      return;
+                      // ignore: avoid_catches_without_on_clauses
+                    } catch (e) {
+                      debugPrint('url: $url - не может быть открыт');
                     }
                   }
+                }
 
-                  debugPrint('url: $url - не может быть открыт');
-                },
-              ),
-              if (secondText.isNotEmpty)
-                Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  child: Html(
-                    data: secondText,
-                    style: htmlStyles,
-                    customRender: htmlCustomRender,
-                    onLinkTap: (url, context, attributes, element) async {
-                      if (url != null) {
-                        if (await canLaunch(url)) {
-                          try {
-                            await launch(url);
+                debugPrint('url: $url - не может быть открыт');
+              },
+            ),
+            if (secondText.isNotEmpty)
+              Container(
+                margin: const EdgeInsets.only(top: 40),
+                child: Html(
+                  data: secondText,
+                  style: htmlStyles,
+                  customRender: htmlCustomRender,
+                  onLinkTap: (url, context, attributes, element) async {
+                    if (url != null) {
+                      if (await canLaunch(url)) {
+                        try {
+                          await launch(url);
 
-                            return;
-                            // ignore: avoid_catches_without_on_clauses
-                          } catch (e) {
-                            debugPrint('url: $url - не может быть открыт');
-                          }
+                          return;
+                          // ignore: avoid_catches_without_on_clauses
+                        } catch (e) {
+                          debugPrint('url: $url - не может быть открыт');
                         }
                       }
+                    }
 
-                      debugPrint('url: $url - не может быть открыт');
-                    },
-                  ),
+                    debugPrint('url: $url - не может быть открыт');
+                  },
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       );
     }
