@@ -17,42 +17,39 @@ class SpendScores extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //margin: const EdgeInsets.only(bottom: 40),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Потратить баллы',
-            style: AppStyles.h1,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Потратить баллы',
+          style: AppStyles.h1,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Flexible(
+          child: Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: catalogList.map((catItem) {
+              if (catItem.type == 'offline') {
+                return WideContainerWithItems(
+                  model: catItem as CatalogSheetWithLogosModel,
+                );
+              } else if (catItem.type == 'online_consultation') {
+                return WideContainerWithoutItems(
+                  model: catItem as CatalogSheetWithoutLogosModel,
+                );
+              } else {
+                return SmallContainer(
+                  model: catItem as CatalogSheetModel,
+                );
+              }
+            }).toList(),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Flexible(
-            child: Wrap(
-              spacing: 4,
-              runSpacing: 4,
-              children: catalogList.map((catItem) {
-                if (catItem.type == 'offline') {
-                  return WideContainerWithItems(
-                    model: catItem as CatalogSheetWithLogosModel,
-                  );
-                } else if (catItem.type == 'online_consultation') {
-                  return WideContainerWithoutItems(
-                    model: catItem as CatalogSheetWithoutLogosModel,
-                  );
-                } else {
-                  return SmallContainer(
-                    model: catItem as CatalogSheetModel,
-                  );
-                }
-              }).toList(),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
