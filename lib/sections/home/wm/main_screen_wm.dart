@@ -139,7 +139,7 @@ class MainScreenWM extends WidgetModel {
     try {
       final result = await _requester.loadStories();
       await storiesList.content([]);
-      await storiesList.content(Models.stories);
+      await storiesList.content(result);
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса приозошла ошибка',
