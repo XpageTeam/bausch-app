@@ -279,7 +279,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
                       ),
                       SliverPadding(
                         padding: const EdgeInsets.only(
-                          bottom: 30,
                           left: StaticData.sidePadding,
                           right: StaticData.sidePadding,
                         ),

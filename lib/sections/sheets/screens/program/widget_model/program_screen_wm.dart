@@ -134,6 +134,9 @@ class ProgramScreenWM extends WidgetModel {
       final data = await PrimaryDataDownloader.load();
 
       unawaited(primaryDataStreamed.content(data));
+
+      unawaited(whatDoYouUse
+          .accept(primaryDataStreamed.value.data!.whatDoYouUse.first));
     } on DioError catch (e) {
       unawaited(
         primaryDataStreamed.error(

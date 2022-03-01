@@ -14,32 +14,31 @@ class AnimationContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 40,
-                    bottom: 20,
-                  ),
-                  child: Text(
-                    'Программа лояльности Bausch+Lomb FRIENDS',
-                    style: TextStyle(
-                      fontSize: 24, // 24.sm,
-                      height: 31 / 24,
-                      fontWeight: FontWeight.w500,
+            child: Align(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      'Программа лояльности Bausch+Lomb FRIENDS',
+                      style: TextStyle(
+                        fontSize: 24, // 24.sm,
+                        height: 31 / 24,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
-                Flexible(
-                  child: Text(
-                    'Копите баллы, обменивайте их на скидки\nи другие поощрения ',
-                    style: AppStyles.p1Grey,
-                    textAlign: TextAlign.center,
+                  Flexible(
+                    child: Text(
+                      'Копите баллы, обменивайте их на скидки\nи другие поощрения ',
+                      style: AppStyles.p1Grey,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Padding(
