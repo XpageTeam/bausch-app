@@ -327,7 +327,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
               offsetY: 10,
               child: LayoutBuilder(
                 builder: (ctx, constraints) {
-                  bottomHeigth = constraints.minHeight;
+                  bottomHeigth = constraints.minHeight + 10;
                   return CustomFloatingActionButton(
                     text: 'Добавить баллы',
                     icon: const Icon(

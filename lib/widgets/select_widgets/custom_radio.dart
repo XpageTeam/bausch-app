@@ -29,6 +29,7 @@ class _CustomRadioState extends State<CustomRadio> {
     return InkWell(
       onTap: () => widget.onChanged?.call(true),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           CustomCheckbox(
             // ignore: avoid_bool_literals_in_conditional_expressions

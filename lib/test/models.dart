@@ -8,6 +8,8 @@ import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
+import 'package:bausch/models/stories/story_content_model.dart';
+import 'package:bausch/models/stories/story_model.dart';
 
 class ProductItemModelSlider extends CatalogItemModel {
   ProductItemModelSlider({
@@ -28,54 +30,25 @@ class ProductItemModelSlider extends CatalogItemModel {
 }
 
 class Models {
-  // static List<StoryModel> stories = [
-  //   StoryModel(
-  //     id: 0,
-  //     // duration: Duration(seconds: 5),
-  //     // media: MediaType.image,
-  //     views: 1,
-  //     content: [
-  //       StoryContentModel(
-  //         file: 'assets/pic1.png',
-  //         title: 'Миллион впечатлений с ReNu',
-  //       ),
-  //     ],
-  //     mainText: 'Миллион впечатлений с ReNu',
-  //     secondText:
-  //         'Зарегистрируйте чек и выиграйте путешествия мечты от ReNu. Всем участникам гарантированные призы!',
-  //     buttonTitle: 'text one',
-  //   ),
-  //   StoryModel(
-  //     id: 1,
-  //     // duration: Duration(seconds: 5),
-  //     // media: MediaType.image,
-  //     views: 1,
-  //     content: [
-  //       StoryContentModel(
-  //         file: 'assets/pic1.png',
-  //         title: 'Прояви к глазам уважение',
-  //       ),
-  //     ],
-  //     mainText: 'Прояви к глазам уважение',
-  //     secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
-  //     buttonTitle: 'text two',
-  //   ),
-  //   StoryModel(
-  //     id: 2,
-  //     // duration: Duration(seconds: 5),
-  //     // media: MediaType.image,
-  //     views: 1,
-  //     content: [
-  //       StoryContentModel(
-  //         file: 'assets/pic3.png',
-  //         title: 'ыаыаыыа',
-  //       ),
-  //     ],
-  //     mainText: 'ыаыаыыа',
-  //     secondText: 'Выбирай Biotrue ONEday и выигрывай один из главных призов:!',
-  //     buttonTitle: 'text three',
-  //   ),
-  // ];
+  static List<StoryModel> stories = [
+    StoryModel(
+      id: 0,
+      // duration: Duration(seconds: 5),
+      // media: MediaType.image,
+      views: 200,
+      content: [
+        StoryContentModel(
+          file: 'assets/pic1.png',
+          title: 'Миллион впечатлений с ReNu',
+          preview: '123',
+          isVideo: false,
+          link: '',
+          description: '',
+          textAfter: '',
+        ),
+      ],
+    ),
+  ];
 
   static List<CatalogItemModel> items = [
     CatalogItemModel(

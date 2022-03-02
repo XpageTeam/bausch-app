@@ -67,11 +67,27 @@ class StoryWM extends WidgetModel {
 
       await Navigator.push<dynamic>(
         context!,
-        MaterialPageRoute<dynamic>(
-          builder: (context) {
+        PageRouteBuilder<dynamic>(
+          pageBuilder: (_, __, ___) {
             return StoriesScreen(
               storyModel: id,
               stories: storiesWM!.stories,
+            );
+          },
+          barrierColor: Colors.black.withOpacity(0.8),
+          transitionDuration: const Duration(milliseconds: 600),
+          reverseTransitionDuration: const Duration(milliseconds: 400),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.fastLinearToSlowEaseIn,
+            );
+            return SlideTransition(
+              position: Tween(
+                begin: const Offset(0.0, 0.6),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
             );
           },
         ),
