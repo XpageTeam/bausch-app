@@ -22,6 +22,17 @@ class UserRepository {
   String get lineLoadingText {
     final amount = balance.nearestExpiration?.amount ?? 0;
     if (canPrintLineLoadingText) {
+      final daysRemainString = daysRemain! > 0
+          ? 'через $daysRemain ${HelpFunctions.wordByCount(
+              daysRemain!,
+              [
+                'дней',
+                'день',
+                'дня',
+              ],
+            )}'
+          : 'менее, чем через 1 день';
+
       return '${HelpFunctions.partitionNumber(amount)} ${HelpFunctions.wordByCount(
         amount.toInt(),
         [
@@ -29,14 +40,7 @@ class UserRepository {
           'балл сгорит',
           'балла сгорят',
         ],
-      )} через $daysRemain ${HelpFunctions.wordByCount(
-        daysRemain!,
-        [
-          'дней',
-          'день',
-          'дня',
-        ],
-      )}';
+      )} $daysRemainString';
     } else {
       return '';
     }
@@ -44,7 +48,7 @@ class UserRepository {
 
   bool get canPrintLineLoadingText {
     final amount = balance.nearestExpiration?.amount;
-    if (daysRemain != null && daysRemain! > 0 && amount != null) {
+    if (daysRemain != null && daysRemain! >= 0 && amount != null) {
       return true;
     } else {
       return false;
@@ -57,16 +61,16 @@ class UserRepository {
   });
 
   factory UserRepository.fromJson(Map<String, dynamic> json) {
-		try {
-			return UserRepository(
-				balance: Balance.fromJson(json['balance'] as Map<String, dynamic>),
-				user: User.fromJson(json['user'] as Map<String, dynamic>),
-			);
-		} on ResponseParseException{
-			rethrow;
-		} catch (e){
-			throw ResponseParseException(e.toString());
-		}
+    try {
+      return UserRepository(
+        balance: Balance.fromJson(json['balance'] as Map<String, dynamic>),
+        user: User.fromJson(json['user'] as Map<String, dynamic>),
+      );
+    } on ResponseParseException {
+      rethrow;
+    } catch (e) {
+      throw ResponseParseException(e.toString());
+    }
   }
 
   @override
