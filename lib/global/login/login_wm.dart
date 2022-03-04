@@ -11,6 +11,7 @@ import 'package:bausch/global/login/requests/login_phone_sender.dart';
 import 'package:bausch/global/login/requests/login_text_downloader.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/registration/code_screen.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
@@ -229,6 +230,7 @@ class LoginWM extends WidgetModel {
     if (loginProcessedState.value) return;
 
     unawaited(loginProcessedState.accept(true));
+    showLoader(context);
 
     CustomException? error;
 
@@ -275,6 +277,9 @@ class LoginWM extends WidgetModel {
     codeController.text = '';
 
     unawaited(loginProcessedState.accept(false));
+
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
   }
 
   Future<void> _resendSMS() async {
