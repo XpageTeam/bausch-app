@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
@@ -71,7 +72,6 @@ class SelectOpticScreenWM extends WidgetModel {
       await filteredOpticShopsStreamed.content(
         _getShopsByFilters(opticsByCurrentCity),
       );
-      
     }
 
     super.onLoad();
@@ -100,6 +100,22 @@ class SelectOpticScreenWM extends WidgetModel {
     );
 
     super.onBind();
+  }
+
+  Future<void> onCityDefinition(DadataResponseDataModel dataModel) async {
+    if (initialCities != null &&
+        initialCities!.any(
+          (opticCity) => dataModel.city == opticCity.title,
+        ) &&
+        currentCityStreamed.value.data != dataModel.city) {
+      // Тут проверки на нулл нет, т.к. она внутри метода, который запускает этот коллбэк
+      await _updateCity(dataModel.city!);
+    }
+  }
+
+  Future<void> _updateCity(String cityName) async {
+    await currentCityStreamed.content(cityName);
+    await opticsByCityStreamed.accept(await _getOpticsByCurrentCity());
   }
 
   void _switchPage(SelectOpticPage newPage) {
@@ -158,9 +174,7 @@ class SelectOpticScreenWM extends WidgetModel {
     );
 
     if (cityName != null && cityName != currentCityStreamed.value.data) {
-      unawaited(currentCityStreamed.content(cityName));
-      unawaited(opticsByCityStreamed.accept(await _getOpticsByCurrentCity()));
-      // unawaited(filteredOpticShopsStreamed.content(_getShopsByFilters()));
+      await _updateCity(cityName);
     }
   }
 
@@ -302,7 +316,7 @@ class SelectOpticScreenWM extends WidgetModel {
 
   List<OpticCity> _sort(List<OpticCity> cities) {
     if (cities.isEmpty) return [];
-    
+
     return cities..sort((a, b) => a.title.compareTo(b.title));
   }
 }

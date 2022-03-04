@@ -3,6 +3,8 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/models/city/dadata_cities_downloader.dart';
+import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -15,6 +17,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBodyWM extends WidgetModel {
   final List<OpticShop> initOpticShops;
+  final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
 
   final MapObjectId clusterMapId = const MapObjectId(
     'cluster',
@@ -47,6 +50,7 @@ class MapBodyWM extends WidgetModel {
 
   MapBodyWM({
     required this.initOpticShops,
+    required this.onCityDefinitionCallback,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -293,10 +297,25 @@ class MapBodyWM extends WidgetModel {
 
     final position = await Geolocator.getCurrentPosition();
 
+    await _trySetCityByUserPosition(position);
+
     return Point(
       latitude: position.latitude,
       longitude: position.longitude,
     );
+  }
+
+  Future<void> _trySetCityByUserPosition(Position position) async {
+    // Список городов (по-идее не больше одного города здесь должно быть)
+    final possibleCities =
+        await CitiesDownloader().loadDadataCityByUserPosition(
+      position,
+    );
+
+    if (possibleCities.isEmpty || possibleCities.first.data.city == null) {
+      return;
+    }
+    await onCityDefinitionCallback(possibleCities.first.data);
   }
 
   BoundingBox _getBounds(List<Point> points) {
@@ -339,7 +358,6 @@ class MapBodyWM extends WidgetModel {
       0.001,
     );
   }
-
 
   Future<Uint8List> _buildClusterAppearance(Cluster cluster) async {
     final recorder = PictureRecorder();
