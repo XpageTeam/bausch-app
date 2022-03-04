@@ -259,12 +259,24 @@ class AddPointsSaver {
     File file,
   ) async {
     final rh = RequestHandler();
+
+    var _reviewLink = reviewLink;
+
+    //* Убираю https
+    if (reviewLink.startsWith('https://')) {
+      _reviewLink = reviewLink.replaceAll('https://', '');
+    } else if (reviewLink.startsWith('http://')) {
+      _reviewLink = reviewLink.replaceAll('http://', '');
+    }
+
+    debugPrint(_reviewLink);
+
     final resp = await rh.post<Map<String, dynamic>>(
       link,
       data: FormData.fromMap(
         <String, dynamic>{
           'reviewScreenshot': await MultipartFile.fromFile(file.path),
-          'link': reviewLink,
+          'link': _reviewLink,
         },
       ),
     );
