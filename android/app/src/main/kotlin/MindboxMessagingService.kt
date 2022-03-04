@@ -22,8 +22,8 @@ class MindboxMessagingService : FirebaseMessagingService() {
             channelDescription = "" // Описание канала
         )
 
-        if (!messageWasHandled) {
+        // if (!messageWasHandled) {
             // Если пуш был не от Mindbox или в нем некорректные данные, то можно написать фолбе для его обработки
-        }
+        // }
     }
 }
