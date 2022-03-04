@@ -22,7 +22,6 @@ class CodeSender {
     });
 
 
-
     await Future<void>.delayed(const Duration(seconds: 2));
 
     final res = BaseResponseRepository.fromMap(
@@ -32,13 +31,6 @@ class CodeSender {
             'code': code,
             'isMobilePhoneConfirmed': isMobilePhoneConfirmed,
             'device_id': _uuid,
-            // 'device_id': Platform.isAndroid
-            //     ? (await deviceInfo.androidInfo).androidId
-            //     : Platform.isIOS
-            //         ? (await deviceInfo.iosInfo).identifierForVendor
-            //         : Platform.isMacOS
-            //             ? (await deviceInfo.macOsInfo).systemGUID
-            //             : 'unknown',
           }),
         ))
             .data!,
