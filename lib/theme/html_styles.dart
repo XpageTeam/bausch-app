@@ -69,24 +69,43 @@ final storyTextAfterHtmlStyles = <String, Style>{
 
 Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
   'li': (ctx, widget) {
+    var number = 1;
+
+    if (ctx.tree.element?.parent?.localName == 'ol') {
+      var counter = 0;
+      for (final element
+          in ctx.tree.element!.parent!.children) {
+            // final el = element as Element;
+            counter++;
+            if (element == ctx.tree.element!){
+              break;
+            }
+          }
+      
+      number = counter;
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: const EdgeInsets.only(
-              right: 14,
-              top: 7,
+          if (ctx.tree.element?.parent?.localName != 'ol')
+            Container(
+              margin: const EdgeInsets.only(
+                right: 14,
+                top: 7,
+              ),
+              child: CircleAvatar(
+                radius: 3,
+                backgroundColor: ctx.tree.style.color,
+              ),
             ),
-            child: CircleAvatar(
-              radius: 3,
-              backgroundColor: ctx.tree.style.color,
-            ),
-          ),
           Flexible(
             child: Text(
-              ctx.tree.element!.text,
+              ctx.tree.element?.parent?.localName != 'ol'
+                  ? ctx.tree.element?.text ?? ''
+                  : '$number. ${ctx.tree.element?.text}',
               style: TextStyle(
                 fontFamily: ctx.tree.style.fontFamily,
                 fontSize: ctx.tree.style.fontSize?.size ?? 14,
@@ -164,7 +183,7 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
   'img': (ctx, widget) {
     var imgUrl = ctx.tree.element!.attributes['src'] ?? '';
 
-    if (!imgUrl.startsWith('http')){
+    if (!imgUrl.startsWith('http')) {
       imgUrl = '${StaticData.defaultImageSource}$imgUrl';
     }
 
