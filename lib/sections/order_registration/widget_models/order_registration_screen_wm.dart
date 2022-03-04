@@ -37,6 +37,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
   final address = StreamedState<AdressModel?>(null);
 
+  final areTextFieldsFilled = StreamedState<bool>(false);
+
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -133,7 +135,13 @@ class OrderRegistrationScreenWM extends WidgetModel {
       });
     });
 
+    nameController.addListener(_validate);
+
+    lastNameController.addListener(_validate);
+
     makeOrderAction.bind((_) => _spendPoints());
+
+    _validate();
 
     super.onBind();
   }
@@ -248,6 +256,14 @@ class OrderRegistrationScreenWM extends WidgetModel {
           );
         },
       );
+    }
+  }
+
+  void _validate() {
+    if (nameController.text.isNotEmpty || lastNameController.text.isNotEmpty) {
+      areTextFieldsFilled.accept(true);
+    } else {
+      areTextFieldsFilled.accept(false);
     }
   }
 

@@ -126,6 +126,7 @@ class _SelectOpticScreenState
                   selectButtonText: widget.selectButtonText,
                   currentPage: currentPage,
                   opticShops: opticShops,
+                  onCityDefinitionCallback: wm.onCityDefinition,
                   onOpticShopSelect: (selectedShop) =>
                       wm.onOpticShopSelectAction(
                     OpticShopParams(

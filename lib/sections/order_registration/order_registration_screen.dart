@@ -95,27 +95,31 @@ class _OrderRegistrationScreenState
           ),
         ),
       ),
-      bottomNavigationBar: StreamedStateBuilder<AdressModel?>(
-        streamedState: wm.address,
-        builder: (_, adress) {
-          return StreamedStateBuilder<bool>(
-            streamedState: wm.loadingState,
-            builder: (_, isLoading) {
-              return isLoading
-                  ? const CustomFloatingActionButton(
-                      text: '',
-                      icon: UiCircleLoader(),
-                    )
-                  : CustomFloatingActionButton(
-                      text: 'Потратить ${wm.productItemModel.priceToString} б',
-                      onPressed: ((wm.nameController.text.isNotEmpty) ||
-                                  (wm.lastNameController.text.isNotEmpty)) &&
-                              adress != null
-                          ? () {
-                              wm.makeOrderAction();
-                            }
-                          : null,
-                    );
+      bottomNavigationBar: StreamedStateBuilder<bool>(
+        streamedState: wm.areTextFieldsFilled,
+        builder: (_, areFilled) {
+          return StreamedStateBuilder<AdressModel?>(
+            streamedState: wm.address,
+            builder: (_, adress) {
+              return StreamedStateBuilder<bool>(
+                streamedState: wm.loadingState,
+                builder: (_, isLoading) {
+                  return isLoading
+                      ? const CustomFloatingActionButton(
+                          text: '',
+                          icon: UiCircleLoader(),
+                        )
+                      : CustomFloatingActionButton(
+                          text:
+                              'Потратить ${wm.productItemModel.priceToString} б',
+                          onPressed: areFilled && adress != null
+                              ? () {
+                                  wm.makeOrderAction();
+                                }
+                              : null,
+                        );
+                },
+              );
             },
           );
         },

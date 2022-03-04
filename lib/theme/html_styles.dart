@@ -69,24 +69,42 @@ final storyTextAfterHtmlStyles = <String, Style>{
 
 Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
   'li': (ctx, widget) {
+    var number = 1;
+
+    if (ctx.tree.element?.parent?.localName == 'ol') {
+      var counter = 0;
+      for (final element in ctx.tree.element!.parent!.children) {
+        // final el = element as Element;
+        counter++;
+        if (element == ctx.tree.element!) {
+          break;
+        }
+      }
+
+      number = counter;
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: const EdgeInsets.only(
-              right: 14,
-              top: 7,
+          if (ctx.tree.element?.parent?.localName != 'ol')
+            Container(
+              margin: const EdgeInsets.only(
+                right: 14,
+                top: 7,
+              ),
+              child: CircleAvatar(
+                radius: 3,
+                backgroundColor: ctx.tree.style.color,
+              ),
             ),
-            child: CircleAvatar(
-              radius: 3,
-              backgroundColor: ctx.tree.style.color,
-            ),
-          ),
           Flexible(
             child: Text(
-              ctx.tree.element!.text,
+              ctx.tree.element?.parent?.localName != 'ol'
+                  ? ctx.tree.element?.text ?? ''
+                  : '$number. ${ctx.tree.element?.text}',
               style: TextStyle(
                 fontFamily: ctx.tree.style.fontFamily,
                 fontSize: ctx.tree.style.fontSize?.size ?? 14,
@@ -100,28 +118,30 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
     );
   },
   //(context.tree as TableLayoutElement).children
+  // 'td': (context, widget) {
+  //   return Container(
+  //     constraints: BoxConstraints(
+  //       maxWidth: MediaQuery.of(context.buildContext).size.width - 80,
+  //     ),
+  //     child: Text(
+  //       context.tree.element?.text ?? '',
+  //     ),
+  //   );
+  // },
   'table': (context, child) {
     const color = AppTheme.turquoiseBlue;
-    for (var i = 0;
-        i < (context.tree as TableLayoutElement).children.length;
-        i++) {
+
+    context.tree as TableLayoutElement;
+
+    for (var i = 0; i < context.tree.children.length; i++) {
       //debugPrint('$i ${(context.tree as TableLayoutElement).children[i]}');
-      for (var j = 0;
-          j < (context.tree as TableLayoutElement).children[i].children.length;
-          j++) {
+      for (var j = 0; j < context.tree.children[i].children.length; j++) {
         for (var k = 0;
-            k <
-                (context.tree as TableLayoutElement)
-                    .children[i]
-                    .children[j]
-                    .children
-                    .length;
+            k < context.tree.children[i].children[j].children.length;
             k++) {
-          (context.tree as TableLayoutElement)
-              .children[i]
-              .children[j]
-              .children[k]
-              .style = Style(
+          // context.tree.children[i].children[j].children[k].element?.attributes = '';
+
+          context.tree.children[i].children[j].children[k].style = Style(
             padding: const EdgeInsets.all(2),
             border: Border(
               bottom: const BorderSide(color: color),
@@ -129,11 +149,7 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
               left: k == 0 ? BorderSide.none : const BorderSide(color: color),
               right: ((k == 0) ||
                       (k ==
-                          (context.tree as TableLayoutElement)
-                                  .children[i]
-                                  .children[j]
-                                  .children
-                                  .length -
+                          context.tree.children[i].children[j].children.length -
                               2))
                   ? const BorderSide(color: color)
                   : BorderSide.none,
@@ -153,8 +169,11 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
 
     return SingleChildScrollView(
       clipBehavior: Clip.none,
-      child: (context.tree as TableLayoutElement).toWidget(
-        context,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context.buildContext).size.width * 4,
+        ),
+        child: (context.tree as TableLayoutElement).toWidget(context),
       ),
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
@@ -164,7 +183,7 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
   'img': (ctx, widget) {
     var imgUrl = ctx.tree.element!.attributes['src'] ?? '';
 
-    if (!imgUrl.startsWith('http')){
+    if (!imgUrl.startsWith('http')) {
       imgUrl = '${StaticData.defaultImageSource}$imgUrl';
     }
 

@@ -8,6 +8,7 @@ import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -52,6 +53,38 @@ class CitiesDownloader {
             // ],
             // 'from_bound': {'value': ''},
             'to_bound': {'value': 'settlement'},
+          },
+        ),
+      );
+
+      return ((json.decode(result.body) as Map<String, dynamic>)['suggestions']
+              as List<dynamic>)
+          .map((dynamic e) =>
+              DadataResponseModel.fromMap(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      throw ResponseParseException(e.toString());
+    }
+  }
+
+  Future<List<DadataResponseModel>> loadDadataCityByUserPosition(
+    Position position,
+  ) async {
+    try {
+      final result = await http.post(
+        Uri.parse(
+          'https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address',
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Token ${StaticData.dadataApiKey}',
+        },
+        body: json.encode(
+          <String, dynamic>{
+            'lat': position.latitude,
+            'lon': position.longitude,
+            'count': 1,
           },
         ),
       );

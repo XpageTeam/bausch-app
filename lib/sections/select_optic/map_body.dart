@@ -1,3 +1,4 @@
+import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/select_optic/widget_models/map_body_wm.dart';
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
@@ -15,6 +16,8 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final void Function(MapBodyWM wm) shopsEmptyCallback;
   final void Function(OpticShop shop) onOpticShopSelect;
 
+  final Future<void> Function(DadataResponseDataModel)  onCityDefinitionCallback;
+
   final String selectButtonText;
 
   MapBody({
@@ -22,11 +25,13 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
     required this.shopsEmptyCallback,
     required this.onOpticShopSelect,
     required this.selectButtonText,
+    required this.onCityDefinitionCallback,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (_) => MapBodyWM(
             initOpticShops: opticShops,
+            onCityDefinitionCallback: onCityDefinitionCallback,
           ),
         );
 

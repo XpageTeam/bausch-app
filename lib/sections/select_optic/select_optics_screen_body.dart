@@ -1,3 +1,4 @@
+import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/sections/select_optic/map_body.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
@@ -10,7 +11,7 @@ class SelectOpticScreenBody extends StatelessWidget {
   final SelectOpticPage currentPage;
   final List<OpticShop> opticShops;
   final void Function(OpticShop selectedShop) onOpticShopSelect;
-  // final void Function(MapBodyWM mapBodyWm) whenCompleteModalBottomSheet;
+  final Future<void> Function(DadataResponseDataModel)  onCityDefinitionCallback;
 
   final String selectButtonText;
 
@@ -19,7 +20,7 @@ class SelectOpticScreenBody extends StatelessWidget {
     required this.opticShops,
     required this.onOpticShopSelect,
     required this.selectButtonText,
-    // required this.whenCompleteModalBottomSheet,
+    required this.onCityDefinitionCallback,
     Key? key,
   }) : super(key: key);
 
@@ -35,6 +36,7 @@ class SelectOpticScreenBody extends StatelessWidget {
             selectButtonText: selectButtonText,
             opticShops: opticShops,
             onOpticShopSelect: onOpticShopSelect,
+            onCityDefinitionCallback: onCityDefinitionCallback,
             shopsEmptyCallback: (mapBodyWm) {
               mapBodyWm.isModalBottomSheetOpen.accept(true);
 
