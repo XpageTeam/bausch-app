@@ -48,6 +48,8 @@ class MapBodyWM extends WidgetModel {
 
   Random rng = Random();
 
+  Point? userPosition;
+
   MapBodyWM({
     required this.initOpticShops,
     required this.onCityDefinitionCallback,
@@ -220,12 +222,12 @@ class MapBodyWM extends WidgetModel {
     mapObjectsStreamed.value
         .removeWhere((element) => element.mapId == userMapId);
 
-    final position = await _getUserPosition();
+    userPosition = await _getUserPosition();
 
     mapObjectsStreamed.value.add(
       Placemark(
         mapId: userMapId,
-        point: position,
+        point: userPosition!,
         opacity: 1,
         icon: PlacemarkIcon.single(
           PlacemarkIconStyle(
@@ -238,7 +240,7 @@ class MapBodyWM extends WidgetModel {
     );
 
     unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
-    unawaited(_moveTo(position));
+    unawaited(_moveTo(userPosition!));
   }
 
   Future<void> _moveTo(Point point) async {
@@ -319,6 +321,11 @@ class MapBodyWM extends WidgetModel {
   }
 
   BoundingBox _getBounds(List<Point> points) {
+    if (mapObjectsStreamed.value.any((mapObj) => mapObj.mapId == userMapId) &&
+        userPosition != null) {
+      points.add(userPosition!);
+    }
+
     final lngs = points.map<double>((m) => m.longitude).toList();
     final lats = points.map<double>((m) => m.latitude).toList();
 
