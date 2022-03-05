@@ -45,6 +45,7 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
 
 class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
     with WidgetsBindingObserver {
+      
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.changeAppLifecycleStateAction(state);

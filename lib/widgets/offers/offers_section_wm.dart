@@ -48,7 +48,9 @@ class OffersSectionWM extends WidgetModel {
       });
 
       updateTimer = Timer.periodic(const Duration(minutes: 3), (_) {
-        loadDataAction();
+        if (canUpdate) {
+          loadDataAction();
+        }
       });
 
       unawaited(loadDataAction());
