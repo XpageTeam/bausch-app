@@ -22,11 +22,14 @@
   
    <application
         android:label="Bausch+Lomb"
+        android:exported="true"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name=".MainActivity" 
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
+            android:exported="true"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
@@ -58,5 +61,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+      <service android:name=".MindboxMessagingService" android:exported="false">
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+        </intent-filter>
+      </service>
     </application>
 </manifest>

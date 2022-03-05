@@ -33,11 +33,15 @@ class MainScreenWM extends WidgetModel {
   final loadBannersAction = VoidAction();
   final loadAllDataAction = VoidAction();
 
+  final changeAppLifecycleStateAction = StreamedAction<AppLifecycleState>();
+
   final BuildContext context;
   final AuthWM authWM;
   final UserWM userWM;
 
   final _requester = HomeScreenRequester();
+
+  bool canUpdate = true;
 
   late Timer? _reloadDataTimer;
 
@@ -73,6 +77,11 @@ class MainScreenWM extends WidgetModel {
       },
     );
 
+    subscribe<AppLifecycleState>(
+      changeAppLifecycleStateAction.stream,
+      _changeAppLifecycleState,
+    );
+
     loadCatalogAction.bind((_) {
       _loadCatalog();
     });
@@ -90,7 +99,9 @@ class MainScreenWM extends WidgetModel {
     _reloadDataTimer = Timer.periodic(
       const Duration(minutes: 5),
       (timer) {
-        homeScreenRefresh();
+        if (canUpdate) {
+          homeScreenRefresh();
+        }
       },
     );
   }
@@ -107,6 +118,19 @@ class MainScreenWM extends WidgetModel {
     ]);
 
     return true;
+  }
+
+  void _changeAppLifecycleState(AppLifecycleState state){
+    switch (state) {
+      case AppLifecycleState.resumed:
+        canUpdate = true;
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        canUpdate = false;
+        break;
+    }
   }
 
   Future<void> _loadAllData() async {

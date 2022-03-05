@@ -20,6 +20,7 @@ class OffersSectionWM extends WidgetModel {
   final offersStreamed = EntityStreamedState<List<Offer>>();
   final removeOfferAction = StreamedAction<Offer>();
   final loadDataAction = VoidAction();
+  final changeAppLifecycleStateAction = StreamedAction<AppLifecycleState>();
 
   final BuildContext context;
   final OffersRepository? loadedRepository;
@@ -27,6 +28,8 @@ class OffersSectionWM extends WidgetModel {
   late SharedPreferences preferences;
 
   Timer? updateTimer;
+
+  bool canUpdate = true;
 
   OffersSectionWM({
     required this.type,
@@ -56,6 +59,11 @@ class OffersSectionWM extends WidgetModel {
         ),
       ));
     }
+
+    subscribe<AppLifecycleState>(
+      changeAppLifecycleStateAction.stream,
+      _changeAppLifecycleState,
+    );
 
     super.onLoad();
   }
@@ -128,6 +136,19 @@ class OffersSectionWM extends WidgetModel {
           ),
         ),
       );
+    }
+  }
+
+  void _changeAppLifecycleState(AppLifecycleState state){
+    switch (state) {
+      case AppLifecycleState.resumed:
+        canUpdate = true;
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        canUpdate = false;
+        break;
     }
   }
 

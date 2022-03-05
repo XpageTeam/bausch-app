@@ -41,7 +41,13 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
       _MyAppState();
 }
 
-class _MyAppState extends WidgetState<MyApp, AuthWM> {
+class _MyAppState extends WidgetState<MyApp, AuthWM>
+    with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    wm.userWM.changeAppLifecycleStateAction(state);
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

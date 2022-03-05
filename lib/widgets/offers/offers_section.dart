@@ -43,7 +43,13 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
       createWidgetState() => _OffersSectionState();
 }
 
-class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
+class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
+    with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    wm.changeAppLifecycleStateAction(state);
+  }
+
   @override
   void dispose() {
     bannersWm = null;
@@ -147,7 +153,7 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM> {
         break;
     }
 
-    if (widget.mainScreenWM != null){
+    if (widget.mainScreenWM != null) {
       await widget.mainScreenWM?.loadBannersAction();
     } else {
       await wm.loadDataAction();
