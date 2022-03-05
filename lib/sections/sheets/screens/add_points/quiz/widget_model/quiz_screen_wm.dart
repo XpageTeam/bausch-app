@@ -115,7 +115,6 @@ class QuizScreenWM extends WidgetModel {
     _chekMoveNextPage();
 
     focusNode.addListener(() {
-      // TODO(Nikita): сделать скролл к полю
       if (focusNode.hasFocus){
         setFocus();
       }

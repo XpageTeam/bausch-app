@@ -12,6 +12,7 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
@@ -119,12 +120,10 @@ class _AllWebinarsScreenState
                               CatalogItem(
                                 model: webinars[i * 2],
                                 onTap: () {
-                                  // TODO(Nikolay): Сделать запуск плеера.
                                   final webinar = webinars[i * 2];
                                   showDialog<void>(
                                     context: context,
                                     builder: (context) => WebinarPopup(
-                                      // TODO(Danil): массив id
                                       videoId: webinar.videoIds.first,
                                     ),
                                   );
@@ -146,7 +145,6 @@ class _AllWebinarsScreenState
                                     showDialog<void>(
                                       context: context,
                                       builder: (context) => WebinarPopup(
-                                        // TODO(Danil): массив id
                                         videoId: webinar.videoIds.first,
                                       ),
                                     );
@@ -225,7 +223,10 @@ class AllWebinarsScreenWM extends WidgetModel {
     }
 
     if (ex != null) {
-      // TODO(Nikolay): Доделать вывод ошибки.
+      showDefaultNotification(
+        title: ex.title,
+        subtitle: ex.subtitle,
+      );
     }
   }
 }

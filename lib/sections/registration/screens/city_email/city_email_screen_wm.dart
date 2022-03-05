@@ -62,7 +62,7 @@ class CityEmailScreenWM extends WidgetModel {
     selectedCityName.accept(cityName);
   }*/
 
-  // TODO(Danil): вывести лоадер
+  
   Future<void> _setUserCityAndEmail() async {
     final userWM = Provider.of<UserWM>(context, listen: false);
 
