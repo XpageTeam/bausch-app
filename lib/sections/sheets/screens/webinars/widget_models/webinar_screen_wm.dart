@@ -34,7 +34,7 @@ class WebinarScreenWM extends WidgetModel {
 
     difference = itemModel.price - points;
 
-    isEnough.accept(difference < 0);
+    isEnough.accept(difference <= 0);
 
     super.onLoad();
   }

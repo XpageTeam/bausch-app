@@ -43,8 +43,14 @@ class HomeScreen extends CoreMwwmWidget<MainScreenWM> {
   _HomeScreenState createWidgetState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM> {
+class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
+    with WidgetsBindingObserver {
   double bottomHeigth = 0.0;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    wm.changeAppLifecycleStateAction(state);
+  }
 
   @override
   void initState() {

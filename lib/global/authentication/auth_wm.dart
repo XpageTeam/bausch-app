@@ -23,6 +23,8 @@ class AuthWM extends WidgetModel {
 
   final checkAuthAction = VoidAction();
 
+  
+
   final UserWM userWM;
 
   BuildContext? context;

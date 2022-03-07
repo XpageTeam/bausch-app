@@ -18,6 +18,10 @@ class UserWM extends WidgetModel {
 
   final userData = EntityStreamedState<UserRepository>();
 
+  final changeAppLifecycleStateAction = StreamedAction<AppLifecycleState>();
+
+  bool canUpdate = true;
+
   Timer? updateTimer;
 
   UserWM() : super(const WidgetModelDependencies()) {
@@ -25,10 +29,18 @@ class UserWM extends WidgetModel {
       reloadUserData();
     });
 
+    subscribe<AppLifecycleState>(
+      changeAppLifecycleStateAction.stream,
+      _changeAppLifecycleState,
+    );
+
+
     updateTimer = Timer.periodic(
       const Duration(minutes: 5),
       (timer) {
-        updateUserDataAction();
+        if (canUpdate) {
+          updateUserDataAction();
+        }
       },
     );
   }
@@ -90,7 +102,20 @@ class UserWM extends WidgetModel {
         await userData.content(userRepo);
       }
     } catch (e) {
-      debugPrint('Закгрузка пользователя: ${e.toString()}');
+      debugPrint('Закгрузка пользователя: $e');
+    }
+  }
+
+  void _changeAppLifecycleState(AppLifecycleState state){
+    switch (state) {
+      case AppLifecycleState.resumed:
+        canUpdate = true;
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        canUpdate = false;
+        break;
     }
   }
 }

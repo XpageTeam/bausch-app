@@ -346,7 +346,6 @@ void callback(CatalogItemModel _model, {VoidCallback? allWebinarsOpen}) {
     } else {
       showDialog<void>(
         context: Keys.mainNav.currentContext!,
-        // TODO(Danil): массив id
         builder: (context) => WebinarPopup(
           videoId: _model.videoIds.first,
         ),
@@ -359,7 +358,6 @@ void callback(CatalogItemModel _model, {VoidCallback? allWebinarsOpen}) {
       success: true,
     );
   } else {
-    // TODO(Nikolay): Это должно не так вызываться.
     showFlexibleBottomSheet<void>(
       context: Keys.mainNav.currentContext!,
       minHeight: 0,

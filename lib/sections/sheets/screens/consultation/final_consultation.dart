@@ -74,7 +74,8 @@ class _FinalConsultationState
                   child: EntityStateBuilder<String>(
                     streamedState: wm.promocodeState,
                     errorChild: ContainerWithPromocode(
-                      promocode: 'Промокод будет доступен в истории заказов через несколько минут',
+                      promocode:
+                          'Промокод будет доступен в истории заказов через несколько минут',
                       withIcon: false,
                       onPressed: () {},
                     ),
@@ -112,14 +113,15 @@ class _FinalConsultationState
             text: enabled ? 'Скопировать код и перейти на сайт' : 'На главную',
             onPressed: enabled
                 ? () {
-                    Utils.copyStringToClipboard(
-                      wm.promocodeState.value.data!,
-                    );
-                    // TODO(Nikolay): Нужна ссылка.
-                    // Utils.tryLaunchUrl(
-                    //   rawUrl: model.link!,
-                    //   isPhone: false,
-                    // );
+                    if (widget.model.partnerLink != null) {
+                      Utils.copyStringToClipboard(
+                        wm.promocodeState.value.data!,
+                      );
+
+                      Utils.tryLaunchUrl(
+                        rawUrl: widget.model.partnerLink!,
+                      );
+                    }
                   }
                 : () {
                     wm.buttonAction();

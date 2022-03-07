@@ -5,7 +5,6 @@ import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 part 'attach_event.dart';
 part 'attach_state.dart';

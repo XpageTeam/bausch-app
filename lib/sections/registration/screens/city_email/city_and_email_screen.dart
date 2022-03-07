@@ -48,29 +48,6 @@ class _CityAndEmailScreenState
                   style: AppStyles.h1,
                 ),
               ),
-              /*StreamedStateBuilder<String?>(
-                streamedState: wm.selectedCityName,
-                builder: (_, cityName) {
-                  return FocusButton(
-                    labelText: 'Город',
-                    selectedText: cityName,
-                    onPressed: () async {
-                      // Keys.mainNav.currentState!.pushNamed('/city');
-
-                      // TODO(all): сделать через pushNamed
-                      wm.setCityName(
-                        await Keys.mainNav.currentState!.push<String>(
-                          PageRouteBuilder<String>(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    CityScreen(),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),*/
               const SizedBox(
                 height: 4,
               ),

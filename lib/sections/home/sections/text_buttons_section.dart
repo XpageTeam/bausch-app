@@ -2,7 +2,6 @@ import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/home/widgets/listeners/text_buttons_listener.dart';
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -145,7 +145,6 @@ class CatalogItem extends StatelessWidget {
           context: context,
           barrierColor: Colors.black.withOpacity(0.8),
           builder: (context) => WebinarPopup(
-            // TODO(Danil): массив id
             videoId: model.videoIds.first,
           ),
         );
