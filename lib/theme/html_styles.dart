@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -155,6 +157,22 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
                   : BorderSide.none,
             ),
           );
+
+          // final splitedText = HelpFunctions.getSplittedText(
+          //   MediaQuery.of(context.buildContext).size.width -
+          //       MediaQuery.of(context.buildContext).size.width / 4,
+          //   AppStyles.h1,
+          //   context.tree.children[i].children[j].children[k].element?.text ??
+          //       '',
+          // );
+
+          // var text = '';
+
+          // for (final string in splitedText) {
+          //   text += '$string \r\n';
+          // }
+
+          // context.tree.children[i].children[j].children[k].element?.text = text;
         }
       }
     }
