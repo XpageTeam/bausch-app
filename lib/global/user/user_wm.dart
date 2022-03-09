@@ -34,7 +34,6 @@ class UserWM extends WidgetModel {
       _changeAppLifecycleState,
     );
 
-
     updateTimer = Timer.periodic(
       const Duration(minutes: 5),
       (timer) {
@@ -54,16 +53,22 @@ class UserWM extends WidgetModel {
 
   /// Метод изменения данных пользователя
   /// обработка и отображение ошибок уже содержатся в нём
-  Future<bool> updateUserData(User userData, {String? successMessage}) async {
+  Future<bool> updateUserData(
+    User userData, {
+    String? successMessage,
+    bool showMessage = true,
+  }) async {
     CustomException? ex;
 
     try {
       await this.userData.content(await UserWriter.updateUserData(userData));
 
-      showDefaultNotification(
-        title: successMessage ?? 'Данные успешно обновлены',
-        success: true,
-      );
+      if (showMessage) {
+        showDefaultNotification(
+          title: successMessage ?? 'Данные успешно обновлены',
+          success: true,
+        );
+      }
 
       return true;
     } on DioError catch (e) {
@@ -106,7 +111,7 @@ class UserWM extends WidgetModel {
     }
   }
 
-  void _changeAppLifecycleState(AppLifecycleState state){
+  void _changeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
         canUpdate = true;

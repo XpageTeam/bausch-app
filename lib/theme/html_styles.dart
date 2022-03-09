@@ -1,8 +1,10 @@
-// ignore_for_file: avoid_catches_without_on_clauses
+// ignore_for_file: avoid_catches_without_on_clauses, use_string_buffers
 
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -129,35 +131,10 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
   //   );
   // },
   'table': (context, child) {
+    var maxWidth = 100.0;
     const color = AppTheme.turquoiseBlue;
 
-    context.tree as TableLayoutElement;
-
-    for (var i = 0; i < context.tree.children.length; i++) {
-      //debugPrint('$i ${(context.tree as TableLayoutElement).children[i]}');
-      for (var j = 0; j < context.tree.children[i].children.length; j++) {
-        for (var k = 0;
-            k < context.tree.children[i].children[j].children.length;
-            k++) {
-          // context.tree.children[i].children[j].children[k].element?.attributes = '';
-
-          context.tree.children[i].children[j].children[k].style = Style(
-            padding: const EdgeInsets.all(2),
-            border: Border(
-              bottom: const BorderSide(color: color),
-              top: j != 1 ? BorderSide.none : const BorderSide(color: color),
-              left: k == 0 ? BorderSide.none : const BorderSide(color: color),
-              right: ((k == 0) ||
-                      (k ==
-                          context.tree.children[i].children[j].children.length -
-                              2))
-                  ? const BorderSide(color: color)
-                  : BorderSide.none,
-            ),
-          );
-        }
-      }
-    }
+    // context.tree as TableLayoutElement;
 
     // (context.tree as TableLayoutElement)
     //     .children
@@ -167,16 +144,56 @@ Map<String, dynamic Function(RenderContext, Widget)> htmlCustomRender = {
     //           });
     //         }));
 
-    return SingleChildScrollView(
-      clipBehavior: Clip.none,
-      child: Container(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context.buildContext).size.width * 4,
-        ),
-        child: (context.tree as TableLayoutElement).toWidget(context),
-      ),
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        maxWidth = constraints.maxWidth * 3 / 4;
+
+        for (var i = 0; i < context.tree.children.length; i++) {
+          for (var j = 0; j < context.tree.children[i].children.length; j++) {
+            for (var k = 0;
+                k < context.tree.children[i].children[j].children.length;
+                k++) {
+              final splitedText = context.tree.children[i].children[j]
+                          .children[k].element?.text !=
+                      null
+                  ? HelpFunctions.getSplittedText(
+                      maxWidth,
+                      AppStyles.p1,
+                      context.tree.children[i].children[j].children[k].element
+                              ?.text ??
+                          '',
+                    )
+                  : <String>[];
+
+              context.tree.children[i].children[j].children[k].style = Style(
+                padding: const EdgeInsets.all(2),
+                width: splitedText.length > 3 ? maxWidth : null,
+                border: Border(
+                  bottom: const BorderSide(color: color),
+                  top:
+                      j != 1 ? BorderSide.none : const BorderSide(color: color),
+                  left:
+                      k == 0 ? BorderSide.none : const BorderSide(color: color),
+                  right: ((k == 0) ||
+                          (k ==
+                              context.tree.children[i].children[j].children
+                                      .length -
+                                  2))
+                      ? const BorderSide(color: color)
+                      : BorderSide.none,
+                ),
+              );
+            }
+          }
+        }
+
+        return SingleChildScrollView(
+          clipBehavior: Clip.none,
+          child: (context.tree as TableLayoutElement).toWidget(context),
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+        );
+      },
     );
   },
 

@@ -63,7 +63,7 @@ class _RecipientSectionState extends State<RecipientSection> {
               title: Text.rich(
                 TextSpan(
                   text:
-                      '${wm.userWM.userData.value.data!.user.name} ${wm.userWM.userData.value.data!.user.lastName}\n',
+                      '${wm.userWM.userData.value.data?.user.name != null ? wm.userWM.userData.value.data!.user.name : ''} ${wm.userWM.userData.value.data?.user.lastName != null ? wm.userWM.userData.value.data!.user.lastName : ''}\n',
                   style: AppStyles.h2Bold,
                   children: [
                     TextSpan(

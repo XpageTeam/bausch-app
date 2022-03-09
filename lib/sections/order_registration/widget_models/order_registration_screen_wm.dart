@@ -156,6 +156,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
           lastName: userWM.userData.value.data!.user.lastName ??
               lastNameController.text,
         ),
+        showMessage: false,
       );
     }
   }
