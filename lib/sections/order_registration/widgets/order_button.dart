@@ -49,7 +49,7 @@ class OrderButton extends StatelessWidget {
                             color: textColor,
                           ),
                         ),
-                      title,
+                      Flexible(child: title),
                     ],
                   ),
                 ),
