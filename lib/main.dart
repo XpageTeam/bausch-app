@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_mixin
+
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
