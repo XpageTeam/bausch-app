@@ -3,23 +3,14 @@ import 'dart:convert';
 import 'package:bausch/global/login/models/code_response_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
-import 'package:mindbox/mindbox.dart';
 
 class CodeSender {
   static Future<CodeResponseModel> send({
     required String code,
     required bool isMobilePhoneConfirmed,
+    required String uuid,
   }) async {
     final rh = RequestHandler();
-
-    // final deviceInfo = DeviceInfoPlugin();
-
-    String? _uuid;
-
-    Mindbox.instance.getDeviceUUID((uuid) async {
-      
-      _uuid = uuid;
-    });
 
 
     await Future<void>.delayed(const Duration(seconds: 2));
@@ -30,7 +21,7 @@ class CodeSender {
           data: json.encode({
             'code': code,
             'isMobilePhoneConfirmed': isMobilePhoneConfirmed,
-            'device_id': _uuid,
+            'device_id': uuid,
           }),
         ))
             .data!,

@@ -3,20 +3,10 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mindbox/mindbox.dart';
 
 class PhoneSender {
-  static Future<AuthResponseModel> send(String phone) async {
+  static Future<AuthResponseModel> send(String phone, String uuid) async {
     final rh = RequestHandler();
-
-    var _uuid = '';
-
-    Mindbox.instance.getDeviceUUID((uuid) async {
-      
-      _uuid = uuid;
-    });
-
-
 
     await Future<void>.delayed(const Duration(seconds: 2));
 
@@ -26,14 +16,14 @@ class PhoneSender {
         data: FormData.fromMap(
           <String, dynamic>{
             'phone': phone,
-            'device_id': _uuid,
+            'device_id': uuid,
           },
         ),
       ))
           .data!,
     );
 
-    debugPrint(_uuid);
+    debugPrint(uuid);
 
     return AuthResponseModel.fromJson(res.data as Map<String, dynamic>);
   }

@@ -18,6 +18,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mindbox/mindbox.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -192,36 +193,38 @@ class LoginWM extends WidgetModel {
     unawaited(loginProcessedState.accept(true));
     unawaited(authRequestResult.loading());
 
-    try {
-      await authRequestResult.content(
-        await PhoneSender.send(phoneController.text),
-      );
+    Mindbox.instance.getDeviceUUID((uuid) async {
+      try {
+        await authRequestResult.content(
+          await PhoneSender.send(phoneController.text, uuid),
+        );
 
-      await smsSendCounter.accept(smsSendCounter.value + 1);
-    } on DioError catch (e) {
-      await authRequestResult.error(
-        CustomException(
-          title: 'При отправке запроса произошла ошибка',
-          subtitle: e.message,
-          ex: e,
-        ),
-      );
-    } on ResponseParseException catch (e) {
-      await authRequestResult.error(
-        CustomException(
-          title: 'При чтении ответа от сервера произошла ошибка',
-          subtitle: e.toString(),
-          ex: e,
-        ),
-      );
-    } on SuccessFalse catch (e) {
-      await authRequestResult.error(
-        CustomException(
-          title: e.toString(),
-          ex: e,
-        ),
-      );
-    }
+        await smsSendCounter.accept(smsSendCounter.value + 1);
+      } on DioError catch (e) {
+        await authRequestResult.error(
+          CustomException(
+            title: 'При отправке запроса произошла ошибка',
+            subtitle: e.message,
+            ex: e,
+          ),
+        );
+      } on ResponseParseException catch (e) {
+        await authRequestResult.error(
+          CustomException(
+            title: 'При чтении ответа от сервера произошла ошибка',
+            subtitle: e.toString(),
+            ex: e,
+          ),
+        );
+      } on SuccessFalse catch (e) {
+        await authRequestResult.error(
+          CustomException(
+            title: e.toString(),
+            ex: e,
+          ),
+        );
+      }
+    });
 
     unawaited(loginProcessedState.accept(false));
   }
@@ -232,54 +235,58 @@ class LoginWM extends WidgetModel {
     unawaited(loginProcessedState.accept(true));
     showLoader(context);
 
-    CustomException? error;
+    Mindbox.instance.getDeviceUUID((uuid) async {
 
-    try {
-      final res = await CodeSender.send(
-        code: codeController.text,
-        isMobilePhoneConfirmed:
-            authRequestResult.value.data?.isMobilePhoneConfirmed ?? false,
-      );
+      CustomException? error;
 
-      await UserWriter.writeToken(res.xApiToken);
+      try {
+        final res = await CodeSender.send(
+          code: codeController.text,
+          isMobilePhoneConfirmed:
+              authRequestResult.value.data?.isMobilePhoneConfirmed ?? false,
+          uuid: uuid,
+        );
 
-      //* Очистка полей после отправки кода
-      // phoneController.text = '';
+        await UserWriter.writeToken(res.xApiToken);
 
-      debugPrint(codeController.text);
+        //* Очистка полей после отправки кода
+        // phoneController.text = '';
 
-      _checkAuth();
-    } on DioError catch (e) {
-      error = CustomException(
-        title: 'При отправке запроса произошла ошибка',
-        subtitle: e.message,
-        ex: e,
-      );
-    } on ResponseParseException catch (e) {
-      error = CustomException(
-        title: 'При чтении ответа от сервера произошла ошибка',
-        subtitle: e.toString(),
-        ex: e,
-      );
-    } on SuccessFalse catch (e) {
-      error = CustomException(
-        title: e.toString(),
-        ex: e,
-      );
-    }
+        debugPrint(codeController.text);
 
-    if (error != null) {
-      showTopError(error);
-    } else {
-      phoneController.text = '';
-    }
+        _checkAuth();
+      } on DioError catch (e) {
+        error = CustomException(
+          title: 'При отправке запроса произошла ошибка',
+          subtitle: e.message,
+          ex: e,
+        );
+      } on ResponseParseException catch (e) {
+        error = CustomException(
+          title: 'При чтении ответа от сервера произошла ошибка',
+          subtitle: e.toString(),
+          ex: e,
+        );
+      } on SuccessFalse catch (e) {
+        error = CustomException(
+          title: e.toString(),
+          ex: e,
+        );
+      }
 
-    codeController.text = '';
+      if (error != null) {
+        showTopError(error);
+      } else {
+        phoneController.text = '';
+      }
 
-    unawaited(loginProcessedState.accept(false));
+      codeController.text = '';
 
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).pop();
+      unawaited(loginProcessedState.accept(false));
+
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+    });
   }
 
   Future<void> _resendSMS() async {
