@@ -224,9 +224,9 @@ class LoginWM extends WidgetModel {
           ),
         );
       }
-    });
 
-    unawaited(loginProcessedState.accept(false));
+      unawaited(loginProcessedState.accept(false));
+    });
   }
 
   Future<void> _sendCode() async {
