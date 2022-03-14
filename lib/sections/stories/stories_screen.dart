@@ -75,7 +75,7 @@ class _StoriesScreenState extends State<StoriesScreen>
                   story: widget.stories[index].content[_currentIndex],
                 );
               } else {
-                // _moveToNextStory();
+                _moveToNextStory();
               }
             },
           );
