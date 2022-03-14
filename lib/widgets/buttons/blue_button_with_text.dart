@@ -19,7 +19,7 @@ class BlueButtonWithText extends StatelessWidget {
       height: 60,
       //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
       child: TextButton(
-        onPressed: (){
+        onPressed: () {
           if (onPressed != null) {
             onPressed!();
           }
@@ -32,9 +32,12 @@ class BlueButtonWithText extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (icon != null) icon!,
-            Padding(
-              padding: EdgeInsets.only(left: icon == null ? 0 : 9),
+            if (icon != null)
+              Container(
+                margin: const EdgeInsets.only(right: 9),
+                child: icon,
+              ),
+            Flexible(
               child: Text(
                 text,
                 style: AppStyles.h2.copyWith(
