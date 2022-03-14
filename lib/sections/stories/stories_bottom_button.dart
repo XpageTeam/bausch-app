@@ -35,44 +35,50 @@ class StoriesBottommButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           if (productModel != null)
-            WhiteContainerWithRoundedCorners(
-              child: Padding(
-                padding: const EdgeInsets.all(
-                  StaticData.sidePadding,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        productModel!.title,
-                        style: AppStyles.p1,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 100,
-                    ),
-                    Flexible(
-                      child: SizedBox(
-                        height: 100,
-                        child: AspectRatio(
-                          aspectRatio: 100 / 100,
-                          child: ExtendedImage.network(
-                            productModel!.picture,
-                            printError: false,
-                            loadStateChanged: loadStateChangedFunction,
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: WhiteContainerWithRoundedCorners(
+                child: Padding(
+                  padding: const EdgeInsets.all(
+                    StaticData.sidePadding,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Text(
+                            productModel!.title,
+                            style: AppStyles.p1,
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      // const SizedBox(
+                      //   width: 100,
+                      // ),
+                      Flexible(
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: 90,
+                            maxHeight: MediaQuery.of(context).size.width < 330 ? 60 : 90,
+                          ),
+                          child: AspectRatio(
+                            aspectRatio: 100 / 100,
+                            child: ExtendedImage.network(
+                              productModel!.picture,
+                              printError: false,
+                              loadStateChanged: loadStateChangedFunction,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          const SizedBox(
-            height: 10,
-          ),
           //* Если пришла ссылка для кнопки
           if (link != null && buttonText != null)
             TextButton(

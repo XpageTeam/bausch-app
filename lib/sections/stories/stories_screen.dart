@@ -146,40 +146,6 @@ class _StoriesScreenState extends State<StoriesScreen>
         );
       },
     );
-
-    // return Scaffold(
-    //   backgroundColor: Colors.black,
-    //   body: GestureDetector(
-    //     onTapUp: (details) => _onTapUp(details, story),
-    //     onLongPressStart: (details) => _onLongPressStart(details, story),
-    //     onLongPressEnd: (details) => _onLongPressEnd(details, story),
-    //     child: PageView.builder(
-    //       controller: _pageController,
-    //       //physics: const NeverScrollableScrollPhysics(),
-    //       onPageChanged: (i) {
-    //         debugPrint('page $i');
-    //       },
-    //       itemCount: widget.stories.length,
-    //       itemBuilder: (context, i) {
-    //         //final StoryModel story = widget.stories[i];
-    //         return Stack(
-    //           fit: StackFit.expand,
-    //           children: [
-    //             _getBackground(story),
-    //             _getBottomContent(),
-    //           ],
-    //         );
-    //       },
-    //     ),
-    //   ),
-    //   floatingActionButton: StoriesBottommButton(
-    //     link: story.link,
-    //     buttonText: story.textBtn,
-    //     productModel: story.productModel,
-    //     textAfter: story.textAfter,
-    //   ),
-    //   floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    // );
   }
 
   Widget _getBackground(StoryContentModel story) {
@@ -252,19 +218,21 @@ class _StoriesScreenState extends State<StoriesScreen>
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
-          Text(
-            widget.stories[index].content[_currentIndex].title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 41,
-              height: 42 / 41,
-              fontWeight: FontWeight.w500,
+          Container(
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.width > 330 ? 20 : 10,
             ),
-          ),
-          const SizedBox(
-            height: 20,
+            child: Text(
+              widget.stories[index].content[_currentIndex].title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: MediaQuery.of(context).size.width < 330 ? 21 : 41,
+                height: 42 / 41,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
           Html(
             data: widget.stories[index].content[_currentIndex].description,
