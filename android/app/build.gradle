@@ -84,5 +84,5 @@ dependencies {
     implementation 'com.yandex.android:maps.mobile:4.0.0-full'
 
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'cloud.mindbox:mobile-sdk:1.2.0'
+    implementation 'cloud.mindbox:mobile-sdk:1.2.7'
 }
