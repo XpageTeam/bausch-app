@@ -14,6 +14,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -83,6 +84,23 @@ class ProgramScreenWM extends WidgetModel {
             (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
                 ? currentOpticStreamed.value!.shops.first.phones.first
                 : '',
+      );
+
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(
+          name: 'certificate_registration',
+          parameters: <String, dynamic>{
+            'whatDoYouUse': whatDoYouUse.value,
+            'name': firstNameController.text,
+            'opticName': currentOpticStreamed.value?.shops.first.title ?? 'null',
+            'opticAddress': '$city, ${currentOpticStreamed.value!.shops.first.address}',
+            'opticPhone': (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
+                ? currentOpticStreamed.value!.shops.first.phones.first
+                : '',
+            'opticEmail': currentOpticStreamed.value?.shops.first.email ?? 'null',
+            'opticManager': currentOpticStreamed.value?.shops.first.manager ?? 'null',
+          },
+        ),
       );
 
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(

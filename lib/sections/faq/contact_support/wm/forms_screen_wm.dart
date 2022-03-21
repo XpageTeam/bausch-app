@@ -18,6 +18,7 @@ import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -210,6 +211,10 @@ class FormScreenWM extends WidgetModel {
         ),
       ))
           .data!);
+
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(name: 'support_form_sended'),
+      );
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',

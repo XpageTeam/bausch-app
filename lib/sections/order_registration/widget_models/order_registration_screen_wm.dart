@@ -18,6 +18,7 @@ import 'package:bausch/widgets/123/default_notification.dart';
 //import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -215,6 +216,14 @@ class OrderRegistrationScreenWM extends WidgetModel {
         addiction: addidations.value,
         color: color.value,
       );
+
+      unawaited(FirebaseAnalytics.instance.logEvent(
+        name: 'free_packaging',
+        parameters: <String, dynamic> {
+          'product_title': productItemModel.name,
+          'product_id': productItemModel.id,
+        },
+      ));
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;

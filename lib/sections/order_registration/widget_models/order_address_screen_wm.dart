@@ -152,40 +152,6 @@ class OrderAddressScreenWM extends WidgetModel {
   }
 }
 
-// class OrderFreePackagingSaver {
-//   static Future<BaseResponseRepository> save(
-//     ProductItemModel model,
-//     AdressModel address,
-//   ) async {
-//     final rh = RequestHandler();
-//     final resp = await rh.put<Map<String, dynamic>>(
-//       '/order/freePack/save/',
-//       data: FormData.fromMap(
-//         <String, dynamic>{
-//           'productId': model.id,
-//           'price': model.price,
-//           'addressId': address.id,
-//           'diopters': 0,
-//           'cylinder': 0,
-//           'axis': 0,
-//           'addiction': 0,
-//           'color': 0,
-//         },
-//       ),
-//       options: rh.cacheOptions
-//           ?.copyWith(
-//             maxStale: const Duration(days: 1),
-//             policy: CachePolicy.request,
-//           )
-//           .toOptions(),
-//     );
-
-//     final data = resp.data!;
-
-//     return BaseResponseRepository.fromMap(data);
-//   }
-// }
-
 class AddressUpdater {
   static Future<BaseResponseRepository> update(
     AdressModel address,

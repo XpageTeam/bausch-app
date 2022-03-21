@@ -15,6 +15,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -82,6 +83,16 @@ class DiscountOpticsVerificationWM extends WidgetModel {
         itemModel,
         discountType.asString,
       );
+
+      if (discountType == DiscountType.onlineShop) {
+        unawaited(FirebaseAnalytics.instance.logEvent(
+          name: 'web_store_discount',
+          parameters: <String, dynamic>{
+            'name': itemModel.name,
+            'optic': discountOptic.title,
+          },
+        ));
+      }
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
