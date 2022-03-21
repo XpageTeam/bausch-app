@@ -15,16 +15,22 @@ class AddPointsCodeUpdateCode extends AddPointsCodeEvent {
 
 class AddPointsCodeUpdateProduct extends AddPointsCodeEvent {
   final String product;
+  final String productName;
 
-  const AddPointsCodeUpdateProduct({required this.product});
+  const AddPointsCodeUpdateProduct({
+    required this.product,
+    required this.productName,
+  });
 }
 
 class AddPointsCodeSend extends AddPointsCodeEvent {
   final String code;
   final String productId;
+  final String productName;
 
   const AddPointsCodeSend({
     required this.code,
     required this.productId,
+    required this.productName,
   });
 }

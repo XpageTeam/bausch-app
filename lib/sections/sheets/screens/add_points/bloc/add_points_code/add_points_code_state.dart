@@ -5,11 +5,13 @@ abstract class AddPointsCodeState {
   final List<ProductCodeModel> models;
   final String code;
   final String product;
+  final String productName;
 
   const AddPointsCodeState({
     required this.models,
     required this.code,
     required this.product,
+    required this.productName,
   });
 }
 
@@ -19,6 +21,7 @@ class AddPointsCodeInitial extends AddPointsCodeState {
           models: [],
           code: '',
           product: '',
+          productName: '',
         );
 }
 
@@ -27,10 +30,12 @@ class AddPointsCodeLoading extends AddPointsCodeState {
     required List<ProductCodeModel> models,
     required String code,
     required String product,
+    required String productName,
   }) : super(
           models: models,
           code: code,
           product: product,
+          productName: productName,
         );
 }
 
@@ -39,10 +44,12 @@ class AddPointsCodeGetSuccess extends AddPointsCodeState {
     required List<ProductCodeModel> models,
     required String code,
     required String product,
+    required String productName,
   }) : super(
           models: models,
           code: code,
           product: product,
+          productName: productName,
         );
 }
 
@@ -51,10 +58,12 @@ class AddPointsCodeUpdated extends AddPointsCodeState {
     required List<ProductCodeModel> models,
     required String code,
     required String product,
+    required String productName,
   }) : super(
           models: models,
           code: code,
           product: product,
+          productName: productName,
         );
 }
 
@@ -66,10 +75,12 @@ class AddPointsCodeSendSuccess extends AddPointsCodeState {
     required String code,
     required String product,
     required this.points,
+    required String productName,
   }) : super(
           models: models,
           code: code,
           product: product,
+          productName: productName,
         );
 }
 
@@ -81,11 +92,13 @@ class AddPointsCodeFailed extends AddPointsCodeState {
     required List<ProductCodeModel> models,
     required String code,
     required String product,
+    required String productName,
     required this.title,
     this.subtitle,
   }) : super(
           models: models,
           code: code,
           product: product,
+          productName: productName,
         );
 }

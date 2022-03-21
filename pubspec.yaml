@@ -75,6 +75,8 @@ dependencies:
   geolocator: ^8.2.0
   overlay_support: ^1.2.1
   url_launcher: ^6.0.20
+  firebase_analytics: ^9.1.2 
+  firebase_core: ^1.13.1
   flutter_cupertino_date_picker: ^1.0.26+2
 
   # The following adds the Cupertino Icons font to your application.
