@@ -64,10 +64,14 @@ class _StoryState extends WidgetState<Story, StoryWM> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.model.content.first.title,
-                              style: AppStyles.h2WhiteBold,
-                            ),
+                            if (widget.model.content.first.title != null &&
+                                widget.model.content.first.title!.isNotEmpty)
+                              Text(
+                                widget.model.content.first.title!,
+                                style: AppStyles.h2WhiteBold,
+                              )
+                            else
+                              const SizedBox(),
                             Text(
                               widget.model.content.length.toString(),
                               style: AppStyles.p1.copyWith(color: Colors.white),

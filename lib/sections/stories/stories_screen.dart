@@ -150,6 +150,7 @@ class _StoriesScreenState extends State<StoriesScreen>
             buttonText: story.textBtn,
             productModel: story.productModel,
             textAfter: story.textAfter,
+            textFooter: story.textFooter,
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
@@ -230,25 +231,31 @@ class _StoriesScreenState extends State<StoriesScreen>
           const SizedBox(
             height: 10,
           ),
-          Container(
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.width > 330 ? 20 : 10,
-            ),
-            child: Text(
-              widget.stories[index].content[_currentIndex].title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width < 330 ? 21 : 41,
-                height: 42 / 41,
-                fontWeight: FontWeight.w500,
+          if (widget.stories[index].content[_currentIndex].title != null &&
+              widget.stories[index].content[_currentIndex].title!.isNotEmpty)
+            Container(
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.width > 330 ? 20 : 10,
+              ),
+              child: Text(
+                widget.stories[index].content[_currentIndex].title!,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.width < 330 ? 21 : 41,
+                  height: 42 / 41,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-          Html(
-            data: widget.stories[index].content[_currentIndex].description,
-            style: storyTextHtmlStyles,
-            customRender: htmlCustomRender,
-          ),
+          if (widget.stories[index].content[_currentIndex].description !=
+                  null &&
+              widget.stories[index].content[_currentIndex].description!
+                  .isNotEmpty)
+            Html(
+              data: widget.stories[index].content[_currentIndex].description,
+              style: storyTextHtmlStyles,
+              customRender: htmlCustomRender,
+            ),
         ],
       ),
     );

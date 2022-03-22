@@ -14,12 +14,14 @@ class StoriesBottommButton extends StatelessWidget {
   final String? buttonText;
   final ProductModel? productModel;
   final String? textAfter;
+  final String? textFooter;
 
   const StoriesBottommButton({
     this.link,
     this.buttonText,
     this.productModel,
     this.textAfter,
+    this.textFooter,
     Key? key,
   }) : super(key: key);
 
@@ -113,7 +115,7 @@ class StoriesBottommButton extends StatelessWidget {
                 ],
               ),
             ),
-          if (textAfter != null)
+          if (textAfter != null && textAfter!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
@@ -124,21 +126,22 @@ class StoriesBottommButton extends StatelessWidget {
                 customRender: htmlCustomRender,
               ),
             ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 10,
-              bottom: 6,
-            ),
-            child: Text(
-              'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',
-              style: TextStyle(
-                fontSize: 14,
-                height: 16 / 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
+          if (textFooter != null && textFooter!.isNotEmpty)
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 10,
+                bottom: 6,
+              ),
+              child: Text(
+                'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 16 / 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
