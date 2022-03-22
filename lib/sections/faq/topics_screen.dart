@@ -10,6 +10,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -49,6 +50,14 @@ class TopicsScreen extends CoreMwwmWidget<BottomSheetWM>
 
 class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
   Color iconColor = Colors.white;
+
+  @override
+  void initState() {
+    FirebaseAnalytics.instance.logEvent(name: 'support_show');
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(

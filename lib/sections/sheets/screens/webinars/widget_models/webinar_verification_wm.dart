@@ -13,6 +13,7 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -71,6 +72,13 @@ class WebinarVerificationWM extends WidgetModel {
       final repository = await OrderWebinarSaver.save(
         itemModel,
       );
+
+      unawaited(FirebaseAnalytics.instance.logEvent(
+        name: 'webinar_order',
+        parameters: <String, dynamic> {
+          'name': itemModel.name,
+        },
+      ));
 
       //videoId = repository.videoIds.first;
 
