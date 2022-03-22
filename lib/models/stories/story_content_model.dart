@@ -47,10 +47,6 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
   });
 
   factory StoryContentModel.fromMap(Map<String, dynamic> map) {
-    if (map['title'] == null) {
-      throw ResponseParseException('Не передано название истории');
-    }
-
     try {
       return StoryContentModel(
         //id: map['id'] as int,
