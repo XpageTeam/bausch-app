@@ -58,9 +58,9 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
             : null,
         file: map['file'] as String,
         preview: map['preview'] as String,
-        link: map['link'] as String,
-        textBtn: map['text_btn'] as String,
-        textAfter: map['text_after'] as String,
+        link: map['link'] as String?,
+        textBtn: map['text_btn'] as String?,
+        textAfter: map['text_after'] as String?,
         isVideo: map['is_video'] as bool,
       );
     } catch (e) {

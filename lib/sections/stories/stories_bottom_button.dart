@@ -62,7 +62,9 @@ class StoriesBottommButton extends StatelessWidget {
                         child: Container(
                           constraints: BoxConstraints(
                             maxWidth: 90,
-                            maxHeight: MediaQuery.of(context).size.width < 330 ? 60 : 90,
+                            maxHeight: MediaQuery.of(context).size.width < 330
+                                ? 60
+                                : 90,
                           ),
                           child: AspectRatio(
                             aspectRatio: 100 / 100,
@@ -80,7 +82,10 @@ class StoriesBottommButton extends StatelessWidget {
               ),
             ),
           //* Если пришла ссылка для кнопки
-          if (link != null && buttonText != null)
+          if (link != null &&
+              buttonText != null &&
+              link!.isNotEmpty &&
+              buttonText!.isNotEmpty)
             TextButton(
               onPressed: () {
                 HelpFunctions.launchURL(link!);
