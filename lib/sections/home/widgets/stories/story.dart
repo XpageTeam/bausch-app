@@ -80,6 +80,7 @@ class _StoryState extends WidgetState<Story, StoryWM> {
                                   AutoSizeText(
                                     widget.model.content.first.title!,
                                     style: AppStyles.h2WhiteBold,
+                                    minFontSize: 10,
                                     maxLines:
                                         lines.length > 1 ? lines.length - 1 : 1,
                                   )
