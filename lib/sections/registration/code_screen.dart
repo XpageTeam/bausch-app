@@ -27,7 +27,10 @@ class _CodeScreenState extends State<CodeScreen> {
         title: '',
         backgroundColor: Colors.transparent,
       ),
-      body: Center(
+      body: Align(
+        alignment: MediaQuery.of(context).size.height < 550
+            ? Alignment.topCenter
+            : Alignment.center,
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
             horizontal: StaticData.sidePadding,
