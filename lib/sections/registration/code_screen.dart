@@ -28,15 +28,17 @@ class _CodeScreenState extends State<CodeScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: Align(
-        alignment: MediaQuery.of(context).size.height < 550
-            ? Alignment.topCenter
-            : Alignment.center,
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
             horizontal: StaticData.sidePadding,
           ),
-          child: CodeForm(
-            wm: loginWM,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              bottom: 40,
+            ),
+            child: CodeForm(
+              wm: loginWM,
+            ),
           ),
         ),
       ),
