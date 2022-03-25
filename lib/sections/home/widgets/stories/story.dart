@@ -1,3 +1,5 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -60,23 +62,37 @@ class _StoryState extends WidgetState<Story, StoryWM> {
                           horizontal: 12,
                           vertical: 10,
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (widget.model.content.first.title != null &&
-                                widget.model.content.first.title!.isNotEmpty)
-                              Text(
-                                widget.model.content.first.title!,
-                                style: AppStyles.h2WhiteBold,
-                              )
-                            else
-                              const SizedBox(),
-                            Text(
-                              widget.model.content.length.toString(),
-                              style: AppStyles.p1.copyWith(color: Colors.white),
-                            ),
-                          ],
+                        child: LayoutBuilder(
+                          builder: (context, size) {
+                            final lines = HelpFunctions.getSplittedText(
+                              size.maxWidth,
+                              AppStyles.h2WhiteBold,
+                              widget.model.content.first.title!,
+                            );
+
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (widget.model.content.first.title != null &&
+                                    widget
+                                        .model.content.first.title!.isNotEmpty)
+                                  AutoSizeText(
+                                    widget.model.content.first.title!,
+                                    style: AppStyles.h2WhiteBold,
+                                    maxLines:
+                                        lines.length > 1 ? lines.length - 1 : 1,
+                                  )
+                                else
+                                  const SizedBox(),
+                                Text(
+                                  widget.model.content.length.toString(),
+                                  style: AppStyles.p1
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ],
