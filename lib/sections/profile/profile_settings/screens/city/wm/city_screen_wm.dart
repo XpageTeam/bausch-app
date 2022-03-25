@@ -223,14 +223,16 @@ class CityScreenWM extends WidgetModel {
 
     final filteredList = <DadataCity>[];
 
-    citiesList.value.data?.forEach((city) {
-      if (city.name
-              .toLowerCase()
-              .indexOf(citiesFilterController.text.toLowerCase()) ==
-          0) {
-        filteredList.add(city);
-      }
-    });
+    citiesList.value.data?.forEach(
+      (city) {
+        if (city.name
+                .toLowerCase()
+                .indexOf(citiesFilterController.text.toLowerCase()) ==
+            0) {
+          filteredList.add(city);
+        }
+      },
+    );
 
     await filteredCitiesList.accept(filteredList);
   }

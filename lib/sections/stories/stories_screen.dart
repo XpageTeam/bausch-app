@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
+import 'package:bausch/sections/stories/bottom_content.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
 import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -46,6 +47,8 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   //bool isContentLoaded = false;
 
+  int pageNum = 0;
+
   @override
   void initState() {
     index =
@@ -60,7 +63,7 @@ class _StoriesScreenState extends State<StoriesScreen>
 
     final firstStory = widget.stories[index].content.first;
 
-    _loadStory(story: firstStory);
+    _loadStory(storyContent: firstStory);
 
     _animController.addStatusListener(
       (status) {
@@ -73,7 +76,7 @@ class _StoriesScreenState extends State<StoriesScreen>
               if (_currentIndex + 1 < widget.stories[index].content.length) {
                 _currentIndex += 1;
                 _loadStory(
-                  story: widget.stories[index].content[_currentIndex],
+                  storyContent: widget.stories[index].content[_currentIndex],
                 );
               } else {
                 unawaited(
@@ -93,6 +96,12 @@ class _StoriesScreenState extends State<StoriesScreen>
       },
     );
 
+    _pageController.addListener(
+      () {
+        pageNum = _pageController.page!.round();
+      },
+    );
+
     super.initState();
   }
 
@@ -106,64 +115,86 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   @override
   Widget build(BuildContext context) {
-    // final index =
-    //     widget.stories.indexWhere((element) => element.id == widget.storyModel);
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification is ScrollStartNotification) {
+          debugPrint('start');
 
-    return PageView.builder(
-      controller: _pageController,
-      dragStartBehavior: DragStartBehavior.down,
-      //physics: const NeverScrollableScrollPhysics(),
-      onPageChanged: (i) {
-        debugPrint('page $i');
-        setState(() {
-          index = i;
-          _currentIndex = 0;
-          _loadStory(story: widget.stories[i].content[_currentIndex]);
-        });
+          final i = _pageController.page!.round();
+          final storyContent = widget.stories[i].content[
+              _currentIndex < widget.stories[i].content.length - 1
+                  ? _currentIndex
+                  : 0];
+          _onLongPressStart(storyContent);
+        }
+
+        if (notification is ScrollEndNotification) {
+          debugPrint('end');
+          final i = _pageController.page!.round();
+          setState(
+            () {
+              index = i;
+              _currentIndex = 0;
+              _loadStory(
+                storyContent: widget.stories[i].content[_currentIndex],
+              );
+            },
+          );
+        }
+        return true;
       },
-      itemCount: widget.stories.length,
+      child: PageView.builder(
+        controller: _pageController,
+        dragStartBehavior: DragStartBehavior.down,
+        itemCount: widget.stories.length,
+        itemBuilder: (context, i) {
+          //* костыль, чтобы не появлялся серый экран, когда проскроллил не до конца
+          final story = widget.stories[i];
 
-      itemBuilder: (context, i) {
-        //* костыль, чтобы не появлялся серый экран, когда проскроллил не до конца
-        final story = widget.stories[i].content[
-            _currentIndex < widget.stories[i].content.length - 1
-                ? _currentIndex
-                : 0];
-        return Scaffold(
-          backgroundColor: Colors.black,
-          body: GestureDetector(
-            onTapUp: (details) => _onTapUp(details, story),
-            onLongPressStart: (details) => _onLongPressStart(story),
-            onLongPressEnd: (details) => _onLongPressEnd(story),
-            // onHorizontalDragStart: (details) => _onLongPressStart(story),
-            // onHorizontalDragEnd: (details) => _onLongPressEnd(story),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                _getBackground(story),
-                _getBottomContent(),
-              ],
+          final storyContent = widget.stories[i].content[
+              _currentIndex < widget.stories[i].content.length - 1
+                  ? _currentIndex
+                  : 0];
+
+          return Scaffold(
+            backgroundColor: Colors.black,
+            body: GestureDetector(
+              onTapUp: (details) => _onTapUp(details, storyContent),
+              onLongPressStart: (details) => _onLongPressStart(storyContent),
+              onLongPressEnd: (details) => _onLongPressEnd(storyContent),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  _getBackground(storyContent),
+                  // _getBottomContent(story),
+                  BottomContent(
+                    story: story,
+                    animController: _animController,
+                    contentIndex: pageNum == i ? _currentIndex : 0,
+                  ),
+                ],
+              ),
             ),
-          ),
-          floatingActionButton: StoriesBottommButton(
-            link: story.link,
-            buttonText: story.textBtn,
-            productModel: story.productModel,
-            textAfter: story.textAfter,
-            textFooter: story.textFooter,
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-        );
-      },
+            floatingActionButton: StoriesBottommButton(
+              link: storyContent.link,
+              buttonText: storyContent.textBtn,
+              productModel: storyContent.productModel,
+              textAfter: storyContent.textAfter,
+              textFooter: storyContent.textFooter,
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+          );
+        },
+      ),
     );
   }
 
-  Widget _getBackground(StoryContentModel story) {
-    switch (story.isVideo) {
+  Widget _getBackground(StoryContentModel storyContent) {
+    switch (storyContent.isVideo) {
       case false:
         return ExtendedImage.network(
-          story.file ?? story.preview,
+          storyContent.file ?? storyContent.preview,
           fit: BoxFit.cover,
           printError: false,
           loadStateChanged: loadStateChangedFunction,
@@ -181,7 +212,7 @@ class _StoriesScreenState extends State<StoriesScreen>
         }
     }
     return ExtendedImage.network(
-      story.preview,
+      storyContent.preview,
       fit: BoxFit.cover,
       printError: false,
       loadStateChanged: loadStateChangedFunction,
@@ -189,79 +220,7 @@ class _StoriesScreenState extends State<StoriesScreen>
     );
   }
 
-  Widget _getBottomContent() {
-    return Positioned(
-      top: 40.0,
-      left: 10.0,
-      right: 10.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: List.generate(
-              widget.stories[index].content.length,
-              (index) => AnimatedBar(
-                animController: _animController,
-                position: index,
-                currentIndex: _currentIndex,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.white,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.close,
-                    color: Color(0xFF2D2D2D),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          if (widget.stories[index].content[_currentIndex].title != null &&
-              widget.stories[index].content[_currentIndex].title!.isNotEmpty)
-            Container(
-              margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.width > 330 ? 20 : 10,
-              ),
-              child: Text(
-                widget.stories[index].content[_currentIndex].title!,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width < 330 ? 21 : 41,
-                  height: 42 / 41,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          if (widget.stories[index].content[_currentIndex].description !=
-                  null &&
-              widget.stories[index].content[_currentIndex].description!
-                  .isNotEmpty)
-            Html(
-              data: widget.stories[index].content[_currentIndex].description,
-              style: storyTextHtmlStyles,
-              customRender: htmlCustomRender,
-            ),
-        ],
-      ),
-    );
-  }
-
-  void _onTapUp(TapUpDetails details, StoryContentModel story) {
+  void _onTapUp(TapUpDetails details, StoryContentModel storyContent) {
     final screenWidth = MediaQuery.of(context).size.width;
     final dx = details.globalPosition.dx;
 
@@ -271,7 +230,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           if (_currentIndex - 1 >= 0) {
             _currentIndex -= 1;
             _loadStory(
-              story: widget.stories[index].content[_currentIndex],
+              storyContent: widget.stories[index].content[_currentIndex],
             );
           } else {
             _moveToPreviousStory();
@@ -284,10 +243,10 @@ class _StoriesScreenState extends State<StoriesScreen>
           if (_currentIndex + 1 < widget.stories[index].content.length) {
             _currentIndex += 1;
             _loadStory(
-              story: widget.stories[index].content[_currentIndex],
+              storyContent: widget.stories[index].content[_currentIndex],
             );
           } else {
-            // Out of bounds - loop story
+            // Out of bounds - loop storyContent
             // You can also Navigator.of(context).pop() here
             _moveToNextStory();
           }
@@ -306,7 +265,7 @@ class _StoriesScreenState extends State<StoriesScreen>
       );
       _currentIndex = 0;
       _loadStory(
-        story: widget.stories[index].content[_currentIndex],
+        storyContent: widget.stories[index].content[_currentIndex],
       );
     } else {
       Navigator.of(context).pop();
@@ -326,31 +285,30 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
     _currentIndex = 0;
     _loadStory(
-      story: widget.stories[index].content[_currentIndex],
+      storyContent: widget.stories[index].content[_currentIndex],
     );
   }
 
   void _onLongPressStart(
-    //LongPressStartDetails details,
-    StoryContentModel story,
+    StoryContentModel storyContent,
   ) {
     _animController.stop();
-    if (story.isVideo) {
+    if (storyContent.isVideo) {
       if (_videoPlayerController.value.isPlaying) {
         _videoPlayerController.pause();
       }
     }
   }
 
-  void _onLongPressEnd(StoryContentModel story) {
+  void _onLongPressEnd(StoryContentModel storyContent) {
     _animController.forward();
-    if (story.isVideo) {
+    if (storyContent.isVideo) {
       _videoPlayerController.play();
     }
   }
 
   Future<void> _loadStory({
-    required StoryContentModel story,
+    required StoryContentModel storyContent,
     //bool animateToPage = true,
   }) async {
     _animController.stop();
@@ -360,10 +318,10 @@ class _StoriesScreenState extends State<StoriesScreen>
       await _videoPlayerController.pause();
     }
 
-    switch (story.isVideo) {
+    switch (storyContent.isVideo) {
       case false:
         img = ExtendedImage.network(
-          story.file ?? story.preview,
+          storyContent.file ?? storyContent.preview,
           fit: BoxFit.cover,
           printError: false,
           loadStateChanged: loadStateChangedFunction,
@@ -381,7 +339,7 @@ class _StoriesScreenState extends State<StoriesScreen>
         );
         await completer.future;
         if (mounted) {
-          _animController.duration = story.duration;
+          _animController.duration = storyContent.duration;
           // ignore: unawaited_futures
           _animController.forward();
         }
@@ -391,19 +349,20 @@ class _StoriesScreenState extends State<StoriesScreen>
         //_videoPlayerController = null;
         // ignore: unawaited_futures
         _videoPlayerController.dispose();
-        _videoPlayerController = VideoPlayerController.network(story.file!)
-          // ignore: unawaited_futures
-          ..initialize().then(
-            (_) {
-              setState(() {});
-              if (_videoPlayerController.value.isInitialized) {
-                _animController.duration =
-                    _videoPlayerController.value.duration;
-                _videoPlayerController.play();
-                _animController.forward();
-              }
-            },
-          );
+        _videoPlayerController =
+            VideoPlayerController.network(storyContent.file!)
+              // ignore: unawaited_futures
+              ..initialize().then(
+                (_) {
+                  setState(() {});
+                  if (_videoPlayerController.value.isInitialized) {
+                    _animController.duration =
+                        _videoPlayerController.value.duration;
+                    _videoPlayerController.play();
+                    _animController.forward();
+                  }
+                },
+              );
         break;
     }
     // if (animateToPage) {

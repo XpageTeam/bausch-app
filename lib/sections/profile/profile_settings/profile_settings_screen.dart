@@ -147,11 +147,25 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: NativeTextInput(
-                labelText: 'Мобильный телефон',
-                controller: wm.phoneController,
-                inputType: TextInputType.phone,
-                enabled: false,
+              child: Stack(
+                children: [
+                  NativeTextInput(
+                    labelText: 'Мобильный телефон',
+                    controller: wm.phoneController,
+                    inputType: TextInputType.phone,
+                    enabled: false,
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: DiscountInfo(
+                        text: 'подтверждён',
+                        color: AppTheme.turquoiseBlue,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -166,6 +180,9 @@ class _ProfileSettingsScreenState
                         : null,
                     icon: Container(),
                     onPressed: () {
+                      if (FocusScope.of(context).hasFocus) {
+                        FocusScope.of(context).unfocus();
+                      }
                       DatePicker.showDatePicker(
                         context,
                         initialDateTime: DateTime(2004),

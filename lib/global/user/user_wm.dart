@@ -101,7 +101,7 @@ class UserWM extends WidgetModel {
 
   Future<void> reloadUserData() async {
     if (!canUpdate) return;
-    
+
     try {
       final userRepo = await UserWriter.checkUserToken();
 

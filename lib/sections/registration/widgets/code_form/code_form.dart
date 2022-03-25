@@ -14,6 +14,7 @@ class CodeForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(MediaQuery.of(context).size.height.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -21,8 +22,8 @@ class CodeForm extends StatelessWidget {
           'Сообщение с кодом\nбыло отправлено на\n${wm.phoneController.text}',
           style: AppStyles.h1,
         ),
-        const SizedBox(
-          height: 100,
+        SizedBox(
+          height: MediaQuery.of(context).size.height < 550 ? 20 : 100,
         ),
         SizedBox(
           height: 100,

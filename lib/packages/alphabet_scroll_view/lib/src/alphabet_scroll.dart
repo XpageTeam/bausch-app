@@ -22,6 +22,8 @@ class AlphabetScrollView extends StatefulWidget {
     //required this.selectedLetterTextStyle, //= const TextStyle(fontSize: 12,height: 16/12,fontWeight: FontWeight.w500,fontFamily: 'Euclid Circular A',),
     //required this.unselectedLetterTextStyle, // =  AppStyles.p1,
     this.itemExtent = 40,
+    this.favoriteItems = const [],
+    this.topWidget,
     required this.itemBuilder,
   }) : super(key: key);
 
@@ -38,6 +40,11 @@ class AlphabetScrollView extends StatefulWidget {
   /// each widget returned by ItemBuilder to uniquely identify
   /// that widget.
   final List<AlphaModel> list;
+
+  /// То, что будет отображаться сверху списка без буквы
+  final List<String> favoriteItems;
+
+  final Widget? topWidget;
 
   // ignore: member-ordering-extended
   /// ```itemExtent``` specifies the max height of the widget returned by
@@ -124,7 +131,28 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     widget.list
         .sort((x, y) => x.key.toLowerCase().compareTo(y.key.toLowerCase()));
 
+    final _tempList = [...widget.list];
+
+    final _favList = <AlphaModel>[];
+
+    for (final item in _tempList) {
+      for (final fav in widget.favoriteItems) {
+        if (fav.toLowerCase() == item.key.toLowerCase()) {
+          //debugPrint(item.key.toLowerCase());
+          _favList.add(item);
+          widget.list.remove(item);
+        }
+      }
+    }
+
+    for (final i in widget.list) {
+      debugPrint(i.key);
+    }
+
     _list = widget.list;
+
+    // _list.insertAll(0, _favList);
+
     setState(() {});
 
     /// filter Out AlphabetList
@@ -132,19 +160,30 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
       final temp = <String>[];
       for (final letter in alphabets) {
         final firstAlphabetElement = _list.firstWhereOrNull(
-          (item) => item.key.toLowerCase().startsWith(
-                letter.toLowerCase(),
-              ),
+          (item) {
+            return item.key.toLowerCase().startsWith(
+                  letter.toLowerCase(),
+                );
+          },
         );
         if (firstAlphabetElement != null) {
           temp.add(letter);
+          // for (final fav in widget.favoriteItems) {
+          //   if (fav.toLowerCase() != firstAlphabetElement.key.toLowerCase()) {
+          //     temp.add(letter);
+          //   }
+          // }
         }
       }
       _filteredAlphabets = temp;
     } else {
       _filteredAlphabets = alphabets;
     }
+
+    _list.insertAll(0, _favList);
+
     calculateFirstIndex();
+
     setState(() {});
   }
 
@@ -195,16 +234,30 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
   void calculateFirstIndex() {
     for (final letter in _filteredAlphabets) {
       final firstElement = _list.firstWhereOrNull(
-        (item) => item.key.toLowerCase().startsWith(letter),
+        (item) {
+          for (final fav in widget.favoriteItems) {
+            if (fav.toLowerCase() != item.key.toLowerCase()) {
+              return item.key.toLowerCase().startsWith(letter);
+            } else {
+              return false;
+            }
+          }
+          return false;
+          // if (!widget.favoriteItems.contains(item.key)) {
+          //   return item.key.toLowerCase().startsWith(letter);
+          // }
+          // return false;
+        },
       );
+
+      // &&
+      //     widget.favoriteItems.contains(firstElement.key)
       if (firstElement != null) {
         final index = _list.indexOf(firstElement);
         firstIndexPosition[letter] = index;
       }
     }
   }
-
-  //var index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
 
   void scrolltoIndex(int x, Offset offset) {
     final index = firstIndexPosition[_filteredAlphabets[x].toLowerCase()]!;
@@ -255,14 +308,23 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
           itemCount: _list.length + 1,
           physics: const BouncingScrollPhysics(),
           separatorBuilder: (_, x) {
-            return ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: widget.itemExtent),
-              child: widget.itemBuilder(_, x, _list[x].key),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                widget.topWidget != null && x == 0
+                    ? widget.topWidget!
+                    : const SizedBox(),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: widget.itemExtent),
+                  child: widget.itemBuilder(_, x, _list[x].key),
+                ),
+              ],
             );
           },
           itemBuilder: (context, i) {
             for (final element in _filteredAlphabets) {
-              if (i == firstIndexPosition[element.toLowerCase()]!) {
+              if (firstIndexPosition[element.toLowerCase()] != null &&
+                  i == firstIndexPosition[element.toLowerCase()]!) {
                 return Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
