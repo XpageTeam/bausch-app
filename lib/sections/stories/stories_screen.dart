@@ -6,14 +6,11 @@ import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/bottom_content.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
-import 'package:bausch/sections/stories/story_view/aimated_bar.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/theme/html_styles.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:video_player/video_player.dart';
 
 //тут ничего почти не менял,добавил методы _onLongPressStart , _onLongPressEnd
@@ -48,6 +45,8 @@ class _StoriesScreenState extends State<StoriesScreen>
   //bool isContentLoaded = false;
 
   int pageNum = 0;
+  int _currentIndexTemp = 0;
+  int pageNumTemp = 0;
 
   @override
   void initState() {
@@ -121,10 +120,10 @@ class _StoriesScreenState extends State<StoriesScreen>
           debugPrint('start');
 
           final i = _pageController.page!.round();
-          final storyContent = widget.stories[i].content[
-              _currentIndex < widget.stories[i].content.length - 1
-                  ? _currentIndex
-                  : 0];
+          pageNumTemp = i;
+          _currentIndexTemp = _currentIndex;
+          _currentIndex = 0;
+          final storyContent = widget.stories[i].content[_currentIndex];
           _onLongPressStart(storyContent);
         }
 
@@ -134,7 +133,12 @@ class _StoriesScreenState extends State<StoriesScreen>
           setState(
             () {
               index = i;
-              _currentIndex = 0;
+              if (index == pageNumTemp) {
+                _currentIndex = _currentIndexTemp;
+              } else {
+                _currentIndex = 0;
+              }
+
               _loadStory(
                 storyContent: widget.stories[i].content[_currentIndex],
               );
@@ -166,11 +170,10 @@ class _StoriesScreenState extends State<StoriesScreen>
                 fit: StackFit.expand,
                 children: [
                   _getBackground(storyContent),
-                  // _getBottomContent(story),
                   BottomContent(
                     story: story,
                     animController: _animController,
-                    contentIndex: pageNum == i ? _currentIndex : 0,
+                    contentIndex: _currentIndex,
                   ),
                 ],
               ),

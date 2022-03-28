@@ -16,8 +16,10 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
   final List<String>? citiesWithShops;
+  final bool withFavoriteItems;
   CityScreen({
     Key? key,
+    this.withFavoriteItems = false,
     this.citiesWithShops,
   }) : super(
           widgetModelBuilder: (context) => CityScreenWM(
@@ -129,16 +131,21 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                                         }).toList(),
                                         selectedTextStyle: AppStyles.h1,
                                         unselectedTextStyle: AppStyles.h2,
-                                        favoriteItems: const [
-                                          'Вся РФ',
-                                        ],
-                                        topWidget: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 20),
-                                          child: Warning.warning(
-                                            'Если вы не нашли свой город в списке, вы можете выбрать «Вся РФ» – эти магазины осуществляют доставку по всей России',
-                                          ),
-                                        ),
+                                        favoriteItems: widget.withFavoriteItems
+                                            ? const [
+                                                'Вся РФ',
+                                              ]
+                                            : [],
+                                        topWidget: widget.withFavoriteItems
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 20,
+                                                ),
+                                                child: Warning.warning(
+                                                  'Если вы не нашли свой город в списке, вы можете выбрать «Вся РФ» – эти магазины осуществляют доставку по всей России',
+                                                ),
+                                              )
+                                            : null,
                                         // selectedLetterTextStyle: AppStyles.p1,
                                         // unselectedLetterTextStyle: TextStyle(
                                         //   color: AppTheme.mineShaft,
