@@ -17,14 +17,7 @@ class NotificationsWM extends WidgetModel {
 
   NotificationsWM({
     required this.items,
-  })  : widgetslist = StreamedState(items.map((item) {
-          return Container(
-            margin: const EdgeInsets.only(
-              bottom: 4,
-            ),
-            child: NotificationItem(data: item),
-          );
-        }).toList()),
+  })  : widgetslist = StreamedState(_getNotificationsList(items)),
         super(const WidgetModelDependencies());
 
   @override
@@ -40,6 +33,8 @@ class NotificationsWM extends WidgetModel {
   }
 
   void setWidgetsList() {
+    widgetslist.accept([]);
+
     final banners = Container(
       child: OffersSection(
         type: OfferType.notificationsScreen,
@@ -74,13 +69,13 @@ class NotificationsWM extends WidgetModel {
       }
     }
 
-    if (items.length < 5) {
+    if (filteredItems.length < 5) {
       widgetslist.accept([
-        ...widgetslist.value,
+        ...filteredItems,
         banners,
       ]);
     } else {
-      final notifications = [...widgetslist.value]..insert(2, banners);
+      final notifications = [...filteredItems]..insert(2, banners);
 
       widgetslist.accept(notifications);
     }
@@ -122,4 +117,15 @@ class NotificationsWM extends WidgetModel {
       ]);
     }
   }
+}
+
+List<Widget> _getNotificationsList(List<NotificationModel> list) {
+  return list.map((item) {
+    return Container(
+      margin: const EdgeInsets.only(
+        bottom: 4,
+      ),
+      child: NotificationItem(data: item),
+    );
+  }).toList();
 }
