@@ -110,6 +110,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
           citiesWithShops: citiesForOnlineShop.toList(),
+          withFavoriteItems: true,
         ),
       ),
     );

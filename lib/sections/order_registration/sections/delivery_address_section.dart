@@ -95,11 +95,9 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
                               await wm.address.accept(address);
                             }
                           },
-                          title: Flexible(
-                            child: Text(
-                              '${selectedAddress.cityAndSettlement}, ${selectedAddress.street}, д ${selectedAddress.house}',
-                              style: AppStyles.h2Bold,
-                            ),
+                          title: Text(
+                            '${selectedAddress.cityAndSettlement}, ${selectedAddress.street}, д ${selectedAddress.house}',
+                            style: AppStyles.h2Bold,
                           ),
                           icon: Icons.check_circle_sharp,
                           margin: const EdgeInsets.only(bottom: 4),

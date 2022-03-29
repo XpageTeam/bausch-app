@@ -135,12 +135,14 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
 
     final _favList = <AlphaModel>[];
 
-    for (final item in _tempList) {
-      for (final fav in widget.favoriteItems) {
-        if (fav.toLowerCase() == item.key.toLowerCase()) {
-          //debugPrint(item.key.toLowerCase());
-          _favList.add(item);
-          widget.list.remove(item);
+    if (widget.favoriteItems.isNotEmpty) {
+      for (final item in _tempList) {
+        for (final fav in widget.favoriteItems) {
+          if (fav.toLowerCase() == item.key.toLowerCase()) {
+            //debugPrint(item.key.toLowerCase());
+            _favList.add(item);
+            widget.list.remove(item);
+          }
         }
       }
     }
@@ -235,18 +237,16 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     for (final letter in _filteredAlphabets) {
       final firstElement = _list.firstWhereOrNull(
         (item) {
-          for (final fav in widget.favoriteItems) {
-            if (fav.toLowerCase() != item.key.toLowerCase()) {
-              return item.key.toLowerCase().startsWith(letter);
-            } else {
-              return false;
+          if (widget.favoriteItems.isNotEmpty) {
+            for (final fav in widget.favoriteItems) {
+              if (fav.toLowerCase() != item.key.toLowerCase()) {
+                return item.key.toLowerCase().startsWith(letter);
+              } else {
+                return false;
+              }
             }
           }
-          return false;
-          // if (!widget.favoriteItems.contains(item.key)) {
-          //   return item.key.toLowerCase().startsWith(letter);
-          // }
-          // return false;
+          return item.key.toLowerCase().startsWith(letter);
         },
       );
 

@@ -91,13 +91,17 @@ class AddPointsDetailsWM extends WidgetModel {
     if (addPointsModel.type == 'review') {
       unawaited(FirebaseAnalytics.instance.logEvent(name: 'review_show'));
     }
-    
+
     if (addPointsModel.type == 'vk') {
       unawaited(FirebaseAnalytics.instance.logEvent(name: 'vk_show'));
     }
 
     if (addPointsModel.type == 'invite_friend') {
-      unawaited(FirebaseAnalytics.instance.logEvent(name: 'invite_friend_show'));
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(
+          name: 'invite_friend_show',
+        ),
+      );
     }
 
     if (addPointsModel.type == 'review' ||
@@ -142,7 +146,11 @@ class AddPointsDetailsWM extends WidgetModel {
         await _launchVKUrl(addPointsModel.url);
         break;
       case 'invite_friend':
-        unawaited(FirebaseAnalytics.instance.logEvent(name: 'invite_friend_share'));
+        unawaited(
+          FirebaseAnalytics.instance.logEvent(
+            name: 'invite_friend_share',
+          ),
+        );
         await Utils.tryShare(text: addPointsModel.url);
         break;
     }
@@ -156,7 +164,11 @@ class AddPointsDetailsWM extends WidgetModel {
     try {
       await AddPointsSaver.beforeLaunchVKUrl();
 
-      unawaited(FirebaseAnalytics.instance.logEvent(name: 'vk_subscribe_click'));
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(
+          name: 'vk_subscribe_click',
+        ),
+      );
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -272,13 +284,18 @@ class AddPointsDetailsWM extends WidgetModel {
         subtitle: error.subtitle,
       );
     } else {
-      await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
-        '/final_addpoints',
-        (route) => route.isCurrent,
-        arguments: FinalAddPointsArguments(
-          points: addPointsModel.reward,
-          message: message,
-        ),
+      // await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
+      //   '/final_addpoints',
+      //   (route) => route.isCurrent,
+      //   arguments: FinalAddPointsArguments(
+      //     points: addPointsModel.reward,
+      //     message: message,
+      //   ),
+      // );
+      Keys.mainContentNav.currentState!.pop();
+      showDefaultNotification(
+        title: 'Ваш отзыв сохранен. Баллы будут начислены после модерации',
+        success: true,
       );
     }
   }

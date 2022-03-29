@@ -62,38 +62,27 @@ class _StoryState extends WidgetState<Story, StoryWM> {
                           horizontal: 12,
                           vertical: 10,
                         ),
-                        child: LayoutBuilder(
-                          builder: (context, size) {
-                            final lines = HelpFunctions.getSplittedText(
-                              size.maxWidth,
-                              AppStyles.h2WhiteBold,
-                              widget.model.content.first.title!,
-                            );
-
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (widget.model.content.first.title != null &&
-                                    widget
-                                        .model.content.first.title!.isNotEmpty)
-                                  AutoSizeText(
-                                    widget.model.content.first.title!,
-                                    style: AppStyles.h2WhiteBold,
-                                    minFontSize: 10,
-                                    maxLines:
-                                        lines.length > 1 ? lines.length - 1 : 1,
-                                  )
-                                else
-                                  const SizedBox(),
-                                Text(
-                                  widget.model.content.length.toString(),
-                                  style: AppStyles.p1
-                                      .copyWith(color: Colors.white),
-                                ),
-                              ],
-                            );
-                          },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // if (widget.model.content.first.title != null &&
+                            //     widget
+                            //         .model.content.first.title!.isNotEmpty)
+                            //   AutoSizeText(
+                            //     widget.model.content.first.title!,
+                            //     style: AppStyles.h2WhiteBold,
+                            //     minFontSize: 10,
+                            //     maxLines:
+                            //         lines.length > 1 ? lines.length - 1 : 1,
+                            //   )
+                            // else
+                            const SizedBox(),
+                            Text(
+                              widget.model.content.length.toString(),
+                              style: AppStyles.p1.copyWith(color: Colors.white),
+                            ),
+                          ],
                         ),
                       ),
                     ],
