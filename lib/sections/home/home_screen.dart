@@ -15,6 +15,7 @@ import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
@@ -97,12 +98,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       showSheet<void>(
-                      //         context,
-                      //         SimpleSheetModel(
-                      //           name: 'program',
-                      //           type: 'program',
-                      //         ),
+                      //       showDefaultNotification(
+                      //         title: 'title',
+                      //         duration: const Duration(seconds: 5),
                       //       );
                       //     },
                       //     child: const Text('open progarm screen'),
