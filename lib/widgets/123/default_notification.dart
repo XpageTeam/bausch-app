@@ -9,7 +9,7 @@ OverlaySupportEntry showDefaultNotification({
   required String title,
   bool success = false,
   String? subtitle,
-  Duration duration = const Duration(seconds: 300),
+  Duration duration = const Duration(seconds: 2),
 }) {
   return showOverlayNotification(
     (c) => Material(
@@ -31,6 +31,7 @@ OverlaySupportEntry showDefaultNotification({
         ),
       ),
     ),
+    duration: duration,
   );
   // return showSimpleNotification(
   //   Stack(

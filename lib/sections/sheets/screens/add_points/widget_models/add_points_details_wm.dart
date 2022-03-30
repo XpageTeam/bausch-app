@@ -296,6 +296,7 @@ class AddPointsDetailsWM extends WidgetModel {
       showDefaultNotification(
         title: 'Ваш отзыв сохранен. Баллы будут начислены после модерации',
         success: true,
+        duration: const Duration(seconds: 5),
       );
     }
   }

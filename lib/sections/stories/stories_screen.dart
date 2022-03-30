@@ -155,10 +155,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           //* костыль, чтобы не появлялся серый экран, когда проскроллил не до конца
           final story = widget.stories[i];
 
-          final storyContent = widget.stories[i].content[
-              _currentIndex < widget.stories[i].content.length - 1
-                  ? _currentIndex
-                  : 0];
+          final storyContent = widget.stories[i].content[_currentIndex];
 
           return Scaffold(
             backgroundColor: Colors.black,
