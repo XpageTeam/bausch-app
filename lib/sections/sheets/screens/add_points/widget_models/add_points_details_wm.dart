@@ -10,7 +10,6 @@ import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/123/default_notification.dart';

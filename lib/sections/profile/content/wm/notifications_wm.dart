@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, avoid-returning-widgets
 import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/notification_item.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';

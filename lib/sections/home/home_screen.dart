@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_mixin
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
@@ -15,7 +17,6 @@ import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
