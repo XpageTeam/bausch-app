@@ -1,5 +1,3 @@
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
