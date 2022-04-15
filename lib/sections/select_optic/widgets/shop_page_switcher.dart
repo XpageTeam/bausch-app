@@ -26,7 +26,7 @@ class _ShopPageSwitcherState
     extends WidgetState<ShopPageSwitcher, ShopPageSwitcherWM> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: AppTheme.grey.withOpacity(0.3),

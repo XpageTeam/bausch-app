@@ -94,7 +94,7 @@ class _NativeTextInputState extends State<NativeTextInput>
       child: Stack(
         alignment: Alignment.topLeft,
         children: [
-          Container(
+          DecoratedBox(
             decoration: BoxDecoration(
               color: widget.backgroundColor ?? Colors.white,
               borderRadius: BorderRadius.circular(5),

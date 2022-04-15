@@ -36,7 +36,7 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
       children: [
         GestureDetector(
           onTap: widget.onPressed,
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               color: AppTheme.sulu,
               borderRadius: BorderRadius.circular(5),

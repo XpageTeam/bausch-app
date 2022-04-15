@@ -9,6 +9,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,7 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-Future<void> main() async {  
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
@@ -62,9 +63,16 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
 
 class _MyAppState extends WidgetState<MyApp, AuthWM>
     with WidgetsBindingObserver {
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initDynamicLinks();
   }
 
   @override
@@ -140,5 +148,14 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
         ),
       ),
     );
+  }
+
+  Future<void> initDynamicLinks() async {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      // _appRouter.pushNamed(dynamicLinkData.link.queryParameters.values.first);
+    }).onError((error) {
+      // ignore: avoid_dynamic_calls
+      // print('onLink error' + error.message);
+    });
   }
 }

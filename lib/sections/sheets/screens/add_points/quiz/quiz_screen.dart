@@ -78,7 +78,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
             delegate: SliverChildListDelegate(
               [
                 //* Верхний контейнер
-                Container(
+                DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.white,

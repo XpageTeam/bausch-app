@@ -44,6 +44,7 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
 }
 
 class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
+    // ignore: prefer_mixin
     with WidgetsBindingObserver {
       
   @override

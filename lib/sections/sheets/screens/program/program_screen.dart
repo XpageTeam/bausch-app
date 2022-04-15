@@ -54,14 +54,14 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   Widget build(BuildContext context) {
     return EntityStateBuilder<PrimaryData>(
       streamedState: wm.primaryDataStreamed,
-      loadingChild: Container(
-        decoration: const BoxDecoration(
+      loadingChild: const DecoratedBox(
+        decoration: BoxDecoration(
           color: AppTheme.mystic,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(5),
           ),
         ),
-        child: const Center(
+        child: Center(
           child: AnimatedLoader(),
         ),
       ),

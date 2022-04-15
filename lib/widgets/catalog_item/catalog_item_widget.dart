@@ -43,7 +43,7 @@ class CatalogItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint(model.picture);
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
