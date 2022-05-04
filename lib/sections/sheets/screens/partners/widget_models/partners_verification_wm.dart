@@ -74,7 +74,7 @@ class PartnersVerificationWM extends WidgetModel {
       unawaited(FirebaseAnalytics.instance.logEvent(
         name: 'partner_order',
         parameters: <String, dynamic> {
-          'name': itemModel.name,
+          'partner_order__name': itemModel.name,
         },
       ));
 
