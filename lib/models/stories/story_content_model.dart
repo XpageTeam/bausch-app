@@ -8,7 +8,7 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
   //final int id;
 
   //* Текст(отображается на главном экране)
-  final String title;
+  final String? title;
 
   final String? description;
 
@@ -27,6 +27,8 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
 
   final String? textAfter;
 
+  final String? textFooter;
+
   final bool isVideo;
 
   StoryContentModel({
@@ -40,27 +42,25 @@ class StoryContentModel implements MappableInterface<StoryContentModel> {
     this.link,
     this.description,
     this.textAfter,
+    this.textFooter,
     this.duration = const Duration(seconds: 5),
   });
 
   factory StoryContentModel.fromMap(Map<String, dynamic> map) {
-    if (map['title'] == null) {
-      throw ResponseParseException('Не передано название истории');
-    }
-
     try {
       return StoryContentModel(
         //id: map['id'] as int,
-        title: (map['title'] ?? 'Title') as String,
-        description: map['description'] as String,
+        title: map['title'] as String?,
+        description: map['description'] as String?,
         productModel: map['product'] != null
             ? ProductModel.fromMap(map['product'] as Map<String, dynamic>)
             : null,
         file: map['file'] as String,
         preview: map['preview'] as String,
-        link: map['link'] as String,
-        textBtn: map['text_btn'] as String,
-        textAfter: map['text_after'] as String,
+        link: map['link'] as String?,
+        textBtn: map['text_btn'] as String?,
+        textAfter: map['text_after'] as String?,
+        textFooter: map['text_footer'] as String?,
         isVideo: map['is_video'] as bool,
       );
     } catch (e) {

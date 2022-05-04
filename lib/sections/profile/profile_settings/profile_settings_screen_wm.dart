@@ -32,8 +32,27 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   final confirmEmail = VoidAction();
 
+  var tempName = '';
+  var tempLastName = '';
+
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
+
+  @override
+  void onLoad() {
+    nameController.addListener(
+      () {
+        tempName = nameController.text;
+      },
+    );
+
+    lastNameController.addListener(
+      () {
+        tempLastName = lastNameController.text;
+      },
+    );
+    super.onLoad();
+  }
 
   @override
   void onBind() {
@@ -115,8 +134,9 @@ class ProfileSettingsScreenWM extends WidgetModel {
           userWM.userData.value.data!.user.email);
 
       //emailController.text = userWM.userData.value.data!.user.email ?? '';
-      nameController.text = userWM.userData.value.data!.user.name ?? '';
-      lastNameController.text = userWM.userData.value.data!.user.lastName ?? '';
+      nameController.text = userWM.userData.value.data!.user.name ?? tempName;
+      lastNameController.text =
+          userWM.userData.value.data!.user.lastName ?? tempLastName;
       phoneController.text = userWM.userData.value.data!.user.phone;
       if (selectedBirthDate.value != null) {
         showBanner.accept(true);

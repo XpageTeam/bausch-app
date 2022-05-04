@@ -99,17 +99,16 @@ class _NativeTextInputState extends State<NativeTextInput>
               color: widget.backgroundColor ?? Colors.white,
               borderRadius: BorderRadius.circular(5),
             ),
-            padding: const EdgeInsets.only(
-              left: 12,
-              top: 36,
-              bottom: 18,
-            ),
 
             //* Само текстовое поле (декорации вынес в AppTheme)
             child: Platform.isIOS && (widget.enabled != null && widget.enabled!)
                 ? CupertinoTextField.borderless(
                     cursorColor: widget.cursorColor ?? AppTheme.turquoiseBlue,
-                    padding: EdgeInsets.zero,
+                    padding: const EdgeInsets.only(
+                      left: 12,
+                      top: 36,
+                      bottom: 18,
+                    ),
                     onChanged: widget.onChanged,
                     controller: widget.controller,
                     focusNode: focusNode,
@@ -129,7 +128,21 @@ class _NativeTextInputState extends State<NativeTextInput>
                     focusNode: focusNode,
                     keyboardType: widget.inputType,
                     style: widget.textStyle ?? AppStyles.h2Bold,
-                    decoration: widget.decoration,
+                    decoration: widget.decoration != null
+                        ? widget.decoration!.copyWith(
+                            contentPadding: const EdgeInsets.only(
+                              left: 12,
+                              top: 36,
+                              bottom: 18,
+                            ),
+                          )
+                        : const InputDecoration(
+                            contentPadding: EdgeInsets.only(
+                              left: 12,
+                              top: 36,
+                              bottom: 18,
+                            ),
+                          ),
                     maxLines: widget.maxLines,
                     inputFormatters: widget.inputFormatters,
                     autofocus: widget.autofocus,
@@ -142,29 +155,31 @@ class _NativeTextInputState extends State<NativeTextInput>
           Positioned.fill(
             //* Здесь анимируется положение [label]
             //* засчет изменения padding и alignment
-            child: AnimatedContainer(
-              padding: EdgeInsets.only(
-                left: 12,
-                top: widget.labelAlignment == null
-                    ? (isTextInputFocusedOrFilled ? 10 : 0)
-                    : 10,
-              ),
-              alignment: widget.labelAlignment ??
-                  (isTextInputFocusedOrFilled
-                      ? Alignment.topLeft
-                      : Alignment.centerLeft),
-
-              //* Здесь анимируется стиль текста
-              child: AnimatedDefaultTextStyle(
-                child: Text(
-                  widget.labelText,
+            child: IgnorePointer(
+              child: AnimatedContainer(
+                padding: EdgeInsets.only(
+                  left: 12,
+                  top: widget.labelAlignment == null
+                      ? (isTextInputFocusedOrFilled ? 10 : 0)
+                      : 10,
                 ),
-                style: isTextInputFocusedOrFilled
-                    ? AppStyles.p1Grey
-                    : AppStyles.h2GreyBold,
+                alignment: widget.labelAlignment ??
+                    (isTextInputFocusedOrFilled
+                        ? Alignment.topLeft
+                        : Alignment.centerLeft),
+
+                //* Здесь анимируется стиль текста
+                child: AnimatedDefaultTextStyle(
+                  child: Text(
+                    widget.labelText,
+                  ),
+                  style: isTextInputFocusedOrFilled
+                      ? AppStyles.p1Grey
+                      : AppStyles.h2GreyBold,
+                  duration: Duration(milliseconds: labelAnimationDuration),
+                ),
                 duration: Duration(milliseconds: labelAnimationDuration),
               ),
-              duration: Duration(milliseconds: labelAnimationDuration),
             ),
           ),
         ],

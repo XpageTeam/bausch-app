@@ -120,6 +120,7 @@ class _CodeSectionState extends State<CodeSection> {
                                   addPointsCodeBloc.add(
                                     AddPointsCodeUpdateProduct(
                                       product: state.models[i].code.toString(),
+                                      productName: state.models[i].title,
                                     ),
                                   );
                                   Navigator.of(context).pop();
@@ -151,6 +152,7 @@ class _CodeSectionState extends State<CodeSection> {
                                   AddPointsCodeSend(
                                     code: state.code,
                                     productId: state.product,
+                                    productName: state.productName,
                                   ),
                                 );
                               }

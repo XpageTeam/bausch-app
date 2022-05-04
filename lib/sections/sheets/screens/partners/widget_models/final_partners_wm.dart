@@ -45,9 +45,11 @@ class FinalPartnersWM extends WidgetModel {
     });
 
     copyAndLaunch.bind((_) {
-      Utils.copyStringToClipboard(
-        itemModel.staticPromoCode!,
-      );
+      if (promocodeState.value.data != null) {
+        Utils.copyStringToClipboard(
+          promocodeState.value.data!,
+        );
+      }
       Utils.tryLaunchUrl(
         rawUrl: itemModel.link!,
         onError: (ex) {

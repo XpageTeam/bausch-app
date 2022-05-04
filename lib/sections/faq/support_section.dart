@@ -4,6 +4,7 @@ import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart'
 import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 //* Нижний блок с кнопкой "Написать в поддержку" и кнопками соц сетей
@@ -37,6 +38,7 @@ class SupportSection extends StatelessWidget {
           BlueButtonWithText(
             text: 'Написать в поддержку',
             onPressed: () {
+              FirebaseAnalytics.instance.logEvent(name: 'support_button_click');
               Navigator.of(context).pushNamed(
                 '/support',
                 arguments: ContactSupportScreenArguments(

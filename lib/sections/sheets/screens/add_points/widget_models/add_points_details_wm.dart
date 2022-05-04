@@ -10,13 +10,13 @@ import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -81,6 +81,28 @@ class AddPointsDetailsWM extends WidgetModel {
       }
     });
 
+    if (addPointsModel.type == 'review_social') {
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(name: 'soc_review_show'),
+      );
+    }
+
+    if (addPointsModel.type == 'review') {
+      unawaited(FirebaseAnalytics.instance.logEvent(name: 'review_show'));
+    }
+
+    if (addPointsModel.type == 'vk') {
+      unawaited(FirebaseAnalytics.instance.logEvent(name: 'vk_show'));
+    }
+
+    if (addPointsModel.type == 'invite_friend') {
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(
+          name: 'invite_friend_show',
+        ),
+      );
+    }
+
     if (addPointsModel.type == 'review' ||
         addPointsModel.type == 'review_social') {
       linkController.addListener(() {
@@ -123,6 +145,11 @@ class AddPointsDetailsWM extends WidgetModel {
         await _launchVKUrl(addPointsModel.url);
         break;
       case 'invite_friend':
+        unawaited(
+          FirebaseAnalytics.instance.logEvent(
+            name: 'invite_friend_share',
+          ),
+        );
         await Utils.tryShare(text: addPointsModel.url);
         break;
     }
@@ -135,6 +162,12 @@ class AddPointsDetailsWM extends WidgetModel {
 
     try {
       await AddPointsSaver.beforeLaunchVKUrl();
+
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(
+          name: 'vk_subscribe_click',
+        ),
+      );
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -209,6 +242,16 @@ class AddPointsDetailsWM extends WidgetModel {
 
       message = response.message;
 
+      if (addPointsModel.type == 'review_social') {
+        unawaited(
+          FirebaseAnalytics.instance.logEvent(name: 'soc_review_sended'),
+        );
+      }
+
+      if (addPointsModel.type == 'review') {
+        unawaited(FirebaseAnalytics.instance.logEvent(name: 'review_sended'));
+      }
+
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;
 
@@ -240,13 +283,19 @@ class AddPointsDetailsWM extends WidgetModel {
         subtitle: error.subtitle,
       );
     } else {
-      await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
-        '/final_addpoints',
-        (route) => route.isCurrent,
-        arguments: FinalAddPointsArguments(
-          points: addPointsModel.reward,
-          message: message,
-        ),
+      // await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
+      //   '/final_addpoints',
+      //   (route) => route.isCurrent,
+      //   arguments: FinalAddPointsArguments(
+      //     points: addPointsModel.reward,
+      //     message: message,
+      //   ),
+      // );
+      Keys.mainContentNav.currentState!.pop();
+      showDefaultNotification(
+        title: 'Ваш отзыв сохранен. Баллы будут начислены после модерации',
+        success: true,
+        duration: const Duration(seconds: 5),
       );
     }
   }

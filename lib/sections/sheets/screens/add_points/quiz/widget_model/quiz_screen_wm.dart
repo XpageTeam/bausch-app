@@ -18,6 +18,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -120,6 +121,8 @@ class QuizScreenWM extends WidgetModel {
       }
     });
 
+    unawaited(FirebaseAnalytics.instance.logEvent(name: 'quiz_show'));
+
     super.onBind();
   }
 
@@ -204,6 +207,9 @@ class QuizScreenWM extends WidgetModel {
       await QuizSaver.save(
         mapAnswers,
       );
+
+      unawaited(FirebaseAnalytics.instance.logEvent(name: 'quiz_sended'));
+
       await _updateUserInformation();
     } on DioError catch (e) {
       error = CustomException(

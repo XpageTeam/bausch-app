@@ -7,6 +7,8 @@ import 'package:bausch/navigation/app_router.dart';
 import 'package:bausch/navigation/main_navigation.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,8 +18,10 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-void main() {
+Future<void> main() async {  
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
 
   final config = Configuration(
     domain: 'api.mindbox.ru',
@@ -27,7 +31,20 @@ void main() {
   );
 
   Mindbox.instance.init(configuration: config);
-  runApp(MyApp());
+
+  final analytics = FirebaseAnalytics.instance;
+
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<FirebaseAnalytics>.value(value: analytics),
+        Provider<FirebaseAnalyticsObserver>.value(
+          value: FirebaseAnalyticsObserver(analytics: analytics),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends CoreMwwmWidget<AuthWM> {
@@ -86,6 +103,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
           supportedLocales: const [
             Locale('ru', ''),
           ],
+          navigatorObservers: [Provider.of<FirebaseAnalyticsObserver>(context)],
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

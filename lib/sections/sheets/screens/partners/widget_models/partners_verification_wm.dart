@@ -16,6 +16,7 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -69,6 +70,13 @@ class PartnersVerificationWM extends WidgetModel {
         itemModel,
         'partner',
       );
+
+      unawaited(FirebaseAnalytics.instance.logEvent(
+        name: 'partner_order',
+        parameters: <String, dynamic> {
+          'partner_order__name': itemModel.name,
+        },
+      ));
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;

@@ -14,19 +14,20 @@ class StoriesBottommButton extends StatelessWidget {
   final String? buttonText;
   final ProductModel? productModel;
   final String? textAfter;
+  final String? textFooter;
 
   const StoriesBottommButton({
     this.link,
     this.buttonText,
     this.productModel,
     this.textAfter,
+    this.textFooter,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(textAfter);
-
+    debugPrint('$buttonText $link');
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: StaticData.sidePadding,
@@ -62,7 +63,9 @@ class StoriesBottommButton extends StatelessWidget {
                         child: Container(
                           constraints: BoxConstraints(
                             maxWidth: 90,
-                            maxHeight: MediaQuery.of(context).size.width < 330 ? 60 : 90,
+                            maxHeight: MediaQuery.of(context).size.width < 330
+                                ? 60
+                                : 90,
                           ),
                           child: AspectRatio(
                             aspectRatio: 100 / 100,
@@ -79,39 +82,45 @@ class StoriesBottommButton extends StatelessWidget {
                 ),
               ),
             ),
-          //* Если пришла ссылка для кнопки
-          if (link != null && buttonText != null)
-            TextButton(
-              onPressed: () {
-                HelpFunctions.launchURL(link!);
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
+          //* Если пришли ссылка для кнопки и текст
+          if (link != null &&
+              buttonText != null &&
+              link!.isNotEmpty &&
+              buttonText!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: TextButton(
+                onPressed: () {
+                  HelpFunctions.launchURL(link!);
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      buttonText!,
+                      style: AppStyles.h2,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Image.asset(
+                      'assets/icons/link.png',
+                      height: 15,
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    buttonText!,
-                    style: AppStyles.h2,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Image.asset(
-                    'assets/icons/link.png',
-                    height: 15,
-                  ),
-                ],
-              ),
             ),
-          if (textAfter != null)
+          if (textAfter != null && textAfter!.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
+              padding: const EdgeInsets.only(
+                bottom: 10,
               ),
               child: Html(
                 data: textAfter,
@@ -119,21 +128,22 @@ class StoriesBottommButton extends StatelessWidget {
                 customRender: htmlCustomRender,
               ),
             ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 10,
-              bottom: 6,
-            ),
-            child: Text(
-              'Имеются противопоказания, необходимо\nпроконсультироваться со специалистом',
-              style: TextStyle(
-                fontSize: 14,
-                height: 16 / 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
+          if (textFooter != null && textFooter!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 6,
+              ),
+              child: Text(
+                textFooter!,
+                style: const TextStyle(
+                  fontSize: 14,
+                  height: 16 / 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

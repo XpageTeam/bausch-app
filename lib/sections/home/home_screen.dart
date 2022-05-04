@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_mixin
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
@@ -97,12 +99,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       showSheet<void>(
-                      //         context,
-                      //         SimpleSheetModel(
-                      //           name: 'program',
-                      //           type: 'program',
-                      //         ),
+                      //       showDefaultNotification(
+                      //         title: 'title',
+                      //         duration: const Duration(seconds: 5),
                       //       );
                       //     },
                       //     child: const Text('open progarm screen'),

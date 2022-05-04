@@ -3,6 +3,7 @@ import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/wm/city_screen_wm.dart';
+import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -15,8 +16,10 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
   final List<String>? citiesWithShops;
+  final bool withFavoriteItems;
   CityScreen({
     Key? key,
+    this.withFavoriteItems = false,
     this.citiesWithShops,
   }) : super(
           widgetModelBuilder: (context) => CityScreenWM(
@@ -128,6 +131,21 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                                         }).toList(),
                                         selectedTextStyle: AppStyles.h1,
                                         unselectedTextStyle: AppStyles.h2,
+                                        favoriteItems: widget.withFavoriteItems
+                                            ? const [
+                                                'Вся РФ',
+                                              ]
+                                            : [],
+                                        topWidget: widget.withFavoriteItems
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 20,
+                                                ),
+                                                child: Warning.warning(
+                                                  'Если вы не нашли свой город в списке, вы можете выбрать «Вся РФ» – эти магазины осуществляют доставку по всей России',
+                                                ),
+                                              )
+                                            : null,
                                         // selectedLetterTextStyle: AppStyles.p1,
                                         // unselectedLetterTextStyle: TextStyle(
                                         //   color: AppTheme.mineShaft,

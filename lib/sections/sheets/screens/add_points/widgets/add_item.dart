@@ -9,6 +9,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 //* Элемент, после нажатия на который, происходит переход на страницу добавления баллов
@@ -106,6 +107,8 @@ class AddItem extends StatelessWidget {
                     await Keys.mainContentNav.currentState!.pushNamed(
                       '/profile_settings',
                     );
+
+                    unawaited(FirebaseAnalytics.instance.logEvent(name: 'birthdate_filling'));
 
                     unawaited(wm.loadInfoAction());
                     // Keys.mainContentNav.currentState!.pop();
