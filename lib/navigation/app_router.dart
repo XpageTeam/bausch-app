@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 class AppRouter {
   static Route<dynamic> generateRoute(
     RouteSettings settings,
+  
     BuildContext context,
     AuthWM authWM,
   ) {
@@ -28,6 +29,7 @@ class AppRouter {
     if (settings.name == '/') {
       targetPage = MainNavigation(
         authWM: authWM,
+      
       );
     }
 

@@ -9,7 +9,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -63,17 +62,18 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
 
 class _MyAppState extends WidgetState<MyApp, AuthWM>
     with WidgetsBindingObserver {
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  // FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  // String? dynamicLink;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initDynamicLinks();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   initDynamicLinks();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -150,12 +150,44 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
     );
   }
 
-  Future<void> initDynamicLinks() async {
-    dynamicLinks.onLink.listen((dynamicLinkData) {
-      // _appRouter.pushNamed(dynamicLinkData.link.queryParameters.values.first);
-    }).onError((error) {
-      // ignore: avoid_dynamic_calls
-      // print('onLink error' + error.message);
-    });
-  }
+  // Future<void> initDynamicLinks() async {
+  //   dynamicLinks.onLink.listen((dynamicLinkData) {
+  //     // _appRouter.pushNamed(dynamicLinkData.link.queryParameters.values.first);
+
+  //     dynamicLink = dynamicLinkData.link.queryParameters.values.first;
+  //     print("DYNAMIC" + dynamicLink.toString());
+  //     Widget page;
+  //     switch (dynamicLink) {
+  //       case '/main':
+  //         page = ProfileScreen();
+  //         break;
+
+  //       case '/profile_settings':
+  //         page = ProfileSettingsScreen();
+  //         break;
+
+  //       // case '/shops':
+  //       //   page = SelectOpticScreen();
+  //       //   break;
+
+  //       case '/home':
+  //       default:
+  //         page = HomeScreen();
+  //     }
+  //     if (Platform.isIOS) {
+  //       CupertinoPageRoute<void>(builder: (context) {
+  //         return page;
+  //       });
+  //       Navigator.pushNamed(context, dynamicLink!);
+  //     } else {
+  //       MaterialPageRoute<void>(builder: (context) {
+  //         return page;
+  //       });
+  //       Navigator.pushNamed(context, dynamicLink!);
+  //     }
+  //   }).onError((error) {
+  //     // ignore: avoid_dynamic_calls
+  //     // print('onLink error' + error.message);
+  //   });
+  // }
 }

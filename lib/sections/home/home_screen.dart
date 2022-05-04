@@ -33,7 +33,8 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 OffersSectionWM? bannersWm;
 
 class HomeScreen extends CoreMwwmWidget<MainScreenWM> {
-  HomeScreen({Key? key})
+  final String? dynamicLink;
+  HomeScreen({Key? key, this.dynamicLink})
       : super(
           key: key,
           widgetModelBuilder: (context) {
@@ -54,9 +55,42 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
     wm.changeAppLifecycleStateAction(state);
   }
 
+// TODO(daniil): тут настраиваю диплинки для боттом щитов
   @override
   void initState() {
     super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      if (widget.dynamicLink != null) {
+        var name = '';
+        var type = '';
+        switch (widget.dynamicLink) {
+          case '/program':
+            name = 'Программа подбора';
+            type = 'program';
+            break;
+          case '/add_points':
+            name = 'Добавить баллы';
+            type = 'add_points';
+            break;
+          case '/faq':
+            name = 'Частые вопросы';
+            type = 'faq';
+            break;
+          case '/all_webinars':
+
+          default:
+        }
+
+        await showSheet<void>(
+          context,
+          SimpleSheetModel(
+            name: name,
+            type: type,
+          ),
+        );
+      }
+    });
   }
 
   @override

@@ -21,6 +21,7 @@ import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_and_email_screen.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +40,15 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation>
     with AfterLayoutMixin<MainNavigation> {
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  String? dynamicLink;
+
+  @override
+  void initState() {
+    initDynamicLinks();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -194,5 +204,38 @@ class _MainNavigationState extends State<MainNavigation>
     }
 
     authStart();
+  }
+
+// TODO(daniil): нужно проверять авторизацию
+  Future<void> initDynamicLinks() async {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      dynamicLink = dynamicLinkData.link.queryParameters.values.first;
+      Widget page;
+      switch (dynamicLink) {
+        case '/user_profile':
+          page = ProfileScreen();
+          break;
+        case '/user_settings':
+          page = ProfileSettingsScreen();
+          break;
+        case '/add_points':
+          page = HomeScreen(dynamicLink: '/add_points',);
+          break;
+        default:
+          page = HomeScreen();
+      }
+
+      Navigator.push<void>(
+        Keys.mainContentNav.currentContext!,
+        MaterialPageRoute(
+          builder: (context) {
+            return page;
+          },
+        ),
+      );
+    }).onError((error) {
+      // ignore: avoid_dynamic_calls
+      // print('onLink error' + error.message);
+    });
   }
 }
