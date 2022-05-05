@@ -3,10 +3,12 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -77,18 +79,28 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
             name = 'Частые вопросы';
             type = 'faq';
             break;
-          case '/all_webinars':
-
+          case '/webinars':
+            name = 'Записи вебинаров';
+            type = 'promo_code_video';
+            break;
+          // case '/stories':
+          //   type = 'stories';
+          //   break;
           default:
         }
 
-        await showSheet<void>(
-          context,
-          SimpleSheetModel(
-            name: name,
-            type: type,
-          ),
-        );
+        if (type == 'faq') {
+          // происходит проблема с ключами
+          await FaqCubit().loadData();
+        } else {
+          await showSheet<void>(
+            context,
+            SimpleSheetModel(
+              name: name,
+              type: type,
+            ),
+          );
+        }
       }
     });
   }

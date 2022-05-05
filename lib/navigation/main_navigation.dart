@@ -219,7 +219,24 @@ class _MainNavigationState extends State<MainNavigation>
           page = ProfileSettingsScreen();
           break;
         case '/add_points':
-          page = HomeScreen(dynamicLink: '/add_points',);
+          page = HomeScreen(
+            dynamicLink: '/add_points',
+          );
+          break;
+        case '/program':
+          page = HomeScreen(
+            dynamicLink: '/program',
+          );
+          break;
+        case '/faq':
+          page = HomeScreen(
+            dynamicLink: '/faq',
+          );
+          break;
+        case '/webinars':
+          page = HomeScreen(
+            dynamicLink: '/webinars',
+          );
           break;
         default:
           page = HomeScreen();

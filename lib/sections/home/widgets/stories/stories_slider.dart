@@ -38,6 +38,7 @@ class _StoriesSliderState extends WidgetState<StoriesSlider, StoriesWM> {
         create: (context) => wm,
         lazy: false,
         child: Row(
+          // TODO(pavlov): тут нажимаются истории
           children: widget.items.map((item) {
             return Padding(
               padding: const EdgeInsets.only(right: 4),
