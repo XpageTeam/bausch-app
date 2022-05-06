@@ -7,11 +7,16 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:dio/dio.dart';
@@ -38,6 +43,9 @@ class MainScreenWM extends WidgetModel {
   final BuildContext context;
   final AuthWM authWM;
   final UserWM userWM;
+
+  //* deep links
+  final topics = StreamedState<List<TopicModel>?>(null);
 
   final _requester = HomeScreenRequester();
 
@@ -120,7 +128,7 @@ class MainScreenWM extends WidgetModel {
     return true;
   }
 
-  void _changeAppLifecycleState(AppLifecycleState state){
+  void _changeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
         canUpdate = true;
@@ -133,6 +141,60 @@ class MainScreenWM extends WidgetModel {
     }
   }
 
+  //* deepLinks
+  Future<void> _loadTopics() async {
+    CustomException? error;
+
+    try {
+      final rh = RequestHandler();
+
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.get<Map<String, dynamic>>('static/faq/')).data!,
+      );
+
+      final topics = (parsedData.data as List<dynamic>)
+          .map((dynamic e) => TopicModel.fromMap(e as Map<String, dynamic>))
+          .toList();
+      debugPrint(topics.toString());
+
+      // ignore: use_build_context_synchronously
+      await showSheet<List<TopicModel>>(
+        context,
+        SimpleSheetModel(
+          name: 'Частые вопросы',
+          type: 'faq',
+        ),
+        topics,
+      );
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'При отправке запроса приозошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'При обработке ответа от сервера приозошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      error = CustomException(
+        title: e.toString(),
+        ex: e,
+      );
+    } catch (e) {
+      error = CustomException(
+        title: 'Поизошла ошибка',
+        subtitle: e.toString(),
+      );
+    }
+
+    if (error != null) {
+      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+    }
+  }
+
   Future<void> _loadAllData() async {
     if (allDataLoadedState.value.isLoading) return;
 
@@ -142,6 +204,7 @@ class MainScreenWM extends WidgetModel {
       _loadStories(),
       _loadCatalog(),
       _loadBanners(),
+      _loadTopics(),
     ]);
 
     if (catalog.value.error != null) {
