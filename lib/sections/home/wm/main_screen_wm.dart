@@ -8,6 +8,9 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/catalog_item/partners_item_model.dart';
+import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
@@ -17,6 +20,7 @@ import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:dio/dio.dart';
@@ -43,9 +47,7 @@ class MainScreenWM extends WidgetModel {
   final BuildContext context;
   final AuthWM authWM;
   final UserWM userWM;
-
-  //* deep links
-  final topics = StreamedState<List<TopicModel>?>(null);
+  final String? dynamicLink;
 
   final _requester = HomeScreenRequester();
 
@@ -55,6 +57,7 @@ class MainScreenWM extends WidgetModel {
 
   MainScreenWM({
     required this.context,
+    this.dynamicLink,
   })  : userWM = Provider.of<UserWM>(context, listen: false),
         authWM = Provider.of<AuthWM>(context, listen: false),
         super(const WidgetModelDependencies());
@@ -142,7 +145,7 @@ class MainScreenWM extends WidgetModel {
   }
 
   //* deepLinks
-  Future<void> _loadTopics() async {
+  Future<void> _loadFaq() async {
     CustomException? error;
 
     try {
@@ -153,7 +156,7 @@ class MainScreenWM extends WidgetModel {
       );
 
       final topics = (parsedData.data as List<dynamic>)
-          .map((dynamic e) => TopicModel.fromMap(e as Map<String, dynamic>))
+          .map((e) => TopicModel.fromMap(e as Map<String, dynamic>))
           .toList();
       debugPrint(topics.toString());
 
@@ -166,24 +169,195 @@ class MainScreenWM extends WidgetModel {
         ),
         topics,
       );
-    } on DioError catch (e) {
+    } on Exception catch (e) {
       error = CustomException(
-        title: 'При отправке запроса приозошла ошибка',
-        subtitle: e.message,
-        ex: e,
-      );
-    } on ResponseParseException catch (e) {
-      error = CustomException(
-        title: 'При обработке ответа от сервера приозошла ошибка',
+        title: 'Поизошла ошибка',
         subtitle: e.toString(),
-        ex: e,
       );
-    } on SuccessFalse catch (e) {
+    }
+
+    if (error != null) {
+      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+    }
+  }
+
+  //* deepLinks
+  Future<void> _loadWebinars() async {
+    CustomException? error;
+
+    try {
+      final rh = RequestHandler();
+
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.get<Map<String, dynamic>>(
+          'catalog/products',
+          queryParameters: <String, dynamic>{
+            'section': StaticData.types['webinar'],
+          },
+        ))
+            .data!,
+      );
+      final items = (parsedData.data as List<dynamic>)
+          .map(
+            // ignore: avoid_annotating_with_dynamic
+            (dynamic item) =>
+                WebinarItemModel.fromMap(item as Map<String, dynamic>),
+          )
+          .toList();
+
+      debugPrint(items.toString());
+
+      // ignore: use_build_context_synchronously
+      await showSheet<List<WebinarItemModel>>(
+        context,
+        SimpleSheetModel(
+          name: 'Записи вебинаров',
+          type: 'promo_code_video',
+        ),
+        items,
+      );
+    } on Exception catch (e) {
       error = CustomException(
-        title: e.toString(),
-        ex: e,
+        title: 'Поизошла ошибка',
+        subtitle: e.toString(),
       );
-    } catch (e) {
+    }
+
+    if (error != null) {
+      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+    }
+  }
+
+  //* deepLinks
+  Future<void> _loadDiscountOptics() async {
+    CustomException? error;
+
+    try {
+      final rh = RequestHandler();
+
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.get<Map<String, dynamic>>(
+          'catalog/products',
+          queryParameters: <String, dynamic>{
+            'section': StaticData.types['discount_optics'],
+          },
+        ))
+            .data!,
+      );
+      final items = (parsedData.data as List<dynamic>)
+          .map(
+            // ignore: avoid_annotating_with_dynamic
+            (dynamic item) =>
+                PromoItemModel.fromMap(item as Map<String, dynamic>),
+          )
+          .toList();
+
+      debugPrint(items.toString());
+
+      // ignore: use_build_context_synchronously
+      await showSheet<List<PromoItemModel>>(
+        context,
+        SimpleSheetModel(
+          name: 'Скидка 500 ₽ в оптике',
+          type: 'discount_optics',
+        ),
+        items,
+      );
+    } on Exception catch (e) {
+      error = CustomException(
+        title: 'Поизошла ошибка',
+        subtitle: e.toString(),
+      );
+    }
+
+    if (error != null) {
+      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+    }
+  }
+
+  //* deepLinks
+  Future<void> _loadDiscountOnline() async {
+    CustomException? error;
+
+    try {
+      final rh = RequestHandler();
+
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.get<Map<String, dynamic>>(
+          'catalog/products',
+          queryParameters: <String, dynamic>{
+            'section': StaticData.types['discount_online'],
+          },
+        ))
+            .data!,
+      );
+      final items = (parsedData.data as List<dynamic>)
+          .map(
+            // ignore: avoid_annotating_with_dynamic
+            (dynamic item) =>
+                PromoItemModel.fromMap(item as Map<String, dynamic>),
+          )
+          .toList();
+
+      debugPrint(items.toString());
+
+      // ignore: use_build_context_synchronously
+      await showSheet<List<PromoItemModel>>(
+        context,
+        SimpleSheetModel(
+          name: 'Скидка 500 ₽ в интернет-магазине',
+          type: 'discount_online',
+        ),
+        items,
+      );
+    } on Exception catch (e) {
+      error = CustomException(
+        title: 'Поизошла ошибка',
+        subtitle: e.toString(),
+      );
+    }
+
+    if (error != null) {
+      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+    }
+  }
+
+//* deepLinks
+  Future<void> _loadPartners() async {
+    CustomException? error;
+
+    try {
+      final rh = RequestHandler();
+
+      final parsedData = BaseResponseRepository.fromMap(
+        (await rh.get<Map<String, dynamic>>(
+          'catalog/products',
+          queryParameters: <String, dynamic>{
+            'section': StaticData.types['partners'],
+          },
+        ))
+            .data!,
+      );
+      final items = (parsedData.data as List<dynamic>)
+          .map(
+            // ignore: avoid_annotating_with_dynamic
+            (dynamic item) =>
+                PartnersItemModel.fromMap(item as Map<String, dynamic>),
+          )
+          .toList();
+
+      debugPrint(items.toString());
+
+      // ignore: use_build_context_synchronously
+      await showSheet<List<PartnersItemModel>>(
+        context,
+        SimpleSheetModel(
+          name: 'Предложения от партнеров',
+          type: 'partners',
+        ),
+        items,
+      );
+    } on Exception catch (e) {
       error = CustomException(
         title: 'Поизошла ошибка',
         subtitle: e.toString(),
@@ -200,13 +374,41 @@ class MainScreenWM extends WidgetModel {
 
     await allDataLoadedState.loading(allDataLoadedState.value.data);
 
-    await Future.wait<void>([
-      _loadStories(),
-      _loadCatalog(),
-      _loadBanners(),
-      _loadTopics(),
-    ]);
-
+    final Future<void> dynamicLinkFunction;
+    if (dynamicLink != null) {
+      switch (dynamicLink) {
+        case '/faq':
+          dynamicLinkFunction = _loadFaq();
+          break;
+        case '/webinars':
+          dynamicLinkFunction = _loadWebinars();
+          break;
+        case '/discount_optics':
+          dynamicLinkFunction = _loadDiscountOptics();
+          break;
+        case '/discount_online':
+          dynamicLinkFunction = _loadDiscountOnline();
+          break;
+        case '/partners':
+          dynamicLinkFunction = _loadPartners();
+          break;
+        default:
+          // TODO(pavlov) поставить заглушку
+          dynamicLinkFunction = _loadDiscountOnline();
+      }
+      await Future.wait<void>([
+        _loadStories(),
+        _loadCatalog(),
+        _loadBanners(),
+        dynamicLinkFunction,
+      ]);
+    } else {
+      await Future.wait<void>([
+        _loadStories(),
+        _loadCatalog(),
+        _loadBanners(),
+      ]);
+    }
     if (catalog.value.error != null) {
       await allDataLoadedState.error(catalog.value.error);
       return;

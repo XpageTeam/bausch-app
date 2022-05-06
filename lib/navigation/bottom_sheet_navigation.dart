@@ -106,19 +106,10 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 page = AddPointsScreen(
                   controller: controller,
                 );
-                //тут ошибка с ключами
               } else if (sheetModel.type == 'faq') {
                 page = TopicsScreen(
                   controller: controller,
                   topics: args as List<TopicModel>,
-                );
-                // тут ошибка аргумент налл и ключи
-              } else if (sheetModel.type == 'promo_code_video') {
-                page = WebinarScreen(
-                  controller: controller,
-                  //_CastError (type 'Null' is not a subtype of type 'ItemSheetScreenArguments' in type cast)
-                  model: (arguments as ItemSheetScreenArguments).model
-                      as WebinarItemModel,
                 );
               } else if (sheetModel.type == 'rules') {
                 page = RulesScreen(

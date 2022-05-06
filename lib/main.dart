@@ -149,45 +149,4 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
       ),
     );
   }
-
-  // Future<void> initDynamicLinks() async {
-  //   dynamicLinks.onLink.listen((dynamicLinkData) {
-  //     // _appRouter.pushNamed(dynamicLinkData.link.queryParameters.values.first);
-
-  //     dynamicLink = dynamicLinkData.link.queryParameters.values.first;
-  //     print("DYNAMIC" + dynamicLink.toString());
-  //     Widget page;
-  //     switch (dynamicLink) {
-  //       case '/main':
-  //         page = ProfileScreen();
-  //         break;
-
-  //       case '/profile_settings':
-  //         page = ProfileSettingsScreen();
-  //         break;
-
-  //       // case '/shops':
-  //       //   page = SelectOpticScreen();
-  //       //   break;
-
-  //       case '/home':
-  //       default:
-  //         page = HomeScreen();
-  //     }
-  //     if (Platform.isIOS) {
-  //       CupertinoPageRoute<void>(builder: (context) {
-  //         return page;
-  //       });
-  //       Navigator.pushNamed(context, dynamicLink!);
-  //     } else {
-  //       MaterialPageRoute<void>(builder: (context) {
-  //         return page;
-  //       });
-  //       Navigator.pushNamed(context, dynamicLink!);
-  //     }
-  //   }).onError((error) {
-  //     // ignore: avoid_dynamic_calls
-  //     // print('onLink error' + error.message);
-  //   });
-  // }
 }

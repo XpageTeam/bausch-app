@@ -46,14 +46,6 @@ class TextButtonsListener extends StatelessWidget {
                   state.topics,
                 );
               }
-              showSheet<List<TopicModel>>(
-                context,
-                SimpleSheetModel(
-                  name: 'Частые вопросы',
-                  type: 'faq',
-                ),
-                state.topics,
-              );
             }
           },
         ),

@@ -238,6 +238,21 @@ class _MainNavigationState extends State<MainNavigation>
             dynamicLink: '/webinars',
           );
           break;
+        case '/discount_optics':
+          page = HomeScreen(
+            dynamicLink: '/discount_optics',
+          );
+          break;
+        case '/discount_online':
+          page = HomeScreen(
+            dynamicLink: '/discount_online',
+          );
+          break;
+        case '/partners':
+          page = HomeScreen(
+            dynamicLink: '/partners',
+          );
+          break;
         default:
           page = HomeScreen();
       }

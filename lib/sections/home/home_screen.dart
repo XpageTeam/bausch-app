@@ -3,12 +3,10 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
-import 'package:bausch/sections/faq/cubit/faq/faq_cubit.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -40,7 +38,7 @@ class HomeScreen extends CoreMwwmWidget<MainScreenWM> {
       : super(
           key: key,
           widgetModelBuilder: (context) {
-            return MainScreenWM(context: context);
+            return MainScreenWM(context: context, dynamicLink: dynamicLink);
           },
         );
 
@@ -76,34 +74,30 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
             type = 'add_points';
             break;
           case '/faq':
-            name = 'Частые вопросы';
-            type = 'faq';
+            name = '';
+            type = '';
             break;
           case '/webinars':
-            name = 'Записи вебинаров';
-            type = 'promo_code_video';
+            name = '';
+            type = '';
             break;
-          // case '/stories':
-          //   type = 'stories';
-          //   break;
+          case '/discount_optics':
+            name = '';
+            type = '';
+            break;
+          case '/discount_online':
+            name = '';
+            type = '';
+            break;
+          case '/partners':
+            name = '';
+            type = '';
+            break;
           default:
+            name = '';
+            type = '';
         }
-
-        if (type == 'faq') {
-          // происходит проблема с ключами
-          await FaqCubit().loadData();
-        } else if (type == 'promo_code_video') {
-          await showSheet<void>(
-            context,
-            CatalogSheetModel(
-              id: 2,
-              name: 'Записи вебинаров',
-              type: 'promo_code_video',
-              icon: 'assets/webinar-recordings.png',
-              count: 3,
-            ),
-          );
-        } else {
+        if (name != '') {
           await showSheet<void>(
             context,
             SimpleSheetModel(
