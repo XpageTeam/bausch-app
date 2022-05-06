@@ -92,6 +92,17 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
         if (type == 'faq') {
           // происходит проблема с ключами
           await FaqCubit().loadData();
+        } else if (type == 'promo_code_video') {
+          await showSheet<void>(
+            context,
+            CatalogSheetModel(
+              id: 2,
+              name: 'Записи вебинаров',
+              type: 'promo_code_video',
+              icon: 'assets/webinar-recordings.png',
+              count: 3,
+            ),
+          );
         } else {
           await showSheet<void>(
             context,
