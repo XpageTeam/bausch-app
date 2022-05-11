@@ -20,6 +20,7 @@ import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
@@ -32,6 +33,7 @@ class MainScreenWM extends WidgetModel {
   final allDataLoadedState = EntityStreamedState<bool>();
 
   final storiesList = EntityStreamedState<List<StoryModel>>();
+
   final catalog = EntityStreamedState<List<BaseCatalogSheetModel>>();
   final banners = EntityStreamedState<OffersRepository>();
 
@@ -52,6 +54,7 @@ class MainScreenWM extends WidgetModel {
   final _requester = HomeScreenRequester();
 
   bool canUpdate = true;
+  List<StoryModel>? deepLinkStoriesList;
 
   late Timer? _reloadDataTimer;
 
@@ -369,13 +372,46 @@ class MainScreenWM extends WidgetModel {
     }
   }
 
+  Future<void> _pushStories() async {
+    await Navigator.push<dynamic>(
+      context,
+      PageRouteBuilder<dynamic>(
+        pageBuilder: (_, __, ___) {
+          return StoriesScreen(
+            // TODO(pavlov): в логах у истории выдается 7 id
+            storyModel: 7,
+            stories: deepLinkStoriesList!,
+          );
+        },
+        barrierColor: Colors.black.withOpacity(0.8),
+        transitionDuration: const Duration(milliseconds: 600),
+        reverseTransitionDuration: const Duration(milliseconds: 400),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+            parent: animation,
+            curve: Curves.fastLinearToSlowEaseIn,
+          );
+          return SlideTransition(
+            position: Tween(
+              begin: const Offset(0.0, 0.6),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
   Future<void> _loadAllData() async {
     if (allDataLoadedState.value.isLoading) return;
 
     await allDataLoadedState.loading(allDataLoadedState.value.data);
 
-    final Future<void> dynamicLinkFunction;
-    if (dynamicLink != null) {
+    Future<void>? dynamicLinkFunction;
+    var isStories = false;
+
+    if (dynamicLink != null && dynamicLink != '/faq_form') {
       switch (dynamicLink) {
         case '/faq':
           dynamicLinkFunction = _loadFaq();
@@ -392,15 +428,25 @@ class MainScreenWM extends WidgetModel {
         case '/partners':
           dynamicLinkFunction = _loadPartners();
           break;
+        case '/stories':
+          isStories = true;
+          
+          // dynamicLinkFunction = _loadFaq();
+          break;
         default:
-          // TODO(pavlov) поставить заглушку
-          dynamicLinkFunction = _loadDiscountOnline();
+      
+        // dynamicLinkFunction = _loadFaq();
       }
       await Future.wait<void>([
         _loadStories(),
         _loadCatalog(),
         _loadBanners(),
-        dynamicLinkFunction,
+      ]);
+      await Future.wait<void>([
+        if (isStories)
+          _pushStories()
+        else if (dynamicLinkFunction != null)
+          dynamicLinkFunction,
       ]);
     } else {
       await Future.wait<void>([
@@ -428,6 +474,7 @@ class MainScreenWM extends WidgetModel {
       final result = await _requester.loadStories();
       await storiesList.content([]);
       await storiesList.content(result);
+      deepLinkStoriesList = result;
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса приозошла ошибка',

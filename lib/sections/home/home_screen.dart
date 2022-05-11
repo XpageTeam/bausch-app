@@ -7,14 +7,17 @@ import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/home/widgets/stories/stories_wm.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
+import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
@@ -26,6 +29,7 @@ import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -73,7 +77,15 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
             name = 'Добавить баллы';
             type = 'add_points';
             break;
+          case '/faq_form':
+            name = 'Написать в поддержку';
+            type = 'support';
+            break;
           case '/faq':
+            name = '';
+            type = '';
+            break;
+          case '/stories':
             name = '';
             type = '';
             break;
@@ -94,8 +106,8 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
             type = '';
             break;
           default:
-            name = '';
-            type = '';
+            name = 'Добавить баллы';
+            type = 'add_points';
         }
         if (name != '') {
           await showSheet<void>(
@@ -104,6 +116,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
               name: name,
               type: type,
             ),
+            type == 'support' ? ContactSupportScreenArguments() : null,
           );
         }
       }

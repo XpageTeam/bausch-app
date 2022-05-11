@@ -233,6 +233,16 @@ class _MainNavigationState extends State<MainNavigation>
             dynamicLink: '/faq',
           );
           break;
+        case '/faq_form':
+          page = HomeScreen(
+            dynamicLink: '/faq_form',
+          );
+          break;
+        case '/stories':
+          page = HomeScreen(
+            dynamicLink: '/stories',
+          );
+          break;
         case '/webinars':
           page = HomeScreen(
             dynamicLink: '/webinars',
