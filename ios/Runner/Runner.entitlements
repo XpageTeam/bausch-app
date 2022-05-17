@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.cloud.Mindbox.mobile.bausch</string>
+		<string>group.cloud.Mindbox.bausch.mobile</string>
 	</array>
 </dict>
 </plist>

@@ -25,6 +25,7 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -99,12 +100,15 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       showDefaultNotification(
-                      //         title: 'title',
-                      //         duration: const Duration(seconds: 5),
+                      //       FirebaseAnalytics.instance.logEvent(
+                      //         name: 'partner_order',
+                      //         parameters: <String, dynamic>{
+                      //           'partner_name_parameter': 'Test name 2',
+                      //           // 'partner_name_parameter': 'Test name',
+                      //         },
                       //       );
                       //     },
-                      //     child: const Text('open progarm screen'),
+                      //     child: const Text('test firebase'),
                       //   ),
                       // ),
                       PullToRefreshContainer((info) {
