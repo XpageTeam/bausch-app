@@ -29,21 +29,6 @@ class BetterPlayerTranslations {
       this.overflowMenuAudioTracks = "Audio",
       this.qualityAuto = "Auto"});
 
-  factory BetterPlayerTranslations.russian() => BetterPlayerTranslations(
-        languageCode: "ru",
-        generalDefaultError: "Видео не может быть воспроизведено",
-        generalNone: "Нет",
-        generalDefault: "По умолчанию",
-        generalRetry: "Повторить попытку",
-        playlistLoadingNextVideo: "Загрузка следующего видео",
-        controlsNextVideoIn: "Следующее видео через",
-        overflowMenuPlaybackSpeed: "Скорость воспроизведения",
-        overflowMenuSubtitles: "Субтитры",
-        overflowMenuQuality: "Качество",
-        overflowMenuAudioTracks: "Звук",
-        qualityAuto: "Автоматически",
-      );
-
   factory BetterPlayerTranslations.polish() => BetterPlayerTranslations(
         languageCode: "pl",
         generalDefaultError: "Video nie może zostać odtworzone",
