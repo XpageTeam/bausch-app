@@ -16,6 +16,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_mask/easy_mask.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mindbox/mindbox.dart';
@@ -236,7 +237,6 @@ class LoginWM extends WidgetModel {
     showLoader(context);
 
     Mindbox.instance.getDeviceUUID((uuid) async {
-
       CustomException? error;
 
       try {
@@ -248,6 +248,12 @@ class LoginWM extends WidgetModel {
         );
 
         await UserWriter.writeToken(res.xApiToken);
+
+        if (authRequestResult.value.data?.isMobilePhoneConfirmed == false) {
+          unawaited(
+            FirebaseAnalytics.instance.logEvent(name: 'registration'),
+          );
+        }
 
         //* Очистка полей после отправки кода
         // phoneController.text = '';
