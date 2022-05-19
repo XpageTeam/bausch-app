@@ -450,6 +450,10 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         : _showCupertinoModalBottomSheet(children);
   }
 
+  final modalBottomSheetBorderRadius = const BorderRadius.vertical(
+    top: Radius.circular(5),
+  );
+
   void _showCupertinoModalBottomSheet(List<Widget> children) {
     showCupertinoModalPopup<void>(
       barrierColor: Colors.transparent,
@@ -467,9 +471,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
               decoration: BoxDecoration(
                 color: betterPlayerControlsConfiguration.overflowModalColor,
                 /*shape: RoundedRectangleBorder(side: Bor,borderRadius: 24,)*/
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0)),
+                borderRadius: modalBottomSheetBorderRadius,
               ),
               child: Column(
                 children: children,
@@ -497,9 +499,7 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
               decoration: BoxDecoration(
                 color: betterPlayerControlsConfiguration.overflowModalColor,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0)),
+                borderRadius: modalBottomSheetBorderRadius,
               ),
               child: Column(
                 children: children,
