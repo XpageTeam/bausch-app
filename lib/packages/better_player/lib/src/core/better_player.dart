@@ -84,7 +84,7 @@ class _BetterPlayerState extends State<BetterPlayer>
         widget.controller.controllerEventStream.listen(onControllerEvent);
 
     //Default locale
-    var locale = const Locale("en", "US");
+    var locale = const Locale("ru", "RUS");
     try {
       if (mounted) {
         final contextLocale = Localizations.localeOf(context);
