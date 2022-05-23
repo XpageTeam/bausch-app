@@ -79,17 +79,17 @@ class FinalWebinar extends StatelessWidget {
   }
 }
 
-class BauschControlsConfig extends BetterPlayerControlsConfiguration {
-  BauschControlsConfig({
-    required VoidCallback onClose,
-  }) : super(
-          overflowModalColor: AppTheme.mystic,
-          overflowMenuCustomItems: [
-            BetterPlayerOverflowMenuItem(
-              Icons.close,
-              'Закрыть видео',
-              onClose,
-            ),
-          ],
-        );
-}
+// class BauschControlsConfig extends BetterPlayerControlsConfiguration {
+//   BauschControlsConfig({
+//     required VoidCallback onClose,
+//   }) : super(
+//           overflowModalColor: AppTheme.mystic,
+//           overflowMenuCustomItems: [
+//             BetterPlayerOverflowMenuItem(
+//               Icons.close,
+//               'Закрыть видео',
+//               onClose,
+//             ),
+//           ],
+//         );
+// }

@@ -27,9 +27,9 @@ class WebinarPopup extends StatelessWidget {
           VimeoPlayer(
             id: videoId,
             autoPlay: true,
-            controlsConfig: BauschControlsConfig(
-              onClose: Navigator.of(context).pop,
-            ),
+            // controlsConfig: BauschControlsConfig(
+            //   onClose: Navigator.of(context).pop,
+            // ),
             loaderWidget: const AnimatedLoader(),
             onError: () {
               Navigator.of(context).pop();
