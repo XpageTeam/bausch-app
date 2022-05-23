@@ -290,17 +290,14 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
     // normal videos
     final resolutions =
         betterPlayerController!.betterPlayerDataSource!.resolutions;
-
     resolutions?.forEach((key, value) {
       children.add(_buildResolutionSelectionRow(key, value));
     });
 
     if (children.isEmpty) {
       children.add(
-        _buildTrackRow(
-          BetterPlayerAsmsTrack.defaultTrack(),
-          betterPlayerController!.translations.qualityAuto,
-        ),
+        _buildTrackRow(BetterPlayerAsmsTrack.defaultTrack(),
+            betterPlayerController!.translations.qualityAuto),
       );
     }
 
@@ -453,6 +450,10 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
         : _showCupertinoModalBottomSheet(children);
   }
 
+  final modalBottomSheetBorderRadius = const BorderRadius.vertical(
+    top: Radius.circular(5),
+  );
+
   void _showCupertinoModalBottomSheet(List<Widget> children) {
     showCupertinoModalPopup<void>(
       barrierColor: Colors.transparent,
@@ -461,19 +462,17 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
           betterPlayerController?.betterPlayerConfiguration.useRootNavigator ??
               false,
       builder: (context) {
-        return SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: betterPlayerControlsConfiguration.overflowModalColor,
-              /*shape: RoundedRectangleBorder(side: Bor,borderRadius: 24,)*/
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(5.0),
+        return SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+              decoration: BoxDecoration(
+                color: betterPlayerControlsConfiguration.overflowModalColor,
+                /*shape: RoundedRectangleBorder(side: Bor,borderRadius: 24,)*/
+                borderRadius: modalBottomSheetBorderRadius,
               ),
-            ),
-            child: SafeArea(
-              top: false,
               child: Column(
                 children: children,
               ),
@@ -497,12 +496,10 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
               decoration: BoxDecoration(
                 color: betterPlayerControlsConfiguration.overflowModalColor,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(5.0),
-                ),
+                borderRadius: modalBottomSheetBorderRadius,
               ),
               child: Column(
                 children: children,

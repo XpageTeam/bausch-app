@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:wakelock/wakelock.dart';
 
-
 ///Widget which uses provided controller to render video player.
 class BetterPlayer extends StatefulWidget {
   const BetterPlayer({Key? key, required this.controller}) : super(key: key);
@@ -85,7 +84,7 @@ class _BetterPlayerState extends State<BetterPlayer>
         widget.controller.controllerEventStream.listen(onControllerEvent);
 
     //Default locale
-    var locale = const Locale("en", "US");
+    var locale = const Locale("ru", "RUS");
     try {
       if (mounted) {
         final contextLocale = Localizations.localeOf(context);
