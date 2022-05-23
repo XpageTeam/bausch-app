@@ -45,8 +45,8 @@ class _SmallContainerState extends State<SmallContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final _width =
-        MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final width = deviceWidth / 2 - StaticData.sidePadding - 2;
 
     return BlocProvider(
       create: (context) => catalogItemCubit,
@@ -57,8 +57,8 @@ class _SmallContainerState extends State<SmallContainer> {
             //showSheetWithItems(context, model);
             catalogItemCubit.loadData();
           },
-          heigth: _width,
-          width: _width,
+          heigth: width,
+          width: width,
           padding: const EdgeInsets.only(
             top: 20,
             bottom: 14,
@@ -92,7 +92,7 @@ class _SmallContainerState extends State<SmallContainer> {
                       padding: const EdgeInsets.all(6.6),
                       child: Image.asset(
                         setTheImg(widget.model.type),
-                        height: 53,
+                        height: deviceWidth < 350 ? 35 : 53,
                       ),
                     ),
                   ],

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
@@ -56,7 +57,7 @@ class _ProfileSettingsScreenState
           onPressed: () {
             wm.sendUserData();
           },
-          child: Text(
+          child: AutoSizeText(
             'Готово',
             style: AppStyles.p1,
           ),
