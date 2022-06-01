@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/models/auth_response_model.dart';
 import 'package:bausch/global/login/models/login_text.dart';
+import 'package:bausch/global/login/phone_editing_controller.dart';
 import 'package:bausch/global/login/requests/login_code_sender.dart';
 import 'package:bausch/global/login/requests/login_phone_sender.dart';
 import 'package:bausch/global/login/requests/login_text_downloader.dart';
@@ -34,13 +35,15 @@ class LoginWM extends WidgetModel {
   final smsResendSeconds = StreamedState<int>(0);
   final smsSendAction = VoidAction();
 
-  final phoneController = TextEditingController()..text = '+7 ';
+  final phoneController = PhoneEditingController()..text = '+7 ';
 
-  final phoneInputFormaters = <TextInputFormatter>[
-    TextInputMask(
-      mask: r'\+7 999 999 99 99',
-    ),
-  ];
+  // final phoneInputFormaters = <TextInputFormatter>[
+  //   TextInputMask(
+  //     mask: r'\+7 999 999 99 99',
+  //   ),
+  // ];
+
+  final focusNode = FocusNode();
 
   final codeController = TextEditingController();
 
@@ -72,28 +75,28 @@ class LoginWM extends WidgetModel {
 
     phoneController.addListener(() {
       debugPrint('number: ${phoneController.text}');
-      if ((phoneController.text == '+7 97' ||
-              phoneController.text == '+7 98' ||
-              phoneController.text == '+7 99') &&
-          (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
-        phoneController
-          ..text = '+7 9'
-          ..selection = TextSelection.fromPosition(
-            TextPosition(offset: phoneController.text.length),
-          );
-      }
+      // if ((phoneController.text == '+7 97' ||
+      //         phoneController.text == '+7 98' ||
+      //         phoneController.text == '+7 99') &&
+      //     (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
+      //   phoneController
+      //     ..text = '+7 9'
+      //     ..selection = TextSelection.fromPosition(
+      //       TextPosition(offset: phoneController.text.length),
+      //     );
+      // }
 
-      if (phoneController.text == '') {
-        phoneController
-          ..text = '+7 '
-          ..selection = TextSelection.fromPosition(
-            TextPosition(offset: phoneController.text.length),
-          );
-      }
+      // if (phoneController.text == '') {
+      //   phoneController
+      //     ..text = '+7 '
+      //     ..selection = TextSelection.fromPosition(
+      //       TextPosition(offset: phoneController.text.length),
+      //     );
+      // }
 
-      prevPhoneValue = phoneController.text;
+      // prevPhoneValue = phoneController.text;
 
-      if (phoneController.text.length >= 16 && canUnfocus) {
+      if (phoneController.text.length >= 18 && canUnfocus) {
         final currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {
@@ -173,6 +176,9 @@ class LoginWM extends WidgetModel {
       _resendSMS();
     });
   }
+  void checkBtnActive() {
+    _checkBtnActive();
+  }
 
   void _checkAuth() {
     final authWM = Provider.of<AuthWM>(context, listen: false);
@@ -183,7 +189,7 @@ class LoginWM extends WidgetModel {
   }
 
   void _checkBtnActive() {
-    if (phoneController.text.length == 16 && policyAccepted.value) {
+    if (phoneController.text.length == 18 && policyAccepted.value) {
       sendPhoneBtnActive.accept(true);
     } else {
       sendPhoneBtnActive.accept(false);
