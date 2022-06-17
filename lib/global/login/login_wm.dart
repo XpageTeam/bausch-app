@@ -206,6 +206,10 @@ class LoginWM extends WidgetModel {
           await PhoneSender.send(phoneController.text, uuid),
         );
 
+        debugPrint(
+          'phoneConfirmed: ${authRequestResult.value.data?.isMobilePhoneConfirmed}',
+        );
+
         await smsSendCounter.accept(smsSendCounter.value + 1);
       } on DioError catch (e) {
         await authRequestResult.error(
@@ -246,16 +250,17 @@ class LoginWM extends WidgetModel {
       CustomException? error;
 
       try {
+        final isMobilePhoneConfirmed =
+            authRequestResult.value.data?.isMobilePhoneConfirmed ?? false;
         final res = await CodeSender.send(
           code: codeController.text,
-          isMobilePhoneConfirmed:
-              authRequestResult.value.data?.isMobilePhoneConfirmed ?? false,
+          isMobilePhoneConfirmed: isMobilePhoneConfirmed,
           uuid: uuid,
         );
 
         await UserWriter.writeToken(res.xApiToken);
 
-        if (authRequestResult.value.data?.isMobilePhoneConfirmed == false) {
+        if (!isMobilePhoneConfirmed) {
           unawaited(
             FirebaseAnalytics.instance.logEvent(name: 'registration'),
           );
