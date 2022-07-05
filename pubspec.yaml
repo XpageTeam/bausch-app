@@ -79,7 +79,7 @@ dependencies:
   url_launcher: ^6.0.20
   vimeoplayer_trinity:
     path: lib/packages/vimeoplayer_trinity
-  yandex_mapkit: ^2.0.1
+  yandex_mapkit: ^3.0.2
   # better_player: ^0.0.79
   # flutter_widget_from_html_core: ^0.8.4
   # visibility_detector: ^0.2.2

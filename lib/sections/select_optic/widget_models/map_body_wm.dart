@@ -141,13 +141,13 @@ class MapBodyWM extends WidgetModel {
         );
       },
       onClusterTap: (self, cluster) => _setCenterOn(cluster.placemarks),
-      placemarks: List<Placemark>.generate(
+      placemarks: List<PlacemarkMapObject>.generate(
         shopList.length,
         (i) {
           final rnd = rng.nextInt(200);
           final placemarkId = 'p_${i}_${rnd}_${shopList[i].coords}';
 
-          return Placemark(
+          return PlacemarkMapObject(
             onTap: (placemark, point) async {
               _updateClusterMapObject(shopList, i);
               unawaited(_moveTo(placemark.point));
@@ -192,9 +192,9 @@ class MapBodyWM extends WidgetModel {
 
     if (list is List<Point>) {
       bounds = _getBounds(list as List<Point>);
-    } else if (list is List<Placemark>) {
+    } else if (list is List<PlacemarkMapObject>) {
       bounds = _getBounds(
-        (list as List<Placemark>).map((e) => e.point).toList(),
+        (list as List<PlacemarkMapObject>).map((e) => e.point).toList(),
       );
     } else if (list is List<ShopModel>) {
       bounds = _getBounds(
@@ -225,7 +225,7 @@ class MapBodyWM extends WidgetModel {
     userPosition = await _getUserPosition();
 
     mapObjectsStreamed.value.add(
-      Placemark(
+      PlacemarkMapObject(
         mapId: userMapId,
         point: userPosition!,
         opacity: 1,
