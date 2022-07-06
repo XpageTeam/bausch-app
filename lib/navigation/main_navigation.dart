@@ -228,10 +228,13 @@ class _MainNavigationState extends State<MainNavigation>
     // }
 
     // Handle link when app is in warm state (front or background)
-    _linkSubscription = _appLinks.uriLinkStream.listen((dynamicLinkData) {
+    _linkSubscription = _appLinks.uriLinkStream.listen((dynamicLinkData)async {
       debugPrint('ban' + dynamicLinkData.fragment);
       debugPrint('ban' + dynamicLinkData.toString());
-      dynamicLink = dynamicLinkData.fragment;
+      //dynamicLink = dynamicLinkData.fragment;
+final dynamicLink  =
+           ( await dynamicLinks.getDynamicLink(dynamicLinkData))!.link.queryParameters.values.first;
+
       Widget page;
       switch (dynamicLink) {
         case '/user_profile':
