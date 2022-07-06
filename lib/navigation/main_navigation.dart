@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:app_links/app_links.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -42,11 +44,20 @@ class _MainNavigationState extends State<MainNavigation>
     with AfterLayoutMixin<MainNavigation> {
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
   String? dynamicLink;
+  StreamSubscription<Uri>? _linkSubscription;
 
   @override
   void initState() {
-    initDynamicLinks();
+    // initDynamicLinks();
+    initDeepLinks();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _linkSubscription?.cancel();
+
+    super.dispose();
   }
 
   @override
@@ -204,6 +215,89 @@ class _MainNavigationState extends State<MainNavigation>
     }
 
     authStart();
+  }
+
+  Future<void> initDeepLinks() async {
+    final _appLinks = AppLinks();
+
+    // Check initial link if app was in cold state (terminated)
+    // final appLink = await _appLinks.getInitialAppLink();
+    // if (appLink != null) {
+    //   print('getInitialAppLink: $appLink');
+    //   openAppLink(appLink);
+    // }
+
+    // Handle link when app is in warm state (front or background)
+    _linkSubscription = _appLinks.uriLinkStream.listen((dynamicLinkData) {
+      debugPrint('ban' + dynamicLinkData.fragment);
+      debugPrint('ban' + dynamicLinkData.toString());
+      dynamicLink = dynamicLinkData.fragment;
+      Widget page;
+      switch (dynamicLink) {
+        case '/user_profile':
+          page = ProfileScreen();
+          break;
+        case '/user_settings':
+          page = ProfileSettingsScreen();
+          break;
+        case '/add_points':
+          page = HomeScreen(
+            dynamicLink: '/add_points',
+          );
+          break;
+        case '/program':
+          page = HomeScreen(
+            dynamicLink: '/program',
+          );
+          break;
+        case '/faq':
+          page = HomeScreen(
+            dynamicLink: '/faq',
+          );
+          break;
+        case '/faq_form':
+          page = HomeScreen(
+            dynamicLink: '/faq_form',
+          );
+          break;
+        case '/stories':
+          page = HomeScreen(
+            dynamicLink: '/stories',
+          );
+          break;
+        case '/webinars':
+          page = HomeScreen(
+            dynamicLink: '/webinars',
+          );
+          break;
+        case '/discount_optics':
+          page = HomeScreen(
+            dynamicLink: '/discount_optics',
+          );
+          break;
+        case '/discount_online':
+          page = HomeScreen(
+            dynamicLink: '/discount_online',
+          );
+          break;
+        case '/partners':
+          page = HomeScreen(
+            dynamicLink: '/partners',
+          );
+          break;
+        default:
+          page = HomeScreen();
+      }
+
+      Navigator.push<void>(
+        Keys.mainContentNav.currentContext!,
+        MaterialPageRoute(
+          builder: (context) {
+            return page;
+          },
+        ),
+      );
+    });
   }
 
 // TODO(daniil): нужно проверять авторизацию
