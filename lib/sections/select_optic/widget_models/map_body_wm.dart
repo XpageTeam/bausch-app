@@ -164,6 +164,7 @@ class MapBodyWM extends WidgetModel {
                         ? 2
                         : 1
                     : 1,
+            
                 image: BitmapDescriptor.fromAssetImage(
                   'assets/icons/map-marker.png',
                 ),
