@@ -48,8 +48,12 @@ class _MainNavigationState extends State<MainNavigation>
 
   @override
   void initState() {
-    // initDynamicLinks();
-    initDeepLinks();
+    if (Platform.isIOS) {
+      initDynamicLinksIOS();
+    } else {
+      initDynamicLinksAndroid();
+    }
+
     super.initState();
   }
 
@@ -217,8 +221,8 @@ class _MainNavigationState extends State<MainNavigation>
     authStart();
   }
 
-  Future<void> initDeepLinks() async {
-    final _appLinks = AppLinks();
+  Future<void> initDynamicLinksIOS() async {
+    final appLinks = AppLinks();
 
     // Check initial link if app was in cold state (terminated)
     // final appLink = await _appLinks.getInitialAppLink();
@@ -226,155 +230,91 @@ class _MainNavigationState extends State<MainNavigation>
     //   print('getInitialAppLink: $appLink');
     //   openAppLink(appLink);
     // }
+//     final uri = await _appLinks.getInitialAppLink();
+//     if (uri!= null){
+// final terminatedLink = await dynamicLinks.getDynamicLink(uri!);
+//     await dynamicLinksLogic(terminatedLink!);
+//     }
 
     // Handle link when app is in warm state (front or background)
-    _linkSubscription = _appLinks.uriLinkStream.listen((dynamicLinkData)async {
+    _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
       debugPrint('ban' + dynamicLinkData.fragment);
       debugPrint('ban' + dynamicLinkData.toString());
-      //dynamicLink = dynamicLinkData.fragment;
-final dynamicLink  =
-           ( await dynamicLinks.getDynamicLink(dynamicLinkData))!.link.queryParameters.values.first;
-
-      Widget page;
-      switch (dynamicLink) {
-        case '/user_profile':
-          page = ProfileScreen();
-          break;
-        case '/user_settings':
-          page = ProfileSettingsScreen();
-          break;
-        case '/add_points':
-          page = HomeScreen(
-            dynamicLink: '/add_points',
-          );
-          break;
-        case '/program':
-          page = HomeScreen(
-            dynamicLink: '/program',
-          );
-          break;
-        case '/faq':
-          page = HomeScreen(
-            dynamicLink: '/faq',
-          );
-          break;
-        case '/faq_form':
-          page = HomeScreen(
-            dynamicLink: '/faq_form',
-          );
-          break;
-        case '/stories':
-          page = HomeScreen(
-            dynamicLink: '/stories',
-          );
-          break;
-        case '/webinars':
-          page = HomeScreen(
-            dynamicLink: '/webinars',
-          );
-          break;
-        case '/discount_optics':
-          page = HomeScreen(
-            dynamicLink: '/discount_optics',
-          );
-          break;
-        case '/discount_online':
-          page = HomeScreen(
-            dynamicLink: '/discount_online',
-          );
-          break;
-        case '/partners':
-          page = HomeScreen(
-            dynamicLink: '/partners',
-          );
-          break;
-        default:
-          page = HomeScreen();
-      }
-
-      Navigator.push<void>(
-        Keys.mainContentNav.currentContext!,
-        MaterialPageRoute(
-          builder: (context) {
-            return page;
-          },
-        ),
-      );
+      final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
+      await dynamicLinksLogic(dynamicLink!);
     });
   }
 
-// TODO(daniil): нужно проверять авторизацию
-  Future<void> initDynamicLinks() async {
-    dynamicLinks.onLink.listen((dynamicLinkData) {
-      dynamicLink = dynamicLinkData.link.queryParameters.values.first;
-      Widget page;
-      switch (dynamicLink) {
-        case '/user_profile':
-          page = ProfileScreen();
-          break;
-        case '/user_settings':
-          page = ProfileSettingsScreen();
-          break;
-        case '/add_points':
-          page = HomeScreen(
-            dynamicLink: '/add_points',
-          );
-          break;
-        case '/program':
-          page = HomeScreen(
-            dynamicLink: '/program',
-          );
-          break;
-        case '/faq':
-          page = HomeScreen(
-            dynamicLink: '/faq',
-          );
-          break;
-        case '/faq_form':
-          page = HomeScreen(
-            dynamicLink: '/faq_form',
-          );
-          break;
-        case '/stories':
-          page = HomeScreen(
-            dynamicLink: '/stories',
-          );
-          break;
-        case '/webinars':
-          page = HomeScreen(
-            dynamicLink: '/webinars',
-          );
-          break;
-        case '/discount_optics':
-          page = HomeScreen(
-            dynamicLink: '/discount_optics',
-          );
-          break;
-        case '/discount_online':
-          page = HomeScreen(
-            dynamicLink: '/discount_online',
-          );
-          break;
-        case '/partners':
-          page = HomeScreen(
-            dynamicLink: '/partners',
-          );
-          break;
-        default:
-          page = HomeScreen();
-      }
+  Future<void> initDynamicLinksAndroid() async {
+    dynamicLinks.onLink.listen(dynamicLinksLogic);
+  }
 
-      Navigator.push<void>(
-        Keys.mainContentNav.currentContext!,
-        MaterialPageRoute(
-          builder: (context) {
-            return page;
-          },
-        ),
-      );
-    }).onError((error) {
-      // ignore: avoid_dynamic_calls
-      // print('onLink error' + error.message);
-    });
+  Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
+    dynamicLink = dynamicLinkData.link.queryParameters.values.first;
+    Widget page;
+    switch (dynamicLink) {
+      case '/user_profile':
+        page = ProfileScreen();
+        break;
+      case '/user_settings':
+        page = ProfileSettingsScreen();
+        break;
+      case '/add_points':
+        page = HomeScreen(
+          dynamicLink: '/add_points',
+        );
+        break;
+      case '/program':
+        page = HomeScreen(
+          dynamicLink: '/program',
+        );
+        break;
+      case '/faq':
+        page = HomeScreen(
+          dynamicLink: '/faq',
+        );
+        break;
+      case '/faq_form':
+        page = HomeScreen(
+          dynamicLink: '/faq_form',
+        );
+        break;
+      case '/stories':
+        page = HomeScreen(
+          dynamicLink: '/stories',
+        );
+        break;
+      case '/webinars':
+        page = HomeScreen(
+          dynamicLink: '/webinars',
+        );
+        break;
+      case '/discount_optics':
+        page = HomeScreen(
+          dynamicLink: '/discount_optics',
+        );
+        break;
+      case '/discount_online':
+        page = HomeScreen(
+          dynamicLink: '/discount_online',
+        );
+        break;
+      case '/partners':
+        page = HomeScreen(
+          dynamicLink: '/partners',
+        );
+        break;
+      default:
+        page = HomeScreen();
+    }
+
+    await Navigator.push<void>(
+      Keys.mainContentNav.currentContext!,
+      MaterialPageRoute(
+        builder: (context) {
+          return page;
+        },
+      ),
+    );
   }
 }
