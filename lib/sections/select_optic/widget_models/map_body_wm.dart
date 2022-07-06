@@ -153,7 +153,7 @@ class MapBodyWM extends WidgetModel {
               unawaited(_moveTo(placemark.point));
               onPlacemarkPressed?.call(shopList[i]);
             },
-            opacity: 1,
+            opacity: 1,                            
             mapId: MapObjectId(placemarkId),
             // MapObjectId('placemark_${shopList[i].coords}'),
             point: shopList[i].coords,
