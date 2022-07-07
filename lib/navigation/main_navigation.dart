@@ -48,11 +48,11 @@ class _MainNavigationState extends State<MainNavigation>
 
   @override
   void initState() {
-
     if (Platform.isIOS) {
-     // initDynamicLinksIOS();
-		  initDynamicLinksAndroid();
+      // initDynamicLinksIOS();
+      initDynamicLinksAndroid();
     } else {
+      // initDynamicLinksIOS();
       initDynamicLinksAndroid();
     }
 
@@ -223,47 +223,41 @@ class _MainNavigationState extends State<MainNavigation>
     authStart();
   }
 
-  Future<void> initDynamicLinksIOS() async {
-			await Future.delayed(const Duration(seconds: 1));
-    final appLinks = AppLinks();
+  // Future<void> initDynamicLinksIOS() async {
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   final appLinks = AppLinks();
 
-    // Check initial link if app was in cold state (terminated)
-    // final appLink = await _appLinks.getInitialAppLink();
-    // if (appLink != null) {
-    //   print('getInitialAppLink: $appLink');
-    //   openAppLink(appLink);
-    // }
-//     final uri = await _appLinks.getInitialAppLink();
-//     if (uri!= null){
-// final terminatedLink = await dynamicLinks.getDynamicLink(uri!);
-//     await dynamicLinksLogic(terminatedLink!);
-//     }
+  //   // Check initial link if app was in cold state (terminated)
+  //   final appLink = await appLinks.getInitialAppLink();
+  //   // TODO(all): это если лисенер при закрытом приложении не открывает
+  //   if (appLink != null) {
+  //    debugPrint('bannn' + appLink.toString());
+  //     final dynamicLink = await dynamicLinks.getDynamicLink(appLink);
+  //     debugPrint('bannnnn' + dynamicLink.toString());
+  //     if(dynamicLink != null)
+  //     await dynamicLinksLogic(dynamicLink!);
+  //   }
 
-    // Handle link when app is in warm state (front or background)
-    _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
-      debugPrint('ban' + dynamicLinkData.fragment);
-      debugPrint('bannn' + dynamicLinkData.toString());
-      final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
-		  debugPrint('bannnnn' + dynamicLink.toString());
-      await dynamicLinksLogic(dynamicLink!);
-    });
-	
-  }
-
+  //   // Handle link when app is in warm state (front or background)
+  //   _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
+  //     debugPrint('bannn' + dynamicLinkData.toString());
+  //     final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
+  //     debugPrint('bannnnn' + dynamicLink.toString());
+  //     await dynamicLinksLogic(dynamicLink!);
+  //   });
+  // }
 
   Future<void> initDynamicLinksAndroid() async {
-		await Future.delayed(const Duration(seconds: 1));
-		var mem =await  dynamicLinks.getInitialLink();
-		if(mem!=null) {
-		  await dynamicLinksLogic(mem);
-		}
-		 //  debugPrint('onLink ban' + error.link.toString());
-
+    await Future.delayed(const Duration(seconds: 1));
+    var mem = await dynamicLinks.getInitialLink();
+    if (mem != null) {
+      await dynamicLinksLogic(mem);
+    }
     dynamicLinks.onLink.listen(dynamicLinksLogic);
   }
 
   Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
-		debugPrint('мы в логике' + dynamicLinkData.link.toString());
+    debugPrint('мы в логике' + dynamicLinkData.link.toString());
     dynamicLink = dynamicLinkData.link.queryParameters.values.first;
     Widget page;
     switch (dynamicLink) {
@@ -329,7 +323,6 @@ class _MainNavigationState extends State<MainNavigation>
           return page;
         },
       ),
-		
-   );
+    );
   }
 }
