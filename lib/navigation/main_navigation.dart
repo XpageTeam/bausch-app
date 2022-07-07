@@ -48,8 +48,10 @@ class _MainNavigationState extends State<MainNavigation>
 
   @override
   void initState() {
+
     if (Platform.isIOS) {
-      initDynamicLinksIOS();
+     // initDynamicLinksIOS();
+		  initDynamicLinksAndroid();
     } else {
       initDynamicLinksAndroid();
     }
@@ -222,6 +224,7 @@ class _MainNavigationState extends State<MainNavigation>
   }
 
   Future<void> initDynamicLinksIOS() async {
+			await Future.delayed(const Duration(seconds: 1));
     final appLinks = AppLinks();
 
     // Check initial link if app was in cold state (terminated)
@@ -239,17 +242,28 @@ class _MainNavigationState extends State<MainNavigation>
     // Handle link when app is in warm state (front or background)
     _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
       debugPrint('ban' + dynamicLinkData.fragment);
-      debugPrint('ban' + dynamicLinkData.toString());
+      debugPrint('bannn' + dynamicLinkData.toString());
       final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
+		  debugPrint('bannnnn' + dynamicLink.toString());
       await dynamicLinksLogic(dynamicLink!);
     });
+	
   }
 
+
   Future<void> initDynamicLinksAndroid() async {
+		await Future.delayed(const Duration(seconds: 1));
+		var mem =await  dynamicLinks.getInitialLink();
+		if(mem!=null) {
+		  await dynamicLinksLogic(mem);
+		}
+		 //  debugPrint('onLink ban' + error.link.toString());
+
     dynamicLinks.onLink.listen(dynamicLinksLogic);
   }
 
   Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
+		debugPrint('мы в логике' + dynamicLinkData.link.toString());
     dynamicLink = dynamicLinkData.link.queryParameters.values.first;
     Widget page;
     switch (dynamicLink) {
@@ -315,6 +329,7 @@ class _MainNavigationState extends State<MainNavigation>
           return page;
         },
       ),
-    );
+		
+   );
   }
 }

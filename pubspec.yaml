@@ -94,6 +94,14 @@ dev_dependencies:
   surf_lint_rules: ^1.4.1
   # flutter_lints: ^1.0.0
 
+
+#dependency_overrides:
+#  firebase_dynamic_links_platform_interface:
+#    git:
+#      url: https://github.com/defiq-dev/flutterfire
+#      ref: fix-type-cast-issue-in-dynamic-link-handling
+#      path: packages/firebase_dynamic_links/firebase_dynamic_links_platform_interface
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
