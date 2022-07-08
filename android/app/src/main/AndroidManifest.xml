@@ -37,8 +37,7 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <!-- здесь должна быть наша ссылка -->
-        <data android:scheme="http" android:host="firebasedeeplinksda.page.link" />
-        <data android:scheme="https" />
+        <data android:scheme="https" android:host="bausch-lomb.in-progress.ru"/>
       </intent-filter>
 
     </activity>
