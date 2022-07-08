@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/navigation/main_navigation.dart';
 import 'package:bausch/sections/order_registration/address_select_screen.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/material.dart';
 class AppRouter {
   static Route<dynamic> generateRoute(
     RouteSettings settings,
-  
     BuildContext context,
     AuthWM authWM,
   ) {
@@ -29,7 +27,6 @@ class AppRouter {
     if (settings.name == '/') {
       targetPage = MainNavigation(
         authWM: authWM,
-      
       );
     }
 

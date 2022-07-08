@@ -21,7 +21,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+ await Firebase.initializeApp();
 
   final config = Configuration(
     domain: 'api.mindbox.ru',
@@ -62,18 +62,10 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
 
 class _MyAppState extends WidgetState<MyApp, AuthWM>
     with WidgetsBindingObserver {
-  // FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
-  // String? dynamicLink;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   initDynamicLinks();
-  // }
 
   @override
   Widget build(BuildContext context) {

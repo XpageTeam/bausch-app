@@ -31,10 +31,7 @@ import 'package:flutter/material.dart';
 class MainNavigation extends StatefulWidget {
   final AuthWM authWM;
 
-  const MainNavigation({
-    required this.authWM,
-    Key? key,
-  }) : super(key: key);
+  const MainNavigation({required this.authWM, Key? key}) : super(key: key);
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -42,19 +39,25 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation>
     with AfterLayoutMixin<MainNavigation> {
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
-  String? dynamicLink;
+  late final FirebaseDynamicLinks dynamicLinks;
+  late final PendingDynamicLinkData? initialLink;
+  late final String? dynamicLink;
   StreamSubscription<Uri>? _linkSubscription;
 
   @override
   void initState() {
-    if (Platform.isIOS) {
-      // initDynamicLinksIOS();
-      initDynamicLinksAndroid();
-    } else {
-      // initDynamicLinksIOS();
-      initDynamicLinksAndroid();
-    }
+    dynamicLinks = FirebaseDynamicLinks.instance;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      initialLink = await dynamicLinks.getInitialLink();
+      if (Platform.isIOS) {
+        // initDynamicLinksIOS();
+        await initDynamicLinksAndroid(initialLink);
+      } else {
+        // initDynamicLinksIOS();
+        await initDynamicLinksAndroid(initialLink);
+      }
+    });
 
     super.initState();
   }
@@ -62,7 +65,6 @@ class _MainNavigationState extends State<MainNavigation>
   @override
   void dispose() {
     _linkSubscription?.cancel();
-
     super.dispose();
   }
 
@@ -247,17 +249,19 @@ class _MainNavigationState extends State<MainNavigation>
   //   });
   // }
 
-  Future<void> initDynamicLinksAndroid() async {
-    await Future.delayed(const Duration(seconds: 1));
-    var mem = await dynamicLinks.getInitialLink();
-    if (mem != null) {
-      await dynamicLinksLogic(mem);
+  Future<void> initDynamicLinksAndroid(
+    PendingDynamicLinkData? initialLinkAndroid,
+  ) async {
+    if (initialLinkAndroid != null) {
+      debugPrint('мы с колд ссылки' + initialLinkAndroid.link.toString());
+      await dynamicLinksLogic(initialLinkAndroid);
     }
+
     dynamicLinks.onLink.listen(dynamicLinksLogic);
   }
 
   Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
-    debugPrint('мы в логике' + dynamicLinkData.link.toString());
+    debugPrint('мы с бэкграунд ссылки' + dynamicLinkData.link.toString());
     dynamicLink = dynamicLinkData.link.queryParameters.values.first;
     Widget page;
     switch (dynamicLink) {
