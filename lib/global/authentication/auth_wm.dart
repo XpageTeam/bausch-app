@@ -91,9 +91,7 @@ class AuthWM extends WidgetModel {
 
   Future<void> _checkUserAuth() async {
     if (userWM.userData.value.isLoading) return;
-
     await userWM.userData.loading();
-
     try {
       // throw DioError(
       //   requestOptions: RequestOptions(

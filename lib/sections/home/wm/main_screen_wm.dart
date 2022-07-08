@@ -74,7 +74,8 @@ class MainScreenWM extends WidgetModel {
   @override
   void onBind() {
     super.onBind();
-    if (userWM.userData.value.data!.balance.total > 0) {
+    if (userWM.userData.value.data != null &&
+        userWM.userData.value.data!.balance.total > 0) {
       mayBeInterestingState.accept(true);
     }
 
@@ -161,8 +162,6 @@ class MainScreenWM extends WidgetModel {
       final topics = (parsedData.data as List<dynamic>)
           .map((e) => TopicModel.fromMap(e as Map<String, dynamic>))
           .toList();
-      debugPrint(topics.toString());
-
       // ignore: use_build_context_synchronously
       await showSheet<List<TopicModel>>(
         context,
@@ -430,11 +429,11 @@ class MainScreenWM extends WidgetModel {
           break;
         case '/stories':
           isStories = true;
-          
+
           // dynamicLinkFunction = _loadFaq();
           break;
         default:
-      
+
         // dynamicLinkFunction = _loadFaq();
       }
       await Future.wait<void>([
@@ -464,9 +463,9 @@ class MainScreenWM extends WidgetModel {
   }
 
   Future<void> _loadStories() async {
-    if (storiesList.value.isLoading) return;
+    // if (storiesList.value.isLoading) return;
 
-    // await storiesList.loading(storiesList.value.data);
+    await storiesList.loading(storiesList.value.data);
 
     CustomException? error;
 

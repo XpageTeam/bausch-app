@@ -41,20 +41,19 @@ class _MainNavigationState extends State<MainNavigation>
     with AfterLayoutMixin<MainNavigation> {
   late final FirebaseDynamicLinks dynamicLinks;
   late final PendingDynamicLinkData? initialLink;
-  late final String? dynamicLink;
+  String? dynamicLink;
   StreamSubscription<Uri>? _linkSubscription;
 
   @override
   void initState() {
     dynamicLinks = FirebaseDynamicLinks.instance;
-
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       initialLink = await dynamicLinks.getInitialLink();
       if (Platform.isIOS) {
         await initDynamicLinksIOS();
         // await initDynamicLinksAndroid(initialLink);
       } else {
-        // initDynamicLinksIOS();
+        //  await initDynamicLinksIOS();
         await initDynamicLinksAndroid(initialLink);
       }
     });
@@ -97,7 +96,6 @@ class _MainNavigationState extends State<MainNavigation>
             switch (settings.name) {
               case '/':
                 page = const LoaderScreen();
-                showAnimation = false;
                 break;
 
               case '/loading':
@@ -225,29 +223,28 @@ class _MainNavigationState extends State<MainNavigation>
     authStart();
   }
 
-   Future<void> initDynamicLinksIOS() async {
-  //   await Future.delayed(const Duration(seconds: 1));
-     final appLinks = AppLinks();
+  Future<void> initDynamicLinksIOS() async {
+    //   await Future.delayed(const Duration(seconds: 1));
+    final appLinks = AppLinks();
 
-  //   // Check initial link if app was in cold state (terminated)
-  //   final appLink = await appLinks.getInitialAppLink();
-  //   // TODO(all): это если лисенер при закрытом приложении не открывает
-  //   if (appLink != null) {
-  //    debugPrint('bannn' + appLink.toString());
-  //     final dynamicLink = await dynamicLinks.getDynamicLink(appLink);
-  //     debugPrint('bannnnn' + dynamicLink.toString());
-  //     if(dynamicLink != null)
-  //     await dynamicLinksLogic(dynamicLink!);
-  //   }
+    //   // Check initial link if app was in cold state (terminated)
+    //   final appLink = await appLinks.getInitialAppLink();
+    //   if (appLink != null) {
+    //    debugPrint('bannn' + appLink.toString());
+    //     final dynamicLink = await dynamicLinks.getDynamicLink(appLink);
+    //     debugPrint('bannnnn' + dynamicLink.toString());
+    //     if(dynamicLink != null)
+    //     await dynamicLinksLogic(dynamicLink!);
+    //   }
 
-  //   // Handle link when app is in warm state (front or background)
-     _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
-       debugPrint('bannn' + dynamicLinkData.toString());
-       final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
-       debugPrint('bannnnn' + dynamicLink.toString());
-       await dynamicLinksLogic(dynamicLink!);
-     });
-   }
+    //   // Handle link when app is in warm state (front or background)
+    _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
+      debugPrint('bannn' + dynamicLinkData.toString());
+      final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
+      debugPrint('bannnnn' + dynamicLink.toString());
+      await dynamicLinksLogic(dynamicLink!);
+    });
+  }
 
   Future<void> initDynamicLinksAndroid(
     PendingDynamicLinkData? initialLinkAndroid,
@@ -255,8 +252,12 @@ class _MainNavigationState extends State<MainNavigation>
     if (initialLinkAndroid != null) {
       debugPrint('мы с колд ссылки' + initialLinkAndroid.link.toString());
       await dynamicLinksLogic(initialLinkAndroid);
+      // ignore: parameter_assignments
+
     }
-    dynamicLinks.onLink.listen(dynamicLinksLogic);
+    dynamicLinks.onLink.listen((pendingLink) async {
+      await dynamicLinksLogic(pendingLink);
+    });
   }
 
   Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
@@ -318,7 +319,11 @@ class _MainNavigationState extends State<MainNavigation>
       default:
         page = HomeScreen();
     }
+    dynamicLink = null;
 
+    // TODO(all): послу пуша бесконечная загрузка, нужно нажимать назад
+    // если приложение уже было запущено, то приложение откроется поверх предыдущей навигации
+    //
     await Navigator.push<void>(
       Keys.mainContentNav.currentContext!,
       MaterialPageRoute(

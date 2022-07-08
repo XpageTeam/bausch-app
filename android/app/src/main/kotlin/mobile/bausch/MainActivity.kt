@@ -48,7 +48,7 @@ class MainActivity: FlutterActivity() {
       processMindboxIntent(intent)
       //   if(intent.getAction() == android.content.Intent.ACTION_VIEW && linksReceiver != null) {
       // linksReceiver.onReceive(this.getApplicationContext(), intent);
-    }
+    // }
     }
 
   //   private BroadcastReceiver createChangeReceiver(final EventChannel.EventSink events) {
