@@ -67,7 +67,7 @@
 	<false/>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
-  		<string>https://bausch-lomb.in-progress.ru/**</string>
+  		<string>https://bausch-lomb.in-progress.ru/faq</string>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>

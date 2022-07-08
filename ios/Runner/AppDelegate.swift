@@ -6,9 +6,9 @@ import mindbox_ios
 
 @UIApplicationMain
 @objc class AppDelegate: MindboxFlutterAppDelegate {
-    private var eventChannel: FlutterEventChannel?
+  //  private var eventChannel: FlutterEventChannel?
   
-  private let linkStreamHandler = LinkStreamHandler()
+ // private let linkStreamHandler = LinkStreamHandler()
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
