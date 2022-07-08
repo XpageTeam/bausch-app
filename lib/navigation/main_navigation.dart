@@ -51,8 +51,8 @@ class _MainNavigationState extends State<MainNavigation>
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       initialLink = await dynamicLinks.getInitialLink();
       if (Platform.isIOS) {
-        // initDynamicLinksIOS();
-        await initDynamicLinksAndroid(initialLink);
+        await initDynamicLinksIOS();
+        // await initDynamicLinksAndroid(initialLink);
       } else {
         // initDynamicLinksIOS();
         await initDynamicLinksAndroid(initialLink);
@@ -225,9 +225,9 @@ class _MainNavigationState extends State<MainNavigation>
     authStart();
   }
 
-  // Future<void> initDynamicLinksIOS() async {
+   Future<void> initDynamicLinksIOS() async {
   //   await Future.delayed(const Duration(seconds: 1));
-  //   final appLinks = AppLinks();
+     final appLinks = AppLinks();
 
   //   // Check initial link if app was in cold state (terminated)
   //   final appLink = await appLinks.getInitialAppLink();
@@ -241,13 +241,13 @@ class _MainNavigationState extends State<MainNavigation>
   //   }
 
   //   // Handle link when app is in warm state (front or background)
-  //   _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
-  //     debugPrint('bannn' + dynamicLinkData.toString());
-  //     final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
-  //     debugPrint('bannnnn' + dynamicLink.toString());
-  //     await dynamicLinksLogic(dynamicLink!);
-  //   });
-  // }
+     _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
+       debugPrint('bannn' + dynamicLinkData.toString());
+       final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
+       debugPrint('bannnnn' + dynamicLink.toString());
+       await dynamicLinksLogic(dynamicLink!);
+     });
+   }
 
   Future<void> initDynamicLinksAndroid(
     PendingDynamicLinkData? initialLinkAndroid,
@@ -256,7 +256,6 @@ class _MainNavigationState extends State<MainNavigation>
       debugPrint('мы с колд ссылки' + initialLinkAndroid.link.toString());
       await dynamicLinksLogic(initialLinkAndroid);
     }
-
     dynamicLinks.onLink.listen(dynamicLinksLogic);
   }
 
