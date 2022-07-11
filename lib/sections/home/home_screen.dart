@@ -14,10 +14,8 @@ import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
-import 'package:bausch/sections/home/widgets/stories/stories_wm.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
-import 'package:bausch/sections/stories/stories_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
@@ -29,7 +27,6 @@ import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -59,12 +56,12 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
     wm.changeAppLifecycleStateAction(state);
   }
 
-// TODO(daniil): тут настраиваю диплинки для боттом щитов
+// TODO(info): тут настраиваю диплинки для боттом щитов
   @override
   void initState() {
     super.initState();
     WidgetsFlutterBinding.ensureInitialized();
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.dynamicLink != null) {
         var name = '';
         var type = '';
@@ -116,6 +113,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
               name: name,
               type: type,
             ),
+            // ignore: void_checks
             type == 'support' ? ContactSupportScreenArguments() : null,
           );
         }

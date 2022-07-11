@@ -48,6 +48,7 @@ class _MainNavigationState extends State<MainNavigation>
   void initState() {
     dynamicLinks = FirebaseDynamicLinks.instance;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // TODO(all): линк проходит сквозь авторизацию, если человек не авторизован
       initialLink = await dynamicLinks.getInitialLink();
       if (Platform.isIOS) {
         await initDynamicLinksIOS();
@@ -239,9 +240,9 @@ class _MainNavigationState extends State<MainNavigation>
 
     //   // Handle link when app is in warm state (front or background)
     _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
-      debugPrint('bannn' + dynamicLinkData.toString());
+      debugPrint('bannn$dynamicLinkData');
       final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
-      debugPrint('bannnnn' + dynamicLink.toString());
+      debugPrint('bannnnn$dynamicLink');
       await dynamicLinksLogic(dynamicLink!);
     });
   }
@@ -250,7 +251,7 @@ class _MainNavigationState extends State<MainNavigation>
     PendingDynamicLinkData? initialLinkAndroid,
   ) async {
     if (initialLinkAndroid != null) {
-      debugPrint('мы с колд ссылки' + initialLinkAndroid.link.toString());
+      debugPrint('мы с колд ссылки${initialLinkAndroid.link}');
       await dynamicLinksLogic(initialLinkAndroid);
       // ignore: parameter_assignments
 
@@ -261,7 +262,7 @@ class _MainNavigationState extends State<MainNavigation>
   }
 
   Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
-    debugPrint('мы с бэкграунд ссылки' + dynamicLinkData.link.toString());
+    debugPrint('мы с бэкграунд ссылки${dynamicLinkData.link}');
     dynamicLink = dynamicLinkData.link.queryParameters.values.first;
     Widget page;
     switch (dynamicLink) {

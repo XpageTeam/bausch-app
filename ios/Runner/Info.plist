@@ -65,24 +65,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>FirebaseDynamicLinksCustomDomains</key>
-	<array>
-  		<string>https://bausch-lomb.in-progress.ru/faq</string>
-	</array>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-		<key>CFBundleTypeRole</key>
-		<string>Editor</string>
-		<key>CFBundleURLName</key>
-		<string>bausch.mobile</string>
-		<key>CFBundleURLSchemes</key>
-		<array>
-		<string>bausch-lomb.in-progress.ru</string>
-		</array>
-		</dict>
-	</array>
 </dict>
 </plist>

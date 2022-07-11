@@ -6,6 +6,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 @immutable
 class LoginText {
@@ -111,8 +112,8 @@ class LoginText {
         text: linkText,
         recognizer: TapGestureRecognizer()
           ..onTap = () async {
-            if (await canLaunch(link)) {
-              unawaited(launch(link));
+            if (await canLaunchUrlString(link)) {
+              unawaited(launchUrlString(link));
             }
           },
       ),

@@ -2,7 +2,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/html_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class InfoSection extends StatelessWidget {
   final String text;
@@ -36,9 +36,9 @@ class InfoSection extends StatelessWidget {
               customRender: htmlCustomRender,
               onLinkTap: (url, context, attributes, element) async {
                 if (url != null) {
-                  if (await canLaunch(url)) {
+                  if (await canLaunchUrlString(url)) {
                     try {
-                      await launch(url);
+                      await launchUrlString(url);
 
                       return;
                       // ignore: avoid_catches_without_on_clauses
@@ -60,9 +60,9 @@ class InfoSection extends StatelessWidget {
                   customRender: htmlCustomRender,
                   onLinkTap: (url, context, attributes, element) async {
                     if (url != null) {
-                      if (await canLaunch(url)) {
-                        try {
-                          await launch(url);
+                       if (await canLaunchUrlString(url)) {
+                    try {
+                      await launchUrlString(url);
 
                           return;
                           // ignore: avoid_catches_without_on_clauses

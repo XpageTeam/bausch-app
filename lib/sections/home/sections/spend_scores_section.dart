@@ -21,7 +21,6 @@ class SpendScores extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TODO(pavlov): здесь catalogItemModel
         const Text(
           'Потратить баллы',
           style: AppStyles.h1,
