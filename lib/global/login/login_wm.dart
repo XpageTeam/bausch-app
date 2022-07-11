@@ -173,12 +173,10 @@ class LoginWM extends WidgetModel {
     });
   }
 
-  void _checkAuth() {
+  Future _checkAuth() async {
     final authWM = Provider.of<AuthWM>(context, listen: false);
-
+    await authWM.checkAuthAction();
     debugPrint(authWM.toString());
-
-    authWM.checkAuthAction();
   }
 
   void _checkBtnActive() {
@@ -236,7 +234,6 @@ class LoginWM extends WidgetModel {
     showLoader(context);
 
     Mindbox.instance.getDeviceUUID((uuid) async {
-
       CustomException? error;
 
       try {
@@ -246,15 +243,13 @@ class LoginWM extends WidgetModel {
               authRequestResult.value.data?.isMobilePhoneConfirmed ?? false,
           uuid: uuid,
         );
-
         await UserWriter.writeToken(res.xApiToken);
-
         //* Очистка полей после отправки кода
         // phoneController.text = '';
 
         debugPrint(codeController.text);
 
-        _checkAuth();
+        await _checkAuth();
       } on DioError catch (e) {
         error = CustomException(
           title: 'При отправке запроса произошла ошибка',

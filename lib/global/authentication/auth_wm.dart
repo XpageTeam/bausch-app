@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:dio/dio.dart';
@@ -105,9 +108,20 @@ class AuthWM extends WidgetModel {
       // );
       final user = await UserWriter.checkUserToken();
 
+// TODO(all): в этом месте авторизация багует
       if (user == null) {
         await authStatus.accept(AuthStatus.unauthenticated);
-        await userWM.userData.error(Exception('Необходима авторизация'));
+       
+        if (Platform.isIOS) {
+          CupertinoPageRoute<void>(builder: (context) {
+            return const RegistrationScreen();
+          });
+        } else {
+          MaterialPageRoute<void>(builder: (context) {
+            return const RegistrationScreen();
+          });
+          // await userWM.userData.error(Exception('Необходима авторизация'));
+        }
       } else {
         await userWM.userData.content(user);
         await authStatus.accept(AuthStatus.authenticated);
@@ -144,15 +158,23 @@ class AuthWM extends WidgetModel {
     }
 
     if (userWM.userData.value.hasError) {
-      final error = userWM.userData.value.error as CustomException;
+      // TODO(all): ошибка не воспринимается как кастом экзепшн
+      // final error = userWM.userData.value.error as CustomException;
+
+      final error = userWM.userData.value.error;
 
       if (context != null) {
         await Navigator.of(context!).pushAndRemoveUntil<void>(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) {
+              // return ErrorPage(
+              //   title: error.title,
+              //   subtitle: error.subtitle,
+              //   buttonCallback: checkAuthAction,
+              //   buttonText: 'Обновить',
+              // );
               return ErrorPage(
-                title: error.title,
-                subtitle: error.subtitle,
+                title: error.toString(),
                 buttonCallback: checkAuthAction,
                 buttonText: 'Обновить',
               );
@@ -165,9 +187,14 @@ class AuthWM extends WidgetModel {
           await Navigator.of(context!).pushAndRemoveUntil<void>(
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) {
+                // return ErrorPage(
+                //   title: error.title,
+                //   subtitle: error.subtitle,
+                //   buttonCallback: checkAuthAction,
+                //   buttonText: 'Обновить',
+                // );
                 return ErrorPage(
-                  title: error.title,
-                  subtitle: error.subtitle,
+                  title: error.toString(),
                   buttonCallback: checkAuthAction,
                   buttonText: 'Обновить',
                 );

@@ -31,13 +31,13 @@
       </intent-filter>
 
       <!-- Deep linking -->
-      <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+      <!-- <meta-data android:name="flutter_deeplinking_enabled" android:value="true" /> -->
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <!-- здесь должна быть наша ссылка -->
-        <data android:scheme="https" android:host="bausch-lomb.in-progress.ru"/>
+        <data android:scheme="https" android:host="bausch-lomb.in-progress.ru" />
       </intent-filter>
 
     </activity>

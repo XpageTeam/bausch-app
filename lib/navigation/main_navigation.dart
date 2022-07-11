@@ -325,6 +325,7 @@ class _MainNavigationState extends State<MainNavigation>
     // TODO(all): послу пуша бесконечная загрузка, нужно нажимать назад
     // если приложение уже было запущено, то приложение откроется поверх предыдущей навигации
     //
+    Navigator.popUntil(context, (route) => true);
     await Navigator.push<void>(
       Keys.mainContentNav.currentContext!,
       MaterialPageRoute(
