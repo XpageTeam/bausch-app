@@ -1,14 +1,20 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:app_links/app_links.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/sections/home/home_screen.dart';
+import 'package:bausch/sections/profile/profile_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/profile_settings_screen.dart';
 import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -25,13 +31,22 @@ class AuthWM extends WidgetModel {
   // final user = EntityStreamedState<UserRepository>();
 
   final checkAuthAction = VoidAction();
-
   final UserWM userWM;
 
+  late final FirebaseDynamicLinks dynamicLinks;
+  late final PendingDynamicLinkData? initialLink;
+  String? dynamicLink;
+  bool isBinded = false;
+  bool deepLinkingStarted = false;
   BuildContext? context;
-
+  StreamSubscription<Uri>? _linkSubscription;
   AuthWM(this.userWM) : super(const WidgetModelDependencies()) {
     authStatus.bind((value) {
+      // TODO(all): разобраться с bind'ом, он несколько раз тут вызывается
+      if (!isBinded) {
+        isBinded = true;
+        dynamicLinks = FirebaseDynamicLinks.instance;
+      }
       late String targetPage;
 
       switch (authStatus.value) {
@@ -86,15 +101,157 @@ class AuthWM extends WidgetModel {
     });
   }
 
+  @override
+  void dispose() {
+    _linkSubscription?.cancel();
+    super.dispose();
+  }
+
   /// выход
   void logout() {
     userWM.logout();
     authStatus.accept(AuthStatus.unauthenticated);
   }
 
+  Future<void> initDynamicLinksIOS() async {
+    //   await Future.delayed(const Duration(seconds: 1));
+    final appLinks = AppLinks();
+
+    //   // Check initial link if app was in cold state (terminated)
+    //   final appLink = await appLinks.getInitialAppLink();
+    //   if (appLink != null) {
+    //    debugPrint('bannn' + appLink.toString());
+    //     final dynamicLink = await dynamicLinks.getDynamicLink(appLink);
+    //     debugPrint('bannnnn' + dynamicLink.toString());
+    //     if(dynamicLink != null)
+    //     await dynamicLinksLogic(dynamicLink!);
+    //   }
+
+    //   // Handle link when app is in warm state (front or background)
+    _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
+      debugPrint('bannn$dynamicLinkData');
+      final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
+      debugPrint('bannnnn$dynamicLink');
+      await dynamicLinksLogic(dynamicLink!);
+    });
+  }
+
+  Future<void> initDynamicLinksAndroid(
+    PendingDynamicLinkData? initialLinkAndroid,
+  ) async {
+    if (initialLinkAndroid != null) {
+      if (authStatus.value == AuthStatus.authenticated) {
+        debugPrint('мы с колд ссылки${initialLinkAndroid.link}');
+        await dynamicLinksLogic(initialLinkAndroid);
+        // ignore: parameter_assignments
+      }
+    }
+    dynamicLinks.onLink.listen((pendingLink) async {
+      debugPrint('мы с бэкграунд ссылки${pendingLink.link}');
+      await dynamicLinksLogic(pendingLink);
+    });
+  }
+
+  Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
+    if (authStatus.value != AuthStatus.authenticated) return;
+    dynamicLink = dynamicLinkData.link.queryParameters.values.first;
+    Widget page;
+    switch (dynamicLink) {
+      case '/user_profile':
+        page = ProfileScreen();
+        break;
+      case '/user_settings':
+        page = ProfileSettingsScreen();
+        break;
+      case '/add_points':
+        page = HomeScreen(
+          dynamicLink: '/add_points',
+        );
+        break;
+      case '/program':
+        page = HomeScreen(
+          dynamicLink: '/program',
+        );
+        break;
+      case '/faq':
+        page = HomeScreen(
+          dynamicLink: '/faq',
+        );
+        break;
+      case '/faq_form':
+        page = HomeScreen(
+          dynamicLink: '/faq_form',
+        );
+        break;
+      case '/stories':
+        page = HomeScreen(
+          dynamicLink: '/stories',
+        );
+        break;
+      case '/webinars':
+        page = HomeScreen(
+          dynamicLink: '/webinars',
+        );
+        break;
+      case '/discount_optics':
+        page = HomeScreen(
+          dynamicLink: '/discount_optics',
+        );
+        break;
+      case '/discount_online':
+        page = HomeScreen(
+          dynamicLink: '/discount_online',
+        );
+        break;
+      case '/partners':
+        page = HomeScreen(
+          dynamicLink: '/partners',
+        );
+        break;
+      default:
+        page = HomeScreen();
+    }
+
+// TODO(all): не знаю как иначе сбрасывать этот навигационный трэш
+    if (Keys.bottomNav.currentContext != null &&
+        Navigator.of(Keys.bottomNav.currentContext!).canPop()) {
+      Navigator.of(Keys.bottomNav.currentContext!).pop();
+    }
+    if (Keys.mainNav.currentContext != null &&
+        Navigator.of(Keys.mainNav.currentContext!).canPop()) {
+      Navigator.of(Keys.mainNav.currentContext!).pop();
+    }
+    if (Keys.mainContentNav.currentContext != null &&
+        Navigator.of(Keys.mainContentNav.currentContext!).canPop()) {
+      Navigator.of(Keys.mainContentNav.currentContext!).pop();
+    }
+    if (dynamicLink == '/user_profile' || dynamicLink == '/user_settings') {
+      await Navigator.push(
+        Keys.mainContentNav.currentContext!,
+        MaterialPageRoute(
+          builder: (context) {
+            return page;
+          },
+        ),
+      );
+    } else {
+      await Navigator.pushReplacement(
+        Keys.mainContentNav.currentContext!,
+        MaterialPageRoute(
+          builder: (context) {
+            return page;
+          },
+        ),
+      );
+    }
+
+    dynamicLink = null;
+  }
+
   Future<void> _checkUserAuth() async {
     if (userWM.userData.value.isLoading) return;
     await userWM.userData.loading();
+
     try {
       // throw DioError(
       //   requestOptions: RequestOptions(
@@ -108,10 +265,9 @@ class AuthWM extends WidgetModel {
       // );
       final user = await UserWriter.checkUserToken();
 
-// TODO(all): в этом месте авторизация багует
       if (user == null) {
         await authStatus.accept(AuthStatus.unauthenticated);
-       
+
         if (Platform.isIOS) {
           CupertinoPageRoute<void>(builder: (context) {
             return const RegistrationScreen();
@@ -125,6 +281,11 @@ class AuthWM extends WidgetModel {
       } else {
         await userWM.userData.content(user);
         await authStatus.accept(AuthStatus.authenticated);
+        if (!deepLinkingStarted) {
+          deepLinkingStarted = true;
+          initialLink = await dynamicLinks.getInitialLink();
+          await initDynamicLinksAndroid(initialLink);
+        }
       }
     } on DioError catch (e) {
       if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
