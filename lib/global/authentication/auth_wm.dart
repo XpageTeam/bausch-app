@@ -47,6 +47,7 @@ class AuthWM extends WidgetModel {
         isBinded = true;
         dynamicLinks = FirebaseDynamicLinks.instance;
       }
+
       late String targetPage;
 
       switch (authStatus.value) {
@@ -128,11 +129,12 @@ class AuthWM extends WidgetModel {
     //   }
 
     //   // Handle link when app is in warm state (front or background)
+
     _linkSubscription = appLinks.uriLinkStream.listen((dynamicLinkData) async {
       debugPrint('bannn$dynamicLinkData');
       final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
       debugPrint('bannnnn$dynamicLink');
-      await dynamicLinksLogic(dynamicLink!);
+      dynamicLinksLogic(dynamicLink!);
     });
   }
 
@@ -142,19 +144,23 @@ class AuthWM extends WidgetModel {
     if (initialLinkAndroid != null) {
       if (authStatus.value == AuthStatus.authenticated) {
         debugPrint('мы с колд ссылки${initialLinkAndroid.link}');
-        await dynamicLinksLogic(initialLinkAndroid);
-        // ignore: parameter_assignments
+        dynamicLinksLogic(initialLinkAndroid);
       }
     }
     dynamicLinks.onLink.listen((pendingLink) async {
       debugPrint('мы с бэкграунд ссылки${pendingLink.link}');
+      await dynamicLinks.getInitialLink();
       await dynamicLinksLogic(pendingLink);
     });
   }
 
   Future dynamicLinksLogic(PendingDynamicLinkData dynamicLinkData) async {
-    if (authStatus.value != AuthStatus.authenticated) return;
+    if (authStatus.value != AuthStatus.authenticated) {
+      return;
+    }
+
     dynamicLink = dynamicLinkData.link.queryParameters.values.first;
+
     Widget page;
     switch (dynamicLink) {
       case '/user_profile':
@@ -213,17 +219,17 @@ class AuthWM extends WidgetModel {
     }
 
 // TODO(all): не знаю как иначе сбрасывать этот навигационный трэш
-    if (Keys.bottomNav.currentContext != null &&
-        Navigator.of(Keys.bottomNav.currentContext!).canPop()) {
-      Navigator.of(Keys.bottomNav.currentContext!).pop();
+    while (Keys.bottomNav.currentState != null &&
+        Keys.bottomNav.currentState!.canPop()) {
+      Keys.bottomNav.currentState!.pop();
     }
-    if (Keys.mainNav.currentContext != null &&
-        Navigator.of(Keys.mainNav.currentContext!).canPop()) {
-      Navigator.of(Keys.mainNav.currentContext!).pop();
+    while (Keys.mainNav.currentState != null &&
+        Keys.mainNav.currentState!.canPop()) {
+      Keys.mainNav.currentState!.pop();
     }
-    if (Keys.mainContentNav.currentContext != null &&
-        Navigator.of(Keys.mainContentNav.currentContext!).canPop()) {
-      Navigator.of(Keys.mainContentNav.currentContext!).pop();
+    while (Keys.mainContentNav.currentState != null &&
+        Keys.mainContentNav.currentState!.canPop()) {
+      Keys.mainContentNav.currentState!.pop();
     }
     if (dynamicLink == '/user_profile' || dynamicLink == '/user_settings') {
       await Navigator.push(
@@ -251,23 +257,13 @@ class AuthWM extends WidgetModel {
   Future<void> _checkUserAuth() async {
     if (userWM.userData.value.isLoading) return;
     await userWM.userData.loading();
-
     try {
-      // throw DioError(
-      //   requestOptions: RequestOptions(
-      //     path: '',
-      //   ),
-      //   type: DioErrorType.response,
-      //   response: Response<void>(
-      //     requestOptions: RequestOptions(path: ''),
-      //     statusCode: 403,
-      //   ),
-      // );
       final user = await UserWriter.checkUserToken();
 
       if (user == null) {
         await authStatus.accept(AuthStatus.unauthenticated);
-
+        // TODO(all): обдумать поведение этой ситуации
+        await userWM.userData.error(Exception('неавторизован'));
         if (Platform.isIOS) {
           CupertinoPageRoute<void>(builder: (context) {
             return const RegistrationScreen();
@@ -276,7 +272,6 @@ class AuthWM extends WidgetModel {
           MaterialPageRoute<void>(builder: (context) {
             return const RegistrationScreen();
           });
-          // await userWM.userData.error(Exception('Необходима авторизация'));
         }
       } else {
         await userWM.userData.content(user);
@@ -284,6 +279,7 @@ class AuthWM extends WidgetModel {
         if (!deepLinkingStarted) {
           deepLinkingStarted = true;
           initialLink = await dynamicLinks.getInitialLink();
+
           await initDynamicLinksAndroid(initialLink);
         }
       }
@@ -318,7 +314,8 @@ class AuthWM extends WidgetModel {
       );
     }
 
-    if (userWM.userData.value.hasError) {
+    if (userWM.userData.value.hasError &&
+        userWM.userData.value.error.toString() != 'Exception: неавторизован') {
       // TODO(all): ошибка не воспринимается как кастом экзепшн
       // final error = userWM.userData.value.error as CustomException;
 
