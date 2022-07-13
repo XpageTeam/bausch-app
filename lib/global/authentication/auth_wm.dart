@@ -134,7 +134,7 @@ class AuthWM extends WidgetModel {
       debugPrint('bannn$dynamicLinkData');
       final dynamicLink = await dynamicLinks.getDynamicLink(dynamicLinkData);
       debugPrint('bannnnn$dynamicLink');
-      dynamicLinksLogic(dynamicLink!);
+      await dynamicLinksLogic(dynamicLink!);
     });
   }
 
@@ -144,12 +144,13 @@ class AuthWM extends WidgetModel {
     if (initialLinkAndroid != null) {
       if (authStatus.value == AuthStatus.authenticated) {
         debugPrint('мы с колд ссылки${initialLinkAndroid.link}');
-        dynamicLinksLogic(initialLinkAndroid);
+        await dynamicLinksLogic(initialLinkAndroid);
       }
     }
     dynamicLinks.onLink.listen((pendingLink) async {
       debugPrint('мы с бэкграунд ссылки${pendingLink.link}');
-      await dynamicLinks.getInitialLink();
+      // TODO(info): для очистки зависающих ссылок, мб и не надо
+      // print('ban' + (await dynamicLinks.getInitialLink())!.link.toString());
       await dynamicLinksLogic(pendingLink);
     });
   }
@@ -227,10 +228,12 @@ class AuthWM extends WidgetModel {
         Keys.mainNav.currentState!.canPop()) {
       Keys.mainNav.currentState!.pop();
     }
+
     while (Keys.mainContentNav.currentState != null &&
         Keys.mainContentNav.currentState!.canPop()) {
       Keys.mainContentNav.currentState!.pop();
     }
+    await Future.delayed(Duration(seconds: 1));
     if (dynamicLink == '/user_profile' || dynamicLink == '/user_settings') {
       await Navigator.push(
         Keys.mainContentNav.currentContext!,
