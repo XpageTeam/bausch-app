@@ -1,5 +1,6 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -79,51 +80,65 @@ class CustomLineLoadingIndicator extends StatelessWidget {
               pointsToMaximum =
                   maximumScore - userData.balance.available.toInt();
               return pointsToMaximum <= 0
-                  ? const SizedBox.shrink()
-                  : LayoutBuilder(
-                      builder: (widget, constraints) {
-                        return Container(
-                          height: isInList ? 20 : 26,
-                          width: isInList ? null : constraints.maxWidth / 1.85,
-                          decoration: BoxDecoration(
-                            color: AppTheme.mystic,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Stack(
-                            alignment: Alignment.centerLeft,
-                            children: [
-                              AnimatedContainer(
-                                curve: Curves.easeInOutCubic,
-                                duration: const Duration(
-                                  milliseconds: 2500,
-                                ),
+                  ? const SizedBox(height: 16)
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                        left: StaticData.sidePadding,
+                        right: StaticData.sidePadding,
+                        top: 16,
+                        bottom: 2,
+                      ),
+                      child: SizedBox(
+                        height: isInList ? 20 : 26,
+                        child: LayoutBuilder(
+                          builder: (widget, constraints) {
+                            return Container(
+                              width:
+                                  isInList ? null : constraints.maxWidth / 1.85,
+                              decoration: BoxDecoration(
+                                color: AppTheme.mystic,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Stack(
+                                alignment: Alignment.centerLeft,
+                                children: [
+                                  AnimatedContainer(
+                                    curve: Curves.easeInOutCubic,
+                                    duration: const Duration(
+                                      milliseconds: 2500,
+                                    ),
 
-                                // TODO(all): придумать как тут вычислять длинну
-                                // сейчас тут костыль -50 (считаем паддинг)
-                                width: isInList
-                                    ? MediaQuery.of(context).size.width /
-                                        2 /
-                                        maximumScore *
-                                        (maximumScore - (pointsToMaximum - 50))
-                                    : constraints.maxWidth /
-                                        1.85 /
-                                        maximumScore *
-                                        (maximumScore - pointsToMaximum),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.sulu,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
+                                    // TODO(all): придумать как тут вычислять длинну
+                                    // сейчас тут костыль
+                                    width: isInList
+                                        ? (MediaQuery.of(context).size.width /
+                                                    2 -
+                                                32) /
+                                            maximumScore *
+                                            (maximumScore - pointsToMaximum)
+                                        : constraints.maxWidth /
+                                            1.85 /
+                                            maximumScore *
+                                            (maximumScore - pointsToMaximum),
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.sulu,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      'Не хватает $pointsToMaximum б',
+                                      style: isInList
+                                          ? AppStyles.n1
+                                          : AppStyles.h2,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Center(
-                                child: Text(
-                                  'Не хватает $pointsToMaximum б',
-                                  style: isInList ? AppStyles.n1 : AppStyles.h2,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
+                            );
+                          },
+                        ),
+                      ),
                     );
             },
           );
