@@ -3,6 +3,7 @@ import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 class TopSection extends StatelessWidget {
@@ -10,30 +11,30 @@ class TopSection extends StatelessWidget {
   final bool isFull;
   final bool withPrice;
   final Widget topLeftWidget;
+  final String? discount;
 
   const TopSection({
     required this.model,
     required this.isFull,
     required this.withPrice,
     required this.topLeftWidget,
+    this.discount,
     Key? key,
   }) : super(key: key);
 
   TopSection.product({
     required CatalogItemModel model,
+    required String discount,
     Widget? topLeftWidget,
-    // Widget? discount,
     Key? key,
   }) : this(
           model: model,
           isFull: false,
           withPrice: true,
           key: key,
+          discount: discount,
           topLeftWidget: Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              top: 16,
-            ),
+            padding: const EdgeInsets.only(left: 12, top: 16),
             child: topLeftWidget,
           ),
         );
@@ -121,11 +122,24 @@ class TopSection extends StatelessWidget {
                 ),
               if (model.picture != null)
                 Container(
+                  height: !isFull ? calculateHeight(model, context) : null,
                   margin: const EdgeInsets.only(bottom: 30),
-                  child: Image.network(
-                    model.picture!,
-                    height: !isFull ? calculateHeight(model, context) : null,
-                    fit: BoxFit.cover,
+                  child: Stack(
+                    children: [
+                       Center(
+                        child: Image.network(
+                          model.picture!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      // TODO(info): пока заглушкой
+                      // если скидка не будет на картинке приходить
+                      if (discount != null)
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: DiscountInfo(text: discount!),
+                        ),
+                    ],
                   ),
                 ),
               Padding(

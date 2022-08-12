@@ -10,12 +10,14 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class CustomLineLoadingIndicator extends StatelessWidget {
   // только для домашнего экрана
   final String? text;
+  final bool isInList;
   late final int maximumScore;
   late int pointsToMaximum;
 
   CustomLineLoadingIndicator({
     required int maximumScore,
     this.text,
+    this.isInList = false,
     int? pointsToMaximum,
     Key? key,
   }) : super(key: key) {
@@ -79,10 +81,10 @@ class CustomLineLoadingIndicator extends StatelessWidget {
               return pointsToMaximum <= 0
                   ? const SizedBox.shrink()
                   : LayoutBuilder(
-                      builder: (context, constraints) {
+                      builder: (widget, constraints) {
                         return Container(
-                          height: 26,
-                          width: constraints.maxWidth / 1.8,
+                          height: isInList ? 20 : 26,
+                          width: isInList ? null : constraints.maxWidth / 1.85,
                           decoration: BoxDecoration(
                             color: AppTheme.mystic,
                             borderRadius: BorderRadius.circular(5),
@@ -95,22 +97,27 @@ class CustomLineLoadingIndicator extends StatelessWidget {
                                 duration: const Duration(
                                   milliseconds: 2500,
                                 ),
-                                height: 26,
-                                width: constraints.maxWidth /
-                                    1.8 /
-                                    maximumScore *
-                                    (maximumScore - pointsToMaximum),
+
+                                // TODO(all): придумать как тут вычислять длинну
+                                // сейчас тут костыль -50 (считаем паддинг)
+                                width: isInList
+                                    ? MediaQuery.of(context).size.width /
+                                        2 /
+                                        maximumScore *
+                                        (maximumScore - (pointsToMaximum - 50))
+                                    : constraints.maxWidth /
+                                        1.85 /
+                                        maximumScore *
+                                        (maximumScore - pointsToMaximum),
                                 decoration: BoxDecoration(
                                   color: AppTheme.sulu,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                               ),
                               Center(
-                                
                                 child: Text(
                                   'Не хватает $pointsToMaximum б',
-                                  style: AppStyles.h2,
-                                 
+                                  style: isInList ? AppStyles.n1 : AppStyles.h2,
                                 ),
                               ),
                             ],

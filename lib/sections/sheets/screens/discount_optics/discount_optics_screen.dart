@@ -93,10 +93,9 @@ class _DiscountOpticsScreenState
                 TopSection.product(
                   model: widget.model,
                   topLeftWidget: CustomLineLoadingIndicator(
-                    text: 'Скидка 500 ₽ ',
                     maximumScore: widget.model.price,
                   ),
-                  // const DiscountInfo(text: 'Скидка 500 ₽ '),
+                  discount: 'Скидка 500 ₽ ',
                   key: widget.key,
                 ),
                 const SizedBox(
@@ -120,9 +119,7 @@ class _DiscountOpticsScreenState
             StaticData.sidePadding,
             20,
           ),
-          sliver: LegalInfo(
-            texts: wm.legalInfoTexts,
-          ),
+          sliver: LegalInfo(texts: wm.legalInfoTexts),
         ),
         EntityStateBuilder<List<Optic>>(
           streamedState: wm.discountOpticsStreamed,

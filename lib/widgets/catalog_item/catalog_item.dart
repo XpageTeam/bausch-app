@@ -5,6 +5,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -89,11 +90,24 @@ class CatalogItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const Expanded(
-                child: SizedBox(
-                  height: 16,
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
+                  top: 16,
+                  bottom: 2,
+                ),
+                child: Expanded(
+                  child: SizedBox(
+                    height: 20,
+                    child: CustomLineLoadingIndicator(
+                      maximumScore: model.price,
+                      isInList: true,
+                    ),
+                  ),
                 ),
               ),
+
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(
