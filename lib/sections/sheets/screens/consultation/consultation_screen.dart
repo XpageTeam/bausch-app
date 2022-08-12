@@ -11,6 +11,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/points_info.dart';
@@ -108,11 +109,11 @@ class _ConsultationScreenState
             delegate: SliverChildListDelegate(
               [
                 TopSection.consultation(
-                  widget.model,
-                  wm.difference > 0
-                      ? PointsInfo(
-                          text: 'Не хватает ${wm.difference}',
-                        )
+                 model: widget.model,
+                  topLeftWidget: wm.difference > 0
+                      ? CustomLineLoadingIndicator(
+                    maximumScore: widget.model.price,
+                  )
                       : Row(
                           children: [
                             if (model.length != null)
@@ -138,7 +139,7 @@ class _ConsultationScreenState
                               ),
                           ],
                         ),
-                  widget.key,
+                  key: widget.key,
                 ),
                 const SizedBox(
                   height: 4,

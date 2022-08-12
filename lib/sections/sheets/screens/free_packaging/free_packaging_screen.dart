@@ -12,9 +12,9 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
-import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -87,11 +87,9 @@ class _FreePackagingScreenState
                 TopSection.packaging(
                   model: widget.model,
                   key: widget.key,
-                  leftIcon: wm.difference > 0
-                      ? PointsInfo(
-                          text: 'Не хватает ${wm.difference}',
-                        )
-                      : Container(),
+                  topLeftWidget: CustomLineLoadingIndicator(
+                    maximumScore: widget.model.price,
+                  ),
                 ),
                 const SizedBox(
                   height: 4,

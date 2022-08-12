@@ -71,9 +71,9 @@ class _AllWebinarsScreenState
             delegate: SliverChildListDelegate(
               [
                 TopSection.webinar(
-                  wm.catalogModel,
-                  widget.key,
-                  Image.asset(
+                 model: wm.catalogModel,
+                 key: widget.key,
+                 topLeftWidget: Image.asset(
                     'assets/play-video.png',
                     height: 28,
                   ),

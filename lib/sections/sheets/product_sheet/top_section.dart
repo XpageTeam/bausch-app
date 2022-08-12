@@ -41,8 +41,7 @@ class TopSection extends StatelessWidget {
 
   TopSection.packaging({
     required CatalogItemModel model,
-    required Widget leftIcon,
-    // GlobalKey<NavigatorState>? rightKey,
+    required Widget topLeftWidget,
     Key? key,
   }) : this(
           model: model,
@@ -54,27 +53,30 @@ class TopSection extends StatelessWidget {
               left: 12,
               top: 16,
             ),
-            child: leftIcon,
+            child: topLeftWidget,
           ),
         );
 
-  TopSection.webinar(CatalogItemModel model, Key? key, Widget leftIcon)
-      : this(
+  TopSection.webinar({
+    required CatalogItemModel model,
+    Widget? topLeftWidget,
+    Key? key,
+  }) : this(
           model: model,
           isFull: true,
           withPrice: false,
           key: key,
           topLeftWidget: Padding(
             padding: const EdgeInsets.all(12),
-            child: leftIcon,
+            child: topLeftWidget,
           ),
         );
 
-  TopSection.consultation(
-    ConsultationItemModel model,
-    Widget leftIcon,
+  TopSection.consultation({
+    required CatalogItemModel model,
+    Widget? topLeftWidget,
     Key? key,
-  ) : this(
+  }) : this(
           model: model,
           isFull: false,
           withPrice: true,
@@ -84,13 +86,16 @@ class TopSection extends StatelessWidget {
               left: 12,
               top: 16,
             ),
-            child: leftIcon,
+            child: topLeftWidget,
           ),
         );
 
   // ignore: avoid_unused_constructor_parameters
-  TopSection.partners(CatalogItemModel model, Key? key, Widget leftIcon)
-      : this(
+  TopSection.partners({
+    required CatalogItemModel model,
+    Widget? topLeftWidget,
+    Key? key,
+  }) : this(
           model: model,
           isFull: true,
           withPrice: true,
@@ -100,7 +105,7 @@ class TopSection extends StatelessWidget {
               left: 12,
               top: 16,
             ),
-            child: leftIcon,
+            child: topLeftWidget,
           ),
         );
 
@@ -126,7 +131,7 @@ class TopSection extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 30),
                   child: Stack(
                     children: [
-                       Center(
+                      Center(
                         child: Image.network(
                           model.picture!,
                           fit: BoxFit.cover,

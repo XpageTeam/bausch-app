@@ -82,12 +82,14 @@ class CustomLineLoadingIndicator extends StatelessWidget {
               return pointsToMaximum <= 0
                   ? const SizedBox(height: 16)
                   : Padding(
-                      padding: const EdgeInsets.only(
-                        left: StaticData.sidePadding,
-                        right: StaticData.sidePadding,
-                        top: 16,
-                        bottom: 2,
-                      ),
+                      padding: isInList ?
+                          
+                           const EdgeInsets.only(
+                              left: StaticData.sidePadding,
+                              right: StaticData.sidePadding,
+                              top: 16,
+                              bottom: 2,
+                            ) :  EdgeInsets.zero,
                       child: SizedBox(
                         height: isInList ? 20 : 26,
                         child: LayoutBuilder(
