@@ -9,7 +9,6 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/custom_line_loading.dart';
-import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 

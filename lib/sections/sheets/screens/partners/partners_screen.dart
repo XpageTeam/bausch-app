@@ -9,7 +9,6 @@ import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
-import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 

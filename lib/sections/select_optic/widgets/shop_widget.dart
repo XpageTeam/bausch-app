@@ -4,7 +4,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ShopWidget extends StatelessWidget {
   final ShopModel shopModel;
@@ -56,8 +56,8 @@ class ShopWidget extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () async {
                         final url = 'tel:${shopModel.phones}';
-                        if (await canLaunch(url)) {
-                          await launch(url);
+                        if (await canLaunchUrlString(url)) {
+                          await launchUrlString(url);
                         } else {
                           await Future<dynamic>.error('Could not launch $url');
                         }

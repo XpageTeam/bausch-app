@@ -299,12 +299,12 @@ class CatalogItemWidget extends StatelessWidget {
   }
 
   //* Вывод нужной картинки в зависимости от типа элемента
-  String? img(CatalogItemModel _model) {
-    if (_model is WebinarItemModel) {
+  String? img(CatalogItemModel model) {
+    if (model is WebinarItemModel) {
       return 'assets/webinar-recordings.png';
-    } else if (_model is ProductItemModel) {
-      return _model.picture;
-    } else if (_model is PartnersItemModel) {
+    } else if (model is ProductItemModel) {
+      return model.picture;
+    } else if (model is PartnersItemModel) {
       return 'assets/offers-from-partners.png';
     } else {
       return 'assets/discount-in-optics.png';
@@ -313,20 +313,20 @@ class CatalogItemWidget extends StatelessWidget {
 }
 
 //* Вывод нужной надписи в зависимости от типа элемента
-String txt(CatalogItemModel _model) {
-  if (_model is WebinarItemModel) {
+String txt(CatalogItemModel model) {
+  if (model is WebinarItemModel) {
     return 'Перейти к просмотру';
-  } else if (_model is PartnersItemModel) {
-    return _model.poolPromoCode ?? '';
+  } else if (model is PartnersItemModel) {
+    return model.poolPromoCode ?? '';
   } else {
-    return (_model as PromoItemModel).code;
+    return (model as PromoItemModel).code;
   }
 }
 
-Widget icon(CatalogItemModel _model) {
-  if (_model is WebinarItemModel) {
+Widget icon(CatalogItemModel model) {
+  if (model is WebinarItemModel) {
     return Container();
-  } else if (_model is PartnersItemModel) {
+  } else if (model is PartnersItemModel) {
     return Image.asset(
       'assets/copy.png',
       height: 16,
@@ -339,20 +339,20 @@ Widget icon(CatalogItemModel _model) {
   }
 }
 
-void callback(CatalogItemModel _model, {VoidCallback? allWebinarsOpen}) {
-  if (_model is WebinarItemModel) {
-    if (_model.videoIds.length > 1) {
+void callback(CatalogItemModel model, {VoidCallback? allWebinarsOpen}) {
+  if (model is WebinarItemModel) {
+    if (model.videoIds.length > 1) {
       allWebinarsOpen?.call();
     } else {
       showDialog<void>(
         context: Keys.mainNav.currentContext!,
         builder: (context) => WebinarPopup(
-          videoId: _model.videoIds.first,
+          videoId: model.videoIds.first,
         ),
       );
     }
-  } else if (_model is PartnersItemModel) {
-    Clipboard.setData(ClipboardData(text: _model.poolPromoCode));
+  } else if (model is PartnersItemModel) {
+    Clipboard.setData(ClipboardData(text: model.poolPromoCode));
     showDefaultNotification(
       title: 'Скопировано!',
       success: true,
@@ -368,7 +368,7 @@ void callback(CatalogItemModel _model, {VoidCallback? allWebinarsOpen}) {
         return FinalDiscountOptics(
           discountType: DiscountType.offline,
           controller: ScrollController(),
-          model: _model as PromoItemModel,
+          model: model as PromoItemModel,
           buttonText: 'Готово',
         );
       },

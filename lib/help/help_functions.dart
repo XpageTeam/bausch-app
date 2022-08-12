@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HelpFunctions {
   static String wordByCount(int count, List<String> words) {
@@ -16,9 +16,9 @@ class HelpFunctions {
     return prefix;
   }
 
-  static Future<void> launchURL(String _url) async {
+  static Future<void> launchURL(String url) async {
     // ignore: only_throw_errors
-    if (!await launch(_url)) throw 'Could not launch $_url';
+    if (!await launchUrlString(url)) throw 'Could not launch $url';
   }
 
   static String partitionNumber(num number) {
@@ -49,7 +49,7 @@ class HelpFunctions {
   ) {
     final lineTexts = <String>[];
     final textSpan = TextSpan(text: text, style: textStyle);
-    final _textPainter = TextPainter(
+    final textPainter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
     )..layout(
@@ -61,7 +61,7 @@ class HelpFunctions {
       extentOffset: textSpan.text!.length,
     );
 
-    final boxes = _textPainter.getBoxesForSelection(selection);
+    final boxes = textPainter.getBoxesForSelection(selection);
 
     var start = 0;
     int end;
@@ -69,7 +69,7 @@ class HelpFunctions {
     final reg = RegExp('[^А-Яа-яA-Za-z0-9().,;?]');
 
     for (final box in boxes) {
-      end = _textPainter
+      end = textPainter
           .getPositionForOffset(
             Offset(
               box.left,

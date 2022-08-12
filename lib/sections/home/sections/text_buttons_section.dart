@@ -5,7 +5,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class TextButtonsSection extends StatefulWidget {
   const TextButtonsSection({Key? key}) : super(key: key);
@@ -55,8 +55,8 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
             CustomTextButton(
               title: 'Обработка персональных\nданных',
               onPressed: () async {
-                if (await canLaunch(StaticData.privacyPolicyLink)) {
-                  await launch(StaticData.privacyPolicyLink);
+                if (await canLaunchUrlString(StaticData.privacyPolicyLink)) {
+                  await launchUrlString(StaticData.privacyPolicyLink);
                 }
               },
             ),

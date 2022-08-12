@@ -45,7 +45,7 @@ class _SmallContainerState extends State<SmallContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final _width =
+    final width =
         MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
 
     return BlocProvider(
@@ -57,8 +57,8 @@ class _SmallContainerState extends State<SmallContainer> {
             //showSheetWithItems(context, model);
             catalogItemCubit.loadData();
           },
-          heigth: _width,
-          width: _width,
+          heigth: width,
+          width: width,
           padding: const EdgeInsets.only(
             top: 20,
             bottom: 14,

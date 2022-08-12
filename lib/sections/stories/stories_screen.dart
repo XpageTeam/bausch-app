@@ -37,6 +37,8 @@ class _StoriesScreenState extends State<StoriesScreen>
   late int index;
 
   late Widget img;
+  int pageNumTemp = 0;
+  int pageNum = 0;
   late PageController _pageController;
   late AnimationController _animController;
   late VideoPlayerController _videoPlayerController;
@@ -44,9 +46,7 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   //bool isContentLoaded = false;
 
-  int pageNum = 0;
   int _currentIndexTemp = 0;
-  int pageNumTemp = 0;
 
   @override
   void initState() {

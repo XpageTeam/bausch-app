@@ -32,8 +32,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   final confirmEmail = VoidAction();
 
-  var tempName = '';
-  var tempLastName = '';
+  String tempName = '';
+  String tempLastName = '';
 
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());

@@ -61,7 +61,7 @@ class CustomInfiniteScrollSimulation extends FrictionSimulation {
 
   @override
   double x(double time) {
-    final _superX = super.x(time);
+    final superX = super.x(time);
     var add = 0.0;
 
     final val =
@@ -76,9 +76,9 @@ class CustomInfiniteScrollSimulation extends FrictionSimulation {
     // x = ? 0.5 при additionalItems=2 и itemsOnPage=3
     // кажется, теперь x это (additionalItems * 2 - itemsOnPage) / additionalItems
 
-    final _x = (_superX - add) % (trailingExtent - val) + add;
+    final x = (superX - add) % (trailingExtent - val) + add;
 
-    return _x;
+    return x;
   }
 
   @override

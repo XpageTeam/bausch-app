@@ -7,6 +7,7 @@ import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -17,14 +18,17 @@ import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
+import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -157,7 +161,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                       return const DelayedAnimatedTranslateOpacity(
                                         offsetY: 30,
                                         child: ScoresSection(
-                                          
                                           delay: Duration(
                                             milliseconds: 1000,
                                           ),
@@ -280,6 +283,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           ),
                         ),
                       ),
+
                       SliverPadding(
                         padding: const EdgeInsets.only(
                           left: StaticData.sidePadding,
@@ -304,7 +308,66 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               const SizedBox(height: 40),
                               const TextButtonsSection(),
                               const SizedBox(
-                                height: 100,
+                                height: 40,
+                              ),
+                              // TODO(pavlov): кнопка белого цвета
+                              BlueButtonWithText(
+                                text: 'Написать в поддержку',
+                                onPressed: () {
+                                  FirebaseAnalytics.instance
+                                      .logEvent(name: 'support_button_click');
+                                  Navigator.of(context).pushNamed(
+                                    '/support',
+                                    arguments: ContactSupportScreenArguments(),
+                                  );
+                                },
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 14),
+                                child: Text(
+                                  'Вы можете найти нас здесь',
+                                  // TODO(pavlov): тут стиль т1
+                                  style: AppStyles.n1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Spacer(),
+                                  // TODO(pavlov): картинки соц сетей
+                                  // сделать кликабельными
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: const CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: const CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: const CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 40,
                               ),
                               Image.asset('assets/logo.png'),
                               SizedBox(

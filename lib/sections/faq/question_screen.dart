@@ -11,7 +11,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 //* FAQ
 //* Answer
@@ -114,9 +114,9 @@ class _QuestionScreenState
                       customRender: htmlCustomRender,
                       onLinkTap: (url, context, attributes, element) async {
                         if (url != null) {
-                          if (await canLaunch(url)) {
+                          if (await canLaunchUrlString(url)) {
                             try {
-                              await launch(url);
+                              await launchUrlString(url);
 
                               return;
                               // ignore: avoid_catches_without_on_clauses

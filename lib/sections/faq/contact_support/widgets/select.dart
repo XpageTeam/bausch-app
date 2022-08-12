@@ -72,7 +72,7 @@ class _SelectState extends State<Select> {
 
   List<CupertinoActionSheetAction> valuesList(
     List<ValueModel> values,
-    BuildContext _context,
+    BuildContext context,
   ) {
     return values
         .map(
@@ -91,7 +91,7 @@ class _SelectState extends State<Select> {
                 ValueModel(id: e.id, name: e.name),
               );
 
-              Navigator.of(_context).pop();
+              Navigator.of(context).pop();
             },
             child: Text(
               e.name,
