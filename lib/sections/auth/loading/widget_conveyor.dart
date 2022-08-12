@@ -48,7 +48,7 @@ class _WidgetConveyorState extends State<WidgetConveyor> with AfterLayoutMixin {
 
     controller.addListener(() {
       if (controller.offset == controller.position.maxScrollExtent) {
-        WidgetsBinding.instance?.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           controller
             ..jumpTo(0)
             ..animateTo(

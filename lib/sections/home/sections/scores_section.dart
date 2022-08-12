@@ -1,7 +1,7 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
-import 'package:bausch/sections/home/widgets/custom_line_loading.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +9,9 @@ import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ScoresSection extends StatelessWidget {
-  final Duration loadingAnimationDuration;
   final Duration delay;
 
   const ScoresSection({
-    required this.loadingAnimationDuration,
     required this.delay,
     Key? key,
   }) : super(key: key);
@@ -69,7 +67,7 @@ class ScoresSection extends StatelessWidget {
           builder: (_, repo) {
             if (repo.canPrintLineLoadingText) {
               // if (repo.balance.nearestExpiration?.date != null)
-                final daysRemain = repo.daysRemain ?? 10;
+              final daysRemain = repo.daysRemain ?? 10;
 
               return FutureBuilder<void>(
                 future: Future.delayed(delay),
@@ -80,11 +78,11 @@ class ScoresSection extends StatelessWidget {
                     ),
                     child: CustomLineLoadingIndicator(
                       text: repo.lineLoadingText,
-                      maxDays: 365,
-                      daysRemain: s.connectionState == ConnectionState.done
+                      maximumScore: 365,
+                      pointsToMaximum: s.connectionState == ConnectionState.done
                           ? daysRemain
                           : 364,
-                      animationDuration: loadingAnimationDuration,
+                   
                     ),
                   );
                 },

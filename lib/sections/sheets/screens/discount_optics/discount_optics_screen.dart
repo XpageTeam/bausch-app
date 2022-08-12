@@ -19,6 +19,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
@@ -90,23 +91,17 @@ class _DiscountOpticsScreenState
             delegate: SliverChildListDelegate(
               [
                 TopSection.product(
-                  widget.model,
-                  const DiscountInfo(text: 'Скидка 500 ₽ '),
-                  widget.key,
+                  model: widget.model,
+                  topLeftWidget: CustomLineLoadingIndicator(
+                    text: 'Скидка 500 ₽ ',
+                    maximumScore: widget.model.price,
+                  ),
+                  // const DiscountInfo(text: 'Скидка 500 ₽ '),
+                  key: widget.key,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
-                if (wm.difference > 0)
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 4,
-                    ),
-                    child:
-                        Warning.warning('Не хватает ${wm.difference} баллов'),
-                  )
-                else
-                  const SizedBox(),
                 InfoSection(
                   text: widget.model.previewText,
                   secondText: '',
@@ -157,7 +152,8 @@ class _DiscountOpticsScreenState
                 wm.selectHeaderText,
                 style: AppStyles.h1,
               ),
-              if (wm.discountType == DiscountType.onlineShop && wm.citiesForOnlineShop.isNotEmpty)
+              if (wm.discountType == DiscountType.onlineShop &&
+                  wm.citiesForOnlineShop.isNotEmpty)
                 StreamedStateBuilder<String?>(
                   streamedState: wm.currentCity,
                   builder: (_, currentCity) {

@@ -157,9 +157,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                       return const DelayedAnimatedTranslateOpacity(
                                         offsetY: 30,
                                         child: ScoresSection(
-                                          loadingAnimationDuration: Duration(
-                                            milliseconds: 2500,
-                                          ),
+                                          
                                           delay: Duration(
                                             milliseconds: 1000,
                                           ),

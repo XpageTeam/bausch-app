@@ -9,28 +9,32 @@ class TopSection extends StatelessWidget {
   final CatalogItemModel model;
   final bool isFull;
   final bool withPrice;
-  final Widget leftIcon;
+  final Widget topLeftWidget;
 
   const TopSection({
     required this.model,
     required this.isFull,
     required this.withPrice,
-    required this.leftIcon,
+    required this.topLeftWidget,
     Key? key,
   }) : super(key: key);
 
-  TopSection.product(CatalogItemModel model, Widget leftIcon, Key? key)
-      : this(
+  TopSection.product({
+    required CatalogItemModel model,
+    Widget? topLeftWidget,
+    // Widget? discount,
+    Key? key,
+  }) : this(
           model: model,
           isFull: false,
           withPrice: true,
           key: key,
-          leftIcon: Padding(
+          topLeftWidget: Padding(
             padding: const EdgeInsets.only(
               left: 12,
               top: 16,
             ),
-            child: leftIcon,
+            child: topLeftWidget,
           ),
         );
 
@@ -44,7 +48,7 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          leftIcon: Padding(
+          topLeftWidget: Padding(
             padding: const EdgeInsets.only(
               left: 12,
               top: 16,
@@ -59,7 +63,7 @@ class TopSection extends StatelessWidget {
           isFull: true,
           withPrice: false,
           key: key,
-          leftIcon: Padding(
+          topLeftWidget: Padding(
             padding: const EdgeInsets.all(12),
             child: leftIcon,
           ),
@@ -74,7 +78,7 @@ class TopSection extends StatelessWidget {
           isFull: false,
           withPrice: true,
           key: key,
-          leftIcon: Padding(
+          topLeftWidget: Padding(
             padding: const EdgeInsets.only(
               left: 12,
               top: 16,
@@ -90,7 +94,7 @@ class TopSection extends StatelessWidget {
           isFull: true,
           withPrice: true,
           key: key,
-          leftIcon: Padding(
+          topLeftWidget: Padding(
             padding: const EdgeInsets.only(
               left: 12,
               top: 16,
@@ -101,7 +105,7 @@ class TopSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
@@ -149,7 +153,7 @@ class TopSection extends StatelessWidget {
                 ),
             ],
           ),
-          leftIcon,
+          topLeftWidget,
         ],
       ),
     );
