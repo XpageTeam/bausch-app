@@ -59,11 +59,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.mystic,

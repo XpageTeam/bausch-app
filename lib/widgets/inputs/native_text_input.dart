@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 ///  TextInput для данного проекта
 class NativeTextInput extends StatefulWidget {
@@ -22,12 +23,14 @@ class NativeTextInput extends StatefulWidget {
   final AlignmentGeometry? labelAlignment;
   final Color? cursorColor;
   final bool? enabled;
+  final bool greenCheckIcon;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
 
   const NativeTextInput({
     required this.labelText,
     required this.controller,
+    this.greenCheckIcon = false,
     this.textCapitalization = TextCapitalization.none,
     this.labelAlignment,
     this.backgroundColor,
@@ -169,14 +172,28 @@ class _NativeTextInputState extends State<NativeTextInput>
                         : Alignment.centerLeft),
 
                 //* Здесь анимируется стиль текста
-                child: AnimatedDefaultTextStyle(
-                  child: Text(
-                    widget.labelText,
-                  ),
-                  style: isTextInputFocusedOrFilled
-                      ? AppStyles.p1Grey
-                      : AppStyles.h2GreyBold,
-                  duration: Duration(milliseconds: labelAnimationDuration),
+                child: Row(
+                
+                  children: [
+                    AnimatedDefaultTextStyle(
+                      child: Text(
+                        widget.labelText,
+                      ),
+                      style: isTextInputFocusedOrFilled
+                          ? AppStyles.p1Grey
+                          : AppStyles.h2GreyBold,
+                      duration: Duration(milliseconds: labelAnimationDuration),
+                    ),
+                   if (widget.greenCheckIcon)
+                        Padding(
+                          padding: const EdgeInsets.only(left:4),
+                          child: SvgPicture.asset(
+                            'assets/choose.svg',
+                            height: 14,
+                            width: 14,
+                          ),
+                        ),
+                  ],
                 ),
                 duration: Duration(milliseconds: labelAnimationDuration),
               ),

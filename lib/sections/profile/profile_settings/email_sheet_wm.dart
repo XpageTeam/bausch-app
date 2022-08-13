@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-class EmailScreenWM extends WidgetModel {
+class EmailSheetWM extends WidgetModel {
   final BuildContext context;
 
   final emailController = TextEditingController();
@@ -16,13 +17,10 @@ class EmailScreenWM extends WidgetModel {
   final confirmSended = StreamedState<bool>(false);
 
   final sendConfirm = VoidAction();
-  final buttonAction = VoidAction();
 
   late UserWM userWM;
 
-  bool isConfirmSended = false;
-
-  EmailScreenWM({required this.context})
+  EmailSheetWM({required this.context})
       : super(const WidgetModelDependencies());
 
   @override
@@ -37,10 +35,6 @@ class EmailScreenWM extends WidgetModel {
 
     sendConfirm.bind((_) {
       sendUserData();
-    });
-
-    buttonAction.bind((_) {
-      Navigator.of(context).pop(emailController.text);
     });
 
     _validateForm();
@@ -66,21 +60,34 @@ class EmailScreenWM extends WidgetModel {
         email: emailController.text,
       ),
     );
-    isConfirmSended = true;
 
-    unawaited(confirmSended.accept(true));
+    await confirmSended.accept(true);
+    Future.delayed(
+      const Duration(milliseconds: 50),
+      () => Navigator.of(context).pop(),
+    );
+
     await isLoading.accept(false);
   }
 
   void _validateForm() {
-    const emailPattern = r'^[^@]+@[^@.]+\.[^@]+$';
-
-    if (RegExp(emailPattern).hasMatch(emailController.text) &&
-        emailController.text != userWM.userData.value.data?.user.email &&
-        emailController.text != userWM.userData.value.data?.user.pendingEmail) {
+    if (EmailValidator.validate(emailController.text) &&
+        !emailController.text.trim().contains(RegExp('[А-Яа-я]'))) {
       formValidationState.accept(true);
     } else {
       formValidationState.accept(false);
     }
   }
+
+  // void _validateForm() {
+  //   const emailPattern = r'^[^@]+@[^@.]+\.[^@]+$';
+
+  //   if (RegExp(emailPattern).hasMatch(emailController.text) &&
+  //       emailController.text != userWM.userData.value.data?.user.email &&
+  //       emailController.text != userWM.userData.value.data?.user.pendingEmail) {
+  //     formValidationState.accept(true);
+  //   } else {
+  //     formValidationState.accept(false);
+  //   }
+  // }
 }

@@ -4,7 +4,7 @@ import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
-import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
 import 'package:bausch/static/static_data.dart';
@@ -41,12 +41,15 @@ class _ProfileSettingsScreenState
   late UserWM userWM;
   late AuthWM authWM;
 
+
+
   @override
   Widget build(BuildContext context) {
     userWM = Provider.of<UserWM>(context);
     authWM = Provider.of<AuthWM>(context);
 
     return Scaffold(
+    resizeToAvoidBottomInset: false, 
       backgroundColor: AppTheme.mystic,
       appBar: DefaultAppBar(
         title: 'Настройки профиля',
@@ -87,85 +90,81 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  StreamedStateBuilder<String?>(
-                    streamedState: wm.enteredEmail,
-                    builder: (_, email) {
-                      return FocusButton(
+              child: EntityStateBuilder<UserRepository>(
+                streamedState: userWM.userData,
+                builder: (_, userData) => Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    StreamedStateBuilder<String?>(
+                      streamedState: wm.enteredEmail,
+                      builder: (_, email) => FocusButton(
                         labelText: 'E-mail',
                         selectedText: email,
+                        greenCheckIcon:
+                            !((userData.user.isEmailConfirmed != null &&
+                                    !userData.user.isEmailConfirmed!) ||
+                                userData.user.pendingEmail != null),
                         icon: Container(),
                         onPressed: () async {
-                          wm.setEmail(
-                            await Keys.mainContentNav.currentState!
-                                .push<String>(
-                              PageRouteBuilder<String>(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        EmailScreen(),
+                          await showModalBottomSheet<num>(
+                          isScrollControlled: true,
+                            context: context,
+                           
+                            barrierColor: Colors.black.withOpacity(0.8),
+                            builder: (context) {
+                              return Wrap(children:[ EmailBottomSheet()]);
+                            },
+                          );
+                          // wm.setEmail(
+                          //   await Keys.mainContentNav.currentState!
+                          //       .push<String>(
+                          //     PageRouteBuilder<String>(
+                          //       pageBuilder:
+                          //           (context, animation, secondaryAnimation) =>
+                          //               EmailScreen(),
+                          //     ),
+                          //   ),
+                          // );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if ((userData.user.isEmailConfirmed != null &&
+                                  !userData.user.isEmailConfirmed!) ||
+                              userData.user.pendingEmail != null)
+                            GestureDetector(
+                              onTap: wm.confirmEmail,
+                              child: DiscountInfo(
+                                text: 'Подтвердить',
+                                color: AppTheme.turquoiseBlue,
+                              ),
+                            )
+                          else
+                            GestureDetector(
+                              child: DiscountInfo(
+                                text: 'Изменить',
+                                color: AppTheme.mystic,
                               ),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  EntityStateBuilder<UserRepository>(
-                    streamedState: userWM.userData,
-                    builder: (_, userData) {
-                      return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            if ((userData.user.isEmailConfirmed != null &&
-                                    !userData.user.isEmailConfirmed!) ||
-                                userData.user.pendingEmail != null)
-                              GestureDetector(
-                                onTap: wm.confirmEmail,
-                                child: DiscountInfo(
-                                  text: 'подтвердить',
-                                  color: AppTheme.turquoiseBlue,
-                                ),
-                              )
-                            else
-                              GestureDetector(
-                                child: DiscountInfo(
-                                  text: 'подтверждён',
-                                  color: AppTheme.turquoiseBlue,
-                                ),
-                              ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: Stack(
-                children: [
-                  NativeTextInput(
-                    labelText: 'Мобильный телефон',
-                    controller: wm.phoneController,
-                    inputType: TextInputType.phone,
-                    enabled: false,
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: DiscountInfo(
-                        text: 'подтверждён',
-                        color: AppTheme.turquoiseBlue,
-                      ),
-                    ),
-                  ),
-                ],
+              child: NativeTextInput(
+                labelText: 'Мобильный телефон',
+                greenCheckIcon: true,
+                controller: wm.phoneController,
+                inputType: TextInputType.phone,
+                enabled: false,
               ),
             ),
             Padding(

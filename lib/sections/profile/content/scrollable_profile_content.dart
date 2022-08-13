@@ -15,9 +15,7 @@ class ScrollableProfileContent extends CoreMwwmWidget<ProfileContentWM> {
   final ScrollController controller;
   ScrollableProfileContent({required this.controller, Key? key})
       : super(
-          widgetModelBuilder: (context) {
-            return ProfileContentWM();
-          },
+          widgetModelBuilder: (_) => ProfileContentWM(),
           key: key,
         );
 
@@ -112,6 +110,7 @@ class _ScrollableProfileContentState
                   );
                 }),
                 if (isOrdersEnabled) ...[
+                  // TODO(ask): как мне заполнить заказы для теста?
                   //* Вкладка с заказами
                   OrdersSection(
                     ordersList: wm.orderHistoryList.value.data!,
