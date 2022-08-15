@@ -110,7 +110,6 @@ class _ScrollableProfileContentState
                   );
                 }),
                 if (isOrdersEnabled) ...[
-                  // TODO(ask): как мне заполнить заказы для теста?
                   //* Вкладка с заказами
                   OrdersSection(
                     ordersList: wm.orderHistoryList.value.data!,

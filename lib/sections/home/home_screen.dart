@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_mixin
+// ignore_for_file: prefer_mixin, prefer_final_locals
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
@@ -13,6 +14,7 @@ import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
+import 'package:bausch/sections/home/widgets/containers/small_container.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -21,8 +23,8 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/white_button_with_text.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
@@ -244,6 +246,136 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                         ),
                       ),
                       SliverPadding(
+                        padding: const EdgeInsets.only(
+                          left: StaticData.sidePadding,
+                          right: StaticData.sidePadding,
+                        ),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate(
+                            [
+                              //* Скидки за баллы
+                              DelayedAnimatedTranslateOpacity(
+                                offsetY: 60,
+                                child: EntityStateBuilder<
+                                    List<BaseCatalogSheetModel>>(
+                                  streamedState: wm.catalog,
+                                  loadingBuilder: (_, catalogItems) {
+                                    if (catalogItems != null) {
+                                      final height =
+                                          MediaQuery.of(context).size.width /
+                                                  2 -
+                                              StaticData.sidePadding -
+                                              2;
+                                      List<BaseCatalogSheetModel>? actualList =
+                                          [];
+                                      for (final element in catalogItems) {
+                                        if (element.type == 'offline' ||
+                                            element.type == 'onlineShop') {
+                                          actualList.add(element);
+                                        }
+                                      }
+                                      // TODO(pavlov): вынести отдельным виджетом
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Скидки за баллы',
+                                            style: AppStyles.h1,
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          SizedBox(
+                                            height: height,
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: actualList.length,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              itemBuilder: (_, index) {
+                                                return Padding(
+                                                  padding: EdgeInsets.only(
+                                                    right: index ==
+                                                            actualList.length -
+                                                                1
+                                                        ? 0
+                                                        : 4,
+                                                  ),
+                                                  child: SmallContainer(
+                                                    model: actualList[index]
+                                                        as CatalogSheetModel,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+
+                                    return const SizedBox();
+                                  },
+                                  builder: (_, catalogItems) {
+                                    final height =
+                                        MediaQuery.of(context).size.width / 2 -
+                                            StaticData.sidePadding -
+                                            2;
+                                    List<BaseCatalogSheetModel>? actualList =
+                                        [];
+                                    for (final element in catalogItems) {
+                                      if (element.type == 'offline' ||
+                                          element.type == 'onlineShop') {
+                                        actualList.add(element);
+                                      }
+                                    }
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Скидки за баллы',
+                                          style: AppStyles.h1,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          height: height,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: actualList.length,
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            itemBuilder: (_, index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  right: index ==
+                                                          actualList.length - 1
+                                                      ? 0
+                                                      : 4,
+                                                ),
+                                                child: SmallContainer(
+                                                  model: actualList[index]
+                                                      as CatalogSheetModel,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      SliverPadding(
                         key: spendPointsPositionKey,
                         padding: const EdgeInsets.only(
                           left: StaticData.sidePadding,
@@ -260,16 +392,34 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                   streamedState: wm.catalog,
                                   loadingBuilder: (_, catalogItems) {
                                     if (catalogItems != null) {
+                                      // TODO(pavlov): добавил для выноски скидок
+
+                                      List<BaseCatalogSheetModel>? actualList =
+                                          [];
+                                      for (final element in catalogItems) {
+                                        if (element.type != 'offline' &&
+                                            element.type != 'onlineShop') {
+                                          actualList.add(element);
+                                        }
+                                      }
                                       return SpendScores(
-                                        catalogList: catalogItems,
+                                        catalogList: actualList,
                                       );
                                     }
 
                                     return const SizedBox();
                                   },
                                   builder: (_, catalogItems) {
+                                    List<BaseCatalogSheetModel>? actualList =
+                                        [];
+                                    for (final element in catalogItems) {
+                                      if (element.type != 'offline' &&
+                                          element.type != 'onlineShop') {
+                                        actualList.add(element);
+                                      }
+                                    }
                                     return SpendScores(
-                                      catalogList: catalogItems,
+                                      catalogList: actualList,
                                     );
                                   },
                                 ),
@@ -305,15 +455,25 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               const SizedBox(
                                 height: 40,
                               ),
-                              // TODO(pavlov): кнопка белого цвета
-                              BlueButtonWithText(
+                              // TODO(pavlov): разобраться оставляем такую поддержку или меняем поля
+
+                              WhiteButtonWithText(
                                 text: 'Написать в поддержку',
                                 onPressed: () {
                                   FirebaseAnalytics.instance
                                       .logEvent(name: 'support_button_click');
-                                  Navigator.of(context).pushNamed(
-                                    '/support',
-                                    arguments: ContactSupportScreenArguments(),
+                                  // Navigator.of(context).pushNamed(
+                                  //   '/support',
+                                  //   arguments: ContactSupportScreenArguments(),
+                                  // );
+
+                                  showSheet<ContactSupportScreenArguments>(
+                                    context,
+                                    SimpleSheetModel(
+                                      name: 'Обратиться в поддержку',
+                                      type: 'support',
+                                    ),
+                                    ContactSupportScreenArguments(),
                                   );
                                 },
                               ),
@@ -321,40 +481,51 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                 padding: EdgeInsets.only(top: 20, bottom: 14),
                                 child: Text(
                                   'Вы можете найти нас здесь',
-                                  // TODO(pavlov): по макетам тут стиль t1,
+                                  // TODO(ask): по макетам тут стиль t1,
                                   // но так понимаю в верстке это p1
                                   style: AppStyles.p1,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   const Spacer(),
-                                  // TODO(pavlov): картинки соц сетей
-                                  // сделать кликабельными
+                                  // TODO(pavlov): получить ссылки на соц сети
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: const CircleAvatar(
+                                      child: CircleAvatar(
+                                        child: Image.asset(
+                                          'assets/logos/inst.png',
+                                          scale: 2.5,
+                                        ),
                                         backgroundColor: Colors.white,
                                       ),
                                     ),
                                   ),
-
+                                  const SizedBox(width: 20),
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: const CircleAvatar(
+                                      child: CircleAvatar(
+                                        child: Image.asset(
+                                          'assets/logos/vk.png',
+                                          scale: 2.5,
+                                        ),
                                         backgroundColor: Colors.white,
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(width: 20),
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: const CircleAvatar(
+                                      child: CircleAvatar(
+                                        child: Image.asset(
+                                          'assets/logos/tube.png',
+                                          scale: 2.5,
+                                        ),
                                         backgroundColor: Colors.white,
                                       ),
                                     ),

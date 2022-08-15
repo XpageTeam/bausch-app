@@ -42,6 +42,7 @@ class CatalogItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO(pavlov): еще должен выезжать поп ап, в нем добавить на что скидка распространяется и когда закончится
     debugPrint(model.picture);
     return Container(
       decoration: BoxDecoration(
@@ -86,6 +87,8 @@ class CatalogItemWidget extends StatelessWidget {
                         ),
                       ),
 
+                        // TODO(pavlov): сюда добавить название скидочного товара
+
                       //* Цена и виджет баллов
                       if (model.price > 0)
                         Container(
@@ -105,6 +108,8 @@ class CatalogItemWidget extends StatelessWidget {
                             ],
                           ),
                         ),
+
+                        // TODO(pavlov): сюда добавить дату окончания промокода
 
                       //* Адрес
                       if (model is ProductItemModel && address != null)

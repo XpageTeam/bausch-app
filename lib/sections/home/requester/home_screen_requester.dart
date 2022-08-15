@@ -48,13 +48,17 @@ class HomeScreenRequester {
     );
 
     try {
+      // TODO(pavlov): покопаться в этом запросе
       return (parsedData.data as List<dynamic>).map((dynamic sheet) {
+        // if ((sheet as Map<String, dynamic>)
+        //     .containsValue(StaticData.types['discount_optics'])) {
+        //   return CatalogSheetWithLogosModel.fromMap(
+        //     sheet,
+        //   );
+        // } else
+
         if ((sheet as Map<String, dynamic>)
-            .containsValue(StaticData.types['discount_optics'])) {
-          return CatalogSheetWithLogosModel.fromMap(
-            sheet,
-          );
-        } else if (sheet.containsValue(StaticData.types['consultation'])) {
+            .containsValue(StaticData.types['consultation'])) {
           return CatalogSheetWithoutLogosModel.fromMap(sheet);
         } else {
           return CatalogSheetModel.fromMap(sheet);
