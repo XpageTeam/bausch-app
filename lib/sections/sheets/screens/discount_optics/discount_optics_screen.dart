@@ -232,7 +232,6 @@ class _DiscountOpticsScreenState
                 ),
               Warning.warning(wm.warningText),
             ];
-
             return SliverPadding(
               padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,

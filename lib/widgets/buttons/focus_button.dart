@@ -9,12 +9,14 @@ class FocusButton extends StatelessWidget {
   final String? selectedText;
   final Widget? icon;
   final bool greenCheckIcon;
+  final bool waitConfirmationIcon;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   const FocusButton({
     required this.labelText,
     this.selectedText,
     this.greenCheckIcon = false,
+    this.waitConfirmationIcon = false,
     this.icon,
     this.onPressed,
     this.backgroundColor = Colors.white,
@@ -43,8 +45,6 @@ class FocusButton extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisSize: MainAxisSize.min,
-                    
-                    
                     children: [
                       Text(
                         labelText,
@@ -54,11 +54,21 @@ class FocusButton extends StatelessWidget {
                       ),
                       if (greenCheckIcon)
                         Padding(
-                          padding: const EdgeInsets.only(left:4),
+                          padding: const EdgeInsets.only(left: 4),
                           child: SvgPicture.asset(
                             'assets/choose.svg',
                             height: 14,
                             width: 14,
+                          ),
+                        ),
+                      if (waitConfirmationIcon)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Image.asset(
+                            'assets/icons/time.png',
+                            height: 14,
+                            width: 14,
+                            color: AppTheme.grey,
                           ),
                         ),
                     ],

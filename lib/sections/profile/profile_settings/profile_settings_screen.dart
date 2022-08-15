@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
@@ -7,6 +5,7 @@ import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
+import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -16,11 +15,9 @@ import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
-
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
@@ -41,15 +38,13 @@ class _ProfileSettingsScreenState
   late UserWM userWM;
   late AuthWM authWM;
 
-
-
   @override
   Widget build(BuildContext context) {
     userWM = Provider.of<UserWM>(context);
     authWM = Provider.of<AuthWM>(context);
 
     return Scaffold(
-    resizeToAvoidBottomInset: false, 
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppTheme.mystic,
       appBar: DefaultAppBar(
         title: 'Настройки профиля',
@@ -59,7 +54,7 @@ class _ProfileSettingsScreenState
           onPressed: () {
             wm.sendUserData();
           },
-          child: Text(
+          child: const Text(
             'Готово',
             style: AppStyles.p1,
           ),
@@ -92,67 +87,64 @@ class _ProfileSettingsScreenState
               padding: const EdgeInsets.only(bottom: 4),
               child: EntityStateBuilder<UserRepository>(
                 streamedState: userWM.userData,
-                builder: (_, userData) => Stack(
-                  alignment: Alignment.topRight,
+                builder: (_, userData) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StreamedStateBuilder<String?>(
-                      streamedState: wm.enteredEmail,
-                      builder: (_, email) => FocusButton(
-                        labelText: 'E-mail',
-                        selectedText: email,
-                        greenCheckIcon:
-                            !((userData.user.isEmailConfirmed != null &&
-                                    !userData.user.isEmailConfirmed!) ||
-                                userData.user.pendingEmail != null),
-                        icon: Container(),
-                        onPressed: () async {
-                          await showModalBottomSheet<num>(
-                          isScrollControlled: true,
-                            context: context,
-                           
-                            barrierColor: Colors.black.withOpacity(0.8),
-                            builder: (context) {
-                              return Wrap(children:[ EmailBottomSheet()]);
+                    Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        StreamedStateBuilder<String?>(
+                          streamedState: wm.enteredEmail,
+                          builder: (_, email) => FocusButton(
+                            labelText: 'E-mail',
+                            selectedText: email,
+                            greenCheckIcon:
+                                !((userData.user.isEmailConfirmed != null &&
+                                        !userData.user.isEmailConfirmed!) ||
+                                    userData.user.pendingEmail != null),
+                            waitConfirmationIcon:
+                                (userData.user.isEmailConfirmed != null &&
+                                        !userData.user.isEmailConfirmed!) ||
+                                    userData.user.pendingEmail != null,
+                            icon: Container(),
+                            onPressed: () async {
+                              await showModalBottomSheet<num>(
+                                isScrollControlled: true,
+                                context: context,
+                                barrierColor: Colors.black.withOpacity(0.8),
+                                builder: (context) {
+                                  return Wrap(children: [EmailBottomSheet()]);
+                                },
+                              );
                             },
-                          );
-                          // wm.setEmail(
-                          //   await Keys.mainContentNav.currentState!
-                          //       .push<String>(
-                          //     PageRouteBuilder<String>(
-                          //       pageBuilder:
-                          //           (context, animation, secondaryAnimation) =>
-                          //               EmailScreen(),
-                          //     ),
-                          //   ),
-                          // );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if ((userData.user.isEmailConfirmed != null &&
-                                  !userData.user.isEmailConfirmed!) ||
-                              userData.user.pendingEmail != null)
-                            GestureDetector(
-                              onTap: wm.confirmEmail,
-                              child: DiscountInfo(
-                                text: 'Подтвердить',
-                                color: AppTheme.turquoiseBlue,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                child: const DiscountInfo(
+                                  text: 'Изменить',
+                                  color: AppTheme.mystic,
+                                ),
                               ),
-                            )
-                          else
-                            GestureDetector(
-                              child: DiscountInfo(
-                                text: 'Изменить',
-                                color: AppTheme.mystic,
-                              ),
-                            ),
-                        ],
-                      ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
+                    if ((userData.user.isEmailConfirmed != null &&
+                            !userData.user.isEmailConfirmed!) ||
+                        userData.user.pendingEmail != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Warning.warning(
+                          'Мы отправили инструкцию для  подтверждения. Проверьте почту.',
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -205,9 +197,9 @@ class _ProfileSettingsScreenState
               streamedState: wm.showBanner,
               builder: (_, showing) {
                 return showing
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: const ProfileSettingsBanner(),
+                    ? const Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: ProfileSettingsBanner(),
                       )
                     : const SizedBox();
               },
@@ -295,7 +287,7 @@ class _ProfileSettingsScreenState
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 40),
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
                 builder: (_, snapshot) {
