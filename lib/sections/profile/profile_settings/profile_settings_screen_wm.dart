@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -27,10 +28,11 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneController = MaskedTextController(mask: '+7 000 000 00 00');
-
   final changeCityAction = StreamedAction<String?>();
-
   final confirmEmail = VoidAction();
+
+  // TODO(pavlov): заглушка для уведомлений, пока нет бэка
+  List<bool> notificationsList = <bool>[false, false, false];
 
   String tempName = '';
   String tempLastName = '';
@@ -122,6 +124,17 @@ class ProfileSettingsScreenWM extends WidgetModel {
         success: true,
       );
     }
+  }
+
+  // TODO(pavlov): тут в будущем сохранять уведомления
+  void updateNotifications(List<bool> notifications) {
+    notificationsList.clear();
+    notificationsList = [...notifications];
+    showDefaultNotification(
+      title: 'Данные успешно обновлены',
+      success: true,
+    );
+    Keys.mainContentNav.currentState!.pop();
   }
 
   void setValues() {

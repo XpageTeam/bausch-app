@@ -321,8 +321,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                 padding: EdgeInsets.only(top: 20, bottom: 14),
                                 child: Text(
                                   'Вы можете найти нас здесь',
-                                  // TODO(pavlov): тут стиль т1
-                                  style: AppStyles.n1,
+                                  // TODO(pavlov): по макетам тут стиль t1,
+                                  // но так понимаю в верстке это p1
+                                  style: AppStyles.p1,
                                   textAlign: TextAlign.center,
                                 ),
                               ),

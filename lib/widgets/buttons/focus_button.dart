@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class FocusButton extends StatelessWidget {
   final String labelText;
   final String? selectedText;
+  final TextStyle selectedTextStyle;
   final Widget? icon;
   final bool greenCheckIcon;
   final bool waitConfirmationIcon;
@@ -14,6 +15,7 @@ class FocusButton extends StatelessWidget {
   final Color? backgroundColor;
   const FocusButton({
     required this.labelText,
+    this.selectedTextStyle = AppStyles.h2,
     this.selectedText,
     this.greenCheckIcon = false,
     this.waitConfirmationIcon = false,
@@ -48,7 +50,7 @@ class FocusButton extends StatelessWidget {
                     children: [
                       Text(
                         labelText,
-                        style: selectedText == null
+                        style: selectedText == null || selectedTextStyle != AppStyles.h2
                             ? AppStyles.h2GreyBold
                             : AppStyles.p1Grey,
                       ),
@@ -78,7 +80,7 @@ class FocusButton extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
                         selectedText!,
-                        style: AppStyles.h2,
+                        style: selectedTextStyle,
                       ),
                     ),
                 ],

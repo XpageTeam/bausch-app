@@ -3,6 +3,7 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/notifications_settings/notifications_settings_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -116,6 +117,14 @@ class _ProfileSettingsScreenState
                                 builder: (context) {
                                   return Wrap(children: [EmailBottomSheet()]);
                                 },
+                              ).then(
+                                (value) async => wm.enteredEmail.accept(userWM
+                                        .userData
+                                        .value
+                                        .data!
+                                        .user
+                                        .pendingEmail ??
+                                    userWM.userData.value.data!.user.email),
                               );
                             },
                           ),
@@ -252,6 +261,26 @@ class _ProfileSettingsScreenState
                 labelText: 'Привязать аккаунт',
               ),
             ),*/
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: FocusButton(
+                labelText: 'Уведомления',
+                selectedText: 'Акции, скидки, новости',
+                selectedTextStyle: AppStyles.p1Grey,
+                onPressed: () {
+                  Keys.mainContentNav.currentState!.push(
+                    PageRouteBuilder<String>(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          NotificationsSettingsScreen(
+                        valuesList: wm.notificationsList,
+                        onSendUpdate: (valuesList) =>
+                            wm.updateNotifications(valuesList),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: TextButton(

@@ -102,6 +102,10 @@ class _MainNavigationState extends State<MainNavigation>
                 page = const MyAdressesScreen();
                 break;
 
+              // case '/notifications_settings':
+              //   page = const NotificationsSettingsScreen();
+              //   break;
+
               case '/city':
                 page = CityScreen();
                 break;
