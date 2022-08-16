@@ -20,7 +20,6 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
-//import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +41,9 @@ class CatalogItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(pavlov): еще должен выезжать поп ап, в нем добавить на что скидка распространяется и когда закончится
+
     debugPrint(model.picture);
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
@@ -87,7 +86,13 @@ class CatalogItemWidget extends StatelessWidget {
                         ),
                       ),
 
-                        // TODO(pavlov): сюда добавить название скидочного товара
+                      // TODO(pavlov): сюда добавить название скидочного товара
+                      //   Flexible(
+                      //   child: Text(
+                      //     model.name,
+                      //     style: AppStyles.h2Bold,
+                      //   ),
+                      // ),
 
                       //* Цена и виджет баллов
                       if (model.price > 0)
@@ -109,7 +114,18 @@ class CatalogItemWidget extends StatelessWidget {
                           ),
                         ),
 
-                        // TODO(pavlov): сюда добавить дату окончания промокода
+                      // TODO(pavlov): дата окончания промокода
+                      //
+                      // if (model is PartnersItemModel && (model as PartnersItemModel).endDate != null)
+                      //   Flexible(
+                      //     child: Container(
+                      //       margin: const EdgeInsets.only(bottom: 4),
+                      //       child: Text(
+                      //         (model as PartnersItemModel).endDate!,
+                      //         style: AppStyles.p1Grey,
+                      //       ),
+                      //     ),
+                      //   ),
 
                       //* Адрес
                       if (model is ProductItemModel && address != null)

@@ -48,11 +48,13 @@ class FocusButton extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        labelText,
-                        style: selectedText == null || selectedTextStyle != AppStyles.h2
-                            ? AppStyles.h2GreyBold
-                            : AppStyles.p1Grey,
+                      Expanded(
+                        child: Text(
+                          labelText,
+                          style: selectedText == null || selectedTextStyle != AppStyles.h2
+                              ? AppStyles.h2GreyBold
+                              : AppStyles.p1Grey,
+                        ),
                       ),
                       if (greenCheckIcon)
                         Padding(

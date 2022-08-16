@@ -3,8 +3,9 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
-import 'package:bausch/sections/profile/profile_settings/screens/notifications_settings/notifications_settings_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/notifications_settings/notifications_settings_screen.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
@@ -213,13 +214,13 @@ class _ProfileSettingsScreenState
                     : const SizedBox();
               },
             ),
-            /* Padding(
-              padding: EdgeInsets.only(bottom: 4),
+             Padding(
+              padding: const EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(
                 streamedState: wm.selectedCityName,
                 builder: (_, cityName) {
                   return FocusButton(
-                    labelText: 'Город',
+                    labelText: 'Партнеров из какого города показывать',
                     selectedText: cityName,
                     onPressed: () async {
                       await wm.changeCityAction(
@@ -235,7 +236,7 @@ class _ProfileSettingsScreenState
                   );
                 },
               ),
-            ), */
+            ), 
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: FocusButton(

@@ -179,14 +179,17 @@ class ProfileSettingsScreenWM extends WidgetModel {
   }
 
   void setCityName(String? cityName) {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     if (cityName != null) {
-      userWM.updateUserData(
-        userWM.userData.value.data!.user.copyWith(city: cityName),
-        successMessage: 'Город успешно изменён',
-      );
+      selectedCityName.accept(cityName);
     }
+    // final userWM = Provider.of<UserWM>(context, listen: false);
+
+    // if (cityName != null) {
+    //   userWM.updateUserData(
+    //     userWM.userData.value.data!.user.copyWith(city: cityName),
+    //     successMessage: 'Город успешно изменён',
+    //   );
+    // }
 
     // selectedCityName.accept(cityName ?? userWM.userData.value.data!.user.city);
   }
