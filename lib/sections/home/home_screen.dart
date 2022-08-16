@@ -14,6 +14,7 @@ import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
+import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -244,31 +245,90 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           ],
                         ),
                       ),
-                      SliverToBoxAdapter(
+
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                          bottom: 40,
+                        ),
+                        sliver: SliverToBoxAdapter(
                           child:
-                              //* Скидки за баллы
+                              // TODO(pavlov): мои линзы
                               DelayedAnimatedTranslateOpacity(
                             offsetY: 60,
-                            child:
-                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
-                              streamedState: wm.catalog,
-                              loadingBuilder: (_, catalogItems) {
-                                if (catalogItems != null) {
-                                  return SalesWidget(
-                                    catalogList: catalogItems,
-                                  );
-                                }
-                                return const SizedBox();
-                              },
-                              builder: (_, catalogItems) {
-                                return SalesWidget(
-                                  catalogList: catalogItems,
-                                );
-                              },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: StaticData.sidePadding,
+                              ),
+                              child: WhiteContainerWithRoundedCorners(
+                                onTap: () {
+                                  Keys.mainContentNav.currentState!
+                                      .pushNamed('/my_lenses');
+                                },
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: StaticData.sidePadding,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Text(
+                                            'Мои линзы',
+                                            style: AppStyles.h1,
+                                          ),
+                                          Text(
+                                            'История ношения, сроки замены и параметры линз всегда под рукой',
+                                            style: AppStyles.p1,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Image.asset(
+                                        'assets/my_lenses.png',
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      
+                      ),
+
+                      SliverToBoxAdapter(
+                        child:
+                            //* Скидки за баллы
+                            DelayedAnimatedTranslateOpacity(
+                          offsetY: 70,
+                          child:
+                              EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                            streamedState: wm.catalog,
+                            loadingBuilder: (_, catalogItems) {
+                              if (catalogItems != null) {
+                                return SalesWidget(
+                                  catalogList: catalogItems,
+                                );
+                              }
+                              return const SizedBox();
+                            },
+                            builder: (_, catalogItems) {
+                              return SalesWidget(
+                                catalogList: catalogItems,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
 
                       SliverPadding(
                         key: spendPointsPositionKey,
@@ -282,7 +342,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             [
                               //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                               DelayedAnimatedTranslateOpacity(
-                                offsetY: 70,
+                                offsetY: 80,
                                 child: EntityStateBuilder<
                                     List<BaseCatalogSheetModel>>(
                                   streamedState: wm.catalog,

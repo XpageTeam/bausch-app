@@ -4,11 +4,8 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_with_logos.dart';
-import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class HomeScreenRequester {

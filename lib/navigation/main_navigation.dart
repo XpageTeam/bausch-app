@@ -10,6 +10,7 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_scren.dart';
+import 'package:bausch/sections/my%20lenses/my_lenses_screen.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/lenses_parameters.dart';
@@ -90,6 +91,10 @@ class _MainNavigationState extends State<MainNavigation>
 
               case '/code':
                 page = const CodeScreen();
+                break;
+
+              case '/my_lenses':
+                page = const MyLensesScreen();
                 break;
 
               case '/profile':
