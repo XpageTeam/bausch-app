@@ -150,7 +150,7 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
       case 'add_points':
         await showSheet<void>(
           context,
-          SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+          SimpleSheetModel(name: 'Накопить баллы', type: 'add_points'),
         );
         break;
     }

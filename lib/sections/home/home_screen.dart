@@ -3,8 +3,6 @@
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
@@ -16,8 +14,6 @@ import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
-import 'package:bausch/sections/home/widgets/containers/small_container.dart';
-import 'package:bausch/sections/home/widgets/containers/wide_container_without_items.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -443,7 +439,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                 builder: (ctx, constraints) {
                   bottomHeigth = constraints.minHeight + 10;
                   return CustomFloatingActionButton(
-                    text: 'Добавить баллы',
+                    text: 'Накопить баллы',
                     icon: const Icon(
                       Icons.add,
                       color: AppTheme.mineShaft,
@@ -452,7 +448,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       showSheet<void>(
                         context,
                         SimpleSheetModel(
-                          name: 'Добавить баллы',
+                          name: 'Накопить баллы',
                           type: 'add_points',
                         ),
                       );

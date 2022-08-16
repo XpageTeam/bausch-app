@@ -133,7 +133,7 @@ class _FreePackagingScreenState
         ),
       ],
       bottomNavBar: CustomFloatingActionButton(
-        text: wm.difference > 0 ? 'Добавить баллы' : 'Перейти к заказу',
+        text: wm.difference > 0 ? 'Накопить баллы' : 'Перейти к заказу',
         icon: wm.difference > 0
             ? const Icon(
                 Icons.add,

@@ -140,7 +140,7 @@ class _CodeSectionState extends State<CodeSection> {
                     height: 4,
                   ),
                   BlueButtonWithText(
-                    text: 'Добавить баллы',
+                    text: 'Накопить баллы',
                     icon: const Icon(
                       Icons.add,
                       color: AppTheme.mineShaft,

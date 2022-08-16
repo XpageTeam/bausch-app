@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:after_layout/after_layout.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
@@ -20,6 +21,7 @@ import 'package:bausch/sections/profile/profile_settings/screens/city/city_scree
 import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/sections/registration/screens/city_email/city_and_email_screen.dart';
+import 'package:bausch/sections/sales/sales_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +139,12 @@ class _MainNavigationState extends State<MainNavigation>
               // case '/shops':
               //   page = SelectOpticScreen();
               //   break;
+
+              case '/sales':
+                page = SalesScreen(
+                  salesList: settings.arguments as List<BaseCatalogSheetModel>,
+                );
+                break;
 
               case '/home':
               default:
