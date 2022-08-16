@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
@@ -11,10 +12,12 @@ import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
+import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/containers/small_container.dart';
+import 'package:bausch/sections/home/widgets/containers/wide_container_without_items.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -245,139 +248,36 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           ],
                         ),
                       ),
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
-                          left: StaticData.sidePadding,
-                          right: StaticData.sidePadding,
-                        ),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
+                      SliverToBoxAdapter(
+                          child:
                               //* Скидки за баллы
                               DelayedAnimatedTranslateOpacity(
-                                offsetY: 60,
-                                child: EntityStateBuilder<
-                                    List<BaseCatalogSheetModel>>(
-                                  streamedState: wm.catalog,
-                                  loadingBuilder: (_, catalogItems) {
-                                    if (catalogItems != null) {
-                                      final height =
-                                          MediaQuery.of(context).size.width /
-                                                  2 -
-                                              StaticData.sidePadding -
-                                              2;
-                                      List<BaseCatalogSheetModel>? actualList =
-                                          [];
-                                      for (final element in catalogItems) {
-                                        if (element.type == 'offline' ||
-                                            element.type == 'onlineShop') {
-                                          actualList.add(element);
-                                        }
-                                      }
-                                      // TODO(pavlov): вынести отдельным виджетом
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Скидки за баллы',
-                                            style: AppStyles.h1,
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          SizedBox(
-                                            height: height,
-                                            child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: actualList.length,
-                                              physics:
-                                                  const BouncingScrollPhysics(),
-                                              itemBuilder: (_, index) {
-                                                return Padding(
-                                                  padding: EdgeInsets.only(
-                                                    right: index ==
-                                                            actualList.length -
-                                                                1
-                                                        ? 0
-                                                        : 4,
-                                                  ),
-                                                  child: SmallContainer(
-                                                    model: actualList[index]
-                                                        as CatalogSheetModel,
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    }
-
-                                    return const SizedBox();
-                                  },
-                                  builder: (_, catalogItems) {
-                                    final height =
-                                        MediaQuery.of(context).size.width / 2 -
-                                            StaticData.sidePadding -
-                                            2;
-                                    List<BaseCatalogSheetModel>? actualList =
-                                        [];
-                                    for (final element in catalogItems) {
-                                      if (element.type == 'offline' ||
-                                          element.type == 'onlineShop') {
-                                        actualList.add(element);
-                                      }
-                                    }
-                                    return Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Скидки за баллы',
-                                          style: AppStyles.h1,
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        SizedBox(
-                                          height: height,
-                                          child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: actualList.length,
-                                            physics:
-                                                const BouncingScrollPhysics(),
-                                            itemBuilder: (_, index) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(
-                                                  right: index ==
-                                                          actualList.length - 1
-                                                      ? 0
-                                                      : 4,
-                                                ),
-                                                child: SmallContainer(
-                                                  model: actualList[index]
-                                                      as CatalogSheetModel,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
+                            offsetY: 60,
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SalesWidget(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
+                                return SalesWidget(
+                                  catalogList: catalogItems,
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
+                      
 
                       SliverPadding(
                         key: spendPointsPositionKey,
                         padding: const EdgeInsets.only(
+                          top: 40,
                           left: StaticData.sidePadding,
                           right: StaticData.sidePadding,
                         ),
@@ -386,40 +286,21 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             [
                               //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                               DelayedAnimatedTranslateOpacity(
-                                offsetY: 60,
+                                offsetY: 70,
                                 child: EntityStateBuilder<
                                     List<BaseCatalogSheetModel>>(
                                   streamedState: wm.catalog,
                                   loadingBuilder: (_, catalogItems) {
                                     if (catalogItems != null) {
-                                      // TODO(pavlov): добавил для выноски скидок
-
-                                      List<BaseCatalogSheetModel>? actualList =
-                                          [];
-                                      for (final element in catalogItems) {
-                                        if (element.type != 'offline' &&
-                                            element.type != 'onlineShop') {
-                                          actualList.add(element);
-                                        }
-                                      }
                                       return SpendScores(
-                                        catalogList: actualList,
+                                        catalogList: catalogItems,
                                       );
                                     }
-
                                     return const SizedBox();
                                   },
                                   builder: (_, catalogItems) {
-                                    List<BaseCatalogSheetModel>? actualList =
-                                        [];
-                                    for (final element in catalogItems) {
-                                      if (element.type != 'offline' &&
-                                          element.type != 'onlineShop') {
-                                        actualList.add(element);
-                                      }
-                                    }
                                     return SpendScores(
-                                      catalogList: actualList,
+                                      catalogList: catalogItems,
                                     );
                                   },
                                 ),

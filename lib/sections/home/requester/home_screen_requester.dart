@@ -57,12 +57,12 @@ class HomeScreenRequester {
         //   );
         // } else
 
-        if ((sheet as Map<String, dynamic>)
-            .containsValue(StaticData.types['consultation'])) {
-          return CatalogSheetWithoutLogosModel.fromMap(sheet);
-        } else {
-          return CatalogSheetModel.fromMap(sheet);
-        }
+        // if ((sheet as Map<String, dynamic>)
+        //     .containsValue(StaticData.types['consultation'])) {
+          // return CatalogSheetWithoutLogosModel.fromMap(sheet);
+        // } else {
+        return CatalogSheetModel.fromMap(sheet as Map<String, dynamic>);
+        // }
       }).toList();
     } catch (e) {
       throw ResponseParseException('loadCatalog: $e');

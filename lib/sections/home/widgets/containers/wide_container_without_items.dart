@@ -2,6 +2,7 @@
 
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
+import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_without_logos_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -18,7 +19,7 @@ class WideContainerWithoutItems extends StatefulWidget
   final String? subtitle;
 
   @override
-  final CatalogSheetWithoutLogosModel model;
+  final CatalogSheetModel model;
 
   const WideContainerWithoutItems({
     required this.model,
@@ -58,6 +59,7 @@ class _WideContainerWithoutItemsState extends State<WideContainerWithoutItems> {
           },
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
           child: Column(
+            
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
