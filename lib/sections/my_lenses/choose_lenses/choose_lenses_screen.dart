@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ChooseLensesScreen extends CoreMwwmWidget<ChooseLensesWM> {
-  ChooseLensesScreen({Key? key})
+  final bool isEditing;
+  ChooseLensesScreen({this.isEditing = false, Key? key})
       : super(
           key: key,
           widgetModelBuilder: (context) => ChooseLensesWM(context: context),
@@ -82,7 +83,6 @@ class _ChooseLensesScreenState
               style: AppStyles.h1,
             ),
           ),
-          // TODO(pavlov): тут корреляция с файлом lens parameters
           StreamedStateBuilder<String?>(
             streamedState: wm.rightDiopters,
             builder: (_, rightDiopters) {
@@ -113,7 +113,6 @@ class _ChooseLensesScreenState
               );
             },
           ),
-
           StreamedStateBuilder<String?>(
             streamedState: wm.rightCylinder,
             builder: (_, rightCylinder) {
@@ -141,7 +140,6 @@ class _ChooseLensesScreenState
               );
             },
           ),
-
           StreamedStateBuilder<String?>(
             streamedState: wm.rightAxis,
             builder: (_, rightAxis) {
@@ -169,7 +167,6 @@ class _ChooseLensesScreenState
               );
             },
           ),
-
           StreamedStateBuilder<String?>(
             streamedState: wm.rightAddidations,
             builder: (_, rightAddidations) {
@@ -197,7 +194,6 @@ class _ChooseLensesScreenState
               );
             },
           ),
-
           const Padding(
             padding: EdgeInsets.only(top: 30, bottom: 22),
             child: Text(
@@ -257,7 +253,6 @@ class _ChooseLensesScreenState
               );
             },
           ),
-
           StreamedStateBuilder<String?>(
             streamedState: wm.leftCylinder,
             builder: (_, leftCylinder) {
@@ -288,7 +283,6 @@ class _ChooseLensesScreenState
               );
             },
           ),
-
           StreamedStateBuilder<String?>(
             streamedState: wm.leftAxis,
             builder: (_, leftAxis) {
@@ -319,7 +313,6 @@ class _ChooseLensesScreenState
               );
             },
           ),
-
           StreamedStateBuilder<String?>(
             streamedState: wm.leftAddidations,
             builder: (_, leftAddidations) {
@@ -354,10 +347,12 @@ class _ChooseLensesScreenState
           StreamedStateBuilder<bool>(
             streamedState: wm.areFieldsValid,
             builder: (_, areFieldsValid) => BlueButtonWithText(
-              text: 'Добавить',
+              text: widget.isEditing ? 'Сохранить' : 'Добавить',
               onPressed: areFieldsValid
-                  ? () =>
-                      Keys.mainContentNav.currentState!.pushNamed('/my_lenses')
+                  ? () => widget.isEditing
+                      ? Keys.mainContentNav.currentState!.pop()
+                      : Keys.mainContentNav.currentState!
+                          .pushReplacementNamed('/my_lenses')
                   : null,
             ),
           ),

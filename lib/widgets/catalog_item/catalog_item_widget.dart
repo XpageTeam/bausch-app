@@ -18,6 +18,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:extended_image/extended_image.dart';
@@ -41,7 +42,6 @@ class CatalogItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     debugPrint(model.picture);
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -393,45 +393,6 @@ void callback(CatalogItemModel model, {VoidCallback? allWebinarsOpen}) {
           buttonText: 'Готово',
         );
       },
-    );
-  }
-}
-
-class GreyButton extends StatelessWidget {
-  final String text;
-  final Widget icon;
-  final VoidCallback? onPressed;
-  const GreyButton({
-    required this.text,
-    required this.icon,
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.mystic,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text,
-              style: AppStyles.h2,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            icon,
-          ],
-        ),
-      ),
     );
   }
 }

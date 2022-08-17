@@ -2,12 +2,12 @@ import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
-class DefaultToggleButton extends StatelessWidget {
+class OpticsToggleButton extends StatelessWidget {
   final Color color;
   final SelectOpticPage type;
   final Function(SelectOpticPage type) onPressed;
 
-  const DefaultToggleButton({
+  const OpticsToggleButton({
     required this.color,
     required this.type,
     required this.onPressed,
@@ -16,9 +16,12 @@ class DefaultToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(5),
-      color: color,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: color, width: 2),
+        color: Colors.white,
+      ),
       child: InkWell(
         splashFactory: NoSplash.splashFactory,
         hoverColor: Colors.transparent,
@@ -29,7 +32,7 @@ class DefaultToggleButton extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6),
+            padding: const EdgeInsets.only(bottom: 11, top: 9),
             child: Text(
               type.asString,
               style: AppStyles.h2Bold,

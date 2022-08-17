@@ -38,15 +38,15 @@ class ChooseProductSheet extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 4),
                   child: WhiteContainerWithRoundedCorners(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: StaticData.sidePadding,
-                              top: 16,
-                            ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: StaticData.sidePadding,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
@@ -61,14 +61,14 @@ class ChooseProductSheet extends StatelessWidget {
                               ],
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 100,
-                            color: Colors.black,
+                          Expanded(
+                            child: Container(
+                              height: 100,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );

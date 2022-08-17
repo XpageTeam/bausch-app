@@ -95,7 +95,9 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               case '/choose_lenses':
-                page = ChooseLensesScreen();
+                page = ChooseLensesScreen(
+                  isEditing: (settings.arguments as List<bool>)[0],
+                );
                 break;
 
               case '/my_lenses':

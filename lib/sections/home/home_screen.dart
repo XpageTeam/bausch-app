@@ -264,7 +264,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                   // TODO(pavlov): как то проверять есть
                                   // у пользователя линзы или нет
                                   // ignore: literal_only_boolean_expressions
-                                  if (true) {
+                                  if (false) {
                                     Keys.mainContentNav.currentState!
                                         .pushNamed('/choose_lenses');
                                   } else {
