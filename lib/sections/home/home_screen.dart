@@ -261,8 +261,16 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               ),
                               child: WhiteContainerWithRoundedCorners(
                                 onTap: () {
-                                  Keys.mainContentNav.currentState!
-                                      .pushNamed('/my_lenses');
+                                  // TODO(pavlov): как то проверять есть
+                                  // у пользователя линзы или нет
+                                  // ignore: literal_only_boolean_expressions
+                                  if (true) {
+                                    Keys.mainContentNav.currentState!
+                                        .pushNamed('/choose_lenses');
+                                  } else {
+                                    Keys.mainContentNav.currentState!
+                                        .pushNamed('/my_lenses');
+                                  }
                                 },
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 20,

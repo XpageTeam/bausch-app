@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_void_async, unused_local_variable
-
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';

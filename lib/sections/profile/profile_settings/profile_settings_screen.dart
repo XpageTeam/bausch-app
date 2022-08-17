@@ -56,10 +56,7 @@ class _ProfileSettingsScreenState
           onPressed: () {
             wm.sendUserData();
           },
-          child: const Text(
-            'Готово',
-            style: AppStyles.p1,
-          ),
+          child: const Text('Готово', style: AppStyles.p1),
         ),
       ),
       body: Padding(
@@ -214,7 +211,7 @@ class _ProfileSettingsScreenState
                     : const SizedBox();
               },
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(
                 streamedState: wm.selectedCityName,
@@ -236,7 +233,7 @@ class _ProfileSettingsScreenState
                   );
                 },
               ),
-            ), 
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: FocusButton(

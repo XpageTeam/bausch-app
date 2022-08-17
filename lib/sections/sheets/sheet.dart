@@ -10,9 +10,11 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
   final Widget child;
+  final bool withPoints;
 
   const SheetWidget({
     required this.child,
+    this.withPoints = true,
     Key? key,
   }) : super(key: key);
 
@@ -26,6 +28,7 @@ class SheetWidget extends StatelessWidget {
       child: Column(
         children: [
           //* Виджет с количеством баллов
+          if (withPoints)
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
