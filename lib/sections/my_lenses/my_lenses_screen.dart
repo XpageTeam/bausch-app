@@ -1,15 +1,16 @@
+import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
 import 'package:bausch/sections/my_lenses/widgets/lenses_page_switcher.dart';
+import 'package:bausch/sections/my_lenses/widgets/reminder_bottom_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
-import 'package:bausch/widgets/white_picker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -40,7 +41,7 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
           vertical: 30,
         ),
         children: [
-          // Переключатель (карта/список)
+          // Переключатель (ношу сейчас/были раньше)
           LensesPageSwitcher(
             callback: wm.switchAction,
           ),
@@ -111,28 +112,18 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
                                     child: BlueButtonWithText(
                                       text: 'Надеть',
                                       onPressed: () async {
-                                        final newValue =
-                                            await showModalBottomSheet<String?>(
-                                          context: context,
-                                          builder: (context) {
-                                            return const WhitePickerScreen(
-                                              title: 'Когда надеты линзы',
-                                              variants: ['10', '5', '2', '1'],
-                                            );
-                                            // return const SinglePickerScreen(
-                                            //   title: 'Когда надеты линзы',
-                                            //   variants: ['10', '5', '2', '1'],
-                                            // );
+                                        DatePicker.showDatePicker(
+                                          context,
+                                          initialDateTime: DateTime.now(),
+                                          minDateTime: DateTime(2021),
+                                          maxDateTime: DateTime.now(),
+                                          locale: DateTimePickerLocale.ru,
+                                          onCancel: () {},
+                                          dateFormat: 'dd.MM.yyyy',
+                                          onConfirm: (date, i) {
+                                            debugPrint('onchanged');
                                           },
-                                          barrierColor:
-                                              Colors.black.withOpacity(0.8),
                                         );
-                                        // if (newValue != null) {
-                                        //   await wm.changeEyesEquality(areEqual: false);
-                                        // }
-                                        // await wm.leftAddidations
-                                        //     .accept(newValue ?? leftAddidations);
-                                        // await wm.validateFields();
                                       },
                                     ),
                                   ),
@@ -157,12 +148,17 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
                                 style: AppStyles.h2,
                               ),
                               Row(
-                                children: const [
-                                  Text(
-                                    'Нет',
-                                    style: AppStyles.h2,
+                                children: [
+                                  StreamedStateBuilder<List<String>>(
+                                    streamedState: wm.notificationStatus,
+                                    builder: (_, object) => Text(
+                                      object[0] != ''
+                                          ? object[0]
+                                          : '${object[1]} напомина...',
+                                      style: AppStyles.h2,
+                                    ),
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.chevron_right_sharp,
                                     size: 20,
                                     color: AppTheme.mineShaft,
@@ -171,6 +167,26 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
                               ),
                             ],
                           ),
+                          onTap: () async {
+                            await showModalBottomSheet<num>(
+                              isScrollControlled: true,
+                              context: context,
+                              barrierColor: Colors.black.withOpacity(0.8),
+                              builder: (context) {
+                                return Wrap(children: [
+                                  ReminderBottomSheet(
+                                    valuesMap: wm.notificationsList,
+                                    customValue: wm.customNotification,
+                                    onSendUpdate: (valuesList, custom) =>
+                                        wm.updateNotifications(
+                                      valuesList,
+                                      custom,
+                                    ),
+                                  ),
+                                ]);
+                              },
+                            );
+                          },
                         ),
                       ),
                       WhiteContainerWithRoundedCorners(

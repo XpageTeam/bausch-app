@@ -83,7 +83,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
     phoneController.dispose();
   }
 
-  void sendEmailConfirmation() async {
+  Future<void> sendEmailConfirmation() async {
     final rh = RequestHandler();
 
     CustomException? error;

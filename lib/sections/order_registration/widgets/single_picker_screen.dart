@@ -8,9 +8,13 @@ import 'package:flutter/material.dart';
 class SinglePickerScreen extends StatefulWidget {
   final String title;
   final List<String> variants;
+  final String? cancelTitle;
+  final VoidCallback? onCancelTap;
   const SinglePickerScreen({
     required this.title,
     required this.variants,
+    this.cancelTitle,
+    this.onCancelTap,
     Key? key,
   }) : super(key: key);
 
@@ -67,12 +71,22 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  widget.title,
-                  style: AppStyles.h1,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.title,
+                    style: AppStyles.h1,
+                  ),
+                  if (widget.cancelTitle != null)
+                    GestureDetector(
+                      onTap: widget.onCancelTap,
+                      child: Text(
+                        widget.cancelTitle!,
+                        style: AppStyles.h3,
+                      ),
+                    ),
+                ],
               ),
               Flexible(
                 child: Stack(
