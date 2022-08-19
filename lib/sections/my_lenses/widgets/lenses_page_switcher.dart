@@ -1,29 +1,14 @@
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
-import 'package:bausch/sections/my_lenses/widgets/lenses_toggle_button.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-class LensesPageSwitcher extends CoreMwwmWidget<LensesPageSwitcherWM> {
-  LensesPageSwitcher({
-    required void Function(MyLensesPage) callback,
-    MyLensesPage initialType = MyLensesPage.currentLenses,
-    Key? key,
-  }) : super(
-          key: key,
-          widgetModelBuilder: (_) => LensesPageSwitcherWM(
-            callback: callback,
-            initialType: initialType,
-          ),
-        );
+class LensesPageSwitcher extends StatelessWidget {
+  final MyLensesWM myLensesWM;
+  const LensesPageSwitcher({required this.myLensesWM, Key? key})
+      : super(key: key);
 
-  @override
-  WidgetState<CoreMwwmWidget<LensesPageSwitcherWM>, LensesPageSwitcherWM>
-      createWidgetState() => _LensesPageSwitcherState();
-}
-
-class _LensesPageSwitcherState
-    extends WidgetState<LensesPageSwitcher, LensesPageSwitcherWM> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -31,39 +16,48 @@ class _LensesPageSwitcherState
       children: MyLensesPage.values
           .map(
             (type) => StreamedStateBuilder<MyLensesPage>(
-              streamedState: wm.currentTypeStreamed,
+              streamedState: myLensesWM.currentPageStreamed,
               builder: (_, currentType) => Expanded(
-                child: LensesToggleButton(
-                  type: type,
-                  color: currentType == type
-                      ? AppTheme.turquoiseBlue
-                      : Colors.white,
-                  onPressed: wm.buttonAction,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: currentType == type
+                          ? AppTheme.turquoiseBlue
+                          : Colors.white,
+                      width: 2,
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: InkWell(
+                    splashFactory: NoSplash.splashFactory,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      await myLensesWM.currentPageStreamed.accept(
+                        currentType == MyLensesPage.currentLenses
+                            ? MyLensesPage.oldLenses
+                            : MyLensesPage.currentLenses,
+                      );
+                    },
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 11, top: 9),
+                        child: Text(
+                          type.asString,
+                          style: AppStyles.h2Bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
           )
           .toList(),
     );
-  }
-}
-
-class LensesPageSwitcherWM extends WidgetModel {
-  final MyLensesPage initialType;
-  final void Function(MyLensesPage) callback;
-
-  late final currentTypeStreamed = StreamedState<MyLensesPage>(initialType);
-  final buttonAction = StreamedAction<MyLensesPage>();
-
-  LensesPageSwitcherWM({required this.initialType, required this.callback})
-      : super(const WidgetModelDependencies());
-
-  @override
-  void onBind() {
-    buttonAction.bind((type) {
-      currentTypeStreamed.accept(type!);
-      callback(type);
-    });
-    super.onBind();
   }
 }

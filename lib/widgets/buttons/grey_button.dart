@@ -7,12 +7,12 @@ class GreyButton extends StatelessWidget {
   final String text;
   final Widget? icon;
   final VoidCallback? onPressed;
-  final double? paddingValue;
+  final EdgeInsets? padding;
   const GreyButton({
     required this.text,
     this.icon,
     this.onPressed,
-    this.paddingValue,
+    this.padding,
     Key? key,
   }) : super(key: key);
 
@@ -25,10 +25,7 @@ class GreyButton extends StatelessWidget {
           color: AppTheme.mystic,
           borderRadius: BorderRadius.circular(5),
         ),
-        padding: icon != null
-            ? EdgeInsets.all(paddingValue ?? 20)
-            : const EdgeInsets.symmetric(
-                vertical: 20, horizontal: StaticData.sidePadding,),
+        padding: padding ?? const EdgeInsets.all(20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

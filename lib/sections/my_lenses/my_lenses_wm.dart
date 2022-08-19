@@ -16,6 +16,7 @@ class MyLensesWM extends WidgetModel {
   final puttedOn = StreamedState(false);
   final replacementDay = StreamedState('Просрочен'); // Да // Просрочен
   final switchAction = StreamedAction<MyLensesPage>();
+  final previousLenses = ['Бауш', 'Энд', 'Ломб'];
   final historyList = ['5 май, 16:00', '6 май, 16:00', '7 май, 16:00'];
   final currentPageStreamed =
       StreamedState<MyLensesPage>(MyLensesPage.currentLenses);
