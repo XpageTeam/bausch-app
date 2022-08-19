@@ -1,3 +1,4 @@
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,10 @@ class GreyButton extends StatelessWidget {
           color: AppTheme.mystic,
           borderRadius: BorderRadius.circular(5),
         ),
-        padding:  EdgeInsets.all(paddingValue ?? 20),
+        padding: icon != null
+            ? EdgeInsets.all(paddingValue ?? 20)
+            : const EdgeInsets.symmetric(
+                vertical: 20, horizontal: StaticData.sidePadding,),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
