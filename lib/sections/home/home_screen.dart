@@ -14,7 +14,7 @@ import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
-import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/containers/my_lenses_container.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
@@ -246,69 +246,16 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                         ),
                       ),
 
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
+                      const SliverPadding(
+                        padding: EdgeInsets.only(
                           bottom: 40,
                         ),
                         sliver: SliverToBoxAdapter(
                           child:
-                              // TODO(pavlov): мои линзы
+                              // мои линзы
                               DelayedAnimatedTranslateOpacity(
                             offsetY: 60,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: StaticData.sidePadding,
-                              ),
-                              child: WhiteContainerWithRoundedCorners(
-                                onTap: () {
-                                  // TODO(pavlov): как то проверять есть
-                                  // у пользователя линзы или нет
-                                  // ignore: literal_only_boolean_expressions
-                                  if (false) {
-                                    Keys.mainContentNav.currentState!
-                                        .pushNamed('/choose_lenses');
-                                  } else {
-                                    Keys.mainContentNav.currentState!
-                                        .pushNamed('/my_lenses');
-                                  }
-                                },
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 20,
-                                  horizontal: StaticData.sidePadding,
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      flex: 3,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                          Text(
-                                            'Мои линзы',
-                                            style: AppStyles.h1,
-                                          ),
-                                          Text(
-                                            'История ношения, сроки замены и параметры линз всегда под рукой',
-                                            style: AppStyles.p1,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Image.asset(
-                                        'assets/my_lenses.png',
-                                        fit: BoxFit.scaleDown,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            child: MyLensesContainer(),
                           ),
                         ),
                       ),
