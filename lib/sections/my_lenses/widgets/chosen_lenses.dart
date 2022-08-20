@@ -1,6 +1,7 @@
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
@@ -74,17 +75,14 @@ class ChosenLenses extends StatelessWidget {
                         Expanded(
                           child: BlueButtonWithText(
                             text: 'Надеть',
-                            onPressed: () async => DatePicker.showDatePicker(
-                              context,
-                              initialDateTime: DateTime.now(),
-                              minDateTime: DateTime(2021),
-                              maxDateTime: DateTime.now(),
-                              locale: DateTimePickerLocale.ru,
-                              onCancel: () {},
-                              dateFormat: 'dd.MM.yyyy',
-                              onConfirm: (date, i) {
-                                myLensesWM.puttedOn.accept(true);
-                                debugPrint('onchanged');
+                            onPressed: () async => showModalBottomSheet<num>(
+                              isScrollControlled: true,
+                              context: context,
+                              barrierColor: Colors.black.withOpacity(0.8),
+                              builder: (context) {
+                                return PutOnDateSheet(onConfirmed: () {
+                                  myLensesWM.puttedOn.accept(true);
+                                });
                               },
                             ),
                           ),

@@ -1,7 +1,7 @@
-import 'package:bausch/sections/my_lenses/current_lenses_page.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
-import 'package:bausch/sections/my_lenses/old_lenses_page.dart';
-import 'package:bausch/sections/my_lenses/widgets/lenses_page_switcher.dart';
+import 'package:bausch/sections/my_lenses/widgets/pages/current_lenses_page.dart';
+import 'package:bausch/sections/my_lenses/widgets/pages/lenses_page_switcher.dart';
+import 'package:bausch/sections/my_lenses/widgets/pages/old_lenses_page.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/default_appbar.dart';
@@ -36,10 +36,7 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
         ),
         children: [
           // Переключатель (ношу сейчас/были раньше)
-
-          LensesPageSwitcher(
-            myLensesWM: wm,
-          ),
+          LensesPageSwitcher(myLensesWM: wm),
           const SizedBox(height: 22),
           StreamedStateBuilder<MyLensesPage>(
             streamedState: wm.currentPageStreamed,

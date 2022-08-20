@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 
 class GreyButton extends StatelessWidget {
   final String text;
-  final Widget? icon;
+  final Widget? leftIcon;
+  final Widget? rightIcon;
   final VoidCallback? onPressed;
   final EdgeInsets? padding;
   const GreyButton({
     required this.text,
-    this.icon,
+    this.rightIcon,
+    this.leftIcon,
     this.onPressed,
     this.padding,
     Key? key,
@@ -28,13 +30,17 @@ class GreyButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (leftIcon != null) ...[
+              leftIcon!,
+              const SizedBox(width: 10),
+            ],
             Text(
               text,
               style: AppStyles.h2,
             ),
-            if (icon != null) ...[
+            if (rightIcon != null) ...[
               const SizedBox(width: 10),
-              icon!,
+              rightIcon!,
             ],
           ],
         ),

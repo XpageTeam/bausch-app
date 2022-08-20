@@ -295,7 +295,7 @@ class CatalogItemWidget extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 30),
                 child: GreyButton(
                   text: txt(model),
-                  icon: icon(model),
+                  rightIcon: icon(model),
                   onPressed: () {
                     callback(
                       model,

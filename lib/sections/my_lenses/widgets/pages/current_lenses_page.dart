@@ -3,8 +3,9 @@ import 'package:bausch/sections/home/widgets/containers/white_container_with_rou
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/chosen_lenses.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
-import 'package:bausch/sections/my_lenses/widgets/reminder_bottom_sheet.dart';
-import 'package:bausch/sections/my_lenses/widgets/replacement_day_indicator.dart';
+import 'package:bausch/sections/my_lenses/widgets/one_lens_replacement_indicator.dart';
+import 'package:bausch/sections/my_lenses/widgets/sheets/reminder_sheet.dart';
+import 'package:bausch/sections/my_lenses/widgets/two_lens_replacement_indicator.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -24,9 +25,14 @@ class CurrentLensesPage extends StatelessWidget {
       children: [
         StreamedStateBuilder<bool>(
           streamedState: myLensesWM.puttedOn,
-          builder: (_, puttedOn) => puttedOn
-              ? ReplacementDayIndicator(myLensesWM: myLensesWM)
-              : const SizedBox.shrink(),
+          builder: (_, puttedOn) => StreamedStateBuilder<bool>(
+            streamedState: myLensesWM.lensesDifferentLife,
+            builder: (_, lensesDifferentLife) => puttedOn
+                ? lensesDifferentLife
+                    ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
+                    : OneLensReplacementIndicator(myLensesWM: myLensesWM)
+                : const SizedBox.shrink(),
+          ),
         ),
         ChosenLenses(myLensesWM: myLensesWM),
         Padding(
@@ -69,13 +75,11 @@ class CurrentLensesPage extends StatelessWidget {
                 context: context,
                 barrierColor: Colors.black.withOpacity(0.8),
                 builder: (context) {
-                  return Wrap(children: [
-                    ReminderBottomSheet(
-                      valuesMap: myLensesWM.notificationsList,
-                      customValue: myLensesWM.customNotification,
-                      onSendUpdate: myLensesWM.updateNotifications,
-                    ),
-                  ]);
+                  return ReminderSheet(
+                    valuesMap: myLensesWM.notificationsList,
+                    customValue: myLensesWM.customNotification,
+                    onSendUpdate: myLensesWM.updateNotifications,
+                  );
                 },
               );
             },
@@ -159,7 +163,7 @@ class CurrentLensesPage extends StatelessWidget {
                 ),
                 const GreyButton(
                   text: 'Ранее',
-                  padding:  EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: StaticData.sidePadding,
                   ),

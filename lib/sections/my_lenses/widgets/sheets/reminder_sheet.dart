@@ -7,11 +7,11 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
-class ReminderBottomSheet extends StatefulWidget {
+class ReminderSheet extends StatefulWidget {
   final Map<String, bool> valuesMap;
   final String customValue;
   final void Function(Map<String, bool> valuesList, String custom) onSendUpdate;
-  const ReminderBottomSheet({
+  const ReminderSheet({
     required this.valuesMap,
     required this.onSendUpdate,
     required this.customValue,
@@ -19,10 +19,10 @@ class ReminderBottomSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ReminderBottomSheet> createState() => _ReminderBottomSheetState();
+  State<ReminderSheet> createState() => _ReminderSheetState();
 }
 
-class _ReminderBottomSheetState extends State<ReminderBottomSheet> {
+class _ReminderSheetState extends State<ReminderSheet> {
   final customNotifications = ['1 день', '2 дня', '3 дня', '4 дня', '5 дней'];
   Map<String, bool> currentValues = {};
   String customNotification = '';
