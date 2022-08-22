@@ -10,9 +10,11 @@ class SinglePickerScreen extends StatefulWidget {
   final List<String> variants;
   final String? cancelTitle;
   final VoidCallback? onCancelTap;
+  final String? acceptTitle;
   const SinglePickerScreen({
     required this.title,
     required this.variants,
+    this.acceptTitle,
     this.cancelTitle,
     this.onCancelTap,
     Key? key,
@@ -133,7 +135,7 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
                   bottom: 26,
                 ),
                 child: BlueButtonWithText(
-                  text: 'Добавить',
+                  text: widget.acceptTitle ?? 'Добавить',
                   onPressed: () {
                     Navigator.of(context).pop(widget.variants[selectedNumber]);
                   },

@@ -1,4 +1,5 @@
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/widgets/pages/current_daily_lenses.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/current_lenses_page.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/lenses_page_switcher.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/old_lenses_page.dart';
@@ -42,7 +43,8 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
             streamedState: wm.currentPageStreamed,
             builder: (_, currentPage) =>
                 currentPage == MyLensesPage.currentLenses
-                    ? CurrentLensesPage(myLensesWM: wm)
+                    // ? CurrentLensesPage(myLensesWM: wm)
+                    ? CurrentDailyLensesPage(myLensesWM: wm)
                     : OldLensesPage(myLensesWM: wm),
           ),
         ],

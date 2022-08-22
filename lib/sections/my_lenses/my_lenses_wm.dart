@@ -27,8 +27,12 @@ class MyLensesWM extends WidgetModel {
   final currentPageStreamed =
       StreamedState<MyLensesPage>(MyLensesPage.currentLenses);
   final notificationStatus = StreamedState<List<String>>(['Нет', '1']);
+  final dailyReminder = StreamedState(false);
+  final dailyReminderRepeat = StreamedState('Нет');
+  final dailyReminderRepeatDate = StreamedState<DateTime?>(null);
+
   // TODO(pavlov): заглушка для уведомлений, пока нет бэка
-  Map<String, bool> notificationsList = <String, bool>{
+  Map<String, bool> notificationsMap = <String, bool>{
     'Нет': true,
     'В день замены': false,
     'За 1 день': false,
@@ -53,7 +57,7 @@ class MyLensesWM extends WidgetModel {
     String custom,
   ) {
     customNotification = custom;
-    notificationsList
+    notificationsMap
       ..clear()
       ..addAll(notifications);
     showDefaultNotification(
@@ -62,7 +66,7 @@ class MyLensesWM extends WidgetModel {
     );
     notifications.removeWhere((key, value) => value == false);
     if (notifications.isEmpty && customNotification == '') {
-      notificationsList.update('Нет', (value) => true);
+      notificationsMap.update('Нет', (value) => true);
     }
 
     if (notifications.isEmpty && customNotification == '') {

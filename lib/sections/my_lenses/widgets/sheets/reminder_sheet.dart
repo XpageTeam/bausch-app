@@ -10,11 +10,13 @@ import 'package:flutter/material.dart';
 class ReminderSheet extends StatefulWidget {
   final Map<String, bool> valuesMap;
   final String customValue;
+  final bool hasNoVariant;
   final void Function(Map<String, bool> valuesList, String custom) onSendUpdate;
   const ReminderSheet({
     required this.valuesMap,
     required this.onSendUpdate,
     required this.customValue,
+    this.hasNoVariant = true,
     Key? key,
   }) : super(key: key);
 
@@ -88,43 +90,45 @@ class _ReminderSheetState extends State<ReminderSheet> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30, bottom: 14),
-                child: WhiteContainerWithRoundedCorners(
-                  padding: const EdgeInsets.only(
-                    left: StaticData.sidePadding,
-                    top: 4,
-                    bottom: 4,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Flexible(
-                        child: Text(
-                          'Нет',
-                          style: AppStyles.h2,
+              if (widget.hasNoVariant)
+                Padding(
+                  padding: const EdgeInsets.only(top: 30, bottom: 14),
+                  child: WhiteContainerWithRoundedCorners(
+                    padding: const EdgeInsets.only(
+                      left: StaticData.sidePadding,
+                      top: 4,
+                      bottom: 4,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Flexible(
+                          child: Text(
+                            'Нет',
+                            style: AppStyles.h2,
+                          ),
                         ),
-                      ),
-                      CustomCheckbox(
-                        value: currentValues['Нет'],
-                        onChanged: (value) {
-                          currentValues['Нет'] = value!;
-                          if (value) {
-                            setState(() {
-                              currentValues['В день замены'] = false;
-                              currentValues['За 1 день'] = false;
-                              currentValues['За 2 дня'] = false;
-                              currentValues['За неделю'] = false;
-                              customNotification = '';
-                            });
-                          }
-                        },
-                        borderRadius: 2,
-                      ),
-                    ],
+                        CustomCheckbox(
+                          value: currentValues['Нет'],
+                          onChanged: (value) {
+                            currentValues['Нет'] = value!;
+                            if (value) {
+                              setState(() {
+                                currentValues['В день замены'] = false;
+                                currentValues['За 1 день'] = false;
+                                currentValues['За 2 дня'] = false;
+                                currentValues['За неделю'] = false;
+                                customNotification = '';
+                              });
+                            }
+                          },
+                          borderRadius: 2,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              if (!widget.hasNoVariant) const SizedBox(height: 30),
               WhiteContainerWithRoundedCorners(
                 padding: const EdgeInsets.only(
                   left: StaticData.sidePadding,

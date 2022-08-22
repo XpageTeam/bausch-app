@@ -93,6 +93,7 @@ class ActivateLensesSheet extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: MayBeInteresting(text: 'Рекомендуемые продукты'),
               ),
+              // TODO(pavlov): в однодневках истории не будет, убрать
               const Text(
                 'История ношения',
                 style: AppStyles.h1,

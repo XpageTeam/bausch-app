@@ -76,7 +76,7 @@ class CurrentLensesPage extends StatelessWidget {
                 barrierColor: Colors.black.withOpacity(0.8),
                 builder: (context) {
                   return ReminderSheet(
-                    valuesMap: myLensesWM.notificationsList,
+                    valuesMap: myLensesWM.notificationsMap,
                     customValue: myLensesWM.customNotification,
                     onSendUpdate: myLensesWM.updateNotifications,
                   );
