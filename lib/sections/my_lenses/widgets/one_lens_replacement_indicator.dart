@@ -36,7 +36,6 @@ class OneLensReplacementIndicator extends StatelessWidget {
                   replacementDay: replacementDay,
                   onTap: () async =>
                       myLensesWM.rightReplacementDay.accept('Нет'),
-                      
                 ),
               ),
               Row(
@@ -134,7 +133,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                             ? 'Завершить'
                             : 'Завершить ношение',
                         onPressed: () async =>
-                            myLensesWM.puttedOn.accept(false),
+                            myLensesWM.bothPuttedOn.accept(false),
                       ),
                     ),
                   ],

@@ -14,9 +14,12 @@ extension ShopsContentTypeAsString on MyLensesPage {
 class MyLensesWM extends WidgetModel {
   final BuildContext context;
   final lensesDifferentLife = StreamedState(true);
-  final puttedOn = StreamedState(false);
+  final bothPuttedOn = StreamedState(false);
+  final leftPuttedOn = StreamedState(false);
+  final rightPuttedOn = StreamedState(false);
   // используется для правой линзы и когда срок линз одинаковый
-  final rightReplacementDay = StreamedState('Нет'); // Нет // Да // Просрочен
+  final rightReplacementDay =
+      StreamedState('Просрочен'); // Нет // Да // Просрочен
   final leftReplacementDay = StreamedState('Нет'); // Нет // Да // Просрочен
   final switchAction = StreamedAction<MyLensesPage>();
   final previousLenses = ['Бауш', 'Энд', 'Ломб'];

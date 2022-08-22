@@ -20,7 +20,6 @@ class LensIndicatorStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.topCenter,
-      
       children: [
         if (replacementDay == 'Нет')
           CircularPercentIndicator(
@@ -34,7 +33,9 @@ class LensIndicatorStatus extends StatelessWidget {
                       style: AppStyles.h2,
                     ),
                   )
-                : const SizedBox(height: 8,),
+                : const SizedBox(
+                    height: 8,
+                  ),
             radius: title ? 85 : 65,
             animation: true,
             animationDuration: 2000,
@@ -53,40 +54,84 @@ class LensIndicatorStatus extends StatelessWidget {
         else
           GestureDetector(
             onTap: onTap,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (title)
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 20,
-                    ),
-                    child: Text(
-                      replacementDay == 'Да'
-                          ? 'День замены'
-                          : 'День замены просрочен',
-                      style: AppStyles.h2,
-                    ),
+            child: title == false
+                ? left
+                    ? SizedBox(
+                        height: 145,
+                        width: 145,
+                        child: Center(
+                          child: Container(
+                            height: 130,
+                            width: 130,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppTheme.turquoiseBlue,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Замените\nлинзу',
+                                style: AppStyles.h2,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox(
+                        height: 145,
+                        width: 145,
+                        child: Center(
+                          child: Container(
+                            height: 130,
+                            width: 130,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppTheme.sulu,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Замените\nлинзу',
+                                style: AppStyles.h2,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (title)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 20,
+                          ),
+                          child: Text(
+                            replacementDay == 'Да'
+                                ? 'День замены'
+                                : 'День замены просрочен',
+                            style: AppStyles.h2,
+                          ),
+                        ),
+                      Stack(alignment: Alignment.center, children: [
+                        if (replacementDay == 'Да')
+                          Image.asset(
+                            'assets/replacement_day.png',
+                            scale: 2.53,
+                          )
+                        else
+                          Image.asset(
+                            'assets/replacement_day_overdue.png',
+                            scale: 2.53,
+                          ),
+                        const Text(
+                          'Замените\nлинзы',
+                          style: AppStyles.h1,
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                    ],
                   ),
-                Stack(alignment: Alignment.center, children: [
-                  if (replacementDay == 'Да')
-                    Image.asset(
-                      'assets/replacement_day.png',
-                      scale: 2.53,
-                    )
-                  else
-                    Image.asset(
-                      'assets/replacement_day_overdue.png',
-                      scale: 2.53,
-                    ),
-                  const Text(
-                    'Замените\nлинзы',
-                    style: AppStyles.h1,
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-              ],
-            ),
           ),
         if (title == false)
           Align(

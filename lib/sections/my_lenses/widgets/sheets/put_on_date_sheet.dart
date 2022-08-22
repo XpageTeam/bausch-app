@@ -7,9 +7,13 @@ import 'package:flutter/material.dart';
 class PutOnDateSheet extends StatefulWidget {
   final VoidCallback onConfirmed;
   final bool lenseLost;
+  final bool leftLens;
+  final bool rightLens;
   const PutOnDateSheet({
     required this.onConfirmed,
     this.lenseLost = false,
+    this.leftLens = false,
+    this.rightLens = false,
     Key? key,
   }) : super(key: key);
 
@@ -47,10 +51,14 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 30),
+              Padding(
+                padding: const EdgeInsets.only(top: 40, bottom: 30),
                 child: Text(
-                  'Напомнить о замене',
+                  widget.leftLens
+                      ? 'Левая линза надета'
+                      : widget.rightLens ? 'Правая линза надета': widget.lenseLost
+                          ? 'Новая линза надета'
+                          : 'Когда надеты линзы',
                   style: AppStyles.h1,
                 ),
               ),

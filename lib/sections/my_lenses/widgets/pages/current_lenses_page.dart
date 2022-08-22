@@ -24,7 +24,7 @@ class CurrentLensesPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         StreamedStateBuilder<bool>(
-          streamedState: myLensesWM.puttedOn,
+          streamedState: myLensesWM.bothPuttedOn,
           builder: (_, puttedOn) => StreamedStateBuilder<bool>(
             streamedState: myLensesWM.lensesDifferentLife,
             builder: (_, lensesDifferentLife) => puttedOn
