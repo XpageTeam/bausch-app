@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Widget? topRightWidget;
+
   final Color backgroundColor;
 
   @override

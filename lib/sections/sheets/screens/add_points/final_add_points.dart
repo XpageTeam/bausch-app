@@ -147,6 +147,8 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
           ),
         ),
       ],
+
+      // TODO(all): Если знаем, что линзы куплены, то можем предложить сделить их «Моими линзами»
       bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить баллы',
         topPadding: 12,
@@ -154,7 +156,6 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
           if (spendPointsPositionKey.currentContext != null) {
             Scrollable.ensureVisible(spendPointsPositionKey.currentContext!);
           }
-
           Keys.mainContentNav.currentState!.pop();
         },
       ),

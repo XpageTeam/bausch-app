@@ -159,13 +159,18 @@ class MapBodyWM extends WidgetModel {
             point: shopList[i].coords,
             icon: PlacemarkIcon.single(
               PlacemarkIconStyle(
-                scale: indexOfPressedShop != null
-                    ? indexOfPressedShop == i
-                        ? 2
-                        : 1
-                    : 1,
+                scale: 0.75,
+                // scale: indexOfPressedShop != null
+                //     ? indexOfPressedShop == i
+                //         ? 2
+                //         : 1
+                //     : 1,
                 image: BitmapDescriptor.fromAssetImage(
-                  'assets/icons/map-marker.png',
+                  indexOfPressedShop != null
+                      ? indexOfPressedShop == i
+                          ? 'assets/icons/big-shop-marker.png'
+                          : 'assets/icons/shop-marker.png'
+                      : 'assets/icons/shop-marker.png',
                 ),
               ),
             ),

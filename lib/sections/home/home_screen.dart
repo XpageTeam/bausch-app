@@ -224,6 +224,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                   return const SizedBox();
                                 },
                                 builder: (_, repo) {
+                                  // TODO(all): бесплатно подберем вам первые линзы в оптике по нажатию выводит прозрачную шторку
                                   if (repo.offerList.isNotEmpty) {
                                     return OffersSection(
                                       repo: repo,
