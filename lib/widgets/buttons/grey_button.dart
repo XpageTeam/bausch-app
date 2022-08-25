@@ -8,12 +8,14 @@ class GreyButton extends StatelessWidget {
   final Widget? rightIcon;
   final VoidCallback? onPressed;
   final EdgeInsets? padding;
+  final Color? color;
   const GreyButton({
     required this.text,
     this.rightIcon,
     this.leftIcon,
     this.onPressed,
     this.padding,
+    this.color,
     Key? key,
   }) : super(key: key);
 
@@ -23,7 +25,7 @@ class GreyButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.mystic,
+          color: color ?? AppTheme.mystic,
           borderRadius: BorderRadius.circular(5),
         ),
         padding: padding ?? const EdgeInsets.all(20),

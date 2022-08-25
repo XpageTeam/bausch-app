@@ -64,7 +64,6 @@ class ChosenLenses extends StatelessWidget {
                           child: Row(
                             children: [
                               Expanded(
-                                // TODO(ask): как будет выглядеть экран изменить?
                                 child: GreyButton(
                                   text: 'Надеть правую линзу',
                                   padding:
@@ -88,76 +87,86 @@ class ChosenLenses extends StatelessWidget {
                             ],
                           ),
                         )
-                      : rightPuttedOn ? Padding(
-                          padding: const EdgeInsets.only(
-                            top: 20,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                // TODO(ask): как будет выглядеть экран изменить?
-                                child: GreyButton(
-                                  text: 'Надеть левую линзу',
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  onPressed: () async =>
-                                      showModalBottomSheet<num>(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    barrierColor: Colors.black.withOpacity(0.8),
-                                    builder: (context) {
-                                      return PutOnDateSheet(
-                                        onConfirmed: () {
-                                          myLensesWM.leftPuttedOn.accept(true);
+                      : rightPuttedOn
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                top: 20,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GreyButton(
+                                      text: 'Надеть левую линзу',
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      onPressed: () async =>
+                                          showModalBottomSheet<num>(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        barrierColor:
+                                            Colors.black.withOpacity(0.8),
+                                        builder: (context) {
+                                          return PutOnDateSheet(
+                                            onConfirmed: () {
+                                              myLensesWM.leftPuttedOn
+                                                  .accept(true);
+                                            },
+                                            leftLens: true,
+                                          );
                                         },
-                                        leftLens: true,
-                                      );
-                                    },
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ) : Padding(
-                          padding: const EdgeInsets.only(
-                            top: 20,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                // TODO(ask): как будет выглядеть экран изменить?
-                                child: GreyButton(
-                                  text: 'Изменить',
-                                  onPressed: () => Keys
-                                      .mainContentNav.currentState!
-                                      .pushNamed(
-                                    '/choose_lenses',
-                                    arguments: [true],
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                top: 20,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    // TODO(ask): как будет выглядеть экран изменить?
+                                    child: GreyButton(
+                                      text: 'Изменить',
+                                      onPressed: () => Keys
+                                          .mainContentNav.currentState!
+                                          .pushNamed(
+                                        '/choose_lenses',
+                                        arguments: [true],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(width: 3),
-                              Expanded(
-                                child: BlueButtonWithText(
-                                  text: 'Надеть',
-                                  onPressed: () async =>
-                                      showModalBottomSheet<num>(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    barrierColor: Colors.black.withOpacity(0.8),
-                                    builder: (context) {
-                                      return PutOnDateSheet(onConfirmed: () {
-                                        myLensesWM.bothPuttedOn.accept(true);
-                                        myLensesWM.leftPuttedOn.accept(true);
-                                        myLensesWM.rightPuttedOn.accept(true);
-                                      });
-                                    },
+                                  const SizedBox(width: 3),
+                                  Expanded(
+                                    child: BlueButtonWithText(
+                                      text: 'Надеть',
+                                      onPressed: () async =>
+                                          showModalBottomSheet<num>(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        barrierColor:
+                                            Colors.black.withOpacity(0.8),
+                                        builder: (context) {
+                                          return PutOnDateSheet(
+                                            onConfirmed: () {
+                                              myLensesWM.bothPuttedOn
+                                                  .accept(true);
+                                              myLensesWM.leftPuttedOn
+                                                  .accept(true);
+                                              myLensesWM.rightPuttedOn
+                                                  .accept(true);
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
             ),
           ),
         ],

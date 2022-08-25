@@ -1,7 +1,7 @@
 import 'package:bausch/models/city/dadata_city.dart';
 import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
-import 'package:bausch/sections/loader/loader_scren.dart';
+import 'package:bausch/sections/loader/loader_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/wm/city_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';

@@ -114,7 +114,7 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                     leftDate = value;
                   },
                   dateFormat: 'dd.MM.yyyy',
-                  // TODO(pavlov):в каждом конфирме нужно подтверждать и левую и правую
+                  // TODO(pavlov): в каждом конфирме нужно подтверждать и левую и правую
                   onConfirm: (date, i) {
                     widget.onConfirmed();
                     debugPrint('left');

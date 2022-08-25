@@ -374,8 +374,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                 padding: EdgeInsets.only(top: 20, bottom: 14),
                                 child: Text(
                                   'Вы можете найти нас здесь',
-                                  // TODO(ask): по макетам тут стиль t1,
-                                  // но так понимаю в верстке это p1
                                   style: AppStyles.p1,
                                   textAlign: TextAlign.center,
                                 ),
@@ -385,19 +383,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                 children: [
                                   const Spacer(),
                                   // TODO(pavlov): получить ссылки на соц сети
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {},
-                                      child: CircleAvatar(
-                                        child: Image.asset(
-                                          'assets/logos/inst.png',
-                                          scale: 2.5,
-                                        ),
-                                        backgroundColor: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 20),
+
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {},
@@ -410,7 +396,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
+
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {},

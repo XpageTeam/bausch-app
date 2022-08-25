@@ -67,7 +67,7 @@ class CustomSheetScaffold extends StatelessWidget {
                       ),
                       child: Scrollbar(
                         controller: controller,
-                        isAlwaysShown: true,
+                        thumbVisibility: true,
                         child: getScrollView(context),
                       ),
                     )

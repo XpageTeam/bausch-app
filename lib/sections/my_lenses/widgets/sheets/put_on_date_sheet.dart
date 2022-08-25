@@ -56,9 +56,11 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                 child: Text(
                   widget.leftLens
                       ? 'Левая линза надета'
-                      : widget.rightLens ? 'Правая линза надета': widget.lenseLost
-                          ? 'Новая линза надета'
-                          : 'Когда надеты линзы',
+                      : widget.rightLens
+                          ? 'Правая линза надета'
+                          : widget.lenseLost
+                              ? 'Новая линза надета'
+                              : 'Когда надеты линзы',
                   style: AppStyles.h1,
                 ),
               ),
@@ -94,7 +96,6 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                 onMonthChangeStartWithFirstDate: false,
                 initialDateTime: DateTime.now(),
                 minDateTime: DateTime(2021),
-                maxDateTime: DateTime.now(),
                 locale: DateTimePickerLocale.ru,
                 onCancel: () {},
                 dateFormat: 'dd.MM.yyyy',

@@ -12,7 +12,7 @@ class PutOnEndSheet extends StatelessWidget {
   const PutOnEndSheet({
     required this.onBothConfirmed,
     required this.onLeftConfirmed,
-   required this.onRightConfirmed,
+    required this.onRightConfirmed,
     Key? key,
   }) : super(key: key);
 
@@ -63,36 +63,32 @@ class PutOnEndSheet extends StatelessWidget {
                   ],
                 ),
               ),
-          
-                Row(
-                  children: [
-                    Expanded(
-                      child: WhiteButtonWithText(
-                        text: 'Левой линзы',
-                        onPressed: onLeftConfirmed,
-                      ),
+              Row(
+                children: [
+                  Expanded(
+                    child: WhiteButtonWithText(
+                      text: 'Левой линзы',
+                      onPressed: onLeftConfirmed,
                     ),
-                  ],
-                ),
-         
-                const SizedBox(
-                  height: 6,
-                ),
-          
-                Row(
-                  children: [
-                    Expanded(
-                      child: WhiteButtonWithText(
-                        text: 'Правой линзы',
-                        onPressed: onRightConfirmed,
-                      ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: WhiteButtonWithText(
+                      text: 'Правой линзы',
+                      onPressed: onRightConfirmed,
                     ),
-                  ],
-                ),
-              if (onRightConfirmed != null)
-                const SizedBox(
-                  height: 6,
-                ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 6,
+              ),
               Row(
                 children: [
                   Expanded(

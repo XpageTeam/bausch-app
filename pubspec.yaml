@@ -10,67 +10,52 @@ environment:
 
 dependencies:
   after_layout: ^1.2.0
-  app_links: ^3.2.0
   auto_size_text: ^3.0.0
   auto_size_text_pk: ^3.0.0
   cookie_jar: ^3.0.1
   csv: ^5.0.1
   cupertino_icons: ^1.0.5
-  device_info_plus: ^4.1.0
   dio: ^4.0.6
   dio_cache_interceptor: ^3.3.0
-  dio_cache_interceptor_db_store: ^4.2.1
+  dio_cache_interceptor_db_store: ^5.0.0
   dio_cookie_manager: ^2.0.0
   easy_mask: ^2.0.1
-  email_validator: ^2.1.16
-  equatable: ^2.0.3
+  email_validator: ^2.1.17
+  equatable: ^2.0.5
   extended_image: ^6.2.1
   extended_masked_text: ^2.3.1
   file_picker: ^5.0.1
-  firebase_analytics: ^9.3.1
-  firebase_core: ^1.20.1
+  firebase_analytics: ^9.3.2
+  firebase_core: ^1.21.0
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.1
-  flutter_cupertino_date_picker: ^1.0.26+2
+  flutter_bloc: ^8.1.1
   flutter_html: ^2.2.1
   flutter_keyboard_visibility: ^5.3.0
   flutter_localizations:
     sdk: flutter
-  flutter_svg: ^0.22.0
+  flutter_svg: ^0.23.0 # НЕ ОБНОВЛЯТЬ
   geolocator: ^9.0.1
   http: ^0.13.5
   intl: ^0.17.0
   iphone_has_notch: ^1.0.0
-  # mask_text_input_formatter: ^2.0.0
   menu_button: ^1.4.2+1
   mindbox: ^1.0.2 # НЕ ОБНОВЛЯТь
   overlay_support: ^2.0.1
   package_info: ^2.0.2
   path_provider: ^2.0.11
   percent_indicator: ^4.2.2
-  # video_player: ^2.2.17
   pin_code_fields: ^7.4.0
   provider: ^6.0.3
   pull_to_refresh_notification: ^2.3.0
   responsive_framework: ^0.2.0
   share: ^2.0.4
   shared_preferences: ^2.0.15
-  
-  sqlite3_flutter_libs: ^0.5.9
   surf_mwwm: ^2.0.2
-  # better_player:
-  #   path: lib/packages/better_player
   url_launcher: ^6.1.5
   vimeoplayer_trinity:
     path: lib/packages/vimeoplayer_trinity
   yandex_mapkit: ^3.0.3
-  # better_player: ^0.0.79
-  # flutter_widget_from_html_core: ^0.8.4
-  # visibility_detector: ^0.2.2
-  # vimeoplayer_trinity: ^0.2.1+1
-  # youtube_player_flutter: ^8.0.0
-  #bottom_sheet: ^1.0.5
 
 dev_dependencies:
   flutter_test:
@@ -78,12 +63,8 @@ dev_dependencies:
   surf_lint_rules: ^1.5.0
 
 flutter:
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
     - assets/logos/
@@ -93,23 +74,10 @@ flutter:
     - assets/loading/
     - assets/temp/
     - assets/temp/logos/
-
     - assets/discountOptics/
-
     - assets/icons/map-marker.png
     - assets/icons/user-marker.png
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
   fonts:
     - family: Euclid Circular A
       fonts:
@@ -121,11 +89,3 @@ flutter:
         - asset: fonts/EuclidCircularA-MediumItalic.ttf
           weight: 500
           style: italic
-    # - family: Trajan Pro
-    #   fonts:
-    #     - asset: fonts/TrajanPro.ttf
-    #     - asset: fonts/TrajanPro_Bold.ttf
-    #       weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages

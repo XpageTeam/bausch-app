@@ -1,3 +1,4 @@
+import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/reminder_sheet.dart';
@@ -26,6 +27,8 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
   late final String oldDailyReminderRepeat;
   late final List<String> oldNotificationStatus;
   late final DateTime? oldDailyRepeatReminderDate;
+  bool showDatePicker = false;
+
   @override
   void initState() {
     oldDailyReminderRepeat = widget.myLensesWM.dailyReminderRepeat.value;
@@ -100,40 +103,73 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                   ],
                 ),
                 const SizedBox(height: 40),
-
-                // TODO(pavlov): тут задал вопрос in trello
                 StreamedStateBuilder<DateTime?>(
                   streamedState: widget.myLensesWM.dailyReminderRepeatDate,
                   builder: (_, dailyReminderRepeatDate) =>
                       WhiteContainerWithRoundedCorners(
                     padding: const EdgeInsets.all(StaticData.sidePadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          'Дата напоминания',
-                          style: AppStyles.h2,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Дата напоминания',
+                              style: AppStyles.h2,
+                            ),
+                            GreyButton(
+                              padding: const EdgeInsets.only(
+                                top: 4,
+                                bottom: 8,
+                                right: 8,
+                                left: 8,
+                              ),
+                              color: showDatePicker
+                                  ? AppTheme.turquoiseBlue
+                                  : null,
+                              text: dailyReminderRepeatDate == null
+                                  ? 'Выбрать дату'
+                                  : '${dailyReminderRepeatDate.day} ${dailyReminderRepeatDate.month} ${dailyReminderRepeatDate.year}',
+                              onPressed: showDatePicker
+                                  ? null
+                                  : () => setState(() {
+                                        if (dailyReminderRepeatDate == null) {
+                                          widget.myLensesWM
+                                              .dailyReminderRepeatDate
+                                              .accept(DateTime.now());
+                                        }
+                                        showDatePicker = true;
+                                      }),
+                            ),
+                          ],
                         ),
-                        GreyButton(
-                          padding: const EdgeInsets.only(
-                            top: 4,
-                            bottom: 8,
-                            right: 8,
-                            left: 8,
-                          ),
-                          text: dailyReminderRepeatDate == null
-                              ? 'Выбрать дату'
-                              : '${dailyReminderRepeatDate.day} ${dailyReminderRepeatDate.month} ${dailyReminderRepeatDate.year}',
-                          onPressed: () {
-                            if (dailyReminderRepeatDate == null) {
-                              widget.myLensesWM.dailyReminderRepeatDate
-                                  .accept(DateTime.now());
-                            } else {
+                        if (showDatePicker)
+                          DatePickerWidget(
+                            popWidget: false,
+                            onMonthChangeStartWithFirstDate: false,
+                            initialDateTime: DateTime.now(),
+                            minDateTime: DateTime.now(),
+                            locale: DateTimePickerLocale.ru,
+                            onCancel: () {
+                              setState(() {
+                                showDatePicker = false;
+                              });
                               widget.myLensesWM.dailyReminderRepeatDate
                                   .accept(null);
-                            }
-                          },
-                        ),
+                            },
+                            onChange: (date, i) => widget
+                                .myLensesWM.dailyReminderRepeatDate
+                                .accept(date),
+                            dateFormat: 'dd.MM.yyyy',
+                            onConfirm: (date, i) {
+                              setState(() {
+                                showDatePicker = false;
+                              });
+                              widget.myLensesWM.dailyReminderRepeatDate
+                                  .accept(date);
+                            },
+                          ),
                       ],
                     ),
                   ),

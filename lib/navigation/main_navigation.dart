@@ -9,7 +9,7 @@ import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
 import 'package:bausch/sections/home/home_screen.dart';
-import 'package:bausch/sections/loader/loader_scren.dart';
+import 'package:bausch/sections/loader/loader_screen.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_screen.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
