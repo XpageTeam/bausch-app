@@ -59,8 +59,8 @@ class _ChooseLensesScreenState
                     context: context,
                     isCollapsible: true,
                     builder: (context, controller, d) {
-                      return const SheetWidget(
-                        child: ChooseProductSheet(),
+                      return  SheetWidget(
+                        child: ChooseProductSheet(controller: controller,),
                         withPoints: false,
                       );
                     },

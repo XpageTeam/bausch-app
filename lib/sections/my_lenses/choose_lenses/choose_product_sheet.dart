@@ -1,17 +1,17 @@
+import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
-
-// TODO(all): панель не поддается драгу
 class ChooseProductSheet extends StatelessWidget {
-  const ChooseProductSheet({Key? key}) : super(key: key);
+  final FlexibleDraggableScrollableSheetScrollController  controller;
+  const ChooseProductSheet({required this.controller, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
-      controller: ScrollController(),
+      controller: controller,
       resizeToAvoidBottomInset: false,
       slivers: [
         const SliverPadding(

@@ -130,7 +130,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                                     sigmaX: 20,
                                     sigmaY: 20,
                                   ),
-                                  child: Container(
+                                  child: ColoredBox(
                                     color:
                                         AppTheme.turquoiseBlue.withOpacity(0.3),
                                   ),
@@ -152,7 +152,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                   initialChildSize: wm.minChildSize,
                   snap: true,
                   builder: (context, controller) {
-                    return Container(
+                    return ColoredBox(
                       color: AppTheme.mystic,
 
                       //* Контент слайдера(заказы, уведомления)

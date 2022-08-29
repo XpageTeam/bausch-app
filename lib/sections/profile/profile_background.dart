@@ -51,7 +51,7 @@ class ProfileBackground extends StatelessWidget {
                     child: ClipRRect(
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                        child: Container(
+                        child: ColoredBox(
                           color: AppTheme.turquoiseBlue.withOpacity(0.3),
                         ),
                       ),

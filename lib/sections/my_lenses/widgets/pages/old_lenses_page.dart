@@ -130,6 +130,7 @@ class OldLensesPage extends StatelessWidget {
                           builder: (context, controller, d) {
                             return SheetWidget(
                               child: ActivateLensesSheet(
+                                controller: controller,
                                 title: myLensesWM.previousLenses[index],
                                 onActivate: () {
                                   myLensesWM

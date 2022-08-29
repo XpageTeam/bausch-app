@@ -1,3 +1,4 @@
+import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
@@ -8,13 +9,14 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 
-// TODO(all): панель не поддается драгу
 class ActivateLensesSheet extends StatelessWidget {
   final String title;
   final VoidCallback onActivate;
+  final FlexibleDraggableScrollableSheetScrollController controller;
   const ActivateLensesSheet({
     required this.title,
     required this.onActivate,
+    required this.controller,
     Key? key,
   }) : super(key: key);
 

@@ -118,7 +118,7 @@ class _WideContainerWithItemsState extends State<WideContainerWithItems> {
                         //     ),
                         //   ),
                         if (widget.model.logos!.length >= 2)
-                          Container(
+                          DecoratedBox(
                             decoration: const BoxDecoration(
                               border: Border.symmetric(
                                 vertical: BorderSide(

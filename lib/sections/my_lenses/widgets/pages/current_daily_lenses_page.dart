@@ -137,6 +137,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                                   return SheetWidget(
                                     child: DailyNotificationsSheet(
                                       myLensesWM: myLensesWM,
+                                      controller: controller,
                                     ),
                                     withPoints: false,
                                   );

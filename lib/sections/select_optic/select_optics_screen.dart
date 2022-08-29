@@ -45,7 +45,6 @@ class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
 
 class _SelectOpticScreenState
     extends WidgetState<SelectOpticScreen, SelectOpticScreenWM> {
-  // TODO(pavlov): верстаю сертификатные изменения
   final bool isCertificateMap = true;
   List<bool> activeLensTypes = [false, false, false];
   List<bool> additionalFilters = [false, false];

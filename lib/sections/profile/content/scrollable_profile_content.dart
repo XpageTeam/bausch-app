@@ -30,7 +30,7 @@ class _ScrollableProfileContentState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: AppTheme.mystic,
       child: EntityStateBuilder<bool>(
         streamedState: wm.allDataLoadingState,

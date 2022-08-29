@@ -73,7 +73,7 @@ class _AddPointsDetailsState
             delegate: SliverChildListDelegate(
               [
                 //* Верхний контейнер
-                Container(
+                DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -12,11 +13,14 @@ import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-// TODO(all): панель не поддается драгу
 class DailyNotificationsSheet extends StatefulWidget {
   final MyLensesWM myLensesWM;
-  const DailyNotificationsSheet({required this.myLensesWM, Key? key})
-      : super(key: key);
+  final FlexibleDraggableScrollableSheetScrollController controller;
+  const DailyNotificationsSheet({
+    required this.myLensesWM,
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DailyNotificationsSheet> createState() =>
@@ -68,7 +72,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
             ),
           ),
         ),
-        controller: ScrollController(),
+        controller: widget.controller,
         slivers: [
           SliverPadding(
             padding: const EdgeInsets.symmetric(

@@ -89,11 +89,10 @@ class ProfileSettingsScreenWM extends WidgetModel {
     CustomException? error;
 
     try {
-      final result =
-          BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+      BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         '/user/email/confirm/',
       ))
-              .data!);
+          .data!);
     } on ResponseParseException catch (e) {
       error = CustomException(
         title: 'Ошибка при обработке ответа от сервера',
