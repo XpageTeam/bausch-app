@@ -366,6 +366,7 @@ class _FlexibleDraggableScrollableSheetState
 ///  * [_FlexibleDraggableScrollableSheetScrollPosition], which manages the
 /// positioning logic for this controller.
 ///  * [PrimaryScrollController], which can be used to establish a
+// ignore: comment_references
 ///    [_FlexibleDraggableScrollableSheetScrollController] as the primary
 /// controller for descendants.
 class FlexibleDraggableScrollableSheetScrollController
