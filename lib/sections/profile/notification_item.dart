@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 class NotificationItem extends StatelessWidget {
   final NotificationModel data;
 
-  const NotificationItem({
-    required this.data,
-    Key? key,
-  }) : super(key: key);
+  const NotificationItem({required this.data, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +42,15 @@ class NotificationItem extends StatelessWidget {
                       maxLines: 3,
                     ),
                   ),
+                // TODO(pavlov): прочитано или нет
+                Container(
+                  margin: const EdgeInsets.only(top: 2),
+                  child: Text(
+                    data.read! ? 'Прочитано' : 'Не прочитано',
+                    style: AppStyles.p1Grey,
+                    maxLines: 3,
+                  ),
+                ),
               ],
             ),
           ),

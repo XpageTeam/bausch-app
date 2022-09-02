@@ -56,6 +56,7 @@ dependencies:
   url_launcher: ^6.1.5
   vimeoplayer_trinity:
     path: lib/packages/vimeoplayer_trinity
+  visibility_detector: ^0.2.0 # может убрать
   yandex_mapkit: ^3.1.1
 
 dev_dependencies:

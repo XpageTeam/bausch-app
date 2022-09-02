@@ -8,6 +8,7 @@ class NotificationModel {
   final int? points;
   final String? type;
   final DateTime? date;
+  final bool? read;
 
   String? get formatedDate =>
       date != null ? DateFormat('dd.MM.yyyy').format(date!) : null;
@@ -24,6 +25,7 @@ class NotificationModel {
     this.points,
     this.type,
     this.date,
+    this.read,
   });
 
   factory NotificationModel.fromMap(Map<String, dynamic> map) {
@@ -33,6 +35,7 @@ class NotificationModel {
         title: map['title'] as String? ?? '',
         points: map['price'] as int?,
         type: map['type'] as String?,
+        read: map['read'] as bool?,
         date: DateTime.tryParse(map['date'] as String? ?? ''),
       );
       // ignore: avoid_catches_without_on_clauses

@@ -6,6 +6,7 @@ import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class NotificationsWM extends WidgetModel {
   final List<NotificationModel> items;
@@ -122,10 +123,20 @@ class NotificationsWM extends WidgetModel {
 List<Widget> _getNotificationsList(List<NotificationModel> list) {
   return list.map((item) {
     return Container(
+      key: Key('notification ${item.id}'),
       margin: const EdgeInsets.only(
         bottom: 4,
       ),
-      child: NotificationItem(data: item),
+      child: VisibilityDetector(
+        key: Key(item.id.toString()),
+        onVisibilityChanged: (info) {
+          debugPrint(
+            'ban ${info.visibleFraction} ${item.id}',
+          );
+        },
+        child: NotificationItem(data: item),
+      ),
+      //  child: NotificationItem(data: item),
     );
   }).toList();
 }

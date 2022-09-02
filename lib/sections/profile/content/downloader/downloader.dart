@@ -11,6 +11,7 @@ import 'package:bausch/sections/profile/content/models/offline_order_model.dart'
 import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
+import 'package:dio/dio.dart';
 
 class ProfileContentDownloader {
   final _rh = RequestHandler();
@@ -66,7 +67,6 @@ class ProfileContentDownloader {
       ))
           .data!,
     );
-
     try {
       return (result.data as List<dynamic>)
           .map(
@@ -76,6 +76,22 @@ class ProfileContentDownloader {
           .toList();
     } catch (e) {
       throw ResponseParseException('loadNotificationsList: ${e.toString()}');
+    }
+  }
+
+  Future<void> sendNotificationsRead({required List<int> ids}) async {
+    final rh = RequestHandler();
+
+    try {
+      BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+        '/user/notifications/read/',
+        data: FormData.fromMap(<String, dynamic>{
+          'notification_id[]': ids,
+        }),
+      ))
+          .data!);
+    } catch (e) {
+      throw ResponseParseException('sendNotificationsRead: ${e.toString()}');
     }
   }
 

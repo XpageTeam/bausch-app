@@ -1070,7 +1070,7 @@ packages:
     source: path
     version: "0.2.1"
   visibility_detector:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: visibility_detector
       url: "https://pub.dartlang.org"
