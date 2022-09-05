@@ -72,8 +72,9 @@ class _SalesScreenState extends State<SalesScreen> {
                         containerId = -1;
                         activeFilterId = 1;
                         activeList = [
-                          ...widget.salesList
-                              .where((element) => element.type == 'offline'),
+                          ...widget.salesList.where(
+                            (element) => element.type.contains('offline'),
+                          ),
                         ];
                       });
                     },
@@ -93,8 +94,9 @@ class _SalesScreenState extends State<SalesScreen> {
                         containerId = -1;
                         activeFilterId = 2;
                         activeList = [
-                          ...widget.salesList
-                              .where((element) => element.type == 'onlineShop'),
+                          ...widget.salesList.where(
+                            (element) => element.type.contains('online'),
+                          ),
                         ];
                       });
                     },
@@ -124,23 +126,13 @@ class _SalesScreenState extends State<SalesScreen> {
                       height: (MediaQuery.of(context).size.width / 2 -
                               StaticData.sidePadding -
                               2) *
-                          0.8,
+                          0.9,
                       model: catItem as CatalogSheetModel,
                     );
                   }
-                  // if (catItem.type == 'offline') {
-                  //   return WideContainerWithItems(
-                  //     model: catItem as CatalogSheetWithLogosModel,
-                  //   );
-                  // } else if (catItem.type == 'online_consultation') {
-                  //   return WideContainerWithoutItems(
-                  //     model: catItem as CatalogSheetWithoutLogosModel,
-                  //   );
-                  // } else {
                   return SmallContainer(
                     model: catItem as CatalogSheetModel,
                   );
-                  // }
                 }).toList(),
               ),
             ),

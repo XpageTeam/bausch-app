@@ -11,8 +11,9 @@ class SalesWidget extends StatelessWidget {
   final List<BaseCatalogSheetModel> catalogList;
   final List<BaseCatalogSheetModel> actualList = [];
   SalesWidget({required this.catalogList, Key? key}) : super(key: key) {
+    // TODO(info): обрабатываем скидки за баллы
     for (final element in catalogList) {
-      if (element.type == 'offline' || element.type == 'onlineShop') {
+      if (element.type.contains('offline') || element.type.contains('online')) {
         actualList.add(element);
       }
     }
@@ -53,7 +54,7 @@ class SalesWidget extends StatelessWidget {
           height: 20,
         ),
         SizedBox(
-          height: height * 0.8,
+          height: height * 0.93,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: actualList.length,

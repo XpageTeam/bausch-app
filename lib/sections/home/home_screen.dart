@@ -348,8 +348,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               const SizedBox(
                                 height: 40,
                               ),
-                              // TODO(pavlov): разобраться оставляем такую поддержку или меняем поля
-
                               WhiteButtonWithText(
                                 text: 'Написать в поддержку',
                                 onPressed: () {
@@ -383,7 +381,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                 children: [
                                   const Spacer(),
                                   // TODO(pavlov): получить ссылки на соц сети
-
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {},

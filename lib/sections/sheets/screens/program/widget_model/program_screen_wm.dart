@@ -92,13 +92,19 @@ class ProgramScreenWM extends WidgetModel {
           parameters: <String, dynamic>{
             'whatDoYouUse': whatDoYouUse.value,
             'name': firstNameController.text,
-            'opticName': currentOpticStreamed.value?.shops.first.title ?? 'null',
-            'opticAddress': '$city, ${currentOpticStreamed.value!.shops.first.address}',
-            'opticPhone': (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
-                ? currentOpticStreamed.value!.shops.first.phones.first
-                : '',
-            'opticEmail': currentOpticStreamed.value?.shops.first.email ?? 'null',
-            'opticManager': currentOpticStreamed.value?.shops.first.manager ?? 'null',
+            'opticName':
+                currentOpticStreamed.value?.shops.first.title ?? 'null',
+            'opticAddress':
+                '$city, ${currentOpticStreamed.value!.shops.first.address}',
+            'opticPhone':
+                (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ??
+                        false
+                    ? currentOpticStreamed.value!.shops.first.phones.first
+                    : '',
+            'opticEmail':
+                currentOpticStreamed.value?.shops.first.email ?? 'null',
+            'opticManager':
+                currentOpticStreamed.value?.shops.first.manager ?? 'null',
           },
         ),
       );
@@ -149,6 +155,8 @@ class ProgramScreenWM extends WidgetModel {
     unawaited(primaryDataStreamed.loading());
 
     try {
+      // TODO(pavlov): сертификатная проблема
+
       final data = await PrimaryDataDownloader.load();
 
       unawaited(primaryDataStreamed.content(data));
