@@ -1,3 +1,4 @@
+import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -7,8 +8,8 @@ import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsSettingsScreen extends StatefulWidget {
-  final List<bool> valuesList;
-  final void Function(List<bool> valuesList) onSendUpdate;
+  final List<SubscriptionModel> valuesList;
+  final void Function(List<SubscriptionModel> valuesList) onSendUpdate;
   const NotificationsSettingsScreen({
     required this.valuesList,
     required this.onSendUpdate,
@@ -20,7 +21,7 @@ class NotificationsSettingsScreen extends StatefulWidget {
 }
 
 class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
-  late final List<bool> currentValues;
+  late List<SubscriptionModel> currentValues;
   @override
   void initState() {
     currentValues = [...widget.valuesList];
@@ -69,9 +70,13 @@ class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
                     ),
                   ),
                   CustomCheckbox(
-                    value: currentValues[0],
+                    value: currentValues[0].isSubscribed,
                     onChanged: (value) {
-                      currentValues[0] = value!;
+                      currentValues[0] = SubscriptionModel(
+                        pointOfContact: currentValues[0].pointOfContact,
+                        isSubscribed: value!,
+                        topic: currentValues[0].topic,
+                      );
                     },
                     borderRadius: 2,
                   ),
@@ -89,9 +94,13 @@ class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
                       ),
                     ),
                     CustomCheckbox(
-                      value: currentValues[1],
+                      value: currentValues[1].isSubscribed,
                       onChanged: (value) {
-                        currentValues[1] = value!;
+                        currentValues[1] = SubscriptionModel(
+                          pointOfContact: currentValues[1].pointOfContact,
+                          isSubscribed: value!,
+                          topic: currentValues[1].topic,
+                        );
                       },
                       borderRadius: 2,
                     ),
@@ -108,9 +117,13 @@ class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
                     ),
                   ),
                   CustomCheckbox(
-                    value: currentValues[2],
+                    value: currentValues[2].isSubscribed,
                     onChanged: (value) {
-                      currentValues[2] = value!;
+                      currentValues[2] = SubscriptionModel(
+                        pointOfContact: currentValues[2].pointOfContact,
+                        isSubscribed: value!,
+                        topic: currentValues[2].topic,
+                      );
                     },
                     borderRadius: 2,
                   ),

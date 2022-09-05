@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/models/user/user_model/user.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
@@ -55,12 +56,18 @@ class UserWM extends WidgetModel {
   /// обработка и отображение ошибок уже содержатся в нём
   Future<bool> updateUserData(
     User userData, {
+    List<SubscriptionModel>? notifications,
     String? successMessage,
     bool showMessage = true,
   }) async {
     CustomException? ex;
 
     try {
+      if (notifications != null) {
+        await UserWriter.sendUpdateNotification(
+          notifications: notifications,
+        );
+      }
       await this.userData.content(await UserWriter.updateUserData(userData));
 
       if (showMessage) {

@@ -3,6 +3,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
@@ -19,7 +20,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final selectedCityName = StreamedState<String?>(null);
   final selectedBirthDate = StreamedState<DateTime?>(null);
   final enteredEmail = StreamedState<String?>(null);
-
   final showBanner = StreamedState<bool>(false);
 
   //final emailController = TextEditingController();
@@ -28,9 +28,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final phoneController = MaskedTextController(mask: '+7 000 000 00 00');
   final changeCityAction = StreamedAction<String?>();
   final confirmEmail = VoidAction();
-
-  // TODO(pavlov): заглушка для уведомлений, пока нет бэка
-  List<bool> notificationsList = <bool>[false, false, false];
+  List<SubscriptionModel> notificationsList = [];
 
   String tempName = '';
   String tempLastName = '';
@@ -124,13 +122,13 @@ class ProfileSettingsScreenWM extends WidgetModel {
   }
 
   // TODO(pavlov): тут в будущем сохранять уведомления
-  void updateNotifications(List<bool> notifications) {
+  void updateNotifications(List<SubscriptionModel> notifications) {
     notificationsList.clear();
     notificationsList = [...notifications];
-    showDefaultNotification(
-      title: 'Данные успешно обновлены',
-      success: true,
-    );
+    // showDefaultNotification(
+    //   title: 'Данные успешно обновлены',
+    //   success: true,
+    // );
     Keys.mainContentNav.currentState!.pop();
   }
 
@@ -140,6 +138,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
       selectedCityName.accept(userWM.userData.value.data!.user.city);
       selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
+      notificationsList = [...userWM.userData.value.data!.user.subscriptions];
       enteredEmail.accept(userWM.userData.value.data!.user.pendingEmail ??
           userWM.userData.value.data!.user.email);
 
@@ -168,7 +167,9 @@ class ProfileSettingsScreenWM extends WidgetModel {
         phone: phoneController.text,
         city: selectedCityName.value,
         birthDate: selectedBirthDate.value,
+        // subscriptions: notificationsList,
       ),
+      notifications: notificationsList,
     );
 
     // ignore: use_build_context_synchronously
