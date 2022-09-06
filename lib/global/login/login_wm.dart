@@ -16,10 +16,8 @@ import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:easy_mask/easy_mask.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mindbox/mindbox.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -69,8 +67,6 @@ class LoginWM extends WidgetModel {
   }) : super(baseDependencies) {
     _loadText();
     debugPrint('loginConstructor');
-
-    var prevPhoneValue = '';
     var canUnfocus = false;
 
     phoneController.addListener(() {

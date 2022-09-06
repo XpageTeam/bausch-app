@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bausch/exceptions/response_parse_exception.dart';
 
 class SubscriptionModel {

@@ -13,7 +13,7 @@ import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 import 'package:dio/dio.dart';
 
-class ProfileContentDownloader {
+class ProfileRequester {
   final _rh = RequestHandler();
 
   /// Загружает историю заказов

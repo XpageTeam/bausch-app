@@ -16,7 +16,6 @@ class PrimaryDataDownloader {
       return PrimaryData.fromJson(res.data as Map<String, dynamic>);
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-    // TODO(pavlov): ошибка 301
       throw ResponseParseException('Ошибка в primary data downloader: $e');
     }
   }

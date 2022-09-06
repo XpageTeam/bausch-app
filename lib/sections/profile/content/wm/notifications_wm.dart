@@ -1,36 +1,47 @@
 // ignore_for_file: avoid_unnecessary_containers, avoid-returning-widgets
 import 'package:bausch/sections/profile/content/models/notification_model.dart';
+import 'package:bausch/sections/profile/content/requester/profile_requester.dart';
 import 'package:bausch/sections/profile/notification_item.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class NotificationsWM extends WidgetModel {
   final List<NotificationModel> items;
 
-  final StreamedState<List<Widget>> widgetslist;
+  late final StreamedState<List<Widget>> widgetslist;
+  final StreamedState<List<NotificationModel>> notificationsReadList =
+      StreamedState<List<NotificationModel>>([]);
   final filterValue = StreamedState<int>(0);
 
   final changeFilterAction = StreamedAction<int>();
+  final void Function(int amount)? updateCallback;
+  final _requester = ProfileRequester();
+  List<int> updatedNotificationIds = [];
+  bool updatingInProgress = false;
+  bool _isLoaded = false;
 
   NotificationsWM({
     required this.items,
-  })  : widgetslist = StreamedState(_getNotificationsList(items)),
-        super(const WidgetModelDependencies());
+    this.updateCallback,
+  }) : super(const WidgetModelDependencies());
 
   @override
   void onLoad() {
     super.onLoad();
+    if (!_isLoaded) {
+      widgetslist = StreamedState(_getNotificationsList(items, this));
+      notificationsReadList.accept([...items]);
+      _isLoaded = false;
+      changeFilterAction.bind((val) {
+        filterValue.accept(val!);
+        setWidgetsList();
+      });
 
-    changeFilterAction.bind((val) {
-      filterValue.accept(val!);
       setWidgetsList();
-    });
-
-    setWidgetsList();
+    }
   }
 
   void setWidgetsList() {
@@ -54,7 +65,10 @@ class NotificationsWM extends WidgetModel {
               margin: const EdgeInsets.only(
                 bottom: 4,
               ),
-              child: NotificationItem(data: item),
+              child: NotificationItem(
+                data: item,
+                wm: this,
+              ),
             ),
           );
         }
@@ -64,7 +78,10 @@ class NotificationsWM extends WidgetModel {
             margin: const EdgeInsets.only(
               bottom: 4,
             ),
-            child: NotificationItem(data: item),
+            child: NotificationItem(
+              data: item,
+              wm: this,
+            ),
           ),
         );
       }
@@ -118,25 +135,57 @@ class NotificationsWM extends WidgetModel {
       ]);
     }
   }
+
+  Future updateNotifications() async {
+    if (updatingInProgress) return;
+    updatingInProgress = true;
+    await Future.delayed(
+      const Duration(milliseconds: 500),
+      () async {
+        final currentIds = [...updatedNotificationIds];
+        var unreadCount = 0;
+        updatedNotificationIds.clear();
+        updatingInProgress = false;
+        final newList = <NotificationModel>[];
+        await _requester.sendNotificationsRead(ids: currentIds);
+        for (final element in notificationsReadList.value) {
+          if (currentIds.where((value) => element.id == value).isNotEmpty) {
+            newList.add(NotificationModel(
+              id: element.id,
+              title: element.title,
+              points: element.points,
+              type: element.type,
+              date: element.date,
+              read: true,
+            ));
+          } else {
+            newList.add(element);
+            if (!element.read!) {
+              unreadCount++;
+            }
+          }
+        }
+        await notificationsReadList.accept([...newList]);
+        updateCallback!(unreadCount);
+      },
+    );
+  }
 }
 
-List<Widget> _getNotificationsList(List<NotificationModel> list) {
+List<Widget> _getNotificationsList(
+  List<NotificationModel> list,
+  NotificationsWM wm,
+) {
   return list.map((item) {
     return Container(
       key: Key('notification ${item.id}'),
       margin: const EdgeInsets.only(
         bottom: 4,
       ),
-      child: VisibilityDetector(
-        key: Key(item.id.toString()),
-        onVisibilityChanged: (info) {
-          debugPrint(
-            'ban ${info.visibleFraction} ${item.id}',
-          );
-        },
-        child: NotificationItem(data: item),
+      child: NotificationItem(
+        data: item,
+        wm: wm,
       ),
-      //  child: NotificationItem(data: item),
     );
   }).toList();
 }

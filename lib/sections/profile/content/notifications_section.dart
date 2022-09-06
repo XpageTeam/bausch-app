@@ -3,15 +3,18 @@ import 'package:bausch/sections/profile/content/wm/notifications_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class NotificationSection extends CoreMwwmWidget<NotificationsWM> {
   NotificationSection({
     required List<NotificationModel> items,
+    required void Function(int amount) updateCallback,
     Key? key,
   }) : super(
           widgetModelBuilder: (_) {
-            return NotificationsWM(items: items);
+            return NotificationsWM(
+              items: items,
+              updateCallback: updateCallback,
+            );
           },
           key: key,
         );

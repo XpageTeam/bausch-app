@@ -8,10 +8,8 @@ class PhoneEditingController extends TextEditingController {
       mask: r'\+9 (999) 999-99-99',
     ),
   ];
-
+  String _oldText = '';
   int get _phoneLength => text.length;
-
-  String get _lastChar => text.characters.last;
 
   PhoneEditingController() {
     addListener(_listener);
@@ -21,12 +19,9 @@ class PhoneEditingController extends TextEditingController {
     text = inputFormatters.first.magicMask.getMaskedString(phone);
   }
 
-  String _oldText = '';
-
-  // max length == 18
   void _listener() {
     if (_oldText == text) return;
-
+    
     if (_phoneLength >= 2) {
       final firstElement = text.characters.elementAt(1);
 
@@ -46,7 +41,7 @@ class PhoneEditingController extends TextEditingController {
       }
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       _toEndPosition();
     });
 
@@ -60,14 +55,3 @@ class PhoneEditingController extends TextEditingController {
     );
   }
 }
-
-//  final lastChar = phoneController.text.characters.last;
-
-//     if (phoneLength == 2 && lastChar != '7') {
-//       phoneController.text = '+7 ($lastChar';
-//     }
-
-//     if (phoneLength == 5 && lastChar == '8') {
-//       phoneController.text = '+7';
-//     }
-
