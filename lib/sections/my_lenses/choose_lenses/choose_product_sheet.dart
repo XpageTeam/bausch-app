@@ -1,12 +1,19 @@
+import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+
 class ChooseProductSheet extends StatelessWidget {
-  final FlexibleDraggableScrollableSheetScrollController  controller;
-  const ChooseProductSheet({required this.controller, Key? key}) : super(key: key);
+  final FlexibleDraggableScrollableSheetScrollController controller;
+  final LensProductListModel lensProductListModel;
+  const ChooseProductSheet({
+    required this.controller,
+    required this.lensProductListModel,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +57,25 @@ class ChooseProductSheet extends StatelessWidget {
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
-                                  'Продукт',
+                                  lensProductListModel.products[index].name,
                                   style: AppStyles.h2,
                                 ),
                                 Text(
-                                  'срок действия',
-                                  style: AppStyles.p1,
+                                  lensProductListModel
+                                              .products[index].lifeTime >
+                                          1
+                                      ? 'Плановой замены \n${lensProductListModel.products[index].lifeTime} суток'
+                                      : 'Однодневные',
+                                  style: AppStyles.p1Grey,
                                 ),
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              height: 100,
-                              color: Colors.black,
-                            ),
+                          Image.network(
+                            lensProductListModel.products[index].image,
+                            height: 100,
                           ),
                         ],
                       ),
@@ -74,7 +83,7 @@ class ChooseProductSheet extends StatelessWidget {
                   ),
                 );
               },
-              childCount: 10,
+              childCount: lensProductListModel.products.length,
             ),
           ),
         ),

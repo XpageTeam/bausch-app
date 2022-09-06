@@ -23,11 +23,11 @@ class LensProductModel {
   final int id;
   final int lifeTime;
   final String image;
-  final String title;
+  final String name;
 
   LensProductModel({
     required this.id,
-    required this.title,
+    required this.name,
     required this.lifeTime,
     required this.image,
   });
@@ -38,7 +38,7 @@ class LensProductModel {
         id: map['id'] as int,
         lifeTime: map['lifeTime'] as int,
         image: map['image'] as String,
-        title: map['title'] as String,
+        name: map['name'] as String,
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
