@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
@@ -14,6 +15,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/custom_radio_button.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
+import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
@@ -65,6 +67,16 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
           child: AnimatedLoader(),
         ),
       ),
+      errorBuilder: (context, e) {
+        e as CustomException;
+
+        return ErrorPage(
+          title: e.title,
+          subtitle: e.subtitle,
+          buttonText: 'Обновить',
+          buttonCallback: wm.onLoad,
+        );
+      },
       builder: (context, primaryData) {
         return CustomSheetScaffold(
           controller: widget.controller,
