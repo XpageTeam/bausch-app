@@ -7,6 +7,12 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
+const notificationNames = <String, String>{
+  'mobilepush': 'Из Приложения',
+  'email': 'По E-mail',
+  'sms': 'По СМС',
+};
+
 class NotificationsSettingsScreen extends StatefulWidget {
   final List<SubscriptionModel> valuesList;
   final void Function(List<SubscriptionModel> valuesList) onSendUpdate;
@@ -22,6 +28,7 @@ class NotificationsSettingsScreen extends StatefulWidget {
 
 class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
   late List<SubscriptionModel> currentValues;
+
   @override
   void initState() {
     currentValues = [...widget.valuesList];
@@ -63,9 +70,13 @@ class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Flexible(
+                  Flexible(
                     child: Text(
-                      'Из приложения',
+                      notificationNames.entries
+                          .firstWhere((element) =>
+                              element.key ==
+                              currentValues[0].pointOfContact.toLowerCase())
+                          .value,
                       style: AppStyles.h2,
                     ),
                   ),
@@ -87,9 +98,13 @@ class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Flexible(
+                    Flexible(
                       child: Text(
-                        'По СМС',
+                        notificationNames.entries
+                            .firstWhere((element) =>
+                                element.key ==
+                                currentValues[1].pointOfContact.toLowerCase())
+                            .value,
                         style: AppStyles.h2,
                       ),
                     ),
@@ -110,9 +125,13 @@ class _MyAdressesScreenState extends State<NotificationsSettingsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Flexible(
+                  Flexible(
                     child: Text(
-                      'По E-mail',
+                      notificationNames.entries
+                          .firstWhere((element) =>
+                              element.key ==
+                              currentValues[2].pointOfContact.toLowerCase())
+                          .value,
                       style: AppStyles.h2,
                     ),
                   ),
