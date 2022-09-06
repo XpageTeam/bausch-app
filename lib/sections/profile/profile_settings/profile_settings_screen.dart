@@ -303,7 +303,7 @@ class _ProfileSettingsScreenState
                   );
                 },
                 style: TextButton.styleFrom(
-                  primary: Colors.transparent,
+                  foregroundColor: Colors.transparent,
                 ),
                 child: Text(
                   'Выйти',
