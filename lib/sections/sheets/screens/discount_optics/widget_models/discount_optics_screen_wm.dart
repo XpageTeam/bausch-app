@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
+import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
@@ -307,7 +308,8 @@ class OpticCititesRepository {
         final opticShops = <OpticShop>[];
         var hasThisDiscount = false;
 
-        for (final disountOpticShop in discounOptic.disountOpticShops!) {
+        for (final disountOpticShop
+            in discounOptic.disountOpticShops ?? <DiscountOpticShop>[]) {
           if (disountOpticShop.city.toLowerCase() == cityName.toLowerCase()) {
             hasThisDiscount = true;
             opticShops.add(

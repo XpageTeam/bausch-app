@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/models/auth_response_model.dart';
 import 'package:bausch/global/login/models/login_text.dart';
+import 'package:bausch/global/login/phone_editing_controller.dart';
 import 'package:bausch/global/login/requests/login_code_sender.dart';
 import 'package:bausch/global/login/requests/login_phone_sender.dart';
 import 'package:bausch/global/login/requests/login_text_downloader.dart';
@@ -16,6 +17,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_mask/easy_mask.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mindbox/mindbox.dart';
@@ -33,13 +35,15 @@ class LoginWM extends WidgetModel {
   final smsResendSeconds = StreamedState<int>(0);
   final smsSendAction = VoidAction();
 
-  final phoneController = TextEditingController()..text = '+7 ';
+  final phoneController = PhoneEditingController()..text = '+7 ';
 
-  final phoneInputFormaters = <TextInputFormatter>[
-    TextInputMask(
-      mask: r'\+7 999 999 99 99',
-    ),
-  ];
+  // final phoneInputFormaters = <TextInputFormatter>[
+  //   TextInputMask(
+  //     mask: r'\+7 999 999 99 99',
+  //   ),
+  // ];
+
+  final focusNode = FocusNode();
 
   final codeController = TextEditingController();
 
@@ -71,28 +75,28 @@ class LoginWM extends WidgetModel {
 
     phoneController.addListener(() {
       debugPrint('number: ${phoneController.text}');
-      if ((phoneController.text == '+7 97' ||
-              phoneController.text == '+7 98' ||
-              phoneController.text == '+7 99') &&
-          (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
-        phoneController
-          ..text = '+7 9'
-          ..selection = TextSelection.fromPosition(
-            TextPosition(offset: phoneController.text.length),
-          );
-      }
+      // if ((phoneController.text == '+7 97' ||
+      //         phoneController.text == '+7 98' ||
+      //         phoneController.text == '+7 99') &&
+      //     (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
+      //   phoneController
+      //     ..text = '+7 9'
+      //     ..selection = TextSelection.fromPosition(
+      //       TextPosition(offset: phoneController.text.length),
+      //     );
+      // }
 
-      if (phoneController.text == '') {
-        phoneController
-          ..text = '+7 '
-          ..selection = TextSelection.fromPosition(
-            TextPosition(offset: phoneController.text.length),
-          );
-      }
+      // if (phoneController.text == '') {
+      //   phoneController
+      //     ..text = '+7 '
+      //     ..selection = TextSelection.fromPosition(
+      //       TextPosition(offset: phoneController.text.length),
+      //     );
+      // }
 
-      prevPhoneValue = phoneController.text;
+      // prevPhoneValue = phoneController.text;
 
-      if (phoneController.text.length >= 16 && canUnfocus) {
+      if (phoneController.text.length >= 18 && canUnfocus) {
         final currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {
@@ -172,6 +176,9 @@ class LoginWM extends WidgetModel {
       _resendSMS();
     });
   }
+  void checkBtnActive() {
+    _checkBtnActive();
+  }
 
   void _checkAuth() {
     final authWM = Provider.of<AuthWM>(context, listen: false);
@@ -182,7 +189,7 @@ class LoginWM extends WidgetModel {
   }
 
   void _checkBtnActive() {
-    if (phoneController.text.length == 16 && policyAccepted.value) {
+    if (phoneController.text.length == 18 && policyAccepted.value) {
       sendPhoneBtnActive.accept(true);
     } else {
       sendPhoneBtnActive.accept(false);
@@ -197,6 +204,10 @@ class LoginWM extends WidgetModel {
       try {
         await authRequestResult.content(
           await PhoneSender.send(phoneController.text, uuid),
+        );
+
+        debugPrint(
+          'phoneConfirmed: ${authRequestResult.value.data?.isMobilePhoneConfirmed}',
         );
 
         await smsSendCounter.accept(smsSendCounter.value + 1);
@@ -236,18 +247,24 @@ class LoginWM extends WidgetModel {
     showLoader(context);
 
     Mindbox.instance.getDeviceUUID((uuid) async {
-
       CustomException? error;
 
       try {
+        final isMobilePhoneConfirmed =
+            authRequestResult.value.data?.isMobilePhoneConfirmed ?? false;
         final res = await CodeSender.send(
           code: codeController.text,
-          isMobilePhoneConfirmed:
-              authRequestResult.value.data?.isMobilePhoneConfirmed ?? false,
+          isMobilePhoneConfirmed: isMobilePhoneConfirmed,
           uuid: uuid,
         );
 
         await UserWriter.writeToken(res.xApiToken);
+
+        if (!isMobilePhoneConfirmed) {
+          unawaited(
+            FirebaseAnalytics.instance.logEvent(name: 'registration'),
+          );
+        }
 
         //* Очистка полей после отправки кода
         // phoneController.text = '';

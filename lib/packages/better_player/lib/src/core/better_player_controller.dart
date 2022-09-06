@@ -9,7 +9,6 @@ import 'package:better_player/src/video_player/video_player.dart';
 import 'package:better_player/src/video_player/video_player_platform_interface.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 ///Class used to control overall Better Player behavior. Main class to change
@@ -42,6 +41,13 @@ class BetterPlayerController {
   ///Instance of video player controller which is adapter used to communicate
   ///between flutter high level code and lower level native code.
   VideoPlayerController? videoPlayerController;
+
+  ///Controls configuration
+  late BetterPlayerControlsConfiguration _betterPlayerControlsConfiguration;
+
+  ///Controls configuration
+  BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration =>
+      _betterPlayerControlsConfiguration;
 
   ///Expose all active eventListeners
   List<Function(BetterPlayerEvent)?> get eventListeners =>
@@ -140,6 +146,9 @@ class BetterPlayerController {
   ///in configuration.
   double? _overriddenAspectRatio;
 
+  ///Overridden fit which will be used instead of fit passed in configuration.
+  BoxFit? _overriddenFit;
+
   ///Was Picture in Picture opened.
   bool _wasInPipMode = false;
 
@@ -206,6 +215,8 @@ class BetterPlayerController {
     this.betterPlayerPlaylistConfiguration,
     BetterPlayerDataSource? betterPlayerDataSource,
   }) {
+    this._betterPlayerControlsConfiguration =
+        betterPlayerConfiguration.controlsConfiguration;
     _eventListeners.add(eventListener);
     if (betterPlayerDataSource != null) {
       setupDataSource(betterPlayerDataSource);
@@ -594,9 +605,6 @@ class BetterPlayerController {
       _postControllerEvent(BetterPlayerControllerEvent.openFullscreen);
     } else {
       _postControllerEvent(BetterPlayerControllerEvent.hideFullscreen);
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-      ]);
     }
   }
 
@@ -991,7 +999,7 @@ class BetterPlayerController {
         return BetterPlayerTranslations.vietnamese();
       case "es":
         return BetterPlayerTranslations.spanish();
-      case 'ru':
+      case "ru":
         return BetterPlayerTranslations.russian();
       default:
         return BetterPlayerTranslations();
@@ -1031,6 +1039,19 @@ class BetterPlayerController {
   ///[_overriddenAspectRatio] will be used.
   double? getAspectRatio() {
     return _overriddenAspectRatio ?? betterPlayerConfiguration.aspectRatio;
+  }
+
+  // ignore: use_setters_to_change_properties
+  ///Setup overridden fit.
+  void setOverriddenFit(BoxFit fit) {
+    _overriddenFit = fit;
+  }
+
+  ///Get fit used in current video. If fit is null, then fit from
+  ///BetterPlayerConfiguration will be used. Otherwise [_overriddenFit] will be
+  ///used.
+  BoxFit getFit() {
+    return _overriddenFit ?? betterPlayerConfiguration.fit;
   }
 
   ///Enable Picture in Picture (PiP) mode. [betterPlayerGlobalKey] is required
@@ -1146,6 +1167,8 @@ class BetterPlayerController {
         _postEvent(BetterPlayerEvent(BetterPlayerEventType.bufferingEnd));
         break;
       default:
+
+        ///TODO: Handle when needed
         break;
     }
   }
@@ -1241,6 +1264,13 @@ class BetterPlayerController {
       BetterPlayerDataSource betterPlayerDataSource) async {
     return VideoPlayerController.stopPreCache(betterPlayerDataSource.url,
         betterPlayerDataSource.cacheConfiguration?.key);
+  }
+
+  /// Sets the new [betterPlayerControlsConfiguration] instance in the
+  /// controller.
+  void setBetterPlayerControlsConfiguration(
+      BetterPlayerControlsConfiguration betterPlayerControlsConfiguration) {
+    this._betterPlayerControlsConfiguration = betterPlayerControlsConfiguration;
   }
 
   /// Add controller internal event.

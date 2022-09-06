@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:better_player/src/controls/better_player_progress_colors.dart';
 import 'package:better_player/src/core/better_player_controller.dart';
 import 'package:better_player/src/video_player/video_player.dart';
@@ -37,7 +36,7 @@ class _VideoProgressBarState
     extends State<BetterPlayerCupertinoVideoProgressBar> {
   _VideoProgressBarState() {
     listener = () {
-      setState(() {});
+      if (mounted) setState(() {});
     };
   }
 
@@ -69,7 +68,7 @@ class _VideoProgressBarState
   @override
   Widget build(BuildContext context) {
     final bool enableProgressBarDrag = betterPlayerController!
-        .betterPlayerConfiguration.controlsConfiguration.enableProgressBarDrag;
+        .betterPlayerControlsConfiguration.enableProgressBarDrag;
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
         if (!controller!.value.initialized || !enableProgressBarDrag) {

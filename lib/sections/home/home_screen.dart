@@ -100,12 +100,15 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       showDefaultNotification(
-                      //         title: 'title',
-                      //         duration: const Duration(seconds: 5),
+                      //       FirebaseAnalytics.instance.logEvent(
+                      //         name: 'partner_order',
+                      //         parameters: <String, dynamic>{
+                      //           'partner_name_parameter': 'Test name 2',
+                      //           // 'partner_name_parameter': 'Test name',
+                      //         },
                       //       );
                       //     },
-                      //     child: const Text('open progarm screen'),
+                      //     child: const Text('test firebase'),
                       //   ),
                       // ),
                       PullToRefreshContainer((info) {

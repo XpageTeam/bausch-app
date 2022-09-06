@@ -8,6 +8,8 @@ import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:flutter/material.dart';
+import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
+import 'package:better_player/src/controls/better_player_overflow_menu_item.dart';
 
 class FinalWebinar extends StatelessWidget {
   final ScrollController controller;
@@ -76,3 +78,18 @@ class FinalWebinar extends StatelessWidget {
     );
   }
 }
+
+// class BauschControlsConfig extends BetterPlayerControlsConfiguration {
+//   BauschControlsConfig({
+//     required VoidCallback onClose,
+//   }) : super(
+//           overflowModalColor: AppTheme.mystic,
+//           overflowMenuCustomItems: [
+//             BetterPlayerOverflowMenuItem(
+//               Icons.close,
+//               'Закрыть видео',
+//               onClose,
+//             ),
+//           ],
+//         );
+// }

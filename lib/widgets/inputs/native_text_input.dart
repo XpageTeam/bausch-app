@@ -26,6 +26,7 @@ class NativeTextInput extends StatefulWidget {
   final bool greenCheckIcon;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
+  final FocusNode? focusNode;
 
   const NativeTextInput({
     required this.labelText,
@@ -44,6 +45,7 @@ class NativeTextInput extends StatefulWidget {
     this.autofocus = false,
     this.enabled,
     this.textInputAction,
+    this.focusNode,
     Key? key,
   }) : super(key: key);
 
@@ -54,7 +56,7 @@ class NativeTextInput extends StatefulWidget {
 class _NativeTextInputState extends State<NativeTextInput>
     with SingleTickerProviderStateMixin {
   //* Используется для того, чтобы прослушивать фокус и менять стиль и положение [label]
-  final focusNode = FocusNode();
+  late final focusNode = widget.focusNode ?? FocusNode();
 
   //* Продолжительность анимации изменения стиля и положения [label]
   int labelAnimationDuration = 150;
