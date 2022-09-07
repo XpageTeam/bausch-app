@@ -4,22 +4,25 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 
 // TODO(ask): разобраться какие поля могут быть null
 class LensesPairModel {
-  final int id;
+  final int? id;
+  final int? productId;
   final PairModel left;
   final PairModel right;
 
   LensesPairModel({
-    required this.id,
     required this.left,
     required this.right,
+    this.productId,
+    this.id,
   });
 
   factory LensesPairModel.fromMap(Map<String, dynamic> map) {
     try {
       return LensesPairModel(
-        id: map['pair_id'] as int,
-        left: PairModel.fromMap(map['left'] as Map<String, dynamic>),
-        right: PairModel.fromMap(map['right'] as Map<String, dynamic>),
+        id: map['pair_id'] as int?,
+        productId: map['product_id'] as int?,
+        left: PairModel.fromMap(map['left_eye'] as Map<String, dynamic>),
+        right: PairModel.fromMap(map['right_eye'] as Map<String, dynamic>),
       );
     } catch (e) {
       throw ResponseParseException('Ошибка в LensesPairModel: $e');
@@ -28,10 +31,10 @@ class LensesPairModel {
 }
 
 class PairModel {
-  final double diopters;
-  final double cylinder;
-  final double axis;
-  final double addition;
+  final String? diopters;
+  final String? cylinder;
+  final String? axis;
+  final String? addition;
 
   PairModel({
     required this.diopters,
@@ -43,13 +46,27 @@ class PairModel {
   factory PairModel.fromMap(Map<String, dynamic> map) {
     try {
       return PairModel(
-        diopters: map['diopters'] as double,
-        cylinder: map['cylinder'] as double,
-        axis: map['axis'] as double,
-        addition: map['addition'] as double,
+        diopters: map['diopters'] as String,
+        cylinder: map['cylinder'] as String,
+        axis: map['axis'] as String,
+        addition: map['addition'] as String,
       );
     } catch (e) {
       throw ResponseParseException('Ошибка в баннер модел: $e');
     }
+  }
+
+  PairModel copyWith({
+    String? diopters,
+    String? cylinder,
+    String? axis,
+    String? addition,
+  }) {
+    return PairModel(
+      diopters: diopters ?? this.diopters,
+      cylinder: cylinder ?? this.cylinder,
+      axis: axis ?? this.axis,
+      addition: addition ?? this.addition,
+    );
   }
 }

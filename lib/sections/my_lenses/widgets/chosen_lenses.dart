@@ -1,3 +1,4 @@
+import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
@@ -23,31 +24,38 @@ class ChosenLenses extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Продукт',
-                      style: AppStyles.h2,
-                    ),
-                    Text(
-                      'срок действия',
-                      style: AppStyles.p1,
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  height: 100,
-                  color: Colors.black,
-                ),
-              ),
-            ],
+          StreamedStateBuilder<LensProductModel?>(
+            streamedState: myLensesWM.currentProduct,
+            builder: (_, currentProduct) => currentProduct != null
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              myLensesWM.currentProduct.value!.name,
+                              style: AppStyles.h2,
+                            ),
+                            Text(
+                              currentProduct.lifeTime > 1
+                                  ? 'Плановой замены \n${currentProduct.lifeTime} суток'
+                                  : 'Однодневные',
+                              style: AppStyles.p1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Image.network(
+                        currentProduct.image,
+                        height: 100,
+                        width: 100,
+                      ),
+                    ],
+                  )
+                : SizedBox.shrink(),
           ),
           StreamedStateBuilder<bool>(
             streamedState: myLensesWM.leftPuttedOn,

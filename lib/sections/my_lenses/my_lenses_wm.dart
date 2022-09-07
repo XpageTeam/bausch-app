@@ -1,3 +1,6 @@
+import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
+import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
+import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +33,9 @@ class MyLensesWM extends WidgetModel {
   final dailyReminder = StreamedState(false);
   final dailyReminderRepeat = StreamedState('Нет');
   final dailyReminderRepeatDate = StreamedState<DateTime?>(null);
+  late final LensesPairModel lensesPairModel;
+  final currentProduct = StreamedState<LensProductModel?>(null);
+  final MyLensesRequester myLensesRequester = MyLensesRequester();
 
   // TODO(pavlov): заглушка для уведомлений, пока нет бэка
   Map<String, bool> notificationsMap = <String, bool>{
@@ -45,10 +51,36 @@ class MyLensesWM extends WidgetModel {
 
   @override
   void onBind() {
+    loadAllData();
     switchAction.bind(
       (newType) => _switchPage(newType!),
     );
     super.onBind();
+  }
+
+  Future loadAllData() async {
+    try {
+      lensesPairModel = await myLensesRequester.loadLensesPair();
+      await currentProduct.accept(await myLensesRequester.loadLensProduct(
+        id: lensesPairModel.productId!,
+      ));
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {
+      lensesPairModel = LensesPairModel(
+        right: PairModel(
+          diopters: null,
+          cylinder: null,
+          axis: null,
+          addition: null,
+        ),
+        left: PairModel(
+          diopters: null,
+          cylinder: null,
+          axis: null,
+          addition: null,
+        ),
+      );
+    }
   }
 
   // TODO(pavlov): тут в будущем сохранять уведомления

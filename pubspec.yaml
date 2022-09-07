@@ -53,12 +53,12 @@ dependencies:
   responsive_framework: ^0.2.0
   share: ^2.0.4
   shared_preferences: ^2.0.15
-  sqlite3_flutter_libs: ^0.5.9 # не удалять
+  sqlite3_flutter_libs: ^0.5.9 # НЕ УДАЛЯТЬ
   surf_mwwm: ^2.0.2
   url_launcher: ^6.1.5
   vimeoplayer_trinity:
     path: lib/packages/vimeoplayer_trinity
-  visibility_detector: ^0.2.0 # может убрать
+  visibility_detector: ^0.2.0 # НЕ ОБНОВЛЯТЬ
   yandex_mapkit: ^3.1.1
 
 dev_dependencies:

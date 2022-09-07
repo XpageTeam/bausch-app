@@ -1,5 +1,6 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_history_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -9,7 +10,7 @@ class MyLensesRequester {
   final _rh = RequestHandler();
 
   // Загружает пару линз
-  Future<LensesPairModel> loadLensesPair(String code) async {
+  Future<LensesPairModel> loadLensesPair() async {
     final parsedData = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
         '/lenses/current/',
@@ -85,6 +86,22 @@ class MyLensesRequester {
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('Ошибка в putOnLensesPair: $e');
+    }
+  }
+
+  // список упаковок линз
+  Future<LensProductModel> loadLensProduct({required int id}) async {
+    final parsedData = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/lenses/product/$id',
+      ))
+          .data!,
+    );
+    try {
+      return LensProductModel.fromMap(parsedData.data as Map<String,dynamic>);
+    // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в loadLensProduct: $e');
     }
   }
 }

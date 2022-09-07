@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 class ChooseProductSheet extends StatelessWidget {
   final FlexibleDraggableScrollableSheetScrollController controller;
   final LensProductListModel lensProductListModel;
+  final void Function(LensProductModel product) acceptProduct;
   const ChooseProductSheet({
     required this.controller,
     required this.lensProductListModel,
+    required this.acceptProduct,
     Key? key,
   }) : super(key: key);
 
@@ -45,8 +47,12 @@ class ChooseProductSheet extends StatelessWidget {
               (_, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 4),
-                  child: WhiteContainerWithRoundedCorners(
-                    child: Padding(
+                  child: GestureDetector(
+                    onTap: () {
+                      acceptProduct(lensProductListModel.products[index]);
+                      Navigator.of(context).pop();
+                    },
+                    child: WhiteContainerWithRoundedCorners(
                       padding: const EdgeInsets.symmetric(
                         vertical: 20,
                         horizontal: StaticData.sidePadding,
@@ -56,6 +62,7 @@ class ChooseProductSheet extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -68,7 +75,7 @@ class ChooseProductSheet extends StatelessWidget {
                                           1
                                       ? 'Плановой замены \n${lensProductListModel.products[index].lifeTime} суток'
                                       : 'Однодневные',
-                                  style: AppStyles.p1Grey,
+                                  style: AppStyles.p1,
                                 ),
                               ],
                             ),
@@ -76,6 +83,7 @@ class ChooseProductSheet extends StatelessWidget {
                           Image.network(
                             lensProductListModel.products[index].image,
                             height: 100,
+                            width: 100,
                           ),
                         ],
                       ),
