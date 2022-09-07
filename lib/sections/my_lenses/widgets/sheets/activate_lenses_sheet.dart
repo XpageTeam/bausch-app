@@ -1,3 +1,5 @@
+import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
+import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -10,13 +12,15 @@ import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 
 class ActivateLensesSheet extends StatelessWidget {
-  final String title;
   final VoidCallback onActivate;
+  final LensesPairModel lensesPairModel;
+  final LensProductModel lensProductModel;
   final FlexibleDraggableScrollableSheetScrollController controller;
   const ActivateLensesSheet({
-    required this.title,
     required this.onActivate,
     required this.controller,
+    required this.lensesPairModel,
+    required this.lensProductModel,
     Key? key,
   }) : super(key: key);
 
@@ -48,21 +52,22 @@ class ActivateLensesSheet extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  title,
+                                  lensProductModel.name,
                                   style: AppStyles.h2,
                                 ),
-                                const Text(
-                                  'срок действия',
+                                Text(
+                                  lensProductModel.lifeTime > 1
+                                      ? 'Плановой замены \n${lensProductModel.lifeTime} суток'
+                                      : 'Однодневные',
                                   style: AppStyles.p1,
                                 ),
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              height: 100,
-                              color: Colors.black,
-                            ),
+                          Image.network(
+                            lensProductModel.image,
+                            height: 100,
+                            width: 100,
                           ),
                         ],
                       ),
@@ -85,12 +90,24 @@ class ActivateLensesSheet extends StatelessWidget {
                   horizontal: StaticData.sidePadding,
                 ),
                 child: Row(
-                  children: const [
-                    Expanded(child: LensDescription(title: 'L')),
-                    Expanded(child: LensDescription(title: 'R')),
+                  children: [
+                    Expanded(
+                      child: LensDescription(
+                        title: 'L',
+                        pairModel: lensesPairModel.left,
+                      ),
+                    ),
+                    Expanded(
+                      child: LensDescription(
+                        title: 'R',
+                        pairModel: lensesPairModel.right,
+                      ),
+                    ),
                   ],
                 ),
               ),
+              
+        // TODO(ask): разобраться нужно тут что-то еще получать или нет
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: MayBeInteresting(text: 'Рекомендуемые продукты'),

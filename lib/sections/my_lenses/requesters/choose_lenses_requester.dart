@@ -44,10 +44,11 @@ class ChooseLensesRequester {
   Future<BaseResponseRepository> updateLensPair({
     required LensesPairModel lensesPairModel,
     required int productId,
+    required int pairId,
   }) async {
     try {
       final result = await _rh.post<Map<String, dynamic>>(
-        '/lenses/:${lensesPairModel.id}/',
+        '/lenses/$pairId/',
         data: FormData.fromMap(<String, dynamic>{
           'productId': productId,
           'left_eye[diopters]': lensesPairModel.left.diopters,

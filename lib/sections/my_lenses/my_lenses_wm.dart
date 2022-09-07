@@ -33,9 +33,10 @@ class MyLensesWM extends WidgetModel {
   final dailyReminder = StreamedState(false);
   final dailyReminderRepeat = StreamedState('Нет');
   final dailyReminderRepeatDate = StreamedState<DateTime?>(null);
-  late final LensesPairModel lensesPairModel;
+  final lensesPairModel = StreamedState<LensesPairModel?>(null);
   final currentProduct = StreamedState<LensProductModel?>(null);
   final MyLensesRequester myLensesRequester = MyLensesRequester();
+  final loadingInProgress = StreamedState(false);
 
   // TODO(pavlov): заглушка для уведомлений, пока нет бэка
   Map<String, bool> notificationsMap = <String, bool>{
@@ -60,13 +61,15 @@ class MyLensesWM extends WidgetModel {
 
   Future loadAllData() async {
     try {
-      lensesPairModel = await myLensesRequester.loadLensesPair();
+      await loadingInProgress.accept(true);
+      await lensesPairModel.accept(await myLensesRequester.loadLensesPair());
       await currentProduct.accept(await myLensesRequester.loadLensProduct(
-        id: lensesPairModel.productId!,
+        id: lensesPairModel.value!.productId!,
       ));
+      await loadingInProgress.accept(false);
       // ignore: avoid_catches_without_on_clauses
     } catch (_) {
-      lensesPairModel = LensesPairModel(
+      await lensesPairModel.accept(LensesPairModel(
         right: PairModel(
           diopters: null,
           cylinder: null,
@@ -79,7 +82,7 @@ class MyLensesWM extends WidgetModel {
           axis: null,
           addition: null,
         ),
-      );
+      ));
     }
   }
 

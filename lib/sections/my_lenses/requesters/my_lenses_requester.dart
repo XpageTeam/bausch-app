@@ -67,10 +67,14 @@ class MyLensesRequester {
     }
   }
 
-  // добавляем пару линз
+  // надеваем пару линз
   Future<BaseResponseRepository> putOnLensesPair({
     required DateTime leftDate,
     required DateTime rightDate,
+    // TODO(ask): но мы же можем обновлять уведомления и после надевания
+    // значит надо отдельный запрос делать для этого
+    // и как я получаю настройки уведомлений? храню у себя?
+    required List<int> reminders,
   }) async {
     try {
       final result = await _rh.post<Map<String, dynamic>>(
@@ -78,6 +82,7 @@ class MyLensesRequester {
         data: FormData.fromMap(<String, dynamic>{
           'left[date]': leftDate.toIso8601String(),
           'right[date]': rightDate.toIso8601String(),
+          'reminder[]': reminders,
         }),
       );
       final response =
@@ -98,8 +103,8 @@ class MyLensesRequester {
           .data!,
     );
     try {
-      return LensProductModel.fromMap(parsedData.data as Map<String,dynamic>);
-    // ignore: avoid_catches_without_on_clauses
+      return LensProductModel.fromMap(parsedData.data as Map<String, dynamic>);
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('Ошибка в loadLensProduct: $e');
     }

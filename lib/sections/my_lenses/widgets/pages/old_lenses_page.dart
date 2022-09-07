@@ -120,18 +120,19 @@ class OldLensesPage extends StatelessWidget {
                       ),
                       onPressed: () async {
                         await showFlexibleBottomSheet<void>(
-                          useRootNavigator: false,
                           minHeight: 0,
                           initHeight: 0.95,
                           maxHeight: 0.95,
                           anchors: [0, 0.6, 0.95],
                           context: context,
-                          isCollapsible: true,
                           builder: (context, controller, d) {
                             return SheetWidget(
                               child: ActivateLensesSheet(
                                 controller: controller,
-                                title: myLensesWM.previousLenses[index],
+                                lensProductModel:
+                                    myLensesWM.currentProduct.value!,
+                                lensesPairModel:
+                                    myLensesWM.lensesPairModel.value!,
                                 onActivate: () {
                                   myLensesWM
                                       .switchAction(MyLensesPage.currentLenses);

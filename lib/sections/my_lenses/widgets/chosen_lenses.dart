@@ -40,9 +40,7 @@ class ChosenLenses extends StatelessWidget {
                               style: AppStyles.h2,
                             ),
                             Text(
-                              currentProduct.lifeTime > 1
-                                  ? 'Плановой замены \n${currentProduct.lifeTime} суток'
-                                  : 'Однодневные',
+                              'Плановой замены \n${currentProduct.lifeTime} суток',
                               style: AppStyles.p1,
                             ),
                           ],
@@ -55,7 +53,7 @@ class ChosenLenses extends StatelessWidget {
                       ),
                     ],
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ),
           StreamedStateBuilder<bool>(
             streamedState: myLensesWM.leftPuttedOn,
@@ -136,15 +134,19 @@ class ChosenLenses extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Expanded(
-                                    // TODO(ask): как будет выглядеть экран изменить?
                                     child: GreyButton(
                                       text: 'Изменить',
-                                      onPressed: () => Keys
+                                      onPressed: () async => Keys
                                           .mainContentNav.currentState!
                                           .pushNamed(
                                         '/choose_lenses',
-                                        arguments: [true],
-                                      ),
+                                        arguments: [
+                                          true,
+                                          myLensesWM.lensesPairModel.value,
+                                        ],
+                                      ).then((value) {
+                                        myLensesWM.loadAllData();
+                                      }),
                                     ),
                                   ),
                                   const SizedBox(width: 3),

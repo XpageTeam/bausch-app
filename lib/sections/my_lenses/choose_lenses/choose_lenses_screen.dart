@@ -17,10 +17,14 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ChooseLensesScreen extends CoreMwwmWidget<ChooseLensesWM> {
   final bool isEditing;
-  ChooseLensesScreen({this.isEditing = false, Key? key})
+  final LensesPairModel? lensesPairModel;
+  ChooseLensesScreen({this.isEditing = false, this.lensesPairModel, Key? key})
       : super(
           key: key,
-          widgetModelBuilder: (context) => ChooseLensesWM(context: context),
+          widgetModelBuilder: (context) => ChooseLensesWM(
+            context: context,
+            editLensPairModel: lensesPairModel,
+          ),
         );
 
   @override

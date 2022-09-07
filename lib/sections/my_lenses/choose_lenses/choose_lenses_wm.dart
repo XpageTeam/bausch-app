@@ -3,6 +3,7 @@ import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_product_sheet.dart';
 import 'package:bausch/sections/my_lenses/requesters/choose_lenses_requester.dart';
+import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,8 +23,10 @@ class ChooseLensesWM extends WidgetModel {
   late final LensProductListModel lensProductList;
   final currentProduct = StreamedState<LensProductModel?>(null);
   final ChooseLensesRequester chooseLensesRequester = ChooseLensesRequester();
+  final MyLensesRequester myLensesRequester = MyLensesRequester();
+  final LensesPairModel? editLensPairModel;
 
-  ChooseLensesWM({required this.context})
+  ChooseLensesWM({required this.context, this.editLensPairModel})
       : super(const WidgetModelDependencies());
 
   @override
@@ -35,6 +38,17 @@ class ChooseLensesWM extends WidgetModel {
   Future loadAllData() async {
     try {
       lensProductList = await chooseLensesRequester.loadLensProducts();
+      if (editLensPairModel != null) {
+        await currentProduct.accept(
+          await myLensesRequester.loadLensProduct(
+            id: editLensPairModel!.productId!,
+          ),
+        );
+        await leftPair.accept(editLensPairModel!.left);
+        await rightPair.accept(editLensPairModel!.right);
+
+        await areFieldsValid.accept(true);
+      }
       // ignore: avoid_catches_without_on_clauses
     } catch (_) {
       lensProductList = LensProductListModel(products: []);
@@ -99,14 +113,20 @@ class ChooseLensesWM extends WidgetModel {
   }
 
   Future onAcceptPressed({required bool isEditing}) async {
-    await chooseLensesRequester.addLensPair(
-      lensesPairModel:
-          LensesPairModel(left: leftPair.value, right: rightPair.value),
-      productId: currentProduct.value!.id,
-    );
     if (isEditing) {
+      await chooseLensesRequester.updateLensPair(
+        lensesPairModel:
+            LensesPairModel(left: leftPair.value, right: rightPair.value),
+        productId: currentProduct.value!.id,
+        pairId: editLensPairModel!.id!,
+      );
       Keys.mainContentNav.currentState!.pop();
     } else {
+      await chooseLensesRequester.addLensPair(
+        lensesPairModel:
+            LensesPairModel(left: leftPair.value, right: rightPair.value),
+        productId: currentProduct.value!.id,
+      );
       await Keys.mainContentNav.currentState!
           .pushReplacementNamed('/my_lenses');
     }

@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 class LensesPairModel {
   final int? id;
   final int? productId;
+  // эти поля могут быть налом, или их внутренности нал когда они нал?
   final PairModel left;
   final PairModel right;
 
@@ -19,7 +20,7 @@ class LensesPairModel {
   factory LensesPairModel.fromMap(Map<String, dynamic> map) {
     try {
       return LensesPairModel(
-        id: map['pair_id'] as int?,
+        id: map['id'] as int?,
         productId: map['product_id'] as int?,
         left: PairModel.fromMap(map['left_eye'] as Map<String, dynamic>),
         right: PairModel.fromMap(map['right_eye'] as Map<String, dynamic>),

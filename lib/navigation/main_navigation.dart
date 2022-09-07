@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:after_layout/after_layout.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
@@ -96,7 +97,12 @@ class _MainNavigationState extends State<MainNavigation>
 
               case '/choose_lenses':
                 page = ChooseLensesScreen(
-                  isEditing: (settings.arguments as List<bool>)[0],
+                  isEditing: (settings.arguments as List<dynamic>)[0] as bool,
+                  lensesPairModel:
+                      (settings.arguments as List<dynamic>).length > 1
+                          ? ((settings.arguments as List<dynamic>)[1]
+                              as LensesPairModel)
+                          : null,
                 );
                 break;
 

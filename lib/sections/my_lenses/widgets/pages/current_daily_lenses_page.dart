@@ -38,24 +38,25 @@ class CurrentDailyLensesPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          'Продукт',
+                          myLensesWM.currentProduct.value!.name,
                           style: AppStyles.h2,
                         ),
-                        Text(
-                          'срок действия',
+                        // TODO(ask): тут какие-то "штуки" еще должны быть внизу
+                        const Text(
+                          'Однодневные',
                           style: AppStyles.p1,
                         ),
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 100,
-                      color: Colors.black,
-                    ),
+                  Image.network(
+                    myLensesWM.currentProduct.value!.image,
+                    height: 100,
+                    width: 100,
                   ),
                 ],
               ),
@@ -70,8 +71,10 @@ class CurrentDailyLensesPage extends StatelessWidget {
                       onPressed: () =>
                           Keys.mainContentNav.currentState!.pushNamed(
                         '/choose_lenses',
-                        arguments: [true],
-                      ),
+                        arguments: [true, myLensesWM.lensesPairModel.value],
+                      ).then((value) {
+                        myLensesWM.loadAllData();
+                      }),
                     ),
                   ),
                 ]),
@@ -126,13 +129,11 @@ class CurrentDailyLensesPage extends StatelessWidget {
                             text: 'Настроить',
                             onPressed: () async {
                               await showFlexibleBottomSheet<void>(
-                                useRootNavigator: false,
                                 minHeight: 0,
                                 initHeight: 0.95,
                                 maxHeight: 0.95,
                                 anchors: [0, 0.6, 0.95],
                                 context: context,
-                                isCollapsible: true,
                                 builder: (context, controller, d) {
                                   return SheetWidget(
                                     child: DailyNotificationsSheet(
@@ -171,12 +172,24 @@ class CurrentDailyLensesPage extends StatelessWidget {
             horizontal: StaticData.sidePadding,
           ),
           child: Row(
-            children: const [
-              Expanded(child: LensDescription(title: 'L')),
-              Expanded(child: LensDescription(title: 'R')),
+            children: [
+              Expanded(
+                child: LensDescription(
+                  title: 'L',
+                  pairModel: myLensesWM.lensesPairModel.value!.left,
+                ),
+              ),
+              Expanded(
+                child: LensDescription(
+                  title: 'R',
+                  pairModel: myLensesWM.lensesPairModel.value!.right,
+                ),
+              ),
             ],
           ),
         ),
+
+        // TODO(ask): разобраться нужно тут что-то еще получать или нет
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 30),
           child: MayBeInteresting(text: 'Рекомендуемые продукты'),
