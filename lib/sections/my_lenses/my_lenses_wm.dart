@@ -18,8 +18,9 @@ class MyLensesWM extends WidgetModel {
   final BuildContext context;
   final lensesDifferentLife = StreamedState(true);
   final bothPuttedOn = StreamedState(false);
-  final leftPuttedOn = StreamedState(false);
-  final rightPuttedOn = StreamedState(false);
+  final leftPutDate = StreamedState<DateTime?>(null);
+  final rightPutDate = StreamedState<DateTime?>(null);
+  // TODO(ask): день замены будет как-то приходить или мне самому считать?
   // используется для правой линзы и когда срок линз одинаковый
   final rightReplacementDay =
       StreamedState('Просрочен'); // Нет // Да // Просрочен

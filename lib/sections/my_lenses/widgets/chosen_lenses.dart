@@ -55,14 +55,14 @@ class ChosenLenses extends StatelessWidget {
                   )
                 : const SizedBox.shrink(),
           ),
-          StreamedStateBuilder<bool>(
-            streamedState: myLensesWM.leftPuttedOn,
-            builder: (_, leftPuttedOn) => StreamedStateBuilder<bool>(
-              streamedState: myLensesWM.rightPuttedOn,
-              builder: (_, rightPuttedOn) => leftPuttedOn == true &&
-                      rightPuttedOn == true
+          StreamedStateBuilder<DateTime?>(
+            streamedState: myLensesWM.leftPutDate,
+            builder: (_, leftPutDate) => StreamedStateBuilder<DateTime?>(
+              streamedState: myLensesWM.rightPutDate,
+              builder: (_, rightPutDate) => leftPutDate != null &&
+                      rightPutDate != null
                   ? const SizedBox.shrink()
-                  : leftPuttedOn
+                  : leftPutDate != null
                       ? Padding(
                           padding: const EdgeInsets.only(
                             top: 20,
@@ -81,10 +81,10 @@ class ChosenLenses extends StatelessWidget {
                                     barrierColor: Colors.black.withOpacity(0.8),
                                     builder: (context) {
                                       return PutOnDateSheet(
-                                        onConfirmed: () {
-                                          myLensesWM.rightPuttedOn.accept(true);
+                                        onConfirmed: ({leftDate,rightDate}) {
+                                          myLensesWM.rightPutDate.accept(rightDate);
                                         },
-                                        rightLens: true,
+                                        rightPut: DateTime.now(),
                                       );
                                     },
                                   ),
@@ -93,7 +93,7 @@ class ChosenLenses extends StatelessWidget {
                             ],
                           ),
                         )
-                      : rightPuttedOn
+                      : rightPutDate != null
                           ? Padding(
                               padding: const EdgeInsets.only(
                                 top: 20,
@@ -114,11 +114,11 @@ class ChosenLenses extends StatelessWidget {
                                             Colors.black.withOpacity(0.8),
                                         builder: (context) {
                                           return PutOnDateSheet(
-                                            onConfirmed: () {
-                                              myLensesWM.leftPuttedOn
-                                                  .accept(true);
+                                            onConfirmed: ({leftDate,rightDate}) {
+                                              myLensesWM.leftPutDate
+                                                  .accept(leftDate);
                                             },
-                                            leftLens: true,
+                                            leftPut: DateTime.now(),
                                           );
                                         },
                                       ),
@@ -161,13 +161,13 @@ class ChosenLenses extends StatelessWidget {
                                             Colors.black.withOpacity(0.8),
                                         builder: (context) {
                                           return PutOnDateSheet(
-                                            onConfirmed: () {
+                                            onConfirmed: ({leftDate,rightDate}) {
                                               myLensesWM.bothPuttedOn
                                                   .accept(true);
-                                              myLensesWM.leftPuttedOn
-                                                  .accept(true);
-                                              myLensesWM.rightPuttedOn
-                                                  .accept(true);
+                                              myLensesWM.leftPutDate
+                                                  .accept(leftDate);
+                                              myLensesWM.rightPutDate
+                                                  .accept(rightDate);
                                             },
                                           );
                                         },

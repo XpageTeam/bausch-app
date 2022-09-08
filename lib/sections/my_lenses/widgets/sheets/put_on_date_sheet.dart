@@ -5,15 +5,15 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class PutOnDateSheet extends StatefulWidget {
-  final VoidCallback onConfirmed;
+  final void Function({DateTime? rightDate, DateTime? leftDate}) onConfirmed;
   final bool lenseLost;
-  final bool leftLens;
-  final bool rightLens;
+  final DateTime? leftPut;
+  final DateTime? rightPut;
   const PutOnDateSheet({
     required this.onConfirmed,
     this.lenseLost = false,
-    this.leftLens = false,
-    this.rightLens = false,
+    this.leftPut,
+    this.rightPut,
     Key? key,
   }) : super(key: key);
 
@@ -54,9 +54,9 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
               Padding(
                 padding: const EdgeInsets.only(top: 40, bottom: 30),
                 child: Text(
-                  widget.leftLens
+                  widget.leftPut != null
                       ? 'Левая линза надета'
-                      : widget.rightLens
+                      : widget.rightPut != null
                           ? 'Правая линза надета'
                           : widget.lenseLost
                               ? 'Новая линза надета'
@@ -64,6 +64,7 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                   style: AppStyles.h1,
                 ),
               ),
+              // TODO(pavlov): продумать сценарий когда линза потеряна
               if (widget.lenseLost)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
@@ -92,6 +93,7 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                     ],
                   ),
                 ),
+              // TODO(wait): вроде тут нужно разрешить будущую дату
               DatePickerWidget(
                 onMonthChangeStartWithFirstDate: false,
                 initialDateTime: DateTime.now(),
@@ -100,7 +102,14 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                 onCancel: () {},
                 dateFormat: 'dd.MM.yyyy',
                 onConfirm: (date, i) {
-                  widget.onConfirmed();
+                  if (widget.leftPut == null && widget.rightPut == null) {
+                    widget.onConfirmed(leftDate: date, rightDate: date);
+                  } else if (widget.leftPut == null) {
+                    widget.onConfirmed(rightDate: date);
+                  } else {
+                    widget.onConfirmed(leftDate: date);
+                  }
+
                   debugPrint('onConfirmed');
                 },
               ),

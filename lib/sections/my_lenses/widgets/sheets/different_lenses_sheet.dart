@@ -5,9 +5,13 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class DifferentLensesSheet extends StatefulWidget {
-  final VoidCallback onConfirmed;
+  final void Function({DateTime? leftDate, DateTime? rightDate}) onConfirmed;
+  final DateTime leftDate;
+  final DateTime rightDate;
   const DifferentLensesSheet({
     required this.onConfirmed,
+    required this.rightDate,
+    required this.leftDate,
     Key? key,
   }) : super(key: key);
 
@@ -17,8 +21,16 @@ class DifferentLensesSheet extends StatefulWidget {
 
 class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
   bool leftActive = true;
-  DateTime leftDate = DateTime.now();
-  DateTime rightDate = DateTime.now();
+  late DateTime leftDate;
+  late DateTime rightDate;
+
+  @override
+  void initState() {
+    leftDate = widget.leftDate;
+    rightDate = widget.rightDate;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -100,9 +112,10 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                     .toList(),
               ),
               const SizedBox(height: 10),
+              // TODO(wait): вроде тут нужно разрешить будущую дату
               if (leftActive)
                 DatePickerWidget(
-                  key: const Key('first'),
+                  key: const Key('L'),
                   onMonthChangeStartWithFirstDate: false,
                   initialDateTime: leftDate,
                   minDateTime: DateTime(2021),
@@ -114,15 +127,16 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                     leftDate = value;
                   },
                   dateFormat: 'dd.MM.yyyy',
-                  // TODO(pavlov): в каждом конфирме нужно подтверждать и левую и правую
                   onConfirm: (date, i) {
-                    widget.onConfirmed();
-                    debugPrint('left');
+                    widget.onConfirmed(
+                      leftDate: leftDate,
+                      rightDate: rightDate,
+                    );
                   },
                 )
               else
                 DatePickerWidget(
-                  key: const Key('second'),
+                  key: const Key('R'),
                   onMonthChangeStartWithFirstDate: false,
                   initialDateTime: rightDate,
                   minDateTime: DateTime(2021),
@@ -134,8 +148,10 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                   },
                   dateFormat: 'dd.MM.yyyy',
                   onConfirm: (date, i) {
-                    widget.onConfirmed();
-                    debugPrint('right');
+                    widget.onConfirmed(
+                      leftDate: leftDate,
+                      rightDate: rightDate,
+                    );
                   },
                 ),
             ],

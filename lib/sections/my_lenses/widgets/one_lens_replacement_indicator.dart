@@ -93,7 +93,13 @@ class OneLensReplacementIndicator extends StatelessWidget {
                       barrierColor: Colors.black.withOpacity(0.8),
                       builder: (context) {
                         return PutOnDateSheet(
-                          onConfirmed: () {
+                          onConfirmed: ({leftDate, rightDate}) {
+                            if (leftDate != null) {
+                              myLensesWM.leftPutDate.accept(leftDate);
+                            }
+                            if (rightDate != null) {
+                              myLensesWM.rightPutDate.accept(rightDate);
+                            }
                             myLensesWM.lensesDifferentLife.accept(true);
                           },
                           lenseLost: true,
@@ -120,7 +126,15 @@ class OneLensReplacementIndicator extends StatelessWidget {
                               context: context,
                               barrierColor: Colors.black.withOpacity(0.8),
                               builder: (context) {
-                                return PutOnDateSheet(onConfirmed: () {});
+                                return PutOnDateSheet(
+                                    onConfirmed: ({leftDate, rightDate}) {
+                                  if (leftDate != null) {
+                                    myLensesWM.leftPutDate.accept(leftDate);
+                                  }
+                                  if (rightDate != null) {
+                                    myLensesWM.rightPutDate.accept(rightDate);
+                                  }
+                                },);
                               },
                             );
                           },
