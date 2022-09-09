@@ -1,3 +1,4 @@
+import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_indicator_status.dart';
@@ -42,8 +43,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      StreamedStateBuilder<DateTime?>(
-                        streamedState: myLensesWM.leftPutDate,
+                      StreamedStateBuilder<LensDateModel?>(
+                        streamedState: myLensesWM.leftLensDate,
                         builder: (_, leftPutDate) => leftPutDate != null
                             ? Expanded(
                                 child: LensIndicatorStatus(
@@ -57,8 +58,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                               )
                             : const SizedBox.shrink(),
                       ),
-                      StreamedStateBuilder<DateTime?>(
-                        streamedState: myLensesWM.rightPutDate,
+                      StreamedStateBuilder<LensDateModel?>(
+                        streamedState: myLensesWM.rightLensDate,
                         builder: (_, rightPutDate) => rightPutDate != null
                             ? Expanded(
                                 child: LensIndicatorStatus(
@@ -74,8 +75,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                     ],
                   ),
                 ),
-                StreamedStateBuilder<DateTime?>(
-                  streamedState: myLensesWM.rightPutDate,
+                StreamedStateBuilder<LensDateModel?>(
+                  streamedState: myLensesWM.rightLensDate,
                   builder: (_, rightPutDate) => rightPutDate != null
                       ? Row(
                           children: [
@@ -132,8 +133,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 13),
-                StreamedStateBuilder<DateTime?>(
-                  streamedState: myLensesWM.leftPutDate,
+                StreamedStateBuilder<LensDateModel?>(
+                  streamedState: myLensesWM.leftLensDate,
                   builder: (_, leftPutDate) => leftPutDate != null
                       ? Row(
                           children: [
@@ -215,12 +216,11 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                                       leftDate,
                                       rightDate,
                                     }) {
-                                      if (leftDate != rightDate) {
-                                        myLensesWM.lensesDifferentLife
-                                            .accept(true);
-                                      }
-                                      myLensesWM.leftPutDate.accept(leftDate);
-                                      myLensesWM.rightPutDate.accept(rightDate);
+                                      myLensesWM.putOnLenses(
+                                        leftDate: leftDate,
+                                        rightDate: rightDate,
+                                        differentLife: leftDate != rightDate,
+                                      );
                                     },
                                     lenseLost: true,
                                   );
@@ -249,37 +249,38 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                                 context: context,
                                 barrierColor: Colors.black.withOpacity(0.8),
                                 builder: (context) {
-                                  return myLensesWM.rightPutDate.value ==
+                                  return myLensesWM.rightLensDate.value ==
                                               null ||
-                                          myLensesWM.leftPutDate.value == null
+                                          myLensesWM.leftLensDate.value == null
                                       ? PutOnDateSheet(
                                           onConfirmed: ({
                                             leftDate,
                                             rightDate,
                                           }) {
-                                              myLensesWM.rightPutDate
-                                                .accept(rightDate);
-                                                   myLensesWM.leftPutDate
-                                                .accept(leftDate);
+                                            myLensesWM.putOnLenses(
+                                              leftDate: leftDate,
+                                              rightDate: rightDate,
+                                            );
                                           },
-                                          leftPut: myLensesWM.leftPutDate.value,
-                                          rightPut:
-                                              myLensesWM.rightPutDate.value,
+                                          leftPut: myLensesWM
+                                              .leftLensDate.value!.dateStart,
+                                          rightPut: myLensesWM
+                                              .rightLensDate.value!.dateStart,
                                         )
                                       : DifferentLensesSheet(
                                           onConfirmed: ({
                                             leftDate,
                                             rightDate,
                                           }) {
-                                            myLensesWM.rightPutDate
-                                                .accept(rightDate);
-                                                   myLensesWM.leftPutDate
-                                                .accept(leftDate);
+                                            myLensesWM.putOnLenses(
+                                              leftDate: leftDate,
+                                              rightDate: rightDate,
+                                            );
                                           },
-                                          leftDate:
-                                              myLensesWM.leftPutDate.value!,
-                                          rightDate:
-                                              myLensesWM.rightPutDate.value!,
+                                          leftDate: myLensesWM
+                                              .leftLensDate.value!.dateStart,
+                                          rightDate: myLensesWM
+                                              .rightLensDate.value!.dateStart,
                                         );
                                 },
                               );
@@ -291,11 +292,11 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                         child: BlueButtonWithText(
                           text: 'Завершить',
                           onPressed: () async {
-                            if (myLensesWM.rightPutDate.value == null ||
-                                myLensesWM.leftPutDate.value == null) {
+                            if (myLensesWM.rightLensDate.value == null ||
+                                myLensesWM.leftLensDate.value == null) {
                               await myLensesWM.bothPuttedOn.accept(false);
-                              await myLensesWM.leftPutDate.accept(null);
-                              await myLensesWM.rightPutDate.accept(null);
+                              await myLensesWM.leftLensDate.accept(null);
+                              await myLensesWM.rightLensDate.accept(null);
                             } else {
                               await showModalBottomSheet<void>(
                                 isScrollControlled: true,
@@ -304,16 +305,16 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                                 builder: (context) {
                                   return PutOnEndSheet(
                                     onLeftConfirmed: () {
-                                      myLensesWM.leftPutDate.accept(null);
-                                      if (myLensesWM.rightPutDate.value ==
+                                      myLensesWM.leftLensDate.accept(null);
+                                      if (myLensesWM.rightLensDate.value ==
                                           null) {
                                         myLensesWM.bothPuttedOn.accept(false);
                                       }
                                       Navigator.of(context).pop();
                                     },
                                     onRightConfirmed: () {
-                                      myLensesWM.rightPutDate.accept(null);
-                                      if (myLensesWM.leftPutDate.value ==
+                                      myLensesWM.rightLensDate.accept(null);
+                                      if (myLensesWM.leftLensDate.value ==
                                           null) {
                                         myLensesWM.bothPuttedOn.accept(false);
                                       }
@@ -321,8 +322,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                                     },
                                     onBothConfirmed: () {
                                       myLensesWM.bothPuttedOn.accept(false);
-                                      myLensesWM.leftPutDate.accept(null);
-                                      myLensesWM.rightPutDate.accept(null);
+                                      myLensesWM.leftLensDate.accept(null);
+                                      myLensesWM.rightLensDate.accept(null);
                                       Navigator.of(context).pop();
                                     },
                                   );

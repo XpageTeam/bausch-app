@@ -2,7 +2,7 @@
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 
-// TODO(ask): разобраться какие поля могут быть null
+// TODO(ask): если ничего не надето, сюда приходит нал
 class LensesPairModel {
   final int? id;
   final int? productId;

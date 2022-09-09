@@ -94,13 +94,11 @@ class OneLensReplacementIndicator extends StatelessWidget {
                       builder: (context) {
                         return PutOnDateSheet(
                           onConfirmed: ({leftDate, rightDate}) {
-                            if (leftDate != null) {
-                              myLensesWM.leftPutDate.accept(leftDate);
-                            }
-                            if (rightDate != null) {
-                              myLensesWM.rightPutDate.accept(rightDate);
-                            }
-                            myLensesWM.lensesDifferentLife.accept(true);
+                            myLensesWM.putOnLenses(
+                              leftDate: leftDate,
+                              rightDate: rightDate,
+                              differentLife: true,
+                            );
                           },
                           lenseLost: true,
                         );
@@ -127,14 +125,13 @@ class OneLensReplacementIndicator extends StatelessWidget {
                               barrierColor: Colors.black.withOpacity(0.8),
                               builder: (context) {
                                 return PutOnDateSheet(
-                                    onConfirmed: ({leftDate, rightDate}) {
-                                  if (leftDate != null) {
-                                    myLensesWM.leftPutDate.accept(leftDate);
-                                  }
-                                  if (rightDate != null) {
-                                    myLensesWM.rightPutDate.accept(rightDate);
-                                  }
-                                },);
+                                  onConfirmed: ({leftDate, rightDate}) {
+                                    myLensesWM.putOnLenses(
+                                      leftDate: leftDate,
+                                      rightDate: rightDate,
+                                    );
+                                  },
+                                );
                               },
                             );
                           },

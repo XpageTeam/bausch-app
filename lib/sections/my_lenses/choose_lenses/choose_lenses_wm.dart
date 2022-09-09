@@ -120,8 +120,10 @@ class ChooseLensesWM extends WidgetModel {
         productId: currentProduct.value!.id,
         pairId: editLensPairModel!.id!,
       );
+   
       Keys.mainContentNav.currentState!.pop();
     } else {
+      
       await chooseLensesRequester.addLensPair(
         lensesPairModel:
             LensesPairModel(left: leftPair.value, right: rightPair.value),

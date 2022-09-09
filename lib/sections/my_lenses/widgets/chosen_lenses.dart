@@ -1,4 +1,5 @@
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
+import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
@@ -55,10 +56,10 @@ class ChosenLenses extends StatelessWidget {
                   )
                 : const SizedBox.shrink(),
           ),
-          StreamedStateBuilder<DateTime?>(
-            streamedState: myLensesWM.leftPutDate,
-            builder: (_, leftPutDate) => StreamedStateBuilder<DateTime?>(
-              streamedState: myLensesWM.rightPutDate,
+          StreamedStateBuilder<LensDateModel?>(
+            streamedState: myLensesWM.leftLensDate,
+            builder: (_, leftPutDate) => StreamedStateBuilder<LensDateModel?>(
+              streamedState: myLensesWM.rightLensDate,
               builder: (_, rightPutDate) => leftPutDate != null &&
                       rightPutDate != null
                   ? const SizedBox.shrink()
@@ -81,9 +82,11 @@ class ChosenLenses extends StatelessWidget {
                                     barrierColor: Colors.black.withOpacity(0.8),
                                     builder: (context) {
                                       return PutOnDateSheet(
-                                        onConfirmed: ({leftDate,rightDate}) {
-                                          myLensesWM.rightPutDate.accept(rightDate);
-                                        },
+                                        onConfirmed: ({leftDate, rightDate}) =>
+                                            myLensesWM.putOnLenses(
+                                          leftDate: leftDate,
+                                          rightDate: rightDate,
+                                        ),
                                         rightPut: DateTime.now(),
                                       );
                                     },
@@ -114,10 +117,14 @@ class ChosenLenses extends StatelessWidget {
                                             Colors.black.withOpacity(0.8),
                                         builder: (context) {
                                           return PutOnDateSheet(
-                                            onConfirmed: ({leftDate,rightDate}) {
-                                              myLensesWM.leftPutDate
-                                                  .accept(leftDate);
-                                            },
+                                            onConfirmed: ({
+                                              leftDate,
+                                              rightDate,
+                                            }) =>
+                                                myLensesWM.putOnLenses(
+                                              leftDate: leftDate,
+                                              rightDate: rightDate,
+                                            ),
                                             leftPut: DateTime.now(),
                                           );
                                         },
@@ -161,14 +168,14 @@ class ChosenLenses extends StatelessWidget {
                                             Colors.black.withOpacity(0.8),
                                         builder: (context) {
                                           return PutOnDateSheet(
-                                            onConfirmed: ({leftDate,rightDate}) {
-                                              myLensesWM.bothPuttedOn
-                                                  .accept(true);
-                                              myLensesWM.leftPutDate
-                                                  .accept(leftDate);
-                                              myLensesWM.rightPutDate
-                                                  .accept(rightDate);
-                                            },
+                                            onConfirmed: ({
+                                              leftDate,
+                                              rightDate,
+                                            }) =>
+                                                myLensesWM.putOnLenses(
+                                              leftDate: leftDate,
+                                              rightDate: rightDate,
+                                            ),
                                           );
                                         },
                                       ),

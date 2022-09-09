@@ -11,6 +11,7 @@ class MyLensesContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO(info): тут переключать надеты или нет линзы
     const choseLenses = true;
     const putOnLenses = true;
     const lensesLife = 'День замен'; // день замены // просрочены

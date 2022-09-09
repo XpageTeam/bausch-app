@@ -1,4 +1,5 @@
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
+import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/static/static_data.dart';
@@ -18,8 +19,8 @@ class MyLensesWM extends WidgetModel {
   final BuildContext context;
   final lensesDifferentLife = StreamedState(true);
   final bothPuttedOn = StreamedState(false);
-  final leftPutDate = StreamedState<DateTime?>(null);
-  final rightPutDate = StreamedState<DateTime?>(null);
+  final leftLensDate = StreamedState<LensDateModel?>(null);
+  final rightLensDate = StreamedState<LensDateModel?>(null);
   // TODO(ask): день замены будет как-то приходить или мне самому считать?
   // используется для правой линзы и когда срок линз одинаковый
   final rightReplacementDay =
@@ -46,6 +47,9 @@ class MyLensesWM extends WidgetModel {
     'За 1 день': false,
     'За 2 дня': false,
     'За неделю': false,
+    // 'За 3 дня': false,
+    // 'За 4 дня': false,
+    // 'За 5 дней': false,
   };
   String customNotification = '';
 
@@ -62,11 +66,18 @@ class MyLensesWM extends WidgetModel {
 
   Future loadAllData() async {
     try {
+      // TODO(pavlov): нужна кнопка обновить
       await loadingInProgress.accept(true);
-      await lensesPairModel.accept(await myLensesRequester.loadLensesPair());
+      // TODO(pavlov): если приходит нал, надо как-то перенаправлять на другую страницу
+      await lensesPairModel
+          .accept(await myLensesRequester.loadChosenLensesInfo());
       await currentProduct.accept(await myLensesRequester.loadLensProduct(
         id: lensesPairModel.value!.productId!,
       ));
+      // final lensesDates = await myLensesRequester.loadLensesDates();
+      // print('ba3');
+      // await rightLensDate.accept(lensesDates.right);
+      // await leftLensDate.accept(lensesDates.left);
       await loadingInProgress.accept(false);
       // ignore: avoid_catches_without_on_clauses
     } catch (_) {
@@ -87,11 +98,47 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
+  Future putOnLenses({
+    required DateTime? leftDate,
+    required DateTime? rightDate,
+    bool differentLife = false,
+  }) async {
+    try {
+      await myLensesRequester.putOnLensesPair(
+        leftDate: leftDate,
+        rightDate: rightDate,
+      );
+      // TODO(wait): тут нужен запрос на обновленное получение дат
+      if (leftDate != null && rightDate != null) {
+        await bothPuttedOn.accept(true);
+      }
+      if (differentLife) {
+        await lensesDifferentLife.accept(true);
+      }
+
+      if (leftDate != null) {
+        await leftLensDate
+            .accept(leftLensDate.value!.copyWith(dateStart: leftDate));
+      }
+      if (rightDate != null) {
+        await rightLensDate
+            .accept(rightLensDate.value!.copyWith(dateStart: rightDate));
+      }
+      //  await myLensesRequester.updateReminders(
+      //  reminders:
+      // );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      print('ban' + e.toString());
+    }
+  }
+
   // TODO(pavlov): тут в будущем сохранять уведомления
   void updateNotifications(
     Map<String, bool> notifications,
     String custom,
   ) {
+    print('ban'+ notifications[0].toString());
     customNotification = custom;
     notificationsMap
       ..clear()
@@ -104,7 +151,6 @@ class MyLensesWM extends WidgetModel {
     if (notifications.isEmpty && customNotification == '') {
       notificationsMap.update('Нет', (value) => true);
     }
-
     if (notifications.isEmpty && customNotification == '') {
       notificationStatus.accept(['Нет', '1']);
     } else if (notifications.isEmpty && customNotification != '') {
