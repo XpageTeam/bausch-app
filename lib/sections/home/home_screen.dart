@@ -2,6 +2,7 @@
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
@@ -250,8 +251,8 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                         ),
                       ),
 
-                      const SliverPadding(
-                        padding: EdgeInsets.only(
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
                           bottom: 40,
                         ),
                         sliver: SliverToBoxAdapter(
@@ -259,7 +260,34 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               // мои линзы
                               DelayedAnimatedTranslateOpacity(
                             offsetY: 60,
-                            child: MyLensesContainer(),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                EntityStateBuilder<LensesPairModel?>(
+                                  streamedState: wm.myLenses,
+                                  loadingBuilder: (_, myLenses) {
+                                    if (myLenses != null) {
+                                      return MyLensesContainer(
+                                        myLenses: myLenses,
+                                      );
+                                    }
+                                    return const SizedBox();
+                                  },
+                                  builder: (_, myLenses) {
+                                    if (myLenses != null) {
+                                      return MyLensesContainer(
+                                        myLenses: myLenses,
+                                      );
+                                    }
+                                    return const SizedBox();
+                                  },
+                                ),
+                                // TODO(pavlov): не понял как отображать null, поэтому добавил такой иф
+                                if (wm.myLenses.value.data == null)
+                                  const MyLensesContainer(myLenses: null),
+                              ],
+                            ),
                           ),
                         ),
                       ),

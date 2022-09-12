@@ -44,28 +44,45 @@ class CurrentLensesPage extends StatelessWidget {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Напомнить о замене',
-                  style: AppStyles.h2,
+                const Expanded(
+                  flex: 2,
+                  child: Text(
+                    'Напомнить о замене',
+                    style: AppStyles.h2,
+                  ),
                 ),
-                Row(
-                  children: [
-                    StreamedStateBuilder<List<String>>(
-                      streamedState: myLensesWM.notificationStatus,
-                      builder: (_, object) => Text(
-                        object[0] != ''
-                            ? object[0]
-                            : '${object[1]} напомина...',
-                        style: AppStyles.h2,
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: StreamedStateBuilder<List<String>>(
+                          streamedState: myLensesWM.notificationStatus,
+                          builder: (_, object) => Text(
+                            object[0] != ''
+                                ? object[0]
+                                : '${object[1]} напомина...',
+                            style: AppStyles.h2,
+                            softWrap: false,
+                            // TODO(info): сделал затемнение, потому что с точками проблема
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
                       ),
-                    ),
-                    const Icon(
-                      Icons.chevron_right_sharp,
-                      size: 20,
-                      color: AppTheme.mineShaft,
-                    ),
-                  ],
+                      const Expanded(
+                        child: Icon(
+                          Icons.chevron_right_sharp,
+                          size: 20,
+                          color: AppTheme.mineShaft,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -76,9 +93,11 @@ class CurrentLensesPage extends StatelessWidget {
                 barrierColor: Colors.black.withOpacity(0.8),
                 builder: (context) {
                   return ReminderSheet(
-                    valuesMap: myLensesWM.notificationsMap,
-                    customValue: myLensesWM.customNotification,
-                    onSendUpdate: myLensesWM.updateNotifications,
+                    notifications: myLensesWM.notificationsList,
+                    onSendUpdate: (notifications) =>
+                        myLensesWM.updateNotifications(
+                      notifications: notifications,
+                    ),
                   );
                 },
               );

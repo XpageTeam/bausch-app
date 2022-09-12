@@ -57,7 +57,7 @@ class UserWriter {
       ),
     );
     // TODO(pavlov): тут смотрим что приходит пользователю
-    // print('ban' + res.data.toString());
+    // print('что пришло' + res.data.toString());
 
     final parsed =
         BaseResponseRepository.fromMap(res.data as Map<String, dynamic>);

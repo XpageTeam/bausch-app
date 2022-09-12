@@ -32,6 +32,13 @@ class ChooseLensesWM extends WidgetModel {
   @override
   void onBind() {
     loadAllData();
+    if (editLensPairModel != null &&
+        editLensPairModel!.left.addition == editLensPairModel!.right.addition &&
+        editLensPairModel!.left.axis == editLensPairModel!.right.axis &&
+        editLensPairModel!.left.cylinder == editLensPairModel!.right.cylinder &&
+        editLensPairModel!.left.diopters == editLensPairModel!.right.diopters) {
+      isLeftEqual.accept(true);
+    }
     super.onBind();
   }
 
@@ -120,10 +127,10 @@ class ChooseLensesWM extends WidgetModel {
         productId: currentProduct.value!.id,
         pairId: editLensPairModel!.id!,
       );
-   
+
       Keys.mainContentNav.currentState!.pop();
     } else {
-      
+      // TODO(ask): этот запрос тоже переработать
       await chooseLensesRequester.addLensPair(
         lensesPairModel:
             LensesPairModel(left: leftPair.value, right: rightPair.value),

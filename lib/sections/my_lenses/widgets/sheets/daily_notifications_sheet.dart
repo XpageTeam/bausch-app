@@ -237,9 +237,11 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                     builder: (context) {
                       return ReminderSheet(
                         hasNoVariant: false,
-                        valuesMap: widget.myLensesWM.notificationsMap,
-                        customValue: widget.myLensesWM.customNotification,
-                        onSendUpdate: widget.myLensesWM.updateNotifications,
+                        notifications: widget.myLensesWM.notificationsList,
+                        onSendUpdate: (notifications) =>
+                            widget.myLensesWM.updateNotifications(
+                          notifications: notifications,
+                        ),
                       );
                     },
                     barrierColor: Colors.black.withOpacity(0.8),

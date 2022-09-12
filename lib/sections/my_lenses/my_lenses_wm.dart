@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
@@ -19,10 +21,9 @@ class MyLensesWM extends WidgetModel {
   final BuildContext context;
   final lensesDifferentLife = StreamedState(true);
   final bothPuttedOn = StreamedState(false);
+  // тут приходит дата начала, конца, сколько дней осталось
   final leftLensDate = StreamedState<LensDateModel?>(null);
   final rightLensDate = StreamedState<LensDateModel?>(null);
-  // TODO(ask): день замены будет как-то приходить или мне самому считать?
-  // используется для правой линзы и когда срок линз одинаковый
   final rightReplacementDay =
       StreamedState('Просрочен'); // Нет // Да // Просрочен
   final leftReplacementDay = StreamedState('Нет'); // Нет // Да // Просрочен
@@ -35,25 +36,25 @@ class MyLensesWM extends WidgetModel {
   final dailyReminder = StreamedState(false);
   final dailyReminderRepeat = StreamedState('Нет');
   final dailyReminderRepeatDate = StreamedState<DateTime?>(null);
-  final lensesPairModel = StreamedState<LensesPairModel?>(null);
+  final StreamedState<LensesPairModel?> lensesPairModel;
   final currentProduct = StreamedState<LensProductModel?>(null);
   final MyLensesRequester myLensesRequester = MyLensesRequester();
   final loadingInProgress = StreamedState(false);
 
-  // TODO(pavlov): заглушка для уведомлений, пока нет бэка
-  Map<String, bool> notificationsMap = <String, bool>{
-    'Нет': true,
-    'В день замены': false,
-    'За 1 день': false,
-    'За 2 дня': false,
-    'За неделю': false,
-    // 'За 3 дня': false,
-    // 'За 4 дня': false,
-    // 'За 5 дней': false,
-  };
-  String customNotification = '';
+  List<MyLensesNotificationModel> notificationsList = [
+// TODO(ask): уточнить порядок id
+    MyLensesNotificationModel(isActive: true, title: 'Нет', id: 0),
+    MyLensesNotificationModel(isActive: false, title: 'В день замены', id: 1),
+    MyLensesNotificationModel(isActive: false, title: 'За 1 день', id: 2),
+    MyLensesNotificationModel(isActive: false, title: 'За 2 дня', id: 3),
+    MyLensesNotificationModel(isActive: false, title: 'За неделю', id: 4),
+    MyLensesNotificationModel(isActive: false, title: 'За 3 дня', id: 5),
+    MyLensesNotificationModel(isActive: false, title: 'За 4 дня', id: 6),
+    MyLensesNotificationModel(isActive: false, title: 'За 5 дней', id: 7),
+  ];
 
-  MyLensesWM({required this.context}) : super(const WidgetModelDependencies());
+  MyLensesWM({required this.context, required this.lensesPairModel})
+      : super(const WidgetModelDependencies());
 
   @override
   void onBind() {
@@ -65,21 +66,23 @@ class MyLensesWM extends WidgetModel {
   }
 
   Future loadAllData() async {
+    // TODO(pavlov): нужна кнопка обновить
+    // все эти загрузки потихоньку перетащить в main_screen_wm
+    await loadingInProgress.accept(true);
+    // TODO(pavlov): из-за наличия редактирования, эта функция осталась
+    // надо переделать
+    await loadLensesPair();
+    // await loadLensesDates();
+    await loadingInProgress.accept(false);
+  }
+
+  Future loadLensesPair() async {
     try {
-      // TODO(pavlov): нужна кнопка обновить
-      await loadingInProgress.accept(true);
-      // TODO(pavlov): если приходит нал, надо как-то перенаправлять на другую страницу
       await lensesPairModel
           .accept(await myLensesRequester.loadChosenLensesInfo());
       await currentProduct.accept(await myLensesRequester.loadLensProduct(
         id: lensesPairModel.value!.productId!,
       ));
-      // final lensesDates = await myLensesRequester.loadLensesDates();
-      // print('ba3');
-      // await rightLensDate.accept(lensesDates.right);
-      // await leftLensDate.accept(lensesDates.left);
-      await loadingInProgress.accept(false);
-      // ignore: avoid_catches_without_on_clauses
     } catch (_) {
       await lensesPairModel.accept(LensesPairModel(
         right: PairModel(
@@ -98,6 +101,17 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
+// сейчас тут ошибка из-за бэка
+  Future loadLensesDates() async {
+    try {
+      final lensesDates = await myLensesRequester.loadLensesDates();
+      await rightLensDate.accept(lensesDates.right);
+      await leftLensDate.accept(lensesDates.left);
+    } catch (e) {
+      debugPrint('ban' + e.toString());
+    }
+  }
+
   Future putOnLenses({
     required DateTime? leftDate,
     required DateTime? rightDate,
@@ -108,7 +122,8 @@ class MyLensesWM extends WidgetModel {
         leftDate: leftDate,
         rightDate: rightDate,
       );
-      // TODO(wait): тут нужен запрос на обновленное получение дат
+      // TODO(wait): тут нужен запрос на редактирование дат
+      // и на получение дат
       if (leftDate != null && rightDate != null) {
         await bothPuttedOn.accept(true);
       }
@@ -117,53 +132,66 @@ class MyLensesWM extends WidgetModel {
       }
 
       if (leftDate != null) {
-        await leftLensDate
-            .accept(leftLensDate.value!.copyWith(dateStart: leftDate));
+        // пока заглушка
+        await leftLensDate.accept(LensDateModel(
+          dateEnd: DateTime.now(),
+          dateStart: leftDate,
+          daysLeft: DateTime.now().difference(leftDate).inDays,
+        ));
       }
       if (rightDate != null) {
-        await rightLensDate
-            .accept(rightLensDate.value!.copyWith(dateStart: rightDate));
+        // пока заглушка
+        await rightLensDate.accept(LensDateModel(
+          dateEnd: DateTime.now(),
+          dateStart: rightDate,
+          daysLeft: DateTime.now().difference(rightDate).inDays,
+        ));
       }
-      //  await myLensesRequester.updateReminders(
-      //  reminders:
-      // );
-      // ignore: avoid_catches_without_on_clauses
+
+      await updateNotifications(notifications: notificationsList);
     } catch (e) {
-      print('ban' + e.toString());
+      debugPrint('putOnLenses $e');
     }
   }
 
-  // TODO(pavlov): тут в будущем сохранять уведомления
-  void updateNotifications(
-    Map<String, bool> notifications,
-    String custom,
-  ) {
-    print('ban'+ notifications[0].toString());
-    customNotification = custom;
-    notificationsMap
+  Future updateNotifications({
+    required List<MyLensesNotificationModel> notifications,
+  }) async {
+    notificationsList
       ..clear()
       ..addAll(notifications);
+
+    notifications.removeWhere((value) => value.isActive == false);
+    final ids = <int>[];
+    if (notifications.isEmpty) {
+      notificationsList[0] = notificationsList[0].copyWith(isActive: true);
+      await notificationStatus.accept(['Нет', '1']);
+      ids.add(0);
+    } else if (notifications.length == 1) {
+      await notificationStatus.accept([
+        notifications.firstWhere((element) => element.isActive == true).title,
+        '1',
+      ]);
+      ids.add(
+        notifications.firstWhere((element) => element.isActive == true).id,
+      );
+    } else {
+      await notificationStatus.accept(['', (notifications.length).toString()]);
+      for (final element in notifications) {
+        if (element.isActive) {
+          ids.add(element.id);
+        }
+      }
+    }
+    try {
+      await myLensesRequester.updateReminders(reminders: ids);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
     showDefaultNotification(
       title: 'Данные успешно обновлены',
       success: true,
     );
-    notifications.removeWhere((key, value) => value == false);
-    if (notifications.isEmpty && customNotification == '') {
-      notificationsMap.update('Нет', (value) => true);
-    }
-    if (notifications.isEmpty && customNotification == '') {
-      notificationStatus.accept(['Нет', '1']);
-    } else if (notifications.isEmpty && customNotification != '') {
-      notificationStatus.accept([customNotification, '1']);
-    } else if (notifications.length == 1 && customNotification == '') {
-      notificationStatus.accept([notifications.keys.first, '1']);
-    } else {
-      notificationStatus.accept([
-        '',
-        (notifications.length + (customNotification != '' ? 1 : 0)).toString(),
-      ]);
-    }
-
     Keys.mainContentNav.currentState!.pop();
   }
 
@@ -171,5 +199,41 @@ class MyLensesWM extends WidgetModel {
     if (currentPageStreamed.value != newPage) {
       currentPageStreamed.accept(newPage);
     }
+  }
+}
+
+class MyLensesNotificationModel {
+  final bool isActive;
+  final String title;
+  final int id;
+
+  MyLensesNotificationModel({
+    required this.isActive,
+    required this.title,
+    required this.id,
+  });
+
+  // factory LensDateModel.fromMap(Map<String, dynamic> map) {
+  //   try {
+  //     return LensDateModel(
+  //       dateStart: map['dateStart'] as DateTime,
+  //       dateEnd: map['dateEnd'] as DateTime,
+  //       daysLeft: map['daysLeft'] as int,
+  //     );
+  //   } catch (e) {
+  //     throw ResponseParseException('Ошибка в PairDateModel: $e');
+  //   }
+  // }
+
+  MyLensesNotificationModel copyWith({
+    bool? isActive,
+    String? title,
+    int? id,
+  }) {
+    return MyLensesNotificationModel(
+      isActive: isActive ?? this.isActive,
+      title: title ?? this.title,
+      id: id ?? this.id,
+    );
   }
 }

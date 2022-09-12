@@ -1,3 +1,4 @@
+import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -6,13 +7,16 @@ import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+
+// TODO(pavlov): надо покопошиться в этом виджете
 class MyLensesContainer extends StatelessWidget {
-  const MyLensesContainer({Key? key}) : super(key: key);
+  final LensesPairModel? myLenses;
+  const MyLensesContainer({required  this.myLenses, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // TODO(info): тут переключать надеты или нет линзы
-    const choseLenses = true;
+    final choseLenses = myLenses != null;
     const putOnLenses = true;
     const lensesLife = 'День замен'; // день замены // просрочены
     return Padding(
@@ -22,8 +26,9 @@ class MyLensesContainer extends StatelessWidget {
       child: WhiteContainerWithRoundedCorners(
         onTap: () {
           // ignore: literal_only_boolean_expressions
+          // TODO(pavlov): тут нужно переделать передавание аргументов
           if (choseLenses) {
-            Keys.mainContentNav.currentState!.pushNamed('/my_lenses');
+            Keys.mainContentNav.currentState!.pushNamed('/my_lenses',arguments: [myLenses]);
           } else {
             Keys.mainContentNav.currentState!
                 .pushNamed('/choose_lenses', arguments: [false]);
@@ -146,10 +151,13 @@ class MyLensesContainer extends StatelessWidget {
                                 ],
                               ),
                             )
-                      : Image.asset(
-                          'assets/my_lenses.png',
-                          fit: BoxFit.scaleDown,
-                        ),
+                      : Padding(
+                        padding: const EdgeInsets.only(top:20.0),
+                        child: Image.asset(
+                            'assets/my_lenses.png',
+                            fit: BoxFit.scaleDown,
+                          ),
+                      ),
                 ),
               ],
             ),

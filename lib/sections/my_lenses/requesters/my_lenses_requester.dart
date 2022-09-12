@@ -6,12 +6,13 @@ import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class MyLensesRequester {
   final _rh = RequestHandler();
 
   // Загружает текущие настройки линз
-  // TODO(ask): в этом запросе перестал передаваться айдишник, но теперь вместе с id продукта передается еще и сам продукт
+  // TODO(ask): теперь вместе с id продукта передается еще и сам продукт
   // мне нужен айдишник
   Future<LensesPairModel> loadChosenLensesInfo() async {
     final parsedData = BaseResponseRepository.fromMap(
@@ -47,7 +48,6 @@ class MyLensesRequester {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      print('ban' + e.toString());
       throw ResponseParseException('Ошибка в LensesPairDatesModel: $e');
     }
   }

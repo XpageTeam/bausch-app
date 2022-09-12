@@ -29,6 +29,7 @@ class LensesPairDatesModel {
 }
 
 class LensDateModel {
+  // TODO(ask): попросить передавать DateTime, а не String
   final DateTime dateStart;
   final DateTime dateEnd;
   final int daysLeft;

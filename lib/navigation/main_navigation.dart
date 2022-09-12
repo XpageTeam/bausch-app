@@ -107,7 +107,7 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               case '/my_lenses':
-                page = MyLensesScreen();
+                page = MyLensesScreen(lensesPairModel: (settings.arguments as List<dynamic>)[0] as LensesPairModel?,);
                 break;
 
               case '/profile':
