@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class LensIndicatorStatus extends StatelessWidget {
-  final String replacementDay;
+  final int daysBeforeReplacement;
+  final int lifeTime;
   final VoidCallback onTap;
   final bool title;
   final bool left;
   const LensIndicatorStatus({
-    required this.replacementDay,
+    required this.daysBeforeReplacement,
     required this.onTap,
+    required this.lifeTime,
     this.title = true,
     this.left = false,
     Key? key,
@@ -21,7 +23,7 @@ class LensIndicatorStatus extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        if (replacementDay == 'Нет')
+        if (daysBeforeReplacement > 0)
           CircularPercentIndicator(
             header: title
                 ? const Padding(
@@ -40,9 +42,12 @@ class LensIndicatorStatus extends StatelessWidget {
             animation: true,
             animationDuration: 2000,
             lineWidth: 15.0,
-            percent: 0.75,
+            // TODO(pavlov): падает если много дней, пока поставил заглушку
+            percent: (lifeTime - daysBeforeReplacement) / lifeTime < 0
+                ? 1
+                : (lifeTime - daysBeforeReplacement) / lifeTime,
             center: Text(
-              '22',
+              daysBeforeReplacement.toString(),
               style: title
                   ? AppStyles.h0
                   : AppStyles.h1.copyWith(fontSize: 45, height: 1),
@@ -107,14 +112,14 @@ class LensIndicatorStatus extends StatelessWidget {
                             bottom: 20,
                           ),
                           child: Text(
-                            replacementDay == 'Да'
+                            daysBeforeReplacement == 0
                                 ? 'День замены'
                                 : 'День замены просрочен',
                             style: AppStyles.h2,
                           ),
                         ),
                       Stack(alignment: Alignment.center, children: [
-                        if (replacementDay == 'Да')
+                        if (daysBeforeReplacement == 0)
                           Image.asset(
                             'assets/replacement_day.png',
                             scale: 2.53,

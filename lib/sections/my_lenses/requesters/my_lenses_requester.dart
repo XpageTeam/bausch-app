@@ -6,14 +6,13 @@ import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class MyLensesRequester {
   final _rh = RequestHandler();
 
+  // TODO(ask): почему сам продукт передается тоже?
+
   // Загружает текущие настройки линз
-  // TODO(ask): теперь вместе с id продукта передается еще и сам продукт
-  // мне нужен айдишник
   Future<LensesPairModel> loadChosenLensesInfo() async {
     final parsedData = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
@@ -32,7 +31,6 @@ class MyLensesRequester {
     }
   }
 
-// TODO(pavlov): надо подключить
   // Загружает даты пары линз
   Future<LensesPairDatesModel> loadLensesDates() async {
     final parsedData = BaseResponseRepository.fromMap(
@@ -52,7 +50,7 @@ class MyLensesRequester {
     }
   }
 
-// TODO(info): не готово
+// TODO(info): бэк не готов
   // Загружает историю ношения линз
   Future<LensesHistoryListModel> loadLensesHistory() async {
     final parsedData = BaseResponseRepository.fromMap(
@@ -69,7 +67,7 @@ class MyLensesRequester {
     }
   }
 
-// TODO(info): не готово
+// TODO(info): бэк не готов
   // заканчиваем пару линз
   Future<BaseResponseRepository> endLensesPair({
     required bool left,
@@ -115,7 +113,7 @@ class MyLensesRequester {
     }
   }
 
-  // надеваем пару линз
+  // обновление расписания уведомлений
   Future<BaseResponseRepository> updateReminders({
     required List<int> reminders,
   }) async {

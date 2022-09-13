@@ -4,6 +4,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
+// TODO(pavlov): пройтись и везде настроить редактирование этого виджета
 class PutOnDateSheet extends StatefulWidget {
   final void Function({DateTime? rightDate, DateTime? leftDate}) onConfirmed;
   final bool lenseLost;

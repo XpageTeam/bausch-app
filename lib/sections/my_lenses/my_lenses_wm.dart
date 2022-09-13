@@ -19,14 +19,9 @@ extension ShopsContentTypeAsString on MyLensesPage {
 
 class MyLensesWM extends WidgetModel {
   final BuildContext context;
-  final lensesDifferentLife = StreamedState(true);
-  final bothPuttedOn = StreamedState(false);
   // тут приходит дата начала, конца, сколько дней осталось
   final leftLensDate = StreamedState<LensDateModel?>(null);
   final rightLensDate = StreamedState<LensDateModel?>(null);
-  final rightReplacementDay =
-      StreamedState('Просрочен'); // Нет // Да // Просрочен
-  final leftReplacementDay = StreamedState('Нет'); // Нет // Да // Просрочен
   final switchAction = StreamedAction<MyLensesPage>();
   final previousLenses = ['Бауш', 'Энд', 'Ломб'];
   final historyList = ['5 май, 16:00', '6 май, 16:00', '7 май, 16:00'];
@@ -72,7 +67,7 @@ class MyLensesWM extends WidgetModel {
     // TODO(pavlov): из-за наличия редактирования, эта функция осталась
     // надо переделать
     await loadLensesPair();
-    // await loadLensesDates();
+    await loadLensesDates();
     await loadingInProgress.accept(false);
   }
 
@@ -101,7 +96,6 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-// сейчас тут ошибка из-за бэка
   Future loadLensesDates() async {
     try {
       final lensesDates = await myLensesRequester.loadLensesDates();
@@ -124,13 +118,6 @@ class MyLensesWM extends WidgetModel {
       );
       // TODO(wait): тут нужен запрос на редактирование дат
       // и на получение дат
-      if (leftDate != null && rightDate != null) {
-        await bothPuttedOn.accept(true);
-      }
-      if (differentLife) {
-        await lensesDifferentLife.accept(true);
-      }
-
       if (leftDate != null) {
         // пока заглушка
         await leftLensDate.accept(LensDateModel(

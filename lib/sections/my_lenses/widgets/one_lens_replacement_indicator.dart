@@ -1,3 +1,4 @@
+import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_indicator_status.dart';
@@ -7,11 +8,17 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
 
+// TODO(all): тут нужно будем переделывать под обновления с бэка
 class OneLensReplacementIndicator extends StatelessWidget {
   final MyLensesWM myLensesWM;
-  const OneLensReplacementIndicator({required this.myLensesWM, Key? key})
+  final LensDateModel activeLensModel;
+  final bool isLeft;
+  const OneLensReplacementIndicator(
+      {required this.myLensesWM,
+      required this.activeLensModel,
+      required this.isLeft,
+      Key? key})
       : super(key: key);
 
   @override
@@ -23,135 +30,141 @@ class OneLensReplacementIndicator extends StatelessWidget {
           vertical: 16,
           horizontal: StaticData.sidePadding,
         ),
-        child: StreamedStateBuilder<String>(
-          streamedState: myLensesWM.rightReplacementDay,
-          builder: (_, replacementDay) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 30,
-                ),
-                child: LensIndicatorStatus(
-                  replacementDay: replacementDay,
-                  onTap: () async =>
-                      myLensesWM.rightReplacementDay.accept('Нет'),
-                ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 30,
               ),
-              Row(
-                children: [
-                  const Text(
-                    '5 май, 16:00',
-                    style: AppStyles.p1,
+              child: LensIndicatorStatus(
+                left: isLeft,
+                lifeTime: myLensesWM.currentProduct.value!.lifeTime,
+                daysBeforeReplacement: activeLensModel.daysLeft,
+                onTap: () async => isLeft
+                    ? myLensesWM.leftLensDate.accept(activeLensModel.copyWith(
+                        daysLeft: myLensesWM.currentProduct.value!.lifeTime))
+                    : myLensesWM.rightLensDate.accept(activeLensModel.copyWith(
+                        daysLeft: myLensesWM.currentProduct.value!.lifeTime)),
+              ),
+            ),
+            Row(
+              children: [
+                // TODO(pavlov): посмотреть что тут будет
+                Text(
+                  activeLensModel.dateStart.toIso8601String(),
+                  style: AppStyles.p1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 6,
+                    right: 2,
                   ),
+                  child: Image.asset(
+                    activeLensModel.daysLeft < 0
+                        ? 'assets/short_line_dots.png'
+                        : 'assets/line_dots.png',
+                    scale: 3,
+                  ),
+                ),
+                const Icon(
+                  Icons.notifications_none,
+                  size: 18,
+                ),
+                // TODO(pavlov): посмотреть что тут будет
+                Text(
+                  activeLensModel.dateEnd.toIso8601String(),
+                  style: AppStyles.p1,
+                ),
+                if (activeLensModel.daysLeft < 0)
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 6,
-                      right: 2,
-                    ),
-                    child: Image.asset(
-                      replacementDay == 'Просрочен'
-                          ? 'assets/short_line_dots.png'
-                          : 'assets/line_dots.png',
-                      scale: 3,
+                    padding: const EdgeInsets.only(left: 6),
+                    child: Text(
+                      activeLensModel.daysLeft.toString(),
+                      style: AppStyles.p1.copyWith(color: Colors.red),
                     ),
                   ),
-                  const Icon(
-                    Icons.notifications_none,
-                    size: 18,
-                  ),
-                  const Text(
-                    'Вс, 22 сен, 16:00',
-                    style: AppStyles.p1,
-                  ),
-                  if (replacementDay == 'Просрочен')
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6),
-                      child: Text(
-                        '+ 800',
-                        style: AppStyles.p1.copyWith(color: Colors.red),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 8),
+              child: GreyButton(
+                text: 'Потерялась одна линза',
+                leftIcon: Image.asset(
+                  'assets/substract.png',
+                  height: 16,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: StaticData.sidePadding,
+                ),
+                onPressed: () async {
+                  await showModalBottomSheet<num>(
+                    isScrollControlled: true,
+                    context: context,
+                    barrierColor: Colors.black.withOpacity(0.8),
+                    builder: (context) {
+                      return PutOnDateSheet(
+                        onConfirmed: ({leftDate, rightDate}) {
+                          myLensesWM.putOnLenses(
+                            leftDate: leftDate,
+                            rightDate: rightDate,
+                            differentLife: true,
+                          );
+                        },
+                        lenseLost: true,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 20,
+              ),
+              child: Row(
+                children: [
+                  if (activeLensModel.daysLeft > 0)
+                    Expanded(
+                      child: GreyButton(
+                        text: 'Редактировать',
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        onPressed: () async {
+                          await showModalBottomSheet<num>(
+                            isScrollControlled: true,
+                            context: context,
+                            barrierColor: Colors.black.withOpacity(0.8),
+                            builder: (context) {
+                              // TODO(pavlov): вроде тут надо другие данные будет засовывать
+                              return PutOnDateSheet(
+                                onConfirmed: ({leftDate, rightDate}) {
+                                  myLensesWM.putOnLenses(
+                                    leftDate: leftDate,
+                                    rightDate: rightDate,
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
+                  const SizedBox(width: 3),
+                  Expanded(
+                    child: BlueButtonWithText(
+                      text: activeLensModel.daysLeft > 0
+                          ? 'Завершить'
+                          : 'Завершить ношение',
+                      onPressed: () async => isLeft
+                          ? myLensesWM.leftLensDate.accept(null)
+                          : myLensesWM.rightLensDate.accept(null),
+                    ),
+                  ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 8),
-                child: GreyButton(
-                  text: 'Потерялась одна линза',
-                  leftIcon: Image.asset(
-                    'assets/substract.png',
-                    height: 16,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: StaticData.sidePadding,
-                  ),
-                  onPressed: () async {
-                    await showModalBottomSheet<num>(
-                      isScrollControlled: true,
-                      context: context,
-                      barrierColor: Colors.black.withOpacity(0.8),
-                      builder: (context) {
-                        return PutOnDateSheet(
-                          onConfirmed: ({leftDate, rightDate}) {
-                            myLensesWM.putOnLenses(
-                              leftDate: leftDate,
-                              rightDate: rightDate,
-                              differentLife: true,
-                            );
-                          },
-                          lenseLost: true,
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                ),
-                child: Row(
-                  children: [
-                    if (replacementDay == 'Нет')
-                      Expanded(
-                        child: GreyButton(
-                          text: 'Редактировать',
-                          padding: const EdgeInsets.only(top: 20, bottom: 20),
-                          onPressed: () async {
-                            await showModalBottomSheet<num>(
-                              isScrollControlled: true,
-                              context: context,
-                              barrierColor: Colors.black.withOpacity(0.8),
-                              builder: (context) {
-                                return PutOnDateSheet(
-                                  onConfirmed: ({leftDate, rightDate}) {
-                                    myLensesWM.putOnLenses(
-                                      leftDate: leftDate,
-                                      rightDate: rightDate,
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    const SizedBox(width: 3),
-                    Expanded(
-                      child: BlueButtonWithText(
-                        text: replacementDay == 'Нет'
-                            ? 'Завершить'
-                            : 'Завершить ношение',
-                        onPressed: () async =>
-                            myLensesWM.bothPuttedOn.accept(false),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

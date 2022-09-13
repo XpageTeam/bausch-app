@@ -1,3 +1,4 @@
+import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -23,15 +24,21 @@ class CurrentLensesPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        StreamedStateBuilder<bool>(
-          streamedState: myLensesWM.bothPuttedOn,
-          builder: (_, puttedOn) => StreamedStateBuilder<bool>(
-            streamedState: myLensesWM.lensesDifferentLife,
-            builder: (_, lensesDifferentLife) => puttedOn
-                ? lensesDifferentLife
-                    ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
-                    : OneLensReplacementIndicator(myLensesWM: myLensesWM)
-                : const SizedBox.shrink(),
+        StreamedStateBuilder<LensDateModel?>(
+          streamedState: myLensesWM.leftLensDate,
+          builder: (_, leftLensDate) => StreamedStateBuilder<LensDateModel?>(
+            streamedState: myLensesWM.rightLensDate,
+            builder: (_, rightLensDate) => leftLensDate != null &&
+                    rightLensDate != null &&
+                    leftLensDate.daysLeft == rightLensDate.daysLeft
+                ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
+                : leftLensDate != null || rightLensDate != null
+                    ? OneLensReplacementIndicator(
+                        myLensesWM: myLensesWM,
+                        isLeft: leftLensDate != null,
+                        activeLensModel: leftLensDate ?? rightLensDate!,
+                      )
+                    : const SizedBox.shrink(),
           ),
         ),
         ChosenLenses(myLensesWM: myLensesWM),
