@@ -13,10 +13,9 @@ class LensesPairDatesModel {
 
   factory LensesPairDatesModel.fromMap(Map<String, dynamic> map) {
     try {
-      // TODO(info): проставить в налах вопросы в запросах
       return LensesPairDatesModel(
         left: map['left'] != null
-            ? LensDateModel?.fromMap(map['left'] as Map<String, dynamic>)
+            ? LensDateModel.fromMap(map['left'] as Map<String, dynamic>)
             : null,
         right: map['right'] != null
             ? LensDateModel.fromMap(map['right'] as Map<String, dynamic>)
@@ -31,6 +30,7 @@ class LensesPairDatesModel {
 class LensDateModel {
   final DateTime dateStart;
   final DateTime dateEnd;
+  // TODO(ask): неправильно считаются на бэке
   final int daysLeft;
 
   LensDateModel({

@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -9,17 +10,16 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 
-// TODO(all): тут нужно будем переделывать под обновления с бэка
 class OneLensReplacementIndicator extends StatelessWidget {
   final MyLensesWM myLensesWM;
   final LensDateModel activeLensModel;
   final bool isLeft;
-  const OneLensReplacementIndicator(
-      {required this.myLensesWM,
-      required this.activeLensModel,
-      required this.isLeft,
-      Key? key})
-      : super(key: key);
+  const OneLensReplacementIndicator({
+    required this.myLensesWM,
+    required this.activeLensModel,
+    required this.isLeft,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +43,19 @@ class OneLensReplacementIndicator extends StatelessWidget {
                 daysBeforeReplacement: activeLensModel.daysLeft,
                 onTap: () async => isLeft
                     ? myLensesWM.leftLensDate.accept(activeLensModel.copyWith(
-                        daysLeft: myLensesWM.currentProduct.value!.lifeTime))
+                        daysLeft: myLensesWM.currentProduct.value!.lifeTime,
+                      ))
                     : myLensesWM.rightLensDate.accept(activeLensModel.copyWith(
-                        daysLeft: myLensesWM.currentProduct.value!.lifeTime)),
+                        daysLeft: myLensesWM.currentProduct.value!.lifeTime,
+                      )),
               ),
             ),
             Row(
               children: [
-                // TODO(pavlov): посмотреть что тут будет
                 Text(
-                  activeLensModel.dateStart.toIso8601String(),
+                  HelpFunctions.formatDateRu(
+                    date: activeLensModel.dateStart,
+                  ),
                   style: AppStyles.p1,
                 ),
                 Padding(
@@ -71,9 +74,10 @@ class OneLensReplacementIndicator extends StatelessWidget {
                   Icons.notifications_none,
                   size: 18,
                 ),
-                // TODO(pavlov): посмотреть что тут будет
                 Text(
-                  activeLensModel.dateEnd.toIso8601String(),
+                  HelpFunctions.formatDateRu(
+                    date: activeLensModel.dateEnd,
+                  ),
                   style: AppStyles.p1,
                 ),
                 if (activeLensModel.daysLeft < 0)
@@ -85,39 +89,6 @@ class OneLensReplacementIndicator extends StatelessWidget {
                     ),
                   ),
               ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 8),
-              child: GreyButton(
-                text: 'Потерялась одна линза',
-                leftIcon: Image.asset(
-                  'assets/substract.png',
-                  height: 16,
-                ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: StaticData.sidePadding,
-                ),
-                onPressed: () async {
-                  await showModalBottomSheet<num>(
-                    isScrollControlled: true,
-                    context: context,
-                    barrierColor: Colors.black.withOpacity(0.8),
-                    builder: (context) {
-                      return PutOnDateSheet(
-                        onConfirmed: ({leftDate, rightDate}) {
-                          myLensesWM.putOnLenses(
-                            leftDate: leftDate,
-                            rightDate: rightDate,
-                            differentLife: true,
-                          );
-                        },
-                        lenseLost: true,
-                      );
-                    },
-                  );
-                },
-              ),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -136,8 +107,11 @@ class OneLensReplacementIndicator extends StatelessWidget {
                             context: context,
                             barrierColor: Colors.black.withOpacity(0.8),
                             builder: (context) {
-                              // TODO(pavlov): вроде тут надо другие данные будет засовывать
                               return PutOnDateSheet(
+                                leftPut:
+                                    myLensesWM.leftLensDate.value!.dateStart,
+                                rightPut:
+                                    myLensesWM.rightLensDate.value!.dateStart,
                                 onConfirmed: ({leftDate, rightDate}) {
                                   myLensesWM.putOnLenses(
                                     leftDate: leftDate,

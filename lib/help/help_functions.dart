@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
+
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HelpFunctions {
@@ -92,6 +94,20 @@ class HelpFunctions {
     lineTexts.add(extra.replaceAll(reg, ' '));
 
     return lineTexts;
+  }
+
+  static String formatDateRu({
+    required DateTime date,
+    bool haveWeekDay = false,
+  }) {
+    var formattedDate = '';
+    if (haveWeekDay) {
+      formattedDate =
+          '$formattedDate${intl.DateFormat.E('ru').format(date)}, ';
+    }
+    formattedDate =
+        '$formattedDate${intl.DateFormat.MMMd('ru').format(date)}, ${intl.DateFormat.Hm('ru').format(date)}';
+    return formattedDate;
   }
 }
 

@@ -4,15 +4,12 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
-// TODO(pavlov): пройтись и везде настроить редактирование этого виджета
 class PutOnDateSheet extends StatefulWidget {
   final void Function({DateTime? rightDate, DateTime? leftDate}) onConfirmed;
-  final bool lenseLost;
   final DateTime? leftPut;
   final DateTime? rightPut;
   const PutOnDateSheet({
     required this.onConfirmed,
-    this.lenseLost = false,
     this.leftPut,
     this.rightPut,
     Key? key,
@@ -59,96 +56,26 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                       ? 'Левая линза надета'
                       : widget.rightPut != null
                           ? 'Правая линза надета'
-                          : widget.lenseLost
-                              ? 'Новая линза надета'
-                              : 'Когда надеты линзы',
+                          : 'Когда надеты линзы',
                   style: AppStyles.h1,
                 ),
               ),
-              // TODO(pavlov): продумать сценарий когда линза потеряна
-              if (widget.lenseLost)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _LenseCircle(
-                        title: 'L',
-                        onTap: () {
-                          setState(() {
-                            leftActive = true;
-                          });
-                        },
-                        isActive: leftActive,
-                      ),
-                      const SizedBox(width: 20),
-                      _LenseCircle(
-                        title: 'R',
-                        onTap: () {
-                          setState(() {
-                            leftActive = false;
-                          });
-                        },
-                        isActive: !leftActive,
-                      ),
-                    ],
-                  ),
-                ),
-              // TODO(wait): вроде тут нужно разрешить будущую дату
+              // TODO(ask): вроде тут нужно разрешить будущую дату
               DatePickerWidget(
                 onMonthChangeStartWithFirstDate: false,
-                initialDateTime: DateTime.now(),
+                initialDateTime:
+                    widget.leftPut ?? widget.rightPut ?? DateTime.now(),
                 minDateTime: DateTime(2021),
                 locale: DateTimePickerLocale.ru,
                 onCancel: () {},
                 dateFormat: 'dd.MM.yyyy',
                 onConfirm: (date, i) {
-                  if (widget.leftPut == null && widget.rightPut == null) {
-                    widget.onConfirmed(leftDate: date, rightDate: date);
-                  } else if (widget.leftPut == null) {
-                    widget.onConfirmed(rightDate: date);
-                  } else {
-                    widget.onConfirmed(leftDate: date);
-                  }
-
-                  debugPrint('onConfirmed');
+                  widget.onConfirmed(leftDate: date, rightDate: date);
                 },
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _LenseCircle extends StatelessWidget {
-  final VoidCallback onTap;
-  final String title;
-  final bool isActive;
-  const _LenseCircle({
-    required this.onTap,
-    required this.title,
-    required this.isActive,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: isActive ? AppTheme.turquoiseBlue : AppTheme.mystic,
-            width: 2,
-          ),
-          color: Colors.white,
-        ),
-        child: Center(child: Text(title, style: AppStyles.h2)),
       ),
     );
   }

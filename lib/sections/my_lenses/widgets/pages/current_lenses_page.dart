@@ -24,21 +24,21 @@ class CurrentLensesPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // TODO(pavlov): при одинаковой жизни для двух линз показываем 1 кружок
         StreamedStateBuilder<LensDateModel?>(
           streamedState: myLensesWM.leftLensDate,
           builder: (_, leftLensDate) => StreamedStateBuilder<LensDateModel?>(
             streamedState: myLensesWM.rightLensDate,
-            builder: (_, rightLensDate) => leftLensDate != null &&
-                    rightLensDate != null &&
-                    leftLensDate.daysLeft == rightLensDate.daysLeft
-                ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
-                : leftLensDate != null || rightLensDate != null
-                    ? OneLensReplacementIndicator(
-                        myLensesWM: myLensesWM,
-                        isLeft: leftLensDate != null,
-                        activeLensModel: leftLensDate ?? rightLensDate!,
-                      )
-                    : const SizedBox.shrink(),
+            builder: (_, rightLensDate) =>
+                leftLensDate != null && rightLensDate != null
+                    ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
+                    : leftLensDate != null || rightLensDate != null
+                        ? OneLensReplacementIndicator(
+                            myLensesWM: myLensesWM,
+                            isLeft: leftLensDate != null,
+                            activeLensModel: leftLensDate ?? rightLensDate!,
+                          )
+                        : const SizedBox.shrink(),
           ),
         ),
         ChosenLenses(myLensesWM: myLensesWM),

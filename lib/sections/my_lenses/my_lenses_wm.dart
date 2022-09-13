@@ -98,6 +98,7 @@ class MyLensesWM extends WidgetModel {
 
   Future loadLensesDates() async {
     try {
+      // TODO(ask): тут сейчас приходит неправильный остаток дней до замены
       final lensesDates = await myLensesRequester.loadLensesDates();
       await rightLensDate.accept(lensesDates.right);
       await leftLensDate.accept(lensesDates.left);
@@ -109,7 +110,6 @@ class MyLensesWM extends WidgetModel {
   Future putOnLenses({
     required DateTime? leftDate,
     required DateTime? rightDate,
-    bool differentLife = false,
   }) async {
     try {
       await myLensesRequester.putOnLensesPair(
@@ -119,22 +119,27 @@ class MyLensesWM extends WidgetModel {
       // TODO(wait): тут нужен запрос на редактирование дат
       // и на получение дат
       if (leftDate != null) {
-        // пока заглушка
         await leftLensDate.accept(LensDateModel(
-          dateEnd: DateTime.now(),
+          dateEnd: leftDate.add(Duration(days: currentProduct.value!.lifeTime)),
           dateStart: leftDate,
-          daysLeft: DateTime.now().difference(leftDate).inDays,
+          // TODO(ask): вопрос нужен ли тут +1 к дням
+          daysLeft:
+              (leftDate.add(Duration(days: currentProduct.value!.lifeTime)))
+                  .difference(DateTime.now())
+                  .inDays,
         ));
       }
       if (rightDate != null) {
-        // пока заглушка
         await rightLensDate.accept(LensDateModel(
-          dateEnd: DateTime.now(),
+          dateEnd:
+              rightDate.add(Duration(days: currentProduct.value!.lifeTime)),
           dateStart: rightDate,
-          daysLeft: DateTime.now().difference(rightDate).inDays,
+          daysLeft:
+              (rightDate.add(Duration(days: currentProduct.value!.lifeTime)))
+                  .difference(DateTime.now())
+                  .inDays,
         ));
       }
-
       await updateNotifications(notifications: notificationsList);
     } catch (e) {
       debugPrint('putOnLenses $e');
