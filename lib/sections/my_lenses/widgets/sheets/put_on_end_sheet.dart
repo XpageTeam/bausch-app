@@ -67,7 +67,7 @@ class PutOnEndSheet extends StatelessWidget {
                 children: [
                   Expanded(
                     child: WhiteButtonWithText(
-                      text: 'Левой линзы',
+                      text: 'L ∙ Левой линзы',
                       onPressed: onLeftConfirmed,
                     ),
                   ),
@@ -80,7 +80,7 @@ class PutOnEndSheet extends StatelessWidget {
                 children: [
                   Expanded(
                     child: WhiteButtonWithText(
-                      text: 'Правой линзы',
+                      text: 'R ∙ Правой линзы',
                       onPressed: onRightConfirmed,
                     ),
                   ),

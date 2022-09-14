@@ -119,7 +119,6 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                   onMonthChangeStartWithFirstDate: false,
                   initialDateTime: leftDate,
                   minDateTime: DateTime(2021),
-                  maxDateTime: DateTime.now(),
                   locale: DateTimePickerLocale.ru,
                   onCancel: () {},
                   onChange: (value, _) {
@@ -140,7 +139,6 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                   onMonthChangeStartWithFirstDate: false,
                   initialDateTime: rightDate,
                   minDateTime: DateTime(2021),
-                  maxDateTime: DateTime.now(),
                   locale: DateTimePickerLocale.ru,
                   onCancel: () {},
                   onChange: (value, _) {

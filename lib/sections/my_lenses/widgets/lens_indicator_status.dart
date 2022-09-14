@@ -8,6 +8,8 @@ class LensIndicatorStatus extends StatelessWidget {
   final int lifeTime;
   final VoidCallback onTap;
   final bool title;
+  final bool sameTime;
+  final bool twoLenses;
   final bool left;
   const LensIndicatorStatus({
     required this.daysBeforeReplacement,
@@ -15,15 +17,21 @@ class LensIndicatorStatus extends StatelessWidget {
     required this.lifeTime,
     this.title = true,
     this.left = false,
+    this.sameTime = false,
+    this.twoLenses = true,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final percent = daysBeforeReplacement >= lifeTime
+        ? 1
+        : daysBeforeReplacement / lifeTime;
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        if (daysBeforeReplacement > 0)
+        // TODO(ask): какая-то лажа с датами происходит
+        if (daysBeforeReplacement >= 0)
           CircularPercentIndicator(
             header: title
                 ? const Padding(
@@ -42,10 +50,7 @@ class LensIndicatorStatus extends StatelessWidget {
             animation: true,
             animationDuration: 2000,
             lineWidth: 15.0,
-            // TODO(pavlov): падает если много дней, пока поставил заглушку
-            percent: (lifeTime - daysBeforeReplacement) / lifeTime < 0
-                ? 1
-                : (lifeTime - daysBeforeReplacement) / lifeTime,
+            percent: percent.toDouble(),
             center: Text(
               daysBeforeReplacement.toString(),
               style: title
@@ -54,55 +59,39 @@ class LensIndicatorStatus extends StatelessWidget {
             ),
             circularStrokeCap: CircularStrokeCap.round,
             backgroundColor: AppTheme.mystic,
-            progressColor: left ? AppTheme.turquoiseBlue : AppTheme.sulu,
+            // TODO(all): не получается сделать разные цвета
+            // пока оставил один
+            progressColor: sameTime
+                ? Colors.greenAccent
+                : left
+                    ? AppTheme.turquoiseBlue
+                    : AppTheme.sulu,
           )
         else
           GestureDetector(
             onTap: onTap,
             child: title == false
-                ? left
-                    ? SizedBox(
-                        height: 145,
-                        width: 145,
-                        child: Center(
-                          child: Container(
-                            height: 130,
-                            width: 130,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppTheme.turquoiseBlue,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Замените\nлинзу',
-                                style: AppStyles.h2,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                ? SizedBox(
+                    height: 145,
+                    width: 145,
+                    child: Center(
+                      child: Container(
+                        height: 130,
+                        width: 130,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: left ? AppTheme.turquoiseBlue : AppTheme.sulu,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Замените\nлинзу',
+                            style: AppStyles.h2,
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      )
-                    : SizedBox(
-                        height: 145,
-                        width: 145,
-                        child: Center(
-                          child: Container(
-                            height: 130,
-                            width: 130,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppTheme.sulu,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Замените\nлинзу',
-                                style: AppStyles.h2,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                      ),
+                    ),
+                  )
                 : Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -138,21 +127,25 @@ class LensIndicatorStatus extends StatelessWidget {
                     ],
                   ),
           ),
-        if (title == false)
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: 33,
-              width: 33,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white,
-                  width: 4,
+        if (sameTime == false)
+          Padding(
+            padding: EdgeInsets.only(top: !twoLenses ? 30 : 0),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: 33,
+                width: 33,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 4,
+                  ),
+                  color: left ? AppTheme.turquoiseBlue : AppTheme.sulu,
                 ),
-                color: left ? AppTheme.turquoiseBlue : AppTheme.sulu,
+                child:
+                    Center(child: Text(left ? 'L' : 'R', style: AppStyles.h2)),
               ),
-              child: Center(child: Text(left ? 'L' : 'R', style: AppStyles.h2)),
             ),
           ),
       ],

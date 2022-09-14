@@ -60,17 +60,18 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                   style: AppStyles.h1,
                 ),
               ),
-              // TODO(ask): вроде тут нужно разрешить будущую дату
               DatePickerWidget(
                 onMonthChangeStartWithFirstDate: false,
-                initialDateTime:
-                    widget.leftPut ?? widget.rightPut ?? DateTime.now(),
+                initialDateTime: widget.leftPut ?? widget.rightPut,
                 minDateTime: DateTime(2021),
                 locale: DateTimePickerLocale.ru,
                 onCancel: () {},
                 dateFormat: 'dd.MM.yyyy',
                 onConfirm: (date, i) {
-                  widget.onConfirmed(leftDate: date, rightDate: date);
+                  widget.onConfirmed(
+                    leftDate: widget.leftPut != null ? date : null,
+                    rightDate: widget.rightPut != null ? date : null,
+                  );
                 },
               ),
             ],

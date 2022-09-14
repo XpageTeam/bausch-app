@@ -4,6 +4,7 @@ import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
+import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/cupertino.dart';
@@ -116,13 +117,15 @@ class MyLensesWM extends WidgetModel {
         leftDate: leftDate,
         rightDate: rightDate,
       );
+
       // TODO(wait): тут нужен запрос на редактирование дат
       // и на получение дат
       if (leftDate != null) {
         await leftLensDate.accept(LensDateModel(
           dateEnd: leftDate.add(Duration(days: currentProduct.value!.lifeTime)),
           dateStart: leftDate,
-          // TODO(ask): вопрос нужен ли тут +1 к дням
+          // TODO(ask): здесь какая-то математическая проблема подсчетов
+          // при двух dateStart датах daysLeft может быть 0
           daysLeft:
               (leftDate.add(Duration(days: currentProduct.value!.lifeTime)))
                   .difference(DateTime.now())
@@ -146,13 +149,42 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
+  Future pufOffLenses() async {
+    if (rightLensDate.value == null || leftLensDate.value == null) {
+      await leftLensDate.accept(null);
+      await rightLensDate.accept(null);
+    } else {
+      await showModalBottomSheet<void>(
+        isScrollControlled: true,
+        context: context,
+        barrierColor: Colors.black.withOpacity(0.8),
+        builder: (context) {
+          return PutOnEndSheet(
+            onLeftConfirmed: () {
+              leftLensDate.accept(null);
+              Navigator.of(context).pop();
+            },
+            onRightConfirmed: () {
+              rightLensDate.accept(null);
+              Navigator.of(context).pop();
+            },
+            onBothConfirmed: () {
+              leftLensDate.accept(null);
+              rightLensDate.accept(null);
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      );
+    }
+  }
+
   Future updateNotifications({
     required List<MyLensesNotificationModel> notifications,
   }) async {
     notificationsList
       ..clear()
       ..addAll(notifications);
-
     notifications.removeWhere((value) => value.isActive == false);
     final ids = <int>[];
     if (notifications.isEmpty) {

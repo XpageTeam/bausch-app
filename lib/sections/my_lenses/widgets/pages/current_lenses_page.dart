@@ -24,19 +24,26 @@ class CurrentLensesPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TODO(pavlov): при одинаковой жизни для двух линз показываем 1 кружок
         StreamedStateBuilder<LensDateModel?>(
           streamedState: myLensesWM.leftLensDate,
           builder: (_, leftLensDate) => StreamedStateBuilder<LensDateModel?>(
             streamedState: myLensesWM.rightLensDate,
             builder: (_, rightLensDate) =>
                 leftLensDate != null && rightLensDate != null
-                    ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
+                    // TODO(ask): мы тут сравниваем по оставшимся дням
+                    // или по дате окончания?
+                    ? leftLensDate.dateEnd != rightLensDate.dateEnd
+                        ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
+                        : OneLensReplacementIndicator(
+                            myLensesWM: myLensesWM,
+                            sameTime: true,
+                            activeLensDate: leftLensDate,
+                          )
                     : leftLensDate != null || rightLensDate != null
                         ? OneLensReplacementIndicator(
                             myLensesWM: myLensesWM,
                             isLeft: leftLensDate != null,
-                            activeLensModel: leftLensDate ?? rightLensDate!,
+                            activeLensDate: leftLensDate ?? rightLensDate!,
                           )
                         : const SizedBox.shrink(),
           ),
@@ -133,8 +140,6 @@ class CurrentLensesPage extends StatelessWidget {
             ],
           ),
         ),
-
-        // TODO(ask): разобраться нужно тут что-то еще получать или нет
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 30),
           child: MayBeInteresting(text: 'Рекомендуемые продукты'),
