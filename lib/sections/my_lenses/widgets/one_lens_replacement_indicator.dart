@@ -125,7 +125,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                       text: activeLensDate.daysLeft > 0
                           ? 'Завершить'
                           : 'Завершить ношение',
-                      onPressed: () async => myLensesWM.pufOffLenses(),
+                      onPressed: () async => myLensesWM.putOffLenses(context: context),
                     ),
                   ),
                 ],

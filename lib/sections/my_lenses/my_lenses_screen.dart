@@ -13,14 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class MyLensesScreen extends CoreMwwmWidget<MyLensesWM> {
-  final LensesPairModel? lensesPairModel;
-  MyLensesScreen({required this.lensesPairModel, Key? key})
+  final MyLensesWM myLensesWM;
+  MyLensesScreen({required this.myLensesWM, Key? key})
       : super(
           key: key,
-          widgetModelBuilder: (context) => MyLensesWM(
-            context: context,
-            lensesPairModel: StreamedState<LensesPairModel?>(lensesPairModel),
-          ),
+          widgetModelBuilder: (context) => myLensesWM,
         );
 
   @override

@@ -7,7 +7,6 @@ import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -19,7 +18,6 @@ extension ShopsContentTypeAsString on MyLensesPage {
 }
 
 class MyLensesWM extends WidgetModel {
-  final BuildContext context;
   // тут приходит дата начала, конца, сколько дней осталось
   final leftLensDate = StreamedState<LensDateModel?>(null);
   final rightLensDate = StreamedState<LensDateModel?>(null);
@@ -32,7 +30,8 @@ class MyLensesWM extends WidgetModel {
   final dailyReminder = StreamedState(false);
   final dailyReminderRepeat = StreamedState('Нет');
   final dailyReminderRepeatDate = StreamedState<DateTime?>(null);
-  final StreamedState<LensesPairModel?> lensesPairModel;
+  final StreamedState<LensesPairModel?> lensesPairModel =
+      StreamedState<LensesPairModel?>(null);
   final currentProduct = StreamedState<LensProductModel?>(null);
   final MyLensesRequester myLensesRequester = MyLensesRequester();
   final loadingInProgress = StreamedState(false);
@@ -49,8 +48,7 @@ class MyLensesWM extends WidgetModel {
     MyLensesNotificationModel(isActive: false, title: 'За 5 дней', id: 7),
   ];
 
-  MyLensesWM({required this.context, required this.lensesPairModel})
-      : super(const WidgetModelDependencies());
+  MyLensesWM() : super(const WidgetModelDependencies());
 
   @override
   void onBind() {
@@ -63,10 +61,7 @@ class MyLensesWM extends WidgetModel {
 
   Future loadAllData() async {
     // TODO(pavlov): нужна кнопка обновить
-    // все эти загрузки потихоньку перетащить в main_screen_wm
     await loadingInProgress.accept(true);
-    // TODO(pavlov): из-за наличия редактирования, эта функция осталась
-    // надо переделать
     await loadLensesPair();
     await loadLensesDates();
     await loadingInProgress.accept(false);
@@ -125,7 +120,7 @@ class MyLensesWM extends WidgetModel {
           dateEnd: leftDate.add(Duration(days: currentProduct.value!.lifeTime)),
           dateStart: leftDate,
           // TODO(ask): здесь какая-то математическая проблема подсчетов
-          // при двух dateStart датах daysLeft может быть 0
+          // при двух идущих подряд dateStart датах daysLeft может быть 0
           daysLeft:
               (leftDate.add(Duration(days: currentProduct.value!.lifeTime)))
                   .difference(DateTime.now())
@@ -149,7 +144,7 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-  Future pufOffLenses() async {
+  Future putOffLenses({required BuildContext context}) async {
     if (rightLensDate.value == null || leftLensDate.value == null) {
       await leftLensDate.accept(null);
       await rightLensDate.accept(null);

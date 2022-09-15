@@ -250,43 +250,22 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                         ),
                       ),
 
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
-                          bottom: 40,
-                        ),
-                        sliver: SliverToBoxAdapter(
-                          child:
-                              // мои линзы
-                              DelayedAnimatedTranslateOpacity(
-                            offsetY: 60,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                EntityStateBuilder<LensesPairModel?>(
-                                  streamedState: wm.myLenses,
-                                  loadingBuilder: (_, myLenses) {
-                                    if (myLenses != null) {
-                                      return MyLensesContainer(
-                                        myLenses: myLenses,
-                                      );
-                                    }
-                                    return const SizedBox();
-                                  },
-                                  builder: (_, myLenses) {
-                                    if (myLenses != null) {
-                                      return MyLensesContainer(
-                                        myLenses: myLenses,
-                                      );
-                                    }
-                                    return const SizedBox();
-                                  },
-                                ),
-                                // TODO(pavlov): не понял как отображать null, поэтому добавил такой иф
-                                if (wm.myLenses.value.data == null)
-                                  const MyLensesContainer(myLenses: null),
-                              ],
-                            ),
+                      SliverToBoxAdapter(
+                        child:
+                            // мои линзы
+                            DelayedAnimatedTranslateOpacity(
+                          offsetY: 60,
+                          child: StreamedStateBuilder<LensesPairModel?>(
+                            streamedState: wm.myLensesWM.lensesPairModel,
+                            builder: (_, lensesPairModel) => lensesPairModel !=
+                                    null
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 40),
+                                    child: MyLensesContainer(
+                                      myLensesWM: wm.myLensesWM,
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ),
                         ),
                       ),

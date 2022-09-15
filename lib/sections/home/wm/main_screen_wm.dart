@@ -1,19 +1,17 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
 import 'dart:async';
-
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
-import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
-import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:dio/dio.dart';
@@ -26,11 +24,8 @@ class MainScreenWM extends WidgetModel {
 
   final storiesList = EntityStreamedState<List<StoryModel>>();
   final catalog = EntityStreamedState<List<BaseCatalogSheetModel>>();
-  final myLenses = EntityStreamedState<LensesPairModel?>();
   final banners = EntityStreamedState<OffersRepository>();
-
   final mayBeInterestingState = StreamedState<bool>(false);
-
   final loadDataAction = VoidAction();
   final loadCatalogAction = VoidAction();
   final loadMyLensesAction = VoidAction();
@@ -42,6 +37,7 @@ class MainScreenWM extends WidgetModel {
   final BuildContext context;
   final AuthWM authWM;
   final UserWM userWM;
+  final myLensesWM = MyLensesWM();
 
   final _requester = HomeScreenRequester();
 
@@ -202,38 +198,9 @@ class MainScreenWM extends WidgetModel {
     }
   }
 
+// TODO(info): засунул сюда дату еще
   Future<void> _loadMyLenses() async {
-    if (myLenses.value.isLoading) return;
-
-    await myLenses.loading(myLenses.value.data);
-
-    try {
-      await myLenses.content(await MyLensesRequester().loadChosenLensesInfo());
-      // await myLenses.content(null);
-    } on DioError catch (e) {
-      await myLenses.error(
-        CustomException(
-          title: 'При загрузке каталога произошла ошибка',
-          subtitle: e.message,
-          ex: e,
-        ),
-      );
-    } on ResponseParseException catch (e) {
-      await myLenses.error(
-        CustomException(
-          title: 'При обработке ответа от сервера прозошла ошибка',
-          subtitle: e.toString(),
-          ex: e,
-        ),
-      );
-    } on SuccessFalse catch (e) {
-      await myLenses.error(
-        CustomException(
-          title: e.toString(),
-          ex: e,
-        ),
-      );
-    }
+    await myLensesWM.loadAllData();
   }
 
   Future<void> _loadCatalog() async {

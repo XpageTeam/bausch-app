@@ -87,17 +87,17 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                             barrierColor: Colors.black.withOpacity(0.8),
                             builder: (context) {
                               return DifferentLensesSheet(
-                                  onConfirmed: ({leftDate, rightDate}) {
-                                    myLensesWM.putOnLenses(
-                                      leftDate: leftDate,
-                                      rightDate: rightDate,
-                                    );
-                                  },
-                                  leftDate:
-                                      myLensesWM.leftLensDate.value!.dateStart,
-                                  rightDate:
-                                      myLensesWM.rightLensDate.value!.dateStart,
-                                );
+                                onConfirmed: ({leftDate, rightDate}) {
+                                  myLensesWM.putOnLenses(
+                                    leftDate: leftDate,
+                                    rightDate: rightDate,
+                                  );
+                                },
+                                leftDate:
+                                    myLensesWM.leftLensDate.value!.dateStart,
+                                rightDate:
+                                    myLensesWM.rightLensDate.value!.dateStart,
+                              );
                             },
                           );
                         },
@@ -107,7 +107,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                   Expanded(
                     child: BlueButtonWithText(
                       text: 'Завершить',
-                      onPressed: () async => myLensesWM.pufOffLenses(),
+                      onPressed: () async =>
+                          myLensesWM.putOffLenses(context: context),
                     ),
                   ),
                 ],

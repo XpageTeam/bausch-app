@@ -13,6 +13,7 @@ import 'package:bausch/sections/home/home_screen.dart';
 import 'package:bausch/sections/loader/loader_screen.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_screen.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/order_registration/order_registration_screen.dart';
 import 'package:bausch/sections/profile/profile_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/lenses_parameters.dart';
@@ -107,7 +108,10 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               case '/my_lenses':
-                page = MyLensesScreen(lensesPairModel: (settings.arguments as List<dynamic>)[0] as LensesPairModel?,);
+                page = MyLensesScreen(
+                  myLensesWM:
+                      (settings.arguments as List<dynamic>)[0] as MyLensesWM,
+                );
                 break;
 
               case '/profile':

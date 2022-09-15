@@ -2,6 +2,7 @@ import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_product_sheet.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/requesters/choose_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
@@ -137,7 +138,7 @@ class ChooseLensesWM extends WidgetModel {
         productId: currentProduct.value!.id,
       );
       await Keys.mainContentNav.currentState!
-          .pushReplacementNamed('/my_lenses');
+          .pushReplacementNamed('/my_lenses', arguments: [MyLensesWM()]);
     }
   }
 }
