@@ -96,6 +96,7 @@ class ChooseLensesWM extends WidgetModel {
           addition: rightPair.value.addition,
         ),
       );
+      await validateFields();
     }
   }
 

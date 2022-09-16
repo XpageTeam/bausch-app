@@ -62,15 +62,22 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
               ),
               DatePickerWidget(
                 onMonthChangeStartWithFirstDate: false,
-                initialDateTime: widget.leftPut ?? widget.rightPut,
+                initialDateTime:
+                    widget.leftPut ?? widget.rightPut ?? DateTime.now(),
                 minDateTime: DateTime(2021),
                 locale: DateTimePickerLocale.ru,
                 onCancel: () {},
                 dateFormat: 'dd.MM.yyyy',
                 onConfirm: (date, i) {
                   widget.onConfirmed(
-                    leftDate: widget.leftPut != null ? date : null,
-                    rightDate: widget.rightPut != null ? date : null,
+                    leftDate: widget.leftPut != null ||
+                            (widget.rightPut == null && widget.leftPut == null)
+                        ? date
+                        : null,
+                    rightDate: widget.rightPut != null ||
+                            (widget.rightPut == null && widget.leftPut == null)
+                        ? date
+                        : null,
                   );
                 },
               ),

@@ -99,14 +99,14 @@ class HelpFunctions {
   static String formatDateRu({
     required DateTime date,
     bool haveWeekDay = false,
+    bool haveTime = true,
   }) {
     var formattedDate = '';
     if (haveWeekDay) {
-      formattedDate =
-          '$formattedDate${intl.DateFormat.E('ru').format(date)}, ';
+      formattedDate = '$formattedDate${intl.DateFormat.E('ru').format(date)}, ';
     }
     formattedDate =
-        '$formattedDate${intl.DateFormat.MMMd('ru').format(date)}, ${intl.DateFormat.Hm('ru').format(date)}';
+        '$formattedDate${intl.DateFormat.MMMd('ru').format(date)}${haveTime ? ', ${intl.DateFormat.Hm('ru').format(date)}' : ''}';
     return formattedDate;
   }
 }

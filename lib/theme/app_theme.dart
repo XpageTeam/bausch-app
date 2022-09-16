@@ -9,6 +9,7 @@ class AppTheme {
   static const mineShaft = Color(0xFF2D2D2D);
   static const mystic = Color(0xFFECF1F3);
   static const grey = Color(0xFF797B7C);
+  static const redNotice = Color(0xffff7878);
   static const mainFontName = 'Euclid Circular A';
 
   static const MaterialColor turquoiseBlueMaterial = MaterialColor(
