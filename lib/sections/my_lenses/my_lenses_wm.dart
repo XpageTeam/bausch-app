@@ -71,9 +71,11 @@ class MyLensesWM extends WidgetModel {
     try {
       await lensesPairModel
           .accept(await myLensesRequester.loadChosenLensesInfo());
-      await currentProduct.accept(await myLensesRequester.loadLensProduct(
-        id: lensesPairModel.value!.productId!,
-      ));
+      if (lensesPairModel.value != null) {
+        await currentProduct.accept(await myLensesRequester.loadLensProduct(
+          id: lensesPairModel.value!.productId!,
+        ));
+      }
     } catch (_) {
       await lensesPairModel.accept(LensesPairModel(
         right: PairModel(
