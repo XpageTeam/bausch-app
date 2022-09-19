@@ -29,12 +29,10 @@ class AddressSelectScreenWM extends WidgetModel {
   })  : filteredAddressesList = StreamedState(addressesList),
         super(const WidgetModelDependencies()) {
     for (final address in addressesList) {
-
       if (citiesList.contains(address.cityAndSettlement)) {
         continue;
       }
 
-      
       citiesList.add(address.cityAndSettlement);
     }
   }
@@ -48,6 +46,7 @@ class AddressSelectScreenWM extends WidgetModel {
               pageBuilder: (context, animation, secondaryAnimation) =>
                   CityScreen(
                 citiesWithShops: citiesList,
+                withFavoriteItems: citiesList.contains('Москва') ? null : [],
               ),
             ),
           )
@@ -75,8 +74,9 @@ class AddressSelectScreenWM extends WidgetModel {
 
     debugPrint(selectedAddress?.cityAndSettlement);
 
-    if (selectedAddress != null){
-      selectedCityName.accept(citiesList.firstWhere((city) => city == selectedAddress?.cityAndSettlement));
+    if (selectedAddress != null) {
+      selectedCityName.accept(citiesList
+          .firstWhere((city) => city == selectedAddress?.cityAndSettlement));
     }
 
     super.onBind();

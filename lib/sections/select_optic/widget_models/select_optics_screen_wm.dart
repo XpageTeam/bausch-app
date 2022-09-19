@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -11,6 +12,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 enum SelectOpticPage {
@@ -64,7 +66,23 @@ class SelectOpticScreenWM extends WidgetModel {
     } else {
       initialCities = _sort(initialCities!);
 
-      await currentCityStreamed.content(initialCities!.first.title);
+      final haveMoscow =
+          initialCities!.where((element) => element.title == 'Москва').length;
+
+      if (haveMoscow > 0 &&
+          Provider.of<UserWM>(
+                context,
+                listen: false,
+              ).userData.value.data?.user.city !=
+              null) {
+        // ignore: unawaited_futures
+        currentCityStreamed.content(Provider.of<UserWM>(
+          context,
+          listen: false,
+        ).userData.value.data!.user.city!);
+      } else {
+        await currentCityStreamed.content(initialCities!.first.title);
+      }
 
       final opticsByCurrentCity = await _getOpticsByCurrentCity();
 
@@ -169,6 +187,10 @@ class SelectOpticScreenWM extends WidgetModel {
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
           citiesWithShops: initialCities!.map((e) => e.title).toList(),
+          withFavoriteItems:
+              initialCities!.map((e) => e.title).toList().contains('Москва')
+                  ? null
+                  : [],
         ),
       ),
     );

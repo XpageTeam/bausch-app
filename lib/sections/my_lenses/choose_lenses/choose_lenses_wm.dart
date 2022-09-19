@@ -132,7 +132,6 @@ class ChooseLensesWM extends WidgetModel {
 
       Keys.mainContentNav.currentState!.pop();
     } else {
-      // TODO(ask): этот запрос тоже переработать
       await chooseLensesRequester.addLensPair(
         lensesPairModel:
             LensesPairModel(left: leftPair.value, right: rightPair.value),

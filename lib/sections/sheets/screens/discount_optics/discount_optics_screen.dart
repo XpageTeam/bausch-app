@@ -2,6 +2,7 @@ import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/legal_info.dart';
@@ -151,7 +152,7 @@ class _DiscountOpticsScreenState
               if (wm.discountType == DiscountType.onlineShop &&
                   wm.citiesForOnlineShop.isNotEmpty)
                 StreamedStateBuilder<String?>(
-                  streamedState: wm.currentCity,
+                  streamedState: wm.currentOnlineCity,
                   builder: (_, currentCity) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
@@ -168,40 +169,50 @@ class _DiscountOpticsScreenState
                             height: 16,
                           ),
                         ),
-                        onPressed: wm.selectCity,
+                        onPressed: wm.selectOnlineCity,
                       ),
                     );
                   },
                 ),
               if (wm.discountType == DiscountType.offline)
-                const Padding(
-                  padding: EdgeInsets.only(
-                    top: 12,
-                  ),
-                  child: Text(
-                    'Скидкой можно воспользоваться в любой из оптик сети.',
-                    style: AppStyles.p1,
+                // TODO(pavlov): передавать в дальнейшем этот город на карту
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 4),
+                  child: StreamedStateBuilder<String?>(
+                    streamedState: wm.currentOfflineCity,
+                    builder: (_, cityName) => WhiteButton(
+                      text: cityName ?? 'Город',
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                          top: 16,
+                          bottom: 16,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/map-marker.png',
+                          height: 16,
+                        ),
+                      ),
+                      onPressed: () async {
+                        await wm.setOfflineCity(
+                          await Keys.mainNav.currentState!.push<String?>(
+                            PageRouteBuilder<String>(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      CityScreen(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: StreamedStateBuilder<Optic?>(
-                  streamedState: wm.currentDiscountOptic,
-                  builder: (_, selectedOptic) => SelectShopSection(
-                    selectedOptic: selectedOptic,
-                    discountOptics: discountOptics,
-                    onChanged: wm.setCurrentOptic,
-                    discountType: wm.discountType,
-                  ),
-                ),
-              ),
               if (wm.discountType == DiscountType.offline)
                 StreamedStateBuilder<Optic?>(
                   streamedState: wm.currentDiscountOptic,
                   builder: (_, currentDiscountOptic) => Padding(
                     padding: const EdgeInsets.only(
-                      top: 30,
-                      bottom: 4,
+                      bottom: 20,
                     ),
                     child: WhiteButton(
                       text: currentDiscountOptic != null
@@ -230,6 +241,28 @@ class _DiscountOpticsScreenState
                     ),
                   ),
                 ),
+              if (wm.discountType == DiscountType.offline)
+                const Padding(
+                  padding: EdgeInsets.only(
+                    top: 12,
+                  ),
+                  child: Text(
+                    'Скидкой можно воспользоваться в любой из оптик сети.',
+                    style: AppStyles.p1,
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: StreamedStateBuilder<Optic?>(
+                  streamedState: wm.currentDiscountOptic,
+                  builder: (_, selectedOptic) => SelectShopSection(
+                    selectedOptic: selectedOptic,
+                    discountOptics: discountOptics,
+                    onChanged: wm.setCurrentOptic,
+                    discountType: wm.discountType,
+                  ),
+                ),
+              ),
               Warning.warning(wm.warningText),
             ];
             return SliverPadding(

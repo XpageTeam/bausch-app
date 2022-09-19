@@ -5,7 +5,6 @@ import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -60,7 +59,6 @@ class MyLensesWM extends WidgetModel {
   }
 
   Future loadAllData() async {
-    // TODO(pavlov): нужна кнопка обновить
     await loadingInProgress.accept(true);
     await loadLensesPair();
     await loadLensesDates();
@@ -71,26 +69,15 @@ class MyLensesWM extends WidgetModel {
     try {
       await lensesPairModel
           .accept(await myLensesRequester.loadChosenLensesInfo());
-      if (lensesPairModel.value != null) {
-        await currentProduct.accept(await myLensesRequester.loadLensProduct(
-          id: lensesPairModel.value!.productId!,
-        ));
-      }
-    } catch (_) {
-      await lensesPairModel.accept(LensesPairModel(
-        right: PairModel(
-          diopters: null,
-          cylinder: null,
-          axis: null,
-          addition: null,
-        ),
-        left: PairModel(
-          diopters: null,
-          cylinder: null,
-          axis: null,
-          addition: null,
-        ),
-      ));
+      // await lensesPairModel.accept(null);
+      await currentProduct.accept(lensesPairModel.value?.product);
+      // if (lensesPairModel.value != null) {
+      //   await currentProduct.accept(await myLensesRequester.loadLensProduct(
+      //     id: lensesPairModel.value!.productId!,
+      //   ));
+      // }
+    } catch (e) {
+      debugPrint('loadLensesPair $e');
     }
   }
 
@@ -101,7 +88,7 @@ class MyLensesWM extends WidgetModel {
       await rightLensDate.accept(lensesDates.right);
       await leftLensDate.accept(lensesDates.left);
     } catch (e) {
-      debugPrint('ban' + e.toString());
+      debugPrint('loadLensesDates $e');
     }
   }
 
@@ -114,32 +101,7 @@ class MyLensesWM extends WidgetModel {
         leftDate: leftDate,
         rightDate: rightDate,
       );
-
-      // TODO(wait): тут нужен запрос на редактирование дат
-      // и на получение дат
-      if (leftDate != null) {
-        await leftLensDate.accept(LensDateModel(
-          dateEnd: leftDate.add(Duration(days: currentProduct.value!.lifeTime)),
-          dateStart: leftDate,
-          // TODO(ask): здесь какая-то математическая проблема подсчетов
-          // при двух идущих подряд dateStart датах daysLeft может быть 0
-          daysLeft:
-              (leftDate.add(Duration(days: currentProduct.value!.lifeTime)))
-                  .difference(DateTime.now())
-                  .inDays,
-        ));
-      }
-      if (rightDate != null) {
-        await rightLensDate.accept(LensDateModel(
-          dateEnd:
-              rightDate.add(Duration(days: currentProduct.value!.lifeTime)),
-          dateStart: rightDate,
-          daysLeft:
-              (rightDate.add(Duration(days: currentProduct.value!.lifeTime)))
-                  .difference(DateTime.now())
-                  .inDays,
-        ));
-      }
+      await loadLensesDates();
       await updateNotifications(notifications: notificationsList);
     } catch (e) {
       debugPrint('putOnLenses $e');
@@ -150,6 +112,10 @@ class MyLensesWM extends WidgetModel {
     if (rightLensDate.value == null || leftLensDate.value == null) {
       await leftLensDate.accept(null);
       await rightLensDate.accept(null);
+      await myLensesRequester.putOnLensesPair(
+        leftDate: null,
+        rightDate: null,
+      );
     } else {
       await showModalBottomSheet<void>(
         isScrollControlled: true,
@@ -158,17 +124,30 @@ class MyLensesWM extends WidgetModel {
         builder: (context) {
           return PutOnEndSheet(
             onLeftConfirmed: () {
+              myLensesRequester.putOnLensesPair(
+                leftDate: null,
+                rightDate: rightLensDate.value!.dateStart,
+              );
               leftLensDate.accept(null);
               Navigator.of(context).pop();
             },
             onRightConfirmed: () {
+              myLensesRequester.putOnLensesPair(
+                leftDate: leftLensDate.value!.dateStart,
+                rightDate: null,
+              );
               rightLensDate.accept(null);
               Navigator.of(context).pop();
             },
-            onBothConfirmed: () {
-              leftLensDate.accept(null);
-              rightLensDate.accept(null);
+            onBothConfirmed: () async {
               Navigator.of(context).pop();
+
+              await myLensesRequester.putOnLensesPair(
+                leftDate: null,
+                rightDate: null,
+              );
+              await leftLensDate.accept(null);
+              await rightLensDate.accept(null);
             },
           );
         },
@@ -179,6 +158,7 @@ class MyLensesWM extends WidgetModel {
   Future updateNotifications({
     required List<MyLensesNotificationModel> notifications,
   }) async {
+    // Keys.mainContentNav.currentState!.pop();
     notificationsList
       ..clear()
       ..addAll(notifications);
@@ -213,7 +193,6 @@ class MyLensesWM extends WidgetModel {
       title: 'Данные успешно обновлены',
       success: true,
     );
-    Keys.mainContentNav.currentState!.pop();
   }
 
   void _switchPage(MyLensesPage newPage) {

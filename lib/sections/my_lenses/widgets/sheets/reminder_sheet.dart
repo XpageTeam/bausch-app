@@ -331,7 +331,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
                 padding: const EdgeInsets.only(top: 30, bottom: 26),
                 child: BlueButtonWithText(
                   text: 'Готово',
-                  onPressed: () => widget.onSendUpdate(currentNotifications),
+                  onPressed: () async => widget.onSendUpdate(currentNotifications),
                 ),
               ),
             ],

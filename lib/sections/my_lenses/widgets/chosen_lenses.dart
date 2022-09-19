@@ -180,8 +180,6 @@ class ChosenLenses extends StatelessWidget {
                                               leftDate: leftDate,
                                               rightDate: rightDate,
                                             ),
-                                            leftPut: DateTime.now(),
-                                            rightPut: DateTime.now(),
                                           );
                                         },
                                       ),

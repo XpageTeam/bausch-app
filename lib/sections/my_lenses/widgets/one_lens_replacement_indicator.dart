@@ -46,22 +46,12 @@ class OneLensReplacementIndicator extends StatelessWidget {
                 lifeTime: myLensesWM.currentProduct.value!.lifeTime,
                 daysBeforeReplacement: activeLensDate.daysLeft,
                 onTap: () async {
-                  if (sameTime) {
+               
                     await myLensesWM.putOnLenses(
                       leftDate: DateTime.now(),
                       rightDate: DateTime.now(),
                     );
-                  } else if (isLeft) {
-                    await myLensesWM.putOnLenses(
-                      leftDate: DateTime.now(),
-                      rightDate: null,
-                    );
-                  } else {
-                    await myLensesWM.putOnLenses(
-                      leftDate: null,
-                      rightDate: DateTime.now(),
-                    );
-                  }
+                
                 },
               ),
             ),

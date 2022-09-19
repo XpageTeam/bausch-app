@@ -1,18 +1,19 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 
-// TODO(ask): если ничего не надето, сюда приходит нал
 class LensesPairModel {
   final int? id;
   final int? productId;
-  // эти поля могут быть налом, или их внутренности нал когда они нал?
   final PairModel left;
   final PairModel right;
+  final LensProductModel? product;
 
   LensesPairModel({
     required this.left,
     required this.right,
+    this.product,
     this.productId,
     this.id,
   });
@@ -20,11 +21,12 @@ class LensesPairModel {
   factory LensesPairModel.fromMap(Map<String, dynamic> map) {
     try {
       return LensesPairModel(
-        id: map['id'] as int?,
-        productId: map['product_id'] as int?,
-        left: PairModel.fromMap(map['left_eye'] as Map<String, dynamic>),
-        right: PairModel.fromMap(map['right_eye'] as Map<String, dynamic>),
-      );
+          id: map['id'] as int?,
+          productId: map['product_id'] as int?,
+          left: PairModel.fromMap(map['left_eye'] as Map<String, dynamic>),
+          right: PairModel.fromMap(map['right_eye'] as Map<String, dynamic>),
+          product:
+              LensProductModel.fromMap(map['product'] as Map<String, dynamic>),);
     } catch (e) {
       throw ResponseParseException('Ошибка в LensesPairModel: $e');
     }

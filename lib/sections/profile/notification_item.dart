@@ -59,15 +59,6 @@ class NotificationItem extends StatelessWidget {
                             maxLines: 3,
                           ),
                         ),
-                      // TODO(pavlov): прочитано или нет
-                      Container(
-                        margin: const EdgeInsets.only(top: 2),
-                        child: Text(
-                          item.read! ? 'Прочитано' : 'Не прочитано',
-                          style: AppStyles.p1Grey,
-                          maxLines: 3,
-                        ),
-                      ),
                     ],
                   ),
                 ),

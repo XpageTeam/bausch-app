@@ -81,7 +81,7 @@ class CurrentLensesPage extends StatelessWidget {
                                 : '${object[1]} напомина...',
                             style: AppStyles.h2,
                             softWrap: false,
-                            // TODO(info): сделал затемнение, потому что с точками проблема
+                            // TODO(problem): сделал затемнение, потому что с точками проблема
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             textAlign: TextAlign.right,

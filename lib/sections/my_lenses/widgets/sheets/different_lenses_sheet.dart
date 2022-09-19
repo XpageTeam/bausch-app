@@ -112,7 +112,6 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                     .toList(),
               ),
               const SizedBox(height: 10),
-              // TODO(wait): вроде тут нужно разрешить будущую дату
               if (leftActive)
                 DatePickerWidget(
                   key: const Key('L'),

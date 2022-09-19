@@ -32,9 +32,11 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   final discountOpticsStreamed = EntityStreamedState<List<Optic>>();
   final currentDiscountOptic = StreamedState<Optic?>(null);
+
   final setCurrentOptic = StreamedAction<Optic>();
-  final selectCity = VoidAction();
-  final currentCity = StreamedState<String?>(null);
+  final selectOnlineCity = VoidAction();
+  final currentOnlineCity = StreamedState<String?>(null);
+  final currentOfflineCity = StreamedState<String?>(null);
 
   final colorState = StreamedState<Color>(AppTheme.mystic);
 
@@ -72,6 +74,14 @@ class DiscountOpticsScreenWM extends WidgetModel {
         ).userData.value.data?.balance.available.toInt() ??
         0;
     difference = itemModel.price - points;
+    currentOfflineCity.accept(Provider.of<UserWM>(
+      context,
+      listen: false,
+    ).userData.value.data?.user.city);
+    currentOnlineCity.accept(Provider.of<UserWM>(
+      context,
+      listen: false,
+    ).userData.value.data?.user.city);
 
     super.onLoad();
   }
@@ -101,24 +111,41 @@ class DiscountOpticsScreenWM extends WidgetModel {
         }
       },
     );
-    selectCity.bind((_) => _selectCity());
+    selectOnlineCity.bind((_) => _selectOnlineCity());
 
     super.onBind();
   }
 
-  Future<void> _selectCity() async {
+  Future setOfflineCity(String? cityName) async {
+    final userWM = Provider.of<UserWM>(context, listen: false);
+    if (cityName != null) {
+      await currentOfflineCity.accept(cityName);
+      await userWM.updateUserData(
+        userWM.userData.value.data!.user.copyWith(city: cityName),
+        successMessage: 'Город успешно изменён',
+      );
+    }
+    await currentOfflineCity
+        .accept(cityName ?? userWM.userData.value.data!.user.city);
+  }
+
+  Future<void> _selectOnlineCity() async {
+    final moscowString = citiesForOnlineShop
+        .toList()
+        .firstWhere((element) => element == 'Москва');
     final cityName = await Keys.mainNav.currentState!.push<String>(
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
           citiesWithShops: citiesForOnlineShop.toList(),
-          withFavoriteItems: true,
+          // TODO(all): тут нужно чекнуть когда москвы нет в листе
+          withFavoriteItems: ['Вся РФ', moscowString],
         ),
       ),
     );
 
-    if (cityName != null && cityName != currentCity.value) {
+    if (cityName != null && cityName != currentOnlineCity.value) {
       await currentDiscountOptic.accept(null);
-      unawaited(currentCity.accept(cityName));
+      unawaited(currentOnlineCity.accept(cityName));
       unawaited(
         discountOpticsStreamed.content(
           allOptics

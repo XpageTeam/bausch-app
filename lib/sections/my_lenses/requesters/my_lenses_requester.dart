@@ -10,8 +10,6 @@ import 'package:dio/dio.dart';
 class MyLensesRequester {
   final _rh = RequestHandler();
 
-  // TODO(ask): почему сам продукт передается тоже?
-
   // Загружает текущие настройки линз
   Future<LensesPairModel> loadChosenLensesInfo() async {
     final parsedData = BaseResponseRepository.fromMap(

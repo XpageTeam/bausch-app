@@ -1,5 +1,4 @@
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
-import 'package:bausch/sections/auth/loading/loading_animation.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/current_daily_lenses_page.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/current_lenses_page.dart';
@@ -9,6 +8,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -46,7 +46,16 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
           StreamedStateBuilder<bool>(
             streamedState: wm.loadingInProgress,
             builder: (_, loadingInProgress) => loadingInProgress
-                ? const LoadingAnimation()
+                ? const ColoredBox(
+                    color: AppTheme.mystic,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 40),
+                      child: Center(
+                        // TODO(info): везде такой лоадер при загрузке ставить
+                        child: AnimatedLoader(),
+                      ),
+                    ),
+                  )
                 : StreamedStateBuilder<MyLensesPage>(
                     streamedState: wm.currentPageStreamed,
                     builder: (_, currentPage) =>

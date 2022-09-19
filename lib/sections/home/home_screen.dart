@@ -255,17 +255,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             // мои линзы
                             DelayedAnimatedTranslateOpacity(
                           offsetY: 60,
-                          child: StreamedStateBuilder<LensesPairModel?>(
-                            streamedState: wm.myLensesWM.lensesPairModel,
-                            builder: (_, lensesPairModel) => lensesPairModel !=
-                                    null
-                                ? Padding(
-                                    padding: const EdgeInsets.only(bottom: 40),
-                                    child: MyLensesContainer(
-                                      myLensesWM: wm.myLensesWM,
-                                    ),
-                                  )
-                                : const SizedBox(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 40),
+                            child: MyLensesContainer(myLensesWM: wm.myLensesWM),
                           ),
                         ),
                       ),

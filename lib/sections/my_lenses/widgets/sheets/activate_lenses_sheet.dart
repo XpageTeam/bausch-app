@@ -106,8 +106,6 @@ class ActivateLensesSheet extends StatelessWidget {
                   ],
                 ),
               ),
-              
-        // TODO(ask): разобраться нужно тут что-то еще получать или нет
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: MayBeInteresting(text: 'Рекомендуемые продукты'),

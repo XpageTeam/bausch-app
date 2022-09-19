@@ -238,7 +238,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                       return ReminderSheet(
                         hasNoVariant: false,
                         notifications: widget.myLensesWM.notificationsList,
-                        onSendUpdate: (notifications) =>
+                        onSendUpdate: (notifications) async =>
                             widget.myLensesWM.updateNotifications(
                           notifications: notifications,
                         ),

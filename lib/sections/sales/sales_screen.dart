@@ -115,26 +115,24 @@ class _SalesScreenState extends State<SalesScreen> {
             ),
           ),
           SliverToBoxAdapter(
-            child: Flexible(
-              child: Wrap(
-                spacing: 4,
-                runSpacing: 4,
-                children: activeList.map((catItem) {
-                  containerId++;
-                  if (containerId == 0) {
-                    return SaleWideContainer(
-                      height: (MediaQuery.of(context).size.width / 2 -
-                              StaticData.sidePadding -
-                              2) *
-                          0.9,
-                      model: catItem as CatalogSheetModel,
-                    );
-                  }
-                  return SmallContainer(
+            child: Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: activeList.map((catItem) {
+                containerId++;
+                if (containerId == 0) {
+                  return SaleWideContainer(
+                    height: (MediaQuery.of(context).size.width / 2 -
+                            StaticData.sidePadding -
+                            2) *
+                        0.9,
                     model: catItem as CatalogSheetModel,
                   );
-                }).toList(),
-              ),
+                }
+                return SmallContainer(
+                  model: catItem as CatalogSheetModel,
+                );
+              }).toList(),
             ),
           ),
         ]),

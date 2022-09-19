@@ -14,12 +14,13 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
+// TODO(pavlov): сделать начало городов с москвы
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
   final List<String>? citiesWithShops;
-  final bool withFavoriteItems;
+  final List<String>? withFavoriteItems;
   CityScreen({
     Key? key,
-    this.withFavoriteItems = false,
+    this.withFavoriteItems = const ['Москва'],
     this.citiesWithShops,
   }) : super(
           widgetModelBuilder: (context) => CityScreenWM(
@@ -131,12 +132,10 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                                         }).toList(),
                                         selectedTextStyle: AppStyles.h1,
                                         unselectedTextStyle: AppStyles.h2,
-                                        favoriteItems: widget.withFavoriteItems
-                                            ? const [
-                                                'Вся РФ',
-                                              ]
-                                            : [],
-                                        topWidget: widget.withFavoriteItems
+                                        favoriteItems:
+                                            widget.withFavoriteItems!,
+                                        topWidget: widget.withFavoriteItems!
+                                                .contains('Вся РФ')
                                             ? Padding(
                                                 padding: const EdgeInsets.only(
                                                   top: 20,

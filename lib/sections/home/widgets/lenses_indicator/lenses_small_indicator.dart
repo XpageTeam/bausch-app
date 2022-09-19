@@ -62,7 +62,7 @@ class LensesSmallIndicator extends StatelessWidget {
                       backgroundColor: AppTheme.mystic,
                       progressColor: AppTheme.turquoiseBlue,
                     ),
-              progressColor: myLensesWM.leftLensDate.value!.daysLeft > 0
+              progressColor: myLensesWM.rightLensDate.value!.daysLeft > 0
                   ? AppTheme.sulu
                   : AppTheme.redNotice,
             ),

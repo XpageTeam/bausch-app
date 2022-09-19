@@ -140,7 +140,7 @@ class NotificationsWM extends WidgetModel {
     if (updatingInProgress) return;
     updatingInProgress = true;
     await Future.delayed(
-      const Duration(milliseconds: 500),
+      const Duration(milliseconds: 50),
       () async {
         final currentIds = [...updatedNotificationIds];
         var unreadCount = 0;
