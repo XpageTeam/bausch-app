@@ -198,7 +198,6 @@ class MainScreenWM extends WidgetModel {
     }
   }
 
-// TODO(info): засунул сюда дату еще
   Future<void> _loadMyLenses() async {
     await myLensesWM.loadAllData();
   }

@@ -175,7 +175,6 @@ class _DiscountOpticsScreenState
                   },
                 ),
               if (wm.discountType == DiscountType.offline)
-                // TODO(pavlov): передавать в дальнейшем этот город на карту
                 Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 4),
                   child: StreamedStateBuilder<String?>(

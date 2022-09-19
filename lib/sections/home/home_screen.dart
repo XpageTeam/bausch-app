@@ -2,7 +2,6 @@
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
@@ -381,7 +380,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   const Spacer(),
-                                  // TODO(pavlov): получить ссылки на соц сети
+                                  // TODO(ask): получить ссылки на соц сети
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {},

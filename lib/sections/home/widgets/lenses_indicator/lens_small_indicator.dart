@@ -41,8 +41,8 @@ class LensSmallIndicator extends StatelessWidget {
 
                   circularStrokeCap: CircularStrokeCap.round,
                   backgroundColor: AppTheme.mystic,
-                  // TODO(all): не получается сделать разные цвета
-                  // пока оставил один
+                  // TODO(all): не получается сделать градиент,
+                  // пока оставил один цвет
                   progressColor: bothActive
                       ? Colors.greenAccent
                       : isLeft

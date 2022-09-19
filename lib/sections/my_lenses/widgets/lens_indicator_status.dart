@@ -30,7 +30,6 @@ class LensIndicatorStatus extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        // TODO(ask): какая-то лажа с датами происходит
         if (daysBeforeReplacement >= 0)
           CircularPercentIndicator(
             header: title
@@ -59,8 +58,8 @@ class LensIndicatorStatus extends StatelessWidget {
             ),
             circularStrokeCap: CircularStrokeCap.round,
             backgroundColor: AppTheme.mystic,
-            // TODO(all): не получается сделать разные цвета
-            // пока оставил один
+            // TODO(all): не получается сделать градиент
+            // пока оставил один цвет
             progressColor: sameTime
                 ? Colors.greenAccent
                 : left

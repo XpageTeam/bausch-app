@@ -137,7 +137,7 @@ class TopSection extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      // TODO(info): пока заглушкой
+                      // TODO(ask): пока заглушкой
                       // если скидка не будет на картинке приходить
                       if (discount != null)
                         Align(

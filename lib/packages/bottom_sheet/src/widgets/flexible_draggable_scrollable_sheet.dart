@@ -489,7 +489,7 @@ class _FlexibleDraggableScrollableSheetScrollPosition
       vsync: context.vsync,
     );
     var lastDelta = 0.0;
-    void _tick() {
+    void tick() {
       final delta = ballisticController.value - lastDelta;
       lastDelta = ballisticController.value;
       extent.addPixelDelta(delta, context.notificationContext);
@@ -509,7 +509,7 @@ class _FlexibleDraggableScrollableSheetScrollPosition
     }
 
     ballisticController
-      ..addListener(_tick)
+      ..addListener(tick)
       ..animateWith(simulation).whenCompleteOrCancel(
         ballisticController.dispose,
       );

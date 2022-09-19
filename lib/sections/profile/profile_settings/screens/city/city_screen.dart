@@ -14,7 +14,6 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-// TODO(pavlov): сделать начало городов с москвы
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
   final List<String>? citiesWithShops;
   final List<String>? withFavoriteItems;

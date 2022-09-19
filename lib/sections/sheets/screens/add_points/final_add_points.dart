@@ -148,7 +148,7 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
         ),
       ],
 
-      // TODO(all): Если знаем, что линзы куплены, то можем предложить сделить их «Моими линзами»
+      // TODO(all): Если знаем, что линзы куплены, то нужно предложить сделить их «Моими линзами»
       bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить баллы',
         topPadding: 12,
