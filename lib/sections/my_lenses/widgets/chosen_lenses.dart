@@ -89,6 +89,7 @@ class ChosenLenses extends StatelessWidget {
                                           rightDate: rightDate,
                                         ),
                                         rightPut: DateTime.now(),
+                                        leftPut: null,
                                       );
                                     },
                                   ),
@@ -130,6 +131,7 @@ class ChosenLenses extends StatelessWidget {
                                                   .dateStart,
                                             ),
                                             leftPut: DateTime.now(),
+                                            rightPut: null,
                                           );
                                         },
                                       ),
@@ -180,6 +182,8 @@ class ChosenLenses extends StatelessWidget {
                                               leftDate: leftDate,
                                               rightDate: rightDate,
                                             ),
+                                            rightPut: DateTime.now(),
+                                            leftPut: DateTime.now(),
                                           );
                                         },
                                       ),

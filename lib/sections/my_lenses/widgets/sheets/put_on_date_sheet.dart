@@ -10,8 +10,8 @@ class PutOnDateSheet extends StatefulWidget {
   final DateTime? rightPut;
   const PutOnDateSheet({
     required this.onConfirmed,
-    this.leftPut,
-    this.rightPut,
+    required this.leftPut,
+    required this.rightPut,
     Key? key,
   }) : super(key: key);
 
@@ -52,30 +52,28 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
               Padding(
                 padding: const EdgeInsets.only(top: 40, bottom: 30),
                 child: Text(
-                  widget.leftPut != null
-                      ? 'Левая линза надета'
+                  widget.leftPut != null && widget.rightPut != null
+                      ?  'Когда надеты линзы' 
                       : widget.rightPut != null
                           ? 'Правая линза надета'
-                          : 'Когда надеты линзы',
+                          : 'Левая линза надета',
                   style: AppStyles.h1,
                 ),
               ),
               DatePickerWidget(
                 onMonthChangeStartWithFirstDate: false,
                 initialDateTime:
-                    widget.leftPut ?? widget.rightPut ?? DateTime.now(),
+                    widget.leftPut ?? widget.rightPut,
                 minDateTime: DateTime(2021),
                 locale: DateTimePickerLocale.ru,
                 onCancel: () {},
                 dateFormat: 'dd.MM.yyyy',
                 onConfirm: (date, i) {
                   widget.onConfirmed(
-                    leftDate: widget.leftPut != null ||
-                            (widget.rightPut == null && widget.leftPut == null)
+                    leftDate: widget.leftPut != null 
                         ? date
                         : null,
-                    rightDate: widget.rightPut != null ||
-                            (widget.rightPut == null && widget.leftPut == null)
+                    rightDate: widget.rightPut != null 
                         ? date
                         : null,
                   );

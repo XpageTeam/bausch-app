@@ -166,6 +166,8 @@ class MyLensesContainer extends StatelessWidget {
                                 barrierColor: Colors.black.withOpacity(0.8),
                                 builder: (context) {
                                   return PutOnDateSheet(
+                                    leftPut: DateTime.now(),
+                                    rightPut: DateTime.now(),
                                     onConfirmed: ({
                                       leftDate,
                                       rightDate,

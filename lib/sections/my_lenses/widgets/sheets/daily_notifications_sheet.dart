@@ -241,6 +241,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                         onSendUpdate: (notifications) async =>
                             widget.myLensesWM.updateNotifications(
                           notifications: notifications,
+                          shouldPop: true,
                         ),
                       );
                     },

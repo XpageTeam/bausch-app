@@ -108,9 +108,11 @@ class CurrentLensesPage extends StatelessWidget {
                 builder: (context) {
                   return ReminderSheet(
                     notifications: myLensesWM.notificationsList,
-                    onSendUpdate: (notifications) =>
+                    onSendUpdate: (notifications) async =>
                         myLensesWM.updateNotifications(
-                      notifications: notifications,
+                      // TODO(info): везде листы так передавать
+                      notifications: [...notifications],
+                      shouldPop: true,
                     ),
                   );
                 },

@@ -5,6 +5,7 @@ import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -71,11 +72,6 @@ class MyLensesWM extends WidgetModel {
           .accept(await myLensesRequester.loadChosenLensesInfo());
       // await lensesPairModel.accept(null);
       await currentProduct.accept(lensesPairModel.value?.product);
-      // if (lensesPairModel.value != null) {
-      //   await currentProduct.accept(await myLensesRequester.loadLensProduct(
-      //     id: lensesPairModel.value!.productId!,
-      //   ));
-      // }
     } catch (e) {
       debugPrint('loadLensesPair $e');
     }
@@ -85,6 +81,7 @@ class MyLensesWM extends WidgetModel {
     try {
       // TODO(ask): тут сейчас приходит неправильный остаток дней до замены
       final lensesDates = await myLensesRequester.loadLensesDates();
+
       await rightLensDate.accept(lensesDates.right);
       await leftLensDate.accept(lensesDates.left);
     } catch (e) {
@@ -102,7 +99,8 @@ class MyLensesWM extends WidgetModel {
         rightDate: rightDate,
       );
       await loadLensesDates();
-      await updateNotifications(notifications: notificationsList);
+
+      await updateNotifications(notifications: [...notificationsList]);
     } catch (e) {
       debugPrint('putOnLenses $e');
     }
@@ -157,42 +155,52 @@ class MyLensesWM extends WidgetModel {
 
   Future updateNotifications({
     required List<MyLensesNotificationModel> notifications,
+    bool shouldPop = false,
   }) async {
-    // Keys.mainContentNav.currentState!.pop();
-    notificationsList
-      ..clear()
-      ..addAll(notifications);
-    notifications.removeWhere((value) => value.isActive == false);
-    final ids = <int>[];
-    if (notifications.isEmpty) {
-      notificationsList[0] = notificationsList[0].copyWith(isActive: true);
-      await notificationStatus.accept(['Нет', '1']);
-      ids.add(0);
-    } else if (notifications.length == 1) {
-      await notificationStatus.accept([
-        notifications.firstWhere((element) => element.isActive == true).title,
-        '1',
-      ]);
-      ids.add(
-        notifications.firstWhere((element) => element.isActive == true).id,
-      );
-    } else {
-      await notificationStatus.accept(['', (notifications.length).toString()]);
-      for (final element in notifications) {
-        if (element.isActive) {
-          ids.add(element.id);
+    try {
+      notificationsList
+        ..clear()
+        ..addAll([...notifications]);
+
+      notifications.removeWhere((value) => value.isActive == false);
+      final ids = <int>[];
+
+      if (notifications.isEmpty) {
+        notificationsList[0] = notificationsList[0].copyWith(isActive: true);
+        await notificationStatus.accept(['Нет', '1']);
+        ids.add(0);
+      } else if (notifications.length == 1) {
+        await notificationStatus.accept([
+          notifications[0].title,
+          '1',
+        ]);
+        ids.add(
+          notifications[0].id,
+        );
+      } else {
+        await notificationStatus
+            .accept(['', (notifications.length).toString()]);
+        for (final element in notifications) {
+          if (element.isActive) {
+            ids.add(element.id);
+          }
         }
       }
-    }
-    try {
       await myLensesRequester.updateReminders(reminders: ids);
+      if (shouldPop) {
+        Keys.mainContentNav.currentState!.pop();
+      }
+      showDefaultNotification(
+        title: 'Данные успешно обновлены',
+        success: true,
+      );
     } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка обновления',
+        success: true,
+      );
       debugPrint(e.toString());
     }
-    showDefaultNotification(
-      title: 'Данные успешно обновлены',
-      success: true,
-    );
   }
 
   void _switchPage(MyLensesPage newPage) {
