@@ -35,14 +35,12 @@ class LensDescription extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // TODO(ask): откуда берутся эти данные?
-            const Text(
-              'BC: 8,5 mm',
+            Text(
+              'BC: ${pairModel.basicCurvature}',
               style: AppStyles.p1,
             ),
-            // TODO(ask): что из этого аддидация?
-            const Text(
-              'Сфера: -5,5',
+            Text(
+              'Аддидация: ${pairModel.addition}',
               style: AppStyles.p1,
             ),
             Text(

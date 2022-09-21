@@ -77,6 +77,10 @@ class ChooseProductSheet extends StatelessWidget {
                                       : 'Однодневные',
                                   style: AppStyles.p1,
                                 ),
+                                Text(
+                                  'Пар: ${lensProductListModel.products[index].count}',
+                                  style: AppStyles.p1,
+                                ),
                               ],
                             ),
                           ),

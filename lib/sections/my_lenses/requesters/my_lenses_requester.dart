@@ -48,12 +48,11 @@ class MyLensesRequester {
     }
   }
 
-// TODO(info): бэк не готов
   // Загружает историю ношения линз
   Future<LensesHistoryListModel> loadLensesHistory() async {
     final parsedData = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
-        '/lenses/history/',
+        '/lenses/worn/history/',
       ))
           .data!,
     );
@@ -62,30 +61,6 @@ class MyLensesRequester {
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('Ошибка в loadLensesHistory: $e');
-    }
-  }
-
-// TODO(info): бэк не готов
-  // заканчиваем пару линз
-  Future<BaseResponseRepository> endLensesPair({
-    required bool left,
-    required bool right,
-    required int pairId,
-  }) async {
-    try {
-      final result = await _rh.post<Map<String, dynamic>>(
-        '/lenses/:$pairId/finish/',
-        data: FormData.fromMap(<String, dynamic>{
-          'left': left,
-          'right': right,
-        }),
-      );
-      final response =
-          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
-      return response;
-      // ignore: avoid_catches_without_on_clauses
-    } catch (e) {
-      throw ResponseParseException('Ошибка в endLensesPair: $e');
     }
   }
 

@@ -16,10 +16,10 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CityScreen extends CoreMwwmWidget<CityScreenWM> {
   final List<String>? citiesWithShops;
-  final List<String>? withFavoriteItems;
+  final List<String> withFavoriteItems;
   CityScreen({
+    required this.withFavoriteItems,
     Key? key,
-    this.withFavoriteItems = const ['Москва'],
     this.citiesWithShops,
   }) : super(
           widgetModelBuilder: (context) => CityScreenWM(
@@ -131,9 +131,8 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                                         }).toList(),
                                         selectedTextStyle: AppStyles.h1,
                                         unselectedTextStyle: AppStyles.h2,
-                                        favoriteItems:
-                                            widget.withFavoriteItems!,
-                                        topWidget: widget.withFavoriteItems!
+                                        favoriteItems: widget.withFavoriteItems,
+                                        topWidget: widget.withFavoriteItems
                                                 .contains('Вся РФ')
                                             ? Padding(
                                                 padding: const EdgeInsets.only(

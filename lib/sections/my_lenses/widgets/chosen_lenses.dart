@@ -44,6 +44,10 @@ class ChosenLenses extends StatelessWidget {
                               'Плановой замены \n${currentProduct.lifeTime} суток',
                               style: AppStyles.p1,
                             ),
+                            Text(
+                              myLensesWM.currentProduct.value!.count,
+                              style: AppStyles.p1,
+                            ),
                           ],
                         ),
                       ),

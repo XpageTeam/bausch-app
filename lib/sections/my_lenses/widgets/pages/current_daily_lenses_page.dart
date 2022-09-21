@@ -45,9 +45,12 @@ class CurrentDailyLensesPage extends StatelessWidget {
                           myLensesWM.currentProduct.value!.name,
                           style: AppStyles.h2,
                         ),
-                        // TODO(ask): тут какие-то "штуки" еще должны быть внизу
                         const Text(
                           'Однодневные',
+                          style: AppStyles.p1,
+                        ),
+                        Text(
+                          myLensesWM.currentProduct.value!.count,
                           style: AppStyles.p1,
                         ),
                       ],

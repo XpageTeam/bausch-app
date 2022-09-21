@@ -11,6 +11,7 @@ class ChooseLensesRequester {
   final _rh = RequestHandler();
 
   // добавляем пару линз
+  // TODO(pavlov): узнать можем ли мы тут отправлять нал или пустую строку надо
   Future<BaseResponseRepository> addLensPair({
     required LensesPairModel lensesPairModel,
     required int productId,

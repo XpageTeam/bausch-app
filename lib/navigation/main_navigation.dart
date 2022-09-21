@@ -131,7 +131,7 @@ class _MainNavigationState extends State<MainNavigation>
               //   break;
 
               case '/city':
-                page = CityScreen();
+                page = CityScreen(withFavoriteItems: const ['Москва'],);
                 break;
 
               case '/lenses_parameters':

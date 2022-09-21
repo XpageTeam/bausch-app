@@ -46,7 +46,8 @@ class AddressSelectScreenWM extends WidgetModel {
               pageBuilder: (context, animation, secondaryAnimation) =>
                   CityScreen(
                 citiesWithShops: citiesList,
-                withFavoriteItems: citiesList.contains('Москва') ? null : [],
+                withFavoriteItems:
+                    citiesList.contains('Москва') ? ['Москва'] : [],
               ),
             ),
           )

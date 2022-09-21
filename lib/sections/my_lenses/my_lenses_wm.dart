@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
+import 'package:bausch/models/my_lenses/lenses_history_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
@@ -23,7 +24,7 @@ class MyLensesWM extends WidgetModel {
   final rightLensDate = StreamedState<LensDateModel?>(null);
   final switchAction = StreamedAction<MyLensesPage>();
   final previousLenses = ['Бауш', 'Энд', 'Ломб'];
-  final historyList = ['5 май, 16:00', '6 май, 16:00', '7 май, 16:00'];
+  final historyList = StreamedState<List<LensesHistoryModel>>([]);
   final currentPageStreamed =
       StreamedState<MyLensesPage>(MyLensesPage.currentLenses);
   final notificationStatus = StreamedState<List<String>>(['Нет', '1']);
@@ -63,6 +64,7 @@ class MyLensesWM extends WidgetModel {
     await loadingInProgress.accept(true);
     await loadLensesPair();
     await loadLensesDates();
+    await loadLensesHistory();
     await loadingInProgress.accept(false);
   }
 
@@ -79,13 +81,21 @@ class MyLensesWM extends WidgetModel {
 
   Future loadLensesDates() async {
     try {
-      // TODO(ask): тут сейчас приходит неправильный остаток дней до замены
       final lensesDates = await myLensesRequester.loadLensesDates();
-
       await rightLensDate.accept(lensesDates.right);
       await leftLensDate.accept(lensesDates.left);
     } catch (e) {
       debugPrint('loadLensesDates $e');
+    }
+  }
+
+// TODO(ask): всегда приходит LR, нет единичных, и устанавливается сразу, нет понятия активные линзы
+  Future loadLensesHistory() async {
+    try {
+      await historyList
+          .accept((await myLensesRequester.loadLensesHistory()).lensesHistory);
+    } catch (e) {
+      debugPrint('loadLensesHistory $e');
     }
   }
 
@@ -99,8 +109,8 @@ class MyLensesWM extends WidgetModel {
         rightDate: rightDate,
       );
       await loadLensesDates();
-
       await updateNotifications(notifications: [...notificationsList]);
+      await loadLensesHistory();
     } catch (e) {
       debugPrint('putOnLenses $e');
     }
@@ -110,10 +120,8 @@ class MyLensesWM extends WidgetModel {
     if (rightLensDate.value == null || leftLensDate.value == null) {
       await leftLensDate.accept(null);
       await rightLensDate.accept(null);
-      await myLensesRequester.putOnLensesPair(
-        leftDate: null,
-        rightDate: null,
-      );
+      await myLensesRequester.putOnLensesPair(leftDate: null, rightDate: null);
+      await loadLensesHistory();
     } else {
       await showModalBottomSheet<void>(
         isScrollControlled: true,

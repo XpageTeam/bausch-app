@@ -189,8 +189,7 @@ class SelectOpticScreenWM extends WidgetModel {
           citiesWithShops: initialCities!.map((e) => e.title).toList(),
           withFavoriteItems:
               initialCities!.map((e) => e.title).toList().contains('Москва')
-                  ? null
-                  : [],
+                  ? ['Москва'] : [],
         ),
       ),
     );

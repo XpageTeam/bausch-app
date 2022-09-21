@@ -14,10 +14,22 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class ChooseLensesWM extends WidgetModel {
   final BuildContext context;
   final leftPair = StreamedState<PairModel>(
-    PairModel(diopters: null, cylinder: null, axis: null, addition: null),
+    PairModel(
+      diopters: null,
+      cylinder: null,
+      axis: null,
+      addition: null,
+      basicCurvature: null,
+    ),
   );
   final rightPair = StreamedState<PairModel>(
-    PairModel(diopters: null, cylinder: null, axis: null, addition: null),
+    PairModel(
+      diopters: null,
+      cylinder: null,
+      axis: null,
+      addition: null,
+      basicCurvature: null,
+    ),
   );
   final areFieldsValid = StreamedState(false);
   final isLeftEqual = StreamedState(false);
@@ -58,7 +70,7 @@ class ChooseLensesWM extends WidgetModel {
         await areFieldsValid.accept(true);
       }
       // ignore: avoid_catches_without_on_clauses
-    } catch (_) {
+    } catch (e) {
       lensProductList = LensProductListModel(products: []);
     }
   }
@@ -67,6 +79,7 @@ class ChooseLensesWM extends WidgetModel {
     if (isLeftEqual.value) {
       await leftPair.accept(
         PairModel(
+          basicCurvature: rightPair.value.basicCurvature,
           diopters: rightPair.value.diopters,
           cylinder: rightPair.value.cylinder,
           axis: rightPair.value.axis,
@@ -74,15 +87,21 @@ class ChooseLensesWM extends WidgetModel {
         ),
       );
     }
-    await areFieldsValid.accept(rightPair.value.diopters != null &&
-        rightPair.value.cylinder != null &&
-        rightPair.value.axis != null &&
-        rightPair.value.addition != null &&
-        leftPair.value.diopters != null &&
-        leftPair.value.cylinder != null &&
-        leftPair.value.axis != null &&
-        leftPair.value.addition != null &&
-        currentProduct.value != null);
+    await areFieldsValid.accept(currentProduct.value != null &&
+        (currentProduct.value!.diopters.isEmpty ||
+            rightPair.value.diopters != null) &&
+        (currentProduct.value!.cylinder.isEmpty ||
+            rightPair.value.cylinder != null) &&
+        (currentProduct.value!.axis.isEmpty || rightPair.value.axis != null) &&
+        (currentProduct.value!.addition.isEmpty ||
+            rightPair.value.addition != null) &&
+        (currentProduct.value!.diopters.isEmpty ||
+            leftPair.value.diopters != null) &&
+        (currentProduct.value!.cylinder.isEmpty ||
+            leftPair.value.cylinder != null) &&
+        (currentProduct.value!.axis.isEmpty || leftPair.value.axis != null) &&
+        (currentProduct.value!.addition.isEmpty ||
+            leftPair.value.addition != null));
   }
 
   Future changeEyesEquality({required bool areEqual}) async {
@@ -90,6 +109,7 @@ class ChooseLensesWM extends WidgetModel {
     if (isLeftEqual.value) {
       await leftPair.accept(
         PairModel(
+          basicCurvature: rightPair.value.basicCurvature,
           diopters: rightPair.value.diopters,
           cylinder: rightPair.value.cylinder,
           axis: rightPair.value.axis,

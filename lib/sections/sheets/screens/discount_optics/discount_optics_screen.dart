@@ -198,7 +198,9 @@ class _DiscountOpticsScreenState
                             PageRouteBuilder<String>(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      CityScreen(),
+                                      CityScreen(
+                                withFavoriteItems: const ['Москва'],
+                              ),
                             ),
                           ),
                         );

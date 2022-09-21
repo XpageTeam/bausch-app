@@ -30,7 +30,6 @@ class LensesPairDatesModel {
 class LensDateModel {
   final DateTime dateStart;
   final DateTime dateEnd;
-  // TODO(ask): неправильно считаются на бэке
   final int daysLeft;
 
   LensDateModel({
