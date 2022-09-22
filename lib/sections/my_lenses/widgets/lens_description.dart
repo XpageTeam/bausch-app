@@ -37,7 +37,7 @@ class LensDescription extends StatelessWidget {
           children: [
             if (pairModel.basicCurvature != null)
               Text(
-                'BC: ${pairModel.basicCurvature}',
+                'BC: ${pairModel.basicCurvature} mm',
                 style: AppStyles.p1,
               ),
             if (pairModel.addition != null)

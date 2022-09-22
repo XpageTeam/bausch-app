@@ -11,7 +11,6 @@ class ChooseLensesRequester {
   final _rh = RequestHandler();
 
   // добавляем пару линз
-  // TODO(pavlov): узнать можем ли мы тут отправлять нал или пустую строку надо
   Future<BaseResponseRepository> addLensPair({
     required LensesPairModel lensesPairModel,
     required int productId,
@@ -25,10 +24,12 @@ class ChooseLensesRequester {
           'left_eye[cylinder]': lensesPairModel.left.cylinder,
           'left_eye[axis]': lensesPairModel.left.axis,
           'left_eye[addition]': lensesPairModel.left.addition,
+          'left_eye[basicCurvature]': lensesPairModel.left.basicCurvature,
           'right_eye[diopters]': lensesPairModel.right.diopters,
           'right_eye[cylinder]': lensesPairModel.right.cylinder,
           'right_eye[axis]': lensesPairModel.right.axis,
           'right_eye[addition]': lensesPairModel.right.addition,
+          'right_eye[basicCurvature]': lensesPairModel.right.basicCurvature,
         }),
       );
 
@@ -56,10 +57,13 @@ class ChooseLensesRequester {
           'left_eye[cylinder]': lensesPairModel.left.cylinder,
           'left_eye[axis]': lensesPairModel.left.axis,
           'left_eye[addition]': lensesPairModel.left.addition,
+          'left_eye[basicCurvature]': lensesPairModel.left.basicCurvature,
           'right_eye[diopters]': lensesPairModel.right.diopters,
           'right_eye[cylinder]': lensesPairModel.right.cylinder,
           'right_eye[axis]': lensesPairModel.right.axis,
           'right_eye[addition]': lensesPairModel.right.addition,
+          // TODO(ask): не доходят до бэка
+          'right_eye[basicCurvature]': lensesPairModel.right.basicCurvature,
         }),
       );
 

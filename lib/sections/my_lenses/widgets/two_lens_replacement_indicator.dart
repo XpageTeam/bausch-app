@@ -101,7 +101,9 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                         },
                       ),
                     ),
-                  const SizedBox(width: 3),
+                  if (myLensesWM.leftLensDate.value!.daysLeft > 0 ||
+                      myLensesWM.rightLensDate.value!.daysLeft > 0)
+                    const SizedBox(width: 3),
                   Expanded(
                     child: BlueButtonWithText(
                       text: 'Завершить',

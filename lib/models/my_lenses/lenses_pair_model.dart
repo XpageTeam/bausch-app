@@ -57,6 +57,7 @@ class PairModel {
         cylinder: map['cylinder'] as String?,
         axis: map['axis'] as String?,
         addition: map['addition'] as String?,
+        // TODO(ask): не приходят с бэка
         basicCurvature: map['basicCurvature'] as String?,
       );
     } catch (e) {

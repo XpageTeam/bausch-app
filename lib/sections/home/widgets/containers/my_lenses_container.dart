@@ -12,6 +12,7 @@ import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
+// TODO(pavlov): этому контейнеру надо загрузку поставить
 class MyLensesContainer extends StatelessWidget {
   final MyLensesWM myLensesWM;
   const MyLensesContainer({required this.myLensesWM, Key? key})
@@ -118,7 +119,6 @@ class MyLensesContainer extends StatelessWidget {
                                   ),
                                 )
                               : leftLensDate != null && rightLensDate != null
-                                  // TODO(info): судя по макетам сравниваем по оставшимся дням
                                   ? leftLensDate.dateEnd !=
                                           rightLensDate.dateEnd
                                       ? LensesSmallIndicator(
@@ -148,43 +148,70 @@ class MyLensesContainer extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (myLensesWM.lensesPairModel.value != null &&
-                        currentProduct!.lifeTime > 1)
+                    if (myLensesWM.lensesPairModel.value != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 24, right: 12),
-                        child: GreyButton(
-                          text: leftLensDate != null || rightLensDate != null
-                              ? 'Завершить ношение'
-                              : 'Надеть',
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: StaticData.sidePadding,
-                          ),
-                          onPressed: () async {
-                            if (leftLensDate != null || rightLensDate != null) {
-                              await myLensesWM.putOffLenses(context: context);
-                            } else {
-                              await showModalBottomSheet<num>(
-                                isScrollControlled: true,
-                                context: context,
-                                barrierColor: Colors.black.withOpacity(0.8),
-                                builder: (context) {
-                                  return PutOnDateSheet(
-                                    leftPut: DateTime.now(),
-                                    rightPut: DateTime.now(),
-                                    onConfirmed: ({
-                                      leftDate,
-                                      rightDate,
-                                    }) =>
-                                        myLensesWM.updateLensesDates(
-                                      leftDate: leftDate,
-                                      rightDate: rightDate,
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                          },
+                        child: Row(
+                          children: [
+                            if (leftLensDate != null || rightLensDate != null)
+                              Expanded(
+                                child: GreyButton(
+                                  text: leftLensDate != null &&
+                                          rightLensDate != null
+                                      ? 'Завершить ношение'
+                                      : 'Завершить',
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: StaticData.sidePadding,
+                                  ),
+                                  onPressed: () async =>
+                                      myLensesWM.putOffLenses(
+                                    context: context,
+                                  ),
+                                ),
+                              ),
+                            if ((leftLensDate != null &&
+                                    rightLensDate == null) ||
+                                (leftLensDate == null && rightLensDate != null))
+                              const SizedBox(width: 10),
+                            if (leftLensDate == null || rightLensDate == null)
+                              Expanded(
+                                child: GreyButton(
+                                  text: 'Надеть',
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: StaticData.sidePadding,
+                                  ),
+                                  onPressed: () async =>
+                                      showModalBottomSheet<num>(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    barrierColor: Colors.black.withOpacity(0.8),
+                                    builder: (context) {
+                                      return PutOnDateSheet(
+                                        leftPut: leftLensDate?.dateStart != null
+                                            ? null
+                                            : DateTime.now(),
+                                        rightPut:
+                                            rightLensDate?.dateStart != null
+                                                ? null
+                                                : DateTime.now(),
+                                        onConfirmed: ({
+                                          leftDate,
+                                          rightDate,
+                                        }) =>
+                                            myLensesWM.updateLensesDates(
+                                          leftDate: leftLensDate?.dateStart ??
+                                              leftDate,
+                                          rightDate: rightLensDate?.dateStart ??
+                                              rightDate,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                   ],

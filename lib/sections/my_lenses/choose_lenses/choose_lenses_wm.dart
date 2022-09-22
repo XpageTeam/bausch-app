@@ -49,7 +49,9 @@ class ChooseLensesWM extends WidgetModel {
         editLensPairModel!.left.addition == editLensPairModel!.right.addition &&
         editLensPairModel!.left.axis == editLensPairModel!.right.axis &&
         editLensPairModel!.left.cylinder == editLensPairModel!.right.cylinder &&
-        editLensPairModel!.left.diopters == editLensPairModel!.right.diopters) {
+        editLensPairModel!.left.diopters == editLensPairModel!.right.diopters &&
+        editLensPairModel!.left.basicCurvature ==
+            editLensPairModel!.right.basicCurvature) {
       isLeftEqual.accept(true);
     }
     super.onBind();
@@ -82,9 +84,12 @@ class ChooseLensesWM extends WidgetModel {
         ),
       );
     }
+
     await areFieldsValid.accept(currentProduct.value != null &&
         (currentProduct.value!.diopters.isEmpty ||
             rightPair.value.diopters != null) &&
+        (currentProduct.value!.basicCurvature.isEmpty ||
+            rightPair.value.basicCurvature != null) &&
         (currentProduct.value!.cylinder.isEmpty ||
             rightPair.value.cylinder != null) &&
         (currentProduct.value!.axis.isEmpty || rightPair.value.axis != null) &&
@@ -92,6 +97,8 @@ class ChooseLensesWM extends WidgetModel {
             rightPair.value.addition != null) &&
         (currentProduct.value!.diopters.isEmpty ||
             leftPair.value.diopters != null) &&
+        (currentProduct.value!.basicCurvature.isEmpty ||
+            leftPair.value.basicCurvature != null) &&
         (currentProduct.value!.cylinder.isEmpty ||
             leftPair.value.cylinder != null) &&
         (currentProduct.value!.axis.isEmpty || leftPair.value.axis != null) &&

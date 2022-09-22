@@ -18,30 +18,36 @@ class StartEndDateLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        if (hasIcon)
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: 17,
-              width: 17,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isLeft ? AppTheme.turquoiseBlue : AppTheme.sulu,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (hasIcon)
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: 17,
+                  width: 17,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isLeft ? AppTheme.turquoiseBlue : AppTheme.sulu,
+                  ),
+                  child: Center(
+                    child: Text(isLeft ? 'L' : 'R', style: AppStyles.n1),
+                  ),
+                ),
               ),
-              child: Center(
-                child: Text(isLeft ? 'L' : 'R', style: AppStyles.n1),
+            if (hasIcon) const SizedBox(width: 6),
+            Text(
+              HelpFunctions.formatDateRu(
+                date: isLeft
+                    ? myLensesWM.leftLensDate.value!.dateStart
+                    : myLensesWM.rightLensDate.value!.dateStart,
               ),
+              style: AppStyles.p1,
             ),
-          ),
-        const SizedBox(width: 6),
-        Text(
-          HelpFunctions.formatDateRu(
-            date: isLeft
-                ? myLensesWM.leftLensDate.value!.dateStart
-                : myLensesWM.rightLensDate.value!.dateStart,
-          ),
-          style: AppStyles.p1,
+          ],
         ),
         Padding(
           padding: const EdgeInsets.only(
@@ -58,30 +64,35 @@ class StartEndDateLine extends StatelessWidget {
             scale: hasIcon ? 7 : 4.8,
           ),
         ),
-        const Icon(
-          Icons.notifications_none,
-          size: 18,
-        ),
-        Text(
-          HelpFunctions.formatDateRu(
-            date: isLeft
-                ? myLensesWM.leftLensDate.value!.dateEnd
-                : myLensesWM.rightLensDate.value!.dateEnd,
-            haveWeekDay: true,
-          ),
-          style: AppStyles.p1,
-        ),
-        if ((isLeft
-                ? myLensesWM.leftLensDate.value!.daysLeft
-                : myLensesWM.rightLensDate.value!.daysLeft) <
-            0)
-          Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: Text(
-              '${isLeft ? myLensesWM.leftLensDate.value!.daysLeft.toString().replaceFirst('-', '+ ') : myLensesWM.rightLensDate.value!.daysLeft.toString().replaceFirst('-', '+ ')} д',
-              style: AppStyles.p1.copyWith(color: Colors.redAccent),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.notifications_none,
+              size: 18,
             ),
-          ),
+            Text(
+              HelpFunctions.formatDateRu(
+                date: isLeft
+                    ? myLensesWM.leftLensDate.value!.dateEnd
+                    : myLensesWM.rightLensDate.value!.dateEnd,
+                haveWeekDay: true,
+              ),
+              style: AppStyles.p1,
+            ),
+            if ((isLeft
+                    ? myLensesWM.leftLensDate.value!.daysLeft
+                    : myLensesWM.rightLensDate.value!.daysLeft) <
+                0)
+              Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Text(
+                  '${isLeft ? myLensesWM.leftLensDate.value!.daysLeft.toString().replaceFirst('-', '+ ') : myLensesWM.rightLensDate.value!.daysLeft.toString().replaceFirst('-', '+ ')} д',
+                  style: AppStyles.p1.copyWith(color: Colors.redAccent),
+                ),
+              ),
+          ],
+        ),
       ],
     );
   }

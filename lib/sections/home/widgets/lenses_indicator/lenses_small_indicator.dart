@@ -28,10 +28,8 @@ class LensesSmallIndicator extends StatelessWidget {
               lineWidth: 10,
               percent: myLensesWM.rightLensDate.value!.daysLeft >=
                       myLensesWM.currentProduct.value!.lifeTime
-                  ? 0
-                  : myLensesWM.rightLensDate.value!.daysLeft < 0
-                      ? 1
-                      : 1 -
+                  ? 1
+                  : 
                           myLensesWM.rightLensDate.value!.daysLeft /
                               myLensesWM.currentProduct.value!.lifeTime,
               circularStrokeCap: CircularStrokeCap.round,
@@ -52,11 +50,8 @@ class LensesSmallIndicator extends StatelessWidget {
                       lineWidth: 9,
                       percent: myLensesWM.leftLensDate.value!.daysLeft >=
                               myLensesWM.currentProduct.value!.lifeTime
-                          ? 0
-                          : myLensesWM.leftLensDate.value!.daysLeft < 0
-                              ? 1
-                              : 1 -
-                                  myLensesWM.leftLensDate.value!.daysLeft /
+                          ? 1
+                          : myLensesWM.leftLensDate.value!.daysLeft /
                                       myLensesWM.currentProduct.value!.lifeTime,
                       circularStrokeCap: CircularStrokeCap.round,
                       backgroundColor: AppTheme.mystic,

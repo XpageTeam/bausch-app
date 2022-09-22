@@ -139,6 +139,39 @@ class _ChooseLensesScreenState
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          if (currentProduct.basicCurvature.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 4,
+                              ),
+                              child: FocusButton(
+                                labelText: 'Базовая кривизна',
+                                selectedText: rightPair.basicCurvature,
+                                onPressed: () async {
+                                  final newValue =
+                                      await showModalBottomSheet<String?>(
+                                            context: context,
+                                            builder: (context) {
+                                              return SinglePickerScreen(
+                                                title: 'Базовая кривизна',
+                                                variants: currentProduct
+                                                    .basicCurvature,
+                                              );
+                                            },
+                                            barrierColor:
+                                                Colors.black.withOpacity(0.8),
+                                          ) ??
+                                          rightPair.diopters;
+
+                                  await wm.rightPair.accept(
+                                    rightPair.copyWith(
+                                      basicCurvature: newValue,
+                                    ),
+                                  );
+                                  await wm.validateFields();
+                                },
+                              ),
+                            ),
                           if (currentProduct.diopters.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(
@@ -287,13 +320,49 @@ class _ChooseLensesScreenState
                     ],
                   ),
                   const SizedBox(height: 20),
-                  if (currentProduct.diopters.isNotEmpty)
-                    StreamedStateBuilder<PairModel>(
-                      streamedState: wm.leftPair,
-                      builder: (_, leftPair) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
+                  StreamedStateBuilder<PairModel>(
+                    streamedState: wm.leftPair,
+                    builder: (_, leftPair) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (currentProduct.basicCurvature.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 4,
+                              ),
+                              child: FocusButton(
+                                labelText: 'Базовая кривизна',
+                                selectedText: leftPair.basicCurvature,
+                                onPressed: () async {
+                                  final newValue =
+                                      await showModalBottomSheet<String?>(
+                                            context: context,
+                                            builder: (context) {
+                                              return SinglePickerScreen(
+                                                title: 'Базовая кривизна',
+                                                variants: currentProduct
+                                                    .basicCurvature,
+                                              );
+                                            },
+                                            barrierColor:
+                                                Colors.black.withOpacity(0.8),
+                                          ) ??
+                                          leftPair.basicCurvature;
+                                  if (newValue != null &&
+                                      newValue != leftPair.basicCurvature) {
+                                    await wm.changeEyesEquality(
+                                      areEqual: false,
+                                    );
+                                  }
+                                  await wm.leftPair.accept(
+                                    leftPair.copyWith(basicCurvature: newValue),
+                                  );
+                                  await wm.validateFields();
+                                },
+                              ),
+                            ),
+                          if (currentProduct.diopters.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(
                                 bottom: 4,
@@ -329,111 +398,111 @@ class _ChooseLensesScreenState
                                 },
                               ),
                             ),
-                            if (currentProduct.cylinder.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: FocusButton(
-                                  labelText: 'Цилиндр',
-                                  selectedText: leftPair.cylinder,
-                                  onPressed: () async {
-                                    final newValue =
-                                        await showModalBottomSheet<String?>(
-                                              context: context,
-                                              builder: (context) {
-                                                return SinglePickerScreen(
-                                                  title: 'Цилиндр',
-                                                  variants:
-                                                      currentProduct.cylinder,
-                                                );
-                                              },
-                                              barrierColor:
-                                                  Colors.black.withOpacity(0.8),
-                                            ) ??
-                                            leftPair.cylinder;
-                                    if (newValue != null &&
-                                        newValue != leftPair.cylinder) {
-                                      await wm.changeEyesEquality(
-                                        areEqual: false,
-                                      );
-                                    }
-                                    await wm.leftPair.accept(
-                                      leftPair.copyWith(cylinder: newValue),
+                          if (currentProduct.cylinder.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: FocusButton(
+                                labelText: 'Цилиндр',
+                                selectedText: leftPair.cylinder,
+                                onPressed: () async {
+                                  final newValue =
+                                      await showModalBottomSheet<String?>(
+                                            context: context,
+                                            builder: (context) {
+                                              return SinglePickerScreen(
+                                                title: 'Цилиндр',
+                                                variants:
+                                                    currentProduct.cylinder,
+                                              );
+                                            },
+                                            barrierColor:
+                                                Colors.black.withOpacity(0.8),
+                                          ) ??
+                                          leftPair.cylinder;
+                                  if (newValue != null &&
+                                      newValue != leftPair.cylinder) {
+                                    await wm.changeEyesEquality(
+                                      areEqual: false,
                                     );
-                                    await wm.validateFields();
-                                  },
-                                ),
+                                  }
+                                  await wm.leftPair.accept(
+                                    leftPair.copyWith(cylinder: newValue),
+                                  );
+                                  await wm.validateFields();
+                                },
                               ),
-                            if (currentProduct.axis.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: FocusButton(
-                                  labelText: 'Ось',
-                                  selectedText: leftPair.axis,
-                                  onPressed: () async {
-                                    final newValue =
-                                        await showModalBottomSheet<String?>(
-                                              context: context,
-                                              builder: (context) {
-                                                return SinglePickerScreen(
-                                                  title: 'Ось',
-                                                  variants: currentProduct.axis,
-                                                );
-                                              },
-                                              barrierColor:
-                                                  Colors.black.withOpacity(0.8),
-                                            ) ??
-                                            leftPair.axis;
-                                    if (newValue != null &&
-                                        newValue != leftPair.axis) {
-                                      await wm.changeEyesEquality(
-                                        areEqual: false,
-                                      );
-                                    }
-                                    await wm.leftPair.accept(
-                                      leftPair.copyWith(axis: newValue),
+                            ),
+                          if (currentProduct.axis.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: FocusButton(
+                                labelText: 'Ось',
+                                selectedText: leftPair.axis,
+                                onPressed: () async {
+                                  final newValue =
+                                      await showModalBottomSheet<String?>(
+                                            context: context,
+                                            builder: (context) {
+                                              return SinglePickerScreen(
+                                                title: 'Ось',
+                                                variants: currentProduct.axis,
+                                              );
+                                            },
+                                            barrierColor:
+                                                Colors.black.withOpacity(0.8),
+                                          ) ??
+                                          leftPair.axis;
+                                  if (newValue != null &&
+                                      newValue != leftPair.axis) {
+                                    await wm.changeEyesEquality(
+                                      areEqual: false,
                                     );
-                                    await wm.validateFields();
-                                  },
-                                ),
+                                  }
+                                  await wm.leftPair.accept(
+                                    leftPair.copyWith(axis: newValue),
+                                  );
+                                  await wm.validateFields();
+                                },
                               ),
-                            if (currentProduct.addition.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: FocusButton(
-                                  labelText: 'Аддидация',
-                                  selectedText: leftPair.addition?.toString(),
-                                  onPressed: () async {
-                                    final newValue =
-                                        await showModalBottomSheet<String?>(
-                                              context: context,
-                                              builder: (context) {
-                                                return SinglePickerScreen(
-                                                  title: 'Аддидация',
-                                                  variants:
-                                                      currentProduct.addition,
-                                                );
-                                              },
-                                              barrierColor:
-                                                  Colors.black.withOpacity(0.8),
-                                            ) ??
-                                            leftPair.addition;
-                                    if (newValue != null &&
-                                        newValue != leftPair.addition) {
-                                      await wm.changeEyesEquality(
-                                        areEqual: false,
-                                      );
-                                    }
-                                    await wm.leftPair.accept(
-                                      leftPair.copyWith(addition: newValue),
+                            ),
+                          if (currentProduct.addition.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: FocusButton(
+                                labelText: 'Аддидация',
+                                selectedText: leftPair.addition?.toString(),
+                                onPressed: () async {
+                                  final newValue =
+                                      await showModalBottomSheet<String?>(
+                                            context: context,
+                                            builder: (context) {
+                                              return SinglePickerScreen(
+                                                title: 'Аддидация',
+                                                variants:
+                                                    currentProduct.addition,
+                                              );
+                                            },
+                                            barrierColor:
+                                                Colors.black.withOpacity(0.8),
+                                          ) ??
+                                          leftPair.addition;
+                                  if (newValue != null &&
+                                      newValue != leftPair.addition) {
+                                    await wm.changeEyesEquality(
+                                      areEqual: false,
                                     );
-                                    await wm.validateFields();
-                                  },
-                                ),
+                                  }
+                                  await wm.leftPair.accept(
+                                    leftPair.copyWith(addition: newValue),
+                                  );
+                                  await wm.validateFields();
+                                },
                               ),
-                          ],
-                        );
-                      },
-                    ),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
                   StreamedStateBuilder<bool>(
                     streamedState: wm.areFieldsValid,
                     // TODO(info): везде на синие кнопки загрузку ставить

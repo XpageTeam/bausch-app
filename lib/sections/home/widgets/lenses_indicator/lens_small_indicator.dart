@@ -21,11 +21,8 @@ class LensSmallIndicator extends StatelessWidget {
     final isLeft = myLensesWM.leftLensDate.value != null;
     final percent = activeDate!.daysLeft >=
             myLensesWM.currentProduct.value!.lifeTime
-        ? 0
-        : activeDate.daysLeft < 0
-            ? 1
-            : 1 -
-                activeDate.daysLeft / myLensesWM.currentProduct.value!.lifeTime;
+        ? 1
+        :  activeDate.daysLeft / myLensesWM.currentProduct.value!.lifeTime;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20),
