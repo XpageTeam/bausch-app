@@ -73,7 +73,7 @@ class ChooseProductSheet extends StatelessWidget {
                                   lensProductListModel
                                               .products[index].lifeTime >
                                           1
-                                      ? 'Плановой замены \n${lensProductListModel.products[index].lifeTime} суток'
+                                      ? 'Плановой замены \nДо ${lensProductListModel.products[index].lifeTime} суток'
                                       : 'Однодневные',
                                   style: AppStyles.p1,
                                 ),

@@ -49,10 +49,12 @@ class MyLensesRequester {
   }
 
   // Загружает историю ношения линз
-  Future<LensesHistoryListModel> loadLensesHistory() async {
+  Future<LensesHistoryListModel> loadLensesHistory({
+    required bool showAll,
+  }) async {
     final parsedData = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
-        '/lenses/worn/history/',
+        '/lenses/worn/history/?showAll=$showAll',
       ))
           .data!,
     );

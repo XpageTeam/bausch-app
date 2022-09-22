@@ -89,17 +89,19 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-// TODO(ask): всегда приходит LR, нет единичных, и устанавливается сразу, нет понятия активные линзы
   Future loadLensesHistory() async {
     try {
-      await historyList
-          .accept((await myLensesRequester.loadLensesHistory()).lensesHistory);
+      // TODO(pavlov): по нажатию кнопки ранее делать тру
+      await historyList.accept(
+        (await myLensesRequester.loadLensesHistory(showAll: false))
+            .lensesHistory,
+      );
     } catch (e) {
       debugPrint('loadLensesHistory $e');
     }
   }
 
-  Future putOnLenses({
+  Future updateLensesDates({
     required DateTime? leftDate,
     required DateTime? rightDate,
   }) async {
@@ -109,7 +111,8 @@ class MyLensesWM extends WidgetModel {
         rightDate: rightDate,
       );
       await loadLensesDates();
-      await updateNotifications(notifications: [...notificationsList]);
+      // TODO(pavlov): думаю это тут не надо
+      // await updateNotifications(notifications: [...notificationsList]);
       await loadLensesHistory();
     } catch (e) {
       debugPrint('putOnLenses $e');
@@ -118,10 +121,7 @@ class MyLensesWM extends WidgetModel {
 
   Future putOffLenses({required BuildContext context}) async {
     if (rightLensDate.value == null || leftLensDate.value == null) {
-      await leftLensDate.accept(null);
-      await rightLensDate.accept(null);
-      await myLensesRequester.putOnLensesPair(leftDate: null, rightDate: null);
-      await loadLensesHistory();
+      await updateLensesDates(leftDate: null, rightDate: null);
     } else {
       await showModalBottomSheet<void>(
         isScrollControlled: true,
@@ -130,30 +130,25 @@ class MyLensesWM extends WidgetModel {
         builder: (context) {
           return PutOnEndSheet(
             onLeftConfirmed: () {
-              myLensesRequester.putOnLensesPair(
+              updateLensesDates(
                 leftDate: null,
                 rightDate: rightLensDate.value!.dateStart,
               );
-              leftLensDate.accept(null);
               Navigator.of(context).pop();
             },
             onRightConfirmed: () {
-              myLensesRequester.putOnLensesPair(
+              updateLensesDates(
                 leftDate: leftLensDate.value!.dateStart,
                 rightDate: null,
               );
-              rightLensDate.accept(null);
               Navigator.of(context).pop();
             },
             onBothConfirmed: () async {
               Navigator.of(context).pop();
-
-              await myLensesRequester.putOnLensesPair(
+              await updateLensesDates(
                 leftDate: null,
                 rightDate: null,
               );
-              await leftLensDate.accept(null);
-              await rightLensDate.accept(null);
             },
           );
         },

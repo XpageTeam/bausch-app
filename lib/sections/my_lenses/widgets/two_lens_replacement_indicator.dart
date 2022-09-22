@@ -42,9 +42,9 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       daysBeforeReplacement:
                           myLensesWM.leftLensDate.value!.daysLeft,
                       title: false,
-                      onTap: () async => myLensesWM.putOnLenses(
+                      onTap: () async => myLensesWM.updateLensesDates(
                         leftDate: DateTime.now(),
-                        rightDate:  myLensesWM.rightLensDate.value!.dateStart,
+                        rightDate: myLensesWM.rightLensDate.value!.dateStart,
                       ),
                     ),
                   ),
@@ -54,8 +54,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       daysBeforeReplacement:
                           myLensesWM.rightLensDate.value!.daysLeft,
                       title: false,
-                      onTap: () async => myLensesWM.putOnLenses(
-                        leftDate:  myLensesWM.leftLensDate.value!.dateStart,
+                      onTap: () async => myLensesWM.updateLensesDates(
+                        leftDate: myLensesWM.leftLensDate.value!.dateStart,
                         rightDate: DateTime.now(),
                       ),
                     ),
@@ -63,11 +63,9 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                 ],
               ),
             ),
-            StartEndDateLine(myLensesWM: myLensesWM, isLeft: false),
+            StartEndDateLine(myLensesWM: myLensesWM),
             const SizedBox(height: 13),
-            StartEndDateLine(
-              myLensesWM: myLensesWM,
-            ),
+            StartEndDateLine(myLensesWM: myLensesWM, isLeft: false),
             Padding(
               padding: const EdgeInsets.only(
                 top: 20,
@@ -88,7 +86,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                             builder: (context) {
                               return DifferentLensesSheet(
                                 onConfirmed: ({leftDate, rightDate}) {
-                                  myLensesWM.putOnLenses(
+                                  myLensesWM.updateLensesDates(
                                     leftDate: leftDate,
                                     rightDate: rightDate,
                                   );

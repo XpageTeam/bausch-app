@@ -11,6 +11,7 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -34,6 +35,7 @@ class ChooseLensesScreen extends CoreMwwmWidget<ChooseLensesWM> {
 
 class _ChooseLensesScreenState
     extends WidgetState<ChooseLensesScreen, ChooseLensesWM> {
+  bool isUpdating = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +45,14 @@ class _ChooseLensesScreenState
       ),
       body: StreamedStateBuilder<LensProductModel?>(
         streamedState: wm.currentProduct,
-        builder: (_, currendProduct) => ListView(
+        builder: (_, currentProduct) => ListView(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(
             horizontal: StaticData.sidePadding,
             vertical: 30,
           ),
           children: [
-            if (currendProduct == null)
+            if (currentProduct == null)
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,20 +87,24 @@ class _ChooseLensesScreenState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                currendProduct.name,
+                                currentProduct.name,
                                 style: AppStyles.h2,
                               ),
                               Text(
-                                currendProduct.lifeTime > 1
-                                    ? 'Плановой замены \n${currendProduct.lifeTime} суток'
+                                currentProduct.lifeTime > 1
+                                    ? 'Плановой замены \nДо ${currentProduct.lifeTime} суток'
                                     : 'Однодневные',
+                                style: AppStyles.p1,
+                              ),
+                              Text(
+                                'Пар: ${currentProduct.count}',
                                 style: AppStyles.p1,
                               ),
                             ],
                           ),
                         ),
                         Image.network(
-                          currendProduct.image,
+                          currentProduct.image,
                           height: 100,
                           width: 100,
                         ),
@@ -115,7 +121,7 @@ class _ChooseLensesScreenState
                   ],
                 ),
               ),
-            if (currendProduct != null)
+            if (currentProduct != null)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -123,7 +129,7 @@ class _ChooseLensesScreenState
                   const Padding(
                     padding: EdgeInsets.only(top: 30, bottom: 20),
                     child: Text(
-                      'Правый глаз',
+                      'Правый глаз ∙ R',
                       style: AppStyles.h1,
                     ),
                   ),
@@ -133,7 +139,7 @@ class _ChooseLensesScreenState
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (currendProduct.diopters.isNotEmpty)
+                          if (currentProduct.diopters.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(
                                 bottom: 4,
@@ -149,7 +155,7 @@ class _ChooseLensesScreenState
                                               return SinglePickerScreen(
                                                 title: 'Диоптрии',
                                                 variants:
-                                                    currendProduct.diopters,
+                                                    currentProduct.diopters,
                                               );
                                             },
                                             barrierColor:
@@ -164,7 +170,7 @@ class _ChooseLensesScreenState
                                 },
                               ),
                             ),
-                          if (currendProduct.cylinder.isNotEmpty)
+                          if (currentProduct.cylinder.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: FocusButton(
@@ -178,7 +184,7 @@ class _ChooseLensesScreenState
                                               return SinglePickerScreen(
                                                 title: 'Цилиндр',
                                                 variants:
-                                                    currendProduct.cylinder,
+                                                    currentProduct.cylinder,
                                               );
                                             },
                                             barrierColor:
@@ -193,7 +199,7 @@ class _ChooseLensesScreenState
                                 },
                               ),
                             ),
-                          if (currendProduct.axis.isNotEmpty)
+                          if (currentProduct.axis.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: FocusButton(
@@ -206,7 +212,7 @@ class _ChooseLensesScreenState
                                             builder: (context) {
                                               return SinglePickerScreen(
                                                 title: 'Ось',
-                                                variants: currendProduct.axis,
+                                                variants: currentProduct.axis,
                                               );
                                             },
                                             barrierColor:
@@ -221,7 +227,7 @@ class _ChooseLensesScreenState
                                 },
                               ),
                             ),
-                          if (currendProduct.addition.isNotEmpty)
+                          if (currentProduct.addition.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: FocusButton(
@@ -235,7 +241,7 @@ class _ChooseLensesScreenState
                                               return SinglePickerScreen(
                                                 title: 'Аддидация',
                                                 variants:
-                                                    currendProduct.addition,
+                                                    currentProduct.addition,
                                               );
                                             },
                                             barrierColor:
@@ -257,7 +263,7 @@ class _ChooseLensesScreenState
                   const Padding(
                     padding: EdgeInsets.only(top: 30, bottom: 22),
                     child: Text(
-                      'Левый глаз',
+                      'Левый глаз ∙ L',
                       style: AppStyles.h1,
                     ),
                   ),
@@ -281,7 +287,7 @@ class _ChooseLensesScreenState
                     ],
                   ),
                   const SizedBox(height: 20),
-                  if (currendProduct.diopters.isNotEmpty)
+                  if (currentProduct.diopters.isNotEmpty)
                     StreamedStateBuilder<PairModel>(
                       streamedState: wm.leftPair,
                       builder: (_, leftPair) {
@@ -303,7 +309,7 @@ class _ChooseLensesScreenState
                                               return SinglePickerScreen(
                                                 title: 'Диоптрии',
                                                 variants:
-                                                    currendProduct.diopters,
+                                                    currentProduct.diopters,
                                               );
                                             },
                                             barrierColor:
@@ -323,7 +329,7 @@ class _ChooseLensesScreenState
                                 },
                               ),
                             ),
-                            if (currendProduct.cylinder.isNotEmpty)
+                            if (currentProduct.cylinder.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: FocusButton(
@@ -337,7 +343,7 @@ class _ChooseLensesScreenState
                                                 return SinglePickerScreen(
                                                   title: 'Цилиндр',
                                                   variants:
-                                                      currendProduct.cylinder,
+                                                      currentProduct.cylinder,
                                                 );
                                               },
                                               barrierColor:
@@ -357,7 +363,7 @@ class _ChooseLensesScreenState
                                   },
                                 ),
                               ),
-                            if (currendProduct.axis.isNotEmpty)
+                            if (currentProduct.axis.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: FocusButton(
@@ -370,7 +376,7 @@ class _ChooseLensesScreenState
                                               builder: (context) {
                                                 return SinglePickerScreen(
                                                   title: 'Ось',
-                                                  variants: currendProduct.axis,
+                                                  variants: currentProduct.axis,
                                                 );
                                               },
                                               barrierColor:
@@ -390,7 +396,7 @@ class _ChooseLensesScreenState
                                   },
                                 ),
                               ),
-                            if (currendProduct.addition.isNotEmpty)
+                            if (currentProduct.addition.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: FocusButton(
@@ -404,7 +410,7 @@ class _ChooseLensesScreenState
                                                 return SinglePickerScreen(
                                                   title: 'Аддидация',
                                                   variants:
-                                                      currendProduct.addition,
+                                                      currentProduct.addition,
                                                 );
                                               },
                                               barrierColor:
@@ -430,11 +436,28 @@ class _ChooseLensesScreenState
                     ),
                   StreamedStateBuilder<bool>(
                     streamedState: wm.areFieldsValid,
+                    // TODO(info): везде на синие кнопки загрузку ставить
                     builder: (_, areFieldsValid) => BlueButtonWithText(
-                      text: widget.isEditing ? 'Сохранить' : 'Добавить',
+                      icon: isUpdating ? const UiCircleLoader() : null,
+                      text: isUpdating
+                          ? ''
+                          : widget.isEditing
+                              ? 'Сохранить'
+                              : 'Добавить',
                       onPressed: areFieldsValid
-                          ? () async =>
-                              wm.onAcceptPressed(isEditing: widget.isEditing)
+                          ? () async {
+                              if (!isUpdating) {
+                                setState(() {
+                                  isUpdating = true;
+                                });
+                                await wm.onAcceptPressed(
+                                  isEditing: widget.isEditing,
+                                );
+                                setState(() {
+                                  isUpdating = false;
+                                });
+                              }
+                            }
                           : null,
                     ),
                   ),

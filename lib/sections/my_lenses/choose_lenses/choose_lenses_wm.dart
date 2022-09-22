@@ -59,14 +59,9 @@ class ChooseLensesWM extends WidgetModel {
     try {
       lensProductList = await chooseLensesRequester.loadLensProducts();
       if (editLensPairModel != null) {
-        await currentProduct.accept(
-          await myLensesRequester.loadLensProduct(
-            id: editLensPairModel!.productId!,
-          ),
-        );
+        await currentProduct.accept(editLensPairModel!.product);
         await leftPair.accept(editLensPairModel!.left);
         await rightPair.accept(editLensPairModel!.right);
-
         await areFieldsValid.accept(true);
       }
       // ignore: avoid_catches_without_on_clauses
@@ -138,7 +133,22 @@ class ChooseLensesWM extends WidgetModel {
         );
       },
     );
-    await validateFields();
+    await leftPair.accept(PairModel(
+      diopters: null,
+      cylinder: null,
+      axis: null,
+      addition: null,
+      basicCurvature: null,
+    ));
+    await rightPair.accept(PairModel(
+      diopters: null,
+      cylinder: null,
+      axis: null,
+      addition: null,
+      basicCurvature: null,
+    ));
+    await isLeftEqual.accept(false);
+    await areFieldsValid.accept(false);
   }
 
   Future onAcceptPressed({required bool isEditing}) async {
@@ -149,7 +159,6 @@ class ChooseLensesWM extends WidgetModel {
         productId: currentProduct.value!.id,
         pairId: editLensPairModel!.id!,
       );
-
       Keys.mainContentNav.currentState!.pop();
     } else {
       await chooseLensesRequester.addLensPair(

@@ -100,7 +100,6 @@ class CurrentDailyLensesPage extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         'Напомнить о покупке\nновой упаковки',

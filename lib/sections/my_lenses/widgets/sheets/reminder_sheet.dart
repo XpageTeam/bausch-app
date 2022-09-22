@@ -58,28 +58,28 @@ class _ReminderSheetState extends State<ReminderSheet> {
   @override
   Widget build(BuildContext context) {
     return isUpdating
-              ? const Padding(
-                  padding: EdgeInsets.only(top: 40),
-                  child: Center(
-                    child: AnimatedLoader(),
-                  ),
-                )
-              : ClipRRect(
-      borderRadius: BorderRadius.circular(5),
-      child: ColoredBox(
-        color: AppTheme.mystic,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 4,
-            right: StaticData.sidePadding,
-            left: StaticData.sidePadding,
-          ),
-          child:  Column(
+        ? const Padding(
+            padding: EdgeInsets.only(top: 40),
+            child: Center(
+              child: AnimatedLoader(),
+            ),
+          )
+        : ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: ColoredBox(
+              color: AppTheme.mystic,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 4,
+                  right: StaticData.sidePadding,
+                  left: StaticData.sidePadding,
+                ),
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 40),
+                      padding: const EdgeInsets.only(bottom: 30),
                       child: Container(
                         width: 38,
                         height: 4,
@@ -125,7 +125,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
                     ),
                     if (widget.hasNoVariant)
                       Padding(
-                        padding: const EdgeInsets.only(top: 30, bottom: 14),
+                        padding: const EdgeInsets.only(top: 30, bottom: 4),
                         child: WhiteContainerWithRoundedCorners(
                           padding: const EdgeInsets.only(
                             left: StaticData.sidePadding,
@@ -297,7 +297,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 14),
+                      padding: const EdgeInsets.only(top: 4),
                       child: GestureDetector(
                         onTap: () async {
                           final pickerValue =
@@ -351,6 +351,11 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                   pickerNotification,
                                   style: AppStyles.h2,
                                 ),
+                              const Icon(
+                                Icons.chevron_right_sharp,
+                                size: 20,
+                                color: AppTheme.mineShaft,
+                              ),
                             ],
                           ),
                         ),
@@ -360,8 +365,6 @@ class _ReminderSheetState extends State<ReminderSheet> {
                       padding: const EdgeInsets.only(top: 30, bottom: 26),
                       child: BlueButtonWithText(
                         text: 'Готово',
-                        // icon: isUpdating ? const UiCircleLoader() : null,
-                        // TODO(info): везде на синие кнопки загрузку ставить
                         onPressed: () async {
                           if (!isUpdating) {
                             setState(() {
@@ -377,8 +380,8 @@ class _ReminderSheetState extends State<ReminderSheet> {
                     ),
                   ],
                 ),
-        ),
-      ),
-    );
+              ),
+            ),
+          );
   }
 }

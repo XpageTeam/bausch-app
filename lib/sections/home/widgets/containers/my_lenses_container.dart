@@ -88,6 +88,10 @@ class MyLensesContainer extends StatelessWidget {
                                           'До ${currentProduct.lifeTime} суток',
                                           style: AppStyles.p1,
                                         ),
+                                      Text(
+                                        'Пар: ${currentProduct.count}',
+                                        style: AppStyles.p1,
+                                      ),
                                     ],
                                   ),
                                 )
@@ -172,7 +176,7 @@ class MyLensesContainer extends StatelessWidget {
                                       leftDate,
                                       rightDate,
                                     }) =>
-                                        myLensesWM.putOnLenses(
+                                        myLensesWM.updateLensesDates(
                                       leftDate: leftDate,
                                       rightDate: rightDate,
                                     ),

@@ -35,26 +35,31 @@ class LensDescription extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'BC: ${pairModel.basicCurvature}',
-              style: AppStyles.p1,
-            ),
-            Text(
-              'Аддидация: ${pairModel.addition}',
-              style: AppStyles.p1,
-            ),
-            Text(
-              'D: ${pairModel.diopters}',
-              style: AppStyles.p1,
-            ),
-            Text(
-              'CYL: ${pairModel.cylinder}',
-              style: AppStyles.p1,
-            ),
-            Text(
-              'AXIS: ${pairModel.axis}',
-              style: AppStyles.p1,
-            ),
+            if (pairModel.basicCurvature != null)
+              Text(
+                'BC: ${pairModel.basicCurvature}',
+                style: AppStyles.p1,
+              ),
+            if (pairModel.addition != null)
+              Text(
+                'ADD: ${pairModel.addition}',
+                style: AppStyles.p1,
+              ),
+            if (pairModel.diopters != null)
+              Text(
+                'D: ${pairModel.diopters}',
+                style: AppStyles.p1,
+              ),
+            if (pairModel.cylinder != null)
+              Text(
+                'CYL: ${pairModel.cylinder}',
+                style: AppStyles.p1,
+              ),
+            if (pairModel.axis != null)
+              Text(
+                'AXIS: ${pairModel.axis}',
+                style: AppStyles.p1,
+              ),
           ],
         ),
       ],

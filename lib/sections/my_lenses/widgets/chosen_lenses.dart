@@ -41,11 +41,11 @@ class ChosenLenses extends StatelessWidget {
                               style: AppStyles.h2,
                             ),
                             Text(
-                              'Плановой замены \n${currentProduct.lifeTime} суток',
+                              'Плановой замены \nДо ${currentProduct.lifeTime} суток',
                               style: AppStyles.p1,
                             ),
                             Text(
-                              myLensesWM.currentProduct.value!.count,
+                              'Пар: ${myLensesWM.currentProduct.value!.count}',
                               style: AppStyles.p1,
                             ),
                           ],
@@ -87,7 +87,7 @@ class ChosenLenses extends StatelessWidget {
                                     builder: (context) {
                                       return PutOnDateSheet(
                                         onConfirmed: ({leftDate, rightDate}) =>
-                                            myLensesWM.putOnLenses(
+                                            myLensesWM.updateLensesDates(
                                           leftDate: myLensesWM
                                               .leftLensDate.value!.dateStart,
                                           rightDate: rightDate,
@@ -127,7 +127,7 @@ class ChosenLenses extends StatelessWidget {
                                               leftDate,
                                               rightDate,
                                             }) =>
-                                                myLensesWM.putOnLenses(
+                                                myLensesWM.updateLensesDates(
                                               leftDate: leftDate,
                                               rightDate: myLensesWM
                                                   .rightLensDate
@@ -182,7 +182,7 @@ class ChosenLenses extends StatelessWidget {
                                               leftDate,
                                               rightDate,
                                             }) =>
-                                                myLensesWM.putOnLenses(
+                                                myLensesWM.updateLensesDates(
                                               leftDate: leftDate,
                                               rightDate: rightDate,
                                             ),

@@ -21,7 +21,7 @@ class LensesHistoryListModel {
 class LensesHistoryModel {
   final String eye;
   final DateTime dateStart;
-  final DateTime dateEnd;
+  final DateTime? dateEnd;
 
   LensesHistoryModel({
     required this.eye,
@@ -34,7 +34,9 @@ class LensesHistoryModel {
       return LensesHistoryModel(
         eye: map['eye'] as String,
         dateStart: DateTime.parse(map['dateStart'] as String),
-        dateEnd: DateTime.parse(map['dateEnd'] as String),
+        dateEnd: map['dateEnd'] != null
+            ? DateTime.parse(map['dateEnd'] as String)
+            : null,
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

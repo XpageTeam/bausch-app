@@ -57,8 +57,12 @@ class ActivateLensesSheet extends StatelessWidget {
                                 ),
                                 Text(
                                   lensProductModel.lifeTime > 1
-                                      ? 'Плановой замены \n${lensProductModel.lifeTime} суток'
+                                      ? 'Плановой замены \nДо${lensProductModel.lifeTime} суток'
                                       : 'Однодневные',
+                                  style: AppStyles.p1,
+                                ),
+                                Text(
+                                  'Пар: ${lensProductModel.count}',
                                   style: AppStyles.p1,
                                 ),
                               ],

@@ -8,7 +8,7 @@ import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
 const notificationNames = <String, String>{
-  'mobilepush': 'Из Приложения',
+  'mobilepush': 'Из приложения',
   'email': 'По E-mail',
   'sms': 'По СМС',
 };
