@@ -236,7 +236,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                     context: context,
                     builder: (context) {
                       return ReminderSheet(
-                        hasNoVariant: false,
+                        multiDayLife: false,
                         notifications: widget.myLensesWM.notificationsList,
                         onSendUpdate: (notifications) async =>
                             widget.myLensesWM.updateNotifications(
@@ -259,10 +259,13 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                         children: [
                           StreamedStateBuilder<List<String>>(
                             streamedState: widget.myLensesWM.notificationStatus,
+                            // TODO(all): здесь нужно просклонять *даты*
                             builder: (_, object) => Text(
                               object[0] != ''
-                                  ? object[0]
-                                  : '${object[1]} напомина...',
+                                  ? object[0] == 'В день замены'
+                                      ? 'В день покупки'
+                                      : object[0]
+                                  : '${object[1]} даты',
                               style: AppStyles.h2,
                             ),
                           ),

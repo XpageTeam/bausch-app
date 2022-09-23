@@ -56,7 +56,11 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
               title: 'Обработка персональных\nданных',
               onPressed: () async {
                 if (await canLaunchUrlString(StaticData.privacyPolicyLink)) {
-                  await launchUrlString(StaticData.privacyPolicyLink);
+// TODO(info): везде открывать ссылки таким образом (кроме почты и телефона)
+                  await launchUrlString(
+                    StaticData.privacyPolicyLink,
+                    mode: LaunchMode.externalApplication,
+                  );
                 }
               },
             ),

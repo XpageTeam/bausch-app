@@ -40,7 +40,7 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
           vertical: 30,
         ),
         children: [
-          // Переключатель (ношу сейчас/были раньше)
+          // Переключатель (ношу /были раньше)
           LensesPageSwitcher(myLensesWM: wm),
           const SizedBox(height: 22),
           StreamedStateBuilder<bool>(

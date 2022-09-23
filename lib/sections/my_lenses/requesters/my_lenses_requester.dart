@@ -1,9 +1,11 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
-import 'package:bausch/models/my_lenses/lenses_history_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
+import 'package:bausch/models/my_lenses/lenses_product_history_list_model.dart';
+import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
+import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
 
@@ -49,7 +51,7 @@ class MyLensesRequester {
   }
 
   // Загружает историю ношения линз
-  Future<LensesHistoryListModel> loadLensesHistory({
+  Future<LensesWornHistoryListModel> loadLensesWornHistory({
     required bool showAll,
   }) async {
     final parsedData = BaseResponseRepository.fromMap(
@@ -59,10 +61,50 @@ class MyLensesRequester {
           .data!,
     );
     try {
-      return LensesHistoryListModel.fromMap(parsedData.data as List<dynamic>);
+      return LensesWornHistoryListModel.fromMap(
+        parsedData.data as List<dynamic>,
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в loadLensesWornHistory: $e');
+    }
+  }
+
+  // Загружает историю использованных продуктов
+  Future<LensesProductHistoryListModel> loadLensesProductHistory() async {
+    final parsedData = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/lenses/product/history/',
+      ))
+          .data!,
+    );
+    try {
+      return LensesProductHistoryListModel.fromMap(
+        parsedData.data as List<dynamic>,
+      );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('Ошибка в loadLensesHistory: $e');
+    }
+  }
+
+  // рекомендуемые продукты
+  Future<RecommendedProductsListModel> loadRecommendedProducts({
+    required int? productId,
+  }) async {
+    final parsedData = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/lenses/recommended-products/?productId=$productId',
+      ))
+          .data!,
+    );
+    try {
+      return RecommendedProductsListModel.fromMap(
+        parsedData.data as List<dynamic>,
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в loadRecommendedProducts: $e');
     }
   }
 

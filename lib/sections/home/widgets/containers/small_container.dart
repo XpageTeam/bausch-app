@@ -10,10 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SmallContainer extends StatefulWidget implements ContainerInterface {
+  final bool sale;
   @override
   final CatalogSheetModel model;
   const SmallContainer({
     required this.model,
+    this.sale = false,
     Key? key,
   }) : super(key: key);
 
@@ -50,7 +52,7 @@ class _SmallContainerState extends State<SmallContainer> {
             //showSheetWithItems(context, model);
             catalogItemCubit.loadData();
           },
-          height: width,
+          height: widget.sale ? width*1.35 : width,
           width: width,
           padding: const EdgeInsets.only(
             top: 20,
@@ -83,10 +85,15 @@ class _SmallContainerState extends State<SmallContainer> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(6.6),
-                      child: Image.asset(
-                        setTheImg(widget.model.type),
-                        height: 53,
-                      ),
+                      child: widget.sale
+                          ? Image.network(
+                              widget.model.icon!,
+                              height: 85,
+                            )
+                          : Image.asset(
+                              setTheImg(widget.model.type),
+                              height: 53,
+                            ),
                     ),
                   ],
                 ),

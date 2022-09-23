@@ -9,14 +9,15 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
+// TODO(pavlov): тут разобраться в отличии поведения однодневок
 class ReminderSheet extends StatefulWidget {
   final List<MyLensesNotificationModel> notifications;
-  final bool hasNoVariant;
+  final bool multiDayLife;
   final Future<void> Function(List<MyLensesNotificationModel>) onSendUpdate;
   const ReminderSheet({
     required this.notifications,
     required this.onSendUpdate,
-    this.hasNoVariant = true,
+    this.multiDayLife = true,
     Key? key,
   }) : super(key: key);
 
@@ -92,8 +93,8 @@ class _ReminderSheetState extends State<ReminderSheet> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Напомнить о замене',
+                        Text(
+                          'Напомнить о ${widget.multiDayLife ? 'замене' : 'покупке'}',
                           style: AppStyles.h1,
                         ),
                         GestureDetector(
@@ -123,7 +124,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
                         ),
                       ],
                     ),
-                    if (widget.hasNoVariant)
+                    if (widget.multiDayLife)
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 4),
                         child: WhiteContainerWithRoundedCorners(
@@ -170,7 +171,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
                           ),
                         ),
                       ),
-                    if (!widget.hasNoVariant) const SizedBox(height: 30),
+                    if (!widget.multiDayLife) const SizedBox(height: 30),
                     WhiteContainerWithRoundedCorners(
                       padding: const EdgeInsets.only(
                         left: StaticData.sidePadding,
@@ -184,9 +185,9 @@ class _ReminderSheetState extends State<ReminderSheet> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Flexible(
+                              Flexible(
                                 child: Text(
-                                  'В день замены',
+                                  'В день ${widget.multiDayLife ? 'замены' : 'покупки'}',
                                   style: AppStyles.h2,
                                 ),
                               ),

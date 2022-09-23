@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
-import 'package:bausch/models/my_lenses/lenses_history_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
+import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
+import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
 import 'package:bausch/static/static_data.dart';
@@ -15,7 +16,7 @@ enum MyLensesPage { currentLenses, oldLenses }
 
 extension ShopsContentTypeAsString on MyLensesPage {
   String get asString =>
-      this == MyLensesPage.currentLenses ? 'Ношу сейчас' : 'Были раньше';
+      this == MyLensesPage.currentLenses ? 'Ношу' : 'Были раньше';
 }
 
 class MyLensesWM extends WidgetModel {
@@ -23,8 +24,8 @@ class MyLensesWM extends WidgetModel {
   final leftLensDate = StreamedState<LensDateModel?>(null);
   final rightLensDate = StreamedState<LensDateModel?>(null);
   final switchAction = StreamedAction<MyLensesPage>();
-  final previousLenses = ['Бауш', 'Энд', 'Ломб'];
-  final historyList = StreamedState<List<LensesHistoryModel>>([]);
+  final wornHistoryList = StreamedState<List<LensesWornHistoryModel>>([]);
+  final productHistoryList = StreamedState<List<LensesPairModel>>([]);
   final currentPageStreamed =
       StreamedState<MyLensesPage>(MyLensesPage.currentLenses);
   final notificationStatus = StreamedState<List<String>>(['Нет', '1']);
@@ -35,6 +36,7 @@ class MyLensesWM extends WidgetModel {
       StreamedState<LensesPairModel?>(null);
   final currentProduct = StreamedState<LensProductModel?>(null);
   final MyLensesRequester myLensesRequester = MyLensesRequester();
+  final recommendedProducts = StreamedState<List<RecommendedProductModel>>([]);
   final loadingInProgress = StreamedState(false);
 
   List<MyLensesNotificationModel> notificationsList = [
@@ -60,11 +62,16 @@ class MyLensesWM extends WidgetModel {
     super.onBind();
   }
 
+// TODO(pavlov): проверить как работает загрузка при переключении
   Future loadAllData() async {
     await loadingInProgress.accept(true);
     await loadLensesPair();
+    await recommendedProducts.accept(
+      await loadRecommendedProducts(productId: currentProduct.value?.id),
+    );
     await loadLensesDates();
-    await loadLensesHistory();
+    await loadWornHistory();
+    await loadProductsHistory();
     await loadingInProgress.accept(false);
   }
 
@@ -89,15 +96,25 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-  Future loadLensesHistory() async {
+  Future loadWornHistory() async {
     try {
       // TODO(pavlov): по нажатию кнопки ранее делать тру
-      await historyList.accept(
-        (await myLensesRequester.loadLensesHistory(showAll: false))
-            .lensesHistory,
+      await wornHistoryList.accept(
+        (await myLensesRequester.loadLensesWornHistory(showAll: false))
+            .wornHistory,
       );
     } catch (e) {
-      debugPrint('loadLensesHistory $e');
+      debugPrint('loadWornHistory $e');
+    }
+  }
+
+  Future loadProductsHistory() async {
+    try {
+      await productHistoryList.accept(
+        (await myLensesRequester.loadLensesProductHistory()).productHistory,
+      );
+    } catch (e) {
+      debugPrint('loadProductsHistory $e');
     }
   }
 
@@ -113,9 +130,9 @@ class MyLensesWM extends WidgetModel {
       await loadLensesDates();
       // TODO(pavlov): думаю это тут не надо
       // await updateNotifications(notifications: [...notificationsList]);
-      await loadLensesHistory();
+      await loadWornHistory();
     } catch (e) {
-      debugPrint('putOnLenses $e');
+      debugPrint('updateLensesDates $e');
     }
   }
 
@@ -203,6 +220,19 @@ class MyLensesWM extends WidgetModel {
         success: true,
       );
       debugPrint(e.toString());
+    }
+  }
+
+  Future<List<RecommendedProductModel>> loadRecommendedProducts({
+    required int? productId,
+  }) async {
+    try {
+      final products =
+          await myLensesRequester.loadRecommendedProducts(productId: productId);
+      return products.products;
+    } catch (e) {
+      debugPrint('loadLensesDates $e');
+      return [];
     }
   }
 

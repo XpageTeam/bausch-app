@@ -1,37 +1,37 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 
-class LensesHistoryListModel {
-  final List<LensesHistoryModel> lensesHistory;
+class LensesWornHistoryListModel {
+  final List<LensesWornHistoryModel> wornHistory;
 
-  LensesHistoryListModel({
-    required this.lensesHistory,
+  LensesWornHistoryListModel({
+    required this.wornHistory,
   });
 
-  factory LensesHistoryListModel.fromMap(List<dynamic> parsedJson) {
+  factory LensesWornHistoryListModel.fromMap(List<dynamic> parsedJson) {
     final historyList = parsedJson
         // ignore: avoid_annotating_with_dynamic
         .map((dynamic i) =>
-            LensesHistoryModel.fromMap(i as Map<String, dynamic>))
+            LensesWornHistoryModel.fromMap(i as Map<String, dynamic>))
         .toList();
 
-    return LensesHistoryListModel(lensesHistory: historyList);
+    return LensesWornHistoryListModel(wornHistory: historyList);
   }
 }
 
-class LensesHistoryModel {
+class LensesWornHistoryModel {
   final String eye;
   final DateTime dateStart;
   final DateTime? dateEnd;
 
-  LensesHistoryModel({
+  LensesWornHistoryModel({
     required this.eye,
     required this.dateStart,
     required this.dateEnd,
   });
 
-  factory LensesHistoryModel.fromMap(Map<String, dynamic> map) {
+  factory LensesWornHistoryModel.fromMap(Map<String, dynamic> map) {
     try {
-      return LensesHistoryModel(
+      return LensesWornHistoryModel(
         eye: map['eye'] as String,
         dateStart: DateTime.parse(map['dateStart'] as String),
         dateEnd: map['dateEnd'] != null

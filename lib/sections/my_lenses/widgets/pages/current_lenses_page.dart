@@ -1,12 +1,15 @@
 import 'package:bausch/help/help_functions.dart';
-import 'package:bausch/models/my_lenses/lenses_history_list_model.dart';
+import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
+import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/chosen_lenses.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
 import 'package:bausch/sections/my_lenses/widgets/one_lens_replacement_indicator.dart';
+import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/reminder_sheet.dart';
 import 'package:bausch/sections/my_lenses/widgets/two_lens_replacement_indicator.dart';
 import 'package:bausch/static/static_data.dart';
@@ -76,6 +79,7 @@ class CurrentLensesPage extends StatelessWidget {
                         flex: 3,
                         child: StreamedStateBuilder<List<String>>(
                           streamedState: myLensesWM.notificationStatus,
+                          // TODO(all): здесь нужно просклонять *даты*
                           builder: (_, object) => Text(
                             object[0] != '' ? object[0] : '${object[1]} даты',
                             style: AppStyles.h2,
@@ -140,21 +144,41 @@ class CurrentLensesPage extends StatelessWidget {
             ],
           ),
         ),
-        // TODO(pavlov): тут появился запрос, изменить
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30),
-          child: MayBeInteresting(text: 'Рекомендуемые продукты'),
-        ),
-        const Text(
-          'История ношения',
-          style: AppStyles.h1,
+        // TODO(pavlov): везде в линзах применить, ждать его починки
+        StreamedStateBuilder<List<RecommendedProductModel>>(
+          streamedState: myLensesWM.recommendedProducts,
+          builder: (_, dailyReminder) =>
+              myLensesWM.recommendedProducts.value.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                            top: 30,
+                            bottom: 16,
+                          ),
+                          child: Text(
+                            'Рекомендуемые продукты',
+                            style: AppStyles.h1,
+                          ),
+                        ),
+                        SimpleSlider<RecommendedProductModel>(
+                          items: myLensesWM.recommendedProducts.value,
+                          builder: (context, product) {
+                            return RecommendedProduct(product: product);
+                          },
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
         ),
         const SizedBox(height: 20),
+        // TODO(pavlov): перекрасить тут активые линзы
         Row(
           children: [
             Expanded(
-              child: StreamedStateBuilder<List<LensesHistoryModel>>(
-                streamedState: myLensesWM.historyList,
+              child: StreamedStateBuilder<List<LensesWornHistoryModel>>(
+                streamedState: myLensesWM.wornHistoryList,
                 builder: (_, historyList) => historyList.isNotEmpty
                     ? WhiteContainerWithRoundedCorners(
                         padding: const EdgeInsets.symmetric(

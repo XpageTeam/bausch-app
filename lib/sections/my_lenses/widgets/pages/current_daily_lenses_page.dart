@@ -1,8 +1,11 @@
+import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
+import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/daily_notifications_sheet.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -50,7 +53,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                           style: AppStyles.p1,
                         ),
                         Text(
-                          myLensesWM.currentProduct.value!.count,
+                          'Пар: ${myLensesWM.currentProduct.value!.count}',
                           style: AppStyles.p1,
                         ),
                       ],
@@ -190,11 +193,33 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ],
           ),
         ),
-
-        // TODO(ask): разобраться нужно тут что-то еще получать или нет
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30),
-          child: MayBeInteresting(text: 'Рекомендуемые продукты'),
+        // TODO(pavlov): везде в линзах применить, ждать его починки
+        StreamedStateBuilder<List<RecommendedProductModel>>(
+          streamedState: myLensesWM.recommendedProducts,
+          builder: (_, dailyReminder) =>
+              myLensesWM.recommendedProducts.value.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                            top: 30,
+                            bottom: 16,
+                          ),
+                          child: Text(
+                            'Рекомендуемые продукты',
+                            style: AppStyles.h1,
+                          ),
+                        ),
+                        SimpleSlider<RecommendedProductModel>(
+                          items: myLensesWM.recommendedProducts.value,
+                          builder: (context, product) {
+                            return RecommendedProduct(product: product);
+                          },
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
         ),
       ],
     );

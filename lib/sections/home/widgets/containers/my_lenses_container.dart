@@ -148,7 +148,8 @@ class MyLensesContainer extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (myLensesWM.lensesPairModel.value != null)
+                    if (myLensesWM.lensesPairModel.value != null &&
+                        myLensesWM.lensesPairModel.value!.product!.lifeTime > 1)
                       Padding(
                         padding: const EdgeInsets.only(top: 24, right: 12),
                         child: Row(
