@@ -225,7 +225,9 @@ class _ProfileSettingsScreenState
                           PageRouteBuilder<String>(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    CityScreen(withFavoriteItems: const ['Москва'],),
+                                    CityScreen(
+                              withFavoriteItems: const ['Москва'],
+                            ),
                           ),
                         ),
                       );
@@ -303,7 +305,7 @@ class _ProfileSettingsScreenState
                   );
                 },
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
                 ),
                 child: Text(
                   'Выйти',
