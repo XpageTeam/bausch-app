@@ -8,10 +8,13 @@ import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/select_optic/widgets/certificate_filter_section/certificate_filter_section_model.dart';
+import 'package:bausch/sections/select_optic/widgets/choose_types_sheet.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -47,6 +50,42 @@ class SelectOpticScreenWM extends WidgetModel {
   final selectCityAction = VoidAction();
   final filtersOnChanged = StreamedAction<List<Filter>>();
   final onOpticShopSelectAction = StreamedAction<OpticShopParams>();
+
+  final certificateFilterSectionModelState =
+      StreamedState<CertificateFilterSectionModel?>(
+    CertificateFilterSectionModel(
+      commonFilters: [
+        Filter(
+          id: 0,
+          title: 'Скидка после подбора',
+        ),
+        Filter(
+          id: 1,
+          title: '1 Скидка после подбора',
+        ),
+        Filter(
+          id: 2,
+          title: '2 Скидка после подбора',
+        ),
+      ],
+      lensFilters: [
+        Filter(
+          id: 0,
+          title: 'Сферические',
+        ),
+        Filter(
+          id: 1,
+          title: 'Мультифокальные',
+        ),
+        Filter(
+          id: 2,
+          title: 'Торические',
+        ),
+      ],
+    ),
+  );
+  final selectedLensFiltersState = StreamedState<List<Filter>>([]);
+  final selectedCommonFiltersState = StreamedState<List<Filter>>([]);
 
   List<OpticCity>? initialCities;
   List<Filter> selectedFilters = [];
@@ -131,6 +170,44 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
+  void onCommonFilterTap(Filter newFilter) {
+    final filters = selectedCommonFiltersState.value.toList();
+
+    if (filters.any((filter) => newFilter == filter)) {
+      filters.remove(newFilter);
+    } else {
+      filters.add(newFilter);
+    }
+
+    selectedCommonFiltersState.accept(filters);
+  }
+
+  void onLensFilterTap(Filter newFilter) {
+    final filters =
+        certificateFilterSectionModelState.value!.lensFilters.toList();
+
+    if (filters.any((filter) => newFilter == filter)) {
+      filters.remove(newFilter);
+    } else {
+      filters.add(newFilter);
+    }
+
+    selectedLensFiltersState.accept(filters);
+  }
+
+  void showLensFiltersBottomsheet() {
+    showModalBottomSheet<num>(
+      isScrollControlled: true,
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.8),
+      builder: (context) {
+        return ChooseTypesSheet(
+          filters: certificateFilterSectionModelState.value!.lensFilters,
+        );
+      },
+    );
+  }
+
   Future<void> _updateCity(String cityName) async {
     await currentCityStreamed.content(cityName);
     await opticsByCityStreamed.accept(await _getOpticsByCurrentCity());
@@ -189,7 +266,8 @@ class SelectOpticScreenWM extends WidgetModel {
           citiesWithShops: initialCities!.map((e) => e.title).toList(),
           withFavoriteItems:
               initialCities!.map((e) => e.title).toList().contains('Москва')
-                  ? ['Москва'] : [],
+                  ? ['Москва']
+                  : [],
         ),
       ),
     );
