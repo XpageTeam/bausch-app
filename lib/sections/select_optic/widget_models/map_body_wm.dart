@@ -178,6 +178,7 @@ class MapBodyWM extends WidgetModel {
     final list = <PlacemarkMapObject>[];
 
     for (var i = 0; i < shopList.length; i++) {
+      debugPrint('i: $i');
       final rnd = rng.nextInt(200);
       final placemarkId = 'p_${i}_${rnd}_${shopList[i].coords}';
 
@@ -463,6 +464,9 @@ class MapBodyWM extends WidgetModel {
     return pngBytes!.buffer.asUint8List();
   }
 
+  // Для увеличения производительности
+  UI.Image? shopMarkerBase;
+
   Future<Uint8List> _rawPlacemarkImage({
     required List<OpticShop> shopList,
     int? indexOfPressedShop,
@@ -474,11 +478,12 @@ class MapBodyWM extends WidgetModel {
     const imageRatio = 99 / 121;
 
     final imageWidth = size.height * imageRatio;
+    shopMarkerBase ??= await _loadUiImage(
+      'assets/icons/shop-marker-base.png',
+      size: size / 2,
+    );
     canvas.drawImage(
-      await _loadUiImage(
-        'assets/icons/shop-marker-base.png',
-        size: size / 2,
-      ),
+      shopMarkerBase!,
       Offset((size.width - imageWidth / 2) / 2, 0),
       Paint(),
     );

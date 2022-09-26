@@ -60,7 +60,7 @@ class _SelectOpticScreenState
           backgroundColor: AppTheme.mystic,
         ),
         body: Column(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Переключатель (карта/список)
             Padding(
