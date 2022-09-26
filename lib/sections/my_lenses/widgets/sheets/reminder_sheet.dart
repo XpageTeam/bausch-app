@@ -1,5 +1,4 @@
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
-import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/single_picker_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -11,11 +10,11 @@ import 'package:flutter/material.dart';
 
 // TODO(pavlov): тут разобраться в отличии поведения однодневок
 class ReminderSheet extends StatefulWidget {
-  final List<MyLensesNotificationModel> notifications;
+  final List<String> reminders;
   final bool multiDayLife;
-  final Future<void> Function(List<MyLensesNotificationModel>) onSendUpdate;
+  final Future<void> Function(List<String>) onSendUpdate;
   const ReminderSheet({
-    required this.notifications,
+    required this.reminders,
     required this.onSendUpdate,
     this.multiDayLife = true,
     Key? key,
@@ -28,29 +27,49 @@ class ReminderSheet extends StatefulWidget {
 class _ReminderSheetState extends State<ReminderSheet> {
   final pickerNotifications = ['1 день', '2 дня', '3 дня', '4 дня', '5 дней'];
   String pickerNotification = '';
-  List<MyLensesNotificationModel> currentNotifications = [];
+  List<bool> boolValues = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+
   bool isUpdating = false;
 
   @override
   void initState() {
-    currentNotifications = [...widget.notifications];
-    if (currentNotifications[1].isActive) {
-      pickerNotification = currentNotifications[1].title;
-    }
-    if (currentNotifications[2].isActive) {
-      pickerNotification = currentNotifications[2].title;
-    }
-    if (currentNotifications[3].isActive) {
-      pickerNotification = currentNotifications[3].title;
-    }
-    if (currentNotifications[5].isActive) {
-      pickerNotification = currentNotifications[5].title;
-    }
-    if (currentNotifications[6].isActive) {
-      pickerNotification = currentNotifications[6].title;
-    }
-    if (currentNotifications[7].isActive) {
-      pickerNotification = currentNotifications[7].title;
+    if (widget.reminders.isEmpty) {
+      boolValues[0] = true;
+    } else {
+      for (final element in widget.reminders) {
+        switch (element) {
+          case '0':
+            boolValues[1] = true;
+            break;
+          case '1':
+            boolValues[2] = true;
+            break;
+          case '2':
+            boolValues[3] = true;
+            break;
+          case '3':
+            boolValues[4] = true;
+            break;
+          case '4':
+            boolValues[5] = true;
+            break;
+          case '5':
+            boolValues[6] = true;
+            break;
+          case '7':
+            boolValues[7] = true;
+            break;
+        }
+      }
     }
 
     super.initState();
@@ -99,19 +118,11 @@ class _ReminderSheetState extends State<ReminderSheet> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            for (var i = 0;
-                                i < currentNotifications.length;
-                                i++) {
-                              currentNotifications[i] = currentNotifications[i]
-                                  .copyWith(isActive: false);
-                            }
-                            currentNotifications[0] = currentNotifications[0]
-                                .copyWith(isActive: true);
                             if (!isUpdating) {
                               setState(() {
                                 isUpdating = true;
                               });
-                              await widget.onSendUpdate(currentNotifications);
+                              await widget.onSendUpdate([]);
                               setState(() {
                                 isUpdating = false;
                               });
@@ -143,25 +154,19 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                 ),
                               ),
                               CustomCheckbox(
-                                value: currentNotifications[0].isActive,
+                                value: boolValues[0],
                                 onChanged: (value) {
                                   setState(() {
                                     if (value!) {
-                                      for (var i = 0;
-                                          i < currentNotifications.length;
+                                      for (var i = 1;
+                                          i < boolValues.length;
                                           i++) {
-                                        currentNotifications[i] =
-                                            currentNotifications[i]
-                                                .copyWith(isActive: false);
+                                        boolValues[i] = false;
                                       }
-                                      currentNotifications[0] =
-                                          currentNotifications[0]
-                                              .copyWith(isActive: true);
+                                      boolValues[0] = true;
                                       pickerNotification = '';
                                     } else {
-                                      currentNotifications[0] =
-                                          currentNotifications[0]
-                                              .copyWith(isActive: false);
+                                      boolValues[0] = false;
                                     }
                                   });
                                 },
@@ -192,16 +197,12 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                 ),
                               ),
                               CustomCheckbox(
-                                value: currentNotifications[1].isActive,
+                                value: boolValues[1],
                                 onChanged: (value) {
                                   setState(() {
-                                    currentNotifications[1] =
-                                        currentNotifications[1]
-                                            .copyWith(isActive: value);
-                                    if (value!) {
-                                      currentNotifications[0] =
-                                          currentNotifications[0]
-                                              .copyWith(isActive: false);
+                                    boolValues[1] = value!;
+                                    if (value) {
+                                      boolValues[0] = false;
                                     }
                                   });
                                 },
@@ -221,16 +222,12 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                   ),
                                 ),
                                 CustomCheckbox(
-                                  value: currentNotifications[2].isActive,
+                                  value: boolValues[2],
                                   onChanged: (value) {
                                     setState(() {
-                                      currentNotifications[2] =
-                                          currentNotifications[2]
-                                              .copyWith(isActive: value);
-                                      if (value!) {
-                                        currentNotifications[0] =
-                                            currentNotifications[0]
-                                                .copyWith(isActive: false);
+                                      boolValues[2] = value!;
+                                      if (value) {
+                                        boolValues[0] = false;
                                       }
                                     });
                                   },
@@ -249,16 +246,12 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                 ),
                               ),
                               CustomCheckbox(
-                                value: currentNotifications[3].isActive,
+                                value: boolValues[3],
                                 onChanged: (value) {
                                   setState(() {
-                                    currentNotifications[3] =
-                                        currentNotifications[3]
-                                            .copyWith(isActive: value);
-                                    if (value!) {
-                                      currentNotifications[0] =
-                                          currentNotifications[0]
-                                              .copyWith(isActive: false);
+                                    boolValues[3] = value!;
+                                    if (value) {
+                                      boolValues[0] = false;
                                     }
                                   });
                                 },
@@ -277,16 +270,12 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                 ),
                               ),
                               CustomCheckbox(
-                                value: currentNotifications[4].isActive,
+                                value: boolValues[7],
                                 onChanged: (value) {
                                   setState(() {
-                                    currentNotifications[4] =
-                                        currentNotifications[4]
-                                            .copyWith(isActive: value);
-                                    if (value!) {
-                                      currentNotifications[0] =
-                                          currentNotifications[0]
-                                              .copyWith(isActive: false);
+                                    boolValues[7] = value!;
+                                    if (value) {
+                                      boolValues[0] = false;
                                     }
                                   });
                                 },
@@ -323,18 +312,8 @@ class _ReminderSheetState extends State<ReminderSheet> {
                           setState(() {
                             if (pickerValue != '') {
                               pickerNotification = 'За $pickerValue';
-                              currentNotifications[0] = currentNotifications[0]
-                                  .copyWith(isActive: false);
-                              for (var i = 0;
-                                  i < currentNotifications.length;
-                                  i++) {
-                                if (currentNotifications[i].title ==
-                                    pickerNotification) {
-                                  currentNotifications[i] =
-                                      currentNotifications[i]
-                                          .copyWith(isActive: true);
-                                }
-                              }
+                              boolValues[0] = false;
+                              boolValues[int.parse(pickerValue[0]) + 1] = true;
                             }
                           });
                         },
@@ -343,19 +322,21 @@ class _ReminderSheetState extends State<ReminderSheet> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                'Свой срок',
-                                style: AppStyles.h2,
-                              ),
-                              if (pickerNotification != '')
-                                Text(
-                                  pickerNotification,
-                                  style: AppStyles.h2,
-                                ),
-                              const Icon(
-                                Icons.chevron_right_sharp,
-                                size: 20,
-                                color: AppTheme.mineShaft,
+                              const Text('Свой срок', style: AppStyles.h2),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (pickerNotification != '')
+                                    Text(
+                                      pickerNotification,
+                                      style: AppStyles.h2,
+                                    ),
+                                  const Icon(
+                                    Icons.chevron_right_sharp,
+                                    size: 20,
+                                    color: AppTheme.mineShaft,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -371,7 +352,13 @@ class _ReminderSheetState extends State<ReminderSheet> {
                             setState(() {
                               isUpdating = true;
                             });
-                            await widget.onSendUpdate(currentNotifications);
+                            final result = <String>[];
+                            for (var i = 1; i < boolValues.length; i++) {
+                              if (boolValues[i]) {
+                                result.add((i != 7 ? i - 1 : i).toString());
+                              }
+                            }
+                            await widget.onSendUpdate(result);
                             setState(() {
                               isUpdating = false;
                             });

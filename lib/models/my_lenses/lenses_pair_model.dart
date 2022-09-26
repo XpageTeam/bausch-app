@@ -34,7 +34,6 @@ class LensesPairModel {
   }
 }
 
-// TODO(pavlov): узнать может ли тут придти нал
 class PairModel {
   final String? diopters;
   final String? cylinder;

@@ -38,6 +38,7 @@ class ChooseLensesWM extends WidgetModel {
   final ChooseLensesRequester chooseLensesRequester = ChooseLensesRequester();
   final MyLensesRequester myLensesRequester = MyLensesRequester();
   final LensesPairModel? editLensPairModel;
+  LensProductModel? oldProduct;
 
   ChooseLensesWM({required this.context, this.editLensPairModel})
       : super(const WidgetModelDependencies());
@@ -61,6 +62,7 @@ class ChooseLensesWM extends WidgetModel {
     try {
       lensProductList = await chooseLensesRequester.loadLensProducts();
       if (editLensPairModel != null) {
+        oldProduct = editLensPairModel!.product;
         await currentProduct.accept(editLensPairModel!.product);
         await leftPair.accept(editLensPairModel!.left);
         await rightPair.accept(editLensPairModel!.right);
@@ -160,12 +162,21 @@ class ChooseLensesWM extends WidgetModel {
 
   Future onAcceptPressed({required bool isEditing}) async {
     if (isEditing) {
-      await chooseLensesRequester.updateLensPair(
-        lensesPairModel:
-            LensesPairModel(left: leftPair.value, right: rightPair.value),
-        productId: currentProduct.value!.id,
-        pairId: editLensPairModel!.id!,
-      );
+      if (oldProduct?.id != currentProduct.value!.id) {
+        await chooseLensesRequester.addLensPair(
+          lensesPairModel:
+              LensesPairModel(left: leftPair.value, right: rightPair.value),
+          productId: currentProduct.value!.id,
+        );
+      } else {
+        await chooseLensesRequester.updateLensPair(
+          lensesPairModel:
+              LensesPairModel(left: leftPair.value, right: rightPair.value),
+          productId: currentProduct.value!.id,
+          pairId: editLensPairModel!.id!,
+        );
+      }
+
       Keys.mainContentNav.currentState!.pop();
     } else {
       await chooseLensesRequester.addLensPair(

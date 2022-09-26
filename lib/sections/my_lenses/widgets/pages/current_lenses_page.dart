@@ -109,11 +109,11 @@ class CurrentLensesPage extends StatelessWidget {
                 barrierColor: Colors.black.withOpacity(0.8),
                 builder: (context) {
                   return ReminderSheet(
-                    notifications: myLensesWM.notificationsList,
+                    reminders: myLensesWM.currentRemindes.value,
                     onSendUpdate: (notifications) async =>
-                        myLensesWM.updateNotifications(
+                        myLensesWM.updateReminders(
                       // TODO(info): везде листы так передавать
-                      notifications: [...notifications],
+                      reminders: [...notifications],
                       shouldPop: true,
                     ),
                   );

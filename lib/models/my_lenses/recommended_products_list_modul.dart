@@ -18,7 +18,7 @@ class RecommendedProductsListModel {
   }
 }
 
-// TODO(ask): не хватает много данных
+// TODO(pavlov): доделать, посмотреть что не так
 class RecommendedProductModel {
   final int id;
   final String description;

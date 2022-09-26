@@ -29,6 +29,7 @@ class MyLensesWM extends WidgetModel {
   final currentPageStreamed =
       StreamedState<MyLensesPage>(MyLensesPage.currentLenses);
   final notificationStatus = StreamedState<List<String>>(['Нет', '1']);
+  final currentRemindes = StreamedState<List<String>>([]);
   final dailyReminder = StreamedState(false);
   final dailyReminderRepeat = StreamedState('Нет');
   final dailyReminderRepeatDate = StreamedState<DateTime?>(null);
@@ -38,18 +39,6 @@ class MyLensesWM extends WidgetModel {
   final MyLensesRequester myLensesRequester = MyLensesRequester();
   final recommendedProducts = StreamedState<List<RecommendedProductModel>>([]);
   final loadingInProgress = StreamedState(false);
-
-  List<MyLensesNotificationModel> notificationsList = [
-// TODO(ask): уточнить порядок id
-    MyLensesNotificationModel(isActive: true, title: 'Нет', id: 0),
-    MyLensesNotificationModel(isActive: false, title: 'В день замены', id: 1),
-    MyLensesNotificationModel(isActive: false, title: 'За 1 день', id: 2),
-    MyLensesNotificationModel(isActive: false, title: 'За 2 дня', id: 3),
-    MyLensesNotificationModel(isActive: false, title: 'За неделю', id: 4),
-    MyLensesNotificationModel(isActive: false, title: 'За 3 дня', id: 5),
-    MyLensesNotificationModel(isActive: false, title: 'За 4 дня', id: 6),
-    MyLensesNotificationModel(isActive: false, title: 'За 5 дней', id: 7),
-  ];
 
   MyLensesWM() : super(const WidgetModelDependencies());
 
@@ -72,7 +61,72 @@ class MyLensesWM extends WidgetModel {
     await loadLensesDates();
     await loadWornHistory();
     await loadProductsHistory();
+    await loadLensesReminders();
     await loadingInProgress.accept(false);
+  }
+
+  Future updateReminders({
+    required List<String> reminders,
+    bool shouldPop = false,
+  }) async {
+    try {
+      await myLensesRequester.updateReminders(reminders: reminders);
+      if (reminders.isEmpty) {
+        await notificationStatus.accept(['Нет', '1']);
+      } else if (reminders.length == 1) {
+        switch (reminders[0]) {
+          case '0':
+            await notificationStatus.accept(['В день замены', '1']);
+            break;
+          case '1':
+            await notificationStatus.accept(['За 1 день', '1']);
+            break;
+          case '2':
+            await notificationStatus.accept(['За 2 дня', '1']);
+            break;
+          case '3':
+            await notificationStatus.accept(['За 3 дня', '1']);
+            break;
+          case '4':
+            await notificationStatus.accept(['За 4 дня', '1']);
+            break;
+          case '5':
+            await notificationStatus.accept(['За 5 дней', '1']);
+            break;
+          case '7':
+            await notificationStatus.accept(['За неделю', '1']);
+            break;
+        }
+      } else {
+        await notificationStatus.accept(['', (reminders.length).toString()]);
+      }
+      await currentRemindes.accept([...reminders]);
+      if (shouldPop) {
+        Keys.mainContentNav.currentState!.pop();
+      }
+      showDefaultNotification(
+        title: 'Данные успешно обновлены',
+        success: true,
+      );
+    } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка обновления',
+        success: true,
+      );
+      debugPrint(e.toString());
+    }
+  }
+
+  Future loadLensesReminders() async {
+    try {
+      final reminders = <String>[];
+      for (final element in await myLensesRequester.loadLensesReminders()) {
+        reminders.add(element.toString());
+      }
+      await currentRemindes.accept([...reminders]);
+    } catch (e) {
+      debugPrint('loadLensesReminders $e');
+    }
   }
 
   Future loadLensesPair() async {
@@ -173,56 +227,6 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-  Future updateNotifications({
-    required List<MyLensesNotificationModel> notifications,
-    bool shouldPop = false,
-  }) async {
-    try {
-      notificationsList
-        ..clear()
-        ..addAll([...notifications]);
-
-      notifications.removeWhere((value) => value.isActive == false);
-      final ids = <int>[];
-
-      if (notifications.isEmpty) {
-        notificationsList[0] = notificationsList[0].copyWith(isActive: true);
-        await notificationStatus.accept(['Нет', '1']);
-        ids.add(0);
-      } else if (notifications.length == 1) {
-        await notificationStatus.accept([
-          notifications[0].title,
-          '1',
-        ]);
-        ids.add(
-          notifications[0].id,
-        );
-      } else {
-        await notificationStatus
-            .accept(['', (notifications.length).toString()]);
-        for (final element in notifications) {
-          if (element.isActive) {
-            ids.add(element.id);
-          }
-        }
-      }
-      await myLensesRequester.updateReminders(reminders: ids);
-      if (shouldPop) {
-        Keys.mainContentNav.currentState!.pop();
-      }
-      showDefaultNotification(
-        title: 'Данные успешно обновлены',
-        success: true,
-      );
-    } catch (e) {
-      showDefaultNotification(
-        title: 'Произошла ошибка обновления',
-        success: true,
-      );
-      debugPrint(e.toString());
-    }
-  }
-
   Future<List<RecommendedProductModel>> loadRecommendedProducts({
     required int? productId,
   }) async {
@@ -240,41 +244,5 @@ class MyLensesWM extends WidgetModel {
     if (currentPageStreamed.value != newPage) {
       currentPageStreamed.accept(newPage);
     }
-  }
-}
-
-class MyLensesNotificationModel {
-  final bool isActive;
-  final String title;
-  final int id;
-
-  MyLensesNotificationModel({
-    required this.isActive,
-    required this.title,
-    required this.id,
-  });
-
-  // factory LensDateModel.fromMap(Map<String, dynamic> map) {
-  //   try {
-  //     return LensDateModel(
-  //       dateStart: map['dateStart'] as DateTime,
-  //       dateEnd: map['dateEnd'] as DateTime,
-  //       daysLeft: map['daysLeft'] as int,
-  //     );
-  //   } catch (e) {
-  //     throw ResponseParseException('Ошибка в PairDateModel: $e');
-  //   }
-  // }
-
-  MyLensesNotificationModel copyWith({
-    bool? isActive,
-    String? title,
-    int? id,
-  }) {
-    return MyLensesNotificationModel(
-      isActive: isActive ?? this.isActive,
-      title: title ?? this.title,
-      id: id ?? this.id,
-    );
   }
 }

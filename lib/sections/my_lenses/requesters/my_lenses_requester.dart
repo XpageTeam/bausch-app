@@ -88,6 +88,39 @@ class MyLensesRequester {
     }
   }
 
+  // Загружает установленные напоминания
+  Future<List<dynamic>> loadLensesReminders() async {
+    final parsedData = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/lenses/reminders/',
+      ))
+          .data!,
+    );
+    try {
+      return parsedData.data as List<dynamic>;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в loadLensesReminders: $e');
+    }
+  }
+
+// TODO(pavlov): не готова, настроить запрос
+  // Загружает установленное напоминание о покупке
+  Future<List<String>> loadLensesRemindersBuy() async {
+    final parsedData = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/lenses/reminders-buy/',
+      ))
+          .data!,
+    );
+    try {
+      return parsedData.data as List<String>;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в loadLensesReminders: $e');
+    }
+  }
+
   // рекомендуемые продукты
   Future<RecommendedProductsListModel> loadRecommendedProducts({
     required int? productId,
@@ -132,7 +165,7 @@ class MyLensesRequester {
 
   // обновление расписания уведомлений
   Future<BaseResponseRepository> updateReminders({
-    required List<int> reminders,
+    required List<String> reminders,
   }) async {
     try {
       final result = await _rh.post<Map<String, dynamic>>(
