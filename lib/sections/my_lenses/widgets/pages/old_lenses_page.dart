@@ -109,7 +109,7 @@ class OldLensesPage extends StatelessWidget {
                         final products =
                             await myLensesWM.loadRecommendedProducts(
                           productId: myLensesWM
-                              .productHistoryList.value[index].productId!,
+                              .productHistoryList.value[index].productId,
                         );
                         await showFlexibleBottomSheet<void>(
                           minHeight: 0,

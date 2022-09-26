@@ -1,8 +1,7 @@
 import 'package:bausch/help/help_functions.dart';
-import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
+import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -79,9 +78,10 @@ class CurrentLensesPage extends StatelessWidget {
                         flex: 3,
                         child: StreamedStateBuilder<List<String>>(
                           streamedState: myLensesWM.notificationStatus,
-                          // TODO(all): здесь нужно просклонять *даты*
                           builder: (_, object) => Text(
-                            object[0] != '' ? object[0] : '${object[1]} даты',
+                            object[0] != ''
+                                ? object[0]
+                                : '${object[1]} ${int.parse(object[1]) > 4 ? 'дат' : 'даты'}',
                             style: AppStyles.h2,
                             softWrap: false,
                             overflow: TextOverflow.fade,
@@ -109,9 +109,9 @@ class CurrentLensesPage extends StatelessWidget {
                 barrierColor: Colors.black.withOpacity(0.8),
                 builder: (context) {
                   return ReminderSheet(
-                    reminders: myLensesWM.currentRemindes.value,
+                    currentReminders: myLensesWM.multiRemindes.value,
                     onSendUpdate: (notifications) async =>
-                        myLensesWM.updateReminders(
+                        myLensesWM.updateMultiReminders(
                       // TODO(info): везде листы так передавать
                       reminders: [...notifications],
                       shouldPop: true,

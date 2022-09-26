@@ -56,7 +56,7 @@ class UserWriter {
         },
       ),
     );
-    // TODO(pavlov): тут смотрим что приходит пользователю
+    // TODO(info): тут смотрим что приходит пользователю
     // print('что пришло' + res.data.toString());
 
     final parsed =

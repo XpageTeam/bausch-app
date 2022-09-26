@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 
 // TODO(pavlov): тут разобраться в отличии поведения однодневок
 class ReminderSheet extends StatefulWidget {
-  final List<String> reminders;
+  final List<String> currentReminders;
   final bool multiDayLife;
   final Future<void> Function(List<String>) onSendUpdate;
   const ReminderSheet({
-    required this.reminders,
+    required this.currentReminders,
     required this.onSendUpdate,
     this.multiDayLife = true,
     Key? key,
@@ -24,6 +24,7 @@ class ReminderSheet extends StatefulWidget {
   State<ReminderSheet> createState() => _ReminderSheetState();
 }
 
+// TODO(pavlov): проверить что будет если все галочки убрать
 class _ReminderSheetState extends State<ReminderSheet> {
   final pickerNotifications = ['1 день', '2 дня', '3 дня', '4 дня', '5 дней'];
   String pickerNotification = '';
@@ -42,28 +43,33 @@ class _ReminderSheetState extends State<ReminderSheet> {
 
   @override
   void initState() {
-    if (widget.reminders.isEmpty) {
+    if (widget.currentReminders.isEmpty) {
       boolValues[0] = true;
     } else {
-      for (final element in widget.reminders) {
+      for (final element in widget.currentReminders) {
         switch (element) {
           case '0':
             boolValues[1] = true;
             break;
           case '1':
             boolValues[2] = true;
+            pickerNotification = 'За 1 день';
             break;
           case '2':
             boolValues[3] = true;
+            pickerNotification = 'За 2 дня';
             break;
           case '3':
             boolValues[4] = true;
+            pickerNotification = 'За 3 день';
             break;
           case '4':
             boolValues[5] = true;
+            pickerNotification = 'За 4 дня';
             break;
           case '5':
             boolValues[6] = true;
+            pickerNotification = 'За 5 дней';
             break;
           case '7':
             boolValues[7] = true;
@@ -122,7 +128,11 @@ class _ReminderSheetState extends State<ReminderSheet> {
                               setState(() {
                                 isUpdating = true;
                               });
-                              await widget.onSendUpdate([]);
+                              if (widget.multiDayLife) {
+                                await widget.onSendUpdate([]);
+                              } else {
+                                await widget.onSendUpdate(['0']);
+                              }
                               setState(() {
                                 isUpdating = false;
                               });
@@ -345,25 +355,35 @@ class _ReminderSheetState extends State<ReminderSheet> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 30, bottom: 26),
+                      // TODO(all): не показывается загрузка
                       child: BlueButtonWithText(
                         text: 'Готово',
-                        onPressed: () async {
-                          if (!isUpdating) {
-                            setState(() {
-                              isUpdating = true;
-                            });
-                            final result = <String>[];
-                            for (var i = 1; i < boolValues.length; i++) {
-                              if (boolValues[i]) {
-                                result.add((i != 7 ? i - 1 : i).toString());
+                        onPressed: widget.multiDayLife == false &&
+                                    boolValues.contains(true) &&
+                                    boolValues.lastIndexWhere(
+                                          (element) => element == true,
+                                        ) !=
+                                        0 ||
+                                widget.multiDayLife
+                            ? () async {
+                                if (!isUpdating) {
+                                  setState(() {
+                                    isUpdating = true;
+                                  });
+                                  final result = <String>[];
+                                  for (var i = 1; i < boolValues.length; i++) {
+                                    if (boolValues[i]) {
+                                      result
+                                          .add((i != 7 ? i - 1 : i).toString());
+                                    }
+                                  }
+                                  await widget.onSendUpdate(result);
+                                  setState(() {
+                                    isUpdating = false;
+                                  });
+                                }
                               }
-                            }
-                            await widget.onSendUpdate(result);
-                            setState(() {
-                              isUpdating = false;
-                            });
-                          }
-                        },
+                            : null,
                       ),
                     ),
                   ],

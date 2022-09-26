@@ -6,6 +6,7 @@ import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_product_history_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
+import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
 
@@ -104,9 +105,8 @@ class MyLensesRequester {
     }
   }
 
-// TODO(pavlov): не готова, настроить запрос
   // Загружает установленное напоминание о покупке
-  Future<List<String>> loadLensesRemindersBuy() async {
+  Future<RemindersBuyModel> loadLensesRemindersBuy() async {
     final parsedData = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
         '/lenses/reminders-buy/',
@@ -114,10 +114,52 @@ class MyLensesRequester {
           .data!,
     );
     try {
-      return parsedData.data as List<String>;
+      return RemindersBuyModel.fromMap(
+        // ignore: avoid_dynamic_calls
+        parsedData.data as Map<String, dynamic>,
+      );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('Ошибка в loadLensesReminders: $e');
+    }
+  }
+
+  // подключаем напоминания о покупке
+  Future<BaseResponseRepository> setDefaultRemindersBuy() async {
+    try {
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/reminders-buy/default/',
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в setDefaultRemindersBuy: $e');
+    }
+  }
+
+  // изменяем напоминания о покупке
+  Future<BaseResponseRepository> updateRemindersBuy({
+    required String date,
+    required String replay,
+    required List<String> reminders,
+  }) async {
+    try {
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/reminders-buy/',
+        data: FormData.fromMap(<String, dynamic>{
+          'date': date,
+          'replay': replay,
+          'reminders[]': reminders,
+        }),
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в updateRemindersBuy: $e');
     }
   }
 
@@ -180,6 +222,21 @@ class MyLensesRequester {
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('Ошибка в updateReminders: $e');
+    }
+  }
+
+  // удаление однодневных напоминаний
+  Future<BaseResponseRepository> deleteRemindersBuy() async {
+    try {
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/reminders-buy/delete/',
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в deleteRemindersBuy: $e');
     }
   }
 

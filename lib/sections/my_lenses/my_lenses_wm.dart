@@ -5,6 +5,7 @@ import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
+import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
 import 'package:bausch/static/static_data.dart';
@@ -20,19 +21,16 @@ extension ShopsContentTypeAsString on MyLensesPage {
 }
 
 class MyLensesWM extends WidgetModel {
-  // тут приходит дата начала, конца, сколько дней осталось
+  final switchAction = StreamedAction<MyLensesPage>();
   final leftLensDate = StreamedState<LensDateModel?>(null);
   final rightLensDate = StreamedState<LensDateModel?>(null);
-  final switchAction = StreamedAction<MyLensesPage>();
   final wornHistoryList = StreamedState<List<LensesWornHistoryModel>>([]);
   final productHistoryList = StreamedState<List<LensesPairModel>>([]);
   final currentPageStreamed =
       StreamedState<MyLensesPage>(MyLensesPage.currentLenses);
   final notificationStatus = StreamedState<List<String>>(['Нет', '1']);
-  final currentRemindes = StreamedState<List<String>>([]);
-  final dailyReminder = StreamedState(false);
-  final dailyReminderRepeat = StreamedState('Нет');
-  final dailyReminderRepeatDate = StreamedState<DateTime?>(null);
+  final multiRemindes = StreamedState<List<String>>([]);
+  final dailyReminders = StreamedState<RemindersBuyModel?>(null);
   final StreamedState<LensesPairModel?> lensesPairModel =
       StreamedState<LensesPairModel?>(null);
   final currentProduct = StreamedState<LensProductModel?>(null);
@@ -60,12 +58,12 @@ class MyLensesWM extends WidgetModel {
     );
     await loadLensesDates();
     await loadWornHistory();
-    await loadProductsHistory();
-    await loadLensesReminders();
+    await _loadProductsHistory();
+    await _loadLensesReminders(isDaily: currentProduct.value!.lifeTime == 1);
     await loadingInProgress.accept(false);
   }
 
-  Future updateReminders({
+  Future updateMultiReminders({
     required List<String> reminders,
     bool shouldPop = false,
   }) async {
@@ -100,7 +98,7 @@ class MyLensesWM extends WidgetModel {
       } else {
         await notificationStatus.accept(['', (reminders.length).toString()]);
       }
-      await currentRemindes.accept([...reminders]);
+      await multiRemindes.accept([...reminders]);
       if (shouldPop) {
         Keys.mainContentNav.currentState!.pop();
       }
@@ -114,18 +112,6 @@ class MyLensesWM extends WidgetModel {
         success: true,
       );
       debugPrint(e.toString());
-    }
-  }
-
-  Future loadLensesReminders() async {
-    try {
-      final reminders = <String>[];
-      for (final element in await myLensesRequester.loadLensesReminders()) {
-        reminders.add(element.toString());
-      }
-      await currentRemindes.accept([...reminders]);
-    } catch (e) {
-      debugPrint('loadLensesReminders $e');
     }
   }
 
@@ -162,16 +148,6 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-  Future loadProductsHistory() async {
-    try {
-      await productHistoryList.accept(
-        (await myLensesRequester.loadLensesProductHistory()).productHistory,
-      );
-    } catch (e) {
-      debugPrint('loadProductsHistory $e');
-    }
-  }
-
   Future updateLensesDates({
     required DateTime? leftDate,
     required DateTime? rightDate,
@@ -182,8 +158,6 @@ class MyLensesWM extends WidgetModel {
         rightDate: rightDate,
       );
       await loadLensesDates();
-      // TODO(pavlov): думаю это тут не надо
-      // await updateNotifications(notifications: [...notificationsList]);
       await loadWornHistory();
     } catch (e) {
       debugPrint('updateLensesDates $e');
@@ -237,6 +211,96 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       debugPrint('loadLensesDates $e');
       return [];
+    }
+  }
+
+  Future updateRemindersBuy({
+    required bool defaultValue,
+    required bool isSubscribed,
+    required String? date,
+    required String? replay,
+    required List<String>? reminders,
+    BuildContext? context,
+  }) async {
+    try {
+      if (isSubscribed) {
+        if (defaultValue) {
+          await myLensesRequester.setDefaultRemindersBuy();
+        } else {
+          await myLensesRequester.updateRemindersBuy(
+            date: date!,
+            replay: replay!,
+            reminders: reminders!,
+          );
+        }
+        await dailyReminders
+            .accept(await myLensesRequester.loadLensesRemindersBuy());
+         if (reminders!.length == 1) {
+        switch (reminders[0]) {
+          case '0':
+            await notificationStatus.accept(['В день покупки', '1']);
+            break;
+          case '1':
+            await notificationStatus.accept(['За 1 день', '1']);
+            break;
+          case '2':
+            await notificationStatus.accept(['За 2 дня', '1']);
+            break;
+          case '3':
+            await notificationStatus.accept(['За 3 дня', '1']);
+            break;
+          case '4':
+            await notificationStatus.accept(['За 4 дня', '1']);
+            break;
+          case '5':
+            await notificationStatus.accept(['За 5 дней', '1']);
+            break;
+          case '7':
+            await notificationStatus.accept(['За неделю', '1']);
+            break;
+        }
+      } else {
+        await notificationStatus.accept(['', (reminders.length).toString()]);
+      }
+        if (context != null) {
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).pop();
+        }
+      } else {
+        await myLensesRequester.deleteRemindersBuy();
+        await dailyReminders.accept(null);
+      }
+    } catch (e) {
+      debugPrint('setReminders $e');
+    }
+  }
+
+  Future _loadLensesReminders({required bool isDaily}) async {
+    try {
+      // TODO(pavlov): посмотреть что приходит когда пусто
+      if (isDaily) {
+        await dailyReminders
+            .accept(await myLensesRequester.loadLensesRemindersBuy());
+        await notificationStatus.accept(['В день покупки', '1']);
+      } else {
+        final reminders = <String>[];
+        for (final element in await myLensesRequester.loadLensesReminders()) {
+          reminders.add(element.toString());
+        }
+        await multiRemindes.accept([...reminders]);
+      }
+    } catch (e) {
+      debugPrint('loadLensesReminders $e');
+    }
+  }
+
+  Future _loadProductsHistory() async {
+    try {
+      await productHistoryList.accept(
+        (await myLensesRequester.loadLensesProductHistory()).productHistory,
+      );
+    } catch (e) {
+      debugPrint('loadProductsHistory $e');
     }
   }
 

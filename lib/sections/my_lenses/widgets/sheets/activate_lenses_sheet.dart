@@ -112,7 +112,6 @@ class ActivateLensesSheet extends StatelessWidget {
                   ],
                 ),
               ),
-              // TODO(pavlov): везде в линзах применить, ждать его починки
               if (recommendedProducts.isNotEmpty)
                 const Padding(
                   padding: EdgeInsets.only(

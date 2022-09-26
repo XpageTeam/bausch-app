@@ -62,7 +62,6 @@ class ChooseLensesRequester {
           'right_eye[cylinder]': lensesPairModel.right.cylinder,
           'right_eye[axis]': lensesPairModel.right.axis,
           'right_eye[addition]': lensesPairModel.right.addition,
-          // TODO(ask): не доходят до бэка
           'right_eye[basicCurvature]': lensesPairModel.right.basicCurvature,
         }),
       );

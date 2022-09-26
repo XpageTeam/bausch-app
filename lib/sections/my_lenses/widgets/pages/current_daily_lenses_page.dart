@@ -1,4 +1,6 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
+import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -88,9 +90,9 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ],
           ),
         ),
-        StreamedStateBuilder<bool>(
-          streamedState: myLensesWM.dailyReminder,
-          builder: (_, dailyReminder) => Padding(
+        StreamedStateBuilder<RemindersBuyModel?>(
+          streamedState: myLensesWM.dailyReminders,
+          builder: (_, dailyReminders) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: WhiteContainerWithRoundedCorners(
               padding: const EdgeInsets.symmetric(
@@ -110,20 +112,24 @@ class CurrentDailyLensesPage extends StatelessWidget {
                       ),
                       CustomCheckbox(
                         marginNeeded: false,
-                        value: myLensesWM.dailyReminder.value,
-                        onChanged: (value) {
-                          myLensesWM.dailyReminder.accept(value!);
+                        value: dailyReminders != null,
+                        onChanged: (isSubscribed) {
+                          myLensesWM.updateRemindersBuy(
+                            defaultValue: true,
+                            date: null,
+                            reminders: null,
+                            replay: null,
+                            isSubscribed: isSubscribed!,
+                          );
                         },
                       ),
                     ],
                   ),
-                  if (dailyReminder) ...[
-                    StreamedStateBuilder<String>(
-                      streamedState: myLensesWM.dailyReminderRepeat,
-                      builder: (_, dailyReminderRepeat) => Text(
-                        '$dailyReminderRepeat\nближайшая 27 сентября 2022',
-                        style: AppStyles.p1Grey,
-                      ),
+                  if (dailyReminders != null) ...[
+                    // TODO(pavlov): настроить дату как на макете
+                    Text(
+                      '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nближайшая ${HelpFunctions.formatDateRu(date: DateTime.parse(dailyReminders.date), haveTime: false)}',
+                      style: AppStyles.p1Grey,
                     ),
                     const SizedBox(height: 14),
                     Row(
@@ -160,9 +166,9 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ),
           ),
         ),
-        StreamedStateBuilder<bool>(
-          streamedState: myLensesWM.dailyReminder,
-          builder: (_, dailyReminder) => dailyReminder
+        StreamedStateBuilder<RemindersBuyModel?>(
+          streamedState: myLensesWM.dailyReminders,
+          builder: (_, dailyReminders) => dailyReminders != null
               ? const SizedBox.shrink()
               : Padding(
                   padding: const EdgeInsets.only(bottom: 4),
@@ -193,7 +199,6 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ],
           ),
         ),
-        // TODO(pavlov): везде в линзах применить, ждать его починки
         StreamedStateBuilder<List<RecommendedProductModel>>(
           streamedState: myLensesWM.recommendedProducts,
           builder: (_, dailyReminder) =>

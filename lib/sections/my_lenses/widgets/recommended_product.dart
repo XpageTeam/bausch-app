@@ -1,11 +1,13 @@
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/button_with_points.dart';
-import 'package:bausch/widgets/custom_line_loading.dart';
+import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
+// TODO(pavlov): у слайдера этого виджета внизу должен быть прогресс бар
+// такой уже где-то есть?
 class RecommendedProduct extends StatelessWidget {
   final RecommendedProductModel product;
   const RecommendedProduct({required this.product, Key? key}) : super(key: key);
@@ -56,21 +58,21 @@ class RecommendedProduct extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // TODO(wait): переделать когда будет бек
-              CustomLineLoadingIndicator(
-                maximumScore: 13000,
-                isInList: true,
-              ),
               Padding(
-                padding: const EdgeInsets.only(
-                  bottom: StaticData.sidePadding,
-                  right: StaticData.sidePadding,
-                  left: StaticData.sidePadding,
-                ),
-                // TODO(wait): переделать когда будет бек
-                child: ButtonWithPoints(
-                  price: '13000',
-                  onPressed: () {},
+                padding: const EdgeInsets.all(StaticData.sidePadding),
+                child: Expanded(
+                  child: GreyButton(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    text: 'Где купить',
+                    onPressed: () async {
+                      if (await canLaunchUrlString(product.link)) {
+                        await launchUrlString(
+                          product.link,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ],

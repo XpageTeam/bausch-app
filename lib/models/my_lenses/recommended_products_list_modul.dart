@@ -18,7 +18,6 @@ class RecommendedProductsListModel {
   }
 }
 
-// TODO(pavlov): доделать, посмотреть что не так
 class RecommendedProductModel {
   final int id;
   final String description;
