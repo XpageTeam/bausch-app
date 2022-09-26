@@ -10,10 +10,13 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'dart:ui' as UI;
+import 'package:image/image.dart' as IMG;
 
 class MapBodyWM extends WidgetModel {
   final List<OpticShop> initOpticShops;
@@ -111,13 +114,30 @@ class MapBodyWM extends WidgetModel {
     super.onBind();
   }
 
+  // Future<List<Uint8List>> _getIcons({
+  //   required List<OpticShop> shopList,
+  //   int? indexOfPressedShop,
+  // }) async {
+  //   final list = <Uint8List>[];
+  //   for (var i = 0; i < shopList.length; i++) {
+  //     list.add(await _rawPlacemarkImage());
+  //   }
+
+  //   return list;
+  // }
+
   void _updateClusterMapObject(
     List<OpticShop> shopList, [
     int? indexOfPressedShop,
-  ]) {
+  ]) async {
     mapObjectsStreamed.value.removeWhere(
       (obj) => obj.mapId == clusterMapId,
     );
+
+    // final icons = await _getIcons(
+    //   shopList: shopList,
+    //   indexOfPressedShop: indexOfPressedShop,
+    // );
 
     final placemarkCollection = ClusterizedPlacemarkCollection(
       mapId: clusterMapId,
@@ -129,7 +149,7 @@ class MapBodyWM extends WidgetModel {
       ) async {
         return cluster.copyWith(
           appearance: cluster.appearance.copyWith(
-            opacity: 0.75,
+            opacity: 1,
             icon: PlacemarkIcon.single(
               PlacemarkIconStyle(
                 image: BitmapDescriptor.fromBytes(
@@ -141,46 +161,64 @@ class MapBodyWM extends WidgetModel {
         );
       },
       onClusterTap: (self, cluster) => _setCenterOn(cluster.placemarks),
-      placemarks: List<PlacemarkMapObject>.generate(
-        shopList.length,
-        (i) {
-          final rnd = rng.nextInt(200);
-          final placemarkId = 'p_${i}_${rnd}_${shopList[i].coords}';
-
-          return PlacemarkMapObject(
-            onTap: (placemark, point) async {
-              _updateClusterMapObject(shopList, i);
-              unawaited(_moveTo(placemark.point));
-              onPlacemarkPressed?.call(shopList[i]);
-            },
-            opacity: 1,
-            mapId: MapObjectId(placemarkId),
-            // MapObjectId('placemark_${shopList[i].coords}'),
-            point: shopList[i].coords,
-            icon: PlacemarkIcon.single(
-              PlacemarkIconStyle(
-                scale: 0.75,
-                // scale: indexOfPressedShop != null
-                //     ? indexOfPressedShop == i
-                //         ? 2
-                //         : 1
-                //     : 1,
-                image: BitmapDescriptor.fromAssetImage(
-                  indexOfPressedShop != null
-                      ? indexOfPressedShop == i
-                          ? 'assets/icons/big-shop-marker.png'
-                          : 'assets/icons/shop-marker.png'
-                      : 'assets/icons/shop-marker.png',
-                ),
-              ),
-            ),
-          );
-        },
+      placemarks: await _generatePlacemarks(
+        shopList: shopList,
+        indexOfPressedShop: indexOfPressedShop,
       ),
     );
 
     mapObjectsStreamed.value.add(placemarkCollection);
     mapObjectsStreamed.accept(mapObjectsStreamed.value);
+  }
+
+  Future<List<PlacemarkMapObject>> _generatePlacemarks({
+    required List<OpticShop> shopList,
+    int? indexOfPressedShop,
+  }) async {
+    final list = <PlacemarkMapObject>[];
+
+    for (var i = 0; i < shopList.length; i++) {
+      final rnd = rng.nextInt(200);
+      final placemarkId = 'p_${i}_${rnd}_${shopList[i].coords}';
+
+      final icon = await _rawPlacemarkImage(
+        shopList: shopList,
+        indexOfPressedShop: indexOfPressedShop,
+      );
+
+      list.add(
+        PlacemarkMapObject(
+          onTap: (placemark, point) async {
+            _updateClusterMapObject(shopList, i);
+            unawaited(_moveTo(placemark.point));
+            onPlacemarkPressed?.call(shopList[i]);
+          },
+          opacity: 1,
+          mapId: MapObjectId(placemarkId),
+          // MapObjectId('placemark_${shopList[i].coords}'),
+          point: shopList[i].coords,
+          icon: PlacemarkIcon.single(
+            PlacemarkIconStyle(
+              // scale: 0.75,
+              scale: indexOfPressedShop != null
+                  ? indexOfPressedShop == i
+                      ? 1.2
+                      : 0.75
+                  : 0.75,
+              image: BitmapDescriptor.fromBytes(icon),
+              //   indexOfPressedShop != null
+              //       ? indexOfPressedShop == i
+              //           ? 'assets/icons/big-shop-marker.png'
+              //           : 'assets/icons/shop-marker.png'
+              //       : 'assets/icons/shop-marker.png',
+              // ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return list;
   }
 
   Future<void> _setCenterOn<T>(List<T> list) async {
@@ -377,18 +415,28 @@ class MapBodyWM extends WidgetModel {
 
     const size = Size(200, 200);
 
-    final fillPaint = Paint()
-      ..color = AppTheme.turquoiseBlue
+    final suluFillPaint = Paint()
+      ..color = AppTheme.sulu
       ..style = PaintingStyle.fill;
 
-    final radius = min(max(cluster.size * 6.0, 30), 50).toDouble();
+    final mineShaftFillPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.fill;
+    final whiteFillPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    // final suluFillPaint = Paint()
+    //   ..color = AppTheme.sulu
+    //   ..style = PaintingStyle.fill;
+
+    final radius = 27.0; // min(max(cluster.size * 6.0, 30), 50).toDouble();
 
     final textPainter = TextPainter(
       text: TextSpan(
         text: cluster.size.toString(),
         style: AppStyles.h2Bold.copyWith(
-          fontSize: 40,
-          color: Colors.white,
+          fontSize: 35,
+          color: Colors.black,
         ),
       ),
       textDirection: TextDirection.ltr,
@@ -396,11 +444,15 @@ class MapBodyWM extends WidgetModel {
 
     final textOffset = Offset(
       (size.width - textPainter.width) / 2,
-      (size.height - textPainter.height) / 2,
+      (size.height - textPainter.height) / 2 - 10,
     );
-    final circleOffset = Offset(size.height / 2, size.width / 2);
 
-    canvas.drawCircle(circleOffset, radius, fillPaint);
+    final circleOffset = Offset(size.width / 2, size.height / 2 - 10);
+
+    canvas.drawCircle(circleOffset, radius + 12, whiteFillPaint);
+    canvas.drawCircle(circleOffset, radius + 8, mineShaftFillPaint);
+    canvas.drawCircle(circleOffset, radius, suluFillPaint);
+
     textPainter.paint(canvas, textOffset);
 
     final image = await recorder
@@ -409,6 +461,141 @@ class MapBodyWM extends WidgetModel {
     final pngBytes = await image.toByteData(format: ImageByteFormat.png);
 
     return pngBytes!.buffer.asUint8List();
+  }
+
+  Future<Uint8List> _rawPlacemarkImage({
+    required List<OpticShop> shopList,
+    int? indexOfPressedShop,
+  }) async {
+    final recorder = PictureRecorder();
+    final canvas = Canvas(recorder);
+    const size = Size(300, 300);
+
+    const imageRatio = 99 / 121;
+
+    final imageWidth = size.height * imageRatio;
+    canvas.drawImage(
+      await _loadUiImage(
+        'assets/icons/shop-marker-base.png',
+        size: size / 2,
+      ),
+      Offset((size.width - imageWidth / 2) / 2, 0),
+      Paint(),
+    );
+
+    final circleSize = Size(size.height / 5 + 5, size.height / 5 + 5);
+
+    _drawDiagram(
+      canvas: canvas,
+      size: circleSize,
+      center: Offset(
+        (size.width) / 2,
+        circleSize.height / 2 + 25, // (я не смог сделать нормально)
+      ),
+      // сюда надо передавать количество уникальных фильтров, которые будут находиться в текущей оптике
+      count: 3,
+    );
+
+    final image = await recorder
+        .endRecording()
+        .toImage(size.width.toInt(), size.height.toInt());
+    final pngBytes = await image.toByteData(format: ImageByteFormat.png);
+
+    return pngBytes!.buffer.asUint8List();
+  }
+
+  void _drawDiagram({
+    required Canvas canvas,
+    required Offset center,
+    required Size size,
+    required int count,
+  }) {
+    // canvas.translate(18, 18);
+    for (var i = 0; i < count; i++) {
+      _drawSegment(
+        canvas: canvas,
+        size: size,
+        count: count,
+        currentSegment: i,
+        center: center,
+      );
+    }
+  }
+
+  Future<UI.Image> _loadUiImage(
+    String imageAssetPath, {
+    required Size size,
+  }) async {
+    final data = await rootBundle.load(imageAssetPath);
+
+    final image = IMG.decodeImage(data.buffer.asUint8List().toList())!;
+    final resized = IMG.copyResize(
+      image,
+      height: size.height.toInt(),
+    );
+    final resizedBytes = IMG.encodePng(resized);
+    final completer = Completer<UI.Image>();
+
+    UI.decodeImageFromList(
+      Uint8List.fromList(resizedBytes),
+      completer.complete,
+    );
+    return completer.future;
+  }
+
+  final colors = [
+    AppTheme.orangeToric,
+    AppTheme.turquoiseBlue,
+    AppTheme.yellowMultifocal,
+    Colors.red,
+    Colors.green,
+    Colors.purple,
+    Colors.amber,
+  ];
+
+  void _drawSegment({
+    required Canvas canvas,
+    required Size size,
+    required Offset center,
+    required int count,
+    required int currentSegment,
+  }) {
+    final paint = Paint()
+      ..color = colors[currentSegment]
+      ..style = PaintingStyle.fill;
+
+    final initOffset =
+        count > 2 ? 3 * pi / 2 - ((2 * pi * (count - 1)) / count) : 0;
+
+    final segmentAngle = pi * 2 / count;
+    final startAngle = initOffset + currentSegment * segmentAngle;
+
+    Path? path;
+
+    if (count <= 1) {
+      path = Path()
+        ..addOval(
+          Rect.fromCircle(
+            center: center,
+            radius: size.width / 2,
+          ),
+        );
+    } else {
+      path = Path()
+        ..arcTo(
+          Rect.fromCircle(
+            center: center,
+            radius: size.width / 2,
+          ),
+          startAngle,
+          segmentAngle,
+          false,
+        )
+        ..lineTo(center.dx, center.dy)
+        ..close();
+    }
+
+    canvas.drawPath(path, paint);
   }
 }
 

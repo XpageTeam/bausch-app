@@ -12,16 +12,16 @@ import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ChooseTypesSheet extends StatelessWidget {
-  final List<Filter> filters;
+  final SelectOpticScreenWM wm;
 
   const ChooseTypesSheet({
-    required this.filters,
+    required this.wm,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final wm = context.read<SelectOpticScreenWM>();
+    final filters = wm.certificateFilterSectionModelState.value!.lensFilters;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
@@ -55,7 +55,7 @@ class ChooseTypesSheet extends StatelessWidget {
                       style: AppStyles.h1,
                     ),
                     GestureDetector(
-                      onTap: () {}, // wm.resetLensFilters,
+                      onTap: wm.resetLensFilters, // wm.resetLensFilters,
                       child: const Text(
                         'Сбросить',
                         style: AppStyles.h3,
@@ -66,10 +66,12 @@ class ChooseTypesSheet extends StatelessWidget {
               ),
               WhiteContainerWithRoundedCorners(
                 padding: const EdgeInsets.only(
-                  top: 4,
-                  bottom: 4,
+                  top: 2,
+                  left: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
+                  // bottom: 16,
                 ),
-                child: StreamedStateBuilder<List<Filter>>(
+                child: StreamedStateBuilder<List<LensFilter>>(
                   streamedState: wm.selectedLensFiltersState,
                   builder: (_, selectedLensFilters) {
                     return Column(
@@ -77,7 +79,7 @@ class ChooseTypesSheet extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: filters
                           .map(
-                            (filter) => _LensFilterWidget(
+                            (filter) => LensFilterWidget(
                               filter: filter,
                               isSelected: selectedLensFilters.contains(filter),
                               onTap: () => wm.onLensFilterTap(filter),
@@ -105,12 +107,12 @@ class ChooseTypesSheet extends StatelessWidget {
   }
 }
 
-class _LensFilterWidget extends StatelessWidget {
-  final Filter filter;
+class LensFilterWidget extends StatelessWidget {
+  final LensFilter filter;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _LensFilterWidget({
+  const LensFilterWidget({
     required this.filter,
     required this.isSelected,
     required this.onTap,
@@ -121,41 +123,115 @@ class _LensFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Row(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Container(
-                  height: 16,
-                  width: 16,
-                  decoration: const BoxDecoration(
-                    color: Colors.orange,
-                    shape: BoxShape.circle,
-                  ),
+      child: Container(
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            // const SizedBox(
+            //   width: StaticData.sidePadding,
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 14.0,
+                bottom: 18,
+              ),
+              child: Container(
+                height: 16,
+                width: 16,
+                decoration: BoxDecoration(
+                  color: filter.color,
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  filter.title,
-                  style: AppStyles.h2,
-                ),
-                const Text(
-                  ' (астигматизм)',
-                  style: AppStyles.h2GreyBold,
-                ),
-              ],
+              ),
             ),
-          ),
-          CustomCheckbox(
-            value: isSelected,
-            onChanged: null,
-            // onChanged: (value) {
-            //   currentValues[2] = value!;
-            // },
-            borderRadius: 2,
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 14.0,
+                  bottom: 18,
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: RichText(
+                        text: TextSpan(
+                          text: filter.title,
+                          style: AppStyles.h2,
+                          children: filter.subtitle != null &&
+                                  filter.subtitle!.isNotEmpty
+                              ? [
+                                  const TextSpan(
+                                    text: ' ∙ ',
+                                  ),
+                                  TextSpan(
+                                    text: filter.subtitle!.toLowerCase(),
+                                    style: AppStyles.h2GreyBold,
+                                  ),
+                                ]
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 16.0,
+                bottom: 18,
+              ),
+              child: FilterCheckBox(
+                isSelected: isSelected,
+              ),
+            ),
+            // CustomCheckbox(
+            //   value: isSelected,
+            //   onChanged: (_) => onTap(),
+            //   borderRadius: 2,
+            // ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class FilterCheckBox extends StatelessWidget {
+  final bool isSelected;
+  const FilterCheckBox({
+    required this.isSelected,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      height: 18,
+      width: 18,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(2),
+        color: isSelected ? AppTheme.mineShaft : Colors.transparent,
+        border: Border.all(
+          color: AppTheme.mineShaft,
+          width: 2,
+        ),
+      ),
+      child: isSelected
+          ? const FittedBox(
+              child: Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }

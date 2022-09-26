@@ -33,39 +33,11 @@ class CertificateFiltersSection extends StatelessWidget {
           ),
           AllFiltersButton(
             additionalFiltersCount: 0,
-            onTap: () {
-              // Navigator.of(context).push(
-              //   PageRouteBuilder<String>(
-              //     pageBuilder: (context, animation, secondaryAnimation) =>
-              //         CertificateFilterScreen(
-              //       typesStatus: activeLensTypes,
-              //       additionalFilters: additionalFilters,
-              //       onSendUpdate: (currentTypes, currentAdditions) {
-              //         // setState(() {
-              //         //   activeLensCount = 0;
-              //         //   additionalFiltersCount = 0;
-              //         //   activeLensTypes = currentTypes;
-              //         //   additionalFilters = currentAdditions;
-              //         //   for (final element in activeLensTypes) {
-              //         //     if (element) {
-              //         //       activeLensCount++;
-              //         //     }
-              //         //   }
-              //         //   for (final element in additionalFilters) {
-              //         //     if (element) {
-              //         //       additionalFiltersCount++;
-              //         //     }
-              //         //   }
-              //         // });
-              //       },
-              //     ),
-              //   ),
-              // );
-            },
+            onTap: wm.openAllCertificateFilters,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4.0),
-            child: StreamedStateBuilder<List<Filter>>(
+            child: StreamedStateBuilder<List<LensFilter>>(
               streamedState: wm.selectedLensFiltersState,
               builder: (_, selectedLensFilters) {
                 return LensFilterButton(

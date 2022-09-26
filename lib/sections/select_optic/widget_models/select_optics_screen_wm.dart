@@ -8,15 +8,18 @@ import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/select_optic/certificate_filter_screen.dart';
 import 'package:bausch/sections/select_optic/widgets/certificate_filter_section/certificate_filter_section_model.dart';
 import 'package:bausch/sections/select_optic/widgets/choose_types_sheet.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 enum SelectOpticPage {
   map,
@@ -69,22 +72,27 @@ class SelectOpticScreenWM extends WidgetModel {
         ),
       ],
       lensFilters: [
-        Filter(
+        LensFilter(
           id: 0,
           title: 'Сферические',
+          color: AppTheme.turquoiseBlue,
         ),
-        Filter(
+        LensFilter(
           id: 1,
           title: 'Мультифокальные',
+          subtitle: 'Пресбиопия',
+          color: AppTheme.yellowMultifocal,
         ),
-        Filter(
+        LensFilter(
           id: 2,
           title: 'Торические',
+          subtitle: 'Астигматизм',
+          color: AppTheme.orangeToric,
         ),
       ],
     ),
   );
-  final selectedLensFiltersState = StreamedState<List<Filter>>([]);
+  final selectedLensFiltersState = StreamedState<List<LensFilter>>([]);
   final selectedCommonFiltersState = StreamedState<List<Filter>>([]);
 
   List<OpticCity>? initialCities;
@@ -179,12 +187,13 @@ class SelectOpticScreenWM extends WidgetModel {
       filters.add(newFilter);
     }
 
+    debugPrint('filters: $filters');
+
     selectedCommonFiltersState.accept(filters);
   }
 
-  void onLensFilterTap(Filter newFilter) {
-    final filters =
-        certificateFilterSectionModelState.value!.lensFilters.toList();
+  void onLensFilterTap(LensFilter newFilter) {
+    final filters = selectedLensFiltersState.value;
 
     if (filters.any((filter) => newFilter == filter)) {
       filters.remove(newFilter);
@@ -195,16 +204,33 @@ class SelectOpticScreenWM extends WidgetModel {
     selectedLensFiltersState.accept(filters);
   }
 
+  void resetLensFilters() {
+    selectedLensFiltersState.accept([]);
+  }
+
+  void resetCommonFilters() {
+    selectedCommonFiltersState.accept([]);
+  }
+
+  void resetAllFilters() {
+    resetLensFilters();
+    resetCommonFilters();
+  }
+
   void showLensFiltersBottomsheet() {
     showModalBottomSheet<num>(
       isScrollControlled: true,
       context: context,
       barrierColor: Colors.black.withOpacity(0.8),
-      builder: (context) {
-        return ChooseTypesSheet(
-          filters: certificateFilterSectionModelState.value!.lensFilters,
-        );
-      },
+      builder: (_) => ChooseTypesSheet(wm: this),
+    );
+  }
+
+  void openAllCertificateFilters() {
+    Navigator.of(context).push(
+      PageRouteBuilder<String>(
+        pageBuilder: (_, __, ___) => CertificateFilterScreen(wm: this),
+      ),
     );
   }
 
@@ -381,7 +407,33 @@ class SelectOpticScreenWM extends WidgetModel {
       final shopsByFilters = _getShopsByFilters(opticsByCurrentCity);
 
       await opticsByCityStreamed.accept(opticsByCurrentCity);
-      await filteredOpticShopsStreamed.content(shopsByFilters);
+      await filteredOpticShopsStreamed.content(
+        shopsByFilters
+          ..add(
+            OpticShop(
+              title: 'title',
+              phones: ['phones'],
+              address: 'address',
+              city: 'city',
+              coords: Point(
+                latitude: 55.160602,
+                longitude: 61.387938,
+              ),
+            ),
+          )
+          ..add(
+            OpticShop(
+              title: 'title',
+              phones: ['phones'],
+              address: 'address',
+              city: 'city',
+              coords: Point(
+                latitude: 55.158508,
+                longitude: 61.410800,
+              ),
+            ),
+          ),
+      );
     } on DioError catch (e) {
       ex = CustomException(
         title: 'Ошибка при отправке запроса на сервер',

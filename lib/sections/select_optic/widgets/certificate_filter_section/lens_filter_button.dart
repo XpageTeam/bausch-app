@@ -5,8 +5,8 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class LensFilterButton extends StatelessWidget {
-  final List<Filter> selectedLensFilters;
-  final List<Filter> lensFilters;
+  final List<LensFilter> selectedLensFilters;
+  final List<LensFilter> lensFilters;
 
   final VoidCallback onTap;
 
@@ -20,7 +20,7 @@ class LensFilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedCount = selectedLensFilters.length;
-    debugPrint('selectedCount: $selectedCount');
+
     return selectedCount > 0
         ? WhiteContainerWithRoundedCorners(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -55,7 +55,7 @@ class LensFilterButton extends StatelessWidget {
                               style: AppStyles.h2,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 4,
                           ),
                           const Icon(
@@ -77,7 +77,7 @@ class LensFilterButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 Padding(
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     top: 8.0,
                     bottom: 12,
                   ),
@@ -87,8 +87,8 @@ class LensFilterButton extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: const Icon(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Icon(
                     Icons.keyboard_arrow_down,
                     color: Colors.black,
                   ),
