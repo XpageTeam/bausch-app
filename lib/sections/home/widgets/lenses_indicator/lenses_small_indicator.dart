@@ -26,12 +26,11 @@ class LensesSmallIndicator extends StatelessWidget {
               animation: true,
               animationDuration: 2000,
               lineWidth: 10,
-              percent: myLensesWM.rightLensDate.value!.daysLeft >=
-                      myLensesWM.currentProduct.value!.lifeTime
-                  ? 1
-                  : 
-                          myLensesWM.rightLensDate.value!.daysLeft /
-                              myLensesWM.currentProduct.value!.lifeTime,
+              percent:  myLensesWM.rightLensDate.value!.daysLeft < 0 || myLensesWM.rightLensDate.value!.daysLeft >=
+                          myLensesWM.currentProduct.value!.lifeTime
+                      ? 1
+                      : myLensesWM.rightLensDate.value!.daysLeft /
+                          myLensesWM.currentProduct.value!.lifeTime,
               circularStrokeCap: CircularStrokeCap.round,
               backgroundColor: AppTheme.mystic,
               center: myLensesWM.leftLensDate.value!.daysLeft <= 0
@@ -48,11 +47,11 @@ class LensesSmallIndicator extends StatelessWidget {
                       animation: true,
                       animationDuration: 2000,
                       lineWidth: 9,
-                      percent: myLensesWM.leftLensDate.value!.daysLeft >=
+                      percent: myLensesWM.leftLensDate.value!.daysLeft < 0 || myLensesWM.leftLensDate.value!.daysLeft >=
                               myLensesWM.currentProduct.value!.lifeTime
                           ? 1
                           : myLensesWM.leftLensDate.value!.daysLeft /
-                                      myLensesWM.currentProduct.value!.lifeTime,
+                              myLensesWM.currentProduct.value!.lifeTime,
                       circularStrokeCap: CircularStrokeCap.round,
                       backgroundColor: AppTheme.mystic,
                       progressColor: AppTheme.turquoiseBlue,

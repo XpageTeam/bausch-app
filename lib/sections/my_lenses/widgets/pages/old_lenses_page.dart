@@ -16,7 +16,8 @@ class OldLensesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return myLensesWM.productHistoryList.value.isEmpty
-        ? const Center(
+        ? const Padding(
+            padding: EdgeInsets.only(top: 120),
             child: Text(
               'Покажем линзы, которые вы носили раньше',
               style: AppStyles.p1Grey,
@@ -33,112 +34,112 @@ class OldLensesPage extends StatelessWidget {
                     ? 4
                     : 0,
               ),
-              child: WhiteContainerWithRoundedCorners(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                myLensesWM.productHistoryList.value[index]
-                                    .product!.name,
-                                style: AppStyles.h2,
-                              ),
-                              Text(
-                                myLensesWM.productHistoryList.value[index]
-                                            .product!.lifeTime >
-                                        1
-                                    ? 'Плановой замены \nДо ${myLensesWM.productHistoryList.value[index].product!.lifeTime} суток'
-                                    : 'Однодневные',
-                                style: AppStyles.p1,
-                              ),
-                              Text(
-                                'Пар: ${myLensesWM.productHistoryList.value[index].product!.count}',
-                                style: AppStyles.p1,
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: LensShortDescription(
-                                      isLeft: true,
-                                      pairModel: myLensesWM
-                                          .productHistoryList.value[index].left,
+              child: GestureDetector(
+                onTap: () async {
+                  final products = await myLensesWM.loadRecommendedProducts(
+                    productId:
+                        myLensesWM.productHistoryList.value[index].productId,
+                  );
+                  await showFlexibleBottomSheet<void>(
+                    minHeight: 0,
+                    initHeight: 0.95,
+                    maxHeight: 0.95,
+                    anchors: [0, 0.6, 0.95],
+                    context: context,
+                    builder: (context, controller, d) {
+                      return SheetWidget(
+                        child: ActivateLensesSheet(
+                          recommendedProducts: products,
+                          controller: controller,
+                          lensProductModel: myLensesWM
+                              .productHistoryList.value[index].product!,
+                          lensesPairModel:
+                              myLensesWM.productHistoryList.value[index],
+                          myLensesWM: myLensesWM,
+                        ),
+                        withPoints: false,
+                      );
+                    },
+                  );
+                },
+                child: WhiteContainerWithRoundedCorners(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: StaticData.sidePadding,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  myLensesWM.productHistoryList.value[index]
+                                      .product!.name,
+                                  style: AppStyles.h2,
+                                ),
+                                Text(
+                                  myLensesWM.productHistoryList.value[index]
+                                              .product!.lifeTime >
+                                          1
+                                      ? 'Плановой замены \nДо ${myLensesWM.productHistoryList.value[index].product!.lifeTime} суток'
+                                      : 'Однодневные',
+                                  style: AppStyles.p1,
+                                ),
+                                Text(
+                                  'Пар: ${myLensesWM.productHistoryList.value[index].product!.count}',
+                                  style: AppStyles.p1,
+                                ),
+                                const SizedBox(height: 16),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: LensShortDescription(
+                                        isLeft: true,
+                                        pairModel: myLensesWM.productHistoryList
+                                            .value[index].left,
+                                      ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: LensShortDescription(
-                                      isLeft: false,
-                                      pairModel: myLensesWM.productHistoryList
-                                          .value[index].right,
+                                    Expanded(
+                                      child: LensShortDescription(
+                                        isLeft: false,
+                                        pairModel: myLensesWM.productHistoryList
+                                            .value[index].right,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Image.network(
-                          myLensesWM
-                              .productHistoryList.value[index].product!.image,
-                          height: 100,
-                          width: 100,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    // TODO(pavlov): разобрать поведение
-                    GreyButton(
-                      text: 'Сделать активными',
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: StaticData.sidePadding,
+                          Image.network(
+                            myLensesWM
+                                .productHistoryList.value[index].product!.image,
+                            height: 100,
+                            width: 100,
+                          ),
+                        ],
                       ),
-                      onPressed: () async {
-                        final products =
-                            await myLensesWM.loadRecommendedProducts(
-                          productId: myLensesWM
-                              .productHistoryList.value[index].productId,
-                        );
-                        await showFlexibleBottomSheet<void>(
-                          minHeight: 0,
-                          initHeight: 0.95,
-                          maxHeight: 0.95,
-                          anchors: [0, 0.6, 0.95],
-                          context: context,
-                          builder: (context, controller, d) {
-                            return SheetWidget(
-                              child: ActivateLensesSheet(
-                                recommendedProducts: products,
-                                controller: controller,
-                                lensProductModel: myLensesWM
-                                    .productHistoryList.value[index].product!,
-                                lensesPairModel:
-                                    myLensesWM.productHistoryList.value[index],
-                                // TODO(pavlov): разобрать поведение тоже
-                                onActivate: () {
-                                  myLensesWM
-                                      .switchAction(MyLensesPage.currentLenses);
-                                },
-                              ),
-                              withPoints: false,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      // TODO(pavlov): разобрать поведение
+                      GreyButton(
+                        text: 'Сделать активными',
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: StaticData.sidePadding,
+                        ),
+                        onPressed: () async => myLensesWM.activateOldLenses(
+                          pairId: myLensesWM.lensesPairModel.value!.id!,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -71,6 +71,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                   );
                   await widget.myLensesWM.notificationStatus
                       .accept(currentNotificationStatus);
+                  // TODO(pavlov): этот сет стейт надо убрать
                   setState(() {
                     isUpdating = false;
                   });
@@ -191,7 +192,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                               'Каждые 2 недели',
                               'Каждые 3 недели',
                               'Каждые 4 недели',
-                              'Каждые 5 недели',
+                              'Каждые 5 недель',
                             ],
                           );
                         },

@@ -7,6 +7,7 @@ import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/chosen_lenses.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
+import 'package:bausch/sections/my_lenses/widgets/lenses_history.dart';
 import 'package:bausch/sections/my_lenses/widgets/one_lens_replacement_indicator.dart';
 import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/reminder_sheet.dart';
@@ -173,128 +174,13 @@ class CurrentLensesPage extends StatelessWidget {
                   : const SizedBox.shrink(),
         ),
         const SizedBox(height: 20),
-        // TODO(pavlov): перекрасить тут активые линзы
-        Row(
-          children: [
-            Expanded(
-              child: StreamedStateBuilder<List<LensesWornHistoryModel>>(
-                streamedState: myLensesWM.wornHistoryList,
-                builder: (_, historyList) => historyList.isNotEmpty
-                    ? WhiteContainerWithRoundedCorners(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 30,
-                          horizontal: StaticData.sidePadding,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Expanded(
-                                  child: Text(
-                                    'Надеты',
-                                    style: AppStyles.p1Grey,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'Заменены',
-                                    style: AppStyles.p1Grey,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: historyList.length,
-                              itemBuilder: (_, index) => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Row(
-                                  children: [
-                                    if (historyList[index].eye == 'LR')
-                                      Image.asset(
-                                        'assets/icons/halfed_circle.png',
-                                        height: 16,
-                                        width: 16,
-                                      )
-                                    else
-                                      Container(
-                                        height: 16,
-                                        width: 16,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: historyList[index].eye == 'L'
-                                              ? AppTheme.turquoiseBlue
-                                              : AppTheme.sulu,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            historyList[index].eye,
-                                            style: AppStyles.n1,
-                                          ),
-                                        ),
-                                      ),
-                                    const SizedBox(width: 8),
-                                    Center(
-                                      child: Text(
-                                        HelpFunctions.formatDateRu(
-                                          date: historyList[index].dateStart,
-                                        ),
-                                        style: AppStyles.p1,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/line_dots.png',
-                                        scale: 4.1,
-                                      ),
-                                    ),
-                                    Center(
-                                      child: historyList[index].dateEnd != null
-                                          ? Text(
-                                              HelpFunctions.formatDateRu(
-                                                date:
-                                                    historyList[index].dateEnd!,
-                                              ),
-                                              style: AppStyles.p1,
-                                            )
-                                          : const SizedBox.shrink(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const GreyButton(
-                              text: 'Ранее',
-                              padding: EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: StaticData.sidePadding,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : const WhiteContainerWithRoundedCorners(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 30,
-                          horizontal: StaticData.sidePadding,
-                        ),
-                        child: Text(
-                          'Покажем когда вы надели и сняли линзы',
-                          style: AppStyles.p1Grey,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-              ),
-            ),
-          ],
+        StreamedStateBuilder<List<LensesWornHistoryModel>>(
+          streamedState: myLensesWM.wornHistoryList,
+          builder: (_, wornHistoryList) => LensesHistory(
+            wornHistoryList: wornHistoryList,
+            expandList: () async =>
+                myLensesWM.loadWornHistory(showAll: true, isOld: false),
+          ),
         ),
       ],
     );

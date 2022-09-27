@@ -77,9 +77,9 @@ class LensIndicatorStatus extends StatelessWidget {
                       child: Container(
                         height: 130,
                         width: 130,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: left ? AppTheme.turquoiseBlue : AppTheme.sulu,
+                          color: AppTheme.redNotice,
                         ),
                         child: const Center(
                           child: Text(
@@ -106,23 +106,27 @@ class LensIndicatorStatus extends StatelessWidget {
                             style: AppStyles.h2,
                           ),
                         ),
-                      Stack(alignment: Alignment.center, children: [
-                        if (daysBeforeReplacement == 0)
-                          Image.asset(
-                            'assets/replacement_day.png',
-                            scale: 2.53,
-                          )
-                        else
-                          Image.asset(
-                            'assets/replacement_day_overdue.png',
-                            scale: 2.53,
+                      SizedBox(
+                        height: 192,
+                        width: 192,
+                        child: Center(
+                          child: Container(
+                            height: 177,
+                            width: 177,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppTheme.redNotice,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Замените\nлинзы',
+                                style: AppStyles.h2,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
-                        const Text(
-                          'Замените\nлинзы',
-                          style: AppStyles.h1,
-                          textAlign: TextAlign.center,
                         ),
-                      ]),
+                      ),
                     ],
                   ),
           ),

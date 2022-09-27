@@ -16,6 +16,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CurrentDailyLensesPage extends StatelessWidget {
@@ -128,7 +129,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                   if (dailyReminders != null) ...[
                     // TODO(pavlov): настроить дату как на макете
                     Text(
-                      '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nближайшая ${HelpFunctions.formatDateRu(date: DateTime.parse(dailyReminders.date), haveTime: false)}',
+                      '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nБлижайшая ${DateTime.parse(dailyReminders.date).day} ${DateFormat.MMMM('ru').format(DateTime.parse(dailyReminders.date))} ${DateTime.parse(dailyReminders.date).year}',
                       style: AppStyles.p1Grey,
                     ),
                     const SizedBox(height: 14),

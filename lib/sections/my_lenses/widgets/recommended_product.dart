@@ -1,4 +1,7 @@
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
+import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
+import 'package:bausch/sections/my_lenses/widgets/sheets/recommended_product_sheet.dart';
+import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
@@ -15,14 +18,28 @@ class RecommendedProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () async {
+        await showFlexibleBottomSheet<void>(
+          minHeight: 0,
+          initHeight: 0.95,
+          maxHeight: 0.95,
+          anchors: [0, 0.6, 0.95],
+          context: context,
+          builder: (context, controller, d) {
+            return SheetWidget(
+              child: RecommendedProductSheet(
+                controller: controller,
+                product: product,
+              ),
+            );
+          },
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.only(
-          //right: 4,
           bottom: 4,
         ),
         child: Container(
-          //padding: const EdgeInsets.all(12),
           width: MediaQuery.of(context).size.width / 2 -
               StaticData.sidePadding -
               2,
@@ -30,6 +47,7 @@ class RecommendedProduct extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(5),
           ),
+          padding: const EdgeInsets.all(12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -46,33 +64,26 @@ class RecommendedProduct extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: Text(
-                  product.name,
-                  style: AppStyles.p1,
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              Text(
+                product.name,
+                style: AppStyles.p1,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
               Padding(
-                padding: const EdgeInsets.all(StaticData.sidePadding),
-                child: Expanded(
-                  child: GreyButton(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    text: 'Где купить',
-                    onPressed: () async {
-                      if (await canLaunchUrlString(product.link)) {
-                        await launchUrlString(
-                          product.link,
-                          mode: LaunchMode.externalApplication,
-                        );
-                      }
-                    },
-                  ),
+                padding: const EdgeInsets.only(top: StaticData.sidePadding),
+                child: GreyButton(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  text: 'Где купить',
+                  onPressed: () async {
+                    if (await canLaunchUrlString(product.link)) {
+                      await launchUrlString(
+                        product.link,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  },
                 ),
               ),
             ],

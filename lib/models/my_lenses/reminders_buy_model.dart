@@ -16,10 +16,12 @@ class RemindersBuyModel {
       return RemindersBuyModel(
         replay: map['replay'] as String,
         date: map['date'] as String,
-        reminders: (map['reminders'] as List<dynamic>)
-            // ignore: avoid_annotating_with_dynamic
-            .map((dynamic diopter) => diopter as String)
-            .toList(),
+        reminders: map['reminders'] == null
+            ? []
+            : (map['reminders'] as List<dynamic>)
+                // ignore: avoid_annotating_with_dynamic
+                .map((dynamic diopter) => diopter as String)
+                .toList(),
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

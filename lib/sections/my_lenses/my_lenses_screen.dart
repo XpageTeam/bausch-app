@@ -46,11 +46,13 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
           StreamedStateBuilder<bool>(
             streamedState: wm.loadingInProgress,
             builder: (_, loadingInProgress) => loadingInProgress
-                ? const ColoredBox(
+                ? ColoredBox(
                     color: AppTheme.mystic,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 40),
-                      child: Center(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 4,
+                      ),
+                      child: const Center(
                         // TODO(info): везде такой лоадер при загрузке ставить
                         child: AnimatedLoader(),
                       ),

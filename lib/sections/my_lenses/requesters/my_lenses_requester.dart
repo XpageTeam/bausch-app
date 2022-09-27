@@ -71,6 +71,27 @@ class MyLensesRequester {
     }
   }
 
+  // Загружает старую историю ношения линз
+  Future<LensesWornHistoryListModel> loadOldLensesWornHistory({
+    required int pairId,
+    required bool showAll,
+  }) async {
+    final parsedData = BaseResponseRepository.fromMap(
+      (await _rh.get<Map<String, dynamic>>(
+        '/lenses/worn/history/$pairId/?showAll=$showAll',
+      ))
+          .data!,
+    );
+    try {
+      return LensesWornHistoryListModel.fromMap(
+        parsedData.data as List<dynamic>,
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в loadLensHistory: $e');
+    }
+  }
+
   // Загружает историю использованных продуктов
   Future<LensesProductHistoryListModel> loadLensesProductHistory() async {
     final parsedData = BaseResponseRepository.fromMap(
@@ -85,7 +106,7 @@ class MyLensesRequester {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException('Ошибка в loadLensesHistory: $e');
+      throw ResponseParseException('Ошибка в loadLensesProductHistory: $e');
     }
   }
 
@@ -106,7 +127,7 @@ class MyLensesRequester {
   }
 
   // Загружает установленное напоминание о покупке
-  Future<RemindersBuyModel> loadLensesRemindersBuy() async {
+  Future<RemindersBuyModel?> loadLensesRemindersBuy() async {
     final parsedData = BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
         '/lenses/reminders-buy/',
@@ -114,13 +135,15 @@ class MyLensesRequester {
           .data!,
     );
     try {
-      return RemindersBuyModel.fromMap(
-        // ignore: avoid_dynamic_calls
-        parsedData.data as Map<String, dynamic>,
-      );
+      return parsedData.data == <dynamic>[]
+          ? null
+          : RemindersBuyModel.fromMap(
+              // ignore: avoid_dynamic_calls
+              parsedData.data as Map<String, dynamic>,
+            );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException('Ошибка в loadLensesReminders: $e');
+      throw ResponseParseException('Ошибка в loadLensesRemindersBuy: $e');
     }
   }
 
@@ -222,6 +245,23 @@ class MyLensesRequester {
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       throw ResponseParseException('Ошибка в updateReminders: $e');
+    }
+  }
+
+  // делаем старые линзы активными
+  Future<BaseResponseRepository> activateOldLenses({
+    required int pairId,
+  }) async {
+    try {
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/make-active/$pairId/',
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в activateOldLenses: $e');
     }
   }
 
