@@ -118,8 +118,8 @@ class _SelectOpticScreenState
                   );
                   return Padding(
                     padding: const EdgeInsets.only(
-                      left: StaticData.sidePadding,
-                      right: StaticData.sidePadding,
+                      // left: StaticData.sidePadding,
+                      // right: StaticData.sidePadding,
                       bottom: 20.0,
                     ),
                     child: ShopFilterWidget(
