@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
+import 'dart:ui' as UI;
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/city/dadata_cities_downloader.dart';
@@ -13,10 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image/image.dart' as IMG;
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-import 'dart:ui' as UI;
-import 'package:image/image.dart' as IMG;
 
 class MapBodyWM extends WidgetModel {
   final List<OpticShop> initOpticShops;
@@ -57,6 +57,9 @@ class MapBodyWM extends WidgetModel {
   // Вынес сюда для увеличения производительности, т.к. каждый раз читать картинку оказалось очень долго
   UI.Image? shopMarkerBase;
 
+  /// Поток местоположения пользователя
+  StreamSubscription<Position>? userPositionStream;
+
   MapBodyWM({
     required this.initOpticShops,
     required this.onCityDefinitionCallback,
@@ -79,7 +82,7 @@ class MapBodyWM extends WidgetModel {
     updateMapObjects.bind((shopList) {
       _updateClusterMapObject(shopList!);
       if (mapController != null) {
-        _setCenterOn(shopList);
+        _setCenterOn<OpticShop>(shopList);
       }
     });
 
@@ -89,7 +92,8 @@ class MapBodyWM extends WidgetModel {
 
     moveToUserPosition.bind(
       (value) {
-        _updateUserPosition();
+        _enableListenUserPosition();
+        // _updateUserPosition();
       },
     );
 
@@ -118,6 +122,11 @@ class MapBodyWM extends WidgetModel {
     super.onBind();
   }
 
+  @override
+  void dispose() {
+    userPositionStream?.cancel();
+    super.dispose();
+  }
   // Future<List<Uint8List>> _getIcons({
   //   required List<OpticShop> shopList,
   //   int? indexOfPressedShop,
@@ -130,7 +139,7 @@ class MapBodyWM extends WidgetModel {
   //   return list;
   // }
 
-  void _updateClusterMapObject(
+  Future<void> _updateClusterMapObject(
     List<OpticShop> shopList, [
     int? indexOfPressedShop,
   ]) async {
@@ -145,8 +154,8 @@ class MapBodyWM extends WidgetModel {
 
     final placemarkCollection = ClusterizedPlacemarkCollection(
       mapId: clusterMapId,
-      radius: 15,
-      minZoom: 15,
+      radius: 20,
+      minZoom: 12,
       onClusterAdded: (
         self,
         cluster,
@@ -164,7 +173,10 @@ class MapBodyWM extends WidgetModel {
           ),
         );
       },
-      onClusterTap: (self, cluster) => _setCenterOn(cluster.placemarks),
+      onClusterTap: (self, cluster) => _setCenterOn(
+        cluster.placemarks,
+        withUserPosition: false,
+      ),
       placemarks: await _generatePlacemarks(
         shopList: shopList,
         indexOfPressedShop: indexOfPressedShop,
@@ -182,7 +194,6 @@ class MapBodyWM extends WidgetModel {
     final list = <PlacemarkMapObject>[];
 
     for (var i = 0; i < shopList.length; i++) {
-      debugPrint('i: $i');
       final rnd = rng.nextInt(200);
       final placemarkId = 'p_${i}_${rnd}_${shopList[i].coords}';
 
@@ -223,12 +234,20 @@ class MapBodyWM extends WidgetModel {
       );
     }
 
+    // debugPrint('list len: ${list.length}');
+
     return list;
   }
 
-  Future<void> _setCenterOn<T>(List<T> list) async {
+  Future<void> _setCenterOn<T>(
+    List<T> newList, {
+    bool withUserPosition = true,
+  }) async {
     // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
-    if (list.isEmpty) return;
+    if (newList.isEmpty) return;
+
+    final list = newList;
+    debugPrint('list: $list');
 
     await Future<void>.delayed(
       const Duration(
@@ -239,18 +258,24 @@ class MapBodyWM extends WidgetModel {
     BoundingBox? bounds;
 
     if (list is List<Point>) {
-      bounds = _getBounds(list as List<Point>);
+      bounds = _getBounds(
+        list as List<Point>,
+        withUserPosition: withUserPosition,
+      );
     } else if (list is List<PlacemarkMapObject>) {
       bounds = _getBounds(
         (list as List<PlacemarkMapObject>).map((e) => e.point).toList(),
+        withUserPosition: withUserPosition,
       );
     } else if (list is List<ShopModel>) {
       bounds = _getBounds(
         (list as List<ShopModel>).map((e) => e.coords!).toList(),
+        withUserPosition: withUserPosition,
       );
     } else if (list is List<OpticShop>) {
       bounds = _getBounds(
         (list as List<OpticShop>).map((e) => e.coords).toList(),
+        withUserPosition: withUserPosition,
       );
     } else {
       return;
@@ -266,11 +291,14 @@ class MapBodyWM extends WidgetModel {
     );
   }
 
-  Future<void> _updateUserPosition() async {
+  Future<void> _updateUserPosition({
+    bool withMoveToUser = true,
+    Point? newUserPosition,
+  }) async {
     mapObjectsStreamed.value
         .removeWhere((element) => element.mapId == userMapId);
 
-    userPosition = await _getUserPosition();
+    userPosition = newUserPosition ?? await _getUserPosition();
 
     mapObjectsStreamed.value.add(
       PlacemarkMapObject(
@@ -279,6 +307,7 @@ class MapBodyWM extends WidgetModel {
         opacity: 1,
         icon: PlacemarkIcon.single(
           PlacemarkIconStyle(
+            scale: 0.75,
             image: BitmapDescriptor.fromAssetImage(
               'assets/icons/user-marker.png',
             ),
@@ -288,7 +317,7 @@ class MapBodyWM extends WidgetModel {
     );
 
     unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
-    unawaited(_moveTo(userPosition!));
+    if (withMoveToUser) unawaited(_moveTo(userPosition!));
   }
 
   Future<void> _moveTo(Point point) async {
@@ -346,12 +375,72 @@ class MapBodyWM extends WidgetModel {
     }
 
     final position = await Geolocator.getCurrentPosition();
-
     await _trySetCityByUserPosition(position);
 
     return Point(
       latitude: position.latitude,
       longitude: position.longitude,
+    );
+  }
+
+  Future<void> _enableListenUserPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // onError
+      onGetUserPositionError?.call(
+        const CustomException(
+          title: 'Невозможно определить местоположение',
+        ),
+      );
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // onError
+        onGetUserPositionError?.call(
+          const CustomException(
+            title: 'Невозможно определить местоположение',
+          ),
+        );
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // onError
+      onGetUserPositionError?.call(
+        const CustomException(
+          title: 'Невозможно определить местоположение',
+        ),
+      );
+    }
+
+    final position = await Geolocator.getCurrentPosition();
+    unawaited(_updateUserPosition(
+      newUserPosition: Point(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      ),
+    ));
+
+    await _trySetCityByUserPosition(position);
+
+    userPositionStream?.cancel();
+
+    userPositionStream = Geolocator.getPositionStream().listen(
+      (position) {
+        _updateUserPosition(
+          withMoveToUser: false,
+          newUserPosition: Point(
+            latitude: position.latitude,
+            longitude: position.longitude,
+          ),
+        );
+      },
     );
   }
 
@@ -368,9 +457,10 @@ class MapBodyWM extends WidgetModel {
     await onCityDefinitionCallback(possibleCities.first.data);
   }
 
-  BoundingBox _getBounds(List<Point> points) {
+  BoundingBox _getBounds(List<Point> points, {bool withUserPosition = true}) {
     if (mapObjectsStreamed.value.any((mapObj) => mapObj.mapId == userMapId) &&
-        userPosition != null) {
+        userPosition != null &&
+        withUserPosition) {
       points.add(userPosition!);
     }
 
@@ -390,10 +480,14 @@ class MapBodyWM extends WidgetModel {
     );
 
     return BoundingBox(
-      northEast:
-          Point(latitude: highestLat + offset, longitude: highestLng + offset),
-      southWest:
-          Point(latitude: lowestLat - offset, longitude: lowestLng - offset),
+      northEast: Point(
+        latitude: highestLat + offset,
+        longitude: highestLng + offset,
+      ),
+      southWest: Point(
+        latitude: lowestLat - offset,
+        longitude: lowestLng - offset,
+      ),
     );
   }
 
@@ -495,8 +589,8 @@ class MapBodyWM extends WidgetModel {
       canvas: canvas,
       size: circleSize,
       center: Offset(
-        (size.width) / 2,
-        circleSize.height / 2 + 25, // (я не смог сделать нормально)
+        (size.width) / 2 + 1,
+        circleSize.height / 2 + 26, // (я не смог сделать нормально)
       ),
       // сюда надо передавать количество уникальных фильтров, которые будут находиться в текущей оптике
       count: 3,

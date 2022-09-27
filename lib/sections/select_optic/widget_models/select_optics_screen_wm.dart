@@ -15,7 +15,6 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -423,31 +422,31 @@ class SelectOpticScreenWM extends WidgetModel {
 
       await opticsByCityStreamed.accept(opticsByCurrentCity);
       await filteredOpticShopsStreamed.content(
-        shopsByFilters
-          ..add(
-            OpticShop(
-              title: 'title',
-              phones: ['phones'],
-              address: 'address',
-              city: 'city',
-              coords: Point(
-                latitude: 55.160602,
-                longitude: 61.387938,
-              ),
-            ),
-          )
-          ..add(
-            OpticShop(
-              title: 'title',
-              phones: ['phones'],
-              address: 'address',
-              city: 'city',
-              coords: Point(
-                latitude: 55.158508,
-                longitude: 61.410800,
-              ),
-            ),
-          ),
+        shopsByFilters,
+          // ..add(
+          //   OpticShop(
+          //     title: 'title',
+          //     phones: ['phones'],
+          //     address: 'address',
+          //     city: 'city',
+          //     coords: Point(
+          //       latitude: 55.160602,
+          //       longitude: 61.387938,
+          //     ),
+          //   ),
+          // )
+          // ..add(
+          //   OpticShop(
+          //     title: 'title',
+          //     phones: ['phones'],
+          //     address: 'address',
+          //     city: 'city',
+          //     coords: Point(
+          //       latitude: 55.158508,
+          //       longitude: 61.410800,
+          //     ),
+          //   ),
+          // ),
       );
     } on DioError catch (e) {
       ex = CustomException(

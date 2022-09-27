@@ -11,7 +11,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class NotificationsWM extends WidgetModel {
   final List<NotificationModel> items;
 
-  late final StreamedState<List<Widget>> widgetslist;
+  late final StreamedState<List<Widget>> widgetList;
   final StreamedState<List<NotificationModel>> notificationsReadList =
       StreamedState<List<NotificationModel>>([]);
   final filterValue = StreamedState<int>(0);
@@ -32,7 +32,7 @@ class NotificationsWM extends WidgetModel {
   void onLoad() {
     super.onLoad();
     if (!_isLoaded) {
-      widgetslist = StreamedState(_getNotificationsList(items, this));
+      widgetList = StreamedState(_getNotificationsList(items, this));
       notificationsReadList.accept([...items]);
       _isLoaded = false;
       changeFilterAction.bind((val) {
@@ -45,7 +45,7 @@ class NotificationsWM extends WidgetModel {
   }
 
   void setWidgetsList() {
-    widgetslist.accept([]);
+    widgetList.accept([]);
 
     final banners = Container(
       child: OffersSection(
@@ -88,18 +88,18 @@ class NotificationsWM extends WidgetModel {
     }
 
     if (filteredItems.length < 5) {
-      widgetslist.accept([
+      widgetList.accept([
         ...filteredItems,
         banners,
       ]);
     } else {
       final notifications = [...filteredItems]..insert(2, banners);
 
-      widgetslist.accept(notifications);
+      widgetList.accept(notifications);
     }
 
     if (items.any((item) => item.points == null || item.points == 0)) {
-      widgetslist.accept([
+      widgetList.accept([
         Container(
           child: StreamedStateBuilder<int>(
             streamedState: filterValue,
@@ -131,7 +131,7 @@ class NotificationsWM extends WidgetModel {
             },
           ),
         ),
-        ...widgetslist.value,
+        ...widgetList.value,
       ]);
     }
   }

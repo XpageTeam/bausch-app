@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/content/wm/notifications_wm.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class NotificationItem extends StatelessWidget {
@@ -45,10 +50,8 @@ class NotificationItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        item.title,
-                        style: AppStyles.p1,
-                        // maxLines: 3,
+                      _TitleWidget(
+                        item: item,
                       ),
                       if (item.formatedDate != null)
                         Container(
@@ -74,6 +77,55 @@ class NotificationItem extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _TitleWidget extends StatelessWidget {
+  final NotificationModel item;
+
+  const _TitleWidget({required this.item, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: item.tilteWithoutUrl,
+        style: AppStyles.p1.copyWith(
+          color: Colors.transparent,
+          shadows: const [
+            BoxShadow(
+              color: AppTheme.mineShaft,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        children: item.url == null
+            ? null
+            : [
+                TextSpan(
+                  style: const TextStyle(
+                    decoration: TextDecoration.underline,
+                    decorationColor: Color(0xFF60D7E2),
+                    decorationThickness: 2,
+                  ),
+                  text: item.url,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      if (await canLaunchUrlString(
+                        item.url!,
+                      )) {
+                        unawaited(
+                          launchUrlString(
+                            item.url!,
+                          ),
+                        );
+                      }
+                    },
+                ),
+              ],
+      ),
+      // maxLines: 3,
     );
   }
 }

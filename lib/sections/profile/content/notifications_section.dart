@@ -29,7 +29,7 @@ class _NotificationSectionState
   @override
   Widget build(BuildContext context) {
     return StreamedStateBuilder<List<Widget>>(
-      streamedState: wm.widgetslist,
+      streamedState: wm.widgetList,
       builder: (_, list) {
         return SliverPadding(
           padding:

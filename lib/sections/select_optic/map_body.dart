@@ -16,7 +16,7 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final void Function(MapBodyWM wm) shopsEmptyCallback;
   final void Function(OpticShop shop) onOpticShopSelect;
 
-  final Future<void> Function(DadataResponseDataModel)  onCityDefinitionCallback;
+  final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
 
   final String selectButtonText;
 
@@ -68,6 +68,8 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
               return YandexMap(
                 // liteModeEnabled: true,
                 // mode2DEnabled: true,
+                tiltGesturesEnabled: false,
+                rotateGesturesEnabled: false,
                 mapObjects: mapObjects,
                 onMapCreated: (yandexMapController) {
                   wm
