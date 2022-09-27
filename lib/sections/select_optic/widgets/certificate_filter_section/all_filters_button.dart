@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 class AllFiltersButton extends StatelessWidget {
   final VoidCallback onTap;
-  final int additionalFiltersCount;
+  final int enabledFiltersCount;
   const AllFiltersButton({
     required this.onTap,
-    required this.additionalFiltersCount,
+    required this.enabledFiltersCount,
     Key? key,
   }) : super(key: key);
 
@@ -27,7 +27,7 @@ class AllFiltersButton extends StatelessWidget {
               width: 16,
             ),
           ),
-          if (additionalFiltersCount > 0)
+          if (enabledFiltersCount > 0)
             Container(
               width: 19,
               height: 19,
@@ -38,7 +38,7 @@ class AllFiltersButton extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  additionalFiltersCount.toString(),
+                  enabledFiltersCount.toString(),
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 11,

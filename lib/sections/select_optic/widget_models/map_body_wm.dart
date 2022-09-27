@@ -53,6 +53,10 @@ class MapBodyWM extends WidgetModel {
 
   Point? userPosition;
 
+  // Картинка основы для маркеров оптик.
+  // Вынес сюда для увеличения производительности, т.к. каждый раз читать картинку оказалось очень долго
+  UI.Image? shopMarkerBase;
+
   MapBodyWM({
     required this.initOpticShops,
     required this.onCityDefinitionCallback,
@@ -464,9 +468,6 @@ class MapBodyWM extends WidgetModel {
     return pngBytes!.buffer.asUint8List();
   }
 
-  // Для увеличения производительности
-  UI.Image? shopMarkerBase;
-
   Future<Uint8List> _rawPlacemarkImage({
     required List<OpticShop> shopList,
     int? indexOfPressedShop,
@@ -515,7 +516,6 @@ class MapBodyWM extends WidgetModel {
     required Size size,
     required int count,
   }) {
-    // canvas.translate(18, 18);
     for (var i = 0; i < count; i++) {
       _drawSegment(
         canvas: canvas,
@@ -549,8 +549,8 @@ class MapBodyWM extends WidgetModel {
   }
 
   final colors = [
-    AppTheme.orangeToric,
     AppTheme.turquoiseBlue,
+    AppTheme.orangeToric,
     AppTheme.yellowMultifocal,
     Colors.red,
     Colors.green,

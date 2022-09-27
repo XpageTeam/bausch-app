@@ -31,9 +31,14 @@ class CertificateFiltersSection extends StatelessWidget {
           const SizedBox(
             width: StaticData.sidePadding,
           ),
-          AllFiltersButton(
-            additionalFiltersCount: 0,
-            onTap: wm.openAllCertificateFilters,
+          StreamedStateBuilder<int>(
+            streamedState: wm.selectedFiltersCountState,
+            builder: (_, selectedFiltersCount) {
+              return AllFiltersButton(
+                enabledFiltersCount: selectedFiltersCount,
+                onTap: wm.openAllCertificateFilters,
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4.0),

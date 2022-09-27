@@ -92,8 +92,15 @@ class SelectOpticScreenWM extends WidgetModel {
       ],
     ),
   );
+
+  /// Для карты с сертификатами. Содержит выбранные фильтры для линз
   final selectedLensFiltersState = StreamedState<List<LensFilter>>([]);
+
+  /// Для карты с сертификатами. Содержит выбранные общие фильтры
   final selectedCommonFiltersState = StreamedState<List<Filter>>([]);
+
+  /// Для карты с сертификатами. Содержит количество всех выбранных фильтров
+  final selectedFiltersCountState = StreamedState<int>(0);
 
   List<OpticCity>? initialCities;
   List<Filter> selectedFilters = [];
@@ -152,16 +159,19 @@ class SelectOpticScreenWM extends WidgetModel {
       (_) => _selectCity(),
     );
 
-    // setFirstCity.bind(
-    //   (_) => _setFirstCity(),
-    // );
-
     filtersOnChanged.bind(
       (selectedFilters) => _filtersOnChanged(selectedFilters!),
     );
 
     onOpticShopSelectAction.bind(
       (opticShopParams) => _onOpticShopSelect(opticShopParams!),
+    );
+
+    selectedLensFiltersState.stream.listen(
+      (_) => _recalculationSelectedFilters(),
+    );
+    selectedCommonFiltersState.stream.listen(
+      (_) => _recalculationSelectedFilters(),
     );
 
     super.onBind();
@@ -266,6 +276,11 @@ class SelectOpticScreenWM extends WidgetModel {
     await filteredOpticShopsStreamed.content(shopsByFilters);
   }
 
+  void _recalculationSelectedFilters() {
+    final lensFiltersCount = selectedLensFiltersState.value.length;
+    final commonFiltersCount = selectedCommonFiltersState.value.length;
+    selectedFiltersCountState.accept(lensFiltersCount + commonFiltersCount);
+  }
   /* Future<void> _setFirstCity() async {
     if (initialCities!.isEmpty) {
       await currentCityStreamed.error(
