@@ -1,8 +1,6 @@
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';

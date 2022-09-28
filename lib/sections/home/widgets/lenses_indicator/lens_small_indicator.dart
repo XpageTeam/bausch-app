@@ -19,10 +19,10 @@ class LensSmallIndicator extends StatelessWidget {
     final activeDate =
         myLensesWM.leftLensDate.value ?? myLensesWM.rightLensDate.value;
     final isLeft = myLensesWM.leftLensDate.value != null;
-    final percent = activeDate!.daysLeft >=
-            myLensesWM.currentProduct.value!.lifeTime
-        ? 1
-        :  activeDate.daysLeft / myLensesWM.currentProduct.value!.lifeTime;
+    final percent =
+        activeDate!.daysLeft >= myLensesWM.currentProduct.value!.lifeTime
+            ? 1
+            : activeDate.daysLeft / myLensesWM.currentProduct.value!.lifeTime;
 
     return Padding(
       padding: const EdgeInsets.only(top: 20),
@@ -50,11 +50,7 @@ class LensSmallIndicator extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  HelpFunctions.formatDateRu(
-                    date: activeDate.dateEnd,
-                    haveWeekDay: true,
-                    haveTime: false,
-                  ),
+                  '${HelpFunctions.weekday(activeDate.dateEnd.day)}, ${activeDate.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(activeDate.dateEnd.month)}',
                   style: AppStyles.n1,
                 ),
               ],
@@ -78,11 +74,7 @@ class LensSmallIndicator extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  HelpFunctions.formatDateRu(
-                    date: activeDate.dateEnd,
-                    haveWeekDay: true,
-                    haveTime: false,
-                  ),
+                  '${HelpFunctions.weekday(activeDate.dateEnd.day)}, ${activeDate.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(activeDate.dateEnd.month)}',
                   style: AppStyles.n1,
                 ),
               ],
