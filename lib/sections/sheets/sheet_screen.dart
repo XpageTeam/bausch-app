@@ -100,8 +100,8 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
               child: Row(
                 children: [
-                  Image.asset(
-                    setTheImg(widget.sheetModel.type),
+                  Image.network(
+                    widget.sheetModel.icon!,
                     height: 60,
                   ),
                   const SizedBox(
