@@ -212,11 +212,37 @@ class MyLensesRequester {
     required DateTime? rightDate,
   }) async {
     try {
+      if (leftDate != null) {
+        // ignore: parameter_assignments
+        leftDate = DateTime(
+          leftDate.year,
+          leftDate.month,
+          leftDate.day,
+          DateTime.now().hour,
+          DateTime.now().minute,
+        );
+      }
+      if (rightDate != null) {
+        // ignore: parameter_assignments
+        rightDate = DateTime(
+          rightDate.year,
+          rightDate.month,
+          rightDate.day,
+          DateTime.now().hour,
+          DateTime.now().minute,
+        );
+      }
+      // TODO(all): разобраться с отправкой дат
+      // print(leftDate);
+      // print(rightDate);
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/put-on/',
         data: FormData.fromMap(<String, dynamic>{
-          'left[date]': leftDate?.toIso8601String(),
-          'right[date]': rightDate?.toIso8601String(),
+          // TODO(all): приходят данные -3 часа после отправки
+          // 'left[date]': leftDate?.toIso8601String(),
+          // 'right[date]': rightDate?.toIso8601String(),
+          'left[date]': leftDate?.toString(),
+          'right[date]': rightDate?.toString(),
         }),
       );
       final response =

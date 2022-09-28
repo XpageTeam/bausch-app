@@ -26,11 +26,12 @@ class LensesSmallIndicator extends StatelessWidget {
               animation: true,
               animationDuration: 2000,
               lineWidth: 10,
-              percent:  myLensesWM.rightLensDate.value!.daysLeft < 0 || myLensesWM.rightLensDate.value!.daysLeft >=
+              percent: myLensesWM.rightLensDate.value!.daysLeft < 0 ||
+                      myLensesWM.rightLensDate.value!.daysLeft >=
                           myLensesWM.currentProduct.value!.lifeTime
-                      ? 1
-                      : myLensesWM.rightLensDate.value!.daysLeft /
-                          myLensesWM.currentProduct.value!.lifeTime,
+                  ? 1
+                  : myLensesWM.rightLensDate.value!.daysLeft /
+                      myLensesWM.currentProduct.value!.lifeTime,
               circularStrokeCap: CircularStrokeCap.round,
               backgroundColor: AppTheme.mystic,
               center: myLensesWM.leftLensDate.value!.daysLeft <= 0
@@ -47,8 +48,9 @@ class LensesSmallIndicator extends StatelessWidget {
                       animation: true,
                       animationDuration: 2000,
                       lineWidth: 9,
-                      percent: myLensesWM.leftLensDate.value!.daysLeft < 0 || myLensesWM.leftLensDate.value!.daysLeft >=
-                              myLensesWM.currentProduct.value!.lifeTime
+                      percent: myLensesWM.leftLensDate.value!.daysLeft < 0 ||
+                              myLensesWM.leftLensDate.value!.daysLeft >=
+                                  myLensesWM.currentProduct.value!.lifeTime
                           ? 1
                           : myLensesWM.leftLensDate.value!.daysLeft /
                               myLensesWM.currentProduct.value!.lifeTime,
@@ -85,11 +87,7 @@ class LensesSmallIndicator extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                HelpFunctions.formatDateRu(
-                  date: myLensesWM.leftLensDate.value!.dateEnd,
-                  haveWeekDay: true,
-                  haveTime: false,
-                ),
+                '${HelpFunctions.weekday(myLensesWM.leftLensDate.value!.dateEnd.day)}, ${myLensesWM.leftLensDate.value!.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(myLensesWM.leftLensDate.value!.dateEnd.month)}',
                 style: AppStyles.n1,
               ),
             ],
@@ -116,11 +114,7 @@ class LensesSmallIndicator extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                HelpFunctions.formatDateRu(
-                  date: myLensesWM.rightLensDate.value!.dateEnd,
-                  haveWeekDay: true,
-                  haveTime: false,
-                ),
+                '${HelpFunctions.weekday(myLensesWM.rightLensDate.value!.dateEnd.day)}, ${myLensesWM.rightLensDate.value!.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(myLensesWM.rightLensDate.value!.dateEnd.month)}',
                 style: AppStyles.n1,
               ),
             ],

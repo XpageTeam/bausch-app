@@ -17,6 +17,12 @@ class StartEndDateLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actualDateStart = isLeft
+        ? myLensesWM.leftLensDate.value!.dateStart
+        : myLensesWM.rightLensDate.value!.dateStart;
+    final actualDateEnd = isLeft
+        ? myLensesWM.leftLensDate.value!.dateEnd
+        : myLensesWM.rightLensDate.value!.dateEnd;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -40,11 +46,7 @@ class StartEndDateLine extends StatelessWidget {
               ),
             if (hasIcon) const SizedBox(width: 6),
             Text(
-              HelpFunctions.formatDateRu(
-                date: isLeft
-                    ? myLensesWM.leftLensDate.value!.dateStart
-                    : myLensesWM.rightLensDate.value!.dateStart,
-              ),
+              '${actualDateStart.day} ${HelpFunctions.getMonthNameByNumber(actualDateStart.month)}, ${actualDateStart.hour < 10 ? 0 : ''}${actualDateStart.hour}:${actualDateStart.minute < 10 ? 0 : ''}${actualDateStart.minute}',
               style: AppStyles.p1,
             ),
           ],
@@ -72,12 +74,7 @@ class StartEndDateLine extends StatelessWidget {
               size: 18,
             ),
             Text(
-              HelpFunctions.formatDateRu(
-                date: isLeft
-                    ? myLensesWM.leftLensDate.value!.dateEnd
-                    : myLensesWM.rightLensDate.value!.dateEnd,
-                haveWeekDay: true,
-              ),
+              '${HelpFunctions.weekday(actualDateEnd.day)}, ${actualDateEnd.day} ${HelpFunctions.getMonthNameByNumber(actualDateEnd.month)}, ${actualDateEnd.hour < 10 ? 0 : ''}${actualDateEnd.hour}:${actualDateEnd.minute < 10 ? 0 : ''}${actualDateEnd.minute}',
               style: AppStyles.p1,
             ),
             if ((isLeft

@@ -135,7 +135,7 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
                       horizontal: StaticData.sidePadding * 2,
                     ),
                     child: AutoSizeText(
-                      widget.message ?? 'Спасибо, что вы с нами!',
+                      widget.message ?? 'Спасибо, что вы\nс нами!',
                       maxLines: 2,
                       style: AppStyles.h1,
                       textAlign: TextAlign.center,

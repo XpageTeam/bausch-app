@@ -3,7 +3,6 @@ import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points_content.dart';
-import 'package:bausch/widgets/discount_info.dart';
 import 'package:flutter/material.dart';
 
 class TopSection extends StatelessWidget {
@@ -137,12 +136,54 @@ class TopSection extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      // TODO(ask): пока заглушкой
-                      // если скидка не будет на картинке приходить
+                      // TODO(all): чекнуть норм ли виджет скидки
                       if (discount != null)
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: DiscountInfo(text: discount!),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 40),
+                                child: Stack(
+                                  alignment: Alignment.bottomRight,
+                                  children: [
+                                    Image.asset(
+                                      'assets/sale_label.png',
+                                      scale: 3,
+                                      fit: BoxFit.cover,
+                                      width: 110,
+                                      height: 66,
+                                    ),
+                                    SizedBox(
+                                      width: 102,
+                                      height: 66,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text(
+                                            'Скидка',
+                                            style: AppStyles.n1,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Text(
+                                            (discount!.toUpperCase())
+                                                .replaceAll('СКИДКА ', ''),
+                                            style: AppStyles.h2,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                     ],
                   ),

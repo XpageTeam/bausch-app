@@ -49,21 +49,19 @@ class _LensesHistoryState extends State<LensesHistory> {
                             children: const [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(left:12),
+                                  padding: EdgeInsets.only(left: 12),
                                   child: Text(
                                     'Надеты',
                                     style: AppStyles.p1Grey,
-                        
                                   ),
                                 ),
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(left:40),
+                                  padding: EdgeInsets.only(left: 40),
                                   child: Text(
                                     'Сняты',
                                     style: AppStyles.p1Grey,
-                                  
                                   ),
                                 ),
                               ),
@@ -72,7 +70,11 @@ class _LensesHistoryState extends State<LensesHistory> {
                           const SizedBox(height: 20),
                           ListView.builder(
                             shrinkWrap: true,
-                            itemCount: widget.wornHistoryList.length,
+                            // TODO(ask): раз надо показывать 5 записей, то
+                            // нужно отдельные линзы одним объектом отправлять
+                            itemCount: widget.wornHistoryList.length > 5
+                                ? 5
+                                : widget.wornHistoryList.length,
                             // TODO(pavlov): листам поставить неверскролабл
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (_, index) => Padding(
@@ -113,10 +115,7 @@ class _LensesHistoryState extends State<LensesHistory> {
                                     const SizedBox(width: 8),
                                     Center(
                                       child: Text(
-                                        HelpFunctions.formatDateRu(
-                                          date: widget
-                                              .wornHistoryList[index].dateStart,
-                                        ),
+                                        '${widget.wornHistoryList[index].dateStart.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateStart.month)}, ${widget.wornHistoryList[index].dateStart.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.hour}:${widget.wornHistoryList[index].dateStart.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.minute}',
                                         style: AppStyles.p1,
                                       ),
                                     ),
@@ -134,11 +133,7 @@ class _LensesHistoryState extends State<LensesHistory> {
                                                   .dateEnd !=
                                               null
                                           ? Text(
-                                              HelpFunctions.formatDateRu(
-                                                date: widget
-                                                    .wornHistoryList[index]
-                                                    .dateEnd!,
-                                              ),
+                                              '${widget.wornHistoryList[index].dateEnd!.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateEnd!.month)}, ${widget.wornHistoryList[index].dateEnd!.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.hour}:${widget.wornHistoryList[index].dateEnd!.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.minute}',
                                               style: AppStyles.p1,
                                             )
                                           : const SizedBox.shrink(),
@@ -148,7 +143,7 @@ class _LensesHistoryState extends State<LensesHistory> {
                               ),
                             ),
                           ),
-                          if (!showAll)
+                          if (!showAll && widget.wornHistoryList.length > 5)
                             GreyButton(
                               text: 'Ранее',
                               padding: const EdgeInsets.symmetric(
