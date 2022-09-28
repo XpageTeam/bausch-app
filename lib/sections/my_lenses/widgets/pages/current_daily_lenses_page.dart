@@ -1,8 +1,13 @@
+import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
+import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
+import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/daily_notifications_sheet.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -11,6 +16,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CurrentDailyLensesPage extends StatelessWidget {
@@ -50,7 +56,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                           style: AppStyles.p1,
                         ),
                         Text(
-                          myLensesWM.currentProduct.value!.count,
+                          'Пар: ${myLensesWM.currentProduct.value!.count}',
                           style: AppStyles.p1,
                         ),
                       ],
@@ -85,9 +91,9 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ],
           ),
         ),
-        StreamedStateBuilder<bool>(
-          streamedState: myLensesWM.dailyReminder,
-          builder: (_, dailyReminder) => Padding(
+        StreamedStateBuilder<RemindersBuyModel?>(
+          streamedState: myLensesWM.dailyReminders,
+          builder: (_, dailyReminders) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: WhiteContainerWithRoundedCorners(
               padding: const EdgeInsets.symmetric(
@@ -107,20 +113,24 @@ class CurrentDailyLensesPage extends StatelessWidget {
                       ),
                       CustomCheckbox(
                         marginNeeded: false,
-                        value: myLensesWM.dailyReminder.value,
-                        onChanged: (value) {
-                          myLensesWM.dailyReminder.accept(value!);
+                        value: dailyReminders != null,
+                        onChanged: (isSubscribed) {
+                          myLensesWM.updateRemindersBuy(
+                            defaultValue: true,
+                            date: null,
+                            reminders: null,
+                            replay: null,
+                            isSubscribed: isSubscribed!,
+                          );
                         },
                       ),
                     ],
                   ),
-                  if (dailyReminder) ...[
-                    StreamedStateBuilder<String>(
-                      streamedState: myLensesWM.dailyReminderRepeat,
-                      builder: (_, dailyReminderRepeat) => Text(
-                        '$dailyReminderRepeat\nближайшая 27 сентября 2022',
-                        style: AppStyles.p1Grey,
-                      ),
+                  if (dailyReminders != null) ...[
+                    // TODO(pavlov): настроить дату как на макете
+                    Text(
+                      '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nБлижайшая ${DateTime.parse(dailyReminders.date).day} ${DateFormat.MMMM('ru').format(DateTime.parse(dailyReminders.date))} ${DateTime.parse(dailyReminders.date).year}',
+                      style: AppStyles.p1Grey,
                     ),
                     const SizedBox(height: 14),
                     Row(
@@ -157,9 +167,9 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ),
           ),
         ),
-        StreamedStateBuilder<bool>(
-          streamedState: myLensesWM.dailyReminder,
-          builder: (_, dailyReminder) => dailyReminder
+        StreamedStateBuilder<RemindersBuyModel?>(
+          streamedState: myLensesWM.dailyReminders,
+          builder: (_, dailyReminders) => dailyReminders != null
               ? const SizedBox.shrink()
               : Padding(
                   padding: const EdgeInsets.only(bottom: 4),
@@ -190,11 +200,32 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ],
           ),
         ),
-
-        // TODO(ask): разобраться нужно тут что-то еще получать или нет
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30),
-          child: MayBeInteresting(text: 'Рекомендуемые продукты'),
+        StreamedStateBuilder<List<RecommendedProductModel>>(
+          streamedState: myLensesWM.recommendedProducts,
+          builder: (_, dailyReminder) =>
+              myLensesWM.recommendedProducts.value.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                            top: 30,
+                            bottom: 16,
+                          ),
+                          child: Text(
+                            'Рекомендуемые продукты',
+                            style: AppStyles.h1,
+                          ),
+                        ),
+                        SimpleSlider<RecommendedProductModel>(
+                          items: myLensesWM.recommendedProducts.value,
+                          builder: (context, product) {
+                            return RecommendedProduct(product: product);
+                          },
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
         ),
       ],
     );

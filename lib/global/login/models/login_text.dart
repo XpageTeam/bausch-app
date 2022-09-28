@@ -111,7 +111,10 @@ class LoginText {
         recognizer: TapGestureRecognizer()
           ..onTap = () async {
             if (await canLaunchUrlString(link)) {
-              unawaited(launchUrlString(link));
+              unawaited(launchUrlString(
+                link,
+                mode: LaunchMode.externalApplication,
+              ));
             }
           },
       ),

@@ -103,7 +103,7 @@ class HelpFunctions {
   }) {
     var formattedDate = '';
     if (haveWeekDay) {
-      formattedDate = '$formattedDate${intl.DateFormat.E('ru').format(date)}, ';
+      formattedDate = '$formattedDate${intl.DateFormat.E('ru').format(date).capitalize()}, ';
     }
     formattedDate =
         '$formattedDate${intl.DateFormat.MMMd('ru').format(date)}${haveTime ? ', ${intl.DateFormat.Hm('ru').format(date)}' : ''}';
@@ -113,4 +113,10 @@ class HelpFunctions {
 
 extension NumberPartition on int {
   String get formatString => HelpFunctions.partitionNumber(this);
+}
+
+extension StringExtension on String {
+    String capitalize() {
+      return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+    }
 }

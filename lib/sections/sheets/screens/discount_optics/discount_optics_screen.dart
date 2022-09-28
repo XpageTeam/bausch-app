@@ -19,6 +19,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
@@ -156,19 +157,9 @@ class _DiscountOpticsScreenState
                   builder: (_, currentCity) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: WhiteButton(
-                        text: currentCity ?? 'Город доставки',
-                        icon: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 12,
-                            top: 16,
-                            bottom: 16,
-                          ),
-                          child: Image.asset(
-                            'assets/icons/map-marker.png',
-                            height: 16,
-                          ),
-                        ),
+                      child: FocusButton(
+                        labelText: 'Город доставки',
+                        selectedText: currentCity,
                         onPressed: wm.selectOnlineCity,
                       ),
                     );
@@ -179,19 +170,9 @@ class _DiscountOpticsScreenState
                   padding: const EdgeInsets.only(top: 20, bottom: 4),
                   child: StreamedStateBuilder<String?>(
                     streamedState: wm.currentOfflineCity,
-                    builder: (_, cityName) => WhiteButton(
-                      text: cityName ?? 'Город',
-                      icon: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 12,
-                          top: 16,
-                          bottom: 16,
-                        ),
-                        child: Image.asset(
-                          'assets/icons/map-marker.png',
-                          height: 16,
-                        ),
-                      ),
+                    builder: (_, cityName) => FocusButton(
+                      labelText: 'Город',
+                      selectedText: cityName,
                       onPressed: () async {
                         await wm.setOfflineCity(
                           await Keys.mainNav.currentState!.push<String?>(

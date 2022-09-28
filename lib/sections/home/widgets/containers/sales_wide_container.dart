@@ -2,7 +2,6 @@ import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -85,8 +84,8 @@ class _SaleWideContainerState extends State<SaleWideContainer> {
                   height: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Image.asset(
-                      setTheImg(widget.model.type),
+                    child: Image.network(
+                      widget.model.icon!,
                       fit: BoxFit.fill,
                     ),
                   ),

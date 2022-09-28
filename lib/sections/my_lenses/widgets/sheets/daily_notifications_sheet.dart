@@ -10,8 +10,8 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
 
 class DailyNotificationsSheet extends StatefulWidget {
   final MyLensesWM myLensesWM;
@@ -28,52 +28,68 @@ class DailyNotificationsSheet extends StatefulWidget {
 }
 
 class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
-  late final String oldDailyReminderRepeat;
-  late final List<String> oldNotificationStatus;
-  late final DateTime? oldDailyRepeatReminderDate;
+  List<String> currentNotificationStatus = [];
+  String currentReplay = '';
+  DateTime currentReminderDate = DateTime.now();
+  List<String> currentReminders = [];
   bool showDatePicker = false;
+  bool isUpdating = false;
 
   @override
   void initState() {
-    oldDailyReminderRepeat = widget.myLensesWM.dailyReminderRepeat.value;
-    oldNotificationStatus = widget.myLensesWM.notificationStatus.value;
-    oldDailyRepeatReminderDate =
-        widget.myLensesWM.dailyReminderRepeatDate.value;
+    currentReplay = widget.myLensesWM.dailyReminders.value!.replay;
+    currentReminderDate =
+        DateTime.parse(widget.myLensesWM.dailyReminders.value!.date);
+    currentNotificationStatus = [...widget.myLensesWM.notificationStatus.value];
+    currentReminders = widget.myLensesWM.dailyReminders.value!.reminders;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        await widget.myLensesWM.dailyReminderRepeat
-            .accept(oldDailyReminderRepeat);
-        await widget.myLensesWM.notificationStatus
-            .accept(oldNotificationStatus);
-        await widget.myLensesWM.dailyReminderRepeatDate
-            .accept(oldDailyRepeatReminderDate);
-        return true;
-      },
-      child: CustomSheetScaffold(
-        bottomNavBar: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-            vertical: 26,
-          ),
-          child: StreamedStateBuilder<DateTime?>(
-            streamedState: widget.myLensesWM.dailyReminderRepeatDate,
-            builder: (_, dailyReminderRepeatDate) => BlueButtonWithText(
-              text: 'Сохранить',
-              onPressed: dailyReminderRepeatDate != null
-                  ? () {
-                      Navigator.of(context).pop();
-                    }
-                  : null,
+    return CustomSheetScaffold(
+      bottomNavBar: showDatePicker || isUpdating
+          ? const SizedBox.shrink()
+          : Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+                vertical: 26,
+              ),
+              child: BlueButtonWithText(
+                text: 'Сохранить',
+                onPressed: () async {
+                  setState(() {
+                    isUpdating = true;
+                  });
+                  await widget.myLensesWM.updateRemindersBuy(
+                    defaultValue: false,
+                    context: context,
+                    replay: currentReplay,
+                    date: currentReminderDate.toIso8601String(),
+                    reminders: currentReminders,
+                    isSubscribed: true,
+                  );
+                  await widget.myLensesWM.notificationStatus
+                      .accept(currentNotificationStatus);
+                  // TODO(pavlov): этот сет стейт надо убрать
+                  setState(() {
+                    isUpdating = false;
+                  });
+                },
+              ),
             ),
-          ),
-        ),
-        controller: widget.controller,
-        slivers: [
+      controller: widget.controller,
+      slivers: [
+        if (isUpdating)
+          const SliverPadding(
+            padding: EdgeInsets.only(top: 100),
+            sliver: SliverToBoxAdapter(
+              child: Center(
+                child: AnimatedLoader(),
+              ),
+            ),
+          )
+        else
           SliverPadding(
             padding: const EdgeInsets.symmetric(
               vertical: 40,
@@ -90,15 +106,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                       style: AppStyles.h1,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        widget.myLensesWM.dailyReminderRepeat
-                            .accept(oldDailyReminderRepeat);
-                        widget.myLensesWM.notificationStatus
-                            .accept(oldNotificationStatus);
-                        widget.myLensesWM.dailyReminderRepeatDate
-                            .accept(oldDailyRepeatReminderDate);
-                        Navigator.of(context).pop();
-                      },
+                      onTap: () => Navigator.of(context).pop(),
                       child: const Text(
                         'Отменить',
                         style: AppStyles.h3,
@@ -107,126 +115,123 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                   ],
                 ),
                 const SizedBox(height: 40),
-                StreamedStateBuilder<DateTime?>(
-                  streamedState: widget.myLensesWM.dailyReminderRepeatDate,
-                  builder: (_, dailyReminderRepeatDate) =>
-                      WhiteContainerWithRoundedCorners(
-                    padding: const EdgeInsets.all(StaticData.sidePadding),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Дата напоминания',
-                              style: AppStyles.h2,
-                            ),
-                            GreyButton(
-                              padding: const EdgeInsets.only(
-                                top: 4,
-                                bottom: 8,
-                                right: 8,
-                                left: 8,
-                              ),
-                              color: showDatePicker
-                                  ? AppTheme.turquoiseBlue
-                                  : null,
-                              text: dailyReminderRepeatDate == null
-                                  ? 'Выбрать дату'
-                                  : '${dailyReminderRepeatDate.day} ${dailyReminderRepeatDate.month} ${dailyReminderRepeatDate.year}',
-                              onPressed: showDatePicker
-                                  ? null
-                                  : () => setState(() {
-                                        if (dailyReminderRepeatDate == null) {
-                                          widget.myLensesWM
-                                              .dailyReminderRepeatDate
-                                              .accept(DateTime.now());
-                                        }
-                                        showDatePicker = true;
-                                      }),
-                            ),
-                          ],
-                        ),
-                        if (showDatePicker)
-                          DatePickerWidget(
-                            popWidget: false,
-                            onMonthChangeStartWithFirstDate: false,
-                            initialDateTime: DateTime.now(),
-                            minDateTime: DateTime.now(),
-                            locale: DateTimePickerLocale.ru,
-                            onCancel: () {
-                              setState(() {
-                                showDatePicker = false;
-                              });
-                              widget.myLensesWM.dailyReminderRepeatDate
-                                  .accept(null);
-                            },
-                            onChange: (date, i) => widget
-                                .myLensesWM.dailyReminderRepeatDate
-                                .accept(date),
-                            dateFormat: 'dd.MM.yyyy',
-                            onConfirm: (date, i) {
-                              setState(() {
-                                showDatePicker = false;
-                              });
-                              widget.myLensesWM.dailyReminderRepeatDate
-                                  .accept(date);
-                            },
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-                StreamedStateBuilder<String>(
-                  streamedState: widget.myLensesWM.dailyReminderRepeat,
-                  builder: (_, dailyReminderRepeat) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    child: WhiteContainerWithRoundedCorners(
-                      onTap: () async => widget.myLensesWM.dailyReminderRepeat
-                          .accept(await showModalBottomSheet<String?>(
-                                context: context,
-                                builder: (context) {
-                                  return SinglePickerScreen(
-                                    cancelTitle: 'Отменить',
-                                    onCancelTap: Navigator.of(context).pop,
-                                    acceptTitle: 'Готово',
-                                    title: 'Повтор',
-                                    variants: const [
-                                      'Никогда',
-                                      'Каждые 2 недели',
-                                      'Каждые 3 недели',
-                                      'Каждые 4 недели',
-                                      'Каждые 5 недели',
-                                    ],
-                                  );
-                                },
-                                barrierColor: Colors.black.withOpacity(0.8),
-                              ) ??
-                              dailyReminderRepeat),
-                      padding: const EdgeInsets.all(StaticData.sidePadding),
-                      child: Row(
+                WhiteContainerWithRoundedCorners(
+                  padding: const EdgeInsets.all(StaticData.sidePadding),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            'Повтор',
+                            'Дата напоминания',
                             style: AppStyles.h2,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                dailyReminderRepeat,
-                                style: AppStyles.h2,
-                              ),
-                              const Icon(
-                                Icons.chevron_right_sharp,
-                                size: 20,
-                                color: AppTheme.mineShaft,
-                              ),
-                            ],
+                          GreyButton(
+                            padding: const EdgeInsets.only(
+                              top: 4,
+                              bottom: 8,
+                              right: 8,
+                              left: 8,
+                            ),
+                            color:
+                                showDatePicker ? AppTheme.turquoiseBlue : null,
+                            text:
+                                '${currentReminderDate.day} ${currentReminderDate.month} ${currentReminderDate.year}',
+                            onPressed: showDatePicker
+                                ? null
+                                : () => setState(() {
+                                      showDatePicker = true;
+                                    }),
                           ),
                         ],
                       ),
+                      if (showDatePicker)
+                        DatePickerWidget(
+                          popWidget: false,
+                          onMonthChangeStartWithFirstDate: false,
+                          initialDateTime: currentReminderDate,
+                          minDateTime: DateTime.now(),
+                          locale: DateTimePickerLocale.ru,
+                          onCancel: () {
+                            setState(() {
+                              showDatePicker = false;
+                              currentReminderDate = DateTime.parse(
+                                widget.myLensesWM.dailyReminders.value!.date,
+                              );
+                            });
+                          },
+                          onChange: (date, i) => setState(() {
+                            currentReminderDate = date;
+                          }),
+                          dateFormat: 'dd.MM.yyyy',
+                          onConfirm: (date, i) {
+                            setState(() {
+                              showDatePicker = false;
+                              currentReminderDate = date;
+                            });
+                          },
+                        ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  child: WhiteContainerWithRoundedCorners(
+                    onTap: () async {
+                      final pickedValue = await showModalBottomSheet<String?>(
+                        context: context,
+                        builder: (context) {
+                          return SinglePickerScreen(
+                            cancelTitle: 'Отменить',
+                            onCancelTap: Navigator.of(context).pop,
+                            acceptTitle: 'Готово',
+                            title: 'Повтор',
+                            variants: const [
+                              'Никогда',
+                              'Каждые 2 недели',
+                              'Каждые 3 недели',
+                              'Каждые 4 недели',
+                              'Каждые 5 недель',
+                            ],
+                          );
+                        },
+                        barrierColor: Colors.black.withOpacity(0.8),
+                      );
+                      setState(() {
+                        if (pickedValue != null && pickedValue == 'Никогда') {
+                          currentReplay = '';
+                        } else if (pickedValue != null) {
+                          currentReplay = pickedValue[7];
+                        }
+                      });
+                    },
+                    padding: const EdgeInsets.all(StaticData.sidePadding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Повтор',
+                          style: AppStyles.h2,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              currentReplay == ''
+                                  ? 'Никогда'
+                                  : currentReplay == '5'
+                                      ? 'Каждые 5 недель'
+                                      : 'Каждые $currentReplay недели',
+                              style: AppStyles.h2,
+                            ),
+                            const Icon(
+                              Icons.chevron_right_sharp,
+                              size: 20,
+                              color: AppTheme.mineShaft,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -236,13 +241,63 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                     context: context,
                     builder: (context) {
                       return ReminderSheet(
-                        hasNoVariant: false,
-                        notifications: widget.myLensesWM.notificationsList,
-                        onSendUpdate: (notifications) async =>
-                            widget.myLensesWM.updateNotifications(
-                          notifications: notifications,
-                          shouldPop: true,
-                        ),
+                        multiDayLife: false,
+                        currentReminders: currentReminders,
+                        onSendUpdate: (reminders) async => setState(() {
+                          currentReminders = [...reminders];
+                          if (reminders.length == 1) {
+                            switch (reminders[0]) {
+                              case '0':
+                                currentNotificationStatus = [
+                                  'В день покупки',
+                                  '0',
+                                ];
+                                break;
+                              case '1':
+                                currentNotificationStatus = [
+                                  'За 1 день',
+                                  '1',
+                                ];
+                                break;
+                              case '2':
+                                currentNotificationStatus = [
+                                  'За 2 дня',
+                                  '2',
+                                ];
+                                break;
+                              case '3':
+                                currentNotificationStatus = [
+                                  'За 3 дня',
+                                  '3',
+                                ];
+                                break;
+                              case '4':
+                                currentNotificationStatus = [
+                                  'За 4 дня',
+                                  '4',
+                                ];
+                                break;
+                              case '5':
+                                currentNotificationStatus = [
+                                  'За 5 дней',
+                                  '5',
+                                ];
+                                break;
+                              case '7':
+                                currentNotificationStatus = [
+                                  'За неделю',
+                                  '7',
+                                ];
+                                break;
+                            }
+                          } else {
+                            currentNotificationStatus = [
+                              '',
+                              reminders.length.toString(),
+                            ];
+                          }
+                          Navigator.of(context).pop();
+                        }),
                       );
                     },
                     barrierColor: Colors.black.withOpacity(0.8),
@@ -251,20 +306,17 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Уведомление',
-                        style: AppStyles.h2,
-                      ),
+                      const Text('Уведомление', style: AppStyles.h2),
                       Row(
                         children: [
-                          StreamedStateBuilder<List<String>>(
-                            streamedState: widget.myLensesWM.notificationStatus,
-                            builder: (_, object) => Text(
-                              object[0] != ''
-                                  ? object[0]
-                                  : '${object[1]} напомина...',
-                              style: AppStyles.h2,
-                            ),
+                          Text(
+                            currentNotificationStatus[0] != ''
+                                ? currentNotificationStatus[0] ==
+                                        'В день замены'
+                                    ? 'В день покупки'
+                                    : currentNotificationStatus[0]
+                                : '${currentNotificationStatus[1]} ${int.parse(currentNotificationStatus[1]) > 4 ? 'дат' : 'даты'}',
+                            style: AppStyles.h2,
                           ),
                           const Icon(
                             Icons.chevron_right_sharp,
@@ -279,8 +331,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
               ]),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 }

@@ -131,6 +131,7 @@ class _SalesScreenState extends State<SalesScreen> {
                 }
                 return SmallContainer(
                   model: catItem as CatalogSheetModel,
+                  sale: true,
                 );
               }).toList(),
             ),

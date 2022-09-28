@@ -40,17 +40,19 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
           vertical: 30,
         ),
         children: [
-          // Переключатель (ношу сейчас/были раньше)
+          // Переключатель (ношу /были раньше)
           LensesPageSwitcher(myLensesWM: wm),
           const SizedBox(height: 22),
           StreamedStateBuilder<bool>(
             streamedState: wm.loadingInProgress,
             builder: (_, loadingInProgress) => loadingInProgress
-                ? const ColoredBox(
+                ? ColoredBox(
                     color: AppTheme.mystic,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 40),
-                      child: Center(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 4,
+                      ),
+                      child: const Center(
                         // TODO(info): везде такой лоадер при загрузке ставить
                         child: AnimatedLoader(),
                       ),

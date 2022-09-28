@@ -121,7 +121,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
     }
   }
 
-  // TODO(pavlov): тут в будущем сохранять уведомления
   void updateNotifications(List<SubscriptionModel> notifications) {
     notificationsList.clear();
     notificationsList = [...notifications];

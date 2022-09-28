@@ -19,6 +19,8 @@ enum AuthStatus {
   unknown,
 }
 
+// TODO(all): при авторизации может выпасть ошибка НЕДОСТАТОЧНО ПРАВ
+// не понятно почему (возможно не тот код)
 class AuthWM extends WidgetModel {
   final authStatus = StreamedState<AuthStatus>(AuthStatus.unknown);
 
