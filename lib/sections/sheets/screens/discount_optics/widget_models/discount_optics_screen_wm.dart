@@ -68,20 +68,16 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   @override
   void onLoad() {
-    final points = Provider.of<UserWM>(
-          context,
-          listen: false,
-        ).userData.value.data?.balance.available.toInt() ??
-        0;
+    final userData = Provider.of<UserWM>(
+      context,
+      listen: false,
+    ).userData.value.data;
+
+    final points = userData?.balance.available.toInt() ?? 0;
     difference = itemModel.price - points;
-    currentOfflineCity.accept(Provider.of<UserWM>(
-      context,
-      listen: false,
-    ).userData.value.data?.user.city);
-    currentOnlineCity.accept(Provider.of<UserWM>(
-      context,
-      listen: false,
-    ).userData.value.data?.user.city);
+
+    currentOfflineCity.accept(userData?.user.city);
+    currentOnlineCity.accept(userData?.user.city);
 
     super.onLoad();
   }
@@ -118,6 +114,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   Future setOfflineCity(String? cityName) async {
     final userWM = Provider.of<UserWM>(context, listen: false);
+
     if (cityName != null) {
       await currentOfflineCity.accept(cityName);
       await userWM.updateUserData(
@@ -125,8 +122,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
         successMessage: 'Город успешно изменён',
       );
     }
-    await currentOfflineCity
-        .accept(cityName ?? userWM.userData.value.data!.user.city);
+    // await currentOfflineCity
+    //     .accept(cityName ?? userWM.userData.value.data!.user.city);
   }
 
   Future<void> _selectOnlineCity() async {
@@ -144,17 +141,10 @@ class DiscountOpticsScreenWM extends WidgetModel {
     );
 
     if (cityName != null && cityName != currentOnlineCity.value) {
-      await currentDiscountOptic.accept(null);
-      unawaited(currentOnlineCity.accept(cityName));
+      await currentOnlineCity.accept(cityName);
       unawaited(
         discountOpticsStreamed.content(
-          allOptics
-              .where(
-                (optic) =>
-                    optic.cities != null &&
-                    optic.cities!.any((element) => element == cityName),
-              )
-              .toList(),
+          _filterOpticsBySelectedCity(),
         ),
       );
     }
@@ -194,8 +184,23 @@ class DiscountOpticsScreenWM extends WidgetModel {
       }
 
       allOptics = discountOptics;
+
+      final hasUserCity = allOptics.any(
+        (optic) =>
+            optic.cities != null &&
+            optic.cities!.any(
+              (element) => element == currentOnlineCity.value,
+            ),
+      );
+
+      if (!hasUserCity) {
+        await currentOnlineCity.accept('Вся РФ');
+      }
+
       unawaited(
-        discountOpticsStreamed.content(discountOptics),
+        discountOpticsStreamed.content(
+          _filterOpticsBySelectedCity(),
+        ),
       );
     } on DioError catch (e) {
       ex = CustomException(
@@ -226,6 +231,18 @@ class DiscountOpticsScreenWM extends WidgetModel {
     if (ex != null) {
       showTopError(ex);
     }
+  }
+
+  List<Optic> _filterOpticsBySelectedCity() {
+    return allOptics
+        .where(
+          (optic) =>
+              optic.cities != null &&
+              optic.cities!.any(
+                (element) => element == currentOnlineCity.value,
+              ),
+        )
+        .toList();
   }
 
   void _initTexts() {
