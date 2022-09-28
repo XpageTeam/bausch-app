@@ -85,20 +85,17 @@ class DiscountOpticsScreenWM extends WidgetModel {
   @override
   void onBind() {
     setCurrentOptic.bind(
-      (optic) {
+      (optic) async {
         if (optic != null) {
-          currentDiscountOptic.accept(optic);
+          unawaited(currentDiscountOptic.accept(optic));
           final cityName = optic.shops.first.city;
-          currentOfflineCity.accept(cityName);
+          await currentOfflineCity.accept(cityName);
 
-          final filteredOptics = allOptics
-              .where(
-                (optic) => optic.shops.any(
-                  (shop) => shop.city == cityName,
-                ),
-              )
-              .toList();
-          discountOpticsStreamed.content(filteredOptics);
+          unawaited(
+            discountOpticsStreamed.content(
+              _filterOpticsBySelectedOfflineCity(),
+            ),
+          );
         }
       },
     );
@@ -127,9 +124,9 @@ class DiscountOpticsScreenWM extends WidgetModel {
     super.onBind();
   }
 
-  Future setOfflineCity(String? cityName) async {
+  Future<void> setOfflineCity(String? cityName) async {
     if (cityName != null) {
-      discountOpticsStreamed.loading();
+      unawaited(discountOpticsStreamed.loading());
       final userWM = Provider.of<UserWM>(context, listen: false);
 
       await currentOfflineCity.accept(cityName);
@@ -138,24 +135,19 @@ class DiscountOpticsScreenWM extends WidgetModel {
         successMessage: 'Город успешно изменён',
       );
 
-      final filteredOptics = allOptics
-          .where(
-            (optic) => optic.shops.any(
-              (shop) => shop.city == cityName,
-            ),
-          )
-          .toList();
-      debugPrint('filteredOptics: $filteredOptics');
-      discountOpticsStreamed.content(filteredOptics);
+      unawaited(
+        discountOpticsStreamed.content(
+          _filterOpticsBySelectedOfflineCity(),
+        ),
+      );
     }
-    // await currentOfflineCity
-    //     .accept(cityName ?? userWM.userData.value.data!.user.city);
   }
 
   Future<void> _selectOnlineCity() async {
     final moscowString = citiesForOnlineShop
         .toList()
         .firstWhere((element) => element == 'Москва');
+
     final cityName = await Keys.mainNav.currentState!.push<String>(
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
@@ -170,7 +162,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       await currentOnlineCity.accept(cityName);
       unawaited(
         discountOpticsStreamed.content(
-          _filterOpticsBySelectedCity(),
+          _filterOpticsBySelectedOnlineCity(),
         ),
       );
     }
@@ -227,19 +219,16 @@ class DiscountOpticsScreenWM extends WidgetModel {
         } else {
           unawaited(
             discountOpticsStreamed.content(
-              _filterOpticsBySelectedCity(),
+              _filterOpticsBySelectedOnlineCity(),
             ),
           );
         }
       } else {
-        final filteredOptics = allOptics
-            .where(
-              (optic) => optic.shops.any(
-                (shop) => shop.city == currentOfflineCity.value,
-              ),
-            )
-            .toList();
-        unawaited(discountOpticsStreamed.content(filteredOptics));
+        unawaited(
+          discountOpticsStreamed.content(
+            _filterOpticsBySelectedOfflineCity(),
+          ),
+        );
       }
     } on DioError catch (e) {
       ex = CustomException(
@@ -272,7 +261,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     }
   }
 
-  List<Optic> _filterOpticsBySelectedCity() {
+  List<Optic> _filterOpticsBySelectedOnlineCity() {
     return allOptics
         .where(
           (optic) =>
@@ -280,6 +269,16 @@ class DiscountOpticsScreenWM extends WidgetModel {
               optic.cities!.any(
                 (element) => element == currentOnlineCity.value,
               ),
+        )
+        .toList();
+  }
+
+  List<Optic> _filterOpticsBySelectedOfflineCity() {
+    return allOptics
+        .where(
+          (optic) => optic.shops.any(
+            (shop) => shop.city == currentOfflineCity.value,
+          ),
         )
         .toList();
   }
