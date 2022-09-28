@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -61,6 +62,8 @@ class LoginWM extends WidgetModel {
 
   Timer? smsTimer;
 
+  AppsflyerSdk? appsFlyer;
+
   LoginWM({
     required WidgetModelDependencies baseDependencies,
     required this.context,
@@ -68,6 +71,8 @@ class LoginWM extends WidgetModel {
     _loadText();
     debugPrint('loginConstructor');
     var canUnfocus = false;
+
+    appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
 
     phoneController.addListener(() {
       debugPrint('number: ${phoneController.text}');
@@ -202,9 +207,7 @@ class LoginWM extends WidgetModel {
           await PhoneSender.send(phoneController.text, uuid),
         );
 
-        debugPrint(
-          'phoneConfirmed: ${authRequestResult.value.data?.isMobilePhoneConfirmed}',
-        );
+        unawaited(appsFlyer?.logEvent('smsSendedToUser', null));
 
         await smsSendCounter.accept(smsSendCounter.value + 1);
       } on DioError catch (e) {
@@ -257,15 +260,18 @@ class LoginWM extends WidgetModel {
         await UserWriter.writeToken(res.xApiToken);
 
         if (!isMobilePhoneConfirmed) {
-          unawaited(
-            FirebaseAnalytics.instance.logEvent(name: 'registration'),
-          );
+          unawaited(FirebaseAnalytics.instance.logEvent(name: 'registrationByPhone'));
+          unawaited(appsFlyer?.logEvent('registrationByPhone', null));
+          unawaited(appsFlyer?.logEvent('registrationSuccess', null));
+        } else {
+          unawaited(FirebaseAnalytics.instance.logEvent(name: 'authByPhone'));
+          unawaited(appsFlyer?.logEvent('authByPhone', null));
         }
 
         //* Очистка полей после отправки кода
         // phoneController.text = '';
 
-        debugPrint(codeController.text);
+        unawaited(appsFlyer?.logEvent('smsCodeTrue', null));
 
         _checkAuth();
       } on DioError catch (e) {
@@ -285,6 +291,8 @@ class LoginWM extends WidgetModel {
           title: e.toString(),
           ex: e,
         );
+
+        unawaited(appsFlyer?.logEvent('smsCodeFalse', null));
       }
 
       if (error != null) {
