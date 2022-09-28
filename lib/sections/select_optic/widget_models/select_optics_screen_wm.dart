@@ -119,20 +119,14 @@ class SelectOpticScreenWM extends WidgetModel {
     } else {
       initialCities = _sort(initialCities!);
 
-      final haveMoscow =
-          initialCities!.where((element) => element.title == 'Москва').length;
+      final userCity = Provider.of<UserWM>(
+        context,
+        listen: false,
+      ).userData.value.data?.user.city;
 
-      if (haveMoscow > 0 &&
-          Provider.of<UserWM>(
-                context,
-                listen: false,
-              ).userData.value.data?.user.city !=
-              null) {
+      if (userCity != null) {
         // ignore: unawaited_futures
-        currentCityStreamed.content(Provider.of<UserWM>(
-          context,
-          listen: false,
-        ).userData.value.data!.user.city!);
+        currentCityStreamed.content(userCity);
       } else {
         await currentCityStreamed.content(initialCities!.first.title);
       }
@@ -423,30 +417,30 @@ class SelectOpticScreenWM extends WidgetModel {
       await opticsByCityStreamed.accept(opticsByCurrentCity);
       await filteredOpticShopsStreamed.content(
         shopsByFilters,
-          // ..add(
-          //   OpticShop(
-          //     title: 'title',
-          //     phones: ['phones'],
-          //     address: 'address',
-          //     city: 'city',
-          //     coords: Point(
-          //       latitude: 55.160602,
-          //       longitude: 61.387938,
-          //     ),
-          //   ),
-          // )
-          // ..add(
-          //   OpticShop(
-          //     title: 'title',
-          //     phones: ['phones'],
-          //     address: 'address',
-          //     city: 'city',
-          //     coords: Point(
-          //       latitude: 55.158508,
-          //       longitude: 61.410800,
-          //     ),
-          //   ),
-          // ),
+        // ..add(
+        //   OpticShop(
+        //     title: 'title',
+        //     phones: ['phones'],
+        //     address: 'address',
+        //     city: 'city',
+        //     coords: Point(
+        //       latitude: 55.160602,
+        //       longitude: 61.387938,
+        //     ),
+        //   ),
+        // )
+        // ..add(
+        //   OpticShop(
+        //     title: 'title',
+        //     phones: ['phones'],
+        //     address: 'address',
+        //     city: 'city',
+        //     coords: Point(
+        //       latitude: 55.158508,
+        //       longitude: 61.410800,
+        //     ),
+        //   ),
+        // ),
       );
     } on DioError catch (e) {
       ex = CustomException(
@@ -481,7 +475,17 @@ class SelectOpticScreenWM extends WidgetModel {
 
   List<OpticCity> _sort(List<OpticCity> cities) {
     if (cities.isEmpty) return [];
+    OpticCity? moscow;
 
-    return cities..sort((a, b) => a.title.compareTo(b.title));
+    if (cities.any((city) => city.title == 'Москва')) {
+      moscow = cities.firstWhere((city) => city.title == 'Москва');
+      cities.remove(moscow);
+    }
+    final sortedCities = cities..sort((a, b) => a.title.compareTo(b.title));
+
+    return [
+      if (moscow != null) moscow,
+      ...sortedCities,
+    ];
   }
 }

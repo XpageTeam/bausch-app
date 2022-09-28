@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_mixin
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
@@ -23,14 +24,14 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
 
-  final config = Configuration(
-    domain: 'api.mindbox.ru',
-    endpointIos: 'valeant-ios',
-    endpointAndroid: 'valeant-android',
-    subscribeCustomerIfCreated: true,
+  Mindbox.instance.init(
+    configuration: Configuration(
+      domain: 'api.mindbox.ru',
+      endpointIos: 'valeant-ios',
+      endpointAndroid: 'valeant-android',
+      subscribeCustomerIfCreated: true,
+    ),
   );
-
-  Mindbox.instance.init(configuration: config);
 
   final analytics = FirebaseAnalytics.instance;
 
@@ -40,6 +41,14 @@ Future<void> main() async {
         Provider<FirebaseAnalytics>.value(value: analytics),
         Provider<FirebaseAnalyticsObserver>.value(
           value: FirebaseAnalyticsObserver(analytics: analytics),
+        ),
+        Provider<AppsflyerSdk>.value(
+          value: AppsflyerSdk(
+            AppsFlyerOptions(
+              afDevKey: 'sadf',
+              showDebug: true,
+            ),
+          ),
         ),
       ],
       child: MyApp(),

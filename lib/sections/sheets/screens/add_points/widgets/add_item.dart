@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
+import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -108,7 +109,8 @@ class AddItem extends StatelessWidget {
                       '/profile_settings',
                     );
 
-                    unawaited(FirebaseAnalytics.instance.logEvent(name: 'birthdate_filling'));
+                    unawaited(FirebaseAnalytics.instance
+                        .logEvent(name: 'birthdate_filling'));
 
                     unawaited(wm.loadInfoAction());
                     // Keys.mainContentNav.currentState!.pop();

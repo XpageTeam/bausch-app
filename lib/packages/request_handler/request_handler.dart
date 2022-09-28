@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'dart:async';
 import 'dart:io';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -109,7 +111,11 @@ class RequestHandler {
     CancelToken? cancelToken,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    //! debugPrint('userToken1: ${UserRepository.currentUser?.token}');
+    AppsflyerSdk? appsFlyer;
+
+    if (globalContext != null) {
+      appsFlyer = Provider.of<AppsflyerSdk>(globalContext!, listen: false);
+    }
 
     late Response<T> res;
 
@@ -144,6 +150,36 @@ class RequestHandler {
         Provider.of<AuthWM>(globalContext!, listen: false).logout();
       }
 
+      late Map<String, dynamic> params;
+
+      if (queryParameters != null) {
+        params = queryParameters..addAll(<String, dynamic>{'url': path});
+      } else {
+        params = <String, dynamic>{'url': path};
+      }
+
+      if (result?.statusCode == 404) {
+        unawaited(appsFlyer?.logEvent('404', params));
+      }
+
+      if (result?.statusCode.toString()[0] == '5'){
+        unawaited(appsFlyer?.logEvent('serverError', params));
+      }
+
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.other ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+
+        params.addAll(<String, dynamic>{
+          'errorType': e.type.toString(),
+        });
+        
+        unawaited(
+          appsFlyer?.logEvent('connectionError', params),
+        );
+      }
+
       rethrow;
     }
 
@@ -159,7 +195,11 @@ class RequestHandler {
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
   }) async {
-    //debugPrint(UserRepository.currentUser?.token);
+    AppsflyerSdk? appsFlyer;
+
+    if (globalContext != null) {
+      appsFlyer = Provider.of<AppsflyerSdk>(globalContext!, listen: false);
+    }
 
     late Response<T> res;
 
@@ -188,6 +228,36 @@ class RequestHandler {
         Provider.of<AuthWM>(globalContext!, listen: false).logout();
       }
 
+      late Map<String, dynamic> params;
+
+      if (queryParameters != null) {
+        params = queryParameters..addAll(<String, dynamic>{'url': path});
+      } else {
+        params = <String, dynamic>{'url': path};
+      }
+
+      if (result?.statusCode == 404) {
+        unawaited(appsFlyer?.logEvent('404', params));
+      }
+
+      if (result?.statusCode.toString()[0] == '5'){
+        unawaited(appsFlyer?.logEvent('serverError', params));
+      }
+
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.other ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+
+        params.addAll(<String, dynamic>{
+          'errorType': e.type.toString(),
+        });
+        
+        unawaited(
+          appsFlyer?.logEvent('connectionError', params),
+        );
+      }
+
       rethrow;
     }
 
@@ -206,6 +276,12 @@ class RequestHandler {
     if (_cookieManager != null) {
       await _cookieManager!.cookieJar
           .loadForRequest(Uri.parse(StaticData.apiUrl + path));
+    }
+
+    AppsflyerSdk? appsFlyer;
+
+    if (globalContext != null) {
+      appsFlyer = Provider.of<AppsflyerSdk>(globalContext!, listen: false);
     }
 
     try {
@@ -228,6 +304,36 @@ class RequestHandler {
         Provider.of<AuthWM>(globalContext!, listen: false).logout();
       }
 
+      late Map<String, dynamic> params;
+
+      if (queryParameters != null) {
+        params = queryParameters..addAll(<String, dynamic>{'url': path});
+      } else {
+        params = <String, dynamic>{'url': path};
+      }
+
+      if (result?.statusCode == 404) {
+        unawaited(appsFlyer?.logEvent('404', params));
+      }
+
+      if (result?.statusCode.toString()[0] == '5'){
+        unawaited(appsFlyer?.logEvent('serverError', params));
+      }
+
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.other ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+
+        params.addAll(<String, dynamic>{
+          'errorType': e.type.toString(),
+        });
+        
+        unawaited(
+          appsFlyer?.logEvent('connectionError', params),
+        );
+      }
+
       rethrow;
     }
   }
@@ -244,6 +350,12 @@ class RequestHandler {
     if (_cookieManager != null) {
       await _cookieManager!.cookieJar
           .loadForRequest(Uri.parse(StaticData.apiUrl + path));
+    }
+
+    AppsflyerSdk? appsFlyer;
+
+    if (globalContext != null) {
+      appsFlyer = Provider.of<AppsflyerSdk>(globalContext!, listen: false);
     }
 
     try {
@@ -264,6 +376,36 @@ class RequestHandler {
         Provider.of<AuthWM>(globalContext!, listen: false).logout();
       }
 
+      late Map<String, dynamic> params;
+
+      if (queryParameters != null) {
+        params = queryParameters..addAll(<String, dynamic>{'url': path});
+      } else {
+        params = <String, dynamic>{'url': path};
+      }
+
+      if (result?.statusCode == 404) {
+        unawaited(appsFlyer?.logEvent('404', params));
+      }
+
+      if (result?.statusCode.toString()[0] == '5'){
+        unawaited(appsFlyer?.logEvent('serverError', params));
+      }
+
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.other ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+
+        params.addAll(<String, dynamic>{
+          'errorType': e.type.toString(),
+        });
+        
+        unawaited(
+          appsFlyer?.logEvent('connectionError', params),
+        );
+      }
+
       rethrow;
     }
   }
@@ -275,10 +417,9 @@ class RequestHandler {
                 ? (options.headers!
                   ..addAll(
                     <String, dynamic>{
-                      'x-api-key':
-                          options.headers!.containsKey('x-api-key')
-                              ? options.headers!['x-api-key']
-                              : _userWM?.userData.value.data?.user.token ?? '',
+                      'x-api-key': options.headers!.containsKey('x-api-key')
+                          ? options.headers!['x-api-key']
+                          : _userWM?.userData.value.data?.user.token ?? '',
                       'is-ios': options.headers!.containsKey('is-ios')
                           ? options.headers!['is-ios']
                           : Platform.isIOS.toString(),
