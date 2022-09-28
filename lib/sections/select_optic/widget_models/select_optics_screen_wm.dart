@@ -101,12 +101,15 @@ class SelectOpticScreenWM extends WidgetModel {
   /// Для карты с сертификатами. Содержит количество всех выбранных фильтров
   final selectedFiltersCountState = StreamedState<int>(0);
 
+  final String? initialCity;
+
   List<OpticCity>? initialCities;
   List<Filter> selectedFilters = [];
 
   SelectOpticScreenWM({
     required this.context,
     this.initialCities,
+    this.initialCity,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -124,7 +127,9 @@ class SelectOpticScreenWM extends WidgetModel {
         listen: false,
       ).userData.value.data?.user.city;
 
-      if (userCity != null) {
+      if (initialCity != null) {
+        currentCityStreamed.content(initialCity!);
+      } else if (userCity != null) {
         // ignore: unawaited_futures
         currentCityStreamed.content(userCity);
       } else {

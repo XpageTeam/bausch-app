@@ -86,6 +86,16 @@ class ProfileContentWM extends WidgetModel {
     try {
       // _downloader.loadNotificationsBanners();
       final notifications = await _downloader.loadNotificationsList();
+      // await notificationsList.content(
+      //   List.generate(
+      //     40,
+      //     (index) => NotificationModel(
+      //       id: index,
+      //       title: 'title',
+      //       read: false,
+      //     ),
+      //   ),
+      // );
       await notificationsList.content(notifications);
       var unreadCount = 0;
       notificationsList.value.data?.forEach((element) {
@@ -93,7 +103,7 @@ class ProfileContentWM extends WidgetModel {
           unreadCount++;
         }
       });
-      await activeNotifications.accept(unreadCount);
+      updateNotificationsAmount(unreadCount);
     } on DioError catch (e) {
       await notificationsList.error(CustomException(
         title: 'При загрузке уведомлений произошла ошибка',

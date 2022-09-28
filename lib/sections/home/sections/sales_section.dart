@@ -1,7 +1,9 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/sections/home/widgets/containers/sales_wide_container.dart';
+import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:flutter/material.dart';
@@ -67,13 +69,51 @@ class SalesWidget extends StatelessWidget {
                       ? StaticData.sidePadding
                       : 4,
                 ),
-                child: SaleWideContainer(
-                  width: (MediaQuery.of(context).size.width / 2 -
-                          StaticData.sidePadding -
-                          2) *
-                      1.7,
-                  model: actualList[index] as CatalogSheetModel,
-                ),
+                child: index < 3
+                    ? SaleWideContainer(
+                        width: (MediaQuery.of(context).size.width / 2 -
+                                StaticData.sidePadding -
+                                2) *
+                            1.7,
+                        model: actualList[index] as CatalogSheetModel,
+                      )
+                    : index == 3
+                        ? WhiteContainerWithRoundedCorners(
+                            width: 223,
+                            onTap: () => Navigator.of(
+                              Keys.mainContentNav.currentContext!,
+                            ).pushNamed(
+                              '/sales',
+                              arguments: actualList,
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 44,
+                                    width: 44,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.mystic,
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_right_outlined,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Text(
+                                    'Показать все',
+                                    textAlign: TextAlign.center,
+                                    style: AppStyles.h2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
               );
             },
           ),

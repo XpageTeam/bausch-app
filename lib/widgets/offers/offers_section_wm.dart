@@ -31,6 +31,8 @@ class OffersSectionWM extends WidgetModel {
 
   bool canUpdate = true;
 
+  late final userWM = Provider.of<UserWM>(context, listen: false);
+
   OffersSectionWM({
     required this.type,
     required this.context,
@@ -141,7 +143,7 @@ class OffersSectionWM extends WidgetModel {
     }
   }
 
-  void _changeAppLifecycleState(AppLifecycleState state){
+  void _changeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
         canUpdate = true;
@@ -167,8 +169,6 @@ class OffersSectionWM extends WidgetModel {
   }
 
   Future<List<String>> _readRemovedOffersIds() async {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     return preferences.getStringList(
           'type[${type.asString}]user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
         ) ??

@@ -77,6 +77,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     difference = itemModel.price - points;
 
     currentOfflineCity.accept(userData?.user.city);
+
     currentOnlineCity.accept(userData?.user.city);
 
     super.onLoad();
@@ -93,7 +94,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
           unawaited(
             discountOpticsStreamed.content(
-              _filterOpticsBySelectedOfflineCity(),
+              await _filterOpticsBySelectedOfflineCity(),
             ),
           );
         }
@@ -127,20 +128,56 @@ class DiscountOpticsScreenWM extends WidgetModel {
   Future<void> setOfflineCity(String? cityName) async {
     if (cityName != null) {
       unawaited(discountOpticsStreamed.loading());
-      final userWM = Provider.of<UserWM>(context, listen: false);
+      // final userWM = Provider.of<UserWM>(context, listen: false);
 
       await currentOfflineCity.accept(cityName);
-      await userWM.updateUserData(
-        userWM.userData.value.data!.user.copyWith(city: cityName),
-        successMessage: 'Город успешно изменён',
-      );
+      // await userWM.updateUserData(
+      //   userWM.userData.value.data!.user.copyWith(city: cityName),
+      //   successMessage: 'Город успешно изменён',
+      // );
+      currentDiscountOptic.accept(null);
 
       unawaited(
         discountOpticsStreamed.content(
-          _filterOpticsBySelectedOfflineCity(),
+          await _filterOpticsBySelectedOfflineCity(),
         ),
       );
     }
+  }
+
+  Future<List<Optic>> _getOpticsByCurrentCity() async {
+    var optics = <Optic>[];
+
+    if (cities.any(_equalsCurrentCity)) {
+      optics = cities.firstWhere(_equalsCurrentCity).optics;
+    } else {
+      final splittedCurrentCity = currentOfflineCity.value!.split(' ');
+
+      for (final piece in splittedCurrentCity) {
+        if (cities.any(
+          (city) => _equalsPieceOrWithComma(city, piece),
+        )) {
+          optics = cities
+              .firstWhere(
+                (city) => _equalsPieceOrWithComma(city, piece),
+              )
+              .optics;
+        }
+      }
+    }
+
+    return optics;
+  }
+
+  bool _equalsCurrentCity(OpticCity city) {
+    return city.title.toLowerCase() == currentOfflineCity.value!.toLowerCase();
+  }
+
+  bool _equalsPieceOrWithComma(OpticCity city, String piece) {
+    final pieceLower = piece.toLowerCase().replaceAll(',', '');
+    final cityLower = city.title.toLowerCase();
+
+    return cityLower == pieceLower;
   }
 
   Future<void> _selectOnlineCity() async {
@@ -183,6 +220,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       );
 
       cities = repository.cities;
+
       final discountOptics = <Optic>[];
 
       for (final city in repository.cities) {
@@ -224,11 +262,16 @@ class DiscountOpticsScreenWM extends WidgetModel {
           );
         }
       } else {
-        unawaited(
-          discountOpticsStreamed.content(
-            _filterOpticsBySelectedOfflineCity(),
-          ),
-        );
+        if (!allOptics.any((optic) =>
+            optic.shops.any((shop) => shop.city == currentOfflineCity.value))) {
+          await currentOfflineCity.accept(allOptics.first.shops.first.city);
+
+          unawaited(
+            discountOpticsStreamed.content(
+              await _filterOpticsBySelectedOfflineCity(),
+            ),
+          );
+        }
       }
     } on DioError catch (e) {
       ex = CustomException(
@@ -273,14 +316,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
         .toList();
   }
 
-  List<Optic> _filterOpticsBySelectedOfflineCity() {
-    return allOptics
-        .where(
-          (optic) => optic.shops.any(
-            (shop) => shop.city == currentOfflineCity.value,
-          ),
-        )
-        .toList();
+  Future<List<Optic>> _filterOpticsBySelectedOfflineCity() async {
+    return _getOpticsByCurrentCity();
   }
 
   void _initTexts() {

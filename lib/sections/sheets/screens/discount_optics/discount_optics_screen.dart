@@ -181,6 +181,8 @@ class _DiscountOpticsScreenState
                                   (context, animation, secondaryAnimation) =>
                                       CityScreen(
                                 withFavoriteItems: const ['Москва'],
+                                citiesWithShops:
+                                    wm.cities.map((e) => e.title).toList(),
                               ),
                             ),
                           ),
@@ -213,11 +215,17 @@ class _DiscountOpticsScreenState
                       ),
                       onPressed: () => Keys.mainNav.currentState!.push<void>(
                         MaterialPageRoute(
-                          builder: (context) => SelectOpticScreen(
-                            cities: wm.cities,
-                            isCertificateMap: false,
-                            onOpticSelect: (optic, _, __) {
-                              wm.setCurrentOptic(optic);
+                          builder: (context) => StreamedStateBuilder<String?>(
+                            streamedState: wm.currentOfflineCity,
+                            builder: (_, currentOfflineCity) {
+                              return SelectOpticScreen(
+                                cities: wm.cities,
+                                isCertificateMap: false,
+                                initialCity: currentOfflineCity,
+                                onOpticSelect: (optic, _, __) {
+                                  wm.setCurrentOptic(optic);
+                                },
+                              );
                             },
                           ),
                         ),
@@ -261,6 +269,7 @@ class _DiscountOpticsScreenState
               ),
               Warning.warning(wm.warningText),
             ];
+
             return SliverPadding(
               padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,

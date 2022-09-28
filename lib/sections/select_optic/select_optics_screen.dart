@@ -24,17 +24,20 @@ class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
   final void Function(Optic optic, String city, OpticShop? shop) onOpticSelect;
   final String selectButtonText;
   final bool isCertificateMap;
+
   SelectOpticScreen({
     required this.onOpticSelect,
     this.selectButtonText = 'Выбрать эту сеть оптик',
     this.isCertificateMap = true,
     List<OpticCity>? cities,
+    String? initialCity,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => SelectOpticScreenWM(
             context: context,
             initialCities: cities,
+            initialCity: initialCity,
           ),
         );
 

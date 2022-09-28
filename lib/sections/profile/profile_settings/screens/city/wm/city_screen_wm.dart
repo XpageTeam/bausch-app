@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/city/dadata_cities_downloader.dart';
 import 'package:bausch/models/city/dadata_city.dart';
 import 'package:bausch/models/dadata/dadata_response_model.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -141,7 +145,20 @@ class CityScreenWM extends WidgetModel {
       }).toList();
 
       await citiesList.content(cities);
+
+      // //* https://ultralinzi.catzwolf.ru/api/v1/optics.cities/
+      // final _rh = RequestHandler();
+
+      // final data = (await _rh.get<Map<String, dynamic>>(
+      //   'https://ultralinzi.catzwolf.ru/api/v1/optics.cities/',
+      //   withApiUrl: false,
+        
+      //   options: _rh.cacheOptions?.toOptions(),
+      // ))
+      //     .data!;
+      // debugPrint('data: ${data}');
     } on DioError catch (e) {
+      log(e.message);
       await citiesList.error(
         CustomException(
           title: 'При загрузке списка городов произошла ошибка',

@@ -110,6 +110,7 @@ class RequestHandler {
     Options? options,
     CancelToken? cancelToken,
     void Function(int, int)? onReceiveProgress,
+    bool withApiUrl = true,
   }) async {
     AppsflyerSdk? appsFlyer;
 
@@ -126,8 +127,11 @@ class RequestHandler {
     }
 
     if (_cookieManager != null) {
-      await _cookieManager!.cookieJar
-          .loadForRequest(Uri.parse(StaticData.apiUrl + path));
+      await _cookieManager!.cookieJar.loadForRequest(
+        Uri.parse(
+          withApiUrl ? StaticData.apiUrl + path : path,
+        ),
+      );
     }
 
     debugPrint('userToken ${_userWM?.userData.value.data?.user.token}');
@@ -162,7 +166,7 @@ class RequestHandler {
         unawaited(appsFlyer?.logEvent('404', params));
       }
 
-      if (result?.statusCode.toString()[0] == '5'){
+      if (result?.statusCode.toString()[0] == '5') {
         unawaited(appsFlyer?.logEvent('serverError', params));
       }
 
@@ -170,11 +174,10 @@ class RequestHandler {
           e.type == DioErrorType.other ||
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout) {
-
         params.addAll(<String, dynamic>{
           'errorType': e.type.toString(),
         });
-        
+
         unawaited(
           appsFlyer?.logEvent('connectionError', params),
         );
@@ -240,7 +243,7 @@ class RequestHandler {
         unawaited(appsFlyer?.logEvent('404', params));
       }
 
-      if (result?.statusCode.toString()[0] == '5'){
+      if (result?.statusCode.toString()[0] == '5') {
         unawaited(appsFlyer?.logEvent('serverError', params));
       }
 
@@ -248,11 +251,10 @@ class RequestHandler {
           e.type == DioErrorType.other ||
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout) {
-
         params.addAll(<String, dynamic>{
           'errorType': e.type.toString(),
         });
-        
+
         unawaited(
           appsFlyer?.logEvent('connectionError', params),
         );
@@ -316,7 +318,7 @@ class RequestHandler {
         unawaited(appsFlyer?.logEvent('404', params));
       }
 
-      if (result?.statusCode.toString()[0] == '5'){
+      if (result?.statusCode.toString()[0] == '5') {
         unawaited(appsFlyer?.logEvent('serverError', params));
       }
 
@@ -324,11 +326,10 @@ class RequestHandler {
           e.type == DioErrorType.other ||
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout) {
-
         params.addAll(<String, dynamic>{
           'errorType': e.type.toString(),
         });
-        
+
         unawaited(
           appsFlyer?.logEvent('connectionError', params),
         );
@@ -388,7 +389,7 @@ class RequestHandler {
         unawaited(appsFlyer?.logEvent('404', params));
       }
 
-      if (result?.statusCode.toString()[0] == '5'){
+      if (result?.statusCode.toString()[0] == '5') {
         unawaited(appsFlyer?.logEvent('serverError', params));
       }
 
@@ -396,11 +397,10 @@ class RequestHandler {
           e.type == DioErrorType.other ||
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout) {
-
         params.addAll(<String, dynamic>{
           'errorType': e.type.toString(),
         });
-        
+
         unawaited(
           appsFlyer?.logEvent('connectionError', params),
         );
