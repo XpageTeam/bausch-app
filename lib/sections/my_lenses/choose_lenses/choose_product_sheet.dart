@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -78,7 +79,10 @@ class ChooseProductSheet extends StatelessWidget {
                                   style: AppStyles.p1,
                                 ),
                                 Text(
-                                  'Пар: ${lensProductListModel.products[index].count}',
+                                  HelpFunctions.pairs(
+                                    int.parse(lensProductListModel
+                                        .products[index].count),
+                                  ),
                                   style: AppStyles.p1,
                                 ),
                               ],

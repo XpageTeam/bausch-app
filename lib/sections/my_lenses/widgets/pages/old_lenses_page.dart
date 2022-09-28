@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -91,7 +92,12 @@ class OldLensesPage extends StatelessWidget {
                                   style: AppStyles.p1,
                                 ),
                                 Text(
-                                  'Пар: ${myLensesWM.productHistoryList.value[index].product!.count}',
+                                  HelpFunctions.pairs(
+                                    int.parse(
+                                      myLensesWM.productHistoryList.value[index]
+                                          .product!.count,
+                                    ),
+                                  ),
                                   style: AppStyles.p1,
                                 ),
                                 const SizedBox(height: 16),

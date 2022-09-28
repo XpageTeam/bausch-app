@@ -133,9 +133,9 @@ class _ReminderSheetState extends State<ReminderSheet> {
                               } else {
                                 await widget.onSendUpdate(['0']);
                               }
-                              setState(() {
-                                isUpdating = false;
-                              });
+                              // setState(() {
+                              //   isUpdating = false;
+                              // });
                             }
                           },
                           child: const Text(

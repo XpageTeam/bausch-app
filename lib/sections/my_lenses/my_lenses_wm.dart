@@ -73,9 +73,7 @@ class MyLensesWM extends WidgetModel {
       await myLensesRequester.updateReminders(reminders: reminders);
       await multiRemindes.accept([...reminders]);
       _setMultiRemindersStatus(reminders: reminders);
-      if (shouldPop) {
-        Keys.mainContentNav.currentState!.pop();
-      }
+
       showDefaultNotification(
         title: 'Данные успешно обновлены',
         success: true,
@@ -86,6 +84,9 @@ class MyLensesWM extends WidgetModel {
         success: true,
       );
       debugPrint(e.toString());
+    }
+    if (shouldPop) {
+      Keys.mainContentNav.currentState!.pop();
     }
   }
 
@@ -150,6 +151,7 @@ class MyLensesWM extends WidgetModel {
     required DateTime? leftDate,
     required DateTime? rightDate,
   }) async {
+    await loadingInProgress.accept(true);
     try {
       await myLensesRequester.putOnLensesPair(
         leftDate: leftDate,
@@ -160,6 +162,7 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       debugPrint('updateLensesDates $e');
     }
+    await loadingInProgress.accept(false);
   }
 
   Future putOffLenses({required BuildContext context}) async {
@@ -232,16 +235,16 @@ class MyLensesWM extends WidgetModel {
           );
         }
         await _loadDailyReminders();
-        if (context != null) {
-          // ignore: use_build_context_synchronously
-          Navigator.of(context).pop();
-        }
       } else {
         await myLensesRequester.deleteRemindersBuy();
         await dailyReminders.accept(null);
       }
     } catch (e) {
       debugPrint('setReminders $e');
+    }
+    if (context != null) {
+
+      Navigator.of(context).pop();
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -69,12 +70,9 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                     reminders: currentReminders,
                     isSubscribed: true,
                   );
+                  // TODO(check): успевает ли срабатывать
                   await widget.myLensesWM.notificationStatus
                       .accept(currentNotificationStatus);
-                  // TODO(pavlov): этот сет стейт надо убрать
-                  setState(() {
-                    isUpdating = false;
-                  });
                 },
               ),
             ),
@@ -137,7 +135,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                             color:
                                 showDatePicker ? AppTheme.turquoiseBlue : null,
                             text:
-                                '${currentReminderDate.day} ${currentReminderDate.month} ${currentReminderDate.year}',
+                                '${currentReminderDate.day} ${HelpFunctions.getMonthNameByNumber(currentReminderDate.month)} ${currentReminderDate.year}',
                             onPressed: showDatePicker
                                 ? null
                                 : () => setState(() {

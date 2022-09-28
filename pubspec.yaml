@@ -12,6 +12,7 @@ environment:
 
 dependencies:
   after_layout: ^1.2.0
+  appsflyer_sdk: ^6.8.2
   auto_size_text: ^3.0.0
   auto_size_text_pk: ^3.0.0
   cookie_jar: ^3.0.1
@@ -61,7 +62,7 @@ dependencies:
     path: lib/packages/vimeoplayer_trinity
   visibility_detector: ^0.2.0 # НЕ ОБНОВЛЯТЬ
   yandex_mapkit: ^3.1.1
-  appsflyer_sdk: ^6.8.2
+
 
 dev_dependencies:
   flutter_test:

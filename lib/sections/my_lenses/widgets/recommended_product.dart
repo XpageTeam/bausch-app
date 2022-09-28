@@ -80,7 +80,7 @@ class RecommendedProduct extends StatelessWidget {
                     if (await canLaunchUrlString(product.link)) {
                       await launchUrlString(
                         product.link,
-                        mode: LaunchMode.externalApplication,
+                        mode: LaunchMode.inAppWebView,
                       );
                     }
                   },

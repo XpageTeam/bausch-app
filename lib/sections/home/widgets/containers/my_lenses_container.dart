@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
@@ -90,7 +91,9 @@ class MyLensesContainer extends StatelessWidget {
                                           style: AppStyles.p1,
                                         ),
                                       Text(
-                                        'Пар: ${currentProduct.count}',
+                                        HelpFunctions.pairs(
+                                          int.parse(currentProduct.count),
+                                        ),
                                         style: AppStyles.p1,
                                       ),
                                     ],

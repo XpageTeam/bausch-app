@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -97,7 +98,9 @@ class _ChooseLensesScreenState
                                 style: AppStyles.p1,
                               ),
                               Text(
-                                'Пар: ${currentProduct.count}',
+                                HelpFunctions.pairs(
+                                  int.parse(currentProduct.count),
+                                ),
                                 style: AppStyles.p1,
                               ),
                             ],

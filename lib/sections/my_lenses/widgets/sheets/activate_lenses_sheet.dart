@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
@@ -86,7 +87,11 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                                     style: AppStyles.p1,
                                   ),
                                   Text(
-                                    'Пар: ${widget.lensProductModel.count}',
+                                    HelpFunctions.pairs(
+                                      int.parse(
+                                        widget.lensProductModel.count,
+                                      ),
+                                    ),
                                     style: AppStyles.p1,
                                   ),
                                 ],

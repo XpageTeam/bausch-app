@@ -105,7 +105,8 @@ class _RecommendedProductSheetState extends State<RecommendedProductSheet> {
                   if (await canLaunchUrlString(widget.product.link)) {
                     await launchUrlString(
                       widget.product.link,
-                      mode: LaunchMode.externalApplication,
+                      // TODO(info): для открытие ссылок в webview делаем так
+                      mode: LaunchMode.inAppWebView,
                     );
                   }
                 },

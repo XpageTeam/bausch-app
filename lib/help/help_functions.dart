@@ -89,6 +89,22 @@ class HelpFunctions {
     }
   }
 
+  static String pairs(int pairs) {
+    final stringPairs = pairs.toString();
+    final stringLength = stringPairs.length;
+    if (pairs > 5 && pairs < 21) {
+      return '$pairs пар';
+    } else if (stringPairs[stringLength - 1] == '2' ||
+        stringPairs[stringLength - 1] == '3' ||
+        stringPairs[stringLength - 1] == '4') {
+      return '$pairs пары';
+    } else if (stringPairs[stringLength - 1] == '1') {
+      return '$pairs пара';
+    } else {
+      return '$pairs пар';
+    }
+  }
+
   // static String formatDateRu({
   //   required DateTime date,
   //   bool haveWeekDay = false,
@@ -117,6 +133,8 @@ class HelpFunctions {
     return prefix;
   }
 
+// TODO(all): используется только в историях, может убрать?
+// то же самое есть в файле utils
   static Future<void> launchURL(String url) async {
     // ignore: only_throw_errors
     if (!await launchUrlString(url)) throw 'Could not launch $url';
