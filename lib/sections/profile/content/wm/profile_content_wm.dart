@@ -85,8 +85,8 @@ class ProfileContentWM extends WidgetModel {
 
     try {
       // _downloader.loadNotificationsBanners();
-      await notificationsList
-          .content(await _downloader.loadNotificationsList());
+      final notifications = await _downloader.loadNotificationsList();
+      await notificationsList.content(notifications);
       var unreadCount = 0;
       notificationsList.value.data?.forEach((element) {
         if (!element.read!) {

@@ -10,6 +10,8 @@ class AppTheme {
   static const mystic = Color(0xFFECF1F3);
   static const grey = Color(0xFF797B7C);
   static const redNotice = Color(0xffff7878);
+  static const orangeToric = Color(0xffF2994A);
+  static const yellowMultifocal = Color(0xffE7EC06);
   static const mainFontName = 'Euclid Circular A';
 
   static const MaterialColor turquoiseBlueMaterial = MaterialColor(

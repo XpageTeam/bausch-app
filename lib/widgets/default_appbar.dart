@@ -11,6 +11,7 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   final Widget? topRightWidget;
 
   final Color backgroundColor;
+  final int titleFlex;
 
   @override
   Size get preferredSize => const Size(double.infinity, 48);
@@ -19,6 +20,7 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.title,
     this.topRightWidget,
     this.backgroundColor = AppTheme.turquoiseBlue,
+    this.titleFlex = 5,
     Key? key,
   }) : super(key: key);
 
@@ -54,7 +56,7 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                         : Container(),
                   ),
                   Expanded(
-                    flex: 5,
+                    flex: titleFlex,
                     child: Center(
                       child: Text(
                         title,

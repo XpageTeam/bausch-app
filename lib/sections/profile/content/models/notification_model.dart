@@ -19,6 +19,27 @@ class NotificationModel {
           : '+${HelpFunctions.partitionNumber(points!)}')
       : '';
 
+  /// Если присутствует ссылка, то возвращаю [title] без ссылки, иначе - просто возвращаю [title]
+  String get tilteWithoutUrl {
+    final splittedText = title.split(' ');
+    final indexOfUrl = _tryGetIndexOfUrl(splittedText);
+
+    if (indexOfUrl == -1) return title;
+
+    final splittedTitleWithouUrl = splittedText..removeAt(indexOfUrl);
+    return '${splittedTitleWithouUrl.join(' ')} ';
+  }
+
+  /// Если присутсвует ссылка в [title], то возвращаю эту ссылку, иначе возвращаю null
+  String? get url {
+    final splittedText = title.split(' ');
+    final indexOfUrl = _tryGetIndexOfUrl(splittedText);
+
+    if (indexOfUrl == -1) return null;
+
+    return splittedText.elementAt(indexOfUrl);
+  }
+
   const NotificationModel({
     required this.id,
     required this.title,
@@ -42,5 +63,14 @@ class NotificationModel {
     } catch (e) {
       throw ResponseParseException('NotificationModel: ${e.toString()}');
     }
+  }
+
+  /// Поиск индекса ссылки в разбитом по пробелам [title]
+  int _tryGetIndexOfUrl(List<String> splittedText) {
+    return splittedText.indexWhere(
+      (element) => element.startsWith(
+        'http',
+      ),
+    );
   }
 }
