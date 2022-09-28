@@ -89,7 +89,9 @@ class CityScreenWM extends WidgetModel {
     });
 
     subscribe(selectCityAction.stream, (_) {
-      Navigator.of(context).pop(searchQuery.value);
+      Navigator.of(context).pop(
+        searchQuery.value.replaceAll('г ', ''),
+      );
     });
 
     subscribe(citiesListReloadAction.stream, (value) {

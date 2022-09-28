@@ -100,8 +100,8 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
               child: Row(
                 children: [
-                  Image.asset(
-                    setTheImg(widget.sheetModel.type),
+                  Image.network(
+                    widget.sheetModel.icon!,
                     height: 60,
                   ),
                   const SizedBox(
@@ -134,11 +134,8 @@ class _SheetScreenState extends State<SheetScreen> {
                           CatalogItem(
                             model: widget.items[i * 2],
                             onTap: () {
-                              Navigator.of(context).pushNamed(
-                                '/${widget.sheetModel.type}',
-                                arguments: ItemSheetScreenArguments(
-                                  model: widget.items[i * 2],
-                                ),
+                              _openItemSheet(
+                                widget.items[i * 2],
                               );
                             },
                             allWebinarsCallback: _openAllWebinars,
@@ -155,11 +152,8 @@ class _SheetScreenState extends State<SheetScreen> {
                             CatalogItem(
                               model: widget.items[i * 2 + 1],
                               onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  '/${widget.sheetModel.type}',
-                                  arguments: ItemSheetScreenArguments(
-                                    model: widget.items[i * 2 + 1],
-                                  ),
+                                _openItemSheet(
+                                  widget.items[i * 2 + 1],
                                 );
                               },
                               allWebinarsCallback: _openAllWebinars,
@@ -188,6 +182,17 @@ class _SheetScreenState extends State<SheetScreen> {
           if (widget.sheetModel.type != 'promo_code_immediately')
             const InfoBlock(),
         ],
+      ),
+    );
+  }
+
+  void _openItemSheet(CatalogItemModel model) {
+    final type =
+        widget.sheetModel.type.contains('online') ? 'onlineShop' : 'offline';
+    Navigator.of(context).pushNamed(
+      '/$type',
+      arguments: ItemSheetScreenArguments(
+        model: model,
       ),
     );
   }
