@@ -85,7 +85,22 @@ class DiscountOpticsScreenWM extends WidgetModel {
   @override
   void onBind() {
     setCurrentOptic.bind(
-      currentDiscountOptic.accept,
+      (optic) {
+        if (optic != null) {
+          currentDiscountOptic.accept(optic);
+          final cityName = optic.shops.first.city;
+          currentOfflineCity.accept(cityName);
+
+          final filteredOptics = allOptics
+              .where(
+                (optic) => optic.shops.any(
+                  (shop) => shop.city == cityName,
+                ),
+              )
+              .toList();
+          discountOpticsStreamed.content(filteredOptics);
+        }
+      },
     );
 
     buttonAction.bind(
@@ -113,14 +128,25 @@ class DiscountOpticsScreenWM extends WidgetModel {
   }
 
   Future setOfflineCity(String? cityName) async {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     if (cityName != null) {
+      discountOpticsStreamed.loading();
+      final userWM = Provider.of<UserWM>(context, listen: false);
+
       await currentOfflineCity.accept(cityName);
       await userWM.updateUserData(
         userWM.userData.value.data!.user.copyWith(city: cityName),
         successMessage: 'Город успешно изменён',
       );
+
+      final filteredOptics = allOptics
+          .where(
+            (optic) => optic.shops.any(
+              (shop) => shop.city == cityName,
+            ),
+          )
+          .toList();
+      debugPrint('filteredOptics: $filteredOptics');
+      discountOpticsStreamed.content(filteredOptics);
     }
     // await currentOfflineCity
     //     .accept(cityName ?? userWM.userData.value.data!.user.city);
@@ -182,26 +208,39 @@ class DiscountOpticsScreenWM extends WidgetModel {
           (arr, optic) => arr..addAll(optic.cities!),
         );
       }
-
       allOptics = discountOptics;
 
-      final hasUserCity = allOptics.any(
-        (optic) =>
-            optic.cities != null &&
-            optic.cities!.any(
-              (element) => element == currentOnlineCity.value,
+      if (discountType.asString == 'onlineShop') {
+        final hasUserCity = allOptics.any(
+          (optic) =>
+              optic.cities != null &&
+              optic.cities!.any(
+                (element) => element == currentOnlineCity.value,
+              ),
+        );
+
+        if (!hasUserCity) {
+          await currentOnlineCity.accept('Вся РФ');
+          unawaited(
+            discountOpticsStreamed.content(allOptics),
+          );
+        } else {
+          unawaited(
+            discountOpticsStreamed.content(
+              _filterOpticsBySelectedCity(),
             ),
-      );
-
-      if (!hasUserCity) {
-        await currentOnlineCity.accept('Вся РФ');
+          );
+        }
+      } else {
+        final filteredOptics = allOptics
+            .where(
+              (optic) => optic.shops.any(
+                (shop) => shop.city == currentOfflineCity.value,
+              ),
+            )
+            .toList();
+        unawaited(discountOpticsStreamed.content(filteredOptics));
       }
-
-      unawaited(
-        discountOpticsStreamed.content(
-          _filterOpticsBySelectedCity(),
-        ),
-      );
     } on DioError catch (e) {
       ex = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -389,6 +428,8 @@ class OpticCititesRepository {
           optics: optics,
         ),
       );
+
+      debugPrint('cityNames: ${cityNames}');
     }
 
     return OpticCititesRepository(cities);

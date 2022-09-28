@@ -141,9 +141,9 @@ class _DiscountOpticsScreenState
           ),
           errorChild: const _NoDiscountsAvailable(),
           builder: (_, discountOptics) {
-            if (discountOptics.isEmpty) {
-              return const _NoDiscountsAvailable();
-            }
+            // if (discountOptics.isEmpty) {
+            //   return const _NoDiscountsAvailable();
+            // }
 
             final items = <Widget>[
               Text(
@@ -216,15 +216,28 @@ class _DiscountOpticsScreenState
                           builder: (context) => SelectOpticScreen(
                             cities: wm.cities,
                             isCertificateMap: false,
-                            onOpticSelect: (optic, _, __) =>
-                                wm.setCurrentOptic(optic),
+                            onOpticSelect: (optic, _, __) {
+                              wm.setCurrentOptic(optic);
+                            },
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              if (wm.discountType == DiscountType.offline)
+              if (wm.discountType == DiscountType.offline &&
+                  discountOptics.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),
+                  child: Text(
+                    'Нет доступных скидок',
+                    style: AppStyles.h1,
+                  ),
+                ),
+              if (wm.discountType == DiscountType.offline &&
+                  discountOptics.isNotEmpty)
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 12,
