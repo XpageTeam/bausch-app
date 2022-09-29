@@ -34,8 +34,8 @@ class _SmallContainerState extends State<SmallContainer> {
 
   @override
   void dispose() {
-    super.dispose();
     catalogItemCubit.close();
+    super.dispose();
   }
 
   @override
