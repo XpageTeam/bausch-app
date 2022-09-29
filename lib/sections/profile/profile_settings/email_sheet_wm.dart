@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,8 @@ class EmailSheetWM extends WidgetModel {
     if (isLoading.value) return;
     final userWM = Provider.of<UserWM>(context, listen: false);
 
+    final appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
+
     await isLoading.accept(true);
 
     await userWM.updateUserData(
@@ -68,6 +71,8 @@ class EmailSheetWM extends WidgetModel {
     );
 
     await isLoading.accept(false);
+
+    unawaited(appsFlyer.logEvent('emailChanged', null));
   }
 
   void _validateForm() {
