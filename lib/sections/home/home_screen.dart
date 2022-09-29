@@ -216,6 +216,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                     return OffersSection(
                                       repo: repo,
                                       mainScreenWM: wm,
+                                      canPress: false,
                                       margin: const EdgeInsets.only(
                                         bottom: 20,
                                         left: StaticData.sidePadding,

@@ -136,6 +136,11 @@ class _SalesScreenState extends State<SalesScreen> {
               }).toList(),
             ),
           ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 40,
+            ),
+          ),
         ]),
       ),
     );

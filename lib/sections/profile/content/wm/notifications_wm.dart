@@ -55,7 +55,6 @@ class NotificationsWM extends WidgetModel {
     final banners = Container(
       child: OffersSection(
         type: OfferType.notificationsScreen,
-        showLoader: false,
         margin: const EdgeInsets.only(bottom: 4),
       ),
     );
