@@ -181,25 +181,52 @@ class _DiscountOpticsScreenState
                   padding: const EdgeInsets.only(top: 20, bottom: 4),
                   child: StreamedStateBuilder<String?>(
                     streamedState: wm.currentOfflineCity,
-                    builder: (_, cityName) => FocusButton(
-                      labelText: 'Город',
-                      selectedText: cityName,
-                      onPressed: () async {
-                        await wm.setOfflineCity(
-                          await Keys.mainNav.currentState!.push<String?>(
-                            PageRouteBuilder<String>(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      CityScreen(
-                                withFavoriteItems: const ['Москва'],
-                                citiesWithShops:
-                                    wm.cities.map((e) => e.title).toList(),
-                              ),
+                    builder: (_, cityName) => WhiteButton(
+                      text: cityName ?? 'Город',
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                          top: 16,
+                          bottom: 16,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/map-marker.png',
+                          height: 16,
+                        ),
+                      ),
+                      onPressed: () async => wm.setOfflineCity(
+                        await Keys.mainNav.currentState!.push<String?>(
+                          PageRouteBuilder<String>(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    CityScreen(
+                              withFavoriteItems: const ['Москва'],
+                              citiesWithShops:
+                                  wm.cities.map((e) => e.title).toList(),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
+                    // FocusButton(
+                    //   labelText: 'Город',
+                    //   selectedText: cityName,
+                    //   onPressed: () async {
+                    //     await wm.setOfflineCity(
+                    //       await Keys.mainNav.currentState!.push<String?>(
+                    //         PageRouteBuilder<String>(
+                    //           pageBuilder:
+                    //               (context, animation, secondaryAnimation) =>
+                    //                   CityScreen(
+                    //             withFavoriteItems: const ['Москва'],
+                    //             citiesWithShops:
+                    //                 wm.cities.map((e) => e.title).toList(),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                   ),
                 ),
               if (wm.discountType == DiscountType.offline)

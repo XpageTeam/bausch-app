@@ -58,6 +58,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   late int difference;
   bool get isEnough => difference <= 0;
+  bool wasDialogShowed = false;
 
   DiscountOpticsScreenWM({
     required this.context,
@@ -80,8 +81,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     final points = userData?.balance.available.toInt() ?? 0;
     difference = itemModel.price - points;
 
-    currentOfflineCity.accept(userData?.user.city);
-
+    currentOfflineCity.accept(null);
     currentOnlineCity.accept(userData?.user.city);
 
     super.onLoad();
@@ -130,7 +130,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   }
 
   Future<void> setOfflineCity(String? cityName) async {
-    if (cityName != null) {
+    if (cityName != null && currentOfflineCity.value != cityName) {
       unawaited(discountOpticsStreamed.loading());
 
       await currentOfflineCity.accept(cityName);
@@ -143,17 +143,20 @@ class DiscountOpticsScreenWM extends WidgetModel {
         ),
       );
 
-      // TODO(Nikolay): Надо понять что значит "спрашиваем ОДИН раз".
-      _showRememberCityDialog(
-        confirmCallback: (ctx) {
-          final userWM = context.read<UserWM>();
-          userWM.updateUserData(
-            userWM.userData.value.data!.user.copyWith(city: cityName),
-            successMessage: 'Город успешно изменён',
-          );
-          Navigator.of(ctx).pop();
-        },
-      );
+      if (!wasDialogShowed) {
+        _showRememberCityDialog(
+          confirmCallback: (ctx) {
+            wasDialogShowed = true;
+
+            final userWM = context.read<UserWM>();
+            userWM.updateUserData(
+              userWM.userData.value.data!.user.copyWith(city: cityName),
+              successMessage: 'Город успешно изменён',
+            );
+            Navigator.of(ctx).pop();
+          },
+        );
+      }
     }
   }
 
@@ -274,7 +277,11 @@ class DiscountOpticsScreenWM extends WidgetModel {
           );
         }
       } else {
-        if (!allOptics.any((optic) =>
+        if (currentOfflineCity.value == null) {
+          unawaited(
+            discountOpticsStreamed.content(allOptics),
+          );
+        } else if (!allOptics.any((optic) =>
             optic.shops.any((shop) => shop.city == currentOfflineCity.value))) {
           await currentOfflineCity.accept(allOptics.first.shops.first.city);
 
