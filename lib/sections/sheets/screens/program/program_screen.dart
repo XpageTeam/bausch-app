@@ -166,6 +166,53 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 40.0,
               ),
               sliver: SliverToBoxAdapter(
+                child: StreamedStateBuilder<Optic?>(
+                  streamedState: wm.currentOpticStreamed,
+                  builder: (_, currentOptic) => WhiteButton(
+                    text: currentOptic == null
+                        ? 'Выбрать оптику'
+                        : wm.fullAddress,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 12,
+                        top: 10,
+                        bottom: 12,
+                      ),
+                      child: Image.asset(
+                        'assets/icons/map-marker.png',
+                        height: 16,
+                      ),
+                    ),
+                    onPressed: () {
+                      Keys.mainNav.currentState!.push<void>(
+                        MaterialPageRoute(
+                          builder: (context) => SelectOpticScreen(
+                            selectButtonText: 'Выбрать оптику',
+                            onOpticSelect: (optic, city, shop) {
+                              wm.city = city;
+
+                              if (shop != null) {
+                                wm.selectOptic(optic.copyWith(shops: [shop]));
+                              } else {
+                                wm.selectOptic(optic);
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                40.0,
+              ),
+              sliver: SliverToBoxAdapter(
                 child: _InfoBlock(
                   isWhiteContainerOnBackground: true,
                   headerText: 'Важно знать перед подбором',
@@ -251,53 +298,6 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                StaticData.sidePadding,
-                0,
-                StaticData.sidePadding,
-                40.0,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: StreamedStateBuilder<Optic?>(
-                  streamedState: wm.currentOpticStreamed,
-                  builder: (_, currentOptic) => WhiteButton(
-                    text: currentOptic == null
-                        ? 'Выбрать оптику'
-                        : wm.fullAddress,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 12,
-                        top: 10,
-                        bottom: 12,
-                      ),
-                      child: Image.asset(
-                        'assets/icons/map-marker.png',
-                        height: 16,
-                      ),
-                    ),
-                    onPressed: () {
-                      Keys.mainNav.currentState!.push<void>(
-                        MaterialPageRoute(
-                          builder: (context) => SelectOpticScreen(
-                            selectButtonText: 'Выбрать оптику',
-                            onOpticSelect: (optic, city, shop) {
-                              wm.city = city;
-
-                              if (shop != null) {
-                                wm.selectOptic(optic.copyWith(shops: [shop]));
-                              } else {
-                                wm.selectOptic(optic);
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                    },
                   ),
                 ),
               ),

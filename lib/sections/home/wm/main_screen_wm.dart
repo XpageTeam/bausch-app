@@ -240,11 +240,13 @@ class MainScreenWM extends WidgetModel {
 
     CustomException? error;
 
+    unawaited(banners.loading(banners.value.data));
+
     try {
       final result = await OffersRepositoryDownloader.load(
         type: OfferType.homeScreen.asString,
       );
-      await banners.content(OffersRepository(offerList: []));
+      // await banners.content(OffersRepository(offerList: []));
       await Future<void>.delayed(const Duration(milliseconds: 500));
       await banners.content(result);
     } on DioError catch (e) {

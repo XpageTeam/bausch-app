@@ -139,6 +139,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
                     authWM: wm,
                   ),
                 ),
+                defaultScale: true,
                 minWidth: 375,
                 mediaQueryData: MediaQuery.of(context).copyWith(
                   textScaleFactor: 1.0,

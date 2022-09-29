@@ -8,14 +8,18 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
+import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
+import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -54,6 +58,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   late int difference;
   bool get isEnough => difference <= 0;
+  bool wasDialogShowed = false;
 
   DiscountOpticsScreenWM({
     required this.context,
@@ -76,7 +81,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     final points = userData?.balance.available.toInt() ?? 0;
     difference = itemModel.price - points;
 
-    currentOfflineCity.accept(userData?.user.city);
+    currentOfflineCity.accept(null);
     currentOnlineCity.accept(userData?.user.city);
 
     super.onLoad();
@@ -85,7 +90,19 @@ class DiscountOpticsScreenWM extends WidgetModel {
   @override
   void onBind() {
     setCurrentOptic.bind(
-      currentDiscountOptic.accept,
+      (optic) async {
+        if (optic != null) {
+          unawaited(currentDiscountOptic.accept(optic));
+          final cityName = optic.shops.first.city;
+          await currentOfflineCity.accept(cityName);
+
+          unawaited(
+            discountOpticsStreamed.content(
+              await _filterOpticsBySelectedOfflineCity(),
+            ),
+          );
+        }
+      },
     );
 
     buttonAction.bind(
@@ -112,24 +129,77 @@ class DiscountOpticsScreenWM extends WidgetModel {
     super.onBind();
   }
 
-  Future setOfflineCity(String? cityName) async {
-    final userWM = Provider.of<UserWM>(context, listen: false);
+  Future<void> setOfflineCity(String? cityName) async {
+    if (cityName != null && currentOfflineCity.value != cityName) {
+      unawaited(discountOpticsStreamed.loading());
 
-    if (cityName != null) {
       await currentOfflineCity.accept(cityName);
-      await userWM.updateUserData(
-        userWM.userData.value.data!.user.copyWith(city: cityName),
-        successMessage: 'Город успешно изменён',
+
+      unawaited(currentDiscountOptic.accept(null));
+
+      unawaited(
+        discountOpticsStreamed.content(
+          await _filterOpticsBySelectedOfflineCity(),
+        ),
       );
+
+      if (!wasDialogShowed) {
+        _showRememberCityDialog(
+          confirmCallback: (ctx) {
+            wasDialogShowed = true;
+
+            final userWM = context.read<UserWM>();
+            userWM.updateUserData(
+              userWM.userData.value.data!.user.copyWith(city: cityName),
+              successMessage: 'Город успешно изменён',
+            );
+            Navigator.of(ctx).pop();
+          },
+        );
+      }
     }
-    // await currentOfflineCity
-    //     .accept(cityName ?? userWM.userData.value.data!.user.city);
+  }
+
+  Future<List<Optic>> _getOpticsByCurrentCity() async {
+    var optics = <Optic>[];
+
+    if (cities.any(_equalsCurrentCity)) {
+      optics = cities.firstWhere(_equalsCurrentCity).optics;
+    } else {
+      final splittedCurrentCity = currentOfflineCity.value!.split(' ');
+
+      for (final piece in splittedCurrentCity) {
+        if (cities.any(
+          (city) => _equalsPieceOrWithComma(city, piece),
+        )) {
+          optics = cities
+              .firstWhere(
+                (city) => _equalsPieceOrWithComma(city, piece),
+              )
+              .optics;
+        }
+      }
+    }
+
+    return optics;
+  }
+
+  bool _equalsCurrentCity(OpticCity city) {
+    return city.title.toLowerCase() == currentOfflineCity.value!.toLowerCase();
+  }
+
+  bool _equalsPieceOrWithComma(OpticCity city, String piece) {
+    final pieceLower = piece.toLowerCase().replaceAll(',', '');
+    final cityLower = city.title.toLowerCase();
+
+    return cityLower == pieceLower;
   }
 
   Future<void> _selectOnlineCity() async {
     final moscowString = citiesForOnlineShop
         .toList()
         .firstWhere((element) => element == 'Москва');
+
     final cityName = await Keys.mainNav.currentState!.push<String>(
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
@@ -144,7 +214,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       await currentOnlineCity.accept(cityName);
       unawaited(
         discountOpticsStreamed.content(
-          _filterOpticsBySelectedCity(),
+          _filterOpticsBySelectedOnlineCity(),
         ),
       );
     }
@@ -165,6 +235,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
       );
 
       cities = repository.cities;
+
       final discountOptics = <Optic>[];
 
       for (final city in repository.cities) {
@@ -182,26 +253,45 @@ class DiscountOpticsScreenWM extends WidgetModel {
           (arr, optic) => arr..addAll(optic.cities!),
         );
       }
-
       allOptics = discountOptics;
 
-      final hasUserCity = allOptics.any(
-        (optic) =>
-            optic.cities != null &&
-            optic.cities!.any(
-              (element) => element == currentOnlineCity.value,
+      if (discountType.asString == 'onlineShop') {
+        final hasUserCity = allOptics.any(
+          (optic) =>
+              optic.cities != null &&
+              optic.cities!.any(
+                (element) => element == currentOnlineCity.value,
+              ),
+        );
+
+        if (!hasUserCity) {
+          await currentOnlineCity.accept('Вся РФ');
+          unawaited(
+            discountOpticsStreamed.content(allOptics),
+          );
+        } else {
+          unawaited(
+            discountOpticsStreamed.content(
+              _filterOpticsBySelectedOnlineCity(),
             ),
-      );
+          );
+        }
+      } else {
+        if (currentOfflineCity.value == null) {
+          unawaited(
+            discountOpticsStreamed.content(allOptics),
+          );
+        } else if (!allOptics.any((optic) =>
+            optic.shops.any((shop) => shop.city == currentOfflineCity.value))) {
+          await currentOfflineCity.accept(allOptics.first.shops.first.city);
 
-      if (!hasUserCity) {
-        await currentOnlineCity.accept('Вся РФ');
+          unawaited(
+            discountOpticsStreamed.content(
+              await _filterOpticsBySelectedOfflineCity(),
+            ),
+          );
+        }
       }
-
-      unawaited(
-        discountOpticsStreamed.content(
-          _filterOpticsBySelectedCity(),
-        ),
-      );
     } on DioError catch (e) {
       ex = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -233,7 +323,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     }
   }
 
-  List<Optic> _filterOpticsBySelectedCity() {
+  List<Optic> _filterOpticsBySelectedOnlineCity() {
     return allOptics
         .where(
           (optic) =>
@@ -243,6 +333,125 @@ class DiscountOpticsScreenWM extends WidgetModel {
               ),
         )
         .toList();
+  }
+
+  Future<List<Optic>> _filterOpticsBySelectedOfflineCity() async {
+    return _getOpticsByCurrentCity();
+  }
+
+  void _showRememberCityDialog({
+    required ValueChanged<BuildContext> confirmCallback,
+  }) {
+    showFlexibleBottomSheet<void>(
+      context: Keys.mainContentNav.currentContext!,
+      minHeight: 0,
+      initHeight: 0.4,
+      maxHeight: 0.4,
+      anchors: [0, 0.4],
+      builder: (context, controller, _) {
+        return Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(
+                5,
+              ),
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: AppTheme.mystic,
+            body: Stack(
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: controller,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        SizedBox(height: 40),
+                        Text(
+                          'Запомнить город?',
+                          style: AppStyles.h1,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'Настроить отображение партнеров по городу можно позже в настройках',
+                          style: AppStyles.p1Grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  child: IgnorePointer(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Container(
+                          height: 4,
+                          width: 38,
+                          decoration: BoxDecoration(
+                            color: AppTheme.mineShaft,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  BlueButton(
+                    children: const [
+                      Text(
+                        'Да',
+                        style: AppStyles.h2Bold,
+                      ),
+                    ],
+                    onPressed: () => confirmCallback(context),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  DefaultButton(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                    ),
+                    children: const [
+                      Text(
+                        'Нет',
+                        style: AppStyles.h2Bold,
+                      ),
+                    ],
+                    onPressed: Navigator.of(context).pop,
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _initTexts() {
@@ -389,6 +598,8 @@ class OpticCititesRepository {
           optics: optics,
         ),
       );
+
+      debugPrint('cityNames: ${cityNames}');
     }
 
     return OpticCititesRepository(cities);

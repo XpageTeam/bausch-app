@@ -46,13 +46,15 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                 top: 16,
                 right: StaticData.sidePadding,
                 left: StaticData.sidePadding,
-                bottom: 30,
+                bottom: 20,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(right: 30),
+                    margin: const EdgeInsets.only(
+                      right: 70 - StaticData.sidePadding,
+                    ),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
                         //* разбиваю текст на подстроки
@@ -61,6 +63,7 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                           AppStyles.h1,
                           widget.offer.title,
                         );
+                        wm.remainingStrings.clear();
 
                         if (splittedText.length > 2 &&
                             wm.remainingStrings.isEmpty) {
@@ -84,6 +87,7 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                     height: 4,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       StreamedStateBuilder<String>(
@@ -92,11 +96,14 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                           return (widget.offer.description != null ||
                                   remaining.isNotEmpty)
                               ? Flexible(
-                                  child: Text(
-                                    remaining.isNotEmpty
-                                        ? '$remaining\n${widget.offer.description ?? ''}'
-                                        : widget.offer.description ?? '',
-                                    style: AppStyles.p1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 45.0),
+                                    child: Text(
+                                      remaining.isNotEmpty
+                                          ? '$remaining\n${widget.offer.description ?? ''}'
+                                          : widget.offer.description ?? '',
+                                      style: AppStyles.p1,
+                                    ),
                                   ),
                                 )
                               : const SizedBox();
@@ -109,11 +116,13 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                           children: [
                             Image.asset(
                               'assets/banner-icon.png',
-                              height: 60,
+                              height: 70,
                             ),
                             const Positioned(
-                              child: Icon(Icons.arrow_forward_sharp),
-                              right: 10,
+                              child: Icon(
+                                Icons.arrow_forward_sharp,
+                              ),
+                              right: 13,
                             ),
                           ],
                         ),

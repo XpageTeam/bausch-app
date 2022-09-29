@@ -28,10 +28,11 @@ class NotificationItem extends StatelessWidget {
         return VisibilityDetector(
           key: Key(data.id.toString()),
           onVisibilityChanged: (info) async {
-            if (info.visibleFraction >= 0.8 && !item.read!) {
-              wm.updatedNotificationIds.add(item.id);
-              await wm.updateNotifications();
-            }
+            // debugPrint('info: ${info.visibleFraction} id: ${data.id.toString()}');
+            // if (info.visibleFraction >= 0.8 && !item.read!) {
+            //   wm.updatedNotificationIds.add(item.id);
+            //   await wm.updateNotifications();
+            // }
           },
           child: Container(
             padding: const EdgeInsets.symmetric(

@@ -141,15 +141,26 @@ class _DiscountOpticsScreenState
           ),
           errorChild: const _NoDiscountsAvailable(),
           builder: (_, discountOptics) {
-            if (discountOptics.isEmpty) {
-              return const _NoDiscountsAvailable();
-            }
+            // if (discountOptics.isEmpty) {
+            //   return const _NoDiscountsAvailable();
+            // }
 
             final items = <Widget>[
               Text(
                 wm.selectHeaderText,
                 style: AppStyles.h1,
               ),
+              if (wm.discountType == DiscountType.offline &&
+                  discountOptics.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Text(
+                    'Скидкой можно воспользоваться в любой из оптик сети.',
+                    style: AppStyles.p1.copyWith(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
               if (wm.discountType == DiscountType.onlineShop &&
                   wm.citiesForOnlineShop.isNotEmpty)
                 StreamedStateBuilder<String?>(
@@ -170,23 +181,52 @@ class _DiscountOpticsScreenState
                   padding: const EdgeInsets.only(top: 20, bottom: 4),
                   child: StreamedStateBuilder<String?>(
                     streamedState: wm.currentOfflineCity,
-                    builder: (_, cityName) => FocusButton(
-                      labelText: 'Город',
-                      selectedText: cityName,
-                      onPressed: () async {
-                        await wm.setOfflineCity(
-                          await Keys.mainNav.currentState!.push<String?>(
-                            PageRouteBuilder<String>(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      CityScreen(
-                                withFavoriteItems: const ['Москва'],
-                              ),
+                    builder: (_, cityName) => WhiteButton(
+                      text: cityName ?? 'Город',
+                      icon: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                          top: 16,
+                          bottom: 16,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/map-marker.png',
+                          height: 16,
+                        ),
+                      ),
+                      onPressed: () async => wm.setOfflineCity(
+                        await Keys.mainNav.currentState!.push<String?>(
+                          PageRouteBuilder<String>(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    CityScreen(
+                              withFavoriteItems: const ['Москва'],
+                              citiesWithShops:
+                                  wm.cities.map((e) => e.title).toList(),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
+                    // FocusButton(
+                    //   labelText: 'Город',
+                    //   selectedText: cityName,
+                    //   onPressed: () async {
+                    //     await wm.setOfflineCity(
+                    //       await Keys.mainNav.currentState!.push<String?>(
+                    //         PageRouteBuilder<String>(
+                    //           pageBuilder:
+                    //               (context, animation, secondaryAnimation) =>
+                    //                   CityScreen(
+                    //             withFavoriteItems: const ['Москва'],
+                    //             citiesWithShops:
+                    //                 wm.cities.map((e) => e.title).toList(),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                   ),
                 ),
               if (wm.discountType == DiscountType.offline)
@@ -213,25 +253,33 @@ class _DiscountOpticsScreenState
                       ),
                       onPressed: () => Keys.mainNav.currentState!.push<void>(
                         MaterialPageRoute(
-                          builder: (context) => SelectOpticScreen(
-                            cities: wm.cities,
-                            isCertificateMap: false,
-                            onOpticSelect: (optic, _, __) =>
-                                wm.setCurrentOptic(optic),
+                          builder: (context) => StreamedStateBuilder<String?>(
+                            streamedState: wm.currentOfflineCity,
+                            builder: (_, currentOfflineCity) {
+                              return SelectOpticScreen(
+                                cities: wm.cities,
+                                isCertificateMap: false,
+                                initialCity: currentOfflineCity,
+                                onOpticSelect: (optic, _, __) {
+                                  wm.setCurrentOptic(optic);
+                                },
+                              );
+                            },
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              if (wm.discountType == DiscountType.offline)
+              if (wm.discountType == DiscountType.offline &&
+                  discountOptics.isEmpty)
                 const Padding(
-                  padding: EdgeInsets.only(
-                    top: 12,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20,
                   ),
                   child: Text(
-                    'Скидкой можно воспользоваться в любой из оптик сети.',
-                    style: AppStyles.p1,
+                    'Нет доступных скидок',
+                    style: AppStyles.h1,
                   ),
                 ),
               Padding(
@@ -248,6 +296,7 @@ class _DiscountOpticsScreenState
               ),
               Warning.warning(wm.warningText),
             ];
+
             return SliverPadding(
               padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
