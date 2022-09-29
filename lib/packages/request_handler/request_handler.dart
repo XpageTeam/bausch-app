@@ -8,11 +8,13 @@ import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart' as pp;
 import 'package:provider/provider.dart';
 
@@ -137,7 +139,7 @@ class RequestHandler {
         path,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
-        options: _getOptions(options),
+        options: await _getOptions(options),
         queryParameters: queryParameters,
       );
     } on DioError catch (e) {
@@ -213,7 +215,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: _getOptions(options),
+        options: await _getOptions(options),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -289,7 +291,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: _getOptions(options),
+        options: await _getOptions(options),
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -363,7 +365,7 @@ class RequestHandler {
         path,
         data: data,
         queryParameters: queryParameters,
-        options: _getOptions(options),
+        options: await _getOptions(options),
         cancelToken: cancelToken,
       );
     } on DioError catch (e) {
@@ -410,7 +412,18 @@ class RequestHandler {
     }
   }
 
-  Options? _getOptions(Options? options) {
+  Future<Options?> _getOptions(Options? options) async {
+    final info = await PackageInfo.fromPlatform();
+    final deviceInfo = DeviceInfoPlugin();
+    final system =
+        Platform.isAndroid ? 'android' : (Platform.isIOS ? 'ios' : 'another');
+
+    final deviceID = Platform.isAndroid
+        ? (await deviceInfo.androidInfo).id
+        : (Platform.isIOS
+            ? (await deviceInfo.iosInfo).identifierForVendor
+            : null);
+
     return options != null
         ? options.copyWith(
             headers: options.headers != null
@@ -423,11 +436,21 @@ class RequestHandler {
                       'is-ios': options.headers!.containsKey('is-ios')
                           ? options.headers!['is-ios']
                           : Platform.isIOS.toString(),
+                      'system': options.headers!.containsKey('system')
+                          ? options.headers!['system']
+                          : Platform.isIOS.toString(),
+                      'version': info.version,
+                      'device-id': deviceID,
+                      'build-number': info.buildNumber,
                     },
                   ))
                 : <String, dynamic>{
                     'x-api-key': _userWM?.userData.value.data?.user.token ?? '',
                     'is-ios': Platform.isIOS.toString(),
+                    'version': info.version,
+                    'build-number': info.buildNumber,
+                    'device-id': deviceID,
+                    'system': system,
                   },
           )
         : Options(
@@ -435,6 +458,10 @@ class RequestHandler {
               if (_userWM?.userData.value.data?.user.token != null)
                 'x-api-key': _userWM?.userData.value.data?.user.token,
               'is-ios': Platform.isIOS.toString(),
+              'version': info.version,
+              'build-number': info.buildNumber,
+              'device-id': deviceID,
+              'system': system,
             },
           );
   }
