@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
@@ -21,14 +22,14 @@ class ActivateLensesSheet extends StatefulWidget {
   final MyLensesWM myLensesWM;
   final LensesPairModel lensesPairModel;
   final LensProductModel lensProductModel;
-  final List<RecommendedProductModel> recommendedProducts;
+  final int productId;
   final FlexibleDraggableScrollableSheetScrollController controller;
 
   const ActivateLensesSheet({
     required this.controller,
     required this.lensesPairModel,
     required this.lensProductModel,
-    required this.recommendedProducts,
+    required this.productId,
     required this.myLensesWM,
     Key? key,
   }) : super(key: key);
@@ -38,7 +39,15 @@ class ActivateLensesSheet extends StatefulWidget {
 }
 
 class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
-  bool isUpdating = false;
+  late final List<RecommendedProductModel> recommendedProducts;
+  bool isUpdating = true;
+
+  @override
+  void initState() {
+    _loadProduct();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
@@ -86,7 +95,11 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                                     style: AppStyles.p1,
                                   ),
                                   Text(
-                                    'Пар: ${widget.lensProductModel.count}',
+                                    HelpFunctions.pairs(
+                                      int.parse(
+                                        widget.lensProductModel.count,
+                                      ),
+                                    ),
                                     style: AppStyles.p1,
                                   ),
                                 ],
@@ -108,12 +121,8 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                             });
                             await widget.myLensesWM.activateOldLenses(
                               pairId: widget.lensesPairModel.id!,
+                              context: context,
                             );
-                            // TODO(pavlov): посмотреть что будет
-                            setState(() {
-                              isUpdating = false;
-                              Navigator.of(context).pop();
-                            });
                           },
                         ),
                       ],
@@ -143,7 +152,7 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                     ],
                   ),
                 ),
-                if (widget.recommendedProducts.isNotEmpty)
+                if (recommendedProducts.isNotEmpty)
                   const Padding(
                     padding: EdgeInsets.only(
                       top: 30,
@@ -155,9 +164,9 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                       style: AppStyles.h1,
                     ),
                   ),
-                if (widget.recommendedProducts.isNotEmpty)
+                if (recommendedProducts.isNotEmpty)
                   SimpleSlider<RecommendedProductModel>(
-                    items: widget.recommendedProducts,
+                    items: recommendedProducts,
                     builder: (context, product) {
                       return RecommendedProduct(product: product);
                     },
@@ -176,5 +185,15 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
           ),
       ],
     );
+  }
+
+  Future _loadProduct() async {
+    recommendedProducts = await widget.myLensesWM.loadRecommendedProducts(
+      productId: widget
+          .myLensesWM.productHistoryList.value[widget.productId].productId!,
+    );
+    setState(() {
+      isUpdating = false;
+    });
   }
 }

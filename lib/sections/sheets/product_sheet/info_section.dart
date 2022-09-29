@@ -38,7 +38,7 @@ class InfoSection extends StatelessWidget {
                 if (url != null) {
                   if (await canLaunchUrlString(url)) {
                     try {
-                      await launchUrlString(url);
+                      await launchUrlString(url, mode: LaunchMode.inAppWebView);
 
                       return;
                       // ignore: avoid_catches_without_on_clauses
@@ -62,7 +62,7 @@ class InfoSection extends StatelessWidget {
                     if (url != null) {
                       if (await canLaunchUrlString(url)) {
                         try {
-                          await launchUrlString(url);
+                          await launchUrlString(url, mode: LaunchMode.inAppWebView);
 
                           return;
                           // ignore: avoid_catches_without_on_clauses

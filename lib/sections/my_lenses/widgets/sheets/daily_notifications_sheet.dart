@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -40,7 +41,9 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
     currentReplay = widget.myLensesWM.dailyReminders.value!.replay;
     currentReminderDate =
         DateTime.parse(widget.myLensesWM.dailyReminders.value!.date);
-    currentNotificationStatus = [...widget.myLensesWM.notificationStatus.value];
+    currentNotificationStatus = [
+      ...widget.myLensesWM.remindersShowWidget.value,
+    ];
     currentReminders = widget.myLensesWM.dailyReminders.value!.reminders;
     super.initState();
   }
@@ -61,7 +64,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                   setState(() {
                     isUpdating = true;
                   });
-                  await widget.myLensesWM.updateRemindersBuy(
+                  await widget.myLensesWM.updateDailyReminders(
                     defaultValue: false,
                     context: context,
                     replay: currentReplay,
@@ -69,12 +72,9 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                     reminders: currentReminders,
                     isSubscribed: true,
                   );
-                  await widget.myLensesWM.notificationStatus
+                  // TODO(check): успевает ли срабатывать
+                  await widget.myLensesWM.remindersShowWidget
                       .accept(currentNotificationStatus);
-                  // TODO(pavlov): этот сет стейт надо убрать
-                  setState(() {
-                    isUpdating = false;
-                  });
                 },
               ),
             ),
@@ -137,7 +137,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                             color:
                                 showDatePicker ? AppTheme.turquoiseBlue : null,
                             text:
-                                '${currentReminderDate.day} ${currentReminderDate.month} ${currentReminderDate.year}',
+                                '${currentReminderDate.day} ${HelpFunctions.getMonthNameByNumber(currentReminderDate.month)} ${currentReminderDate.year}',
                             onPressed: showDatePicker
                                 ? null
                                 : () => setState(() {

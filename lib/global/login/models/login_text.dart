@@ -113,7 +113,7 @@ class LoginText {
             if (await canLaunchUrlString(link)) {
               unawaited(launchUrlString(
                 link,
-                mode: LaunchMode.externalApplication,
+                mode: LaunchMode.inAppWebView,
               ));
             }
           },

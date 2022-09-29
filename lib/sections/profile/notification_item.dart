@@ -119,6 +119,7 @@ class _TitleWidget extends StatelessWidget {
                         unawaited(
                           launchUrlString(
                             item.url!,
+                            mode: LaunchMode.inAppWebView,
                           ),
                         );
                       }

@@ -1,3 +1,4 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
@@ -54,7 +55,11 @@ class CurrentDailyLensesPage extends StatelessWidget {
                           style: AppStyles.p1,
                         ),
                         Text(
-                          'Пар: ${myLensesWM.currentProduct.value!.count}',
+                          HelpFunctions.pairs(
+                            int.parse(
+                              myLensesWM.currentProduct.value!.count,
+                            ),
+                          ),
                           style: AppStyles.p1,
                         ),
                       ],
@@ -113,7 +118,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                         marginNeeded: false,
                         value: dailyReminders != null,
                         onChanged: (isSubscribed) {
-                          myLensesWM.updateRemindersBuy(
+                          myLensesWM.updateDailyReminders(
                             defaultValue: true,
                             date: null,
                             reminders: null,

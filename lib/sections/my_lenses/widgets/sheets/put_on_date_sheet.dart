@@ -53,7 +53,7 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                 padding: const EdgeInsets.only(top: 40, bottom: 30),
                 child: Text(
                   widget.leftPut != null && widget.rightPut != null
-                      ?  'Когда надеты линзы' 
+                      ? 'Когда надеты линзы'
                       : widget.rightPut != null
                           ? 'Правая линза надета'
                           : 'Левая линза надета',
@@ -62,20 +62,17 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
               ),
               DatePickerWidget(
                 onMonthChangeStartWithFirstDate: false,
-                initialDateTime:
-                    widget.leftPut ?? widget.rightPut,
-                minDateTime: DateTime(2021),
+                initialDateTime: widget.leftPut ?? widget.rightPut,
+                minDateTime: DateTime(DateTime.now().year - 1),
+                // TODO(ask): добавил 5 дней
+                maxDateTime: DateTime.now().add(const Duration(days: 5)),
                 locale: DateTimePickerLocale.ru,
                 onCancel: () {},
                 dateFormat: 'dd.MM.yyyy',
                 onConfirm: (date, i) {
                   widget.onConfirmed(
-                    leftDate: widget.leftPut != null 
-                        ? date
-                        : null,
-                    rightDate: widget.rightPut != null 
-                        ? date
-                        : null,
+                    leftDate: widget.leftPut != null ? date : null,
+                    rightDate: widget.rightPut != null ? date : null,
                   );
                 },
               ),

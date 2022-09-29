@@ -12,11 +12,13 @@ environment:
 
 dependencies:
   after_layout: ^1.2.0
+  appsflyer_sdk: ^6.8.2
   auto_size_text: ^3.0.0
   auto_size_text_pk: ^3.0.0
   cookie_jar: ^3.0.1
   csv: ^5.0.1
   cupertino_icons: ^1.0.5
+  device_info_plus: ^4.1.2
   dio: ^4.0.6
   dio_cache_interceptor: ^3.3.1
   dio_cache_interceptor_db_store: ^5.0.0
@@ -61,7 +63,7 @@ dependencies:
     path: lib/packages/vimeoplayer_trinity
   visibility_detector: ^0.2.0 # НЕ ОБНОВЛЯТЬ
   yandex_mapkit: ^3.1.1
-  appsflyer_sdk: ^6.8.2
+
 
 dev_dependencies:
   flutter_test:

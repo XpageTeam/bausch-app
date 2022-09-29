@@ -13,7 +13,7 @@ class Utils {
     final url = '${isPhone ? 'tel:' : ''}$rawUrl';
 
     if (await canLaunchUrlString(url)) {
-      return launchUrlString(url, mode: LaunchMode.externalApplication);
+      return launchUrlString(url);
     } else {
       return Future<bool>.error(
         'Не удалось перейти по ссылке $url',
@@ -29,8 +29,9 @@ class Utils {
     final uriString = '${isPhone ? 'tel:' : ''}$rawUrl';
 
     if (await canLaunchUrlString(uriString)) {
-      // TODO(checkall): добавил LaunchMode
-      await launchUrlString(uriString, mode: LaunchMode.externalApplication);
+      await launchUrlString(
+        uriString,
+      );
     } else {
       onError?.call(
         CustomException(title: 'Не удалось перейти по ссылке $rawUrl'),
