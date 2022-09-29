@@ -13,9 +13,9 @@ import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class CurrentDailyLensesPage extends StatelessWidget {
@@ -50,10 +50,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                           myLensesWM.currentProduct.value!.name,
                           style: AppStyles.h2,
                         ),
-                        const Text(
-                          'Однодневные',
-                          style: AppStyles.p1,
-                        ),
+                        const Text('Однодневные', style: AppStyles.p1),
                         Text(
                           HelpFunctions.pairs(
                             int.parse(
@@ -94,90 +91,115 @@ class CurrentDailyLensesPage extends StatelessWidget {
             ],
           ),
         ),
-        StreamedStateBuilder<RemindersBuyModel?>(
-          streamedState: myLensesWM.dailyReminders,
-          builder: (_, dailyReminders) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: WhiteContainerWithRoundedCorners(
-              padding: const EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: StaticData.sidePadding,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Напомнить о покупке\nновой упаковки',
-                        style: AppStyles.h2,
-                      ),
-                      CustomCheckbox(
-                        marginNeeded: false,
-                        value: dailyReminders != null,
-                        onChanged: (isSubscribed) {
-                          myLensesWM.updateDailyReminders(
+        StreamedStateBuilder<bool>(
+          streamedState: myLensesWM.dailyRemindersLoading,
+          builder: (_, dailyRemindersLoading) => dailyRemindersLoading
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(child: AnimatedLoader()),
+                )
+              : StreamedStateBuilder<RemindersBuyModel?>(
+                  streamedState: myLensesWM.dailyReminders,
+                  builder: (_, dailyReminders) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () async => myLensesWM.updateDailyReminders(
                             defaultValue: true,
                             date: null,
                             reminders: null,
                             replay: null,
-                            isSubscribed: isSubscribed!,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  if (dailyReminders != null) ...[
-                    // TODO(pavlov): настроить дату как на макете
-                    Text(
-                      '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nБлижайшая ${DateTime.parse(dailyReminders.date).day} ${DateFormat.MMMM('ru').format(DateTime.parse(dailyReminders.date))} ${DateTime.parse(dailyReminders.date).year}',
-                      style: AppStyles.p1Grey,
-                    ),
-                    const SizedBox(height: 14),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GreyButton(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            text: 'Настроить',
-                            onPressed: () async {
-                              await showFlexibleBottomSheet<void>(
-                                minHeight: 0,
-                                initHeight: 0.95,
-                                maxHeight: 0.95,
-                                anchors: [0, 0.6, 0.95],
-                                context: context,
-                                builder: (context, controller, d) {
-                                  return SheetWidget(
-                                    child: DailyNotificationsSheet(
-                                      myLensesWM: myLensesWM,
-                                      controller: controller,
+                            subscribe: dailyReminders == null,
+                          ),
+                          child: WhiteContainerWithRoundedCorners(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: StaticData.sidePadding,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Напомнить о покупке\nновой упаковки',
+                                      style: AppStyles.h2,
                                     ),
-                                    withPoints: false,
-                                  );
-                                },
-                              );
-                            },
+                                    CustomCheckbox(
+                                      marginNeeded: false,
+                                      value: dailyReminders != null,
+                                      onChanged: (isSubscribed) {
+                                        myLensesWM.updateDailyReminders(
+                                          defaultValue: true,
+                                          date: null,
+                                          reminders: null,
+                                          replay: null,
+                                          subscribe: isSubscribed!,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                if (dailyReminders != null) ...[
+                                  Text(
+                                    '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nБлижайшая ${DateTime.parse(dailyReminders.date).day} ${HelpFunctions.getMonthNameByNumber(DateTime.parse(dailyReminders.date).month, fullLength: true)} ${DateTime.parse(dailyReminders.date).year}',
+                                    style: AppStyles.p1Grey,
+                                  ),
+                                  const SizedBox(height: 14),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: GreyButton(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 14,
+                                          ),
+                                          text: 'Настроить',
+                                          onPressed: () async {
+                                            await showFlexibleBottomSheet<void>(
+                                              minHeight: 0,
+                                              initHeight: 0.95,
+                                              maxHeight: 0.95,
+                                              anchors: [0, 0.6, 0.95],
+                                              context: context,
+                                              builder:
+                                                  (context, controller, d) {
+                                                return SheetWidget(
+                                                  child:
+                                                      DailyNotificationsSheet(
+                                                    myLensesWM: myLensesWM,
+                                                    controller: controller,
+                                                  ),
+                                                  withPoints: false,
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ],
+                            ),
                           ),
                         ),
+                        if (dailyReminders != null)
+                          const SizedBox.shrink()
+                        else
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Warning.warning(
+                              'Поставьте напоминание, чтобы не забыть купить новую упаковку',
+                            ),
+                          ),
                       ],
                     ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ),
-        StreamedStateBuilder<RemindersBuyModel?>(
-          streamedState: myLensesWM.dailyReminders,
-          builder: (_, dailyReminders) => dailyReminders != null
-              ? const SizedBox.shrink()
-              : Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: Warning.warning(
-                    'Поставьте напоминание, чтобы не забыть купить новую упаковку',
                   ),
                 ),
         ),

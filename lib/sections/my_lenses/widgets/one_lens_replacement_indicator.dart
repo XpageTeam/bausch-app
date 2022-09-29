@@ -41,8 +41,8 @@ class OneLensReplacementIndicator extends StatelessWidget {
               ),
               child: LensIndicatorStatus(
                 sameTime: sameTime,
-                twoLenses: false,
-                left: isLeft,
+                isAloneChildCircle: true,
+                isLeft: isLeft,
                 lifeTime: myLensesWM.currentProduct.value!.lifeTime,
                 daysBeforeReplacement: activeLensDate.daysLeft,
                 onTap: () async {

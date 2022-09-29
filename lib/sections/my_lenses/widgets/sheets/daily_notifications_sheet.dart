@@ -70,9 +70,8 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                     replay: currentReplay,
                     date: currentReminderDate.toIso8601String(),
                     reminders: currentReminders,
-                    isSubscribed: true,
+                    subscribe: true,
                   );
-                  // TODO(check): успевает ли срабатывать
                   await widget.myLensesWM.remindersShowWidget
                       .accept(currentNotificationStatus);
                 },

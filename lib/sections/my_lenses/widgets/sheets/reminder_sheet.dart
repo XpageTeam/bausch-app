@@ -8,7 +8,6 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
-// TODO(pavlov): тут разобраться в отличии поведения однодневок
 class ReminderSheet extends StatefulWidget {
   final List<String> currentReminders;
   final bool multiDayLife;
@@ -24,10 +23,10 @@ class ReminderSheet extends StatefulWidget {
   State<ReminderSheet> createState() => _ReminderSheetState();
 }
 
-// TODO(pavlov): проверить что будет если все галочки убрать
 class _ReminderSheetState extends State<ReminderSheet> {
   final pickerNotifications = ['1 день', '2 дня', '3 дня', '4 дня', '5 дней'];
   String pickerNotification = '';
+  int pickerIndex = 0;
   List<bool> boolValues = [
     false,
     false,
@@ -54,22 +53,27 @@ class _ReminderSheetState extends State<ReminderSheet> {
           case '1':
             boolValues[2] = true;
             pickerNotification = 'За 1 день';
+            pickerIndex = 2;
             break;
           case '2':
             boolValues[3] = true;
             pickerNotification = 'За 2 дня';
+            pickerIndex = 3;
             break;
           case '3':
             boolValues[4] = true;
-            pickerNotification = 'За 3 день';
+            pickerNotification = 'За 3 дня';
+            pickerIndex = 4;
             break;
           case '4':
             boolValues[5] = true;
             pickerNotification = 'За 4 дня';
+            pickerIndex = 5;
             break;
           case '5':
             boolValues[6] = true;
             pickerNotification = 'За 5 дней';
+            pickerIndex = 6;
             break;
           case '7':
             boolValues[7] = true;
@@ -175,6 +179,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                       }
                                       boolValues[0] = true;
                                       pickerNotification = '';
+                                      pickerIndex = 0;
                                     } else {
                                       boolValues[0] = false;
                                     }
@@ -311,6 +316,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                         onCancelTap: () {
                                           setState(() {
                                             pickerNotification = '';
+                                            pickerIndex = 0;
                                           });
                                           Navigator.of(context).pop();
                                         },
@@ -321,9 +327,13 @@ class _ReminderSheetState extends State<ReminderSheet> {
                                   '';
                           setState(() {
                             if (pickerValue != '') {
+                              if (pickerNotification != '') {
+                                boolValues[pickerIndex] = false;
+                              }
                               pickerNotification = 'За $pickerValue';
+                              pickerIndex = int.parse(pickerValue[0]) + 1;
                               boolValues[0] = false;
-                              boolValues[int.parse(pickerValue[0]) + 1] = true;
+                              boolValues[pickerIndex] = true;
                             }
                           });
                         },

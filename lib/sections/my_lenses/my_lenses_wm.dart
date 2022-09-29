@@ -40,6 +40,7 @@ class MyLensesWM extends WidgetModel {
   final MyLensesRequester myLensesRequester = MyLensesRequester();
   final recommendedProducts = StreamedState<List<RecommendedProductModel>>([]);
   final loadingInProgress = StreamedState(false);
+  final dailyRemindersLoading = StreamedState(false);
 
   MyLensesWM() : super(const WidgetModelDependencies());
 
@@ -91,6 +92,7 @@ class MyLensesWM extends WidgetModel {
     unawaited(loadingInProgress.accept(false));
   }
 
+  // TODO(ask): сколько строк будет приходить при showAll == false ?
   Future loadWornHistory({
     required bool showAll,
     required bool isOld,
@@ -137,7 +139,6 @@ class MyLensesWM extends WidgetModel {
       await myLensesRequester.updateReminders(reminders: reminders);
       unawaited(multiRemindes.accept([...reminders]));
       _setMultiRemindersStatus(reminders: reminders);
-      // TODO(all): везде расставить такие уведомления?
       showDefaultNotification(
         title: 'Данные успешно обновлены',
         success: true,
@@ -151,6 +152,50 @@ class MyLensesWM extends WidgetModel {
     }
     if (shouldPop) {
       Keys.mainContentNav.currentState!.pop();
+    }
+  }
+
+  Future updateDailyReminders({
+    required bool defaultValue,
+    required bool subscribe,
+    required String? date,
+    required String? replay,
+    required List<String>? reminders,
+    BuildContext? context,
+  }) async {
+    unawaited(dailyRemindersLoading.accept(true));
+    try {
+      if (subscribe) {
+        if (defaultValue) {
+          await myLensesRequester.setDefaultDailyReminders();
+        } else {
+          // TODO(ask): попросить равиля упоминания 1 базовое засунуть в этот запрос
+          await myLensesRequester.updateDailyReminders(
+            date: date!,
+            replay: replay!,
+            reminders: reminders!,
+          );
+        }
+        await _loadDailyReminders();
+      } else {
+        await myLensesRequester.deleteDailyReminders();
+        unawaited(dailyReminders.accept(null));
+      }
+      showDefaultNotification(
+        title: 'Данные успешно обновлены',
+        success: true,
+      );
+    } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка обновления',
+        success: true,
+      );
+      debugPrint('updateDailyReminders $e');
+    }
+    unawaited(dailyRemindersLoading.accept(false));
+    if (context != null) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
     }
   }
 
@@ -182,47 +227,6 @@ class MyLensesWM extends WidgetModel {
     unawaited(loadingInProgress.accept(false));
   }
 
-  Future updateDailyReminders({
-    required bool defaultValue,
-    required bool isSubscribed,
-    required String? date,
-    required String? replay,
-    required List<String>? reminders,
-    BuildContext? context,
-  }) async {
-    try {
-      if (isSubscribed) {
-        if (defaultValue) {
-          await myLensesRequester.setDefaultDailyReminders();
-        } else {
-          await myLensesRequester.updateDailyReminders(
-            date: date!,
-            replay: replay!,
-            reminders: reminders!,
-          );
-        }
-        await _loadDailyReminders();
-      } else {
-        await myLensesRequester.deleteDailyReminders();
-        unawaited(dailyReminders.accept(null));
-      }
-      showDefaultNotification(
-        title: 'Данные успешно обновлены',
-        success: true,
-      );
-    } catch (e) {
-      showDefaultNotification(
-        title: 'Произошла ошибка обновления',
-        success: true,
-      );
-      debugPrint('updateDailyReminders $e');
-    }
-    if (context != null) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-    }
-  }
-
   Future putOffLenses({required BuildContext context}) async {
     if (rightLensDate.value == null || leftLensDate.value == null) {
       await updateLensesDates(leftDate: null, rightDate: null);
@@ -234,20 +238,18 @@ class MyLensesWM extends WidgetModel {
         builder: (context) {
           return PutOnEndSheet(
             onLeftConfirmed: () async {
+              Navigator.of(context).pop();
               await updateLensesDates(
                 leftDate: null,
                 rightDate: rightLensDate.value!.dateStart,
               );
-              // ignore: use_build_context_synchronously
-              Navigator.of(context).pop();
             },
             onRightConfirmed: () async {
+              Navigator.of(context).pop();
               await updateLensesDates(
                 leftDate: leftLensDate.value!.dateStart,
                 rightDate: null,
               );
-              // ignore: use_build_context_synchronously
-              Navigator.of(context).pop();
             },
             onBothConfirmed: () async {
               Navigator.of(context).pop();

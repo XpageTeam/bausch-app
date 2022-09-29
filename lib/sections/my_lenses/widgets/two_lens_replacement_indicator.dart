@@ -37,7 +37,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                 children: [
                   Expanded(
                     child: LensIndicatorStatus(
-                      left: true,
+                      isLeft: true,
                       lifeTime: myLensesWM.currentProduct.value!.lifeTime,
                       daysBeforeReplacement:
                           myLensesWM.leftLensDate.value!.daysLeft,

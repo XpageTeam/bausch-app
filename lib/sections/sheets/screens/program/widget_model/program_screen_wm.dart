@@ -155,8 +155,6 @@ class ProgramScreenWM extends WidgetModel {
     unawaited(primaryDataStreamed.loading());
 
     try {
-      // TODO(pavlov): сертификатная проблема
-
       final data = await PrimaryDataDownloader.load();
 
       unawaited(primaryDataStreamed.content(data));

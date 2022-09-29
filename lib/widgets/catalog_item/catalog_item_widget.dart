@@ -86,7 +86,7 @@ class CatalogItemWidget extends StatelessWidget {
                         ),
                       ),
 
-                      // TODO(pavlov): сюда добавить название скидочного товара
+                      // TODO(all): сюда добавить название скидочного товара
                       //   Flexible(
                       //   child: Text(
                       //     model.name,
@@ -114,7 +114,7 @@ class CatalogItemWidget extends StatelessWidget {
                           ),
                         ),
 
-                      // TODO(pavlov): дата окончания промокода
+                      // TODO(all): дата окончания промокода
                       //
                       // if (model is PartnersItemModel && (model as PartnersItemModel).endDate != null)
                       //   Flexible(

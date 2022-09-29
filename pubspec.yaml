@@ -23,6 +23,7 @@ dependencies:
   dio_cache_interceptor: ^3.3.1
   dio_cache_interceptor_db_store: ^5.0.0
   dio_cookie_manager: ^2.0.0
+  dotted_line: ^3.1.0
   easy_mask: ^2.0.1
   email_validator: ^2.1.17
   equatable: ^2.0.5

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -7,15 +9,15 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class LensSmallIndicator extends StatelessWidget {
   final MyLensesWM myLensesWM;
+  final bool sameTime;
   const LensSmallIndicator({
     required this.myLensesWM,
+    required this.sameTime,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bothActive = myLensesWM.leftLensDate.value != null &&
-        myLensesWM.rightLensDate.value != null;
     final activeDate =
         myLensesWM.leftLensDate.value ?? myLensesWM.rightLensDate.value;
     final isLeft = myLensesWM.leftLensDate.value != null;
@@ -35,13 +37,21 @@ class LensSmallIndicator extends StatelessWidget {
                   animationDuration: 2000,
                   lineWidth: 10,
                   percent: percent.toDouble(),
-
+                  linearGradient: sameTime
+                      ? const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          transform: GradientRotation(-2 * pi / 3),
+                          colors: [
+                            AppTheme.sulu,
+                            AppTheme.turquoiseBlue,
+                          ],
+                        )
+                      : null,
                   circularStrokeCap: CircularStrokeCap.round,
                   backgroundColor: AppTheme.mystic,
-                  // TODO(all): не получается сделать градиент,
-                  // пока оставил один цвет
-                  progressColor: bothActive
-                      ? Colors.greenAccent
+                  progressColor: sameTime
+                      ? null
                       : isLeft
                           ? AppTheme.turquoiseBlue
                           : AppTheme.sulu,
