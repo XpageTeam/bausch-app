@@ -44,7 +44,7 @@ class MyLensesContainer extends StatelessWidget {
                 },
                 padding: const EdgeInsets.only(
                   left: StaticData.sidePadding,
-                  bottom: 20,
+                  bottom: 24,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -104,17 +104,17 @@ class MyLensesContainer extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 46),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: myLensesWM.lensesPairModel.value == null ||
                                   currentProduct!.lifeTime == 1
                               ? Padding(
-                                  padding: const EdgeInsets.only(top: 20.0),
+                                  padding: const EdgeInsets.only(top: 24.0),
                                   child: Image.asset(
                                     'assets/my_lenses.png',
-                                    height: 60,
-                                    width: 60,
+                                    height: 57,
+                                    width: 54,
                                     fit: BoxFit.scaleDown,
                                   ),
                                 )
