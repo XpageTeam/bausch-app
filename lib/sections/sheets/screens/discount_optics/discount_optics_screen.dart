@@ -150,6 +150,17 @@ class _DiscountOpticsScreenState
                 wm.selectHeaderText,
                 style: AppStyles.h1,
               ),
+              if (wm.discountType == DiscountType.offline &&
+                  discountOptics.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Text(
+                    'Скидкой можно воспользоваться в любой из оптик сети.',
+                    style: AppStyles.p1.copyWith(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
               if (wm.discountType == DiscountType.onlineShop &&
                   wm.citiesForOnlineShop.isNotEmpty)
                 StreamedStateBuilder<String?>(
@@ -242,17 +253,6 @@ class _DiscountOpticsScreenState
                   child: Text(
                     'Нет доступных скидок',
                     style: AppStyles.h1,
-                  ),
-                ),
-              if (wm.discountType == DiscountType.offline &&
-                  discountOptics.isNotEmpty)
-                const Padding(
-                  padding: EdgeInsets.only(
-                    top: 12,
-                  ),
-                  child: Text(
-                    'Скидкой можно воспользоваться в любой из оптик сети.',
-                    style: AppStyles.p1,
                   ),
                 ),
               Padding(

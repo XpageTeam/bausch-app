@@ -8,14 +8,18 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
+import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
+import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -128,19 +132,27 @@ class DiscountOpticsScreenWM extends WidgetModel {
   Future<void> setOfflineCity(String? cityName) async {
     if (cityName != null) {
       unawaited(discountOpticsStreamed.loading());
-      // final userWM = Provider.of<UserWM>(context, listen: false);
 
       await currentOfflineCity.accept(cityName);
-      // await userWM.updateUserData(
-      //   userWM.userData.value.data!.user.copyWith(city: cityName),
-      //   successMessage: 'Город успешно изменён',
-      // );
-      currentDiscountOptic.accept(null);
+
+      unawaited(currentDiscountOptic.accept(null));
 
       unawaited(
         discountOpticsStreamed.content(
           await _filterOpticsBySelectedOfflineCity(),
         ),
+      );
+
+      // TODO(Nikolay): Надо понять что значит "спрашиваем ОДИН раз".
+      _showRememberCityDialog(
+        confirmCallback: (ctx) {
+          final userWM = context.read<UserWM>();
+          userWM.updateUserData(
+            userWM.userData.value.data!.user.copyWith(city: cityName),
+            successMessage: 'Город успешно изменён',
+          );
+          Navigator.of(ctx).pop();
+        },
       );
     }
   }
@@ -318,6 +330,121 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   Future<List<Optic>> _filterOpticsBySelectedOfflineCity() async {
     return _getOpticsByCurrentCity();
+  }
+
+  void _showRememberCityDialog({
+    required ValueChanged<BuildContext> confirmCallback,
+  }) {
+    showFlexibleBottomSheet<void>(
+      context: Keys.mainContentNav.currentContext!,
+      minHeight: 0,
+      initHeight: 0.4,
+      maxHeight: 0.4,
+      anchors: [0, 0.4],
+      builder: (context, controller, _) {
+        return Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(
+                5,
+              ),
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: AppTheme.mystic,
+            body: Stack(
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: controller,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        SizedBox(height: 40),
+                        Text(
+                          'Запомнить город?',
+                          style: AppStyles.h1,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'Настроить отображение партнеров по городу можно позже в настройках',
+                          style: AppStyles.p1Grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  child: IgnorePointer(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Container(
+                          height: 4,
+                          width: 38,
+                          decoration: BoxDecoration(
+                            color: AppTheme.mineShaft,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  BlueButton(
+                    children: const [
+                      Text(
+                        'Да',
+                        style: AppStyles.h2Bold,
+                      ),
+                    ],
+                    onPressed: () => confirmCallback(context),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  DefaultButton(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                    ),
+                    children: const [
+                      Text(
+                        'Нет',
+                        style: AppStyles.h2Bold,
+                      ),
+                    ],
+                    onPressed: Navigator.of(context).pop,
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _initTexts() {

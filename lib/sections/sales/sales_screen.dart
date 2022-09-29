@@ -4,11 +4,14 @@ import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/widgets/containers/sales_wide_container.dart';
 import 'package:bausch/sections/home/widgets/containers/small_container.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
+import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SalesScreen extends StatefulWidget {
   final List<BaseCatalogSheetModel> salesList;
@@ -183,53 +186,69 @@ class _SmallContainer extends StatefulWidget {
 }
 
 class __SmallContainerState extends State<_SmallContainer> {
+  late CatalogItemCubit catalogItemCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    catalogItemCubit = CatalogItemCubit(section: widget.item.type);
+  }
+
+  @override
+  void dispose() {
+    catalogItemCubit.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WhiteContainerWithRoundedCorners(
-      padding: EdgeInsets.only(
-        top: 20,
-        bottom: 14,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Text(
-              widget.item.name,
-              style: AppStyles.h2Bold,
-            ),
-          ),
-          Expanded(
-            child: SizedBox(
-              height: 14,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 12.0,
-              right: 10,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.item.count.toString(),
-                  style: AppStyles.p1,
+    return BlocProvider.value(
+      value: catalogItemCubit,
+      child: SheetListener(
+        model: widget.item,
+        child: WhiteContainerWithRoundedCorners(
+          onTap: catalogItemCubit.loadData,
+          padding: const EdgeInsets.only(top: 20, bottom: 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  widget.item.name,
+                  style: AppStyles.h2Bold,
                 ),
-                Container(
-                  height: 85,
-                  width: 80,
-                  alignment: Alignment.bottomRight,
-                  child: Image.network(
-                    widget.item.icon ?? '',
-                  ),
+              ),
+              const Expanded(
+                child: SizedBox(height: 14),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 12.0,
+                  right: 10,
                 ),
-              ],
-            ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.item.count.toString(),
+                      style: AppStyles.p1,
+                    ),
+                    Container(
+                      height: 85,
+                      width: 80,
+                      alignment: Alignment.bottomRight,
+                      child: Image.network(
+                        widget.item.icon ?? '',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -252,13 +271,6 @@ class _FilterSection extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () => onTap(0),
-          // () {
-          //   setState(() {
-          //     containerId = -1;
-          //     activeFilterId = 0;
-          //     activeList = [...widget.salesList];
-          //   });
-          // },
           child: WhiteContainerWithRoundedCorners(
             color: activeIndex == 0 ? Colors.white : Colors.transparent,
             child: const Text(
@@ -270,17 +282,6 @@ class _FilterSection extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () => onTap(1),
-          // () {
-          //   setState(() {
-          //     containerId = -1;
-          //     activeFilterId = 1;
-          //     activeList = [
-          //       ...widget.salesList.where(
-          //         (element) => element.type.contains('offline'),
-          //       ),
-          //     ];
-          //   });
-          // },
           child: WhiteContainerWithRoundedCorners(
             color: activeIndex == 1 ? Colors.white : Colors.transparent,
             child: const Text(
@@ -292,18 +293,6 @@ class _FilterSection extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () => onTap(2),
-
-          // () {
-          //   setState(() {
-          //     containerId = -1;
-          //     activeFilterId = 2;
-          //     activeList = [
-          //       ...widget.salesList.where(
-          //         (element) => element.type.contains('online'),
-          //       ),
-          //     ];
-          //   });
-          // },
           child: WhiteContainerWithRoundedCorners(
             color: activeIndex == 2 ? Colors.white : Colors.transparent,
             child: const Text(
