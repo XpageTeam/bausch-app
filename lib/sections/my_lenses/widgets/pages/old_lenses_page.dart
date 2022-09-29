@@ -37,10 +37,6 @@ class OldLensesPage extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () async {
-                  final products = await myLensesWM.loadRecommendedProducts(
-                    productId:
-                        myLensesWM.productHistoryList.value[index].productId,
-                  );
                   await showFlexibleBottomSheet<void>(
                     minHeight: 0,
                     initHeight: 0.95,
@@ -50,7 +46,7 @@ class OldLensesPage extends StatelessWidget {
                     builder: (context, controller, d) {
                       return SheetWidget(
                         child: ActivateLensesSheet(
-                          recommendedProducts: products,
+                          productId: index,
                           controller: controller,
                           lensProductModel: myLensesWM
                               .productHistoryList.value[index].product!,
@@ -65,7 +61,7 @@ class OldLensesPage extends StatelessWidget {
                 },
                 child: WhiteContainerWithRoundedCorners(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 16,
                     horizontal: StaticData.sidePadding,
                   ),
                   child: Column(
@@ -133,7 +129,6 @@ class OldLensesPage extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      // TODO(pavlov): разобрать поведение
                       GreyButton(
                         text: 'Сделать активными',
                         padding: const EdgeInsets.symmetric(

@@ -118,7 +118,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                         marginNeeded: false,
                         value: dailyReminders != null,
                         onChanged: (isSubscribed) {
-                          myLensesWM.updateRemindersBuy(
+                          myLensesWM.updateDailyReminders(
                             defaultValue: true,
                             date: null,
                             reminders: null,

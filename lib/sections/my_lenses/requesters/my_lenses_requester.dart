@@ -148,7 +148,7 @@ class MyLensesRequester {
   }
 
   // подключаем напоминания о покупке
-  Future<BaseResponseRepository> setDefaultRemindersBuy() async {
+  Future<BaseResponseRepository> setDefaultDailyReminders() async {
     try {
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/reminders-buy/default/',
@@ -163,7 +163,7 @@ class MyLensesRequester {
   }
 
   // изменяем напоминания о покупке
-  Future<BaseResponseRepository> updateRemindersBuy({
+  Future<BaseResponseRepository> updateDailyReminders({
     required String date,
     required String replay,
     required List<String> reminders,
@@ -292,7 +292,7 @@ class MyLensesRequester {
   }
 
   // удаление однодневных напоминаний
-  Future<BaseResponseRepository> deleteRemindersBuy() async {
+  Future<BaseResponseRepository> deleteDailyReminders() async {
     try {
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/reminders-buy/delete/',

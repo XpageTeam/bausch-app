@@ -76,7 +76,7 @@ class CurrentLensesPage extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: StreamedStateBuilder<List<String>>(
-                          streamedState: myLensesWM.notificationStatus,
+                          streamedState: myLensesWM.remindersShowWidget,
                           builder: (_, object) => Text(
                             object[0] != ''
                                 ? object[0]

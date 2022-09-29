@@ -41,7 +41,9 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
     currentReplay = widget.myLensesWM.dailyReminders.value!.replay;
     currentReminderDate =
         DateTime.parse(widget.myLensesWM.dailyReminders.value!.date);
-    currentNotificationStatus = [...widget.myLensesWM.notificationStatus.value];
+    currentNotificationStatus = [
+      ...widget.myLensesWM.remindersShowWidget.value,
+    ];
     currentReminders = widget.myLensesWM.dailyReminders.value!.reminders;
     super.initState();
   }
@@ -62,7 +64,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                   setState(() {
                     isUpdating = true;
                   });
-                  await widget.myLensesWM.updateRemindersBuy(
+                  await widget.myLensesWM.updateDailyReminders(
                     defaultValue: false,
                     context: context,
                     replay: currentReplay,
@@ -71,7 +73,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                     isSubscribed: true,
                   );
                   // TODO(check): успевает ли срабатывать
-                  await widget.myLensesWM.notificationStatus
+                  await widget.myLensesWM.remindersShowWidget
                       .accept(currentNotificationStatus);
                 },
               ),
