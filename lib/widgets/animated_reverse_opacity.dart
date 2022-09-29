@@ -46,7 +46,9 @@ class _AnimatedReverseOpacityState extends State<AnimatedReverseOpacity>
     Future.delayed(
       widget.delay,
       () {
-        controller.forward();
+        if (mounted) {
+          controller.forward();
+        }
         setState(() {
           delayCompleted = true;
         });

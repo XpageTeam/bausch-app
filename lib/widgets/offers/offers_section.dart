@@ -14,16 +14,15 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
-  final bool showLoader;
   final EdgeInsets? margin;
   final MainScreenWM? mainScreenWM;
-
+  final bool canPress;
   OffersSection({
     required OfferType type,
     OffersRepository? repo,
     this.mainScreenWM,
-    this.showLoader = true,
     this.margin,
+    this.canPress = true,
     int? goodID,
     Key? key,
   }) : super(
@@ -77,7 +76,9 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
                       child: OfferWidget(
                         offer: offer,
                         onClose: () => wm.removeOfferAction(offer),
-                        onPressed: () => showTargetBottomSheet(offer),
+                        onPressed: widget.canPress
+                            ? () => showTargetBottomSheet(offer)
+                            : null,
                       ),
                     ),
                   )
@@ -105,7 +106,9 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
                     child: OfferWidget(
                       offer: offer,
                       onClose: () => wm.removeOfferAction(offer),
-                      onPressed: () => showTargetBottomSheet(offer),
+                      onPressed: widget.canPress
+                          ? () => showTargetBottomSheet(offer)
+                          : null,
                     ),
                   ),
                 )
