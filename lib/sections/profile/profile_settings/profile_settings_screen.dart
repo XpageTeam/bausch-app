@@ -1,3 +1,4 @@
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
@@ -39,11 +40,13 @@ class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
   late UserWM userWM;
   late AuthWM authWM;
+  late AppsflyerSdk appsFlyer;
 
   @override
   Widget build(BuildContext context) {
     userWM = Provider.of<UserWM>(context);
     authWM = Provider.of<AuthWM>(context);
+    appsFlyer = Provider.of<AppsflyerSdk>(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -241,6 +244,7 @@ class _ProfileSettingsScreenState
               child: FocusButton(
                 labelText: 'Мои адреса',
                 onPressed: () {
+                  appsFlyer.logEvent('myAddressesOpened', null);
                   Keys.mainContentNav.currentState!.pushNamed('/my_adresses');
                 },
               ),

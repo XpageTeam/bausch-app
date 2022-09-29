@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -33,6 +36,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
   String tempName = '';
   String tempLastName = '';
 
+  AppsflyerSdk? _appsflyer;
+
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
 
@@ -49,6 +54,9 @@ class ProfileSettingsScreenWM extends WidgetModel {
         tempLastName = lastNameController.text;
       },
     );
+
+    _appsflyer = Provider.of<AppsflyerSdk>(context, listen: false);
+
     super.onLoad();
   }
 
@@ -171,6 +179,14 @@ class ProfileSettingsScreenWM extends WidgetModel {
       notifications: notificationsList,
     );
 
+    if (tempName != nameController.text){
+      unawaited(_appsflyer?.logEvent('nameChanged', null));
+    }
+
+    if (tempLastName != lastNameController.text){
+      unawaited(_appsflyer?.logEvent('lastNameChanged', null));
+    }
+
     // ignore: use_build_context_synchronously
     //Navigator.of(context).pop();
   }
@@ -205,6 +221,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
     selectedBirthDate.accept(
       birthDate ?? userWM.userData.value.data!.user.birthDate,
     );
+
+    unawaited(_appsflyer?.logEvent('birthdayChanged', null));
 
     showBanner.accept(true);
   }

@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
@@ -18,6 +19,7 @@ import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class AddDetailsArguments {
   final AdressModel adress;
@@ -195,6 +197,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                 isButtonPressed = true;
                               });
 
+                              Provider.of<AppsflyerSdk>(context, listen: false).logEvent('addressAddStep3', null);
+
                               final model = AdressModel(
                                 id: widget.adress.id,
                                 street: widget.adress.street,
@@ -229,6 +233,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         padding: const EdgeInsets.only(top: 20),
                         child: CustomTextButtonIcon(
                           onPressed: () {
+                            final appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
+
+                            appsFlyer.logEvent('addressRemoving', null);
+
                             showModalBottomSheet<void>(
                               context: context,
                               shape: RoundedRectangleBorder(
@@ -242,9 +250,13 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                     addressesBloc.add(
                                       AddressesDelete(id: widget.adress.id!),
                                     );
+
+                                    appsFlyer.logEvent('addressRemoved', null);
                                   },
                                   noCallback: () {
                                     Navigator.of(context).pop();
+
+                                    appsFlyer.logEvent('addressRemoveCancel', null);
                                   },
                                 );
                               },
