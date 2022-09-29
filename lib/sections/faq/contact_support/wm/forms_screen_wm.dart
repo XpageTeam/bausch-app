@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_statements
-
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -14,7 +12,7 @@ import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/faq/contact_support/downloader/forms_content_downloader.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:file_picker/file_picker.dart';

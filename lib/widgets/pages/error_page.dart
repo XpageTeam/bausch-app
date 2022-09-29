@@ -5,6 +5,7 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:flutter/material.dart';
 
+// TODO(all): зачем нам 2 практически одинаковых экрана ошибки с одинаковым названием?
 class ErrorPage extends StatelessWidget {
   final String title;
   final bool showAppBar;

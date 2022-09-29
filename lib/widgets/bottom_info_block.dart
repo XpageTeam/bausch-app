@@ -3,9 +3,9 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
-class InfoBlock extends StatelessWidget {
+class BottomInfoBlock extends StatelessWidget {
   final double topPadding;
-  const InfoBlock({
+  const BottomInfoBlock({
     this.topPadding = 4,
     Key? key,
   }) : super(key: key);

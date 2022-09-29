@@ -47,8 +47,8 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               }, //Navigator.of(context).pop,
-                              icon:  Icon(backIcon
-                                ,
+                              icon: Icon(
+                                backIcon,
                                 size: 20,
                                 color: AppTheme.mineShaft,
                               ),

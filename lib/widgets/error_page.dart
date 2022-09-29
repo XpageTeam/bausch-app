@@ -4,6 +4,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:flutter/material.dart';
 
+// TODO(all): зачем нам 2 практически одинаковых экрана ошибки с одинаковым названием?
 class ErrorPage extends StatelessWidget {
   final String title;
   final String? subtitle;

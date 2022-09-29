@@ -169,7 +169,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            InfoBlock(),
+            BottomInfoBlock(),
           ],
         ),
         extendBodyBehindAppBar: true,

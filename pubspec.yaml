@@ -65,7 +65,6 @@ dependencies:
   visibility_detector: ^0.2.0 # НЕ ОБНОВЛЯТЬ
   yandex_mapkit: ^3.1.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -77,15 +76,8 @@ flutter:
   assets:
     - assets/
     - assets/logos/
-    - assets/stories/
-    - assets/items/
     - assets/icons/
     - assets/loading/
-    - assets/temp/
-    - assets/temp/logos/
-    - assets/discountOptics/
-    - assets/icons/map-marker.png
-    - assets/icons/user-marker.png
 
   fonts:
     - family: Euclid Circular A

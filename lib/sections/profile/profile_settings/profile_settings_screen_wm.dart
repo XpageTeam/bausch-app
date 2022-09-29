@@ -9,7 +9,7 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -179,11 +179,11 @@ class ProfileSettingsScreenWM extends WidgetModel {
       notifications: notificationsList,
     );
 
-    if (tempName != nameController.text){
+    if (tempName != nameController.text) {
       unawaited(_appsflyer?.logEvent('nameChanged', null));
     }
 
-    if (tempLastName != lastNameController.text){
+    if (tempLastName != lastNameController.text) {
       unawaited(_appsflyer?.logEvent('lastNameChanged', null));
     }
 
