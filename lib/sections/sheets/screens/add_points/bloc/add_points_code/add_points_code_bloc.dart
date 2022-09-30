@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/add_points/product_code_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -120,6 +121,8 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
     final rh = RequestHandler();
 
     try {
+      unawaited(AppsflyerSingleton.sdk.logEvent('pointsCodeSended', null));
+
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
           '/user/points/add/',
@@ -142,6 +145,8 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
           },
         ),
       );
+
+      unawaited(AppsflyerSingleton.sdk.logEvent('pointsAdded', null));
 
       return AddPointsCodeSendSuccess(
         models: state.models,

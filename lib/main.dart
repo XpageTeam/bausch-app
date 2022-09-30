@@ -35,6 +35,8 @@ Future<void> main() async {
 
   final analytics = FirebaseAnalytics.instance;
 
+  AppsflyerSingleton();
+
   runApp(
     MultiProvider(
       providers: [
@@ -43,12 +45,7 @@ Future<void> main() async {
           value: FirebaseAnalyticsObserver(analytics: analytics),
         ),
         Provider<AppsflyerSdk>.value(
-          value: AppsflyerSdk(
-            AppsFlyerOptions(
-              afDevKey: 'sadf',
-              showDebug: true,
-            ),
-          ),
+          value: AppsflyerSingleton.sdk,
         ),
       ],
       child: MyApp(),
@@ -151,4 +148,25 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
       ),
     );
   }
+}
+
+class AppsflyerSingleton {
+  static late AppsflyerSdk sdk;
+
+  static AppsflyerSingleton? _instance;
+
+
+  factory AppsflyerSingleton() {
+    return _instance ??= AppsflyerSingleton._init();
+  }
+
+  AppsflyerSingleton._init() {
+    sdk = AppsflyerSdk(
+      AppsFlyerOptions(
+        afDevKey: 'sadf',
+        showDebug: true,
+      ),
+    );
+  }
+
 }

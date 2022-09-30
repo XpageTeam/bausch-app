@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
@@ -50,6 +51,13 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   void dispose() {
     super.dispose();
     nameController.dispose();
+  }
+
+  @override
+  void initState() {
+    AppsflyerSingleton.sdk.logEvent('programmScreen', null);
+
+    super.initState();
   }
 
   @override
@@ -145,15 +153,20 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 sliver: SliverToBoxAdapter(
                   child: _InfoBlock(
                     headerText: 'В программе участвуют',
-                    content: SimpleSlider<Product>(
-                      items: primaryData.products,
-                      builder: (context, product) => _ProductItem(
-                        product: product,
+                    content: GestureDetector(
+                      onTap: (){
+                        AppsflyerSingleton.sdk.logEvent('programmShowItem', null);
+                      },
+                      child: SimpleSlider<Product>(
+                        items: primaryData.products,
+                        builder: (context, product) => _ProductItem(
+                          product: product,
+                        ),
+                        // indicatorBuilder: (context, isActive) => Indicator(
+                        //   isActive: isActive,
+                        //   animationDuration: const Duration(milliseconds: 300),
+                        // ),
                       ),
-                      // indicatorBuilder: (context, isActive) => Indicator(
-                      //   isActive: isActive,
-                      //   animationDuration: const Duration(milliseconds: 300),
-                      // ),
                     ),
                   ),
                 ),
@@ -184,6 +197,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       ),
                     ),
                     onPressed: () {
+                      AppsflyerSingleton.sdk.logEvent('programmShowOpticsMap', null);
                       Keys.mainNav.currentState!.push<void>(
                         MaterialPageRoute(
                           builder: (context) => SelectOpticScreen(

@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
@@ -122,6 +123,14 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     if (error != null) {
       showTopError(error);
     } else {
+      unawaited(AppsflyerSingleton.sdk.logEvent(
+        'discountOpticsOrderFinished',
+        <String, dynamic>{
+          'id': itemModel.id,
+          'title': itemModel.name,
+        },
+      ));
+
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_discount_optics',
         (route) => route.isCurrent,

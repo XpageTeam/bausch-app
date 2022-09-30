@@ -449,7 +449,7 @@ class SelectOpticScreenWM extends WidgetModel {
       );
     } on DioError catch (e) {
       ex = CustomException(
-        title: 'Ошибка при отправке запроса на сервер',
+        title: 'Ошибка при отправке запроса',
         subtitle: e.message,
         ex: e,
       );

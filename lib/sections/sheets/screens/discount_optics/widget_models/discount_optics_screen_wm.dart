@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
@@ -52,6 +53,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   late final String selectHeaderText;
   late final String warningText;
   late final String howToUseText;
+  late final UserWM userWM;
 
   List<Optic> allOptics = [];
   Set<String> citiesForOnlineShop = {};
@@ -66,35 +68,46 @@ class DiscountOpticsScreenWM extends WidgetModel {
     required this.discountType,
   }) : super(
           const WidgetModelDependencies(),
-        ) {
-    _initTexts();
-    _loadDiscountOptics();
-  }
+        );
 
   @override
   void onLoad() {
-    final userData = Provider.of<UserWM>(
-      context,
-      listen: false,
-    ).userData.value.data;
+    userWM = context.read<UserWM>();
+
+    final userData = userWM.userData.value.data;
 
     final points = userData?.balance.available.toInt() ?? 0;
     difference = itemModel.price - points;
 
-    currentOfflineCity.accept(null);
+    currentOfflineCity.accept(userData?.user.city);
     currentOnlineCity.accept(userData?.user.city);
 
+    _initTexts();
+    _loadDiscountOptics();
     super.onLoad();
   }
 
   @override
   void onBind() {
+    discountOpticsStreamed.bind((_) {
+      if (!discountOpticsStreamed.value.hasError && !discountOpticsStreamed.value.isLoading && discountType == DiscountType.offline && discountOpticsStreamed.value.data!.isEmpty){
+        AppsflyerSingleton.sdk.logEvent('discountOpticsEmpty', null);
+      }
+    });
+
     setCurrentOptic.bind(
       (optic) async {
         if (optic != null) {
           unawaited(currentDiscountOptic.accept(optic));
           final cityName = optic.shops.first.city;
           await currentOfflineCity.accept(cityName);
+
+          unawaited(AppsflyerSingleton.sdk
+              .logEvent('discountOpticsSetOptic', <String, dynamic>{
+            'opticID': optic.id,
+            'opticName': optic.title,
+            'cityName': cityName,
+          }));
 
           unawaited(
             discountOpticsStreamed.content(
@@ -148,7 +161,6 @@ class DiscountOpticsScreenWM extends WidgetModel {
           confirmCallback: (ctx) {
             wasDialogShowed = true;
 
-            final userWM = context.read<UserWM>();
             userWM.updateUserData(
               userWM.userData.value.data!.user.copyWith(city: cityName),
               successMessage: 'Город успешно изменён',
@@ -281,13 +293,18 @@ class DiscountOpticsScreenWM extends WidgetModel {
           unawaited(
             discountOpticsStreamed.content(allOptics),
           );
-        } else if (!allOptics.any((optic) =>
-            optic.shops.any((shop) => shop.city == currentOfflineCity.value))) {
+        } else if (!cities.any(_equalsCurrentCity)) {
           await currentOfflineCity.accept(allOptics.first.shops.first.city);
 
           unawaited(
             discountOpticsStreamed.content(
               await _filterOpticsBySelectedOfflineCity(),
+            ),
+          );
+        } else if (cities.any(_equalsCurrentCity)) {
+          unawaited(
+            discountOpticsStreamed.content(
+              await _getOpticsByCurrentCity(),
             ),
           );
         }

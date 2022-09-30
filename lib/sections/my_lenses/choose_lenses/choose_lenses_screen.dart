@@ -303,24 +303,37 @@ class _ChooseLensesScreenState
                       style: AppStyles.h1,
                     ),
                   ),
-                  Row(
-                    children: [
-                      StreamedStateBuilder<bool>(
-                        streamedState: wm.isLeftEqual,
-                        builder: (_, isLeftEqual) => CustomCheckbox(
-                          marginNeeded: false,
-                          value: isLeftEqual,
-                          onChanged: (value) async {
-                            await wm.changeEyesEquality(areEqual: value!);
-                          },
-                          borderRadius: 2,
+                  StreamedStateBuilder<bool>(
+                    streamedState: wm.isLeftEqual,
+                    builder: (_, isLeftEqual) => GestureDetector(
+                      onTap: () async =>
+                          wm.changeEyesEquality(areEqual: !isLeftEqual),
+                      child: Container(
+                        color: Colors.green,
+                        child: Row(
+                          children: [
+                            StreamedStateBuilder<bool>(
+                              streamedState: wm.isLeftEqual,
+                              builder: (_, isLeftEqual) => CustomCheckbox(
+                                marginNeeded: false,
+                                value: isLeftEqual,
+                                onChanged: (value) async {
+                                  await wm.changeEyesEquality(areEqual: value!);
+                                },
+                                borderRadius: 2,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const Text(
+                              'Совпадает с правым',
+                              style: AppStyles.p1,
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text('Совпадает с правым', style: AppStyles.p1),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 20),
                   StreamedStateBuilder<PairModel>(

@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/models/program/primary_data_downloader.dart';
@@ -60,7 +61,15 @@ class ProgramScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    selectOptic.bind(currentOpticStreamed.accept);
+    selectOptic.bind((optic) {
+      AppsflyerSingleton.sdk.logEvent('programmOpticSelected', <String, dynamic>{
+        'id': optic?.id,
+        'title': optic?.title,
+        'shopCode': optic?.shopCode,
+      });
+
+      currentOpticStreamed.accept(optic);
+    });
     getCertificateAction.bind((_) => _getCertificate());
 
     super.onBind();

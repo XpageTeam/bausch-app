@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/bottom_content.dart';
@@ -11,6 +12,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 //тут ничего почти не менял,добавил методы _onLongPressStart , _onLongPressEnd
@@ -39,6 +41,8 @@ class _StoriesScreenState extends State<StoriesScreen>
   late Widget img;
   int pageNumTemp = 0;
   int pageNum = 0;
+  AppsflyerSdk? appsFlyer;
+
   late PageController _pageController;
   late AnimationController _animController;
   late VideoPlayerController _videoPlayerController;
@@ -52,6 +56,8 @@ class _StoriesScreenState extends State<StoriesScreen>
   void initState() {
     index =
         widget.stories.indexWhere((element) => element.id == widget.storyModel);
+
+    appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
 
     _currentIndex = 0;
     _pageController = PageController(initialPage: index);
@@ -223,6 +229,8 @@ class _StoriesScreenState extends State<StoriesScreen>
   void _onTapUp(TapUpDetails details, StoryContentModel storyContent) {
     final screenWidth = MediaQuery.of(context).size.width;
     final dx = details.globalPosition.dx;
+
+    appsFlyer?.logEvent('storiesClick', <String, dynamic>{});
 
     if (dx < screenWidth / 3) {
       setState(

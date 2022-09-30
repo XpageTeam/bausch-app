@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -77,6 +78,8 @@ class FormScreenWM extends WidgetModel {
 
   final _downloader = FormsContentDownloader();
 
+  AppsflyerSdk? _appsflyer;
+
   FormScreenWM({
     required this.context,
     this.question,
@@ -89,8 +92,12 @@ class FormScreenWM extends WidgetModel {
 
     userWM = Provider.of<UserWM>(context, listen: false);
 
+    _appsflyer = Provider.of<AppsflyerSdk>(context, listen: false);
+
     _loadDefaultFields();
     _loadCategoryList();
+
+    _appsflyer?.logEvent('supportFormOpened', null);
 
     if (topic != null) {
       selectedTopic.accept(
@@ -192,6 +199,10 @@ class FormScreenWM extends WidgetModel {
         );
       }
 
+      if (filesMap.isNotEmpty){
+        unawaited(_appsflyer?.logEvent('fileAttached', null));
+      }
+
       BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         '/faq/form/',
         data: FormData.fromMap(
@@ -213,6 +224,8 @@ class FormScreenWM extends WidgetModel {
       unawaited(
         FirebaseAnalytics.instance.logEvent(name: 'support_form_sended'),
       );
+
+      unawaited(_appsflyer?.logEvent('supportFormSended', null));
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
