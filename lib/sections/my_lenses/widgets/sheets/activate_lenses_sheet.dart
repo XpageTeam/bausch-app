@@ -157,7 +157,7 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                     padding: EdgeInsets.only(
                       top: 30,
                       bottom: 16,
-                      left: StaticData.sidePadding,
+                      // left: StaticData.sidePadding,
                     ),
                     child: Text(
                       'Рекомендуемые продукты',
@@ -171,6 +171,9 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                       return RecommendedProduct(product: product);
                     },
                   ),
+                const SizedBox(
+                  height: 20,
+                ),
                 if (widget.lensProductModel.lifeTime > 1)
                   StreamedStateBuilder<List<LensesWornHistoryModel>>(
                     streamedState: widget.myLensesWM.oldWornHistoryList,

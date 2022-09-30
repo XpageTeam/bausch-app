@@ -309,7 +309,7 @@ class _ChooseLensesScreenState
                       onTap: () async =>
                           wm.changeEyesEquality(areEqual: !isLeftEqual),
                       child: Container(
-                        color: Colors.green,
+                        color: Colors.transparent,
                         child: Row(
                           children: [
                             StreamedStateBuilder<bool>(

@@ -107,7 +107,7 @@ class MyLensesContainer extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 46),
+                        const SizedBox(width: 20),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: myLensesWM.lensesPairModel.value == null ||

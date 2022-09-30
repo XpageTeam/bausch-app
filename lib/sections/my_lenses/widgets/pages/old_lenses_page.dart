@@ -19,10 +19,12 @@ class OldLensesPage extends StatelessWidget {
     return myLensesWM.productHistoryList.value.isEmpty
         ? const Padding(
             padding: EdgeInsets.only(top: 120),
-            child: Text(
-              'Покажем линзы, которые вы носили раньше',
-              style: AppStyles.p1Grey,
-              textAlign: TextAlign.center,
+            child: Center(
+              child: Text(
+                'Покажем линзы, которые вы носили раньше',
+                style: AppStyles.p1Grey,
+                textAlign: TextAlign.center,
+              ),
             ),
           )
         : ListView.builder(
