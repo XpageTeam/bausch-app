@@ -192,8 +192,14 @@ class _SheetScreenState extends State<SheetScreen> {
   }
 
   void _openItemSheet(CatalogItemModel model) {
-    final type =
-        widget.sheetModel.type.contains('online') ? 'onlineShop' : 'offline';
+    final originType = widget.sheetModel.type;
+
+    var type = originType;
+
+    if (type.contains('online') || type.contains('offline')) {
+      type = type.contains('online') ? 'onlineShop' : 'offline';
+    }
+
     Navigator.of(context).pushNamed(
       '/$type',
       arguments: ItemSheetScreenArguments(
