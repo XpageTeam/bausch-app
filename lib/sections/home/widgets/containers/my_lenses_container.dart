@@ -171,7 +171,7 @@ class MyLensesContainer extends StatelessWidget {
                                     horizontal: StaticData.sidePadding,
                                   ),
                                   onPressed: () async =>
-                                      myLensesWM.putOffLenses(
+                                      myLensesWM.putOffLensesSheet(
                                     context: context,
                                   ),
                                 ),
@@ -206,7 +206,7 @@ class MyLensesContainer extends StatelessWidget {
                                           leftDate,
                                           rightDate,
                                         }) =>
-                                            myLensesWM.updateLensesDates(
+                                            myLensesWM.putOnLensesPair(
                                           leftDate: leftLensDate?.dateStart ??
                                               leftDate,
                                           rightDate: rightLensDate?.dateStart ??

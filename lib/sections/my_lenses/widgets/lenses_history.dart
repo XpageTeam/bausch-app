@@ -5,6 +5,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class LensesHistory extends StatefulWidget {
 
 class _LensesHistoryState extends State<LensesHistory> {
   bool showAll = false;
+  bool isUpdating = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,160 +35,306 @@ class _LensesHistoryState extends State<LensesHistory> {
           style: AppStyles.h1,
         ),
         const SizedBox(height: 20),
-        Row(
+        if (isUpdating)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 80),
+            child: Center(
+              child: AnimatedLoader(),
+            ),
+          )
+        else
+          Row(
+            children: [
+              Expanded(
+                child: widget.wornHistoryList.isNotEmpty
+                    ? WhiteContainerWithRoundedCorners(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: StaticData.sidePadding,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 12),
+                                    child: Text(
+                                      'Надеты',
+                                      style: AppStyles.p1Grey,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 40),
+                                    child: Text(
+                                      'Сняты',
+                                      style: AppStyles.p1Grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: 10,
+                                bottom: !showAll &&
+                                        widget.wornHistoryList.length > 5
+                                    ? 16
+                                    : 0,
+                              ),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: showAll ||
+                                        widget.wornHistoryList.length <= 5
+                                    ? widget.wornHistoryList.length
+                                    : 5,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (_, index) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 4),
+                                  child: widget.wornHistoryList[index]
+                                              .leftRight !=
+                                          null
+                                      ? _LeftRightRow(
+                                          item: widget.wornHistoryList[index],
+                                        )
+                                      : _GreyContainer(
+                                          item: widget.wornHistoryList[index],
+                                        ),
+                                ),
+                              ),
+                            ),
+                            if (!showAll && widget.wornHistoryList.length > 5)
+                              GreyButton(
+                                text: 'Ранее',
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: StaticData.sidePadding,
+                                ),
+                                onPressed: () async {
+                                  setState(() {
+                                    isUpdating = true;
+                                  });
+                                  await widget.expandList();
+                                  setState(() {
+                                    showAll = true;
+                                    isUpdating = false;
+                                  });
+                                },
+                              ),
+                          ],
+                        ),
+                      )
+                    : const WhiteContainerWithRoundedCorners(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 30,
+                          horizontal: StaticData.sidePadding,
+                        ),
+                        child: Text(
+                          'Покажем когда вы надели и сняли линзы',
+                          style: AppStyles.p1Grey,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+              ),
+            ],
+          ),
+      ],
+    );
+  }
+}
+
+class _LeftRightRow extends StatelessWidget {
+  final LensesWornHistoryModel item;
+  const _LeftRightRow({required this.item, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(StaticData.sidePadding),
+        child: Row(
           children: [
             Expanded(
-              child: widget.wornHistoryList.isNotEmpty
-                  ? WhiteContainerWithRoundedCorners(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 30,
-                        horizontal: StaticData.sidePadding,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 12),
-                                  child: Text(
-                                    'Надеты',
-                                    style: AppStyles.p1Grey,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 40),
-                                  child: Text(
-                                    'Сняты',
-                                    style: AppStyles.p1Grey,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: widget.wornHistoryList.length > 5
-                                ? 5
-                                : widget.wornHistoryList.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (_, index) => Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              // TODO(pavlov): у непарных записей должен быть серый фон
-                              child: ColoredBox(
-                                color: widget.wornHistoryList[index].eye != 'LR'
-                                    ? AppTheme.mystic
-                                    : Colors.white,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          if (widget
-                                                  .wornHistoryList[index].eye ==
-                                              'LR')
-                                            Image.asset(
-                                              'assets/icons/halfed_circle.png',
-                                              height: 16,
-                                              width: 16,
-                                            )
-                                          else
-                                            Container(
-                                              height: 16,
-                                              width: 16,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: widget
-                                                            .wornHistoryList[
-                                                                index]
-                                                            .eye ==
-                                                        'L'
-                                                    ? AppTheme.turquoiseBlue
-                                                    : AppTheme.sulu,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  widget.wornHistoryList[index]
-                                                      .eye,
-                                                  style: AppStyles.n1,
-                                                ),
-                                              ),
-                                            ),
-                                          const SizedBox(width: 8),
-                                          Center(
-                                            child: Text(
-                                              '${widget.wornHistoryList[index].dateStart.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateStart.month)}, ${widget.wornHistoryList[index].dateStart.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.hour}:${widget.wornHistoryList[index].dateStart.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.minute}',
-                                              style: AppStyles.p1,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(right: 15),
-                                      child: DottedLine(
-                                        lineLength: 35,
-                                        dashColor: AppTheme.grey,
-                                        dashLength: 2,
-                                        dashGapLength: 2,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: widget.wornHistoryList[index]
-                                                    .dateEnd !=
-                                                null
-                                            ? Text(
-                                                '${widget.wornHistoryList[index].dateEnd!.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateEnd!.month)}, ${widget.wornHistoryList[index].dateEnd!.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.hour}:${widget.wornHistoryList[index].dateEnd!.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.minute}',
-                                                style: AppStyles.p1,
-                                              )
-                                            : const SizedBox.shrink(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          if (!showAll && widget.wornHistoryList.length > 5)
-                            GreyButton(
-                              text: 'Ранее',
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: StaticData.sidePadding,
-                              ),
-                              onPressed: () async {
-                                setState(() {
-                                  showAll = true;
-                                });
-                                await widget.expandList();
-                              },
-                            ),
-                        ],
-                      ),
-                    )
-                  : const WhiteContainerWithRoundedCorners(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 30,
-                        horizontal: StaticData.sidePadding,
-                      ),
-                      child: Text(
-                        'Покажем когда вы надели и сняли линзы',
-                        style: AppStyles.p1Grey,
-                        textAlign: TextAlign.center,
-                      ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/icons/halfed_circle.png',
+                    height: 16,
+                    width: 16,
+                  ),
+                  const SizedBox(width: 8),
+                  Center(
+                    child: Text(
+                      '${item.dateStartL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartL!.month)}, ${item.dateStartL!.hour < 10 ? 0 : ''}${item.dateStartL!.hour}:${item.dateStartL!.minute < 10 ? 0 : ''}${item.dateStartL!.minute}',
+                      style: AppStyles.p1,
                     ),
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: DottedLine(
+                lineLength: 35,
+                dashColor: AppTheme.grey,
+                dashLength: 2,
+                dashGapLength: 2,
+              ),
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: item.dateEndL != null
+                    ? Text(
+                        '${item.dateEndL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndL!.month)}, ${item.dateEndL!.hour < 10 ? 0 : ''}${item.dateEndL!.hour}:${item.dateEndL!.minute < 10 ? 0 : ''}${item.dateEndL!.minute}',
+                        style: AppStyles.p1,
+                      )
+                    : const SizedBox.shrink(),
+              ),
             ),
           ],
         ),
-      ],
+      ),
+    );
+  }
+}
+
+class _GreyContainer extends StatelessWidget {
+  final LensesWornHistoryModel item;
+  const _GreyContainer({required this.item, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: AppTheme.mystic,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(StaticData.sidePadding),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (item.left != null)
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 16,
+                          width: 16,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppTheme.turquoiseBlue,
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'L',
+                              style: AppStyles.n1,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Center(
+                          child: Text(
+                            '${item.dateStartL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartL!.month)}, ${item.dateStartL!.hour < 10 ? 0 : ''}${item.dateStartL!.hour}:${item.dateStartL!.minute < 10 ? 0 : ''}${item.dateStartL!.minute}',
+                            style: AppStyles.p1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: DottedLine(
+                      lineLength: 35,
+                      dashColor: AppTheme.grey,
+                      dashLength: 2,
+                      dashGapLength: 2,
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: item.dateEndL != null
+                          ? Text(
+                              '${item.dateEndL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndL!.month)}, ${item.dateEndL!.hour < 10 ? 0 : ''}${item.dateEndL!.hour}:${item.dateEndL!.minute < 10 ? 0 : ''}${item.dateEndL!.minute}',
+                              style: AppStyles.p1,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ),
+                ],
+              ),
+            if (item.right != null && item.left != null)
+              const SizedBox(
+                height: StaticData.sidePadding / 1.5,
+              ),
+            if (item.right != null)
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 16,
+                          width: 16,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppTheme.sulu,
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'R',
+                              style: AppStyles.n1,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Center(
+                          child: Text(
+                            '${item.dateStartR!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartR!.month)}, ${item.dateStartR!.hour < 10 ? 0 : ''}${item.dateStartR!.hour}:${item.dateStartR!.minute < 10 ? 0 : ''}${item.dateStartR!.minute}',
+                            style: AppStyles.p1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: DottedLine(
+                      lineLength: 35,
+                      dashColor: AppTheme.grey,
+                      dashLength: 2,
+                      dashGapLength: 2,
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: item.dateEndR != null
+                          ? Text(
+                              '${item.dateEndR!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndR!.month)}, ${item.dateEndR!.hour < 10 ? 0 : ''}${item.dateEndR!.hour}:${item.dateEndR!.minute < 10 ? 0 : ''}${item.dateEndR!.minute}',
+                              style: AppStyles.p1,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ),
+                ],
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

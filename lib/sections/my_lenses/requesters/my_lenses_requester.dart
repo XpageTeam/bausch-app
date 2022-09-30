@@ -254,6 +254,78 @@ class MyLensesRequester {
     }
   }
 
+  // обновляем пару линз
+  Future<BaseResponseRepository> updateLensesPair({
+    required DateTime? leftDate,
+    required DateTime? rightDate,
+  }) async {
+    try {
+      if (leftDate != null) {
+        // ignore: parameter_assignments
+        leftDate = DateTime(
+          leftDate.year,
+          leftDate.month,
+          leftDate.day,
+          DateTime.now().hour,
+          DateTime.now().minute,
+        );
+      }
+      if (rightDate != null) {
+        // ignore: parameter_assignments
+        rightDate = DateTime(
+          rightDate.year,
+          rightDate.month,
+          rightDate.day,
+          DateTime.now().hour,
+          DateTime.now().minute,
+        );
+      }
+
+      // TODO(pavlov): разобраться с отправкой дат
+      // приходят данные -3 часа после отправки
+      // print(leftDate);
+      // print(rightDate);
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/put-on/change/',
+        data: FormData.fromMap(<String, dynamic>{
+          // 'left[date]': leftDate?.toIso8601String(),
+          // 'right[date]': rightDate?.toIso8601String(),
+          'left[date]': leftDate?.toString(),
+          'right[date]': rightDate?.toString(),
+        }),
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в updateLensesPair: $e');
+    }
+  }
+
+// TODO(pavlov): проверить
+  // обновляем пару линз
+  Future<BaseResponseRepository> putOffLenses({
+    required bool left,
+    required bool right,
+  }) async {
+    try {
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/take-off/',
+        data: FormData.fromMap(<String, dynamic>{
+          'left': left ? 1 : 0,
+          'right': right ? 1 : 0,
+        }),
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в putOffLenses: $e');
+    }
+  }
+
   // обновление расписания уведомлений
   Future<BaseResponseRepository> updateReminders({
     required List<String> reminders,

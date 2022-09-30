@@ -7,14 +7,14 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class LensIndicatorStatus extends StatelessWidget {
   final int daysBeforeReplacement;
   final int lifeTime;
-  final VoidCallback onTap;
+  final VoidCallback onUpdateTap;
   final bool title;
   final bool sameTime;
   final bool isAloneChildCircle;
   final bool isLeft;
   const LensIndicatorStatus({
     required this.daysBeforeReplacement,
-    required this.onTap,
+    required this.onUpdateTap,
     required this.lifeTime,
     this.title = true,
     this.isLeft = false,
@@ -69,8 +69,8 @@ class LensIndicatorStatus extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     transform: GradientRotation(-2 * pi / 3),
                     colors: [
-                    AppTheme.sulu,
-                           AppTheme.turquoiseBlue,
+                      AppTheme.sulu,
+                      AppTheme.turquoiseBlue,
                     ],
                   )
                 : null,
@@ -94,7 +94,7 @@ class LensIndicatorStatus extends StatelessWidget {
           )
         else
           GestureDetector(
-            onTap: onTap,
+            onTap: onUpdateTap,
             child: title == false
                 ? SizedBox(
                     height: 145,

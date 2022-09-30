@@ -45,8 +45,8 @@ class OneLensReplacementIndicator extends StatelessWidget {
                 isLeft: isLeft,
                 lifeTime: myLensesWM.currentProduct.value!.lifeTime,
                 daysBeforeReplacement: activeLensDate.daysLeft,
-                onTap: () async {
-                  await myLensesWM.updateLensesDates(
+                onUpdateTap: () async {
+                  await myLensesWM.putOnLensesPair(
                     leftDate: DateTime.now(),
                     rightDate: DateTime.now(),
                   );
@@ -78,7 +78,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                               if (sameTime) {
                                 return DifferentLensesSheet(
                                   onConfirmed: ({leftDate, rightDate}) {
-                                    myLensesWM.updateLensesDates(
+                                    myLensesWM.updateLensesPair(
                                       leftDate: leftDate,
                                       rightDate: rightDate,
                                     );
@@ -95,7 +95,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                                   rightPut:
                                       myLensesWM.rightLensDate.value?.dateStart,
                                   onConfirmed: ({leftDate, rightDate}) {
-                                    myLensesWM.updateLensesDates(
+                                    myLensesWM.updateLensesPair(
                                       leftDate: leftDate,
                                       rightDate: rightDate,
                                     );
@@ -114,7 +114,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                           ? 'Завершить'
                           : 'Завершить ношение',
                       onPressed: () async =>
-                          myLensesWM.putOffLenses(context: context),
+                          myLensesWM.putOffLensesSheet(context: context),
                     ),
                   ),
                 ],

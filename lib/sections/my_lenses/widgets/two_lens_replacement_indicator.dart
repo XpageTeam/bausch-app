@@ -42,9 +42,9 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       daysBeforeReplacement:
                           myLensesWM.leftLensDate.value!.daysLeft,
                       title: false,
-                      onTap: () async => myLensesWM.updateLensesDates(
+                      onUpdateTap: () async => myLensesWM.putOnLensesPair(
                         leftDate: DateTime.now(),
-                        rightDate: myLensesWM.rightLensDate.value!.dateStart,
+                        rightDate: null,
                       ),
                     ),
                   ),
@@ -54,8 +54,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       daysBeforeReplacement:
                           myLensesWM.rightLensDate.value!.daysLeft,
                       title: false,
-                      onTap: () async => myLensesWM.updateLensesDates(
-                        leftDate: myLensesWM.leftLensDate.value!.dateStart,
+                      onUpdateTap: () async => myLensesWM.putOnLensesPair(
+                        leftDate: null,
                         rightDate: DateTime.now(),
                       ),
                     ),
@@ -86,7 +86,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                             builder: (context) {
                               return DifferentLensesSheet(
                                 onConfirmed: ({leftDate, rightDate}) {
-                                  myLensesWM.updateLensesDates(
+                                  myLensesWM.updateLensesPair(
                                     leftDate: leftDate,
                                     rightDate: rightDate,
                                   );
@@ -108,7 +108,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                     child: BlueButtonWithText(
                       text: 'Завершить',
                       onPressed: () async =>
-                          myLensesWM.putOffLenses(context: context),
+                          myLensesWM.putOffLensesSheet(context: context),
                     ),
                   ),
                 ],

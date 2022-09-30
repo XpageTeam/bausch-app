@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
@@ -79,7 +80,7 @@ class MyLensesWM extends WidgetModel {
       Navigator.of(context).pop();
     }
     try {
-      await myLensesRequester.putOnLensesPair(
+      await myLensesRequester.updateLensesPair(
         leftDate: null,
         rightDate: null,
       );
@@ -169,7 +170,6 @@ class MyLensesWM extends WidgetModel {
         if (defaultValue) {
           await myLensesRequester.setDefaultDailyReminders();
         } else {
-          // TODO(ask): попросить равиля упоминания 1 базовое засунуть в этот запрос
           await myLensesRequester.updateDailyReminders(
             date: date!,
             replay: replay!,
@@ -199,12 +199,17 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-  Future updateLensesDates({
+  Future putOnLensesPair({
     required DateTime? leftDate,
     required DateTime? rightDate,
   }) async {
     unawaited(loadingInProgress.accept(true));
     try {
+      // TODO(pavlov): посмотреть что будет при надевании
+      await myLensesRequester.putOffLenses(
+        left: leftDate != null,
+        right: rightDate != null,
+      );
       await myLensesRequester.putOnLensesPair(
         leftDate: leftDate,
         rightDate: rightDate,
@@ -222,14 +227,51 @@ class MyLensesWM extends WidgetModel {
         title: 'Произошла ошибка обновления',
         success: true,
       );
-      debugPrint('updateLensesDates $e');
+      debugPrint('putOnLensesPair $e');
     }
     unawaited(loadingInProgress.accept(false));
   }
 
-  Future putOffLenses({required BuildContext context}) async {
+  Future updateLensesPair({
+    required DateTime? leftDate,
+    required DateTime? rightDate,
+  }) async {
+    unawaited(loadingInProgress.accept(true));
+    var leftChanged = false;
+    var rightChanged = false;
+    if (leftDate != null) {
+      leftChanged = !leftLensDate.value!.dateStart.isSameDate(leftDate);
+    }
+    if (rightDate != null) {
+      rightChanged = !rightLensDate.value!.dateStart.isSameDate(rightDate);
+    }
+
+    try {
+      await myLensesRequester.updateLensesPair(
+        leftDate: leftChanged ? leftDate : null,
+        rightDate: rightChanged ? rightDate : null,
+      );
+      await Future.wait<void>([
+        _loadLensesDates(),
+        loadWornHistory(showAll: false, isOld: false),
+      ]);
+      showDefaultNotification(
+        title: 'Данные успешно обновлены',
+        success: true,
+      );
+    } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка обновления',
+        success: true,
+      );
+      debugPrint('updateLensesPair $e');
+    }
+    unawaited(loadingInProgress.accept(false));
+  }
+
+  Future putOffLensesSheet({required BuildContext context}) async {
     if (rightLensDate.value == null || leftLensDate.value == null) {
-      await updateLensesDates(leftDate: null, rightDate: null);
+      await _putOffLensesPair(left: true, right: true);
     } else {
       await showModalBottomSheet<void>(
         isScrollControlled: true,
@@ -239,29 +281,45 @@ class MyLensesWM extends WidgetModel {
           return PutOnEndSheet(
             onLeftConfirmed: () async {
               Navigator.of(context).pop();
-              await updateLensesDates(
-                leftDate: null,
-                rightDate: rightLensDate.value!.dateStart,
-              );
+              await _putOffLensesPair(left: true, right: false);
             },
             onRightConfirmed: () async {
               Navigator.of(context).pop();
-              await updateLensesDates(
-                leftDate: leftLensDate.value!.dateStart,
-                rightDate: null,
-              );
+              await _putOffLensesPair(left: false, right: true);
             },
             onBothConfirmed: () async {
               Navigator.of(context).pop();
-              await updateLensesDates(
-                leftDate: null,
-                rightDate: null,
-              );
+              await _putOffLensesPair(left: true, right: true);
             },
           );
         },
       );
     }
+  }
+
+  Future _putOffLensesPair({required bool left, required bool right}) async {
+    unawaited(loadingInProgress.accept(true));
+    try {
+      await myLensesRequester.putOffLenses(
+        left: left,
+        right: right,
+      );
+      await Future.wait<void>([
+        _loadLensesDates(),
+        loadWornHistory(showAll: false, isOld: false),
+      ]);
+      showDefaultNotification(
+        title: 'Данные успешно обновлены',
+        success: true,
+      );
+    } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка обновления',
+        success: true,
+      );
+      debugPrint('putOffLensesPair $e');
+    }
+    unawaited(loadingInProgress.accept(false));
   }
 
   Future _loadCurrentLensesInfo() async {
