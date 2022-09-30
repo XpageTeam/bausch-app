@@ -21,7 +21,7 @@ class FinalProgramScreen extends StatelessWidget {
     required this.optic,
     required this.response,
     Key? key,
-  }) : super(key: key){
+  }) : super(key: key) {
     AppsflyerSingleton.sdk.logEvent('programmCertificateCreated', null);
   }
 
@@ -69,7 +69,7 @@ class FinalProgramScreen extends StatelessWidget {
                     style: AppStyles.h1,
                   ),
                 ),
-                _OpticInfoWidget(
+                OpticInfoWidget(
                   optic: optic,
                 ),
               ],
@@ -82,9 +82,9 @@ class FinalProgramScreen extends StatelessWidget {
   }
 }
 
-class _OpticInfoWidget extends StatelessWidget {
+class OpticInfoWidget extends StatelessWidget {
   final Optic optic;
-  const _OpticInfoWidget({
+  const OpticInfoWidget({
     required this.optic,
     Key? key,
   }) : super(key: key);
@@ -112,18 +112,16 @@ class _OpticInfoWidget extends StatelessWidget {
         ),
         ...optic.shops.first.phones.map(
           (phone) => Flexible(
-            child: GestureDetector(
+            child: SelectableText(
+              phone,
               onTap: () => Utils.tryLaunchUrl(
                 rawUrl: phone,
                 isPhone: true,
               ),
-              child: Text(
-                phone,
-                style: AppStyles.p1.copyWith(
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppTheme.turquoiseBlue,
-                  decorationThickness: 2,
-                ),
+              style: AppStyles.p1.copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: AppTheme.turquoiseBlue,
+                decorationThickness: 2,
               ),
             ),
           ),

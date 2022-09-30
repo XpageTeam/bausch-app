@@ -40,6 +40,15 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
     return EntityStateBuilder<List<String>>(
       streamedState: wm.citiesList,
       loadingChild: const LoaderScreen(),
+      errorChild: Scaffold(
+        appBar: const DefaultAppBar(
+          title: 'Город',
+          backgroundColor: AppTheme.mystic,
+        ),
+        body: Center(
+          child: Text(''),
+        ),
+      ),
       builder: (_, citiesList) {
         return Scaffold(
           appBar: const DefaultAppBar(

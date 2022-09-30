@@ -217,30 +217,55 @@ class _SelectCityButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Город',
-                      style: AppStyles.p1Grey,
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Flexible(
-                      child: Text(
-                        city,
-                        style: AppStyles.h2Bold,
+                child: city.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 28.0),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/map-marker.png',
+                              height: 16,
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            const Text(
+                              'Город',
+                              style: AppStyles.h2Bold,
+                            ),
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10.0,
+                          bottom: 18,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Город',
+                              style: AppStyles.p1Grey,
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Flexible(
+                              child: Text(
+                                city,
+                                style: AppStyles.h2Bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
               ),
               const Icon(
                 Icons.chevron_right,

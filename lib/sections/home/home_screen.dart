@@ -20,6 +20,8 @@ import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/containers/my_lenses_container.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -38,6 +40,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 ///! место для костылей
 OffersSectionWM? bannersWm;
@@ -356,8 +359,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               WhiteButtonWithText(
                                 text: 'Написать в поддержку',
                                 onPressed: () {
-                                  FirebaseAnalytics.instance
-                                      .logEvent(name: 'support_button_click');
+                                  FirebaseAnalytics.instance.logEvent(
+                                    name: 'support_button_click',
+                                  );
                                   // Navigator.of(context).pushNamed(
                                   //   '/support',
                                   //   arguments: ContactSupportScreenArguments(),
@@ -373,6 +377,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                   );
                                 },
                               ),
+
                               const Padding(
                                 padding: EdgeInsets.only(top: 20, bottom: 14),
                                 child: Text(
