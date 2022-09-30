@@ -106,6 +106,7 @@ class CurrentMultiLensesPage extends StatelessWidget {
                 isScrollControlled: true,
                 context: context,
                 barrierColor: Colors.black.withOpacity(0.8),
+                backgroundColor: Colors.transparent,
                 builder: (context) {
                   return ReminderSheet(
                     currentReminders: myLensesWM.multiRemindes.value,
