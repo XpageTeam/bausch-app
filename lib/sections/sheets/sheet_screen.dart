@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
@@ -65,6 +66,11 @@ class _SheetScreenState extends State<SheetScreen> {
 
   @override
   void initState() {
+    AppsflyerSingleton.sdk.logEvent('catalogOpened', <String, dynamic>{
+      'id': widget.sheetModel.id,
+      'type': widget.sheetModel.type,
+      'name': widget.sheetModel.name,
+    });
     super.initState();
   }
 

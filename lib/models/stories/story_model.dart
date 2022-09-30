@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_annotating_with_dynamic, unused_import, avoid_catches_without_on_clauses
 
+import 'dart:async';
+
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/mappable_object.dart';
@@ -29,6 +32,8 @@ class StoryWM extends WidgetModel {
   UserWM? userWM;
 
   StoriesWM? storiesWM;
+
+  AppsflyerSdk? _appsFlyer;
 
   StoryWM({
     required this.id,
@@ -64,6 +69,12 @@ class StoryWM extends WidgetModel {
   Future<void> _showStory(StoryModel? model) async {
     if (context != null && model != null) {
       storiesWM = Provider.of<StoriesWM>(context!, listen: false);
+
+      _appsFlyer = Provider.of<AppsflyerSdk>(context!, listen: false);
+
+      unawaited(_appsFlyer?.logEvent('stories', <String, dynamic>{
+        'íd': model.id,
+      }));
 
       await Navigator.push<dynamic>(
         context!,

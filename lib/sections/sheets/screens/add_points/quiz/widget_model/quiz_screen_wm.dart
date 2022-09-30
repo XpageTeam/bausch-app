@@ -7,6 +7,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/add_points/quiz/quiz_answer_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_content_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
@@ -86,14 +87,18 @@ class QuizScreenWM extends WidgetModel {
       _writeAnswers();
 
       if (currentPage == quizModel.content.length - 1) {
+        AppsflyerSingleton.sdk.logEvent('pointsQuizFinish', null);
         _finishQuiz();
       } else {
+        AppsflyerSingleton.sdk.logEvent('pointsQuizNext', null);
         _moveToNexPage();
       }
     });
 
     addToAnswersAction.bind((index) {
       final currentSelectType = quizModel.content[currentPage].type;
+
+      AppsflyerSingleton.sdk.logEvent('pointsQuizAnswerChanged', null);
 
       if (currentSelectType == 'radio') {
         selectedIndexes.accept([index!]);

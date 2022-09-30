@@ -1,3 +1,4 @@
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/question_screen.dart';
@@ -12,6 +13,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* FAQ
@@ -51,12 +53,19 @@ class TopicsScreen extends CoreMwwmWidget<BottomSheetWM>
 class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
   Color iconColor = Colors.white;
 
+  AppsflyerSdk? appsflyer;
+
   @override
   void initState() {
+    appsflyer = Provider.of<AppsflyerSdk>(context, listen: false);
+
     FirebaseAnalytics.instance.logEvent(name: 'support_show');
+
+    
+    appsflyer?.logEvent('faqOpened', null);
+
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +142,9 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
                   onPressed: () {
                     if (widget.topics[index].questions != null &&
                         widget.topics[index].questions!.isNotEmpty) {
+                      
+                      appsflyer?.logEvent('faqCategoryOpened', null);
+                      
                       Navigator.of(context).pushNamed(
                         '/faq_topic',
                         arguments: TopicScreenArguments(
@@ -144,6 +156,9 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
                       if (widget.topics[index].answer != null &&
                           widget.topics[index].answer!.isNotEmpty &&
                           widget.topics[index].answer!.trim().isNotEmpty) {
+                        
+                        appsflyer?.logEvent('faqTopicOpened', null);
+
                         Navigator.of(context).pushNamed(
                           '/question',
                           arguments: QuestionScreenArguments(

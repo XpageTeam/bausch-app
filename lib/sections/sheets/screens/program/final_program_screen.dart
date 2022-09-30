@@ -1,4 +1,5 @@
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/program/widget_model/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
@@ -15,12 +16,14 @@ class FinalProgramScreen extends StatelessWidget {
   final Optic optic;
   final ProgramSaverResponse response;
 
-  const FinalProgramScreen({
+  FinalProgramScreen({
     required this.controller,
     required this.optic,
     required this.response,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key){
+    AppsflyerSingleton.sdk.logEvent('programmCertificateCreated', null);
+  }
 
   @override
   Widget build(BuildContext context) {
