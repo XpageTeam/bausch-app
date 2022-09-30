@@ -1,6 +1,7 @@
 import 'package:bausch/models/faq/forms/field_model.dart';
 import 'package:bausch/models/faq/forms/value_model.dart';
 import 'package:bausch/sections/faq/contact_support/wm/forms_screen_wm.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,10 +50,13 @@ class _SelectState extends State<Select> {
       child: StreamedStateBuilder<ValueModel?>(
         streamedState: widget.state,
         builder: (_, value) {
+          debugPrint('value: ${value?.name}');
           return SelectButton(
             value: value?.name ?? widget.model.name,
+            textColor: value == null ? AppTheme.grey : AppTheme.mineShaft,
             color: Colors.white,
             onPressed: () {
+              debugPrint('statement');
               showCupertinoModalPopup<void>(
                 context: context,
                 builder: (context) => CupertinoActionSheet(

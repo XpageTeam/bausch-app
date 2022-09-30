@@ -139,6 +139,10 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
                       WhiteButton(
                         text: 'Прикрепить файлы',
                         icon: const SizedBox(),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 27,
+                        ),
                         onPressed: () {
                           Navigator.of(context).pushNamed(
                             '/add_files',
