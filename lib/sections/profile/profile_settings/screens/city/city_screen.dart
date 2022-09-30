@@ -1,3 +1,4 @@
+import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/models/city/dadata_city.dart';
 import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
@@ -9,6 +10,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
@@ -39,16 +41,29 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
   Widget build(BuildContext context) {
     return EntityStateBuilder<List<String>>(
       streamedState: wm.citiesList,
-      loadingChild: const LoaderScreen(),
-      errorChild: Scaffold(
-        appBar: const DefaultAppBar(
+      loadingChild: const Scaffold(
+        appBar: DefaultAppBar(
           title: 'Город',
           backgroundColor: AppTheme.mystic,
         ),
-        body: Center(
-          child: Text(''),
-        ),
+        body: LoaderScreen(),
       ),
+      errorBuilder: (_, e) {
+        e as CustomException;
+
+        return Scaffold(
+          appBar: const DefaultAppBar(
+            title: 'Город',
+            backgroundColor: AppTheme.mystic,
+          ),
+          body: ErrorPage(
+            title: e.title,
+            subtitle: e.subtitle,
+            buttonText: 'Обновить',
+            buttonCallback: wm.citiesListReloadAction,
+          ),
+        );
+      },
       builder: (_, citiesList) {
         return Scaffold(
           appBar: const DefaultAppBar(

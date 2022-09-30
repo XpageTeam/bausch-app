@@ -145,6 +145,7 @@ class CityScreenWM extends WidgetModel {
       final cities = await _parseCityList(
         (await _requester.loadCities()).data as List<dynamic>,
       );
+
       await citiesList.content(cities);
     } on DioError catch (e) {
       log(e.message);
