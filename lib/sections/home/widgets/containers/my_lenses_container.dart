@@ -129,6 +129,7 @@ class MyLensesContainer extends StatelessWidget {
                                         )
                                       : LensSmallIndicator(
                                           myLensesWM: myLensesWM,
+                                          sameTime: true,
                                         )
                                   : leftLensDate != null &&
                                               rightLensDate == null ||
@@ -136,6 +137,7 @@ class MyLensesContainer extends StatelessWidget {
                                               leftLensDate == null
                                       ? LensSmallIndicator(
                                           myLensesWM: myLensesWM,
+                                          sameTime: false,
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(

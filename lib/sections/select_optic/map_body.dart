@@ -4,7 +4,7 @@ import 'package:bausch/sections/select_optic/widget_models/map_body_wm.dart';
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/map_buttons.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

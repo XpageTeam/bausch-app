@@ -12,9 +12,9 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:dio/dio.dart';
@@ -71,9 +71,9 @@ class _AllWebinarsScreenState
             delegate: SliverChildListDelegate(
               [
                 TopSection.webinar(
-                 model: wm.catalogModel,
-                 key: widget.key,
-                 topLeftWidget: Image.asset(
+                  model: wm.catalogModel,
+                  key: widget.key,
+                  topLeftWidget: Image.asset(
                     'assets/play-video.png',
                     height: 28,
                   ),
@@ -170,7 +170,7 @@ class _AllWebinarsScreenState
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: const [
-          InfoBlock(),
+          BottomInfoBlock(),
         ],
       ),
     );

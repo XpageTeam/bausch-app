@@ -1,7 +1,7 @@
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/current_daily_lenses_page.dart';
-import 'package:bausch/sections/my_lenses/widgets/pages/current_lenses_page.dart';
+import 'package:bausch/sections/my_lenses/widgets/pages/current_multi_lenses_page.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/lenses_page_switcher.dart';
 import 'package:bausch/sections/my_lenses/widgets/pages/old_lenses_page.dart';
 import 'package:bausch/static/static_data.dart';
@@ -32,6 +32,7 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
       appBar: const DefaultAppBar(
         title: 'Мои линзы',
         backgroundColor: AppTheme.mystic,
+        backIcon: Icons.home_filled,
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -67,7 +68,7 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
                           ? currentPage == MyLensesPage.currentLenses
                               ? wm.currentProduct.value!.lifeTime == 1
                                   ? CurrentDailyLensesPage(myLensesWM: wm)
-                                  : CurrentLensesPage(myLensesWM: wm)
+                                  : CurrentMultiLensesPage(myLensesWM: wm)
                               : OldLensesPage(myLensesWM: wm)
                           : BlueButtonWithText(
                               text: 'Обновить',

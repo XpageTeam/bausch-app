@@ -64,7 +64,6 @@ class _PutOnDateSheetState extends State<PutOnDateSheet> {
                 onMonthChangeStartWithFirstDate: false,
                 initialDateTime: widget.leftPut ?? widget.rightPut,
                 minDateTime: DateTime(DateTime.now().year - 1),
-                // TODO(ask): добавил 5 дней
                 maxDateTime: DateTime.now().add(const Duration(days: 5)),
                 locale: DateTimePickerLocale.ru,
                 onCancel: () {},

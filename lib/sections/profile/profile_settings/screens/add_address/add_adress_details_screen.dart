@@ -6,10 +6,9 @@ import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adres
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/bloc/addresses_bloc.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/adresses.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:bausch/widgets/buttons/text_button_icon.dart';
@@ -115,7 +114,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
             }
           }
 
-          if (state is AddressesDeleted){
+          if (state is AddressesDeleted) {
             _navigateBack();
           }
         },
@@ -197,7 +196,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                 isButtonPressed = true;
                               });
 
-                              Provider.of<AppsflyerSdk>(context, listen: false).logEvent('addressAddStep3', null);
+                              Provider.of<AppsflyerSdk>(context, listen: false)
+                                  .logEvent('addressAddStep3', null);
 
                               final model = AdressModel(
                                 id: widget.adress.id,
@@ -233,10 +233,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         padding: const EdgeInsets.only(top: 20),
                         child: CustomTextButtonIcon(
                           onPressed: () {
-                            final appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
-
-                            appsFlyer.logEvent('addressRemoving', null);
-
+                            final appsFlyer = Provider.of<AppsflyerSdk>(
+                              context,
+                              listen: false,
+                            )..logEvent('addressRemoving', null);
                             showModalBottomSheet<void>(
                               context: context,
                               shape: RoundedRectangleBorder(
@@ -256,7 +256,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                   noCallback: () {
                                     Navigator.of(context).pop();
 
-                                    appsFlyer.logEvent('addressRemoveCancel', null);
+                                    appsFlyer.logEvent(
+                                      'addressRemoveCancel',
+                                      null,
+                                    );
                                   },
                                 );
                               },

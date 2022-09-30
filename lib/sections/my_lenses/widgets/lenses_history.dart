@@ -5,6 +5,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
 class LensesHistory extends StatefulWidget {
@@ -70,73 +71,84 @@ class _LensesHistoryState extends State<LensesHistory> {
                           const SizedBox(height: 20),
                           ListView.builder(
                             shrinkWrap: true,
-                            // TODO(ask): раз надо показывать 5 записей, то
-                            // нужно отдельные линзы одним объектом отправлять
                             itemCount: widget.wornHistoryList.length > 5
                                 ? 5
                                 : widget.wornHistoryList.length,
-                            // TODO(pavlov): листам поставить неверскролабл
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (_, index) => Padding(
                               padding: const EdgeInsets.only(bottom: 20),
-                              // TODO(all): у непарных записей должен быть серый фон
+                              // TODO(pavlov): у непарных записей должен быть серый фон
                               child: ColoredBox(
                                 color: widget.wornHistoryList[index].eye != 'LR'
                                     ? AppTheme.mystic
                                     : Colors.white,
                                 child: Row(
                                   children: [
-                                    if (widget.wornHistoryList[index].eye ==
-                                        'LR')
-                                      Image.asset(
-                                        'assets/icons/halfed_circle.png',
-                                        height: 16,
-                                        width: 16,
-                                      )
-                                    else
-                                      Container(
-                                        height: 16,
-                                        width: 16,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: widget.wornHistoryList[index]
-                                                      .eye ==
-                                                  'L'
-                                              ? AppTheme.turquoiseBlue
-                                              : AppTheme.sulu,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            widget.wornHistoryList[index].eye,
-                                            style: AppStyles.n1,
-                                          ),
-                                        ),
-                                      ),
-                                    const SizedBox(width: 8),
-                                    Center(
-                                      child: Text(
-                                        '${widget.wornHistoryList[index].dateStart.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateStart.month)}, ${widget.wornHistoryList[index].dateStart.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.hour}:${widget.wornHistoryList[index].dateStart.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.minute}',
-                                        style: AppStyles.p1,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                      ),
-                                      child: Image.asset(
-                                        'assets/line_dots.png',
-                                        scale: 4.1,
-                                      ),
-                                    ),
-                                    Center(
-                                      child: widget.wornHistoryList[index]
-                                                  .dateEnd !=
-                                              null
-                                          ? Text(
-                                              '${widget.wornHistoryList[index].dateEnd!.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateEnd!.month)}, ${widget.wornHistoryList[index].dateEnd!.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.hour}:${widget.wornHistoryList[index].dateEnd!.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.minute}',
-                                              style: AppStyles.p1,
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          if (widget
+                                                  .wornHistoryList[index].eye ==
+                                              'LR')
+                                            Image.asset(
+                                              'assets/icons/halfed_circle.png',
+                                              height: 16,
+                                              width: 16,
                                             )
-                                          : const SizedBox.shrink(),
+                                          else
+                                            Container(
+                                              height: 16,
+                                              width: 16,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: widget
+                                                            .wornHistoryList[
+                                                                index]
+                                                            .eye ==
+                                                        'L'
+                                                    ? AppTheme.turquoiseBlue
+                                                    : AppTheme.sulu,
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  widget.wornHistoryList[index]
+                                                      .eye,
+                                                  style: AppStyles.n1,
+                                                ),
+                                              ),
+                                            ),
+                                          const SizedBox(width: 8),
+                                          Center(
+                                            child: Text(
+                                              '${widget.wornHistoryList[index].dateStart.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateStart.month)}, ${widget.wornHistoryList[index].dateStart.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.hour}:${widget.wornHistoryList[index].dateStart.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateStart.minute}',
+                                              style: AppStyles.p1,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(right: 15),
+                                      child: DottedLine(
+                                        lineLength: 35,
+                                        dashColor: AppTheme.grey,
+                                        dashLength: 2,
+                                        dashGapLength: 2,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: widget.wornHistoryList[index]
+                                                    .dateEnd !=
+                                                null
+                                            ? Text(
+                                                '${widget.wornHistoryList[index].dateEnd!.day} ${HelpFunctions.getMonthNameByNumber(widget.wornHistoryList[index].dateEnd!.month)}, ${widget.wornHistoryList[index].dateEnd!.hour < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.hour}:${widget.wornHistoryList[index].dateEnd!.minute < 10 ? 0 : ''}${widget.wornHistoryList[index].dateEnd!.minute}',
+                                                style: AppStyles.p1,
+                                              )
+                                            : const SizedBox.shrink(),
+                                      ),
                                     ),
                                   ],
                                 ),

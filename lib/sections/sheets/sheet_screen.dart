@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -66,6 +66,11 @@ class _SheetScreenState extends State<SheetScreen> {
 
   @override
   void initState() {
+    AppsflyerSingleton.sdk.logEvent('catalogOpened', <String, dynamic>{
+      'id': widget.sheetModel.id,
+      'type': widget.sheetModel.type,
+      'name': widget.sheetModel.name,
+    });
     super.initState();
   }
 
@@ -180,7 +185,7 @@ class _SheetScreenState extends State<SheetScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.sheetModel.type != 'promo_code_immediately')
-            const InfoBlock(),
+            const BottomInfoBlock(),
         ],
       ),
     );

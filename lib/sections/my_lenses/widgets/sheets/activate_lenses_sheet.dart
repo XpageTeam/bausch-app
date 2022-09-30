@@ -22,14 +22,14 @@ class ActivateLensesSheet extends StatefulWidget {
   final MyLensesWM myLensesWM;
   final LensesPairModel lensesPairModel;
   final LensProductModel lensProductModel;
-  final int productId;
+  final int productIndex;
   final FlexibleDraggableScrollableSheetScrollController controller;
 
   const ActivateLensesSheet({
     required this.controller,
     required this.lensesPairModel,
     required this.lensProductModel,
-    required this.productId,
+    required this.productIndex,
     required this.myLensesWM,
     Key? key,
   }) : super(key: key);
@@ -44,7 +44,7 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
 
   @override
   void initState() {
-    _loadProduct();
+    _loadInitialData();
     super.initState();
   }
 
@@ -176,8 +176,11 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                     streamedState: widget.myLensesWM.oldWornHistoryList,
                     builder: (_, oldWornHistoryList) => LensesHistory(
                       wornHistoryList: oldWornHistoryList,
-                      expandList: () async => widget.myLensesWM
-                          .loadWornHistory(showAll: true, isOld: true),
+                      expandList: () async => widget.myLensesWM.loadWornHistory(
+                        showAll: true,
+                        isOld: true,
+                        pairId: widget.lensesPairModel.id,
+                      ),
                     ),
                   ),
               ]),
@@ -187,10 +190,15 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
     );
   }
 
-  Future _loadProduct() async {
+  Future _loadInitialData() async {
     recommendedProducts = await widget.myLensesWM.loadRecommendedProducts(
       productId: widget
-          .myLensesWM.productHistoryList.value[widget.productId].productId!,
+          .myLensesWM.productHistoryList.value[widget.productIndex].productId!,
+    );
+    await widget.myLensesWM.loadWornHistory(
+      showAll: false,
+      isOld: true,
+      pairId: widget.lensesPairModel.id,
     );
     setState(() {
       isUpdating = false;

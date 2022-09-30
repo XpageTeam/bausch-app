@@ -1,8 +1,5 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/sections/home/sections/sales_section.dart';
-import 'package:bausch/sections/home/widgets/containers/sales_wide_container.dart';
-import 'package:bausch/sections/home/widgets/containers/small_container.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';

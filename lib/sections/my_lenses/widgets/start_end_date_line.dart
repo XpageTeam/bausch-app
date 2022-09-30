@@ -2,6 +2,7 @@ import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
 class StartEndDateLine extends StatelessWidget {
@@ -20,9 +21,17 @@ class StartEndDateLine extends StatelessWidget {
     final actualDateStart = isLeft
         ? myLensesWM.leftLensDate.value!.dateStart
         : myLensesWM.rightLensDate.value!.dateStart;
+    final bothSame = myLensesWM.leftLensDate.value?.dateStart != null &&
+        myLensesWM.rightLensDate.value?.dateStart != null &&
+        myLensesWM.rightLensDate.value!.dateStart
+                .compareTo(myLensesWM.leftLensDate.value!.dateStart) ==
+            0;
     final actualDateEnd = isLeft
         ? myLensesWM.leftLensDate.value!.dateEnd
         : myLensesWM.rightLensDate.value!.dateEnd;
+    final actualDaysLeft = isLeft
+        ? myLensesWM.leftLensDate.value!.daysLeft
+        : myLensesWM.rightLensDate.value!.daysLeft;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -52,18 +61,18 @@ class StartEndDateLine extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(
-            left: 6,
-            right: 2,
-          ),
-          child: Image.asset(
-            (isLeft
-                        ? myLensesWM.leftLensDate.value!.daysLeft
-                        : myLensesWM.rightLensDate.value!.daysLeft) <
-                    0
-                ? 'assets/short_line_dots.png'
-                : 'assets/line_dots.png',
-            scale: hasIcon ? 7 : 4.8,
+          padding: const EdgeInsets.only(left: 6, right: 2),
+          child: DottedLine(
+            lineLength: bothSame
+                ? myLensesWM.leftLensDate.value!.daysLeft >= 0
+                    ? 75
+                    : 35
+                : actualDaysLeft >= 0
+                    ? 50
+                    : 20,
+            dashColor: AppTheme.grey,
+            dashLength: 2,
+            dashGapLength: 2,
           ),
         ),
         Row(

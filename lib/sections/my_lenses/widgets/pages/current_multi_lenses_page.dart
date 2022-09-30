@@ -17,9 +17,9 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-class CurrentLensesPage extends StatelessWidget {
+class CurrentMultiLensesPage extends StatelessWidget {
   final MyLensesWM myLensesWM;
-  const CurrentLensesPage({required this.myLensesWM, Key? key})
+  const CurrentMultiLensesPage({required this.myLensesWM, Key? key})
       : super(key: key);
 
   @override
@@ -143,7 +143,6 @@ class CurrentLensesPage extends StatelessWidget {
             ],
           ),
         ),
-        // TODO(pavlov): везде в линзах применить, ждать его починки
         StreamedStateBuilder<List<RecommendedProductModel>>(
           streamedState: myLensesWM.recommendedProducts,
           builder: (_, dailyReminder) =>

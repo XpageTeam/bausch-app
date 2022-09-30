@@ -46,7 +46,7 @@ class OldLensesPage extends StatelessWidget {
                     builder: (context, controller, d) {
                       return SheetWidget(
                         child: ActivateLensesSheet(
-                          productId: index,
+                          productIndex: index,
                           controller: controller,
                           lensProductModel: myLensesWM
                               .productHistoryList.value[index].product!,

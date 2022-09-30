@@ -5,9 +5,9 @@ import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points_code/a
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,4 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/models/sheets/catalog_sheet_model.dart';
-import 'package:bausch/sections/home/widgets/containers/sales_wide_container.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
@@ -26,8 +24,6 @@ class SalesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height =
-        MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,7 +273,7 @@ class _ShowAllContainer extends StatelessWidget {
                 color: AppTheme.mystic,
                 borderRadius: BorderRadius.circular(22),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.keyboard_arrow_right_outlined,
               ),
             ),

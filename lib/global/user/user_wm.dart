@@ -9,7 +9,7 @@ import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/models/user/user_model/user.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

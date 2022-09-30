@@ -24,14 +24,13 @@ class OffersSectionWM extends WidgetModel {
 
   final BuildContext context;
   final OffersRepository? loadedRepository;
+  late final userWM = Provider.of<UserWM>(context, listen: false);
 
   late SharedPreferences preferences;
 
   Timer? updateTimer;
 
   bool canUpdate = true;
-
-  late final userWM = Provider.of<UserWM>(context, listen: false);
 
   OffersSectionWM({
     required this.type,

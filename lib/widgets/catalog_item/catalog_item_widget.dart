@@ -17,8 +17,8 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:extended_image/extended_image.dart';
@@ -86,7 +86,7 @@ class CatalogItemWidget extends StatelessWidget {
                         ),
                       ),
 
-                      // TODO(pavlov): сюда добавить название скидочного товара
+                      // TODO(all): сюда добавить название скидочного товара
                       //   Flexible(
                       //   child: Text(
                       //     model.name,
@@ -114,7 +114,7 @@ class CatalogItemWidget extends StatelessWidget {
                           ),
                         ),
 
-                      // TODO(pavlov): дата окончания промокода
+                      // TODO(all): дата окончания промокода
                       //
                       // if (model is PartnersItemModel && (model as PartnersItemModel).endDate != null)
                       //   Flexible(

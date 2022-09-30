@@ -43,7 +43,7 @@ class CustomFloatingActionButton extends StatelessWidget {
           if (withInfo)
             const ColoredBox(
               color: AppTheme.mystic,
-              child: InfoBlock(
+              child: BottomInfoBlock(
                 topPadding: 0,
               ),
             ),

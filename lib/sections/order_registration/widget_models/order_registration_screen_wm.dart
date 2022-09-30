@@ -14,7 +14,7 @@ import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 //import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';

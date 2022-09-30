@@ -232,13 +232,13 @@ class MyLensesRequester {
           DateTime.now().minute,
         );
       }
-      // TODO(all): разобраться с отправкой дат
+      // TODO(pavlov): разобраться с отправкой дат
+      // приходят данные -3 часа после отправки
       // print(leftDate);
       // print(rightDate);
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/put-on/',
         data: FormData.fromMap(<String, dynamic>{
-          // TODO(all): приходят данные -3 часа после отправки
           // 'left[date]': leftDate?.toIso8601String(),
           // 'right[date]': rightDate?.toIso8601String(),
           'left[date]': leftDate?.toString(),

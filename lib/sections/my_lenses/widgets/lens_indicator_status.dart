@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +10,16 @@ class LensIndicatorStatus extends StatelessWidget {
   final VoidCallback onTap;
   final bool title;
   final bool sameTime;
-  final bool twoLenses;
-  final bool left;
+  final bool isAloneChildCircle;
+  final bool isLeft;
   const LensIndicatorStatus({
     required this.daysBeforeReplacement,
     required this.onTap,
     required this.lifeTime,
     this.title = true,
-    this.left = false,
+    this.isLeft = false,
     this.sameTime = false,
-    this.twoLenses = true,
+    this.isAloneChildCircle = false,
     Key? key,
   }) : super(key: key);
 
@@ -31,6 +32,19 @@ class LensIndicatorStatus extends StatelessWidget {
       alignment: Alignment.topCenter,
       children: [
         if (daysBeforeReplacement >= 0)
+          // SizedBox(
+          //   height: title ? 170 : 130,
+          //   width: title ? 170 : 130,
+          //   child: CustomPaint(
+          //     painter: CustomCircleIndicator(
+          //       value: percent.toDouble(),
+          //       colors: [
+          //         Color(0xffC5F663),
+          //         Color(0xff60D7E2),
+          //       ],
+          //     ),
+          //   ),
+          // )
           CircularPercentIndicator(
             header: title
                 ? const Padding(
@@ -49,20 +63,32 @@ class LensIndicatorStatus extends StatelessWidget {
             animation: true,
             animationDuration: 2000,
             lineWidth: 15.0,
+            linearGradient: sameTime
+                ? const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    transform: GradientRotation(-2 * pi / 3),
+                    colors: [
+                    AppTheme.sulu,
+                           AppTheme.turquoiseBlue,
+                    ],
+                  )
+                : null,
             percent: percent.toDouble(),
-            center: Text(
-              daysBeforeReplacement.toString(),
-              style: title
-                  ? AppStyles.h0
-                  : AppStyles.h1.copyWith(fontSize: 45, height: 1),
+            center: Padding(
+              padding: EdgeInsets.only(top: isAloneChildCircle ? 10 : 7),
+              child: Text(
+                daysBeforeReplacement.toString(),
+                style: title
+                    ? AppStyles.h0
+                    : AppStyles.h1.copyWith(fontSize: 45, height: 1),
+              ),
             ),
             circularStrokeCap: CircularStrokeCap.round,
             backgroundColor: AppTheme.mystic,
-            // TODO(all): не получается сделать градиент
-            // пока оставил один цвет
             progressColor: sameTime
-                ? Colors.greenAccent
-                : left
+                ? null
+                : isLeft
                     ? AppTheme.turquoiseBlue
                     : AppTheme.sulu,
           )
@@ -117,9 +143,9 @@ class LensIndicatorStatus extends StatelessWidget {
                               shape: BoxShape.circle,
                               color: AppTheme.redNotice,
                             ),
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                'Замените\nлинзы',
+                                'Замените\nлинз${sameTime ? 'ы' : 'у'}',
                                 style: AppStyles.h2,
                                 textAlign: TextAlign.center,
                               ),
@@ -132,7 +158,7 @@ class LensIndicatorStatus extends StatelessWidget {
           ),
         if (sameTime == false)
           Padding(
-            padding: EdgeInsets.only(top: !twoLenses ? 30 : 0),
+            padding: EdgeInsets.only(top: !isAloneChildCircle ? 0 : 30),
             child: Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -144,10 +170,11 @@ class LensIndicatorStatus extends StatelessWidget {
                     color: Colors.white,
                     width: 4,
                   ),
-                  color: left ? AppTheme.turquoiseBlue : AppTheme.sulu,
+                  color: isLeft ? AppTheme.turquoiseBlue : AppTheme.sulu,
                 ),
-                child:
-                    Center(child: Text(left ? 'L' : 'R', style: AppStyles.h2)),
+                child: Center(
+                  child: Text(isLeft ? 'L' : 'R', style: AppStyles.h2),
+                ),
               ),
             ),
           ),

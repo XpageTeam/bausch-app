@@ -1,3 +1,4 @@
+import 'package:bausch/main.dart';
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/sections/select_optic/map_body.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
@@ -39,6 +40,8 @@ class SelectOpticScreenBody extends StatelessWidget {
             onCityDefinitionCallback: onCityDefinitionCallback,
             shopsEmptyCallback: (mapBodyWm) {
               mapBodyWm.isModalBottomSheetOpen.accept(true);
+
+              AppsflyerSingleton.sdk.logEvent('programmOpticsEmpty', null);
 
               showModalBottomSheet<dynamic>(
                 barrierColor: Colors.transparent,

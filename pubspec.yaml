@@ -23,6 +23,7 @@ dependencies:
   dio_cache_interceptor: ^3.3.1
   dio_cache_interceptor_db_store: ^5.0.0
   dio_cookie_manager: ^2.0.0
+  dotted_line: ^3.1.0
   easy_mask: ^2.0.1
   email_validator: ^2.1.17
   equatable: ^2.0.5
@@ -64,7 +65,6 @@ dependencies:
   visibility_detector: ^0.2.0 # НЕ ОБНОВЛЯТЬ
   yandex_mapkit: ^3.1.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -76,15 +76,8 @@ flutter:
   assets:
     - assets/
     - assets/logos/
-    - assets/stories/
-    - assets/items/
     - assets/icons/
     - assets/loading/
-    - assets/temp/
-    - assets/temp/logos/
-    - assets/discountOptics/
-    - assets/icons/map-marker.png
-    - assets/icons/user-marker.png
 
   fonts:
     - family: Euclid Circular A

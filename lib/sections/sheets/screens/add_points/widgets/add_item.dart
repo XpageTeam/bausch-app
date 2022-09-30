@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:bausch/main.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
-import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/sections/sheets/screens/add_points/quiz/quiz_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -29,6 +29,11 @@ class AddItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        unawaited(AppsflyerSingleton.sdk.logEvent('pointsAction', <String, dynamic>{
+          'id': model.id,
+          'title': model.previewModel.title,
+        }));
+
         if (model.type == 'quiz') {
           await Navigator.of(context).pushNamed(
             '/addpoints_quiz',
