@@ -1,3 +1,4 @@
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
@@ -43,6 +44,17 @@ class DiscountOpticsVerification
 
 class _DiscountOpticsVerificationState extends WidgetState<
     DiscountOpticsVerification, DiscountOpticsVerificationWM> {
+
+
+  @override
+  void initState() {
+    AppsflyerSingleton.sdk.logEvent('discountOpticsOrder', <String, dynamic>{
+      'id': wm.itemModel.id,
+      'title': wm.itemModel.name,
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(

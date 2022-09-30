@@ -1,3 +1,4 @@
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/screens/partners/widget_models/partners_verification_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
@@ -36,6 +37,16 @@ class PartnersVerification extends CoreMwwmWidget<PartnersVerificationWM> {
 class _PartnersVerificationState
     extends WidgetState<PartnersVerification, PartnersVerificationWM> {
   Color iconColor = Colors.white;
+
+  @override
+  void initState() {
+    AppsflyerSingleton.sdk.logEvent('partnersItemsOrder', <String, dynamic>{
+      'id': wm.itemModel.id,
+      'title': wm.itemModel.name,
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(

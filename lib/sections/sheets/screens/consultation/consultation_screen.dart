@@ -1,5 +1,6 @@
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -173,6 +174,10 @@ class _ConsultationScreenState
                 color: AppTheme.mineShaft,
               ),
         onPressed: () {
+          if (isPointsEnough){
+            AppsflyerSingleton.sdk.logEvent('onlineConsultationOrder', null);
+          }
+
           isPointsEnough
               ? Navigator.of(context).pushNamed(
                   '/verification_consultation',

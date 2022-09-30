@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
@@ -136,9 +137,16 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               break;
 
             case '/free_product':
+              arguments as ItemSheetScreenArguments;
+
+              AppsflyerSingleton.sdk.logEvent('freePack', <String, dynamic>{
+                'id': arguments.model.id,
+                'title': arguments.model.name,
+              });
+
               page = FreePackagingScreen(
                 controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model,
+                model: arguments.model,
               );
               break;
 
@@ -158,15 +166,22 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               break;
 
             case '/onlineShop':
+              arguments as ItemSheetScreenArguments;
+
+              AppsflyerSingleton.sdk.logEvent('discountOpticsShow', <String, dynamic>{
+                'id': arguments.model.id,
+                'title': arguments.model.name,
+              });
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model
+                model: arguments.model
                     as PromoItemModel,
                 discountType: DiscountType.onlineShop,
               );
               break;
 
             case '/promo_code_immediately':
+              // AppsflyerSingleton.sdk.logEvent('discountOpticsShow', null);
               page = PartnersScreen(
                 controller: controller,
                 model: (arguments as ItemSheetScreenArguments).model
@@ -252,6 +267,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               break;
 
             case '/online_consultation':
+              AppsflyerSingleton.sdk.logEvent('onlineConsultationShow', null);
+
               page = ConsultationScreen(
                 controller: controller,
                 model:

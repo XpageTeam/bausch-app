@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
@@ -88,12 +89,25 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   @override
   void onBind() {
+    discountOpticsStreamed.bind((_) {
+      if (!discountOpticsStreamed.value.hasError && !discountOpticsStreamed.value.isLoading && discountType == DiscountType.offline && discountOpticsStreamed.value.data!.isEmpty){
+        AppsflyerSingleton.sdk.logEvent('discountOpticsEmpty', null);
+      }
+    });
+
     setCurrentOptic.bind(
       (optic) async {
         if (optic != null) {
           unawaited(currentDiscountOptic.accept(optic));
           final cityName = optic.shops.first.city;
           await currentOfflineCity.accept(cityName);
+
+          unawaited(AppsflyerSingleton.sdk
+              .logEvent('discountOpticsSetOptic', <String, dynamic>{
+            'opticID': optic.id,
+            'opticName': optic.title,
+            'cityName': cityName,
+          }));
 
           unawaited(
             discountOpticsStreamed.content(
