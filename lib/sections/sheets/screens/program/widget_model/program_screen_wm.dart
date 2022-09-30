@@ -6,13 +6,14 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/models/program/primary_data_downloader.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,15 @@ class ProgramScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    selectOptic.bind(currentOpticStreamed.accept);
+    selectOptic.bind((optic) {
+      AppsflyerSingleton.sdk.logEvent('programmOpticSelected', <String, dynamic>{
+        'id': optic?.id,
+        'title': optic?.title,
+        'shopCode': optic?.shopCode,
+      });
+
+      currentOpticStreamed.accept(optic);
+    });
     getCertificateAction.bind((_) => _getCertificate());
 
     super.onBind();
@@ -92,13 +101,19 @@ class ProgramScreenWM extends WidgetModel {
           parameters: <String, dynamic>{
             'whatDoYouUse': whatDoYouUse.value,
             'name': firstNameController.text,
-            'opticName': currentOpticStreamed.value?.shops.first.title ?? 'null',
-            'opticAddress': '$city, ${currentOpticStreamed.value!.shops.first.address}',
-            'opticPhone': (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
-                ? currentOpticStreamed.value!.shops.first.phones.first
-                : '',
-            'opticEmail': currentOpticStreamed.value?.shops.first.email ?? 'null',
-            'opticManager': currentOpticStreamed.value?.shops.first.manager ?? 'null',
+            'opticName':
+                currentOpticStreamed.value?.shops.first.title ?? 'null',
+            'opticAddress':
+                '$city, ${currentOpticStreamed.value!.shops.first.address}',
+            'opticPhone':
+                (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ??
+                        false
+                    ? currentOpticStreamed.value!.shops.first.phones.first
+                    : '',
+            'opticEmail':
+                currentOpticStreamed.value?.shops.first.email ?? 'null',
+            'opticManager':
+                currentOpticStreamed.value?.shops.first.manager ?? 'null',
           },
         ),
       );

@@ -1,4 +1,10 @@
 PODS:
+  - appsflyer_sdk (6.8.0):
+    - AppsFlyerFramework (= 6.8.0)
+    - Flutter
+  - AppsFlyerFramework (6.8.0):
+    - AppsFlyerFramework/Main (= 6.8.0)
+  - AppsFlyerFramework/Main (6.8.0)
   - better_player (0.0.1):
     - Cache (~> 6.0.0)
     - Flutter
@@ -8,14 +14,14 @@ PODS:
   - Cache (6.0.0)
   - device_info_plus (0.0.1):
     - Flutter
-  - DKImagePickerController/Core (4.3.3):
+  - DKImagePickerController/Core (4.3.4):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.3.3)
-  - DKImagePickerController/PhotoGallery (4.3.3):
+  - DKImagePickerController/ImageDataManager (4.3.4)
+  - DKImagePickerController/PhotoGallery (4.3.4):
     - DKImagePickerController/Core
     - DKPhotoGallery
-  - DKImagePickerController/Resource (4.3.3)
+  - DKImagePickerController/Resource (4.3.4)
   - DKPhotoGallery (0.0.17):
     - DKPhotoGallery/Core (= 0.0.17)
     - DKPhotoGallery/Model (= 0.0.17)
@@ -42,52 +48,55 @@ PODS:
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
-  - Firebase/Analytics (8.15.0):
+  - Firebase/Analytics (9.5.0):
     - Firebase/Core
-  - Firebase/Core (8.15.0):
+  - Firebase/Core (9.5.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 8.15.0)
-  - Firebase/CoreOnly (8.15.0):
-    - FirebaseCore (= 8.15.0)
-  - firebase_analytics (9.1.10):
-    - Firebase/Analytics (= 8.15.0)
+    - FirebaseAnalytics (~> 9.5.0)
+  - Firebase/CoreOnly (9.5.0):
+    - FirebaseCore (= 9.5.0)
+  - firebase_analytics (9.3.6):
+    - Firebase/Analytics (= 9.5.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.18.0):
-    - Firebase/CoreOnly (= 8.15.0)
+  - firebase_core (1.23.0):
+    - Firebase/CoreOnly (= 9.5.0)
     - Flutter
-  - FirebaseAnalytics (8.15.0):
-    - FirebaseAnalytics/AdIdSupport (= 8.15.0)
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
+  - FirebaseAnalytics (9.5.0):
+    - FirebaseAnalytics/AdIdSupport (= 9.5.0)
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseAnalytics/AdIdSupport (8.15.0):
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
-    - GoogleAppMeasurement (= 8.15.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (9.5.0):
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleAppMeasurement (= 9.5.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseCore (8.15.0):
-    - FirebaseCoreDiagnostics (~> 8.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCore (9.5.0):
+    - FirebaseCoreDiagnostics (~> 9.0)
+    - FirebaseCoreInternal (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.15.0):
-    - GoogleDataTransport (~> 9.1)
+  - FirebaseCoreDiagnostics (9.6.0):
+    - GoogleDataTransport (< 10.0.0, >= 9.1.4)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-    - nanopb (~> 2.30908.0)
-  - FirebaseInstallations (8.15.0):
-    - FirebaseCore (~> 8.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCoreInternal (9.6.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+  - FirebaseInstallations (9.6.0):
+    - FirebaseCore (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
-    - PromisesObjC (< 3.0, >= 1.2)
+    - PromisesObjC (~> 2.1)
   - Flutter (1.0.0)
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
@@ -96,48 +105,48 @@ PODS:
   - GCDWebServer/Core (3.5.4)
   - geolocator_apple (1.2.0):
     - Flutter
-  - GoogleAppMeasurement (8.15.0):
-    - GoogleAppMeasurement/AdIdSupport (= 8.15.0)
+  - GoogleAppMeasurement (9.5.0):
+    - GoogleAppMeasurement/AdIdSupport (= 9.5.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (8.15.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.15.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (9.5.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.5.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (8.15.0):
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (9.5.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.1.4):
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleDataTransport (9.2.0):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.7.0):
+  - GoogleUtilities/AppDelegateSwizzler (7.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.7.0):
+  - GoogleUtilities/Environment (7.8.0):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.7.0):
+  - GoogleUtilities/Logger (7.8.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.7.0):
+  - GoogleUtilities/MethodSwizzler (7.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.7.0):
+  - GoogleUtilities/Network (7.8.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.7.0)"
-  - GoogleUtilities/Reachability (7.7.0):
+  - "GoogleUtilities/NSData+zlib (7.8.0)"
+  - GoogleUtilities/Reachability (7.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.7.0):
+  - GoogleUtilities/UserDefaults (7.8.0):
     - GoogleUtilities/Logger
   - HLSCachingReverseProxyServer (0.1.0):
     - GCDWebServer (~> 3.5)
@@ -148,11 +157,11 @@ PODS:
     - Mindbox (= 1.3.2)
     - MindboxNotifications (= 1.3.2)
   - MindboxNotifications (1.3.2)
-  - nanopb (2.30908.0):
-    - nanopb/decode (= 2.30908.0)
-    - nanopb/encode (= 2.30908.0)
-  - nanopb/decode (2.30908.0)
-  - nanopb/encode (2.30908.0)
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
   - package_info (0.0.1):
     - Flutter
   - path_provider_ios (0.0.1):
@@ -166,29 +175,26 @@ PODS:
     - PINOperation (~> 1.2.1)
   - PINOperation (1.2.1)
   - PromisesObjC (2.1.1)
-  - SDWebImage (5.12.6):
-    - SDWebImage/Core (= 5.12.6)
-  - SDWebImage/Core (5.12.6)
+  - SDWebImage (5.13.4):
+    - SDWebImage/Core (= 5.13.4)
+  - SDWebImage/Core (5.13.4)
   - share (0.0.1):
     - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
-  - sqlite3 (3.38.5):
-    - sqlite3/common (= 3.38.5)
-  - sqlite3/common (3.38.5)
-  - sqlite3/fts5 (3.38.5):
+  - sqlite3 (3.39.3):
+    - sqlite3/common (= 3.39.3)
+  - sqlite3/common (3.39.3)
+  - sqlite3/fts5 (3.39.3):
     - sqlite3/common
-  - sqlite3/json1 (3.38.5):
+  - sqlite3/perf-threadsafe (3.39.3):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.38.5):
-    - sqlite3/common
-  - sqlite3/rtree (3.38.5):
+  - sqlite3/rtree (3.39.3):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
-    - sqlite3 (~> 3.38.5)
+    - sqlite3 (~> 3.39.3)
     - sqlite3/fts5
-    - sqlite3/json1
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
   - SwiftyGif (5.4.3)
@@ -202,10 +208,11 @@ PODS:
     - Flutter
   - yandex_mapkit (0.0.1):
     - Flutter
-    - YandexMapsMobile (= 4.1.0-full)
-  - YandexMapsMobile (4.1.0-full)
+    - YandexMapsMobile (= 4.2.0-full)
+  - YandexMapsMobile (4.2.0-full)
 
 DEPENDENCIES:
+  - appsflyer_sdk (from `.symlinks/plugins/appsflyer_sdk/ios`)
   - better_player (from `.symlinks/plugins/better_player/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -229,6 +236,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppsFlyerFramework
     - Cache
     - DKImagePickerController
     - DKPhotoGallery
@@ -236,6 +244,7 @@ SPEC REPOS:
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCoreInternal
     - FirebaseInstallations
     - GCDWebServer
     - GoogleAppMeasurement
@@ -254,6 +263,8 @@ SPEC REPOS:
     - YandexMapsMobile
 
 EXTERNAL SOURCES:
+  appsflyer_sdk:
+    :path: ".symlinks/plugins/appsflyer_sdk/ios"
   better_player:
     :path: ".symlinks/plugins/better_player/ios"
   device_info_plus:
@@ -294,48 +305,51 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/yandex_mapkit/ios"
 
 SPEC CHECKSUMS:
+  appsflyer_sdk: 6d03341418c1acf261fdfde2eb27fdeaf04fa2c2
+  AppsFlyerFramework: a8de532f81b1d3c1dfc451f0ecded91ebb6a0e47
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
-  DKImagePickerController: 72fd378f244cef3d27288e0aebf217a4467e4012
+  DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 817ab1d8cd2da9d2da412a417162deee3500fc95
-  Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
-  firebase_analytics: 9029d8bd4cd488a3dd7ff32ec4fccd3160bf7200
-  firebase_core: b14c1cfa29b9eb316345f74d1489328283825d6d
-  FirebaseAnalytics: 7761cbadb00a717d8d0939363eb46041526474fa
-  FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
-  FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
-  FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Firebase: 800f16f07af493d98d017446a315c27af0552f41
+  firebase_analytics: 2ba886ecb9ded97cfe24f1765e1aa22075894709
+  firebase_core: c266297725f66cacd7eac30745cd1a629d3b048b
+  FirebaseAnalytics: 1b60984a408320dda637306f3f733699ef8473d7
+  FirebaseCore: 25c0400b670fd1e2f2104349cd3b5dcce8d9418f
+  FirebaseCoreDiagnostics: 99a495094b10a57eeb3ae8efa1665700ad0bdaa6
+  FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
+  FirebaseInstallations: 0a115432c4e223c5ab20b0dbbe4cbefa793a0e8e
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
-  GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
-  GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
-  GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  GoogleAppMeasurement: 6ee231473fbd75c11221dfce489894334024eead
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
+  GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   HLSCachingReverseProxyServer: 59935e1e0244ad7f3375d75b5ef46e8eb26ab181
   Mindbox: 966704d3502f14d437fe55bbe881072e5a8d5223
   mindbox_ios: 428d949e59c05db977a8db9565919dbf11830ee3
   MindboxNotifications: 521989d7b8c3990e71800c1f44e7c6db3468a15f
-  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
-  SDWebImage: a47aea9e3d8816015db4e523daff50cfd294499d
+  SDWebImage: e5cc87bf736e60f49592f307bdf9e157189298a3
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
-  sqlite3: 93442daab2ab1825bc9c05faa85814a1996f5b65
-  sqlite3_flutter_libs: 92ed62fa0dcbfe2e37d5e2b60d00820672b71ffb
+  sqlite3: 50117e9e063a9ef2b865f7bdf2f2601e5d368e9a
+  sqlite3_flutter_libs: c6ab7f23670a98fef45a137159452004bc552168
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
-  yandex_mapkit: d89a794dcaf8caa93f36a8c2badf9e7e2c45ce75
-  YandexMapsMobile: c145ffd0dbdbb8079fca1eb6706cf9e751b07809
+  yandex_mapkit: 18908ff708911af749f98d6ad63899fa8726fe70
+  YandexMapsMobile: 4ea6eb64194c1e810ed4265ec9f877ac3167958b
 
 PODFILE CHECKSUM: 8cf4a377b8dc12afda9f09881369db17c1e1151f
 

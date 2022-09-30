@@ -8,7 +8,7 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/points_info.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -76,16 +76,11 @@ class _WebinarsScreenState extends WidgetState<WebinarScreen, WebinarScreenWM> {
             delegate: SliverChildListDelegate(
               [
                 TopSection.webinar(
-                  widget.model,
-                  widget.key,
-                  wm.difference > 0
-                      ? Padding(
-                          padding: const EdgeInsets.only(
-                            top: 4,
-                          ),
-                          child: PointsInfo(
-                            text: 'Не хватает ${wm.difference}',
-                          ),
+                  model:widget.model,
+                  key:widget.key,
+                 topLeftWidget: wm.difference > 0
+                      ? CustomLineLoadingIndicator(
+                          maximumScore: widget.model.price,
                         )
                       : Image.asset(
                           'assets/play-video.png',

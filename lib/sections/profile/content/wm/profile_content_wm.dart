@@ -1,25 +1,23 @@
 import 'dart:async';
-
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
-import 'package:bausch/sections/profile/content/downloader/downloader.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/notification_model.dart';
+import 'package:bausch/sections/profile/content/requester/profile_requester.dart';
 import 'package:dio/dio.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileContentWM extends WidgetModel {
   final allDataLoadingState = EntityStreamedState<bool>();
-
   final orderHistoryList = EntityStreamedState<List<BaseOrderModel?>>();
   final notificationsList = EntityStreamedState<List<NotificationModel>>();
-
+  final activeNotifications = StreamedState<int>(0);
   final loadOrdersHistoryAction = VoidAction();
   final loadNotificationsAction = VoidAction();
   final allDataLoadAction = VoidAction();
 
-  final _downloader = ProfileContentDownloader();
+  final _downloader = ProfileRequester();
 
   ProfileContentWM() : super(const WidgetModelDependencies());
 
@@ -47,6 +45,9 @@ class ProfileContentWM extends WidgetModel {
 
     return true;
   }
+
+  Future updateNotificationsAmount(int amount) async =>
+      activeNotifications.accept(amount);
 
   Future<bool> refreshNotifications() async {
     await _loadNotifications();
@@ -84,8 +85,25 @@ class ProfileContentWM extends WidgetModel {
 
     try {
       // _downloader.loadNotificationsBanners();
-      await notificationsList
-          .content(await _downloader.loadNotificationsList());
+      final notifications = await _downloader.loadNotificationsList();
+      // await notificationsList.content(
+      //   List.generate(
+      //     40,
+      //     (index) => NotificationModel(
+      //       id: index,
+      //       title: 'title',
+      //       read: false,
+      //     ),
+      //   ),
+      // );
+      await notificationsList.content(notifications);
+      var unreadCount = 0;
+      notificationsList.value.data?.forEach((element) {
+        if (!element.read!) {
+          unreadCount++;
+        }
+      });
+      updateNotificationsAmount(unreadCount);
     } on DioError catch (e) {
       await notificationsList.error(CustomException(
         title: 'При загрузке уведомлений произошла ошибка',

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class ButtonWithPoints extends StatelessWidget {
   final String price;
   final VoidCallback onPressed;
-
   final bool withIcon;
 
   const ButtonWithPoints({
@@ -19,7 +18,7 @@ class ButtonWithPoints extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(
-        minHeight: 44,
+        minHeight: 46,
       ),
       child: TextButton(
         onPressed: onPressed,

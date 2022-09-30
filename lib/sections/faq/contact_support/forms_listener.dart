@@ -1,6 +1,6 @@
 import 'package:bausch/sections/faq/bloc/forms/fields_bloc.dart';
 import 'package:bausch/sections/faq/cubit/forms/forms_cubit.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

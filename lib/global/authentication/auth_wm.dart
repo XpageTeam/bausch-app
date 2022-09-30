@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
+import 'package:bausch/sections/registration/registration_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:dio/dio.dart';
@@ -16,14 +19,14 @@ enum AuthStatus {
   unknown,
 }
 
+// TODO(all): при авторизации может выпасть ошибка НЕДОСТАТОЧНО ПРАВ
+// не понятно почему (возможно не тот код)
 class AuthWM extends WidgetModel {
   final authStatus = StreamedState<AuthStatus>(AuthStatus.unknown);
 
   // final user = EntityStreamedState<UserRepository>();
 
   final checkAuthAction = VoidAction();
-
-  
 
   final UserWM userWM;
 
@@ -97,21 +100,22 @@ class AuthWM extends WidgetModel {
     await userWM.userData.loading();
 
     try {
-      // throw DioError(
-      //   requestOptions: RequestOptions(
-      //     path: '',
-      //   ),
-      //   type: DioErrorType.response,
-      //   response: Response<void>(
-      //     requestOptions: RequestOptions(path: ''),
-      //     statusCode: 403,
-      //   ),
-      // );
+ 
       final user = await UserWriter.checkUserToken();
 
       if (user == null) {
-        await authStatus.accept(AuthStatus.unauthenticated);
+         await authStatus.accept(AuthStatus.unauthenticated);
+        // TODO(all): обдумать поведение этой ситуации
         await userWM.userData.error(Exception('Необходима авторизация'));
+        if (Platform.isIOS) {
+          CupertinoPageRoute<void>(builder: (context) {
+            return const RegistrationScreen();
+          });
+        } else {
+          MaterialPageRoute<void>(builder: (context) {
+            return const RegistrationScreen();
+          });
+        }
       } else {
         await userWM.userData.content(user);
         await authStatus.accept(AuthStatus.authenticated);
@@ -147,16 +151,24 @@ class AuthWM extends WidgetModel {
       );
     }
 
-    if (userWM.userData.value.hasError) {
-      final error = userWM.userData.value.error as CustomException;
+    if (userWM.userData.value.hasError &&
+        userWM.userData.value.error.toString() != 'Exception: Необходима авторизация') {
+      // TODO(all): ошибка не воспринимается как кастом экзепшн
+      // final error = userWM.userData.value.error as CustomException;
+      final error = userWM.userData.value.error;
 
       if (context != null) {
         await Navigator.of(context!).pushAndRemoveUntil<void>(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) {
+              // return ErrorPage(
+              //   title: error.title,
+              //   subtitle: error.subtitle,
+              //   buttonCallback: checkAuthAction,
+              //   buttonText: 'Обновить',
+              // );
               return ErrorPage(
-                title: error.title,
-                subtitle: error.subtitle,
+                title: error.toString(),
                 buttonCallback: checkAuthAction,
                 buttonText: 'Обновить',
               );
@@ -169,9 +181,14 @@ class AuthWM extends WidgetModel {
           await Navigator.of(context!).pushAndRemoveUntil<void>(
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) {
+                 // return ErrorPage(
+                //   title: error.title,
+                //   subtitle: error.subtitle,
+                //   buttonCallback: checkAuthAction,
+                //   buttonText: 'Обновить',
+                // );
                 return ErrorPage(
-                  title: error.title,
-                  subtitle: error.subtitle,
+                  title: error.toString(),
                   buttonCallback: checkAuthAction,
                   buttonText: 'Обновить',
                 );

@@ -10,10 +10,12 @@ class CustomRadioButton extends StatefulWidget {
   // final void Function(String whatDoYouUse) onPressed;
   final ValueChanged<bool?>? onChanged;
   final bool? selected;
+  final double? checkBoxRadius;
 
   const CustomRadioButton({
     required this.text,
     required this.onChanged,
+    this.checkBoxRadius = 180,
     this.groupValue,
     this.value,
     this.selected,
@@ -50,7 +52,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
                   ? widget.value == widget.groupValue
                   : widget.selected,
               onChanged: widget.onChanged,
-              borderRadius: 180,
+              borderRadius: widget.checkBoxRadius,
             ),
           ],
         ),

@@ -438,6 +438,7 @@ class _Content extends StatelessWidget {
 
     return Material(
       type: MaterialType.transparency,
+      // ignore: use_decorated_box
       child: Container(
         decoration: decoration,
         child: CustomScrollView(

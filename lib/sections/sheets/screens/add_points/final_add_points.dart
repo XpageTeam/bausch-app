@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -63,90 +64,107 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
       ),
       slivers: [
         SliverFillRemaining(
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  CircleAvatar(
-                    radius: 165,
-                    backgroundColor: Colors.white,
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 3,
-                  ),
-                  Flexible(
-                    child: ClipRRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-                        child: Container(
-                          color: Colors.white.withOpacity(0.16),
-                          //height: MediaQuery.of(context).size.height / 3,
-                          constraints: const BoxConstraints.expand(),
+          child: Center(
+            child: LayoutBuilder(
+              builder: (_, c) {
+                final circleRadius = c.maxWidth / 2 - 24;
+                final internalBoxSize = circleRadius * sqrt(2);
+
+                return Stack(
+                  children: [
+                    const SizedBox.expand(),
+                    Positioned.fill(
+                      child: Center(
+                        child: CircleAvatar(
+                          radius: circleRadius,
+                          backgroundColor: Colors.white,
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 4.5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText(
-                        '+${widget.points}',
-                        maxLines: 1,
-                        style: const TextStyle(
-                          color: AppTheme.mineShaft,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 85,
-                          height: 80 / 85,
-                          leadingDistribution: TextLeadingDistribution.even,
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: SizedBox(
+                        height: c.maxHeight / 2,
+                        child: ClipRRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                            child: Container(
+                              color: Colors.white.withOpacity(0.16),
+                              //height: MediaQuery.of(context).size.height / 3,
+                              constraints: const BoxConstraints.expand(),
+                            ),
+                          ),
                         ),
                       ),
-                      const PointWidget(
-                        radius: 18,
-                        textStyle: TextStyle(
-                          color: AppTheme.mineShaft,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 27,
-                          height: 25 / 27,
-                          leadingDistribution: TextLeadingDistribution.even,
+                    ),
+                    Positioned.fill(
+                      child: Center(
+                        child: SizedBox(
+                          height: internalBoxSize,
+                          width: internalBoxSize,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AutoSizeText(
+                                    '+${widget.points}',
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      color: AppTheme.mineShaft,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 85,
+                                      height: 80 / 85,
+                                      leadingDistribution:
+                                          TextLeadingDistribution.even,
+                                    ),
+                                  ),
+                                  const PointWidget(
+                                    radius: 18,
+                                    textStyle: TextStyle(
+                                      color: AppTheme.mineShaft,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 27,
+                                      height: 25 / 27,
+                                      leadingDistribution:
+                                          TextLeadingDistribution.even,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 20.0,
+                                ),
+                                child: AutoSizeText(
+                                  widget.message ?? 'Спасибо, что вы \nс нами!',
+                                  maxLines: 2,
+                                  style: AppStyles.h1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: StaticData.sidePadding * 2,
                     ),
-                    child: AutoSizeText(
-                      widget.message ?? 'Спасибо, что вы с нами!',
-                      maxLines: 2,
-                      style: AppStyles.h1,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ],
+
+      // TODO(all): Если знаем, что линзы куплены, то нужно предложить сделить их «Моими линзами»
       bottomNavBar: CustomFloatingActionButton(
         text: 'Потратить баллы',
         topPadding: 12,
@@ -154,7 +172,6 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
           if (spendPointsPositionKey.currentContext != null) {
             Scrollable.ensureVisible(spendPointsPositionKey.currentContext!);
           }
-
           Keys.mainContentNav.currentState!.pop();
         },
       ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class CityEmailScreenWM extends WidgetModel {
 
   final setUserDataAction = VoidAction();
 
+  AppsflyerSdk? appsFlyer;
+
   CityEmailScreenWM({
     required this.context,
     // String? cityName,
@@ -28,6 +31,7 @@ class CityEmailScreenWM extends WidgetModel {
   }) : super(const WidgetModelDependencies()) {
     // selectedCityName.accept(cityName);
     emailFieldController.text = email ?? '';
+    appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
   }
 
   @override
@@ -71,6 +75,7 @@ class CityEmailScreenWM extends WidgetModel {
       // city: selectedCityName.value,
     ))) {
       await codeScreenAuthTrue.accept(true);
+      unawaited(appsFlyer?.logEvent('addedEmail', null));
     }
   }
 
@@ -85,20 +90,4 @@ class CityEmailScreenWM extends WidgetModel {
       formValidationState.accept(false);
     }
   }
-
-  // Future<void> _confirmUserEmail() async {
-  //   final userWM = Provider.of<UserWM>(context, listen: false);
-
-  //   try {
-  //     await userWM.updateUserData(userWM.userData.value.data!.user.copyWith(
-  //       email: emailFieldController.text,
-  //     ));
-  //   } on DioError catch (e) {
-  //     debugPrint(e.toString());
-  //   } on ResponseParseException catch (e) {
-  //     debugPrint(e.toString());
-  //   } on SuccessFalse catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
 }

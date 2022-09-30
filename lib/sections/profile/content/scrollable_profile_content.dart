@@ -1,4 +1,5 @@
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/sections/profile/content/notifications_section.dart';
 import 'package:bausch/sections/profile/content/orders_section.dart';
 import 'package:bausch/sections/profile/content/wm/profile_content_wm.dart';
@@ -15,9 +16,7 @@ class ScrollableProfileContent extends CoreMwwmWidget<ProfileContentWM> {
   final ScrollController controller;
   ScrollableProfileContent({required this.controller, Key? key})
       : super(
-          widgetModelBuilder: (context) {
-            return ProfileContentWM();
-          },
+          widgetModelBuilder: (_) => ProfileContentWM(),
           key: key,
         );
 
@@ -32,7 +31,7 @@ class _ScrollableProfileContentState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: AppTheme.mystic,
       child: EntityStateBuilder<bool>(
         streamedState: wm.allDataLoadingState,
@@ -76,22 +75,26 @@ class _ScrollableProfileContentState
                     ),
                     child: FittedBox(
                       alignment: Alignment.centerLeft,
-                      child: SelectWidget(
-                        items: [
-                          'Заказы ${wm.orderHistoryList.value.data!.length}',
-                          if (wm.notificationsList.value.data!.isNotEmpty)
-                            'Уведомления ${wm.notificationsList.value.data!.length}',
-                        ],
-                        onChanged: (i) {
-                          setState(() {
-                            if (i == 0) {
-                              isOrdersEnabled = true;
-                            } else {
-                              isOrdersEnabled = false;
-                            }
+                      child: StreamedStateBuilder<int>(
+                        streamedState: wm.activeNotifications,
+                        builder: (_, amount) {
+                          return SelectWidget(
+                            items: [
+                              'Заказы ${wm.orderHistoryList.value.data!.length}',
+                              'Уведомления ${amount > 1 ? amount : ''}',
+                            ],
+                            onChanged: (i) {
+                              setState(() {
+                                if (i == 0) {
+                                  isOrdersEnabled = true;
+                                } else {
+                                  isOrdersEnabled = false;
+                                }
 
-                            widget.controller.jumpTo(0);
-                          });
+                                widget.controller.jumpTo(0);
+                              });
+                            },
+                          );
                         },
                       ),
                     ),
@@ -120,6 +123,8 @@ class _ScrollableProfileContentState
                   //* Вкладка с уведомлениями (с переключателем)
                   NotificationSection(
                     items: wm.notificationsList.value.data!,
+                    updateCallback: (amount) =>
+                        wm.updateNotificationsAmount(amount),
                   ),
                 ],
                 SliverList(

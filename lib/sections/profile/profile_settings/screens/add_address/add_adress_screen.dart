@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/add_address/add_adress_details_screen.dart';
 import 'package:bausch/static/static_data.dart';
@@ -14,6 +15,7 @@ import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class AddAdressScreen extends StatefulWidget {
   const AddAdressScreen({Key? key}) : super(key: key);
@@ -31,6 +33,8 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
 
   Timer? timer;
 
+  AppsflyerSdk? appsFlyer;
+
   @override
   void dispose() {
     super.dispose();
@@ -42,6 +46,11 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
   @override
   void initState() {
     super.initState();
+
+    appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
+
+    unawaited(appsFlyer?.logEvent('addressAddStep1', null));
+
     // userWM = Provider.of<UserWM>(context, listen: false);
     dadataBloc = DadataBloc(/*city: userWM.userData.value.data!.user.city!*/);
   }
@@ -104,6 +113,8 @@ class _AddAdressScreenState extends State<AddAdressScreen> {
                                               : 'Добавить ${state.models[i].data.street}, ${state.models[i].data.house}/${state.models[i].data.block}?',
                                           yesCallback: () {
                                             // Navigator.of(ctx).pop();
+
+                                            unawaited(appsFlyer?.logEvent('addressAddStep2', null));
 
                                             Navigator.of(context)
                                                 .popAndPushNamed(

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_mixin
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
@@ -18,21 +19,23 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-Future<void> main() async {  
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
 
-  final config = Configuration(
-    domain: 'api.mindbox.ru',
-    endpointIos: 'valeant-ios',
-    endpointAndroid: 'valeant-android',
-    subscribeCustomerIfCreated: true,
+  Mindbox.instance.init(
+    configuration: Configuration(
+      domain: 'api.mindbox.ru',
+      endpointIos: 'valeant-ios',
+      endpointAndroid: 'valeant-android',
+      subscribeCustomerIfCreated: true,
+    ),
   );
 
-  Mindbox.instance.init(configuration: config);
-
   final analytics = FirebaseAnalytics.instance;
+
+  AppsflyerSingleton();
 
   runApp(
     MultiProvider(
@@ -40,6 +43,9 @@ Future<void> main() async {
         Provider<FirebaseAnalytics>.value(value: analytics),
         Provider<FirebaseAnalyticsObserver>.value(
           value: FirebaseAnalyticsObserver(analytics: analytics),
+        ),
+        Provider<AppsflyerSdk>.value(
+          value: AppsflyerSingleton.sdk,
         ),
       ],
       child: MyApp(),
@@ -130,6 +136,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
                     authWM: wm,
                   ),
                 ),
+                defaultScale: true,
                 minWidth: 375,
                 mediaQueryData: MediaQuery.of(context).copyWith(
                   textScaleFactor: 1.0,
@@ -141,4 +148,25 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
       ),
     );
   }
+}
+
+class AppsflyerSingleton {
+  static late AppsflyerSdk sdk;
+
+  static AppsflyerSingleton? _instance;
+
+
+  factory AppsflyerSingleton() {
+    return _instance ??= AppsflyerSingleton._init();
+  }
+
+  AppsflyerSingleton._init() {
+    sdk = AppsflyerSdk(
+      AppsFlyerOptions(
+        afDevKey: 'sadf',
+        showDebug: true,
+      ),
+    );
+  }
+
 }

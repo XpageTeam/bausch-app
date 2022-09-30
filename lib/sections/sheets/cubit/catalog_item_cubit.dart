@@ -13,7 +13,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
-
 part 'catalog_item_state.dart';
 
 class CatalogItemCubit extends Cubit<CatalogItemState> {
@@ -49,8 +48,11 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
                 return PartnersItemModel.fromMap(
                   item as Map<String, dynamic>,
                 );
+                // TODO(info): офлайн и онлайн добавил для скидок
               } else if ((section == StaticData.types['discount_optics']) ||
-                  (section == StaticData.types['discount_online'])) {
+                  (section == StaticData.types['discount_online']) ||
+                  section.contains('online') ||
+                  section.contains('offline')) {
                 return PromoItemModel.fromMap(item as Map<String, dynamic>);
               } else {
                 return ProductItemModel.fromMap(item as Map<String, dynamic>);

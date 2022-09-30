@@ -117,12 +117,12 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                   data: args as String,
                 );
               } else if (sheetModel.type == 'support') {
-                final _args = args as ContactSupportScreenArguments;
+                final supportArgs = args as ContactSupportScreenArguments;
 
                 page = ContactSupportScreen(
                   controller: controller,
-                  question: _args.question,
-                  topic: _args.topic,
+                  question: supportArgs.question,
+                  topic: supportArgs.topic,
                 );
               } else {
                 page = SheetScreen(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bausch/main.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
@@ -28,6 +29,11 @@ class AddItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        unawaited(AppsflyerSingleton.sdk.logEvent('pointsAction', <String, dynamic>{
+          'id': model.id,
+          'title': model.previewModel.title,
+        }));
+
         if (model.type == 'quiz') {
           await Navigator.of(context).pushNamed(
             '/addpoints_quiz',
@@ -108,7 +114,8 @@ class AddItem extends StatelessWidget {
                       '/profile_settings',
                     );
 
-                    unawaited(FirebaseAnalytics.instance.logEvent(name: 'birthdate_filling'));
+                    unawaited(FirebaseAnalytics.instance
+                        .logEvent(name: 'birthdate_filling'));
 
                     unawaited(wm.loadInfoAction());
                     // Keys.mainContentNav.currentState!.pop();

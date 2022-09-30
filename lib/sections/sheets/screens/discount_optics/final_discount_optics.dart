@@ -12,9 +12,9 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 

@@ -5,6 +5,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/button_with_points.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class CatalogItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               if (model is! WebinarItemModel)
                 const SizedBox(
@@ -89,42 +91,40 @@ class CatalogItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const Expanded(
-                child: SizedBox(
-                  height: 16,
-                ),
+              CustomLineLoadingIndicator(
+                maximumScore: model.price,
+                isInList: true,
               ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: StaticData.sidePadding,
-                    right: StaticData.sidePadding,
-                    left: StaticData.sidePadding,
-                  ),
-                  child: model is WebinarItemModel
-                      ? ButtonWithPoints(
-                          withIcon: !(model as WebinarItemModel).canWatch,
-                          price: (model as WebinarItemModel).canWatch
-                              ? 'Просмотр'
-                              : model.price.toString(),
-                          onPressed: () => onWebinarClick(
-                            context,
-                            model as WebinarItemModel,
-                          ),
-                        )
-                      : model is PartnersItemModel &&
-                              (model as PartnersItemModel).isBought
-                          ? ButtonWithPoints(
-                              price: 'Куплено',
-                              onPressed: () {},
-                            )
-                          : ButtonWithPoints(
-                              price: model.priceToString,
-                              onPressed: () {
-                                onTap?.call();
-                              },
-                            ),
+
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: StaticData.sidePadding,
+                  right: StaticData.sidePadding,
+                  left: StaticData.sidePadding,
                 ),
+                child: model is WebinarItemModel
+                    ? ButtonWithPoints(
+                        withIcon: !(model as WebinarItemModel).canWatch,
+                        price: (model as WebinarItemModel).canWatch
+                            ? 'Просмотр'
+                            : model.price.toString(),
+                        onPressed: () => onWebinarClick(
+                          context,
+                          model as WebinarItemModel,
+                        ),
+                      )
+                    : model is PartnersItemModel &&
+                            (model as PartnersItemModel).isBought
+                        ? ButtonWithPoints(
+                            price: 'Куплено',
+                            onPressed: () {},
+                          )
+                        : ButtonWithPoints(
+                            price: model.priceToString,
+                            onPressed: () {
+                              onTap?.call();
+                            },
+                          ),
               ),
               // const SizedBox(
               //   height: 16,

@@ -20,7 +20,7 @@ class CitiesDownloader {
   Future<BaseResponseRepository> loadCities() async {
     return BaseResponseRepository.fromMap(
       (await _rh.get<Map<String, dynamic>>(
-        '/static/cities/',
+        '/optics/cities/',
         options: _rh.cacheOptions
             ?.copyWith(
               maxStale: const Nullable(Duration(days: 10)),

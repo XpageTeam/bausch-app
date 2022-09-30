@@ -1,26 +1,21 @@
-// ignore_for_file: unused_import
-
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/sheets/catalog_sheet_model.dart';
 import 'package:bausch/sections/home/widgets/containers/container_interface.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/cubit/catalog_item_cubit.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
-import 'package:bausch/sections/sheets/widgets/providers/sheet_providers.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/test/models.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SmallContainer extends StatefulWidget implements ContainerInterface {
+  final bool sale;
   @override
   final CatalogSheetModel model;
   const SmallContainer({
     required this.model,
+    this.sale = false,
     Key? key,
   }) : super(key: key);
 
@@ -39,14 +34,14 @@ class _SmallContainerState extends State<SmallContainer> {
 
   @override
   void dispose() {
-    super.dispose();
     catalogItemCubit.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceWidth = MediaQuery.of(context).size.width;
-    final width = deviceWidth / 2 - StaticData.sidePadding - 2;
+    final width =
+        MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
 
     return BlocProvider(
       create: (context) => catalogItemCubit,
@@ -57,7 +52,7 @@ class _SmallContainerState extends State<SmallContainer> {
             //showSheetWithItems(context, model);
             catalogItemCubit.loadData();
           },
-          heigth: width,
+          height: widget.sale ? width*1.35 : width,
           width: width,
           padding: const EdgeInsets.only(
             top: 20,
@@ -90,10 +85,15 @@ class _SmallContainerState extends State<SmallContainer> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(6.6),
-                      child: Image.asset(
-                        setTheImg(widget.model.type),
-                        height: deviceWidth < 350 ? 35 : 53,
-                      ),
+                      child: widget.sale
+                          ? Image.network(
+                              widget.model.icon!,
+                              height: 85,
+                            )
+                          : Image.asset(
+                              setTheImg(widget.model.type),
+                              height: 53,
+                            ),
                     ),
                   ],
                 ),

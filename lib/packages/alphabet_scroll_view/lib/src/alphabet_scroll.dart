@@ -131,16 +131,16 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     widget.list
         .sort((x, y) => x.key.toLowerCase().compareTo(y.key.toLowerCase()));
 
-    final _tempList = [...widget.list];
+    final tempList = [...widget.list];
 
-    final _favList = <AlphaModel>[];
+    final favList = <AlphaModel>[];
 
     if (widget.favoriteItems.isNotEmpty) {
-      for (final item in _tempList) {
+      for (final item in tempList) {
         for (final fav in widget.favoriteItems) {
           if (fav.toLowerCase() == item.key.toLowerCase()) {
             //debugPrint(item.key.toLowerCase());
-            _favList.add(item);
+            favList.add(item);
             widget.list.remove(item);
           }
         }
@@ -182,7 +182,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
       _filteredAlphabets = alphabets;
     }
 
-    _list.insertAll(0, _favList);
+    _list.insertAll(0, favList);
 
     calculateFirstIndex();
 

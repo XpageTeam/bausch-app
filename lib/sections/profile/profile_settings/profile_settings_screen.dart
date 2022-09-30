@@ -1,13 +1,14 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
-import 'package:bausch/sections/profile/profile_settings/email_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
+import 'package:bausch/sections/profile/profile_settings/screens/notifications_settings/notifications_settings_screen.dart';
 import 'package:bausch/sections/profile/widgets/profile_settings_banner.dart';
+import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -17,11 +18,9 @@ import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
-
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
@@ -41,13 +40,16 @@ class _ProfileSettingsScreenState
     extends WidgetState<ProfileSettingsScreen, ProfileSettingsScreenWM> {
   late UserWM userWM;
   late AuthWM authWM;
+  late AppsflyerSdk appsFlyer;
 
   @override
   Widget build(BuildContext context) {
     userWM = Provider.of<UserWM>(context);
     authWM = Provider.of<AuthWM>(context);
+    appsFlyer = Provider.of<AppsflyerSdk>(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppTheme.mystic,
       appBar: DefaultAppBar(
         title: 'Настройки профиля',
@@ -57,10 +59,7 @@ class _ProfileSettingsScreenState
           onPressed: () {
             wm.sendUserData();
           },
-          child: AutoSizeText(
-            'Готово',
-            style: AppStyles.p1,
-          ),
+          child: const Text('Готово', style: AppStyles.p1),
         ),
       ),
       body: Padding(
@@ -88,85 +87,86 @@ class _ProfileSettingsScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  StreamedStateBuilder<String?>(
-                    streamedState: wm.enteredEmail,
-                    builder: (_, email) {
-                      return FocusButton(
-                        labelText: 'E-mail',
-                        selectedText: email,
-                        icon: Container(),
-                        onPressed: () async {
-                          wm.setEmail(
-                            await Keys.mainContentNav.currentState!
-                                .push<String>(
-                              PageRouteBuilder<String>(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        EmailScreen(),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  EntityStateBuilder<UserRepository>(
-                    streamedState: userWM.userData,
-                    builder: (_, userData) {
-                      return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            if ((userData.user.isEmailConfirmed != null &&
-                                    !userData.user.isEmailConfirmed!) ||
-                                userData.user.pendingEmail != null)
-                              GestureDetector(
-                                onTap: wm.confirmEmail,
-                                child: DiscountInfo(
-                                  text: 'подтвердить',
-                                  color: AppTheme.turquoiseBlue,
-                                ),
-                              )
-                            else
-                              GestureDetector(
-                                child: DiscountInfo(
-                                  text: 'подтверждён',
-                                  color: AppTheme.turquoiseBlue,
-                                ),
-                              ),
-                          ],
+              child: EntityStateBuilder<UserRepository>(
+                streamedState: userWM.userData,
+                builder: (_, userData) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        StreamedStateBuilder<String?>(
+                          streamedState: wm.enteredEmail,
+                          builder: (_, email) => FocusButton(
+                            labelText: 'E-mail',
+                            selectedText: email,
+                            greenCheckIcon:
+                                !((userData.user.isEmailConfirmed != null &&
+                                        !userData.user.isEmailConfirmed!) ||
+                                    userData.user.pendingEmail != null),
+                            waitConfirmationIcon:
+                                (userData.user.isEmailConfirmed != null &&
+                                        !userData.user.isEmailConfirmed!) ||
+                                    userData.user.pendingEmail != null,
+                            icon: Container(),
+                            onPressed: () async {
+                              await showModalBottomSheet<num>(
+                                isScrollControlled: true,
+                                context: context,
+                                barrierColor: Colors.black.withOpacity(0.8),
+                                builder: (context) {
+                                  return Wrap(children: [EmailBottomSheet()]);
+                                },
+                              ).then(
+                                (value) async => wm.enteredEmail.accept(userWM
+                                        .userData
+                                        .value
+                                        .data!
+                                        .user
+                                        .pendingEmail ??
+                                    userWM.userData.value.data!.user.email),
+                              );
+                            },
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                ],
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                child: const DiscountInfo(
+                                  text: 'Изменить',
+                                  color: AppTheme.mystic,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    if ((userData.user.isEmailConfirmed != null &&
+                            !userData.user.isEmailConfirmed!) ||
+                        userData.user.pendingEmail != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Warning.warning(
+                          'Мы отправили инструкцию для  подтверждения. Проверьте почту.',
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: Stack(
-                children: [
-                  NativeTextInput(
-                    labelText: 'Мобильный телефон',
-                    controller: wm.phoneController,
-                    inputType: TextInputType.phone,
-                    enabled: false,
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: DiscountInfo(
-                        text: 'подтверждён',
-                        color: AppTheme.turquoiseBlue,
-                      ),
-                    ),
-                  ),
-                ],
+              child: NativeTextInput(
+                labelText: 'Мобильный телефон',
+                greenCheckIcon: true,
+                controller: wm.phoneController,
+                inputType: TextInputType.phone,
+                enabled: false,
               ),
             ),
             Padding(
@@ -207,20 +207,20 @@ class _ProfileSettingsScreenState
               streamedState: wm.showBanner,
               builder: (_, showing) {
                 return showing
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: const ProfileSettingsBanner(),
+                    ? const Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: ProfileSettingsBanner(),
                       )
                     : const SizedBox();
               },
             ),
-            /* Padding(
-              padding: EdgeInsets.only(bottom: 4),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
               child: StreamedStateBuilder<String?>(
                 streamedState: wm.selectedCityName,
                 builder: (_, cityName) {
                   return FocusButton(
-                    labelText: 'Город',
+                    labelText: 'Партнеров из какого города показывать',
                     selectedText: cityName,
                     onPressed: () async {
                       await wm.changeCityAction(
@@ -228,7 +228,9 @@ class _ProfileSettingsScreenState
                           PageRouteBuilder<String>(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    CityScreen(),
+                                    CityScreen(
+                              withFavoriteItems: const ['Москва'],
+                            ),
                           ),
                         ),
                       );
@@ -236,12 +238,13 @@ class _ProfileSettingsScreenState
                   );
                 },
               ),
-            ), */
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: FocusButton(
                 labelText: 'Мои адреса',
                 onPressed: () {
+                  appsFlyer.logEvent('myAddressesOpened', null);
                   Keys.mainContentNav.currentState!.pushNamed('/my_adresses');
                 },
               ),
@@ -262,6 +265,26 @@ class _ProfileSettingsScreenState
                 labelText: 'Привязать аккаунт',
               ),
             ),*/
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: FocusButton(
+                labelText: 'Уведомления',
+                selectedText: 'Акции, скидки, новости',
+                selectedTextStyle: AppStyles.p1Grey,
+                onPressed: () {
+                  Keys.mainContentNav.currentState!.push(
+                    PageRouteBuilder<String>(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          NotificationsSettingsScreen(
+                        valuesList: wm.notificationsList,
+                        onSendUpdate: (valuesList) =>
+                            wm.updateNotifications(valuesList),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: TextButton(
@@ -286,7 +309,7 @@ class _ProfileSettingsScreenState
                   );
                 },
                 style: TextButton.styleFrom(
-                  primary: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
                 ),
                 child: Text(
                   'Выйти',
@@ -297,7 +320,7 @@ class _ProfileSettingsScreenState
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 40),
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
                 builder: (_, snapshot) {

@@ -21,7 +21,7 @@ class CustomFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: AppTheme.mystic,
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.end,
@@ -41,9 +41,9 @@ class CustomFloatingActionButton extends StatelessWidget {
             ),
           ),
           if (withInfo)
-            Container(
+            const ColoredBox(
               color: AppTheme.mystic,
-              child: const InfoBlock(
+              child: BottomInfoBlock(
                 topPadding: 0,
               ),
             ),

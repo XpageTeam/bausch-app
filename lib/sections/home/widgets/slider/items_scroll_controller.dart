@@ -162,12 +162,12 @@ class _ItemsScrollPosition extends ScrollPositionWithSingleContext {
     updateDirection(newPixels);
 
     final triggerOffset = viewportDimension * viewportFraction;
-    var _newPixels = newPixels;
+    var updatedPixels = newPixels;
 
     // Движение вправо
     // ..[......]
-    if (direction > 0 && _newPixels > triggerOffset) {
-      _newPixels =
+    if (direction > 0 && updatedPixels > triggerOffset) {
+      updatedPixels =
           ((newPixels - triggerOffset) % (maxScrollExtent - triggerOffset) +
                   triggerOffset) %
               maxScrollExtent;
@@ -175,11 +175,11 @@ class _ItemsScrollPosition extends ScrollPositionWithSingleContext {
 
     // Движение влево
     // [......]..
-    if (direction < 0 && _newPixels < maxScrollExtent - triggerOffset) {
-      _newPixels = newPixels % (maxScrollExtent - triggerOffset);
+    if (direction < 0 && updatedPixels < maxScrollExtent - triggerOffset) {
+      updatedPixels = newPixels % (maxScrollExtent - triggerOffset);
     }
 
-    return super.setPixels(_newPixels);
+    return super.setPixels(updatedPixels);
   }
 
   // Переопределил этот метод для того, чтобы установить initialOffset

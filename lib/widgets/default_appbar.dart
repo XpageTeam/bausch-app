@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Widget? topRightWidget;
+  final IconData? backIcon;
   final Color backgroundColor;
+  final int titleFlex;
 
   @override
   Size get preferredSize => const Size(double.infinity, 48);
@@ -17,7 +19,9 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   const DefaultAppBar({
     required this.title,
     this.topRightWidget,
+    this.backIcon = Icons.chevron_left_rounded,
     this.backgroundColor = AppTheme.turquoiseBlue,
+    this.titleFlex = 5,
     Key? key,
   }) : super(key: key);
 
@@ -43,8 +47,8 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               }, //Navigator.of(context).pop,
-                              icon: const Icon(
-                                Icons.chevron_left_rounded,
+                              icon: Icon(
+                                backIcon,
                                 size: 20,
                                 color: AppTheme.mineShaft,
                               ),
@@ -53,7 +57,7 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                         : Container(),
                   ),
                   Expanded(
-                    flex: 5,
+                    flex: titleFlex,
                     child: Center(
                       child: Text(
                         title,

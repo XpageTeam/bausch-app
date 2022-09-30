@@ -1,18 +1,21 @@
 // ignore_for_file: avoid_catches_without_on_clauses
 
 import 'dart:async';
-
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +28,20 @@ class MainScreenWM extends WidgetModel {
   final storiesList = EntityStreamedState<List<StoryModel>>();
   final catalog = EntityStreamedState<List<BaseCatalogSheetModel>>();
   final banners = EntityStreamedState<OffersRepository>();
-
   final mayBeInterestingState = StreamedState<bool>(false);
-
   final loadDataAction = VoidAction();
   final loadCatalogAction = VoidAction();
+  final loadMyLensesAction = VoidAction();
   final loadBannersAction = VoidAction();
   final loadAllDataAction = VoidAction();
+  final socialLinksState = StreamedState<List<SocialModel>>([]);
 
   final changeAppLifecycleStateAction = StreamedAction<AppLifecycleState>();
 
   final BuildContext context;
   final AuthWM authWM;
   final UserWM userWM;
+  final myLensesWM = MyLensesWM();
 
   final _requester = HomeScreenRequester();
 
@@ -82,6 +86,10 @@ class MainScreenWM extends WidgetModel {
       _changeAppLifecycleState,
     );
 
+    loadMyLensesAction.bind((_) {
+      _loadMyLenses();
+    });
+
     loadCatalogAction.bind((_) {
       _loadCatalog();
     });
@@ -115,12 +123,14 @@ class MainScreenWM extends WidgetModel {
       _loadBanners(),
       _loadStories(),
       _loadCatalog(),
+      _loadMyLenses(),
+      _loadSocialLinks(),
     ]);
 
     return true;
   }
 
-  void _changeAppLifecycleState(AppLifecycleState state){
+  void _changeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
         canUpdate = true;
@@ -142,6 +152,8 @@ class MainScreenWM extends WidgetModel {
       _loadStories(),
       _loadCatalog(),
       _loadBanners(),
+      _loadMyLenses(),
+      _loadSocialLinks(),
     ]);
 
     if (catalog.value.error != null) {
@@ -192,6 +204,10 @@ class MainScreenWM extends WidgetModel {
     }
   }
 
+  Future<void> _loadMyLenses() async {
+    await myLensesWM.loadAllData();
+  }
+
   Future<void> _loadCatalog() async {
     if (catalog.value.isLoading) return;
 
@@ -225,16 +241,41 @@ class MainScreenWM extends WidgetModel {
     }
   }
 
+  Future<void> _loadSocialLinks() async {
+    try {
+      final parsedData = BaseResponseRepository.fromMap(
+        (await RequestHandler().get<Map<String, dynamic>>('/faq/socials/'))
+            .data!,
+      );
+
+      await socialLinksState.accept(
+        (parsedData.data as List<dynamic>)
+            .reversed
+            .map(
+              // ignore: avoid_annotating_with_dynamic
+              (dynamic e) => SocialModel.fromMap(
+                e as Map<String, dynamic>,
+              ),
+            )
+            .toList(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> _loadBanners() async {
     if (banners.value.isLoading) return;
 
     CustomException? error;
 
+    unawaited(banners.loading(banners.value.data));
+
     try {
       final result = await OffersRepositoryDownloader.load(
         type: OfferType.homeScreen.asString,
       );
-      await banners.content(OffersRepository(offerList: []));
+      // await banners.content(OffersRepository(offerList: []));
       await Future<void>.delayed(const Duration(milliseconds: 500));
       await banners.content(result);
     } on DioError catch (e) {

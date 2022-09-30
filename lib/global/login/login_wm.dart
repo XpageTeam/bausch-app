@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -14,12 +15,10 @@ import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:easy_mask/easy_mask.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mindbox/mindbox.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -63,15 +62,17 @@ class LoginWM extends WidgetModel {
 
   Timer? smsTimer;
 
+  AppsflyerSdk? appsFlyer;
+
   LoginWM({
     required WidgetModelDependencies baseDependencies,
     required this.context,
   }) : super(baseDependencies) {
     _loadText();
     debugPrint('loginConstructor');
-
-    var prevPhoneValue = '';
     var canUnfocus = false;
+
+    appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
 
     phoneController.addListener(() {
       debugPrint('number: ${phoneController.text}');
@@ -206,9 +207,7 @@ class LoginWM extends WidgetModel {
           await PhoneSender.send(phoneController.text, uuid),
         );
 
-        debugPrint(
-          'phoneConfirmed: ${authRequestResult.value.data?.isMobilePhoneConfirmed}',
-        );
+        unawaited(appsFlyer?.logEvent('smsSendedToUser', null));
 
         await smsSendCounter.accept(smsSendCounter.value + 1);
       } on DioError catch (e) {
@@ -261,15 +260,18 @@ class LoginWM extends WidgetModel {
         await UserWriter.writeToken(res.xApiToken);
 
         if (!isMobilePhoneConfirmed) {
-          unawaited(
-            FirebaseAnalytics.instance.logEvent(name: 'registration'),
-          );
+          unawaited(FirebaseAnalytics.instance.logEvent(name: 'registrationByPhone'));
+          unawaited(appsFlyer?.logEvent('registrationByPhone', null));
+          unawaited(appsFlyer?.logEvent('registrationSuccess', null));
+        } else {
+          unawaited(FirebaseAnalytics.instance.logEvent(name: 'authByPhone'));
+          unawaited(appsFlyer?.logEvent('authByPhone', null));
         }
 
         //* Очистка полей после отправки кода
         // phoneController.text = '';
 
-        debugPrint(codeController.text);
+        unawaited(appsFlyer?.logEvent('smsCodeTrue', null));
 
         _checkAuth();
       } on DioError catch (e) {
@@ -289,6 +291,8 @@ class LoginWM extends WidgetModel {
           title: e.toString(),
           ex: e,
         );
+
+        unawaited(appsFlyer?.logEvent('smsCodeFalse', null));
       }
 
       if (error != null) {

@@ -7,7 +7,6 @@ import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/pages/error_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class RegScreenBody extends CoreMwwmWidget<LoginWM> {

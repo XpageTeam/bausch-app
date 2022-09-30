@@ -16,13 +16,11 @@ import 'package:flutter/material.dart';
 class OrdersSection extends StatelessWidget {
   final List<BaseOrderModel?> ordersList;
 
-  const OrdersSection({
-    required this.ordersList,
-    Key? key,
-  }) : super(key: key);
+  const OrdersSection({required this.ordersList, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+ 
     return SliverPadding(
       padding: const EdgeInsets.symmetric(
         horizontal: StaticData.sidePadding,

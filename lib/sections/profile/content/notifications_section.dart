@@ -7,10 +7,14 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class NotificationSection extends CoreMwwmWidget<NotificationsWM> {
   NotificationSection({
     required List<NotificationModel> items,
+    required void Function(int amount) updateCallback,
     Key? key,
   }) : super(
           widgetModelBuilder: (_) {
-            return NotificationsWM(items: items);
+            return NotificationsWM(
+              items: items,
+              updateCallback: updateCallback,
+            );
           },
           key: key,
         );
@@ -25,7 +29,7 @@ class _NotificationSectionState
   @override
   Widget build(BuildContext context) {
     return StreamedStateBuilder<List<Widget>>(
-      streamedState: wm.widgetslist,
+      streamedState: wm.widgetList,
       builder: (_, list) {
         return SliverPadding(
           padding:

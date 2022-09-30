@@ -25,6 +25,9 @@ class StaticData {
 
   static String apiUrl = 'https://bausch.in-progress.ru/api/';
 
+
+  
+
   /// Названия типов разделов, чтобы не менять во всех местах
   static Map<String, String> types = {
     'webinar': 'promo_code_video',

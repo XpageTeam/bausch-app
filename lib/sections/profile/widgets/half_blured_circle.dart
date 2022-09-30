@@ -51,7 +51,7 @@ class HalfBluredCircle extends StatelessWidget {
                   sigmaX: sigmaX,
                   sigmaY: sigmaY,
                 ),
-                child: Container(
+                child: ColoredBox(
                   color: AppTheme.sulu.withOpacity(0.3),
                 ),
               ),

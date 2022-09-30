@@ -1,5 +1,5 @@
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
-import 'package:bausch/sections/select_optic/widgets/default_toggle_button.dart';
+import 'package:bausch/sections/select_optic/widgets/optics_toggle_button.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -26,29 +26,23 @@ class _ShopPageSwitcherState
     extends WidgetState<ShopPageSwitcher, ShopPageSwitcherWM> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: AppTheme.grey.withOpacity(0.3),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: SelectOpticPage.values
-            .map(
-              (type) => StreamedStateBuilder<SelectOpticPage>(
-                streamedState: wm.currentTypeStreamed,
-                builder: (_, currentType) => Expanded(
-                  child: DefaultToggleButton(
-                    type: type,
-                    color:
-                        currentType == type ? Colors.white : Colors.transparent,
-                    onPressed: wm.buttonAction,
-                  ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: SelectOpticPage.values
+          .map(
+            (type) => StreamedStateBuilder<SelectOpticPage>(
+              streamedState: wm.currentTypeStreamed,
+              builder: (_, currentType) => Expanded(
+                child: OpticsToggleButton(
+                  type: type,
+                  color:
+                       currentType == type ? AppTheme.turquoiseBlue : Colors.white,
+                  onPressed: wm.buttonAction,
                 ),
               ),
-            )
-            .toList(),
-      ),
+            ),
+          )
+          .toList(),
     );
   }
 }

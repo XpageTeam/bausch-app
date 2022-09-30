@@ -1,25 +1,36 @@
-// ignore_for_file: prefer_mixin
+// ignore_for_file: prefer_mixin, prefer_final_locals
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/help/utils.dart';
+import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
+import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
+import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
+import 'package:bausch/sections/home/widgets/containers/my_lenses_container.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/buttons/white_button_with_text.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
@@ -29,6 +40,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 ///! место для костылей
 OffersSectionWM? bannersWm;
@@ -53,11 +65,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.changeAppLifecycleStateAction(state);
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -161,9 +168,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                       return const DelayedAnimatedTranslateOpacity(
                                         offsetY: 30,
                                         child: ScoresSection(
-                                          loadingAnimationDuration: Duration(
-                                            milliseconds: 2500,
-                                          ),
                                           delay: Duration(
                                             milliseconds: 1000,
                                           ),
@@ -218,6 +222,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                     return OffersSection(
                                       repo: repo,
                                       mainScreenWM: wm,
+                                      canPress: false,
                                       margin: const EdgeInsets.only(
                                         bottom: 20,
                                         left: StaticData.sidePadding,
@@ -251,9 +256,48 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           ],
                         ),
                       ),
+
+                      SliverToBoxAdapter(
+                        child:
+                            // мои линзы
+                            DelayedAnimatedTranslateOpacity(
+                          offsetY: 60,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 40),
+                            child: MyLensesContainer(myLensesWM: wm.myLensesWM),
+                          ),
+                        ),
+                      ),
+
+                      SliverToBoxAdapter(
+                        child:
+                            //* Скидки за баллы
+                            DelayedAnimatedTranslateOpacity(
+                          offsetY: 70,
+                          child:
+                              EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                            streamedState: wm.catalog,
+                            loadingBuilder: (_, catalogItems) {
+                              if (catalogItems != null) {
+                                return SalesWidget(
+                                  catalogList: catalogItems,
+                                );
+                              }
+                              return const SizedBox();
+                            },
+                            builder: (_, catalogItems) {
+                              return SalesWidget(
+                                catalogList: catalogItems,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+
                       SliverPadding(
                         key: spendPointsPositionKey,
                         padding: const EdgeInsets.only(
+                          top: 40,
                           left: StaticData.sidePadding,
                           right: StaticData.sidePadding,
                         ),
@@ -262,7 +306,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             [
                               //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                               DelayedAnimatedTranslateOpacity(
-                                offsetY: 60,
+                                offsetY: 80,
                                 child: EntityStateBuilder<
                                     List<BaseCatalogSheetModel>>(
                                   streamedState: wm.catalog,
@@ -272,7 +316,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                         catalogList: catalogItems,
                                       );
                                     }
-
                                     return const SizedBox();
                                   },
                                   builder: (_, catalogItems) {
@@ -286,6 +329,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           ),
                         ),
                       ),
+
                       SliverPadding(
                         padding: const EdgeInsets.only(
                           left: StaticData.sidePadding,
@@ -310,7 +354,61 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               const SizedBox(height: 40),
                               const TextButtonsSection(),
                               const SizedBox(
-                                height: 100,
+                                height: 40,
+                              ),
+                              WhiteButtonWithText(
+                                text: 'Написать в поддержку',
+                                onPressed: () {
+                                  FirebaseAnalytics.instance.logEvent(
+                                    name: 'support_button_click',
+                                  );
+                                  // Navigator.of(context).pushNamed(
+                                  //   '/support',
+                                  //   arguments: ContactSupportScreenArguments(),
+                                  // );
+
+                                  showSheet<ContactSupportScreenArguments>(
+                                    context,
+                                    SimpleSheetModel(
+                                      name: 'Обратиться в поддержку',
+                                      type: 'support',
+                                    ),
+                                    ContactSupportScreenArguments(),
+                                  );
+                                },
+                              ),
+
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 14),
+                                child: Text(
+                                  'Вы можете найти нас здесь',
+                                  style: AppStyles.p1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+
+                              StreamedStateBuilder<List<SocialModel>>(
+                                streamedState: wm.socialLinksState,
+                                builder: (_, socialLinks) => socialLinks.isEmpty
+                                    ? const SizedBox()
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                          socialLinks.length,
+                                          (index) => Padding(
+                                            padding: EdgeInsets.only(
+                                              left: index != 0 ? 30.0 : 0,
+                                            ),
+                                            child: SocialButton(
+                                              model: socialLinks[index],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                              const SizedBox(
+                                height: 40,
                               ),
                               Image.asset('assets/logo.png'),
                               SizedBox(
@@ -338,7 +436,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                 builder: (ctx, constraints) {
                   bottomHeigth = constraints.minHeight + 10;
                   return CustomFloatingActionButton(
-                    text: 'Добавить баллы',
+                    text: 'Накопить баллы',
                     icon: const Icon(
                       Icons.add,
                       color: AppTheme.mineShaft,
@@ -347,7 +445,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       showSheet<void>(
                         context,
                         SimpleSheetModel(
-                          name: 'Добавить баллы',
+                          name: 'Накопить баллы',
                           type: 'add_points',
                         ),
                       );
