@@ -207,10 +207,8 @@ class MyLensesContainer extends StatelessWidget {
                                           rightDate,
                                         }) =>
                                             myLensesWM.putOnLensesPair(
-                                          leftDate: leftLensDate?.dateStart ??
-                                              leftDate,
-                                          rightDate: rightLensDate?.dateStart ??
-                                              rightDate,
+                                          leftDate: leftDate,
+                                          rightDate: rightDate,
                                         ),
                                       );
                                     },

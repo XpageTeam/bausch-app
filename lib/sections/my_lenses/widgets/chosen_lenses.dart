@@ -93,8 +93,7 @@ class ChosenLenses extends StatelessWidget {
                                       return PutOnDateSheet(
                                         onConfirmed: ({leftDate, rightDate}) =>
                                             myLensesWM.putOnLensesPair(
-                                          leftDate: myLensesWM
-                                              .leftLensDate.value!.dateStart,
+                                          leftDate: null,
                                           rightDate: rightDate,
                                         ),
                                         rightPut: DateTime.now(),
@@ -134,10 +133,7 @@ class ChosenLenses extends StatelessWidget {
                                             }) =>
                                                 myLensesWM.putOnLensesPair(
                                               leftDate: leftDate,
-                                              rightDate: myLensesWM
-                                                  .rightLensDate
-                                                  .value!
-                                                  .dateStart,
+                                              rightDate: null,
                                             ),
                                             leftPut: DateTime.now(),
                                             rightPut: null,

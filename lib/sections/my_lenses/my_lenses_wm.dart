@@ -41,7 +41,7 @@ class MyLensesWM extends WidgetModel {
   final MyLensesRequester myLensesRequester = MyLensesRequester();
   final recommendedProducts = StreamedState<List<RecommendedProductModel>>([]);
   final loadingInProgress = StreamedState(false);
-  final dailyRemindersLoading = StreamedState(false);
+  final remindersLoading = StreamedState(false);
 
   MyLensesWM() : super(const WidgetModelDependencies());
 
@@ -71,6 +71,7 @@ class MyLensesWM extends WidgetModel {
     unawaited(loadingInProgress.accept(false));
   }
 
+// TODO(ask): запрос перестал работать
   Future activateOldLenses({
     required int pairId,
     BuildContext? context,
@@ -79,14 +80,11 @@ class MyLensesWM extends WidgetModel {
     if (context != null) {
       Navigator.of(context).pop();
     }
+    unawaited(switchAction(MyLensesPage.currentLenses));
     try {
-      await myLensesRequester.updateLensesPair(
-        leftDate: null,
-        rightDate: null,
-      );
+      await myLensesRequester.putOffLenses(left: true, right: true);
       await myLensesRequester.activateOldLenses(pairId: pairId);
       await loadAllData();
-      unawaited(switchAction(MyLensesPage.currentLenses));
     } catch (e) {
       debugPrint('activateOldLenses $e');
     }
@@ -132,10 +130,16 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
+// TODO(pavlov): переделать уведомления под клиента
+// нет, в день замены\покупки, за неделю
   Future updateMultiReminders({
     required List<String> reminders,
     bool shouldPop = false,
   }) async {
+    unawaited(remindersLoading.accept(true));
+    if (shouldPop) {
+      Keys.mainContentNav.currentState!.pop();
+    }
     try {
       await myLensesRequester.updateReminders(reminders: reminders);
       unawaited(multiRemindes.accept([...reminders]));
@@ -151,9 +155,7 @@ class MyLensesWM extends WidgetModel {
       );
       debugPrint(e.toString());
     }
-    if (shouldPop) {
-      Keys.mainContentNav.currentState!.pop();
-    }
+    unawaited(remindersLoading.accept(false));
   }
 
   Future updateDailyReminders({
@@ -164,7 +166,11 @@ class MyLensesWM extends WidgetModel {
     required List<String>? reminders,
     BuildContext? context,
   }) async {
-    unawaited(dailyRemindersLoading.accept(true));
+    unawaited(remindersLoading.accept(true));
+    if (context != null) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+    }
     try {
       if (subscribe) {
         if (defaultValue) {
@@ -192,23 +198,21 @@ class MyLensesWM extends WidgetModel {
       );
       debugPrint('updateDailyReminders $e');
     }
-    unawaited(dailyRemindersLoading.accept(false));
-    if (context != null) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-    }
+    unawaited(remindersLoading.accept(false));
   }
 
   Future putOnLensesPair({
     required DateTime? leftDate,
     required DateTime? rightDate,
+    bool updateLeft = false,
+    bool updateRight = false,
   }) async {
     unawaited(loadingInProgress.accept(true));
     try {
       // TODO(pavlov): посмотреть что будет при надевании
       await myLensesRequester.putOffLenses(
-        left: leftDate != null,
-        right: rightDate != null,
+        left: updateLeft,
+        right: updateRight,
       );
       await myLensesRequester.putOnLensesPair(
         leftDate: leftDate,

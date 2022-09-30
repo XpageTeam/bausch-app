@@ -28,7 +28,7 @@ class MyLensesRequester {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException('Ошибка в loadLensesPair: $e');
+      throw ResponseParseException('Ошибка в loadChosenLensesInfo: $e');
     }
   }
 

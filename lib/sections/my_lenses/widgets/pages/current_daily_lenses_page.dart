@@ -92,8 +92,8 @@ class CurrentDailyLensesPage extends StatelessWidget {
           ),
         ),
         StreamedStateBuilder<bool>(
-          streamedState: myLensesWM.dailyRemindersLoading,
-          builder: (_, dailyRemindersLoading) => dailyRemindersLoading
+          streamedState: myLensesWM.remindersLoading,
+          builder: (_, remindersLoading) => remindersLoading
               ? const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Center(child: AnimatedLoader()),

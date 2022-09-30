@@ -45,6 +45,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       onUpdateTap: () async => myLensesWM.putOnLensesPair(
                         leftDate: DateTime.now(),
                         rightDate: null,
+                        updateLeft: true,
                       ),
                     ),
                   ),
@@ -57,6 +58,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       onUpdateTap: () async => myLensesWM.putOnLensesPair(
                         leftDate: null,
                         rightDate: DateTime.now(),
+                        updateRight: true,
                       ),
                     ),
                   ),

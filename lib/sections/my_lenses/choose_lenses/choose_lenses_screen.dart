@@ -308,30 +308,23 @@ class _ChooseLensesScreenState
                     builder: (_, isLeftEqual) => GestureDetector(
                       onTap: () async =>
                           wm.changeEyesEquality(areEqual: !isLeftEqual),
-                      child: Container(
-                        color: Colors.green,
-                        child: Row(
-                          children: [
-                            StreamedStateBuilder<bool>(
-                              streamedState: wm.isLeftEqual,
-                              builder: (_, isLeftEqual) => CustomCheckbox(
-                                marginNeeded: false,
-                                value: isLeftEqual,
-                                onChanged: (value) async {
-                                  await wm.changeEyesEquality(areEqual: value!);
-                                },
-                                borderRadius: 2,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            const Text(
-                              'Совпадает с правым',
-                              style: AppStyles.p1,
-                            ),
-                          ],
-                        ),
+                      child: Row(
+                        children: [
+                          CustomCheckbox(
+                            marginNeeded: false,
+                            value: isLeftEqual,
+                            onChanged: (value) async =>
+                                wm.changeEyesEquality(areEqual: value!),
+                            borderRadius: 2,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          const Text(
+                            'Совпадает с правым',
+                            style: AppStyles.h2,
+                          ),
+                        ],
                       ),
                     ),
                   ),

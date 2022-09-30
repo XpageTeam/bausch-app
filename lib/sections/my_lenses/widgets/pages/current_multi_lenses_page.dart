@@ -14,6 +14,7 @@ import 'package:bausch/sections/my_lenses/widgets/two_lens_replacement_indicator
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -53,7 +54,14 @@ class CurrentMultiLensesPage extends StatelessWidget {
         ChosenLenses(myLensesWM: myLensesWM),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
-          child: WhiteContainerWithRoundedCorners(
+          child: StreamedStateBuilder<bool>(
+          streamedState: myLensesWM.remindersLoading,
+          builder: (_, remindersLoading) => remindersLoading
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(child: AnimatedLoader()),
+                )
+              :  WhiteContainerWithRoundedCorners(
             padding: const EdgeInsets.symmetric(
               vertical: 16,
               horizontal: StaticData.sidePadding,
@@ -119,6 +127,7 @@ class CurrentMultiLensesPage extends StatelessWidget {
                 },
               );
             },
+          ),
           ),
         ),
         WhiteContainerWithRoundedCorners(

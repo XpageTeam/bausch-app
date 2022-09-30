@@ -18,7 +18,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 enum SelectOpticPage {
   map,
@@ -57,32 +56,32 @@ class SelectOpticScreenWM extends WidgetModel {
       StreamedState<CertificateFilterSectionModel?>(
     CertificateFilterSectionModel(
       commonFilters: [
-        Filter(
+        const Filter(
           id: 0,
           title: 'Скидка после подбора',
         ),
-        Filter(
+        const Filter(
           id: 1,
           title: '1 Скидка после подбора',
         ),
-        Filter(
+        const Filter(
           id: 2,
           title: '2 Скидка после подбора',
         ),
       ],
       lensFilters: [
-        LensFilter(
+        const LensFilter(
           id: 0,
           title: 'Сферические',
           color: AppTheme.turquoiseBlue,
         ),
-        LensFilter(
+        const LensFilter(
           id: 1,
           title: 'Мультифокальные',
           subtitle: 'Пресбиопия',
           color: AppTheme.yellowMultifocal,
         ),
-        LensFilter(
+        const LensFilter(
           id: 2,
           title: 'Торические',
           subtitle: 'Астигматизм',
@@ -128,7 +127,7 @@ class SelectOpticScreenWM extends WidgetModel {
       ).userData.value.data?.user.city;
 
       if (initialCity != null) {
-        currentCityStreamed.content(initialCity!);
+        await currentCityStreamed.content(initialCity!);
       } else if (userCity != null) {
         // ignore: unawaited_futures
         currentCityStreamed.content(userCity);

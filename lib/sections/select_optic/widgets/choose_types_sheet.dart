@@ -1,14 +1,11 @@
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
-import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ChooseTypesSheet extends StatelessWidget {

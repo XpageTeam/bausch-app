@@ -90,7 +90,7 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                                   ),
                                   Text(
                                     widget.lensProductModel.lifeTime > 1
-                                        ? 'Плановой замены \nДо${widget.lensProductModel.lifeTime} суток'
+                                        ? 'Плановой замены \nДо ${widget.lensProductModel.lifeTime} суток'
                                         : 'Однодневные',
                                     style: AppStyles.p1,
                                   ),
