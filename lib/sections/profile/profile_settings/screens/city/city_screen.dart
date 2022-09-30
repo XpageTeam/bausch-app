@@ -37,7 +37,7 @@ class CityScreen extends CoreMwwmWidget<CityScreenWM> {
 class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
   @override
   Widget build(BuildContext context) {
-    return EntityStateBuilder<List<DadataCity>>(
+    return EntityStateBuilder<List<String>>(
       streamedState: wm.citiesList,
       loadingChild: const LoaderScreen(),
       builder: (_, citiesList) {
@@ -69,113 +69,68 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
                             controller: wm.citiesFilterController,
                           ),
                           Flexible(
-                            child: isSearchActive
-                                ? EntityStateBuilder<List<DadataResponseModel>>(
-                                    streamedState: wm.daDataCitiesList,
-                                    loadingChild:
-                                        const Center(child: AnimatedLoader()),
-                                    errorBuilder: (context, e) {
-                                      return const SizedBox();
-                                    },
-                                    builder: (_, daDataList) {
-                                      if (daDataList.isNotEmpty) {
-                                        return ListView.separated(
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 20,
+                            child: StreamedStateBuilder<List<String>>(
+                              streamedState: wm.filteredCitiesList,
+                              builder: (_, citiesList) {
+                                if (citiesList.isEmpty) {
+                                  return const Center(
+                                    child: Text(
+                                      'Поиск не принёс результатов :(',
+                                      style: AppStyles.h2,
+                                    ),
+                                  );
+                                }
+
+                                return AlphabetScrollView(
+                                  itemExtent: 50,
+                                  list: citiesList.map((city) {
+                                    return AlphaModel(city);
+                                  }).toList(),
+                                  selectedTextStyle: AppStyles.h1,
+                                  unselectedTextStyle: AppStyles.h2,
+                                  favoriteItems: widget.withFavoriteItems,
+                                  topWidget: widget.withFavoriteItems
+                                          .contains('Вся РФ')
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 20,
                                           ),
-                                          itemBuilder: (_, index) {
-                                            final item = daDataList[index];
-
-                                            return InkWell(
-                                              onTap: () {
-                                                wm.confirmAction(item);
-                                              },
-                                              child: Text(
-                                                item.value,
-                                                style: AppStyles.h2,
-                                              ),
-                                            );
-                                          },
-                                          separatorBuilder: (_, __) =>
-                                              const SizedBox(height: 15),
-                                          itemCount: daDataList.length,
-                                        );
-                                      }
-
-                                      return const Center(
-                                        child: Text(
-                                          'Поиск не принёс результатов :(',
-                                          style: AppStyles.h2,
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : StreamedStateBuilder<List<DadataCity>>(
-                                    streamedState: wm.filteredCitiesList,
-                                    builder: (_, citiesList) {
-                                      if (citiesList.isEmpty) {
-                                        return const Center(
-                                          child: Text(
-                                            'Поиск не принёс результатов :(',
+                                          child: Warning.warning(
+                                            'Если вы не нашли свой город в списке, вы можете выбрать «Вся РФ» – эти магазины осуществляют доставку по всей России',
+                                          ),
+                                        )
+                                      : null,
+                                  // selectedLetterTextStyle: AppStyles.p1,
+                                  // unselectedLetterTextStyle: TextStyle(
+                                  //   color: AppTheme.mineShaft,
+                                  //   fontWeight: FontWeight.w400,
+                                  //   fontSize: 12.sp,
+                                  //   height: 16 / 12,
+                                  //   fontFamily: 'Euclid Circular A',
+                                  // ),
+                                  itemBuilder: (context, i, cityName) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pop(cityName);
+                                      },
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            cityName,
                                             style: AppStyles.h2,
                                           ),
-                                        );
-                                      }
-
-                                      return AlphabetScrollView(
-                                        itemExtent: 50,
-                                        list: citiesList.map((city) {
-                                          return AlphaModel(city.name);
-                                        }).toList(),
-                                        selectedTextStyle: AppStyles.h1,
-                                        unselectedTextStyle: AppStyles.h2,
-                                        favoriteItems: widget.withFavoriteItems,
-                                        topWidget: widget.withFavoriteItems
-                                                .contains('Вся РФ')
-                                            ? Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 20,
-                                                ),
-                                                child: Warning.warning(
-                                                  'Если вы не нашли свой город в списке, вы можете выбрать «Вся РФ» – эти магазины осуществляют доставку по всей России',
-                                                ),
-                                              )
-                                            : null,
-                                        // selectedLetterTextStyle: AppStyles.p1,
-                                        // unselectedLetterTextStyle: TextStyle(
-                                        //   color: AppTheme.mineShaft,
-                                        //   fontWeight: FontWeight.w400,
-                                        //   fontSize: 12.sp,
-                                        //   height: 16 / 12,
-                                        //   fontFamily: 'Euclid Circular A',
-                                        // ),
-                                        itemBuilder: (context, i, cityName) {
-                                          return InkWell(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pop(cityName);
-                                            },
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  cityName,
-                                                  style: AppStyles.h2,
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
