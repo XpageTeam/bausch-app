@@ -71,7 +71,6 @@ class MyLensesWM extends WidgetModel {
     unawaited(loadingInProgress.accept(false));
   }
 
-// TODO(ask): запрос перестал работать
   Future activateOldLenses({
     required int pairId,
     BuildContext? context,
@@ -82,7 +81,10 @@ class MyLensesWM extends WidgetModel {
     }
     unawaited(switchAction(MyLensesPage.currentLenses));
     try {
-      await myLensesRequester.putOffLenses(left: true, right: true);
+      await myLensesRequester.putOffLenses(
+        leftDate: DateTime.now(),
+        rightDate: DateTime.now(),
+      );
       await myLensesRequester.activateOldLenses(pairId: pairId);
       await loadAllData();
     } catch (e) {
@@ -91,7 +93,6 @@ class MyLensesWM extends WidgetModel {
     unawaited(loadingInProgress.accept(false));
   }
 
-  // TODO(ask): сколько строк будет приходить при showAll == false ?
   Future loadWornHistory({
     required bool showAll,
     required bool isOld,
@@ -130,8 +131,6 @@ class MyLensesWM extends WidgetModel {
     }
   }
 
-// TODO(pavlov): переделать уведомления под клиента
-// нет, в день замены\покупки, за неделю
   Future updateMultiReminders({
     required List<String> reminders,
     bool shouldPop = false,
@@ -141,7 +140,7 @@ class MyLensesWM extends WidgetModel {
       Keys.mainContentNav.currentState!.pop();
     }
     try {
-      await myLensesRequester.updateReminders(reminders: reminders);
+      await myLensesRequester.updateMultiReminders(reminders: reminders);
       unawaited(multiRemindes.accept([...reminders]));
       _setMultiRemindersStatus(reminders: reminders);
       showDefaultNotification(
@@ -209,10 +208,9 @@ class MyLensesWM extends WidgetModel {
   }) async {
     unawaited(loadingInProgress.accept(true));
     try {
-      // TODO(pavlov): посмотреть что будет при надевании
       await myLensesRequester.putOffLenses(
-        left: updateLeft,
-        right: updateRight,
+        leftDate: updateLeft ? DateTime.now() : null,
+        rightDate: updateRight ? DateTime.now() : null,
       );
       await myLensesRequester.putOnLensesPair(
         leftDate: leftDate,
@@ -249,7 +247,6 @@ class MyLensesWM extends WidgetModel {
     if (rightDate != null) {
       rightChanged = !rightLensDate.value!.dateStart.isSameDate(rightDate);
     }
-
     try {
       await myLensesRequester.updateLensesPair(
         leftDate: leftChanged ? leftDate : null,
@@ -305,8 +302,8 @@ class MyLensesWM extends WidgetModel {
     unawaited(loadingInProgress.accept(true));
     try {
       await myLensesRequester.putOffLenses(
-        left: left,
-        right: right,
+        leftDate: left ? DateTime.now() : null,
+        rightDate: right ? DateTime.now() : null,
       );
       await Future.wait<void>([
         _loadLensesDates(),
@@ -367,28 +364,14 @@ class MyLensesWM extends WidgetModel {
   Future _loadDailyReminders() async {
     await dailyReminders
         .accept(await myLensesRequester.loadLensesRemindersBuy());
-    if (dailyReminders.value != null &&
-        dailyReminders.value!.reminders.length == 1) {
+    if (dailyReminders.value!.reminders.isEmpty) {
+      unawaited(remindersShowWidget.accept(['Нет', '1']));
+    } else if (dailyReminders.value!.reminders.length == 1) {
       switch (dailyReminders.value!.reminders[0]) {
         case '0':
           unawaited(remindersShowWidget.accept(['В день покупки', '1']));
           break;
         case '1':
-          unawaited(remindersShowWidget.accept(['За 1 день', '1']));
-          break;
-        case '2':
-          unawaited(remindersShowWidget.accept(['За 2 дня', '1']));
-          break;
-        case '3':
-          unawaited(remindersShowWidget.accept(['За 3 дня', '1']));
-          break;
-        case '4':
-          unawaited(remindersShowWidget.accept(['За 4 дня', '1']));
-          break;
-        case '5':
-          unawaited(remindersShowWidget.accept(['За 5 дней', '1']));
-          break;
-        case '7':
           unawaited(remindersShowWidget.accept(['За неделю', '1']));
           break;
       }
@@ -417,21 +400,6 @@ class MyLensesWM extends WidgetModel {
           remindersShowWidget.accept(['В день замены', '1']);
           break;
         case '1':
-          remindersShowWidget.accept(['За 1 день', '1']);
-          break;
-        case '2':
-          remindersShowWidget.accept(['За 2 дня', '1']);
-          break;
-        case '3':
-          remindersShowWidget.accept(['За 3 дня', '1']);
-          break;
-        case '4':
-          remindersShowWidget.accept(['За 4 дня', '1']);
-          break;
-        case '5':
-          remindersShowWidget.accept(['За 5 дней', '1']);
-          break;
-        case '7':
           remindersShowWidget.accept(['За неделю', '1']);
           break;
       }

@@ -229,48 +229,23 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                       currentReminders: currentReminders,
                       onSendUpdate: (reminders) async => setState(() {
                         currentReminders = [...reminders];
-                        if (reminders.length == 1) {
+                        if (reminders.isEmpty) {
+                          currentNotificationStatus = [
+                            'Нет',
+                            '1',
+                          ];
+                        } else if (reminders.length == 1) {
                           switch (reminders[0]) {
                             case '0':
                               currentNotificationStatus = [
                                 'В день покупки',
-                                '0',
+                                '1',
                               ];
                               break;
                             case '1':
                               currentNotificationStatus = [
-                                'За 1 день',
-                                '1',
-                              ];
-                              break;
-                            case '2':
-                              currentNotificationStatus = [
-                                'За 2 дня',
-                                '2',
-                              ];
-                              break;
-                            case '3':
-                              currentNotificationStatus = [
-                                'За 3 дня',
-                                '3',
-                              ];
-                              break;
-                            case '4':
-                              currentNotificationStatus = [
-                                'За 4 дня',
-                                '4',
-                              ];
-                              break;
-                            case '5':
-                              currentNotificationStatus = [
-                                'За 5 дней',
-                                '5',
-                              ];
-                              break;
-                            case '7':
-                              currentNotificationStatus = [
                                 'За неделю',
-                                '7',
+                                '1',
                               ];
                               break;
                           }
@@ -295,9 +270,7 @@ class _DailyNotificationsSheetState extends State<DailyNotificationsSheet> {
                       children: [
                         Text(
                           currentNotificationStatus[0] != ''
-                              ? currentNotificationStatus[0] == 'В день замены'
-                                  ? 'В день покупки'
-                                  : currentNotificationStatus[0]
+                              ? currentNotificationStatus[0]
                               : '${currentNotificationStatus[1]} ${int.parse(currentNotificationStatus[1]) > 4 ? 'дат' : 'даты'}',
                           style: AppStyles.h2,
                         ),

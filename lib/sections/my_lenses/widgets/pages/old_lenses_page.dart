@@ -136,7 +136,8 @@ class OldLensesPage extends StatelessWidget {
                           horizontal: StaticData.sidePadding,
                         ),
                         onPressed: () async => myLensesWM.activateOldLenses(
-                          pairId: myLensesWM.lensesPairModel.value!.id!,
+                          pairId:
+                              myLensesWM.productHistoryList.value[index].id!,
                         ),
                       ),
                     ],

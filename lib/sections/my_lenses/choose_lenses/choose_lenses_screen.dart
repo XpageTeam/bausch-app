@@ -164,7 +164,7 @@ class _ChooseLensesScreenState
                                             barrierColor:
                                                 Colors.black.withOpacity(0.8),
                                           ) ??
-                                          rightPair.diopters;
+                                          rightPair.basicCurvature;
 
                                   await wm.rightPair.accept(
                                     rightPair.copyWith(

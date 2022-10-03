@@ -232,15 +232,11 @@ class MyLensesRequester {
           DateTime.now().minute,
         );
       }
-      // TODO(pavlov): разобраться с отправкой дат
-      // приходят данные -3 часа после отправки
       // print(leftDate);
       // print(rightDate);
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/put-on/',
         data: FormData.fromMap(<String, dynamic>{
-          // 'left[date]': leftDate?.toIso8601String(),
-          // 'right[date]': rightDate?.toIso8601String(),
           'left[date]': leftDate?.toString(),
           'right[date]': rightDate?.toString(),
         }),
@@ -281,15 +277,9 @@ class MyLensesRequester {
         );
       }
 
-      // TODO(pavlov): разобраться с отправкой дат
-      // приходят данные -3 часа после отправки
-      // print(leftDate);
-      // print(rightDate);
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/put-on/change/',
         data: FormData.fromMap(<String, dynamic>{
-          // 'left[date]': leftDate?.toIso8601String(),
-          // 'right[date]': rightDate?.toIso8601String(),
           'left[date]': leftDate?.toString(),
           'right[date]': rightDate?.toString(),
         }),
@@ -303,18 +293,17 @@ class MyLensesRequester {
     }
   }
 
-// TODO(pavlov): проверить
   // обновляем пару линз
   Future<BaseResponseRepository> putOffLenses({
-    required bool left,
-    required bool right,
+    required DateTime? leftDate,
+    required DateTime? rightDate,
   }) async {
     try {
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/take-off/',
         data: FormData.fromMap(<String, dynamic>{
-          'left': left ? 1 : 0,
-          'right': right ? 1 : 0,
+          'left': leftDate,
+          'right': rightDate,
         }),
       );
       final response =
@@ -327,7 +316,7 @@ class MyLensesRequester {
   }
 
   // обновление расписания уведомлений
-  Future<BaseResponseRepository> updateReminders({
+  Future<BaseResponseRepository> updateMultiReminders({
     required List<String> reminders,
   }) async {
     try {

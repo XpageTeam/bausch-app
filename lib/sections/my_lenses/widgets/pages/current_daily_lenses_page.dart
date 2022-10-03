@@ -106,87 +106,98 @@ class CurrentDailyLensesPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: () async => myLensesWM.updateDailyReminders(
-                            defaultValue: true,
-                            date: null,
-                            reminders: null,
-                            replay: null,
-                            subscribe: dailyReminders == null,
+                        WhiteContainerWithRoundedCorners(
+                          padding: const EdgeInsets.only(
+                            top: 16,
+                            bottom: 16,
+                            left: StaticData.sidePadding,
                           ),
-                          child: WhiteContainerWithRoundedCorners(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: StaticData.sidePadding,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Expanded(
+                                    child: Text(
                                       'Напомнить о покупке\nновой упаковки',
                                       style: AppStyles.h2,
                                     ),
-                                    CustomCheckbox(
-                                      marginNeeded: false,
-                                      value: dailyReminders != null,
-                                      onChanged: (isSubscribed) {
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async =>
                                         myLensesWM.updateDailyReminders(
-                                          defaultValue: true,
-                                          date: null,
-                                          reminders: null,
-                                          replay: null,
-                                          subscribe: isSubscribed!,
-                                        );
-                                      },
+                                      defaultValue: true,
+                                      date: null,
+                                      reminders: null,
+                                      replay: null,
+                                      subscribe: dailyReminders == null,
+                                    ),
+                                    child: Container(
+                                      color: Colors.transparent,
+                                      padding: const EdgeInsets.all(
+                                        StaticData.sidePadding,
+                                      ),
+                                      child: CustomCheckbox(
+                                        marginNeeded: false,
+                                        value: dailyReminders != null,
+                                        onChanged: (isSubscribed) {
+                                          myLensesWM.updateDailyReminders(
+                                            defaultValue: true,
+                                            date: null,
+                                            reminders: null,
+                                            replay: null,
+                                            subscribe: isSubscribed!,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (dailyReminders != null) ...[
+                                Text(
+                                  '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nБлижайшая ${DateTime.parse(dailyReminders.date).day} ${HelpFunctions.getMonthNameByNumber(DateTime.parse(dailyReminders.date).month, fullLength: true)} ${DateTime.parse(dailyReminders.date).year}',
+                                  style: AppStyles.p1Grey,
+                                ),
+                                const SizedBox(height: 14),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: GreyButton(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 14,
+                                        ),
+                                        text: 'Настроить',
+                                        onPressed: () async {
+                                          await showFlexibleBottomSheet<void>(
+                                            minHeight: 0,
+                                            initHeight: 0.95,
+                                            maxHeight: 0.95,
+                                            anchors: [0, 0.6, 0.95],
+                                            context: context,
+                                            builder: (context, controller, d) {
+                                              return SheetWidget(
+                                                child: DailyNotificationsSheet(
+                                                  myLensesWM: myLensesWM,
+                                                  controller: controller,
+                                                ),
+                                                withPoints: false,
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: StaticData.sidePadding,
                                     ),
                                   ],
                                 ),
-                                if (dailyReminders != null) ...[
-                                  Text(
-                                    '${dailyReminders.replay == '' ? 'Никогда' : dailyReminders.replay == '5' ? 'Каждые 5 недель' : 'Каждые ${dailyReminders.replay} недели'}\nБлижайшая ${DateTime.parse(dailyReminders.date).day} ${HelpFunctions.getMonthNameByNumber(DateTime.parse(dailyReminders.date).month, fullLength: true)} ${DateTime.parse(dailyReminders.date).year}',
-                                    style: AppStyles.p1Grey,
-                                  ),
-                                  const SizedBox(height: 14),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: GreyButton(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 14,
-                                          ),
-                                          text: 'Настроить',
-                                          onPressed: () async {
-                                            await showFlexibleBottomSheet<void>(
-                                              minHeight: 0,
-                                              initHeight: 0.95,
-                                              maxHeight: 0.95,
-                                              anchors: [0, 0.6, 0.95],
-                                              context: context,
-                                              builder:
-                                                  (context, controller, d) {
-                                                return SheetWidget(
-                                                  child:
-                                                      DailyNotificationsSheet(
-                                                    myLensesWM: myLensesWM,
-                                                    controller: controller,
-                                                  ),
-                                                  withPoints: false,
-                                                );
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
                               ],
-                            ),
+                            ],
                           ),
                         ),
                         if (dailyReminders != null)

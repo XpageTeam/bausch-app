@@ -82,16 +82,16 @@ class _LensesHistoryState extends State<LensesHistory> {
                               padding: EdgeInsets.only(
                                 top: 10,
                                 bottom: !showAll &&
-                                        widget.wornHistoryList.length > 5
+                                        widget.wornHistoryList.length > 6
                                     ? 16
                                     : 0,
                               ),
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: showAll ||
-                                        widget.wornHistoryList.length <= 5
+                                        widget.wornHistoryList.length <= 6
                                     ? widget.wornHistoryList.length
-                                    : 5,
+                                    : 6,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (_, index) => Padding(
                                   padding: const EdgeInsets.only(bottom: 4),
@@ -107,7 +107,7 @@ class _LensesHistoryState extends State<LensesHistory> {
                                 ),
                               ),
                             ),
-                            if (!showAll && widget.wornHistoryList.length > 5)
+                            if (!showAll && widget.wornHistoryList.length > 6)
                               GreyButton(
                                 text: 'Ранее',
                                 padding: const EdgeInsets.symmetric(
