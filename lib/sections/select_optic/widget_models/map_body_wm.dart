@@ -254,10 +254,14 @@ class MapBodyWM extends WidgetModel {
           ),
         );
       },
-      onClusterTap: (self, cluster) => setCenterOn(
-        cluster.placemarks,
-        withUserPosition: false,
-      ),
+      onClusterTap: (self, cluster) {
+        // Если метка немного наложилась на кластер, то при нажатии надо проверять, произошло ли уже нажатие на метку
+        if (isModalBottomSheetOpen.value) return;
+        setCenterOn(
+          cluster.placemarks,
+          withUserPosition: false,
+        );
+      },
       placemarks: await _generatePlacemarks(
         shopList: shopList,
         indexOfPressedShop: indexOfPressedShop,
@@ -315,8 +319,6 @@ class MapBodyWM extends WidgetModel {
         ),
       );
     }
-
-    // debugPrint('list len: ${list.length}');
 
     return list;
   }
