@@ -1,4 +1,4 @@
-import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/stories/product_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/static/static_data.dart';
@@ -90,9 +90,8 @@ class StoriesBottommButton extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: TextButton(
-                onPressed: () {
-                  HelpFunctions.launchURL(link!);
-                },
+                onPressed: () async =>
+                    Utils.launchUrl(rawUrl: link!, isPhone: false),
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(

@@ -191,7 +191,7 @@ class CurrentDailyLensesPage extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: StaticData.sidePadding,
                                     ),
                                   ],

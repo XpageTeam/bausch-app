@@ -64,12 +64,12 @@ class StartEndDateLine extends StatelessWidget {
           padding: const EdgeInsets.only(left: 6, right: 2),
           child: DottedLine(
             lineLength: bothSame
-                ? myLensesWM.leftLensDate.value!.daysLeft >= 0
-                    ? 75
-                    : 35
-                : actualDaysLeft >= 0
-                    ? 50
-                    : 20,
+                ? myLensesWM.leftLensDate.value!.daysLeft > 0
+                    ? 80
+                    : 40
+                : actualDaysLeft > 0
+                    ? 55
+                    : 25,
             dashColor: AppTheme.grey,
             dashLength: 2,
             dashGapLength: 2,
@@ -88,7 +88,7 @@ class StartEndDateLine extends StatelessWidget {
             ),
             if ((isLeft
                     ? myLensesWM.leftLensDate.value!.daysLeft
-                    : myLensesWM.rightLensDate.value!.daysLeft) <
+                    : myLensesWM.rightLensDate.value!.daysLeft) <=
                 0)
               Padding(
                 padding: const EdgeInsets.only(left: 6),

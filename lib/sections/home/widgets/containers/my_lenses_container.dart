@@ -13,7 +13,6 @@ import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-// TODO(pavlov): этому контейнеру надо загрузку поставить
 class MyLensesContainer extends StatelessWidget {
   final MyLensesWM myLensesWM;
   const MyLensesContainer({required this.myLensesWM, Key? key})

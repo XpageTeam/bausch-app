@@ -14,7 +14,7 @@ class SalesWidget extends StatelessWidget {
   final List<BaseCatalogSheetModel> catalogList;
   final List<BaseCatalogSheetModel> actualList = [];
   SalesWidget({required this.catalogList, Key? key}) : super(key: key) {
-    // TODO(info): обрабатываем скидки за баллы
+    // обрабатываем скидки за баллы
     for (final element in catalogList) {
       if (element.type.contains('offline') || element.type.contains('online')) {
         actualList.add(element);

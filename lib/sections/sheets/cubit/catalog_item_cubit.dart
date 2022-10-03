@@ -48,7 +48,7 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
                 return PartnersItemModel.fromMap(
                   item as Map<String, dynamic>,
                 );
-                // TODO(info): офлайн и онлайн добавил для скидок
+                // офлайн и онлайн добавил для скидок
               } else if ((section == StaticData.types['discount_optics']) ||
                   (section == StaticData.types['discount_online']) ||
                   section.contains('online') ||

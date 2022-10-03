@@ -58,7 +58,7 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
                 if (await canLaunchUrlString(StaticData.privacyPolicyLink)) {
                   await launchUrlString(
                     StaticData.privacyPolicyLink,
-                    // TODO(info): pdf открывать так
+                    // TODO(info): везде pdf открывать так
                     mode: LaunchMode.externalApplication,
                   );
                 }

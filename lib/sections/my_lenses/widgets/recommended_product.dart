@@ -9,8 +9,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-// TODO(pavlov): у слайдера этого виджета внизу должен быть прогресс бар
-// такой уже где-то есть?
 class RecommendedProduct extends StatelessWidget {
   final RecommendedProductModel product;
   const RecommendedProduct({required this.product, Key? key}) : super(key: key);

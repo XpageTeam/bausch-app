@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:url_launcher/url_launcher_string.dart';
-
 class HelpFunctions {
   static String getMonthNameByNumber(
     int month, {
@@ -119,13 +117,6 @@ class HelpFunctions {
     }
 
     return prefix;
-  }
-
-// TODO(all): используется только в историях, может убрать?
-// то же самое есть в файле utils
-  static Future<void> launchURL(String url) async {
-    // ignore: only_throw_errors
-    if (!await launchUrlString(url)) throw 'Could not launch $url';
   }
 
   static String partitionNumber(num number) {

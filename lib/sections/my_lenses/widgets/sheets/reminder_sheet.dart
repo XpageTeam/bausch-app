@@ -185,7 +185,7 @@ class _ReminderSheetState extends State<ReminderSheet> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 26),
-                // TODO(all): не показывается загрузка
+        
                 child: BlueButtonWithText(
                   text: 'Готово',
                   onPressed: () async {

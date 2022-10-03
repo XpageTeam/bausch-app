@@ -34,7 +34,7 @@ class CurrentMultiLensesPage extends StatelessWidget {
             streamedState: myLensesWM.rightLensDate,
             builder: (_, rightLensDate) =>
                 leftLensDate != null && rightLensDate != null
-                    // TODO(info): сравниваем по дате окончания
+                    // сравниваем по дате окончания
                     ? leftLensDate.dateEnd != rightLensDate.dateEnd
                         ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
                         : OneLensReplacementIndicator(

@@ -31,20 +31,7 @@ class LensIndicatorStatus extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        if (daysBeforeReplacement >= 0)
-          // SizedBox(
-          //   height: title ? 170 : 130,
-          //   width: title ? 170 : 130,
-          //   child: CustomPaint(
-          //     painter: CustomCircleIndicator(
-          //       value: percent.toDouble(),
-          //       colors: [
-          //         Color(0xffC5F663),
-          //         Color(0xff60D7E2),
-          //       ],
-          //     ),
-          //   ),
-          // )
+        if (daysBeforeReplacement > 0)
           CircularPercentIndicator(
             header: title
                 ? const Padding(

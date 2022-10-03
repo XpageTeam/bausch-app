@@ -26,7 +26,8 @@ class LensesSmallIndicator extends StatelessWidget {
               animation: true,
               animationDuration: 2000,
               lineWidth: 10,
-              percent: myLensesWM.rightLensDate.value!.daysLeft < 0 ||
+              percent: myLensesWM.rightLensDate.value!.dateEnd
+                          .isBefore(DateTime.now()) ||
                       myLensesWM.rightLensDate.value!.daysLeft >=
                           myLensesWM.currentProduct.value!.lifeTime
                   ? 1
@@ -48,7 +49,8 @@ class LensesSmallIndicator extends StatelessWidget {
                       animation: true,
                       animationDuration: 2000,
                       lineWidth: 9,
-                      percent: myLensesWM.leftLensDate.value!.daysLeft < 0 ||
+                      percent: myLensesWM.leftLensDate.value!.dateEnd
+                                  .isBefore(DateTime.now()) ||
                               myLensesWM.leftLensDate.value!.daysLeft >=
                                   myLensesWM.currentProduct.value!.lifeTime
                           ? 1

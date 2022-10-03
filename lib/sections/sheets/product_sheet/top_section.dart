@@ -136,7 +136,6 @@ class TopSection extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      // TODO(all): чекнуть норм ли виджет скидки
                       if (discount != null)
                         Align(
                           alignment: Alignment.bottomRight,

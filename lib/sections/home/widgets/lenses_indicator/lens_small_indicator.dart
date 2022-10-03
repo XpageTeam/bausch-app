@@ -28,7 +28,7 @@ class LensSmallIndicator extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(top: 20),
-      child: activeDate.daysLeft >= 0
+      child: activeDate.daysLeft > 0
           ? Column(
               children: [
                 CircularPercentIndicator(

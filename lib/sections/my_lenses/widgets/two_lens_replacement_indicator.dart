@@ -39,8 +39,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                     child: LensIndicatorStatus(
                       isLeft: true,
                       lifeTime: myLensesWM.currentProduct.value!.lifeTime,
-                      daysBeforeReplacement:
-                          myLensesWM.leftLensDate.value!.daysLeft,
+                      daysBeforeReplacement:  myLensesWM.leftLensDate.value!.daysLeft,
                       title: false,
                       onUpdateTap: () async => myLensesWM.putOnLensesPair(
                         leftDate: DateTime.now(),
@@ -52,8 +51,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                   Expanded(
                     child: LensIndicatorStatus(
                       lifeTime: myLensesWM.currentProduct.value!.lifeTime,
-                      daysBeforeReplacement:
-                          myLensesWM.rightLensDate.value!.daysLeft,
+                      daysBeforeReplacement:  myLensesWM.rightLensDate.value!.daysLeft,
                       title: false,
                       onUpdateTap: () async => myLensesWM.putOnLensesPair(
                         leftDate: null,
@@ -74,8 +72,8 @@ class TwoLensReplacementIndicator extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  if (myLensesWM.leftLensDate.value!.daysLeft > 0 ||
-                      myLensesWM.rightLensDate.value!.daysLeft > 0)
+                  if (myLensesWM.leftLensDate.value!.daysLeft >= 0 ||
+                      myLensesWM.rightLensDate.value!.daysLeft >= 0)
                     Expanded(
                       child: GreyButton(
                         text: 'Редактировать',

@@ -66,7 +66,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  if (activeLensDate.daysLeft > 0)
+                  if (activeLensDate.daysLeft >= 0)
                     Expanded(
                       child: GreyButton(
                         text: 'Редактировать',
@@ -112,7 +112,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                   const SizedBox(width: 3),
                   Expanded(
                     child: BlueButtonWithText(
-                      text: activeLensDate.daysLeft > 0
+                      text: activeLensDate.daysLeft >= 0
                           ? 'Завершить'
                           : 'Завершить ношение',
                       onPressed: () async =>

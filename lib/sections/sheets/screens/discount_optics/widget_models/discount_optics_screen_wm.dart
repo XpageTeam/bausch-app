@@ -220,7 +220,6 @@ class DiscountOpticsScreenWM extends WidgetModel {
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
           citiesWithShops: citiesForOnlineShop.toList(),
-          // TODO(all): тут нужно чекнуть когда москвы нет в листе
           withFavoriteItems: ['Вся РФ', moscowString],
         ),
       ),
