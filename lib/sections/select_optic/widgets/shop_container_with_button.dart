@@ -4,6 +4,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ShopContainerWithButton extends StatelessWidget {
@@ -19,75 +20,83 @@ class ShopContainerWithButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(StaticData.sidePadding),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Colors.white,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          //* Название магазина
-          Flexible(
-            child: Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(bottom: 4),
-              child: Text(
-                shop.title,
-                style: AppStyles.h2Bold,
+    return GestureDetector(
+      onTap: () => onOpticShopSelect(shop),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(
+          StaticData.sidePadding,
+          StaticData.sidePadding,
+          StaticData.sidePadding,
+          18,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            //* Название магазина
+            Flexible(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(bottom: 4),
+                child: Text(
+                  shop.title,
+                  style: AppStyles.h2Bold,
+                ),
               ),
             ),
-          ),
 
-          //* Адрес
-          Flexible(
-            child: Text(
-              shop.address,
-              style: AppStyles.p1,
+            //* Адрес
+            Flexible(
+              child: Text(
+                shop.address,
+                style: AppStyles.p1,
+              ),
             ),
-          ),
 
-          //* Номера
-          ...shop.phones
-              .map(
-                (phone) => Flexible(
-                  child: GestureDetector(
-                    onTap: () async {
-                      final url = 'tel:${shop.phones}';
-                      if (await canLaunchUrlString(url)) {
-                        await launchUrlString(url);
-                      } else {
-                        await Future<dynamic>.error('Could not launch $url');
-                      }
-                    },
-                    child: Text(
-                      shop.phones[0],
-                      style: AppStyles.p1.copyWith(
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppTheme.turquoiseBlue,
-                        decorationThickness: 2,
+            //* Номера
+            ...shop.phones
+                .map(
+                  (phone) => Flexible(
+                    child: GestureDetector(
+                      onTap: () async {
+                        final url = 'tel:${shop.phones}';
+                        if (await canLaunchUrlString(url)) {
+                          await launchUrlString(url);
+                        } else {
+                          await Future<dynamic>.error('Could not launch $url');
+                        }
+                      },
+                      child: Text(
+                        shop.phones[0],
+                        style: AppStyles.p1.copyWith(
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppTheme.turquoiseBlue,
+                          decorationThickness: 2,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-              .toList(),
+                )
+                .toList(),
 
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: BlueButton(
-              onPressed: () => onOpticShopSelect(shop),
-              children: const [
-                Text(
-                  'Выбрать оптику',
-                  style: AppStyles.h2Bold,
-                ),
-              ],
-            ),
-          ),
-        ],
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 20.0),
+            //   child: BlueButton(
+            //     onPressed: () => onOpticShopSelect(shop),
+            //     children: const [
+            //       Text(
+            //         'Выбрать оптику',
+            //         style: AppStyles.h2Bold,
+            //       ),
+            //     ],
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }

@@ -105,9 +105,11 @@ class SelectOpticScreenWM extends WidgetModel {
 
   List<OpticCity>? initialCities;
   List<Filter> selectedFilters = [];
+  bool isCertificateMap;
 
   SelectOpticScreenWM({
     required this.context,
+    required this.isCertificateMap,
     this.initialCities,
     this.initialCity,
   }) : super(
@@ -264,7 +266,16 @@ class SelectOpticScreenWM extends WidgetModel {
 
   Future<void> _updateCity(String cityName) async {
     await currentCityStreamed.content(cityName);
-    await opticsByCityStreamed.accept(await _getOpticsByCurrentCity());
+
+    final opticsByCurrentCity = await _getOpticsByCurrentCity();
+    final shopsByFilters = _getShopsByFilters(opticsByCurrentCity);
+
+    await opticsByCityStreamed.accept(
+      opticsByCurrentCity,
+    );
+    await filteredOpticShopsStreamed.content(
+      shopsByFilters,
+    );
   }
 
   void _switchPage(SelectOpticPage newPage) {

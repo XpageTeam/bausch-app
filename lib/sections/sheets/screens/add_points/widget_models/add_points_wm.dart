@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class AddPointsWM extends WidgetModel {
-  final addPointsList = EntityStreamedState<List<AddPointsModel>>()..content([]);
+  final addPointsList = EntityStreamedState<List<AddPointsModel>>()
+    ..content([]);
 
   final loadInfoAction = VoidAction();
 

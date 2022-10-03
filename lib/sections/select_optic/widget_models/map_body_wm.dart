@@ -59,10 +59,12 @@ class MapBodyWM extends WidgetModel {
 
   /// Поток местоположения пользователя
   StreamSubscription<Position>? userPositionStream;
+  final bool isCertificateMap;
 
   MapBodyWM({
     required this.initOpticShops,
     required this.onCityDefinitionCallback,
+    required this.isCertificateMap,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -71,7 +73,7 @@ class MapBodyWM extends WidgetModel {
   void onLoad() {
     // Пришлось обернуть в future, потому что иногда метки не отрисовывались
     Future.delayed(
-      const Duration(milliseconds: 100),
+      Duration.zero,
       () => updateMapObjects(initOpticShops),
     );
     super.onLoad();
@@ -80,15 +82,10 @@ class MapBodyWM extends WidgetModel {
   @override
   void onBind() {
     updateMapObjects.bind((shopList) {
-      Future.delayed(
-        const Duration(milliseconds: 100),
-        () {
-          _updateClusterMapObject(shopList!);
-          if (mapController != null) {
-            _setCenterOn<OpticShop>(shopList);
-          }
-        },
-      );
+      _updateClusterMapObject(shopList!);
+      if (mapController != null) {
+        _setCenterOn<OpticShop>(shopList);
+      }
     });
 
     updateMapObjectsWhenComplete.bind((shopList) {
@@ -598,7 +595,13 @@ class MapBodyWM extends WidgetModel {
         circleSize.height / 2 + 26, // (я не смог сделать нормально)
       ),
       // сюда надо передавать количество уникальных фильтров, которые будут находиться в текущей оптике
-      count: 3,
+      colors: isCertificateMap
+          ? [
+              AppTheme.turquoiseBlue,
+              AppTheme.orangeToric,
+              AppTheme.yellowMultifocal,
+            ]
+          : [AppTheme.sulu],
     );
 
     final image = await recorder
@@ -613,13 +616,13 @@ class MapBodyWM extends WidgetModel {
     required Canvas canvas,
     required Offset center,
     required Size size,
-    required int count,
+    required List<Color> colors,
   }) {
-    for (var i = 0; i < count; i++) {
+    for (var i = 0; i < colors.length; i++) {
       _drawSegment(
         canvas: canvas,
         size: size,
-        count: count,
+        colors: colors,
         currentSegment: i,
         center: center,
       );
@@ -647,29 +650,31 @@ class MapBodyWM extends WidgetModel {
     return completer.future;
   }
 
-  final colors = [
-    AppTheme.turquoiseBlue,
-    AppTheme.orangeToric,
-    AppTheme.yellowMultifocal,
-    Colors.red,
-    Colors.green,
-    Colors.purple,
-    Colors.amber,
-  ];
+  // final colors = [
+  //   AppTheme.sulu,
+  //   AppTheme.orangeToric,
+  //   AppTheme.yellowMultifocal,
+  //   Colors.red,
+  //   Colors.green,
+  //   Colors.purple,
+  //   Colors.amber,
+  // ];
 
   void _drawSegment({
     required Canvas canvas,
     required Size size,
     required Offset center,
-    required int count,
+    required List<Color> colors,
     required int currentSegment,
   }) {
+    final count = colors.length;
+
     final paint = Paint()
       ..color = colors[currentSegment]
       ..style = PaintingStyle.fill;
 
     final initOffset =
-        count > 2 ? 3 * pi / 2 - ((2 * pi * (count - 1)) / count) : 0;
+        count > 2 ? pi * 3 / 2 - ((pi * 2 * (count - 1)) / count) : 0;
 
     final segmentAngle = pi * 2 / count;
     final startAngle = initOffset + currentSegment * segmentAngle;

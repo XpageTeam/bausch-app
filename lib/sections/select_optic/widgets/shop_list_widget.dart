@@ -33,6 +33,7 @@ class ShopListWidget extends StatelessWidget {
               left: StaticData.sidePadding,
               bottom: 20,
             ),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: shopList
@@ -52,7 +53,12 @@ class ShopListWidget extends StatelessWidget {
                           : ShopContainer(shop: shop),
                     ),
                   )
-                  .toList(),
+                  .toList()
+                ..add(
+                  Container(
+                    height: 40,
+                  ),
+                ),
             ),
           );
   }

@@ -26,12 +26,14 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
     required this.onOpticShopSelect,
     required this.selectButtonText,
     required this.onCityDefinitionCallback,
+    required bool isCertificateMap,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (_) => MapBodyWM(
             initOpticShops: opticShops,
             onCityDefinitionCallback: onCityDefinitionCallback,
+            isCertificateMap: isCertificateMap,
           ),
         );
 
@@ -46,8 +48,8 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     if (!listEquals(oldWidget.opticShops, widget.opticShops)) {
+      debugPrint('didUpdate');
       wm.updateMapObjects(widget.opticShops);
       wm.setCenterAction(widget.opticShops);
     }
