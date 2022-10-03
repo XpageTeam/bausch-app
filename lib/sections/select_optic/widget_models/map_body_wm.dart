@@ -297,6 +297,7 @@ class MapBodyWM extends WidgetModel {
           icon: PlacemarkIcon.single(
             PlacemarkIconStyle(
               // scale: 0.75,
+              anchor: const Offset(0.5, 1),
               scale: indexOfPressedShop != null
                   ? indexOfPressedShop == i
                       ? 1.2
@@ -541,7 +542,7 @@ class MapBodyWM extends WidgetModel {
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder);
 
-    const size = Size(200, 200);
+    const size = Size(70, 70);
 
     final suluFillPaint = Paint()
       ..color = AppTheme.sulu
@@ -557,7 +558,7 @@ class MapBodyWM extends WidgetModel {
     //   ..color = AppTheme.sulu
     //   ..style = PaintingStyle.fill;
 
-    const radius = 27.0; // min(max(cluster.size * 6.0, 30), 50).toDouble();
+    final radius = size.height / 2;
 
     final textPainter = TextPainter(
       text: TextSpan(
@@ -572,15 +573,15 @@ class MapBodyWM extends WidgetModel {
 
     final textOffset = Offset(
       (size.width - textPainter.width) / 2,
-      (size.height - textPainter.height) / 2 - 10,
+      (size.height - textPainter.height) / 2,
     );
 
-    final circleOffset = Offset(size.width / 2, size.height / 2 - 10);
+    final circleOffset = Offset(size.width / 2, radius);
 
     canvas
-      ..drawCircle(circleOffset, radius + 12, whiteFillPaint)
-      ..drawCircle(circleOffset, radius + 8, mineShaftFillPaint)
-      ..drawCircle(circleOffset, radius, suluFillPaint);
+      ..drawCircle(circleOffset, radius, whiteFillPaint)
+      ..drawCircle(circleOffset, radius - 5, mineShaftFillPaint)
+      ..drawCircle(circleOffset, radius - 12, suluFillPaint);
 
     textPainter.paint(canvas, textOffset);
 
@@ -598,30 +599,34 @@ class MapBodyWM extends WidgetModel {
   }) async {
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder);
-    const size = Size(300, 300);
-
+    const height = 100.0;
     const imageRatio = 99 / 121;
+
+    const size = Size(height, height / imageRatio);
 
     final imageWidth = size.height * imageRatio;
     shopMarkerBase ??= await _loadUiImage(
       'assets/icons/shop-marker-base.png',
-      size: size / 2,
+      size: size,
     );
+
     canvas.drawImage(
       shopMarkerBase!,
-      Offset((size.width - imageWidth / 2) / 2, 0),
+      Offset.zero,
       Paint(),
     );
 
-    final circleSize = Size(size.height / 5 + 5, size.height / 5 + 5);
+    final circleSize = Size(3 * size.height / 7, 3 * size.height / 7);
 
     _drawDiagram(
       canvas: canvas,
       size: circleSize,
-      center: Offset(
-        (size.width) / 2 + 1,
-        circleSize.height / 2 + 26, // (я не смог сделать нормально)
-      ),
+      center: Offset(imageWidth / 2, 47), // 47 хромосом у меня, да
+
+      // Offset(
+      //   (size.width) / 2 + 1,
+      //   circleSize.height / 2 + 26, // (я не смог сделать нормально)
+      // ),
       // сюда надо передавать количество уникальных фильтров, которые будут находиться в текущей оптике
       colors: isCertificateMap
           ? [
