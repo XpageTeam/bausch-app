@@ -99,7 +99,7 @@ class ProfileContentWM extends WidgetModel {
       await notificationsList.content(notifications);
       var unreadCount = 0;
       notificationsList.value.data?.forEach((element) {
-        if (!element.read!) {
+        if (element.read != null && !element.read!) {
           unreadCount++;
         }
       });

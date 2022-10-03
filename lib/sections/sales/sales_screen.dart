@@ -45,7 +45,8 @@ class _SalesScreenState extends State<SalesScreen> {
         padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
         child: LayoutBuilder(
           builder: (_, c) {
-            final smallContainersRowsLength = (activeList.length / 2).ceil();
+            final smallContainersRowsLength =
+                ((activeList.length - 1) / 2).ceil();
             return CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
@@ -80,7 +81,7 @@ class _SalesScreenState extends State<SalesScreen> {
                         width: c.maxWidth,
                       ),
                       ...List.generate(
-                        smallContainersRowsLength - 1,
+                        smallContainersRowsLength,
                         (i) {
                           final leftIndex = 1 + i * 2;
                           final rightIndex = 1 + i * 2 + 1;
@@ -189,6 +190,14 @@ class __SmallContainerState extends State<_SmallContainer> {
   void initState() {
     super.initState();
     catalogItemCubit = CatalogItemCubit(section: widget.item.type);
+  }
+
+  @override
+  void didUpdateWidget(covariant _SmallContainer oldWidget) {
+    if (oldWidget.item != widget.item) {
+      catalogItemCubit = CatalogItemCubit(section: widget.item.type);
+      super.didUpdateWidget(oldWidget);
+    }
   }
 
   @override

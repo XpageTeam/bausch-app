@@ -33,6 +33,14 @@ class _SmallContainerState extends State<SmallContainer> {
   }
 
   @override
+  void didUpdateWidget(covariant SmallContainer oldWidget) {
+    if (oldWidget.model != widget.model) {
+      catalogItemCubit = CatalogItemCubit(section: widget.model.type);
+      super.didUpdateWidget(oldWidget);
+    }
+  }
+
+  @override
   void dispose() {
     catalogItemCubit.close();
     super.dispose();
@@ -43,16 +51,13 @@ class _SmallContainerState extends State<SmallContainer> {
     final width =
         MediaQuery.of(context).size.width / 2 - StaticData.sidePadding - 2;
 
-    return BlocProvider(
-      create: (context) => catalogItemCubit,
+    return BlocProvider.value(
+      value: catalogItemCubit,
       child: SheetListener(
         model: widget.model,
         child: WhiteContainerWithRoundedCorners(
-          onTap: () {
-            //showSheetWithItems(context, model);
-            catalogItemCubit.loadData();
-          },
-          height: widget.sale ? width*1.35 : width,
+          onTap: catalogItemCubit.loadData,
+          height: widget.sale ? width * 1.35 : width,
           width: width,
           padding: const EdgeInsets.only(
             top: 20,

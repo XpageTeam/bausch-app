@@ -12,9 +12,10 @@ class SelectOpticScreenBody extends StatelessWidget {
   final SelectOpticPage currentPage;
   final List<OpticShop> opticShops;
   final void Function(OpticShop selectedShop) onOpticShopSelect;
-  final Future<void> Function(DadataResponseDataModel)  onCityDefinitionCallback;
+  final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
 
   final String selectButtonText;
+  final bool isCertificateMap;
 
   const SelectOpticScreenBody({
     required this.currentPage,
@@ -22,6 +23,7 @@ class SelectOpticScreenBody extends StatelessWidget {
     required this.onOpticShopSelect,
     required this.selectButtonText,
     required this.onCityDefinitionCallback,
+    required this.isCertificateMap,
     Key? key,
   }) : super(key: key);
 
@@ -38,6 +40,7 @@ class SelectOpticScreenBody extends StatelessWidget {
             opticShops: opticShops,
             onOpticShopSelect: onOpticShopSelect,
             onCityDefinitionCallback: onCityDefinitionCallback,
+            isCertificateMap: isCertificateMap,
             shopsEmptyCallback: (mapBodyWm) {
               mapBodyWm.isModalBottomSheetOpen.accept(true);
 
