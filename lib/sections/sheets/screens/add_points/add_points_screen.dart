@@ -7,8 +7,6 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -115,14 +113,14 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
               child: Column(
                 children: [
                   const Padding(
-                    padding: const EdgeInsets.only(
+                    padding: EdgeInsets.only(
                       top: 30,
                       bottom: 20,
                     ),
                     child: Text(
                       'Не удалось загрузить',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppTheme.mineShaft,
                         fontWeight: FontWeight.w500,
                         fontSize: 24,
@@ -135,9 +133,9 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                     children: [
                       BlueButton(
                         padding: EdgeInsets.zero,
-                        children: [
+                        children: const [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               horizontal: 12.0,
                               vertical: 16,
                             ),

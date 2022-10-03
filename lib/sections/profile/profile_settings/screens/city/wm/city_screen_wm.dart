@@ -5,9 +5,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/city/dadata_cities_downloader.dart';
-import 'package:bausch/models/city/dadata_city.dart';
 import 'package:bausch/models/dadata/dadata_response_model.dart';
-import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -185,6 +183,7 @@ class CityScreenWM extends WidgetModel {
 
   Future<List<String>> _parseCityList(List<dynamic> rawCityList) async {
     final cities = rawCityList
+        // ignore: avoid_annotating_with_dynamic
         .map((dynamic e) => (e as Map<String, dynamic>)['name'] as String)
         .toList();
     return cities;

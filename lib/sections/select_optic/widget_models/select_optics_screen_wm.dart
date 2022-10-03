@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -16,9 +15,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 enum SelectOpticPage {
   map,
@@ -56,7 +53,7 @@ class SelectOpticScreenWM extends WidgetModel {
   final certificateFilterSectionModelState =
       StreamedState<CertificateFilterSectionModel?>(
     CertificateFilterSectionModel(
-      commonFilters: [
+      commonFilters: const [
         Filter(
           id: 0,
           title: 'Скидка после подбора',
@@ -70,7 +67,7 @@ class SelectOpticScreenWM extends WidgetModel {
           title: '2 Скидка после подбора',
         ),
       ],
-      lensFilters: [
+      lensFilters: const [
         LensFilter(
           id: 0,
           title: 'Сферические',
@@ -124,12 +121,12 @@ class SelectOpticScreenWM extends WidgetModel {
     } else {
       initialCities = _sort(initialCities!);
 
-      final userCity = Provider.of<UserWM>(
-        context,
-        listen: false,
-      ).userData.value.data?.user.city;
+      // final userCity = Provider.of<UserWM>(
+      //   context,
+      //   listen: false,
+      // ).userData.value.data?.user.city;
 
-      currentCityStreamed.content(initialCity ?? '');
+      await currentCityStreamed.content(initialCity ?? '');
 
       // if (initialCity != null) {
       //   currentCityStreamed.content(initialCity!);

@@ -80,7 +80,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
 
         return ErrorPage(
           title: e.title,
-          subtitle: e.subtitle,
+          // subtitle: e.subtitle,
           buttonText: 'Обновить',
           buttonCallback: wm.onLoad,
         );

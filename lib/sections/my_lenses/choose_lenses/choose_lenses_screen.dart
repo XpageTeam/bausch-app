@@ -308,6 +308,7 @@ class _ChooseLensesScreenState
                     builder: (_, isLeftEqual) => GestureDetector(
                       onTap: () async =>
                           wm.changeEyesEquality(areEqual: !isLeftEqual),
+                      // ignore:  use_colored_box
                       child: Container(
                         color: Colors.transparent,
                         child: Row(

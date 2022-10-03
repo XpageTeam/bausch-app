@@ -1,6 +1,4 @@
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/models/city/dadata_city.dart';
-import 'package:bausch/models/dadata/dadata_response_model.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
 import 'package:bausch/sections/loader/loader_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/wm/city_screen_wm.dart';
@@ -12,7 +10,6 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
-import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -60,7 +57,7 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
             ),
             body: ErrorPage(
               title: e.title,
-              subtitle: e.subtitle,
+              // subtitle: e.subtitle,
               buttonText: 'Обновить',
               buttonCallback: wm.citiesListReloadAction,
             ),

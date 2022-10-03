@@ -120,7 +120,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       showDefaultNotification(

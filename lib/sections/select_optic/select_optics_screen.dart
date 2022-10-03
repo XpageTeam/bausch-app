@@ -152,7 +152,7 @@ class _SelectOpticScreenState
                       //debugPrint(ex.subtitle);
                       showDefaultNotification(
                         title: ex.title,
-                        subtitle: ex.subtitle,
+                        // subtitle: ex.subtitle,
                       );
 
                       return const SizedBox();

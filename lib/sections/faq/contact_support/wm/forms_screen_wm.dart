@@ -250,7 +250,7 @@ class FormScreenWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       //* Чтобы не открывался пустой роут
@@ -301,7 +301,7 @@ class FormScreenWM extends WidgetModel {
       //Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
@@ -344,7 +344,7 @@ class FormScreenWM extends WidgetModel {
       //Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
@@ -383,7 +383,7 @@ class FormScreenWM extends WidgetModel {
       //Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
@@ -422,7 +422,7 @@ class FormScreenWM extends WidgetModel {
       Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
