@@ -193,6 +193,14 @@ class __SmallContainerState extends State<_SmallContainer> {
   }
 
   @override
+  void didUpdateWidget(covariant _SmallContainer oldWidget) {
+    if (oldWidget.item != widget.item) {
+      catalogItemCubit = CatalogItemCubit(section: widget.item.type);
+      super.didUpdateWidget(oldWidget);
+    }
+  }
+
+  @override
   void dispose() {
     catalogItemCubit.close();
     super.dispose();
