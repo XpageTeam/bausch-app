@@ -120,6 +120,7 @@ class LensFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      // ignore: use_colored_box
       child: Container(
         color: Colors.transparent,
         child: Row(

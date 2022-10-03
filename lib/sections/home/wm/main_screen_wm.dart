@@ -6,8 +6,11 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/models/baseResponse/base_response.dart';
+import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
+import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/home/requester/home_screen_requester.dart';
@@ -31,6 +34,7 @@ class MainScreenWM extends WidgetModel {
   final loadMyLensesAction = VoidAction();
   final loadBannersAction = VoidAction();
   final loadAllDataAction = VoidAction();
+  final socialLinksState = StreamedState<List<SocialModel>>([]);
 
   final changeAppLifecycleStateAction = StreamedAction<AppLifecycleState>();
 
@@ -120,6 +124,7 @@ class MainScreenWM extends WidgetModel {
       _loadStories(),
       _loadCatalog(),
       _loadMyLenses(),
+      _loadSocialLinks(),
     ]);
 
     return true;
@@ -148,6 +153,7 @@ class MainScreenWM extends WidgetModel {
       _loadCatalog(),
       _loadBanners(),
       _loadMyLenses(),
+      _loadSocialLinks(),
     ]);
 
     if (catalog.value.error != null) {
@@ -194,7 +200,10 @@ class MainScreenWM extends WidgetModel {
     }
 
     if (error != null) {
-      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
     }
   }
 
@@ -232,6 +241,29 @@ class MainScreenWM extends WidgetModel {
           ex: e,
         ),
       );
+    }
+  }
+
+  Future<void> _loadSocialLinks() async {
+    try {
+      final parsedData = BaseResponseRepository.fromMap(
+        (await RequestHandler().get<Map<String, dynamic>>('/faq/socials/'))
+            .data!,
+      );
+
+      await socialLinksState.accept(
+        (parsedData.data as List<dynamic>)
+            .reversed
+            .map(
+              // ignore: avoid_annotating_with_dynamic
+              (dynamic e) => SocialModel.fromMap(
+                e as Map<String, dynamic>,
+              ),
+            )
+            .toList(),
+      );
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -274,7 +306,10 @@ class MainScreenWM extends WidgetModel {
     }
 
     if (error != null) {
-      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
 
       await banners.content(
         banners.value.data ??

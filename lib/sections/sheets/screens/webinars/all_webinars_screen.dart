@@ -225,7 +225,7 @@ class AllWebinarsScreenWM extends WidgetModel {
     if (ex != null) {
       showDefaultNotification(
         title: ex.title,
-        subtitle: ex.subtitle,
+        // subtitle: ex.subtitle,
       );
     }
   }

@@ -147,9 +147,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
       }
     }
 
-    for (final i in widget.list) {
-      debugPrint(i.key);
-    }
+    // for (final i in widget.list) {
+    //   debugPrint(i.key);
+    // }
 
     _list = widget.list;
 
@@ -271,7 +271,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     );
     positionNotifer.value = offset;
 
-    debugPrint('$index');
+    // debugPrint('$index');
   }
 
   void onVerticalDrag(Offset offset) {

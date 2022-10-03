@@ -1,4 +1,5 @@
 import 'package:bausch/models/add_points/add_points_model.dart';
+import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.dart';
@@ -54,6 +55,9 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
         EntityStateBuilder<List<AddPointsModel>>(
           streamedState: wm.addPointsList,
           loadingChild: SliverList(delegate: SliverChildListDelegate([])),
+          errorChild: const SliverToBoxAdapter(
+            child: SizedBox(),
+          ),
           builder: (_, items) {
             if (items.isNotEmpty) {
               return SliverAppBar(
@@ -101,6 +105,49 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                 [
                   const Center(
                     child: AnimatedLoader(),
+                  ),
+                ],
+              ),
+            ),
+            errorChild: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(
+                      top: 30,
+                      bottom: 20,
+                    ),
+                    child: Text(
+                      'Не удалось загрузить',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppTheme.mineShaft,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 24,
+                        height: 31 / 24,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BlueButton(
+                        padding: EdgeInsets.zero,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 16,
+                            ),
+                            child: Text(
+                              'Обновить',
+                              style: AppStyles.h2,
+                            ),
+                          ),
+                        ],
+                        onPressed: wm.loadInfoAction,
+                      ),
+                    ],
                   ),
                 ],
               ),

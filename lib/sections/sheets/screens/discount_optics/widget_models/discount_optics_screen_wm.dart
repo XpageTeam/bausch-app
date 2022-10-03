@@ -55,12 +55,14 @@ class DiscountOpticsScreenWM extends WidgetModel {
   late final String howToUseText;
   late final UserWM userWM;
 
+  /// Для того, чтобы можно было единожды показать юзеру диалог (пока этот класс не пересоздался, естественно)
+  bool wasDialogShowed = false;
+
   List<Optic> allOptics = [];
   Set<String> citiesForOnlineShop = {};
 
   late int difference;
   bool get isEnough => difference <= 0;
-  bool wasDialogShowed = false;
 
   DiscountOpticsScreenWM({
     required this.context,
@@ -90,7 +92,10 @@ class DiscountOpticsScreenWM extends WidgetModel {
   @override
   void onBind() {
     discountOpticsStreamed.bind((_) {
-      if (!discountOpticsStreamed.value.hasError && !discountOpticsStreamed.value.isLoading && discountType == DiscountType.offline && discountOpticsStreamed.value.data!.isEmpty){
+      if (!discountOpticsStreamed.value.hasError &&
+          !discountOpticsStreamed.value.isLoading &&
+          discountType == DiscountType.offline &&
+          discountOpticsStreamed.value.data!.isEmpty) {
         AppsflyerSingleton.sdk.logEvent('discountOpticsEmpty', null);
       }
     });
@@ -157,10 +162,9 @@ class DiscountOpticsScreenWM extends WidgetModel {
       );
 
       if (!wasDialogShowed) {
+        wasDialogShowed = true;
         _showRememberCityDialog(
           confirmCallback: (ctx) {
-            wasDialogShowed = true;
-
             userWM.updateUserData(
               userWM.userData.value.data!.user.copyWith(city: cityName),
               successMessage: 'Город успешно изменён',
@@ -294,12 +298,10 @@ class DiscountOpticsScreenWM extends WidgetModel {
             discountOpticsStreamed.content(allOptics),
           );
         } else if (!cities.any(_equalsCurrentCity)) {
-          await currentOfflineCity.accept(allOptics.first.shops.first.city);
+          await currentOfflineCity.accept(null);
 
           unawaited(
-            discountOpticsStreamed.content(
-              await _filterOpticsBySelectedOfflineCity(),
-            ),
+            discountOpticsStreamed.content(allOptics),
           );
         } else if (cities.any(_equalsCurrentCity)) {
           unawaited(
@@ -616,7 +618,7 @@ class OpticCititesRepository {
         ),
       );
 
-      debugPrint('cityNames: ${cityNames}');
+      // debugPrint('cityNames: ${cityNames}');
     }
 
     return OpticCititesRepository(cities);

@@ -2,12 +2,14 @@
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
+import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/sales_section.dart';
@@ -80,7 +82,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
 
             return ErrorPage(
               title: e.title,
-              subtitle: e.subtitle,
+              // subtitle: e.subtitle,
               buttonText: 'Обновить',
               buttonCallback: wm.loadAllDataAction,
             );
@@ -352,8 +354,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               WhiteButtonWithText(
                                 text: 'Написать в поддержку',
                                 onPressed: () {
-                                  FirebaseAnalytics.instance
-                                      .logEvent(name: 'support_button_click');
+                                  FirebaseAnalytics.instance.logEvent(
+                                    name: 'support_button_click',
+                                  );
                                   // Navigator.of(context).pushNamed(
                                   //   '/support',
                                   //   arguments: ContactSupportScreenArguments(),
@@ -369,6 +372,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                   );
                                 },
                               ),
+
                               const Padding(
                                 padding: EdgeInsets.only(top: 20, bottom: 14),
                                 child: Text(
@@ -377,38 +381,26 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Spacer(),
-                                  // TODO(ask): получить ссылки на соц сети
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {},
-                                      child: CircleAvatar(
-                                        child: Image.asset(
-                                          'assets/logos/vk.png',
-                                          scale: 2.5,
-                                        ),
-                                        backgroundColor: Colors.white,
-                                      ),
-                                    ),
-                                  ),
 
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {},
-                                      child: CircleAvatar(
-                                        child: Image.asset(
-                                          'assets/logos/tube.png',
-                                          scale: 2.5,
+                              StreamedStateBuilder<List<SocialModel>>(
+                                streamedState: wm.socialLinksState,
+                                builder: (_, socialLinks) => socialLinks.isEmpty
+                                    ? const SizedBox()
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                          socialLinks.length,
+                                          (index) => Padding(
+                                            padding: EdgeInsets.only(
+                                              left: index != 0 ? 30.0 : 0,
+                                            ),
+                                            child: SocialButton(
+                                              model: socialLinks[index],
+                                            ),
+                                          ),
                                         ),
-                                        backgroundColor: Colors.white,
                                       ),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                ],
                               ),
                               const SizedBox(
                                 height: 40,

@@ -15,6 +15,7 @@ import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 //* Макет:
@@ -38,6 +39,7 @@ class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
             context: context,
             initialCities: cities,
             initialCity: initialCity,
+            isCertificateMap: isCertificateMap,
           ),
         );
 
@@ -54,142 +56,148 @@ class _SelectOpticScreenState
   int activeLensCount = 0;
   @override
   Widget build(BuildContext context) {
-    return Provider.value(
-      value: wm,
-      child: Scaffold(
-        backgroundColor: AppTheme.mystic,
-        appBar: const DefaultAppBar(
-          title: 'Адреса оптик',
+    return ResponsiveWrapper.builder(
+      Provider.value(
+        value: wm,
+        child: Scaffold(
           backgroundColor: AppTheme.mystic,
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Переключатель (карта/список)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                StaticData.sidePadding,
-                15,
-                StaticData.sidePadding,
-                22,
-              ),
-              child: ShopPageSwitcher(
-                callback: wm.switchAction,
-              ),
-            ),
-
-            // Кнопка выбора города
-            EntityStateBuilder<String>(
-              streamedState: wm.currentCityStreamed,
-              builder: (context, currentCity) => Padding(
+          appBar: const DefaultAppBar(
+            title: 'Адреса оптик',
+            backgroundColor: AppTheme.mystic,
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Переключатель (карта/список)
+              Padding(
                 padding: const EdgeInsets.fromLTRB(
                   StaticData.sidePadding,
-                  0,
+                  15,
                   StaticData.sidePadding,
-                  20,
+                  22,
                 ),
-                child: _SelectCityButton(
-                  city: currentCity,
-                  onPressed: wm.selectCityAction,
+                child: ShopPageSwitcher(
+                  callback: wm.switchAction,
                 ),
               ),
-            ),
 
-            // Кнопки фильтра магазинов
-            if (widget.isCertificateMap)
-              StreamedStateBuilder<CertificateFilterSectionModel?>(
-                streamedState: wm.certificateFilterSectionModelState,
-                builder: (_, certificateFilterSectionModel) {
-                  return certificateFilterSectionModel == null
-                      ? const SizedBox()
-                      : Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 20.0,
-                          ),
-                          child: CertificateFiltersSection(
-                            model: certificateFilterSectionModel,
-                          ),
-                        );
-                },
-              )
-            else
-              StreamedStateBuilder<List<Optic>>(
-                streamedState: wm.opticsByCityStreamed,
-                builder: (_, optics) {
-                  final filters = Filter.getFiltersFromOpticList(
-                    optics,
-                  );
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      // left: StaticData.sidePadding,
-                      // right: StaticData.sidePadding,
-                      bottom: 20.0,
-                    ),
-                    child: ShopFilterWidget(
-                      filters: filters,
-                      callback: wm.filtersOnChanged,
-                    ),
-                  );
-                },
-              ),
-
-            // Карта/список
-            Expanded(
-              child: StreamedStateBuilder<SelectOpticPage>(
-                streamedState: wm.currentPageStreamed,
-                builder: (_, currentPage) =>
-                    EntityStateBuilder<List<OpticShop>>(
-                  streamedState: wm.filteredOpticShopsStreamed,
-                  loadingChild: const Center(
-                    child: AnimatedLoader(),
+              // Кнопка выбора города
+              EntityStateBuilder<String>(
+                streamedState: wm.currentCityStreamed,
+                builder: (context, currentCity) => Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    StaticData.sidePadding,
+                    0,
+                    StaticData.sidePadding,
+                    20,
                   ),
-                  errorBuilder: (context, e) {
-                    final ex = e as CustomException;
-                    //debugPrint(ex.subtitle);
-                    showDefaultNotification(
-                      title: ex.title,
-                      subtitle: ex.subtitle,
-                    );
+                  child: _SelectCityButton(
+                    city: currentCity,
+                    onPressed: wm.selectCityAction,
+                  ),
+                ),
+              ),
 
-                    return const SizedBox();
+              // Кнопки фильтра магазинов
+              if (widget.isCertificateMap)
+                StreamedStateBuilder<CertificateFilterSectionModel?>(
+                  streamedState: wm.certificateFilterSectionModelState,
+                  builder: (_, certificateFilterSectionModel) {
+                    return certificateFilterSectionModel == null
+                        ? const SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 20.0,
+                            ),
+                            child: CertificateFiltersSection(
+                              model: certificateFilterSectionModel,
+                            ),
+                          );
                   },
-                  builder: (_, opticShops) => SelectOpticScreenBody(
-                    selectButtonText: widget.selectButtonText,
-                    currentPage: currentPage,
-                    opticShops: opticShops,
-                    onCityDefinitionCallback: wm.onCityDefinition,
-                    onOpticShopSelect: (selectedShop) =>
-                        wm.onOpticShopSelectAction(
-                      OpticShopParams(
-                        selectedShop,
-                        (optic, shop) => widget.onOpticSelect(
-                          optic,
-                          wm.currentCityStreamed.value.data ?? '',
-                          shop,
+                )
+              else
+                StreamedStateBuilder<List<Optic>>(
+                  streamedState: wm.opticsByCityStreamed,
+                  builder: (_, optics) {
+                    final filters = Filter.getFiltersFromOpticList(
+                      optics,
+                    );
+                    // debugPrint('optics: ${optics.length}');
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                        // left: StaticData.sidePadding,
+                        // right: StaticData.sidePadding,
+                        bottom: 20.0,
+                      ),
+                      child: ShopFilterWidget(
+                        filters: filters,
+                        callback: wm.filtersOnChanged,
+                      ),
+                    );
+                  },
+                ),
+
+              // Карта/список
+              Expanded(
+                child: StreamedStateBuilder<SelectOpticPage>(
+                  streamedState: wm.currentPageStreamed,
+                  builder: (_, currentPage) =>
+                      EntityStateBuilder<List<OpticShop>>(
+                    streamedState: wm.filteredOpticShopsStreamed,
+                    loadingChild: const Center(
+                      child: AnimatedLoader(),
+                    ),
+                    errorBuilder: (context, e) {
+                      final ex = e as CustomException;
+                      //debugPrint(ex.subtitle);
+                      showDefaultNotification(
+                        title: ex.title,
+                        // subtitle: ex.subtitle,
+                      );
+
+                      return const SizedBox();
+                    },
+                    builder: (_, opticShops) => SelectOpticScreenBody(
+                      selectButtonText: widget.selectButtonText,
+                      currentPage: currentPage,
+                      opticShops: opticShops,
+                      isCertificateMap: widget.isCertificateMap,
+                      onCityDefinitionCallback: wm.onCityDefinition,
+                      onOpticShopSelect: (selectedShop) =>
+                          wm.onOpticShopSelectAction(
+                        OpticShopParams(
+                          selectedShop,
+                          (optic, shop) => widget.onOpticSelect(
+                            optic,
+                            wm.currentCityStreamed.value.data ?? '',
+                            shop,
+                          ),
                         ),
                       ),
-                    ),
-                    // whenCompleteModalBottomSheet: (mapBodyWm) {
-                    //   wm.setFirstCity();
+                      // whenCompleteModalBottomSheet: (mapBodyWm) {
+                      //   wm.setFirstCity();
 
-                    //   Future.delayed(
-                    //     const Duration(milliseconds: 10),
-                    //     () {
-                    //       mapBodyWm
-                    //         ..isModalBottomSheetOpen.accept(false)
-                    //         ..setCenterAction(
-                    //           wm.filteredOpticShopsStreamed.value.data!,
-                    //         );
-                    //     },
-                    //   );
-                    // },
+                      //   Future.delayed(
+                      //     const Duration(milliseconds: 10),
+                      //     () {
+                      //       mapBodyWm
+                      //         ..isModalBottomSheetOpen.accept(false)
+                      //         ..setCenterAction(
+                      //           wm.filteredOpticShopsStreamed.value.data!,
+                      //         );
+                      //     },
+                      //   );
+                      // },
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      defaultScale: true,
+      minWidth: 375,
     );
   }
 }
@@ -217,30 +225,55 @@ class _SelectCityButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Город',
-                      style: AppStyles.p1Grey,
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Flexible(
-                      child: Text(
-                        city,
-                        style: AppStyles.h2Bold,
+                child: city.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 28.0),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/map-marker.png',
+                              height: 16,
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            const Text(
+                              'Город',
+                              style: AppStyles.h2Bold,
+                            ),
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10.0,
+                          bottom: 18,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Город',
+                              style: AppStyles.p1Grey,
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Flexible(
+                              child: Text(
+                                city,
+                                style: AppStyles.h2Bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
               ),
               const Icon(
                 Icons.chevron_right,

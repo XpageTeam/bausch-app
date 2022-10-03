@@ -42,7 +42,7 @@ class _ScrollableProfileContentState
 
           return ErrorPage(
             title: e.title,
-            subtitle: e.subtitle,
+            // subtitle: e.subtitle,
             buttonText: 'Обновить',
             buttonCallback: wm.allDataLoadAction,
           );
@@ -76,24 +76,25 @@ class _ScrollableProfileContentState
                       alignment: Alignment.centerLeft,
                       child: StreamedStateBuilder<int>(
                         streamedState: wm.activeNotifications,
-                        builder: (_, amount) => SelectWidget(
-                          items: [
-                            'Заказы ${wm.orderHistoryList.value.data!.length}',
-                            if (wm.notificationsList.value.data!.isNotEmpty)
-                              'Уведомления $amount',
-                          ],
-                          onChanged: (i) {
-                            setState(() {
-                              if (i == 0) {
-                                isOrdersEnabled = true;
-                              } else {
-                                isOrdersEnabled = false;
-                              }
+                        builder: (_, amount) {
+                          return SelectWidget(
+                            items: [
+                              'Заказы ${wm.orderHistoryList.value.data!.length}',
+                              'Уведомления ${amount > 1 ? amount : ''}',
+                            ],
+                            onChanged: (i) {
+                              setState(() {
+                                if (i == 0) {
+                                  isOrdersEnabled = true;
+                                } else {
+                                  isOrdersEnabled = false;
+                                }
 
-                              widget.controller.jumpTo(0);
-                            });
-                          },
-                        ),
+                                widget.controller.jumpTo(0);
+                              });
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),

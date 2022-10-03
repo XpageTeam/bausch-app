@@ -21,6 +21,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final BuildContext context;
 
   final selectedCityName = StreamedState<String?>(null);
+  final cities = StreamedState<String?>(null);
   final selectedBirthDate = StreamedState<DateTime?>(null);
   final enteredEmail = StreamedState<String?>(null);
   final showBanner = StreamedState<bool>(false);
@@ -119,7 +120,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       showDefaultNotification(

@@ -25,7 +25,7 @@ class TextButtonsListener extends StatelessWidget {
 
               showDefaultNotification(
                 title: state.title,
-                subtitle: state.subtitle,
+                // subtitle: state.subtitle,
               );
             }
 
@@ -58,7 +58,7 @@ class TextButtonsListener extends StatelessWidget {
 
               showDefaultNotification(
                 title: state.title,
-                subtitle: state.subtitle,
+                // subtitle: state.subtitle,
               );
             }
 

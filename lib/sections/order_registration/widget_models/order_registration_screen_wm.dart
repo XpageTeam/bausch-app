@@ -280,7 +280,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
   void _showTopError(CustomException ex) {
     showDefaultNotification(
       title: ex.title,
-      subtitle: ex.subtitle,
+      // subtitle: ex.subtitle,
     );
   }
 }

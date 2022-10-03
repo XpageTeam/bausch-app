@@ -139,7 +139,7 @@ class _FinalDiscountOpticsState
                         onError: (ex) {
                           showDefaultNotification(
                             title: ex.title,
-                            subtitle: ex.subtitle,
+                            // subtitle: ex.subtitle,
                           );
                         },
                       );

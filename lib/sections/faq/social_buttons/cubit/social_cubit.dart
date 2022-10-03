@@ -29,6 +29,7 @@ class SocialCubit extends Cubit<SocialState> {
       emit(
         SocialSuccess(
           models: (parsedData.data as List<dynamic>)
+              .reversed
               .map(
                 (dynamic e) => SocialModel.fromMap(e as Map<String, dynamic>),
               )
