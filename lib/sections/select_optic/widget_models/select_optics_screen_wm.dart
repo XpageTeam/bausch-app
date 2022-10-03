@@ -457,7 +457,11 @@ class SelectOpticScreenWM extends WidgetModel {
 
       initialCities = _sort(opticCititesRepository.cities);
 
-      await currentCityStreamed.content(initialCities!.first.title);
+      if (initialCity == null) {
+        await currentCityStreamed.content(initialCities!.first.title);
+      } else {
+        await currentCityStreamed.content(initialCity!);
+      }
 
       final opticsByCurrentCity = await _getOpticsByCurrentCity();
       final shopsByFilters = _getShopsByFilters(opticsByCurrentCity);

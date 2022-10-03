@@ -34,9 +34,9 @@ class MapBodyWM extends WidgetModel {
     <MapObject>[],
   );
 
-  final setCenterAction = StreamedAction<List<OpticShop>>();
-  final updateMapObjects = StreamedAction<List<OpticShop>>();
-  final updateMapObjectsWhenComplete = StreamedAction<List<OpticShop>>();
+  // final setCenterAction = StreamedAction<List<OpticShop>>();
+  // final updateMapObjects = StreamedAction<List<OpticShop>>();
+  // final updateMapObjectsWhenComplete = StreamedAction<List<OpticShop>>();
 
   final isModalBottomSheetOpen = StreamedState<bool>(false);
 
@@ -70,27 +70,17 @@ class MapBodyWM extends WidgetModel {
         );
 
   @override
-  void onLoad() {
-    // Пришлось обернуть в future, потому что иногда метки не отрисовывались
-    Future.delayed(
-      Duration.zero,
-      () => updateMapObjects(initOpticShops),
-    );
-    super.onLoad();
-  }
-
-  @override
   void onBind() {
-    updateMapObjects.bind((shopList) async {
-      await _updateClusterMapObject(shopList!);
-      if (mapController != null) {
-        _setCenterOn<OpticShop>(shopList);
-      }
-    });
+    // updateMapObjects.bind((shopList) async {
+    //   await _updateClusterMapObject(shopList!);
+    //   if (mapController != null) {
+    //     _setCenterOn<OpticShop>(shopList);
+    //   }
+    // });
 
-    updateMapObjectsWhenComplete.bind((shopList) {
-      _updateClusterMapObject(shopList!);
-    });
+    // updateMapObjectsWhenComplete.bind((shopList) {
+    //   _updateClusterMapObject(shopList!);
+    // });
 
     moveToUserPosition.bind(
       (value) {
@@ -99,9 +89,9 @@ class MapBodyWM extends WidgetModel {
       },
     );
 
-    setCenterAction.bind(
-      (opticShops) => _setCenterOn(opticShops!),
-    );
+    // setCenterAction.bind(
+    //   (opticShops) => setCenterOn(opticShops!),
+    // );
 
     zoomInAction.bind((_) {
       mapController?.moveCamera(
@@ -125,7 +115,20 @@ class MapBodyWM extends WidgetModel {
   }
 
   @override
+  void onLoad() {
+    // Пришлось обернуть в future, потому что иногда метки не отрисовывались
+    Future<void>.delayed(
+      const Duration(milliseconds: 300),
+      () => updateMapObjects(initOpticShops),
+    );
+    super.onLoad();
+  }
+
+  @override
   void dispose() {
+    // mapController?.dispose();
+    mapController = null;
+
     userPositionStream?.cancel();
     super.dispose();
   }
@@ -140,6 +143,23 @@ class MapBodyWM extends WidgetModel {
 
   //   return list;
   // }
+
+  void updateMapObjectsWhenComplete(List<OpticShop> shopList) {
+    updateMapObjects(
+      shopList,
+      withSetCenter: false,
+    );
+  }
+
+  Future<void> updateMapObjects(
+    List<OpticShop> shopList, {
+    bool withSetCenter = true,
+  }) async {
+    await _updateClusterMapObject(shopList);
+    if (mapController != null && withSetCenter) {
+      unawaited(setCenterOn<OpticShop>(shopList));
+    }
+  }
 
   Future<void> _updateClusterMapObject(
     List<OpticShop> shopList, [
@@ -175,7 +195,7 @@ class MapBodyWM extends WidgetModel {
           ),
         );
       },
-      onClusterTap: (self, cluster) => _setCenterOn(
+      onClusterTap: (self, cluster) => setCenterOn(
         cluster.placemarks,
         withUserPosition: false,
       ),
@@ -241,7 +261,7 @@ class MapBodyWM extends WidgetModel {
     return list;
   }
 
-  Future<void> _setCenterOn<T>(
+  Future<void> setCenterOn<T>(
     List<T> newList, {
     bool withUserPosition = true,
   }) async {

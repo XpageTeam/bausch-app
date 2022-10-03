@@ -47,13 +47,14 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
 class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   late YandexMapController controller;
 
+
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(oldWidget.opticShops, widget.opticShops)) {
       debugPrint('didUpdate');
       wm.updateMapObjects(widget.opticShops);
-      wm.setCenterAction(widget.opticShops);
+      wm.setCenterOn(widget.opticShops);
     }
   }
 
@@ -70,90 +71,11 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
             streamedState: wm.mapObjectsStreamed,
             builder: (context, mapObjects) {
               return YandexMap(
-                // liteModeEnabled: true,
-                // mode2DEnabled: true,
+                mode2DEnabled: true,
                 tiltGesturesEnabled: false,
                 rotateGesturesEnabled: false,
                 mapObjects: mapObjects,
-                onMapCreated: (yandexMapController) {
-                  wm
-                    ..mapController = yandexMapController
-                    ..setCenterAction(widget.opticShops)
-                    ..onGetUserPositionError = (exception) {
-                      showDefaultNotification(title: exception.title);
-                    }
-                    ..onPlacemarkPressed = (shop) async {
-                      if (wm.isModalBottomSheetOpen.value) return;
-                      await wm.isModalBottomSheetOpen.accept(true);
-
-                      final mediaQuery =
-                          MediaQuery.of(Keys.mainNav.currentContext!);
-                      final screenHeight = mediaQuery.size.height;
-                      final maxHeight =
-                          (screenHeight - mediaQuery.viewPadding.top) /
-                              screenHeight;
-                      await showFlexibleBottomSheet<void>(
-                        context: context,
-                        minHeight: 0,
-                        initHeight: 0.3,
-                        maxHeight: maxHeight,
-                        anchors: [0, 0.3, maxHeight],
-                        isModal: false,
-                        builder: (ctx, controller, _) =>
-                            BottomSheetContentOther(
-                          controller: controller,
-                          title: shop.title,
-                          subtitle: shop.address,
-                          phones: shop.phones,
-                          site: shop.site,
-                          // additionalInfo:
-                          //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                          onPressed: () {
-                            widget.onOpticShopSelect(shop);
-                            Navigator.of(context)
-                              ..pop()
-                              ..pop();
-                          },
-                          btnText: 'Выбрать эту сеть оптик',
-                        ),
-                      ).whenComplete(
-                        () {
-                          wm
-                            ..isModalBottomSheetOpen.accept(false)
-                            ..updateMapObjectsWhenComplete(widget.opticShops);
-                        },
-                      );
-                      // await showModalBottomSheet<void>(
-                      //   context: context,
-                      //   barrierColor: Colors.transparent,
-                      //   builder: (ctx) => BottomSheetContent(
-                      //     title: shop.title,
-                      //     subtitle: shop.address,
-                      //     phones: shop.phones,
-                      //     site: shop.site,
-                      //     // additionalInfo:
-                      //     //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                      //     onPressed: () {
-                      //       widget.onOpticShopSelect(shop);
-                      //       Navigator.of(context)
-                      //         ..pop()
-                      //         ..pop();
-                      //     },
-                      //     btnText: widget.selectButtonText,
-                      //   ),
-                      // ).whenComplete(
-                      //   () {
-                      //     wm
-                      //       ..isModalBottomSheetOpen.accept(false)
-                      //       ..updateMapObjectsWhenComplete(widget.opticShops);
-                      //   },
-                      // );
-                    };
-
-                  // if (widget.opticShops.isEmpty) {
-                  //   widget.shopsEmptyCallback(wm);
-                  // }
-                },
+                onMapCreated: onMapCreated,
               );
             },
           ),
@@ -181,8 +103,60 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
     );
   }
 
+  void onMapCreated(YandexMapController yandexMapController) {
+    wm
+      ..mapController = yandexMapController
+      // ..setCenterOn(widget.opticShops)
+      ..onGetUserPositionError = (exception) {
+        showDefaultNotification(title: exception.title);
+      }
+      ..onPlacemarkPressed = (shop) async {
+        if (wm.isModalBottomSheetOpen.value) return;
+        await wm.isModalBottomSheetOpen.accept(true);
+
+        _openBottomSheet(shop);
+      };
+  }
+
   List<CityModel>? sort(List<CityModel> cities) {
     if (cities.isEmpty) return null;
     return cities..sort((a, b) => a.name.compareTo(b.name));
+  }
+
+  Future<void> _openBottomSheet(OpticShop shop) async {
+    final mediaQuery = MediaQuery.of(Keys.mainNav.currentContext!);
+    final screenHeight = mediaQuery.size.height;
+    final maxHeight =
+        (screenHeight - mediaQuery.viewPadding.top) / screenHeight;
+    await showFlexibleBottomSheet<void>(
+      context: context,
+      minHeight: 0,
+      initHeight: 0.3,
+      maxHeight: maxHeight,
+      anchors: [0, 0.3, maxHeight],
+      isModal: false,
+      builder: (ctx, controller, _) => BottomSheetContentOther(
+        controller: controller,
+        title: shop.title,
+        subtitle: shop.address,
+        phones: shop.phones,
+        site: shop.site,
+        // additionalInfo:
+        //     'Скидкой можно воспользоваться в любой из оптик сети.',
+        onPressed: () {
+          widget.onOpticShopSelect(shop);
+          Navigator.of(context)
+            ..pop()
+            ..pop();
+        },
+        btnText: 'Выбрать эту сеть оптик',
+      ),
+    ).whenComplete(
+      () {
+        wm
+          ..isModalBottomSheetOpen.accept(false)
+          ..updateMapObjectsWhenComplete(widget.opticShops);
+      },
+    );
   }
 }

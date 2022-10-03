@@ -18,6 +18,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,8 @@ Future<void> main() async {
   final analytics = FirebaseAnalytics.instance;
 
   AppsflyerSingleton();
+
+  AndroidYandexMap.useAndroidViewSurface = false;
 
   runApp(
     MultiProvider(
@@ -155,7 +158,6 @@ class AppsflyerSingleton {
 
   static AppsflyerSingleton? _instance;
 
-
   factory AppsflyerSingleton() {
     return _instance ??= AppsflyerSingleton._init();
   }
@@ -168,5 +170,4 @@ class AppsflyerSingleton {
       ),
     );
   }
-
 }
