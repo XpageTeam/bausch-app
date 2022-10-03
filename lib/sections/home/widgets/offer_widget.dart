@@ -36,6 +36,7 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
       child: Stack(
         alignment: Alignment.topRight,
         children: [
+          // ignore: use_decorated_box
           Container(
             decoration: BoxDecoration(
               color: AppTheme.sulu,

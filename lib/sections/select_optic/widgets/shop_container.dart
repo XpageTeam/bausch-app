@@ -86,7 +86,7 @@ class ShopContainer extends StatelessWidget {
                 onError: (ex) {
                   showDefaultNotification(
                     title: ex.title,
-                    subtitle: ex.subtitle,
+                    // subtitle: ex.subtitle,
                   );
                 },
               ),

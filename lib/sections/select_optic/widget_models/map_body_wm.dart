@@ -1,6 +1,7 @@
+// ignore_for_file: library_prefixes
+
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
 import 'dart:ui' as UI;
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -40,6 +41,9 @@ class MapBodyWM extends WidgetModel {
 
   final isModalBottomSheetOpen = StreamedState<bool>(false);
 
+  /// Для карты, которая из страницы сертификата открывается немного другая логика отображения меток на карте
+  final bool isCertificateMap;
+
   final zoomInAction = VoidAction();
   final zoomOutAction = VoidAction();
   final moveToUserPosition = VoidAction();
@@ -59,7 +63,6 @@ class MapBodyWM extends WidgetModel {
 
   /// Поток местоположения пользователя
   StreamSubscription<Position>? userPositionStream;
-  final bool isCertificateMap;
 
   MapBodyWM({
     required this.initOpticShops,
@@ -116,11 +119,12 @@ class MapBodyWM extends WidgetModel {
 
   @override
   void onLoad() {
+    updateMapObjects(initOpticShops);
     // Пришлось обернуть в future, потому что иногда метки не отрисовывались
-    Future<void>.delayed(
-      const Duration(milliseconds: 300),
-      () => updateMapObjects(initOpticShops),
-    );
+    // Future<void>.delayed(
+    //   const Duration(milliseconds: 100),
+    //   () => updateMapObjects(initOpticShops),
+    // );
     super.onLoad();
   }
 
@@ -155,10 +159,65 @@ class MapBodyWM extends WidgetModel {
     List<OpticShop> shopList, {
     bool withSetCenter = true,
   }) async {
+    await Future<void>.delayed(
+      const Duration(milliseconds: 100),
+    );
     await _updateClusterMapObject(shopList);
     if (mapController != null && withSetCenter) {
       unawaited(setCenterOn<OpticShop>(shopList));
     }
+  }
+
+  Future<void> setCenterOn<T>(
+    List<T> newList, {
+    bool withUserPosition = true,
+  }) async {
+    // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
+    if (newList.isEmpty) return;
+
+    final list = newList;
+    // debugPrint('list: $list');
+
+    await Future<void>.delayed(
+      const Duration(
+        milliseconds: 100,
+      ),
+    );
+
+    BoundingBox? bounds;
+
+    if (list is List<Point>) {
+      bounds = _getBounds(
+        list as List<Point>,
+        withUserPosition: withUserPosition,
+      );
+    } else if (list is List<PlacemarkMapObject>) {
+      bounds = _getBounds(
+        (list as List<PlacemarkMapObject>).map((e) => e.point).toList(),
+        withUserPosition: withUserPosition,
+      );
+    } else if (list is List<ShopModel>) {
+      bounds = _getBounds(
+        (list as List<ShopModel>).map((e) => e.coords!).toList(),
+        withUserPosition: withUserPosition,
+      );
+    } else if (list is List<OpticShop>) {
+      bounds = _getBounds(
+        (list as List<OpticShop>).map((e) => e.coords).toList(),
+        withUserPosition: withUserPosition,
+      );
+    } else {
+      return;
+    }
+
+    await Future.delayed(
+      const Duration(
+        milliseconds: 100,
+      ),
+      () async => mapController?.moveCamera(
+        CameraUpdate.newBounds(bounds!),
+      ),
+    );
   }
 
   Future<void> _updateClusterMapObject(
@@ -206,7 +265,7 @@ class MapBodyWM extends WidgetModel {
     );
 
     mapObjectsStreamed.value.add(placemarkCollection);
-    mapObjectsStreamed.accept(mapObjectsStreamed.value);
+    unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
   }
 
   Future<List<PlacemarkMapObject>> _generatePlacemarks({
@@ -226,9 +285,9 @@ class MapBodyWM extends WidgetModel {
 
       list.add(
         PlacemarkMapObject(
-          onTap: (placemark, point) async {
+          onTap: (placemark, point) {
             _updateClusterMapObject(shopList, i);
-            unawaited(_moveTo(placemark.point));
+            _moveTo(placemark.point);
             onPlacemarkPressed?.call(shopList[i]);
           },
           opacity: 1,
@@ -259,58 +318,6 @@ class MapBodyWM extends WidgetModel {
     // debugPrint('list len: ${list.length}');
 
     return list;
-  }
-
-  Future<void> setCenterOn<T>(
-    List<T> newList, {
-    bool withUserPosition = true,
-  }) async {
-    // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
-    if (newList.isEmpty) return;
-
-    final list = newList;
-    debugPrint('list: $list');
-
-    await Future<void>.delayed(
-      const Duration(
-        milliseconds: 200,
-      ),
-    );
-
-    BoundingBox? bounds;
-
-    if (list is List<Point>) {
-      bounds = _getBounds(
-        list as List<Point>,
-        withUserPosition: withUserPosition,
-      );
-    } else if (list is List<PlacemarkMapObject>) {
-      bounds = _getBounds(
-        (list as List<PlacemarkMapObject>).map((e) => e.point).toList(),
-        withUserPosition: withUserPosition,
-      );
-    } else if (list is List<ShopModel>) {
-      bounds = _getBounds(
-        (list as List<ShopModel>).map((e) => e.coords!).toList(),
-        withUserPosition: withUserPosition,
-      );
-    } else if (list is List<OpticShop>) {
-      bounds = _getBounds(
-        (list as List<OpticShop>).map((e) => e.coords).toList(),
-        withUserPosition: withUserPosition,
-      );
-    } else {
-      return;
-    }
-
-    await Future.delayed(
-      const Duration(
-        milliseconds: 200,
-      ),
-      () async => mapController?.moveCamera(
-        CameraUpdate.newBounds(bounds!),
-      ),
-    );
   }
 
   Future<void> _updateUserPosition({
@@ -451,7 +458,7 @@ class MapBodyWM extends WidgetModel {
 
     await _trySetCityByUserPosition(position);
 
-    userPositionStream?.cancel();
+    await userPositionStream?.cancel();
 
     userPositionStream = Geolocator.getPositionStream().listen(
       (position) {
@@ -550,7 +557,7 @@ class MapBodyWM extends WidgetModel {
     //   ..color = AppTheme.sulu
     //   ..style = PaintingStyle.fill;
 
-    final radius = 27.0; // min(max(cluster.size * 6.0, 30), 50).toDouble();
+    const radius = 27.0; // min(max(cluster.size * 6.0, 30), 50).toDouble();
 
     final textPainter = TextPainter(
       text: TextSpan(
@@ -570,9 +577,10 @@ class MapBodyWM extends WidgetModel {
 
     final circleOffset = Offset(size.width / 2, size.height / 2 - 10);
 
-    canvas.drawCircle(circleOffset, radius + 12, whiteFillPaint);
-    canvas.drawCircle(circleOffset, radius + 8, mineShaftFillPaint);
-    canvas.drawCircle(circleOffset, radius, suluFillPaint);
+    canvas
+      ..drawCircle(circleOffset, radius + 12, whiteFillPaint)
+      ..drawCircle(circleOffset, radius + 8, mineShaftFillPaint)
+      ..drawCircle(circleOffset, radius, suluFillPaint);
 
     textPainter.paint(canvas, textOffset);
 

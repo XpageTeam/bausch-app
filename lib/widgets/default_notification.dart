@@ -42,7 +42,7 @@ OverlaySupportEntry showDefaultNotification({
 void showTopError(CustomException ex) {
   showDefaultNotification(
     title: ex.title,
-    subtitle: ex.subtitle,
+    // subtitle: ex.subtitle,
   );
 }
 

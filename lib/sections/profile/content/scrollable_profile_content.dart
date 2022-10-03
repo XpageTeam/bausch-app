@@ -1,5 +1,4 @@
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/sections/profile/content/notifications_section.dart';
 import 'package:bausch/sections/profile/content/orders_section.dart';
 import 'package:bausch/sections/profile/content/wm/profile_content_wm.dart';
@@ -43,7 +42,7 @@ class _ScrollableProfileContentState
 
           return ErrorPage(
             title: e.title,
-            subtitle: e.subtitle,
+            // subtitle: e.subtitle,
             buttonText: 'Обновить',
             buttonCallback: wm.allDataLoadAction,
           );

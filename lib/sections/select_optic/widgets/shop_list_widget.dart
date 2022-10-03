@@ -1,5 +1,4 @@
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
-import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_container.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_container_with_button.dart';
@@ -7,7 +6,6 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 class ShopListWidget extends StatelessWidget {
   final List<OpticShop> shopList;
@@ -56,7 +54,6 @@ class ShopListWidget extends StatelessWidget {
                                 final maxHeight = (screenHeight -
                                         mediaQuery.viewPadding.top) /
                                     screenHeight;
-                                debugPrint('maxHeight: $maxHeight');
                                 showFlexibleBottomSheet<void>(
                                   context: context,
                                   minHeight: 0,

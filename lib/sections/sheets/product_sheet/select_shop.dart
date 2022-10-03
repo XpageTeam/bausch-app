@@ -103,7 +103,7 @@ class _SelectShopSectionState extends State<SelectShopSection> {
                                   onError: (ex) {
                                     showDefaultNotification(
                                       title: ex.title,
-                                      subtitle: ex.subtitle,
+                                      // subtitle: ex.subtitle,
                                     );
                                   },
                                 ),

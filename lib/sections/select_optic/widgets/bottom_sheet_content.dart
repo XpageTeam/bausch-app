@@ -1,13 +1,11 @@
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 class BottomSheetContent extends StatelessWidget {
   final String title;
@@ -143,7 +141,7 @@ class BottomSheetContent extends StatelessWidget {
                     onError: (ex) {
                       showDefaultNotification(
                         title: ex.title,
-                        subtitle: ex.subtitle,
+                        // subtitle: ex.subtitle,
                       );
                     },
                   ),
@@ -306,7 +304,7 @@ class BottomSheetContentOther extends StatelessWidget {
                             onError: (ex) {
                               showDefaultNotification(
                                 title: ex.title,
-                                subtitle: ex.subtitle,
+                                // subtitle: ex.subtitle,
                               );
                             },
                           ),

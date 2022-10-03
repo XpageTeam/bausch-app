@@ -49,7 +49,7 @@ class PhoneEditingController extends TextEditingController {
   }
 
   void _toEndPosition() {
-    debugPrint('$_phoneLength');
+    // debugPrint('$_phoneLength');
     selection = TextSelection.fromPosition(
       TextPosition(offset: _phoneLength),
     );

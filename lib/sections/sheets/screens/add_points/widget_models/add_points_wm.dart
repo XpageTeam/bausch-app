@@ -62,7 +62,7 @@ class AddPointsWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
 
       await addPointsList.content([]);

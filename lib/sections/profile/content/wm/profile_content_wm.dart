@@ -103,7 +103,7 @@ class ProfileContentWM extends WidgetModel {
           unreadCount++;
         }
       });
-      updateNotificationsAmount(unreadCount);
+      unawaited(updateNotificationsAmount(unreadCount));
     } on DioError catch (e) {
       await notificationsList.error(CustomException(
         title: 'При загрузке уведомлений произошла ошибка',

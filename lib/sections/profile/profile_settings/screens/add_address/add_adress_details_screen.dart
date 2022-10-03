@@ -8,11 +8,11 @@ import 'package:bausch/sections/profile/profile_settings/screens/add_address/blo
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
 import 'package:bausch/widgets/buttons/text_button_icon.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -101,7 +101,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
           if (state is AddressesFailed) {
             showDefaultNotification(
               title: state.title,
-              subtitle: state.subtitle,
+              // subtitle: state.subtitle,
             );
             isButtonPressed = false;
           }

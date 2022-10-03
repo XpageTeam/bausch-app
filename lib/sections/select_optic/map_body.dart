@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -47,14 +49,11 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
 class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   late YandexMapController controller;
 
-
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(oldWidget.opticShops, widget.opticShops)) {
-      debugPrint('didUpdate');
       wm.updateMapObjects(widget.opticShops);
-      wm.setCenterOn(widget.opticShops);
     }
   }
 
@@ -114,7 +113,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
         if (wm.isModalBottomSheetOpen.value) return;
         await wm.isModalBottomSheetOpen.accept(true);
 
-        _openBottomSheet(shop);
+        unawaited(_openBottomSheet(shop));
       };
   }
 

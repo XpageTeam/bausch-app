@@ -200,7 +200,10 @@ class MainScreenWM extends WidgetModel {
     }
 
     if (error != null) {
-      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
     }
   }
 
@@ -303,7 +306,10 @@ class MainScreenWM extends WidgetModel {
     }
 
     if (error != null) {
-      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
 
       await banners.content(
         banners.value.data ??

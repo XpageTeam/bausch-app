@@ -23,7 +23,7 @@ class ButtonWithPoints extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          primary: AppTheme.grey,
+          foregroundColor: AppTheme.grey,
           backgroundColor: AppTheme.mystic,
         ),
         child: ButtonContent(
