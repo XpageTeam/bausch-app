@@ -154,8 +154,9 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                   child: _InfoBlock(
                     headerText: 'В программе участвуют',
                     content: GestureDetector(
-                      onTap: (){
-                        AppsflyerSingleton.sdk.logEvent('programmShowItem', null);
+                      onTap: () {
+                        AppsflyerSingleton.sdk
+                            .logEvent('programmShowItem', null);
                       },
                       child: SimpleSlider<Product>(
                         items: primaryData.products,
@@ -171,54 +172,6 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                   ),
                 ),
               ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                StaticData.sidePadding,
-                0,
-                StaticData.sidePadding,
-                40.0,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: StreamedStateBuilder<Optic?>(
-                  streamedState: wm.currentOpticStreamed,
-                  builder: (_, currentOptic) => WhiteButton(
-                    text: currentOptic == null
-                        ? 'Выбрать оптику'
-                        : wm.fullAddress,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 12,
-                        top: 10,
-                        bottom: 12,
-                      ),
-                      child: Image.asset(
-                        'assets/icons/map-marker.png',
-                        height: 16,
-                      ),
-                    ),
-                    onPressed: () {
-                      AppsflyerSingleton.sdk.logEvent('programmShowOpticsMap', null);
-                      Keys.mainNav.currentState!.push<void>(
-                        MaterialPageRoute(
-                          builder: (context) => SelectOpticScreen(
-                            selectButtonText: 'Выбрать оптику',
-                            onOpticSelect: (optic, city, shop) {
-                              wm.city = city;
-
-                              if (shop != null) {
-                                wm.selectOptic(optic.copyWith(shops: [shop]));
-                              } else {
-                                wm.selectOptic(optic);
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(
                 StaticData.sidePadding,
@@ -312,6 +265,59 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                StaticData.sidePadding,
+                0,
+                StaticData.sidePadding,
+                40.0,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: StreamedStateBuilder<Optic?>(
+                  streamedState: wm.currentOpticStreamed,
+                  builder: (_, currentOptic) => WhiteButton(
+                    text: currentOptic == null
+                        ? 'Выбрать оптику'
+                        : wm.fullAddress,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 12,
+                        top: 10,
+                        bottom: 12,
+                      ),
+                      child: Image.asset(
+                        'assets/icons/map-marker.png',
+                        height: 16,
+                      ),
+                    ),
+                    onPressed: () {
+                      AppsflyerSingleton.sdk
+                          .logEvent('programmShowOpticsMap', null);
+                      Keys.mainNav.currentState!.push<void>(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            debugPrint('city: ${wm.city}');
+                            return SelectOpticScreen(
+                              initialCity: wm.city,
+                              selectButtonText: 'Выбрать оптику',
+                              onOpticSelect: (optic, city, shop) {
+                                wm.city = city;
+
+                                if (shop != null) {
+                                  wm.selectOptic(optic.copyWith(shops: [shop]));
+                                } else {
+                                  wm.selectOptic(optic);
+                                }
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

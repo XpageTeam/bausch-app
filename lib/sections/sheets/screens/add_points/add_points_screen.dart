@@ -1,4 +1,5 @@
 import 'package:bausch/models/add_points/add_points_model.dart';
+import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.dart';
@@ -6,6 +7,8 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
+import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -54,6 +57,9 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
         EntityStateBuilder<List<AddPointsModel>>(
           streamedState: wm.addPointsList,
           loadingChild: SliverList(delegate: SliverChildListDelegate([])),
+          errorChild: const SliverToBoxAdapter(
+            child: SizedBox(),
+          ),
           builder: (_, items) {
             if (items.isNotEmpty) {
               return SliverAppBar(
@@ -101,6 +107,49 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                 [
                   const Center(
                     child: AnimatedLoader(),
+                  ),
+                ],
+              ),
+            ),
+            errorChild: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: const EdgeInsets.only(
+                      top: 30,
+                      bottom: 20,
+                    ),
+                    child: Text(
+                      'Не удалось загрузить',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: AppTheme.mineShaft,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 24,
+                        height: 31 / 24,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BlueButton(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 16,
+                            ),
+                            child: Text(
+                              'Обновить',
+                              style: AppStyles.h2,
+                            ),
+                          ),
+                        ],
+                        onPressed: wm.loadInfoAction,
+                      ),
+                    ],
                   ),
                 ],
               ),

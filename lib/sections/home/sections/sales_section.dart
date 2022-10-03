@@ -183,6 +183,14 @@ class _WideSaleContainerState extends State<WideSaleContainer> {
   }
 
   @override
+  void didUpdateWidget(covariant WideSaleContainer oldWidget) {
+    if (oldWidget.item != widget.item) {
+      catalogItemCubit = CatalogItemCubit(section: widget.item.type);
+      super.didUpdateWidget(oldWidget);
+    }
+  }
+
+  @override
   void dispose() {
     catalogItemCubit.close();
     super.dispose();
@@ -190,8 +198,8 @@ class _WideSaleContainerState extends State<WideSaleContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => catalogItemCubit,
+    return BlocProvider.value(
+      value: catalogItemCubit,
       child: SheetListener(
         model: widget.item,
         child: WhiteContainerWithRoundedCorners(

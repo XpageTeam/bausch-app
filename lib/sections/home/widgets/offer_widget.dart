@@ -31,12 +31,12 @@ class OfferWidget extends CoreMwwmWidget<OfferWidgetWM> {
 class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topRight,
-      children: [
-        GestureDetector(
-          onTap: widget.onPressed,
-          child: DecoratedBox(
+    return GestureDetector(
+      onTap: widget.onPressed,
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Container(
             decoration: BoxDecoration(
               color: AppTheme.sulu,
               borderRadius: BorderRadius.circular(5),
@@ -109,38 +109,53 @@ class _OfferWidgetState extends WidgetState<OfferWidget, OfferWidgetWM> {
                               : const SizedBox();
                         },
                       ),
-                      InkWell(
-                        onTap: widget.onPressed,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/banner-icon.png',
-                              height: 70,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/banner-icon.png',
+                            height: 70,
+                          ),
+                          const Positioned(
+                            child: Icon(
+                              Icons.arrow_forward_sharp,
                             ),
-                            const Positioned(
-                              child: Icon(
-                                Icons.arrow_forward_sharp,
-                              ),
-                              right: 13,
-                            ),
-                          ],
-                        ),
+                            right: 13,
+                          ),
+                        ],
                       ),
+                      // InkWell(
+                      //   onTap: widget.onPressed,
+                      //   child: Stack(
+                      //     alignment: Alignment.center,
+                      //     children: [
+                      //       Image.asset(
+                      //         'assets/banner-icon.png',
+                      //         height: 70,
+                      //       ),
+                      //       const Positioned(
+                      //         child: Icon(
+                      //           Icons.arrow_forward_sharp,
+                      //         ),
+                      //         right: 13,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
               ),
             ),
           ),
-        ),
-        if (widget.offer.isClosable)
-          IconButton(
-            onPressed: widget.onClose,
-            icon: const Icon(Icons.close),
-            splashRadius: 5,
-          ),
-      ],
+          if (widget.offer.isClosable)
+            IconButton(
+              onPressed: widget.onClose,
+              icon: const Icon(Icons.close),
+              splashRadius: 5,
+            ),
+        ],
+      ),
     );
   }
 }

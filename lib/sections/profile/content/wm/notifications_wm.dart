@@ -142,7 +142,9 @@ class NotificationsWM extends WidgetModel {
 
   void _readAll() {
     updateCallback?.call(0);
-    final unreaded = items.where((element) => element.read == null || false);
+    final unreaded = items.where(
+      (element) => element.read != null && !element.read!,
+    );
 
     unawaited(
       _requester.sendNotificationsRead(
