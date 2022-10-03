@@ -214,7 +214,7 @@ class SelectOpticScreenWM extends WidgetModel {
       filters.add(newFilter);
     }
 
-    debugPrint('filters: $filters');
+    // debugPrint('filters: $filters');
 
     selectedCommonFiltersState.accept(filters);
   }

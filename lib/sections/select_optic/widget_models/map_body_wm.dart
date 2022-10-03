@@ -119,11 +119,12 @@ class MapBodyWM extends WidgetModel {
 
   @override
   void onLoad() {
+    updateMapObjects(initOpticShops);
     // Пришлось обернуть в future, потому что иногда метки не отрисовывались
-    Future<void>.delayed(
-      const Duration(milliseconds: 300),
-      () => updateMapObjects(initOpticShops),
-    );
+    // Future<void>.delayed(
+    //   const Duration(milliseconds: 100),
+    //   () => updateMapObjects(initOpticShops),
+    // );
     super.onLoad();
   }
 
@@ -158,6 +159,9 @@ class MapBodyWM extends WidgetModel {
     List<OpticShop> shopList, {
     bool withSetCenter = true,
   }) async {
+    await Future<void>.delayed(
+      const Duration(milliseconds: 100),
+    );
     await _updateClusterMapObject(shopList);
     if (mapController != null && withSetCenter) {
       unawaited(setCenterOn<OpticShop>(shopList));
@@ -172,11 +176,11 @@ class MapBodyWM extends WidgetModel {
     if (newList.isEmpty) return;
 
     final list = newList;
-    debugPrint('list: $list');
+    // debugPrint('list: $list');
 
     await Future<void>.delayed(
       const Duration(
-        milliseconds: 200,
+        milliseconds: 100,
       ),
     );
 
@@ -208,7 +212,7 @@ class MapBodyWM extends WidgetModel {
 
     await Future.delayed(
       const Duration(
-        milliseconds: 200,
+        milliseconds: 100,
       ),
       () async => mapController?.moveCamera(
         CameraUpdate.newBounds(bounds!),

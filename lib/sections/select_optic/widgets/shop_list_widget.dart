@@ -54,7 +54,6 @@ class ShopListWidget extends StatelessWidget {
                                 final maxHeight = (screenHeight -
                                         mediaQuery.viewPadding.top) /
                                     screenHeight;
-                                debugPrint('maxHeight: $maxHeight');
                                 showFlexibleBottomSheet<void>(
                                   context: context,
                                   minHeight: 0,

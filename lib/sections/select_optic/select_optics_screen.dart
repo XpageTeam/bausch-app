@@ -122,7 +122,7 @@ class _SelectOpticScreenState
                     final filters = Filter.getFiltersFromOpticList(
                       optics,
                     );
-                    debugPrint('optics: ${optics.length}');
+                    // debugPrint('optics: ${optics.length}');
                     return Padding(
                       padding: const EdgeInsets.only(
                         // left: StaticData.sidePadding,

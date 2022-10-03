@@ -300,7 +300,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       Keys.mainNav.currentState!.push<void>(
                         MaterialPageRoute(
                           builder: (context) {
-                            debugPrint('city: ${wm.city}');
+                            // debugPrint('city: ${wm.city}');
                             return SelectOpticScreen(
                               initialCity: wm.city,
                               selectButtonText: 'Выбрать оптику',
