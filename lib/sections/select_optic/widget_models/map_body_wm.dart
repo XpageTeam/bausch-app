@@ -81,8 +81,8 @@ class MapBodyWM extends WidgetModel {
 
   @override
   void onBind() {
-    updateMapObjects.bind((shopList) {
-      _updateClusterMapObject(shopList!);
+    updateMapObjects.bind((shopList) async {
+      await _updateClusterMapObject(shopList!);
       if (mapController != null) {
         _setCenterOn<OpticShop>(shopList);
       }

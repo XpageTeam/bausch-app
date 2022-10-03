@@ -34,7 +34,8 @@ class ShopContainerWithButton extends StatelessWidget {
           color: Colors.white,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             //* Название магазина
@@ -67,7 +68,9 @@ class ShopContainerWithButton extends StatelessWidget {
                         if (await canLaunchUrlString(url)) {
                           await launchUrlString(url);
                         } else {
-                          await Future<dynamic>.error('Could not launch $url');
+                          await Future<dynamic>.error(
+                            'Could not launch $url',
+                          );
                         }
                       },
                       child: Text(

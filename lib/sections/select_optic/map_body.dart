@@ -1,9 +1,11 @@
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/select_optic/widget_models/map_body_wm.dart';
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/map_buttons.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -84,10 +86,22 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                       if (wm.isModalBottomSheetOpen.value) return;
                       await wm.isModalBottomSheetOpen.accept(true);
 
-                      await showModalBottomSheet<void>(
+                      final mediaQuery =
+                          MediaQuery.of(Keys.mainNav.currentContext!);
+                      final screenHeight = mediaQuery.size.height;
+                      final maxHeight =
+                          (screenHeight - mediaQuery.viewPadding.top) /
+                              screenHeight;
+                      await showFlexibleBottomSheet<void>(
                         context: context,
-                        barrierColor: Colors.transparent,
-                        builder: (ctx) => BottomSheetContent(
+                        minHeight: 0,
+                        initHeight: 0.3,
+                        maxHeight: maxHeight,
+                        anchors: [0, 0.3, maxHeight],
+                        isModal: false,
+                        builder: (ctx, controller, _) =>
+                            BottomSheetContentOther(
+                          controller: controller,
                           title: shop.title,
                           subtitle: shop.address,
                           phones: shop.phones,
@@ -100,7 +114,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                               ..pop()
                               ..pop();
                           },
-                          btnText: widget.selectButtonText,
+                          btnText: 'Выбрать эту сеть оптик',
                         ),
                       ).whenComplete(
                         () {
@@ -109,6 +123,31 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                             ..updateMapObjectsWhenComplete(widget.opticShops);
                         },
                       );
+                      // await showModalBottomSheet<void>(
+                      //   context: context,
+                      //   barrierColor: Colors.transparent,
+                      //   builder: (ctx) => BottomSheetContent(
+                      //     title: shop.title,
+                      //     subtitle: shop.address,
+                      //     phones: shop.phones,
+                      //     site: shop.site,
+                      //     // additionalInfo:
+                      //     //     'Скидкой можно воспользоваться в любой из оптик сети.',
+                      //     onPressed: () {
+                      //       widget.onOpticShopSelect(shop);
+                      //       Navigator.of(context)
+                      //         ..pop()
+                      //         ..pop();
+                      //     },
+                      //     btnText: widget.selectButtonText,
+                      //   ),
+                      // ).whenComplete(
+                      //   () {
+                      //     wm
+                      //       ..isModalBottomSheetOpen.accept(false)
+                      //       ..updateMapObjectsWhenComplete(widget.opticShops);
+                      //   },
+                      // );
                     };
 
                   // if (widget.opticShops.isEmpty) {
