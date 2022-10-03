@@ -1,4 +1,5 @@
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/sections/faq/social_buttons/cubit/social_cubit.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -22,6 +23,8 @@ class _SocialButtonsState extends State<SocialButtons> {
       bloc: socialCubit,
       builder: (context, state) {
         if (state is SocialSuccess) {
+          final socialLinks = state.models;
+
           return Column(
             children: [
               const Padding(
@@ -35,44 +38,18 @@ class _SocialButtonsState extends State<SocialButtons> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
-                height: 45,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, i) {
-                    return CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 22,
-                      child: IconButton(
-                        onPressed: () {
-                          //debugPrint(state.models[i].url);
-                          Utils.tryLaunchUrl(
-                            rawUrl: state.models[i].url,
-                            onError: (ex) {
-                              showDefaultNotification(
-                                title: ex.title,
-                                subtitle: ex.subtitle,
-                              );
-                            },
-                          );
-                        },
-                        padding: EdgeInsets.zero,
-                        icon: ExtendedImage.network(
-                          state.models[i].icon,
-                          height: 16,
-                          printError: false,
-                          loadStateChanged: loadStateChangedFunction,
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, i) {
-                    return const SizedBox(
-                      width: 30,
-                    );
-                  },
-                  itemCount: state.models.length,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  socialLinks.length,
+                  (index) => Padding(
+                    padding: EdgeInsets.only(
+                      left: index != 0 ? 30.0 : 0,
+                    ),
+                    child: SocialButton(
+                      model: socialLinks[index],
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -82,6 +59,52 @@ class _SocialButtonsState extends State<SocialButtons> {
           height: 99,
         );
       },
+    );
+  }
+}
+
+class SocialButton extends StatelessWidget {
+  final SocialModel model;
+  final double size;
+
+  const SocialButton({
+    required this.model,
+    this.size = 45,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Utils.tryLaunchUrl(
+          rawUrl: model.url,
+          onError: (ex) {
+            showDefaultNotification(
+              title: ex.title,
+              subtitle: ex.subtitle,
+            );
+          },
+        );
+      },
+      child: Container(
+        height: size,
+        width: size,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            size / 2,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(
+            15.0,
+          ),
+          child: Image.network(
+            model.icon,
+          ),
+        ),
+      ),
     );
   }
 }

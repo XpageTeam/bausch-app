@@ -294,12 +294,10 @@ class DiscountOpticsScreenWM extends WidgetModel {
             discountOpticsStreamed.content(allOptics),
           );
         } else if (!cities.any(_equalsCurrentCity)) {
-          await currentOfflineCity.accept(allOptics.first.shops.first.city);
+          await currentOfflineCity.accept(null);
 
           unawaited(
-            discountOpticsStreamed.content(
-              await _filterOpticsBySelectedOfflineCity(),
-            ),
+            discountOpticsStreamed.content(allOptics),
           );
         } else if (cities.any(_equalsCurrentCity)) {
           unawaited(

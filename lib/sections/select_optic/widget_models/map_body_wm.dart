@@ -71,7 +71,7 @@ class MapBodyWM extends WidgetModel {
   void onLoad() {
     // Пришлось обернуть в future, потому что иногда метки не отрисовывались
     Future.delayed(
-      Duration.zero,
+      const Duration(milliseconds: 100),
       () => updateMapObjects(initOpticShops),
     );
     super.onLoad();
@@ -80,10 +80,15 @@ class MapBodyWM extends WidgetModel {
   @override
   void onBind() {
     updateMapObjects.bind((shopList) {
-      _updateClusterMapObject(shopList!);
-      if (mapController != null) {
-        _setCenterOn<OpticShop>(shopList);
-      }
+      Future.delayed(
+        const Duration(milliseconds: 100),
+        () {
+          _updateClusterMapObject(shopList!);
+          if (mapController != null) {
+            _setCenterOn<OpticShop>(shopList);
+          }
+        },
+      );
     });
 
     updateMapObjectsWhenComplete.bind((shopList) {

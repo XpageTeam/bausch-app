@@ -15,8 +15,8 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class CityScreenWM extends WidgetModel {
   final List<String>? citiesWithShops;
 
-  final citiesList = EntityStreamedState<List<DadataCity>>();
-  final daDataCitiesList = EntityStreamedState<List<DadataResponseModel>>();
+  final citiesList = EntityStreamedState<List<String>>();
+  // final daDataCitiesList = EntityStreamedState<List<DadataResponseModel>>();
 
   final citiesListReloadAction = VoidAction();
   final selectCityAction = VoidAction();
@@ -24,7 +24,7 @@ class CityScreenWM extends WidgetModel {
   final confirmAction = StreamedAction<DadataResponseModel>();
 
   final citiesFilterController = TextEditingController();
-  final filteredCitiesList = StreamedState<List<DadataCity>>([]);
+  final filteredCitiesList = StreamedState<List<String>>([]);
 
   final isSearchActive = StreamedState<bool>(false);
   final canCompleteSearch = StreamedState<bool>(false);
@@ -43,24 +43,22 @@ class CityScreenWM extends WidgetModel {
       _loadCities();
     } else {
       // Это используется для карты
-      citiesList.content(
-        citiesWithShops!
-            .map(
-              (e) => DadataCity(
-                kladrID: 'kladrID',
-                fiasID: 'fiasID',
-                postalCode: 'postalCode',
-                fiasLevel: 'fiasLevel',
-                timezone: 'timezone',
-                cityType: 'cityType',
-                name: e,
-                regionType: 'regionType',
-                regionName: 'regionName',
-                address: 'address',
-              ),
-            )
-            .toList(),
-      );
+      citiesList.content(citiesWithShops!);
+      // .map(
+      //   (e) => DadataCity(
+      //     kladrID: 'kladrID',
+      //     fiasID: 'fiasID',
+      //     postalCode: 'postalCode',
+      //     fiasLevel: 'fiasLevel',
+      //     timezone: 'timezone',
+      //     cityType: 'cityType',
+      //     name: e,
+      //     regionType: 'regionType',
+      //     regionName: 'regionName',
+      //     address: 'address',
+      //   ),
+      // )
+      // .toList(),
     }
   }
 
@@ -113,6 +111,7 @@ class CityScreenWM extends WidgetModel {
         } else {
           canCompleteSearch.accept(false);
           isSearchActive.accept(false);
+          filteredCitiesList.accept(citiesList.value.data!);
         }
       } else {
         _filterCities();
@@ -133,27 +132,21 @@ class CityScreenWM extends WidgetModel {
     unawaited(citiesList.loading());
 
     try {
-      final parsedCities = const CsvToListConverter(
-        eol: '\n',
-      ).convert<dynamic>((await _requester.loadCities()).data as String);
+      // final parsedCities = const CsvToListConverter(
+      //   eol: '\n',
+      // ).convert<dynamic>((await _requester.loadCities()).data as String);
 
-      final cities = parsedCities.map((item) {
-        return DadataCity.fromCSV(item);
-      }).toList();
+      // final cities = parsedCities.map((item) {
+      //   return DadataCity.fromCSV(item);
+      // }).toList();
+
+      // await citiesList.content(cities);
+
+      final cities = await _parseCityList(
+        (await _requester.loadCities()).data as List<dynamic>,
+      );
 
       await citiesList.content(cities);
-
-      // //* https://ultralinzi.catzwolf.ru/api/v1/optics.cities/
-      // final _rh = RequestHandler();
-
-      // final data = (await _rh.get<Map<String, dynamic>>(
-      //   'https://ultralinzi.catzwolf.ru/api/v1/optics.cities/',
-      //   withApiUrl: false,
-
-      //   options: _rh.cacheOptions?.toOptions(),
-      // ))
-      //     .data!;
-      // debugPrint('data: ${data}');
     } on DioError catch (e) {
       log(e.message);
       await citiesList.error(
@@ -190,58 +183,65 @@ class CityScreenWM extends WidgetModel {
     }
   }
 
+  Future<List<String>> _parseCityList(List<dynamic> rawCityList) async {
+    final cities = rawCityList
+        .map((dynamic e) => (e as Map<String, dynamic>)['name'] as String)
+        .toList();
+    return cities;
+  }
+
   Future<void> _filterCities() async {
     /// если введён поисковый запрос
-    if (citiesWithShops == null && citiesFilterController.text != '') {
-      if (daDataCitiesList.value.isLoading) return;
+    // if (citiesWithShops == null && citiesFilterController.text != '') {
+    //   if (daDataCitiesList.value.isLoading) return;
 
-      unawaited(daDataCitiesList.loading(daDataCitiesList.value.data));
+    //   unawaited(daDataCitiesList.loading(daDataCitiesList.value.data));
 
-      try {
-        await daDataCitiesList.content(
-          await _requester.loadDadataCities(citiesFilterController.text),
-        );
-      } on DioError catch (e) {
-        await citiesList.error(
-          CustomException(
-            title: 'При загрузке списка городов произошла ошибка',
-            subtitle: e.message,
-            ex: e,
-          ),
-        );
-      } on ResponseParseException catch (e) {
-        await citiesList.error(
-          CustomException(
-            title: 'При обработке ответа от сервера произошла ошибка',
-            subtitle: e.toString(),
-            ex: e,
-          ),
-        );
-      } on SuccessFalse catch (e) {
-        await citiesList.error(
-          CustomException(
-            title: e.toString(),
-            ex: e,
-          ),
-        );
-        // ignore: avoid_catches_without_on_clauses
-      } catch (e) {
-        await citiesList.error(
-          CustomException(
-            title: 'При загрузке списка городов произошла ошибка',
-            subtitle: e.toString(),
-          ),
-        );
-      }
+    //   try {
+    //     await daDataCitiesList.content(
+    //       await _requester.loadDadataCities(citiesFilterController.text),
+    //     );
+    //   } on DioError catch (e) {
+    //     await citiesList.error(
+    //       CustomException(
+    //         title: 'При загрузке списка городов произошла ошибка',
+    //         subtitle: e.message,
+    //         ex: e,
+    //       ),
+    //     );
+    //   } on ResponseParseException catch (e) {
+    //     await citiesList.error(
+    //       CustomException(
+    //         title: 'При обработке ответа от сервера произошла ошибка',
+    //         subtitle: e.toString(),
+    //         ex: e,
+    //       ),
+    //     );
+    //   } on SuccessFalse catch (e) {
+    //     await citiesList.error(
+    //       CustomException(
+    //         title: e.toString(),
+    //         ex: e,
+    //       ),
+    //     );
+    //     // ignore: avoid_catches_without_on_clauses
+    //   } catch (e) {
+    //     await citiesList.error(
+    //       CustomException(
+    //         title: 'При загрузке списка городов произошла ошибка',
+    //         subtitle: e.toString(),
+    //       ),
+    //     );
+    //   }
 
-      return;
-    }
+    //   return;
+    // }
 
-    final filteredList = <DadataCity>[];
+    final filteredList = <String>[];
 
     citiesList.value.data?.forEach(
       (city) {
-        if (city.name
+        if (city
                 .toLowerCase()
                 .indexOf(citiesFilterController.text.toLowerCase()) ==
             0) {
