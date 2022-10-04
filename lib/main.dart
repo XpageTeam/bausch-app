@@ -154,20 +154,22 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
 }
 
 class AppsflyerSingleton {
+  static final AppsflyerSingleton _singleton = AppsflyerSingleton._internal();
   static late AppsflyerSdk sdk;
 
-  static AppsflyerSingleton? _instance;
-
   factory AppsflyerSingleton() {
-    return _instance ??= AppsflyerSingleton._init();
-  }
-
-  AppsflyerSingleton._init() {
     sdk = AppsflyerSdk(
       AppsFlyerOptions(
-        afDevKey: 'sadf',
-        showDebug: true,
+        afDevKey: 'tKZasDXefUEpQwds8CTvM3',
+        // showDebug: false,
+        appId: '1624464666',
+        disableAdvertisingIdentifier: true,
       ),
     );
+
+    sdk.initSdk();
+
+    return _singleton;
   }
+  AppsflyerSingleton._internal();
 }
