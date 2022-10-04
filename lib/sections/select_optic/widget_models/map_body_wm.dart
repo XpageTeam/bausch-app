@@ -284,6 +284,7 @@ class MapBodyWM extends WidgetModel {
 
       final icon = await _rawPlacemarkImage(
         shopList: shopList,
+        currentPlacemarkIndex: i,
         indexOfPressedShop: indexOfPressedShop,
       );
 
@@ -598,6 +599,7 @@ class MapBodyWM extends WidgetModel {
   Future<Uint8List> _rawPlacemarkImage({
     required List<OpticShop> shopList,
     int? indexOfPressedShop,
+    int currentPlacemarkIndex = 0,
   }) async {
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder);
@@ -631,11 +633,12 @@ class MapBodyWM extends WidgetModel {
       // ),
       // сюда надо передавать количество уникальных фильтров, которые будут находиться в текущей оптике
       colors: isCertificateMap
-          ? [
-              AppTheme.turquoiseBlue,
-              AppTheme.orangeToric,
-              AppTheme.yellowMultifocal,
-            ]
+          ? _getColorsFromFeatures(
+              shopList
+                  .map((e) => e as OpticShopForCertificate)
+                  .toList()[currentPlacemarkIndex]
+                  .features,
+            )
           : [AppTheme.sulu],
     );
 
@@ -662,6 +665,16 @@ class MapBodyWM extends WidgetModel {
         center: center,
       );
     }
+  }
+
+  List<Color> _getColorsFromFeatures(List<OpticShopFeature> features) {
+    if (features.isEmpty) return [AppTheme.sulu];
+
+    return features.fold(
+      <Color>{},
+      (colors, feature) => feature.color == null ? colors : colors
+        ..add(feature.color!),
+    ).toList();
   }
 
   Future<UI.Image> _loadUiImage(
