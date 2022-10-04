@@ -756,6 +756,7 @@ class OpticShop extends Equatable {
 
 class OpticShopForCertificate extends OpticShop {
   final List<OpticShopFeature> features;
+  final String url;
   const OpticShopForCertificate({
     required super.title,
     required super.phones,
@@ -763,6 +764,7 @@ class OpticShopForCertificate extends OpticShop {
     required super.city,
     required super.coords,
     required this.features,
+    required this.url,
   });
 
   factory OpticShopForCertificate.fromJson(Map<String, dynamic> map) {
@@ -774,6 +776,7 @@ class OpticShopForCertificate extends OpticShop {
       address: map['address'] as String,
       city: _parseCity(map['city'] as Map<String, dynamic>),
       coords: _parseCoords(map['coord'] as Map<String, dynamic>),
+      url: map['url'] as String? ?? '',
       features: (map['features'] as List<dynamic>)
           .map(
             (dynamic e) => OpticShopFeature.fromJson(

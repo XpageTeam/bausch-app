@@ -44,6 +44,8 @@ class MapBodyWM extends WidgetModel {
   /// Для карты, которая из страницы сертификата открывается немного другая логика отображения меток на карте
   final bool isCertificateMap;
 
+  final OpticShop? initialOptic;
+
   final zoomInAction = VoidAction();
   final zoomOutAction = VoidAction();
   final moveToUserPosition = VoidAction();
@@ -68,6 +70,7 @@ class MapBodyWM extends WidgetModel {
     required this.initOpticShops,
     required this.onCityDefinitionCallback,
     required this.isCertificateMap,
+    required this.initialOptic,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -118,8 +121,23 @@ class MapBodyWM extends WidgetModel {
   }
 
   @override
-  void onLoad() {
-    updateMapObjects(initOpticShops);
+  Future<void> onLoad() async {
+    // await updateMapObjects(
+    //   initOpticShops,
+    //   withSetCenter: initialOptic == null,
+    // );
+    // if (initialOptic != null) {
+    //   final id = initOpticShops.indexOf(initialOptic!);
+    //   debugPrint('id: $id');
+
+    //   await _updateClusterMapObject(initOpticShops, id);
+    //   await Future<void>.delayed(
+    //     const Duration(milliseconds: 300),
+    //   );
+    //   _moveTo(initialOptic!.coords);
+    //   onPlacemarkPressed?.call(initialOptic!);
+    // }
+
     // Пришлось обернуть в future, потому что иногда метки не отрисовывались
     // Future<void>.delayed(
     //   const Duration(milliseconds: 100),
@@ -136,6 +154,25 @@ class MapBodyWM extends WidgetModel {
     userPositionStream?.cancel();
     super.dispose();
   }
+
+  Future<void> init() async {
+    await updateMapObjects(
+      initOpticShops,
+      withSetCenter: initialOptic == null,
+    );
+    if (initialOptic != null) {
+      final id = initOpticShops.indexOf(initialOptic!);
+      debugPrint('id: $id');
+
+      await _updateClusterMapObject(initOpticShops, id);
+      await Future<void>.delayed(
+        const Duration(milliseconds: 300),
+      );
+      _moveTo(initialOptic!.coords);
+      onPlacemarkPressed?.call(initialOptic!);
+    }
+  }
+
   // Future<List<Uint8List>> _getIcons({
   //   required List<OpticShop> shopList,
   //   int? indexOfPressedShop,
@@ -627,12 +664,10 @@ class MapBodyWM extends WidgetModel {
       size: circleSize,
       center: Offset(imageWidth / 2, 47), // 47 хромосом у меня, да
 
-      // Offset(
-      //   (size.width) / 2 + 1,
-      //   circleSize.height / 2 + 26, // (я не смог сделать нормально)
-      // ),
       // сюда надо передавать количество уникальных фильтров, которые будут находиться в текущей оптике
-      colors: isCertificateMap
+      colors: isCertificateMap &&
+              shopList.isNotEmpty &&
+              shopList.first is OpticShopForCertificate
           ? _getColorsFromFeatures(
               shopList
                   .map((e) => e as OpticShopForCertificate)
@@ -672,8 +707,13 @@ class MapBodyWM extends WidgetModel {
 
     return features.fold(
       <Color>{},
-      (colors, feature) => feature.color == null ? colors : colors
-        ..add(feature.color!),
+      // ignore: no-equal-then-else
+      (colors, feature) {
+        if (feature.color == null) return colors;
+
+        colors.add(feature.color!);
+        return colors;
+      },
     ).toList();
   }
 

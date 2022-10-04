@@ -11,8 +11,11 @@ import 'package:flutter/material.dart';
 class SelectOpticScreenBody extends StatelessWidget {
   final SelectOpticPage currentPage;
   final List<OpticShop> opticShops;
-  final void Function(OpticShop selectedShop) onOpticShopSelect;
+  final void Function(OpticShop selectedShop) onOpticShopSelectMap;
+  final void Function(OpticShop selectedShop) onOpticShopSelectList;
   final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
+
+  final OpticShop? initialOptic;
 
   final String selectButtonText;
   final bool isCertificateMap;
@@ -20,10 +23,12 @@ class SelectOpticScreenBody extends StatelessWidget {
   const SelectOpticScreenBody({
     required this.currentPage,
     required this.opticShops,
-    required this.onOpticShopSelect,
+    required this.onOpticShopSelectMap,
+    required this.onOpticShopSelectList,
     required this.selectButtonText,
     required this.onCityDefinitionCallback,
     required this.isCertificateMap,
+    required this.initialOptic,
     Key? key,
   }) : super(key: key);
 
@@ -33,12 +38,13 @@ class SelectOpticScreenBody extends StatelessWidget {
         ? ShopListWidget(
             containerType: ShopContainerWithButton,
             shopList: opticShops,
-            onOpticShopSelect: onOpticShopSelect,
+            onOpticShopSelect: onOpticShopSelectList,
           )
         : MapBody(
+            initialOptic: initialOptic,
             selectButtonText: selectButtonText,
             opticShops: opticShops,
-            onOpticShopSelect: onOpticShopSelect,
+            onOpticShopSelect: onOpticShopSelectMap,
             onCityDefinitionCallback: onCityDefinitionCallback,
             isCertificateMap: isCertificateMap,
             shopsEmptyCallback: (mapBodyWm) {

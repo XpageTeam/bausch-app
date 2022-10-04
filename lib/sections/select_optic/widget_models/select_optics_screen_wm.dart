@@ -133,52 +133,45 @@ class SelectOpticScreenWM extends WidgetModel {
     await _loadCities();
     if (isCertificateMap) {
       await _loadCertificateFiltersModel();
-    }
 
-    if (initialCities.isEmpty) {
-      unawaited(_loadOptics());
-    } else {
-      initialCities = _sort(initialCities);
-
-      // final userCity = Provider.of<UserWM>(
-      //   context,
-      //   listen: false,
-      // ).userData.value.data?.user.city;
+      if (initialCities.isEmpty) {
+        await _loadOptics();
+      }
 
       await currentCityStreamed.content(initialCity ?? '');
-
-      // if (initialCity != null) {
-      //   currentCityStreamed.content(initialCity!);
-      // }
-      // else if (userCity != null) {
-      //   // ignore: unawaited_futures
-      //   currentCityStreamed.content(userCity);
-      // } else {
-      //   await currentCityStreamed.content(initialCities!.first.title);
-      // }
-
-      if (initialCity == null) {
-        final optics = initialCities.fold<List<Optic>>(
-          [],
-          (previousValue, element) => previousValue
-            ..addAll(
-              element.optics,
-            ),
-        );
-        await opticsByCityStreamed.accept(optics);
-        final shops = optics.fold<List<OpticShop>>(
-          [],
-          (previousValue, element) => previousValue..addAll(element.shops),
-        ).toList();
-
-        await filteredOpticShopsStreamed.content(shops);
+      final shops = await _getCertificateShopsByCurrentCity();
+      await filteredOpticShopsStreamed.content(shops);
+    } else {
+      if (initialCities.isEmpty) {
+        unawaited(_loadOptics());
       } else {
-        final opticsByCurrentCity = await _getOpticsByCurrentCity();
+        initialCities = _sort(initialCities);
 
-        await opticsByCityStreamed.accept(opticsByCurrentCity);
-        await filteredOpticShopsStreamed.content(
-          _getShopsByFilters(opticsByCurrentCity),
-        );
+        await currentCityStreamed.content(initialCity ?? '');
+
+        if (initialCity == null) {
+          final optics = initialCities.fold<List<Optic>>(
+            [],
+            (previousValue, element) => previousValue
+              ..addAll(
+                element.optics,
+              ),
+          );
+          await opticsByCityStreamed.accept(optics);
+          final shops = optics.fold<List<OpticShop>>(
+            [],
+            (previousValue, element) => previousValue..addAll(element.shops),
+          ).toList();
+
+          await filteredOpticShopsStreamed.content(shops);
+        } else {
+          final opticsByCurrentCity = await _getOpticsByCurrentCity();
+
+          await opticsByCityStreamed.accept(opticsByCurrentCity);
+          await filteredOpticShopsStreamed.content(
+            _getShopsByFilters(opticsByCurrentCity),
+          );
+        }
       }
     }
 
@@ -223,7 +216,7 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
-  void onCommonFilterTap(CommonFilter newFilter) {
+  Future<void> onCommonFilterTap(CommonFilter newFilter) async {
     final filters = selectedCommonFiltersState.value.toList();
 
     if (filters.any((filter) => newFilter == filter)) {
@@ -234,13 +227,13 @@ class SelectOpticScreenWM extends WidgetModel {
 
     // debugPrint('filters: $filters');
 
-    selectedCommonFiltersState.accept(filters);
+    await selectedCommonFiltersState.accept(filters);
     filteredOpticShopsStreamed.content(
-      _filterOpticShopsForCertificate(filters),
+      _filterOpticShopsForCertificate(),
     );
   }
 
-  void onLensFilterTap(LensFilter newFilter) {
+  Future<void> onLensFilterTap(LensFilter newFilter) async {
     final filters = selectedLensFiltersState.value;
 
     if (filters.any((filter) => newFilter == filter)) {
@@ -249,24 +242,24 @@ class SelectOpticScreenWM extends WidgetModel {
       filters.add(newFilter);
     }
 
-    selectedLensFiltersState.accept(filters);
+    await selectedLensFiltersState.accept(filters);
 
     filteredOpticShopsStreamed.content(
-      _filterOpticShopsForCertificate(filters),
+      _filterOpticShopsForCertificate(),
     );
   }
 
-  void resetLensFilters() {
-    selectedLensFiltersState.accept([]);
+  Future<void> resetLensFilters() async {
+    await selectedLensFiltersState.accept([]);
     filteredOpticShopsStreamed.content(
-      _filterOpticShopsForCertificate([]),
+      _filterOpticShopsForCertificate(),
     );
   }
 
-  void resetCommonFilters() {
-    selectedCommonFiltersState.accept([]);
+  Future<void> resetCommonFilters() async {
+    await selectedCommonFiltersState.accept([]);
     filteredOpticShopsStreamed.content(
-      _filterOpticShopsForCertificate([]),
+      _filterOpticShopsForCertificate(),
     );
   }
 
@@ -292,19 +285,30 @@ class SelectOpticScreenWM extends WidgetModel {
     );
   }
 
-  List<OpticShopForCertificate> _filterOpticShopsForCertificate(
-    List<AbstractCertificateFilter> filters,
-  ) {
-    if (filters.isEmpty) {
+  OpticShop? selectedOpticShop;
+
+  void shopOpticOnMap(OpticShop shop) {
+    selectedOpticShop = shop;
+
+    _switchPage(SelectOpticPage.map);
+  }
+
+  List<OpticShopForCertificate> _filterOpticShopsForCertificate() {
+    if (selectedLensFiltersState.value.isEmpty &&
+        selectedCommonFiltersState.value.isEmpty) {
       return opticShopsForCertificate;
     }
 
     return opticShopsForCertificate
         .where(
           (opticShop) => opticShop.features.any(
-            (feature) => filters.any(
-              (filter) => filter.xmlId == feature.xmlId,
-            ),
+            (feature) =>
+                selectedLensFiltersState.value.any(
+                  (filter) => filter.xmlId == feature.xmlId,
+                ) ||
+                selectedCommonFiltersState.value.any(
+                  (filter) => filter.xmlId == feature.xmlId,
+                ),
           ),
         )
         .toList();
@@ -330,9 +334,9 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
-  void _switchPage(SelectOpticPage newPage) {
+  Future<void> _switchPage(SelectOpticPage newPage) async {
     if (currentPageStreamed.value != newPage) {
-      currentPageStreamed.accept(newPage);
+      await currentPageStreamed.accept(newPage);
     }
   }
 
@@ -340,7 +344,7 @@ class SelectOpticScreenWM extends WidgetModel {
     for (final city in initialCities) {
       for (final optic in city.optics) {
         if (optic.shops.any(
-          (shop) => shop == params.selectedShop,
+          (shop) => shop.coords == params.selectedShop.coords,
         )) {
           params.callback(optic, params.selectedShop);
           return;
