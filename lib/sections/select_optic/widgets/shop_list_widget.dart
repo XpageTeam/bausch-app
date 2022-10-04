@@ -69,15 +69,17 @@ class ShopListWidget extends StatelessWidget {
                                     subtitle: shop.address,
                                     phones: shop.phones,
                                     site: shop.site,
+                                    features: shop is OpticShopForCertificate
+                                        ? shop.features
+                                        : null,
                                     // additionalInfo:
                                     //     'Скидкой можно воспользоваться в любой из оптик сети.',
                                     onPressed: () {
                                       onOpticShopSelect(shop);
-                                      Navigator.of(context)
-                                        ..pop()
-                                        ..pop();
+                                      Navigator.of(context).pop();
+                                      //   ..pop();
                                     },
-                                    btnText: 'Выбрать эту сеть оптик',
+                                    btnText: 'Показать на карте',
                                   ),
                                 );
                               },

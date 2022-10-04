@@ -53,7 +53,7 @@ class CertificateFiltersSection extends StatelessWidget {
               },
             ),
           ),
-          StreamedStateBuilder<List<Filter>>(
+          StreamedStateBuilder<List<CommonFilter>>(
             streamedState: wm.selectedCommonFiltersState,
             builder: (_, selectedCommonFilters) => Row(
               children: model.commonFilters

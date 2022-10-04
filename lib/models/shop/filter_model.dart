@@ -108,15 +108,31 @@ class Filter extends AbstractFilter {
   }
 }
 
-class LensFilter extends AbstractFilter {
+class AbstractCertificateFilter extends AbstractFilter {
+  final String xmlId;
+  const AbstractCertificateFilter({
+    required super.id,
+    required super.title,
+    required this.xmlId,
+  });
+}
+
+class LensFilter extends AbstractCertificateFilter {
   final String? subtitle;
   final Color color;
   const LensFilter({
     required super.id,
     required super.title,
+    required super.xmlId,
     required this.color,
     this.subtitle,
   });
+}
 
-  
+class CommonFilter extends AbstractCertificateFilter {
+  const CommonFilter({
+    required super.id,
+    required super.title,
+    required super.xmlId,
+  });
 }

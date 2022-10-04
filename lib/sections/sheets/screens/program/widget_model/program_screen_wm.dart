@@ -41,6 +41,8 @@ class ProgramScreenWM extends WidgetModel {
 
   String city = '';
 
+  List<OpticCity> cities = [];
+
   String get fullAddress {
     final optic = currentOpticStreamed.value;
     return '${optic!.title}, г. $city, ${optic.shops.first.address}';
@@ -62,7 +64,8 @@ class ProgramScreenWM extends WidgetModel {
   @override
   void onBind() {
     selectOptic.bind((optic) {
-      AppsflyerSingleton.sdk.logEvent('programmOpticSelected', <String, dynamic>{
+      AppsflyerSingleton.sdk
+          .logEvent('programmOpticSelected', <String, dynamic>{
         'id': optic?.id,
         'title': optic?.title,
         'shopCode': optic?.shopCode,

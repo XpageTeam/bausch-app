@@ -1,3 +1,4 @@
+import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -18,6 +19,10 @@ class ShopContainerWithButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final features = shop is OpticShopForCertificate
+        ? (shop as OpticShopForCertificate).features
+        : <OpticShopFeature>[];
+
     return GestureDetector(
       onTap: () => onOpticShopSelect(shop),
       child: Container(
@@ -84,6 +89,11 @@ class ShopContainerWithButton extends StatelessWidget {
                 )
                 .toList(),
 
+            if (features.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: FeaturesSection(features: features),
+              ),
             // Padding(
             //   padding: const EdgeInsets.only(top: 20.0),
             //   child: BlueButton(
