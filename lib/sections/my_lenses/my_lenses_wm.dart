@@ -150,7 +150,6 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
       debugPrint(e.toString());
     }
@@ -193,7 +192,6 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
       debugPrint('updateDailyReminders $e');
     }
@@ -227,7 +225,6 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
       debugPrint('putOnLensesPair $e');
     }
@@ -263,7 +260,6 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
       debugPrint('updateLensesPair $e');
     }
@@ -316,7 +312,6 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
       debugPrint('putOffLensesPair $e');
     }
