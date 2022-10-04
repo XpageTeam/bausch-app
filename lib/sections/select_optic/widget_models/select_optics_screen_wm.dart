@@ -364,7 +364,8 @@ class SelectOpticScreenWM extends WidgetModel {
     );
 
     final shopsByFilters = _getShopsByFilters(
-      currentCityStreamed.value.data!.isEmpty
+      currentCityStreamed.value.data == null ||
+              currentCityStreamed.value.data!.isEmpty
           ? optics
           : await _getOpticsByCurrentCity(),
     );
