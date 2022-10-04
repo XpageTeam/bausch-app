@@ -157,46 +157,65 @@ class _LeftRightRow extends StatelessWidget {
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(StaticData.sidePadding),
-        child: Row(
+        child: Stack(
           children: [
-            Expanded(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/icons/halfed_circle.png',
-                    height: 16,
-                    width: 16,
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Center(
+                child: DottedLine(
+                  lineLength: MediaQuery.of(context).size.width / 3,
+                  dashColor: AppTheme.grey,
+                  dashLength: 2,
+                  dashGapLength: 2,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      WhiteContainerWithRoundedCorners(
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/halfed_circle.png',
+                              height: 16,
+                              width: 16,
+                            ),
+                            const SizedBox(width: 8),
+                            Center(
+                              child: Text(
+                                '${item.dateStartL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartL!.month)}, ${item.dateStartL!.hour < 10 ? 0 : ''}${item.dateStartL!.hour}:${item.dateStartL!.minute < 10 ? 0 : ''}${item.dateStartL!.minute}',
+                                style: AppStyles.p1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(width: 8, height: 10, color: Colors.white),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  Center(
-                    child: Text(
-                      '${item.dateStartL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartL!.month)}, ${item.dateStartL!.hour < 10 ? 0 : ''}${item.dateStartL!.hour}:${item.dateStartL!.minute < 10 ? 0 : ''}${item.dateStartL!.minute}',
-                      style: AppStyles.p1,
+                ),
+                Expanded(
+                  child: WhiteContainerWithRoundedCorners(
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 8),
+                        if (item.dateEndL != null)
+                          Text(
+                            '${item.dateEndL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndL!.month)}, ${item.dateEndL!.hour < 10 ? 0 : ''}${item.dateEndL!.hour}:${item.dateEndL!.minute < 10 ? 0 : ''}${item.dateEndL!.minute}',
+                            style: AppStyles.p1,
+                            textAlign: TextAlign.left,
+                          )
+                        else
+                          Container(height: 15),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 15),
-              child: DottedLine(
-                lineLength: 35,
-                dashColor: AppTheme.grey,
-                dashLength: 2,
-                dashGapLength: 2,
-              ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: item.dateEndL != null
-                    ? Text(
-                        '${item.dateEndL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndL!.month)}, ${item.dateEndL!.hour < 10 ? 0 : ''}${item.dateEndL!.hour}:${item.dateEndL!.minute < 10 ? 0 : ''}${item.dateEndL!.minute}',
-                        style: AppStyles.p1,
-                      )
-                    : const SizedBox.shrink(),
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -223,112 +242,160 @@ class _GreyContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (item.left != null)
-              Row(
+              Stack(
                 children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 16,
-                          width: 16,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppTheme.turquoiseBlue,
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'L',
-                              style: AppStyles.n1,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Center(
+                      child: DottedLine(
+                        lineLength: MediaQuery.of(context).size.width / 3,
+                        dashColor: AppTheme.grey,
+                        dashLength: 2,
+                        dashGapLength: 2,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ColoredBox(
+                              color: AppTheme.mystic,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    height: 16,
+                                    width: 16,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppTheme.turquoiseBlue,
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        'L',
+                                        style: AppStyles.n1,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Center(
+                                    child: Text(
+                                      '${item.dateStartL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartL!.month)}, ${item.dateStartL!.hour < 10 ? 0 : ''}${item.dateStartL!.hour}:${item.dateStartL!.minute < 10 ? 0 : ''}${item.dateStartL!.minute}',
+                                      style: AppStyles.p1,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
+                            Container(
+                              width: 8,
+                              height: 10,
+                              color: AppTheme.mystic,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ColoredBox(
+                          color: AppTheme.mystic,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 8),
+                              if (item.dateEndL != null)
+                                Text(
+                                  '${item.dateEndL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndL!.month)}, ${item.dateEndL!.hour < 10 ? 0 : ''}${item.dateEndL!.hour}:${item.dateEndL!.minute < 10 ? 0 : ''}${item.dateEndL!.minute}',
+                                  style: AppStyles.p1,
+                                )
+                              else
+                                Container(height: 15),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Center(
-                          child: Text(
-                            '${item.dateStartL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartL!.month)}, ${item.dateStartL!.hour < 10 ? 0 : ''}${item.dateStartL!.hour}:${item.dateStartL!.minute < 10 ? 0 : ''}${item.dateStartL!.minute}',
-                            style: AppStyles.p1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 15),
-                    child: DottedLine(
-                      lineLength: 35,
-                      dashColor: AppTheme.grey,
-                      dashLength: 2,
-                      dashGapLength: 2,
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: item.dateEndL != null
-                          ? Text(
-                              '${item.dateEndL!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndL!.month)}, ${item.dateEndL!.hour < 10 ? 0 : ''}${item.dateEndL!.hour}:${item.dateEndL!.minute < 10 ? 0 : ''}${item.dateEndL!.minute}',
-                              style: AppStyles.p1,
-                            )
-                          : const SizedBox.shrink(),
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             if (item.right != null && item.left != null)
-              const SizedBox(
-                height: StaticData.sidePadding / 1.5,
-              ),
+              const SizedBox(height: StaticData.sidePadding * 2),
             if (item.right != null)
-              Row(
+              Stack(
                 children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 16,
-                          width: 16,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppTheme.sulu,
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'R',
-                              style: AppStyles.n1,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Center(
+                      child: DottedLine(
+                        lineLength: MediaQuery.of(context).size.width / 3,
+                        dashColor: AppTheme.grey,
+                        dashLength: 2,
+                        dashGapLength: 2,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ColoredBox(
+                              color: AppTheme.mystic,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    height: 16,
+                                    width: 16,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppTheme.sulu,
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        'R',
+                                        style: AppStyles.n1,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Center(
+                                    child: Text(
+                                      '${item.dateStartR!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartR!.month)}, ${item.dateStartR!.hour < 10 ? 0 : ''}${item.dateStartR!.hour}:${item.dateStartR!.minute < 10 ? 0 : ''}${item.dateStartR!.minute}',
+                                      style: AppStyles.p1,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
+                            Container(
+                              width: 8,
+                              height: 10,
+                              color: AppTheme.mystic,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ColoredBox(
+                          color: AppTheme.mystic,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 8),
+                              if (item.dateEndL != null)
+                                Text(
+                                  '${item.dateEndR!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndR!.month)}, ${item.dateEndR!.hour < 10 ? 0 : ''}${item.dateEndR!.hour}:${item.dateEndR!.minute < 10 ? 0 : ''}${item.dateEndR!.minute}',
+                                  style: AppStyles.p1,
+                                )
+                              else
+                                Container(height: 15),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Center(
-                          child: Text(
-                            '${item.dateStartR!.day} ${HelpFunctions.getMonthNameByNumber(item.dateStartR!.month)}, ${item.dateStartR!.hour < 10 ? 0 : ''}${item.dateStartR!.hour}:${item.dateStartR!.minute < 10 ? 0 : ''}${item.dateStartR!.minute}',
-                            style: AppStyles.p1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 15),
-                    child: DottedLine(
-                      lineLength: 35,
-                      dashColor: AppTheme.grey,
-                      dashLength: 2,
-                      dashGapLength: 2,
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: item.dateEndR != null
-                          ? Text(
-                              '${item.dateEndR!.day} ${HelpFunctions.getMonthNameByNumber(item.dateEndR!.month)}, ${item.dateEndR!.hour < 10 ? 0 : ''}${item.dateEndR!.hour}:${item.dateEndR!.minute < 10 ? 0 : ''}${item.dateEndR!.minute}',
-                              style: AppStyles.p1,
-                            )
-                          : const SizedBox.shrink(),
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

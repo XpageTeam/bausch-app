@@ -618,7 +618,7 @@ class MapBodyWM extends WidgetModel {
       Paint(),
     );
 
-    final circleSize = Size(3 * size.height / 7, 3 * size.height / 7);
+    final circleSize = Size(size.height * 3 / 7, size.height * 3 / 7);
 
     _drawDiagram(
       canvas: canvas,

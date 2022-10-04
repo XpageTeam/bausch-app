@@ -1,10 +1,10 @@
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/widgets/date_info_line.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_indicator_status.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/different_lenses_sheet.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
-import 'package:bausch/sections/my_lenses/widgets/start_end_date_line.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
@@ -55,7 +55,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                 },
               ),
             ),
-            StartEndDateLine(
+            DateInfoLine(
               myLensesWM: myLensesWM,
               isLeft: isLeft,
               hasIcon: !sameTime,
