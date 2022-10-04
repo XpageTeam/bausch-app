@@ -48,40 +48,7 @@ class ShopListWidget extends StatelessWidget {
                           ? ShopContainerWithButton(
                               shop: shop,
                               onOpticShopSelect: (selectedShop) {
-                                final mediaQuery =
-                                    MediaQuery.of(Keys.mainNav.currentContext!);
-                                final screenHeight = mediaQuery.size.height;
-                                final maxHeight = (screenHeight -
-                                        mediaQuery.viewPadding.top) /
-                                    screenHeight;
-                                showFlexibleBottomSheet<void>(
-                                  context: context,
-                                  minHeight: 0,
-                                  initHeight: 0.4,
-                                  maxHeight: maxHeight,
-                                  anchors: [0, 0.4, maxHeight],
-                                  isModal: false,
-                                  // barrierColor: Colors.transparent,
-                                  builder: (ctx, controller, _) =>
-                                      BottomSheetContentOther(
-                                    controller: controller,
-                                    title: shop.title,
-                                    subtitle: shop.address,
-                                    phones: shop.phones,
-                                    site: shop.site,
-                                    features: shop is OpticShopForCertificate
-                                        ? shop.features
-                                        : null,
-                                    // additionalInfo:
-                                    //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                                    onPressed: () {
-                                      onOpticShopSelect(shop);
-                                      Navigator.of(context).pop();
-                                      //   ..pop();
-                                    },
-                                    btnText: 'Показать на карте',
-                                  ),
-                                );
+                                onOpticShopSelect(shop);
                               },
                             )
                           : ShopContainer(shop: shop),
