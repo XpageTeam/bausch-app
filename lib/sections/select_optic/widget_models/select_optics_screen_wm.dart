@@ -55,48 +55,55 @@ class SelectOpticScreenWM extends WidgetModel {
 
   final certificateFilterSectionModelState =
       StreamedState<CertificateFilterSectionModel?>(
-    CertificateFilterSectionModel(
-      commonFilters: const [
-        Filter(
-          id: 0,
-          title: 'Скидка после подбора',
-        ),
-        Filter(
-          id: 1,
-          title: '1 Скидка после подбора',
-        ),
-        Filter(
-          id: 2,
-          title: '2 Скидка после подбора',
-        ),
-      ],
-      lensFilters: const [
-        LensFilter(
-          id: 0,
-          title: 'Сферические',
-          color: AppTheme.turquoiseBlue,
-        ),
-        LensFilter(
-          id: 1,
-          title: 'Мультифокальные',
-          subtitle: 'Пресбиопия',
-          color: AppTheme.yellowMultifocal,
-        ),
-        LensFilter(
-          id: 2,
-          title: 'Торические',
-          subtitle: 'Астигматизм',
-          color: AppTheme.orangeToric,
-        ),
-      ],
-    ),
+    null,
+    // CertificateFilterSectionModel(
+    //   commonFilters: const [
+    //     CommonFilter(
+    //       id: 0,
+    //       title: 'Скидка после подбора',
+    //       xmlId: 'sale',
+    //     ),
+    //     CommonFilter(
+    //       id: 1,
+    //       title: '1 Скидка после подбора',
+    //       xmlId: 'sale_1',
+    //     ),
+    //     CommonFilter(
+    //       id: 2,
+    //       title: '2 Скидка после подбора',
+    //       xmlId: 'sale_2',
+    //     ),
+    //   ],
+    //   lensFilters: const [
+    //     LensFilter(
+    //       id: 0,
+    //       title: 'Сферические',
+    //       color: AppTheme.turquoiseBlue,
+    //       xmlId: 'sph',
+    //     ),
+    //     LensFilter(
+    //       id: 1,
+    //       title: 'Мультифокальные',
+    //       subtitle: 'Пресбиопия',
+    //       color: AppTheme.yellowMultifocal,
+    //       xmlId: 'multi',
+    //     ),
+    //     LensFilter(
+    //       id: 2,
+    //       title: 'Торические',
+    //       subtitle: 'Астигматизм',
+    //       color: AppTheme.orangeToric,
+    //       xmlId: 'toric',
+    //     ),
+    //   ],
+    // ),
   );
 
   /// Для карты с сертификатами. Содержит выбранные фильтры для линз
   final selectedLensFiltersState = StreamedState<List<LensFilter>>([]);
 
   /// Для карты с сертификатами. Содержит выбранные общие фильтры
-  final selectedCommonFiltersState = StreamedState<List<Filter>>([]);
+  final selectedCommonFiltersState = StreamedState<List<CommonFilter>>([]);
 
   /// Для карты с сертификатами. Содержит количество всех выбранных фильтров
   final selectedFiltersCountState = StreamedState<int>(0);
@@ -104,6 +111,8 @@ class SelectOpticScreenWM extends WidgetModel {
   final String? initialCity;
 
   List<OpticCity> cities = [];
+
+  List<OpticShopForCertificate> opticShopsForCertificate = [];
 
   List<OpticCity> initialCities;
   List<Filter> selectedFilters = [];
@@ -214,7 +223,7 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
-  void onCommonFilterTap(Filter newFilter) {
+  void onCommonFilterTap(CommonFilter newFilter) {
     final filters = selectedCommonFiltersState.value.toList();
 
     if (filters.any((filter) => newFilter == filter)) {
@@ -226,6 +235,9 @@ class SelectOpticScreenWM extends WidgetModel {
     // debugPrint('filters: $filters');
 
     selectedCommonFiltersState.accept(filters);
+    filteredOpticShopsStreamed.content(
+      _filterOpticShopsForCertificate(filters),
+    );
   }
 
   void onLensFilterTap(LensFilter newFilter) {
@@ -238,14 +250,24 @@ class SelectOpticScreenWM extends WidgetModel {
     }
 
     selectedLensFiltersState.accept(filters);
+
+    filteredOpticShopsStreamed.content(
+      _filterOpticShopsForCertificate(filters),
+    );
   }
 
   void resetLensFilters() {
     selectedLensFiltersState.accept([]);
+    filteredOpticShopsStreamed.content(
+      _filterOpticShopsForCertificate([]),
+    );
   }
 
   void resetCommonFilters() {
     selectedCommonFiltersState.accept([]);
+    filteredOpticShopsStreamed.content(
+      _filterOpticShopsForCertificate([]),
+    );
   }
 
   void resetAllFilters() {
@@ -270,13 +292,31 @@ class SelectOpticScreenWM extends WidgetModel {
     );
   }
 
+  List<OpticShopForCertificate> _filterOpticShopsForCertificate(
+    List<AbstractCertificateFilter> filters,
+  ) {
+    if (filters.isEmpty) {
+      return opticShopsForCertificate;
+    }
+
+    return opticShopsForCertificate
+        .where(
+          (opticShop) => opticShop.features.any(
+            (feature) => filters.any(
+              (filter) => filter.xmlId == feature.xmlId,
+            ),
+          ),
+        )
+        .toList();
+  }
+
   Future<void> _updateCity(String cityName) async {
     await currentCityStreamed.content(cityName);
 
     if (isCertificateMap) {
-      final shopsByCurrentCity = await _getCertificateShopsByCurrentCity();
+      opticShopsForCertificate = await _getCertificateShopsByCurrentCity();
 
-      await filteredOpticShopsStreamed.content(shopsByCurrentCity);
+      await filteredOpticShopsStreamed.content(opticShopsForCertificate);
     } else {
       final opticsByCurrentCity = await _getOpticsByCurrentCity();
       final shopsByFilters = _getShopsByFilters(opticsByCurrentCity);
@@ -363,10 +403,12 @@ class SelectOpticScreenWM extends WidgetModel {
         ex: Exception(e),
       );
     }
-    log(
-      'Exception',
-      error: exception,
-    );
+    if (exception != null) {
+      log(
+        'Exception',
+        error: exception,
+      );
+    }
   }
   /* Future<void> _setFirstCity() async {
     if (initialCities!.isEmpty) {
@@ -405,7 +447,8 @@ class SelectOpticScreenWM extends WidgetModel {
     }
   }
 
-  Future<List<OpticShop>> _getCertificateShopsByCurrentCity() async {
+  Future<List<OpticShopForCertificate>>
+      _getCertificateShopsByCurrentCity() async {
     if (cities
         .any((element) => element.title == currentCityStreamed.value.data)) {
       final cityId = cities
@@ -539,10 +582,12 @@ class SelectOpticScreenWM extends WidgetModel {
         ex: Exception(e),
       );
     }
-    log(
-      'Exception',
-      error: exception,
-    );
+    if (exception != null) {
+      log(
+        'Exception',
+        error: exception,
+      );
+    }
   }
 
   Future<List<OpticCity>> _parseCityList(List<dynamic> rawCityList) async {
@@ -553,7 +598,7 @@ class SelectOpticScreenWM extends WidgetModel {
 
       return OpticCity(
         id: map['id'] as int,
-        title: map['title'] as String,
+        title: map['name'] as String,
         optics: [],
       );
     }).toList();

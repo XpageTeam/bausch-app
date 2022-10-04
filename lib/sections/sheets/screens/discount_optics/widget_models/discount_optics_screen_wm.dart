@@ -765,16 +765,15 @@ class OpticShopForCertificate extends OpticShop {
     required this.features,
   });
 
-// TODO(Nikolay): Надо правильные названия из json.
   factory OpticShopForCertificate.fromJson(Map<String, dynamic> map) {
     return OpticShopForCertificate(
-      title: map['title'] as String,
+      title: map['name'] as String,
       phones: (map['phones'] as List<dynamic>)
           .map((dynamic e) => e as String)
           .toList(),
       address: map['address'] as String,
-      city: map['city'] as String,
-      coords: _parseCoords(map['coords'] as Map<String, dynamic>),
+      city: _parseCity(map['city'] as Map<String, dynamic>),
+      coords: _parseCoords(map['coord'] as Map<String, dynamic>),
       features: (map['features'] as List<dynamic>)
           .map(
             (dynamic e) => OpticShopFeature.fromJson(
@@ -785,10 +784,19 @@ class OpticShopForCertificate extends OpticShop {
     );
   }
 
+  static String _parseCity(Map<String, dynamic> map) {
+    // return OpticCity(
+    //   id: map['id'] as int,
+    //   title: map['name'] as String,
+    //   optics: [],
+    // );
+    return map['name'] as String;
+  }
+
   static Point _parseCoords(Map<String, dynamic> map) {
     return Point(
-      latitude: map['lat'] as double,
-      longitude: map['lon'] as double,
+      latitude: double.parse(map['lat'] as String),
+      longitude: double.parse(map['lng'] as String),
     );
   }
 }
@@ -803,18 +811,20 @@ class OpticShopFeature {
     required this.title,
     required this.color,
   });
-// TODO(Nikolay): Надо правильные названия из json.
 
   factory OpticShopFeature.fromJson(Map<String, dynamic> map) {
     return OpticShopFeature(
       xmlId: map['xml_id'] as String,
-      title: map['title'] as String,
+      title: map['name'] as String,
       color: _getColorFromHex(
-        map['color'] as String,
+        map['color'] as String?,
       ),
     );
   }
-  static Color? _getColorFromHex(String rawHexColor) {
+
+  static Color? _getColorFromHex(String? rawHexColor) {
+    if (rawHexColor == null) return null;
+
     var hexColor = rawHexColor.replaceAll('#', '');
     if (hexColor.length == 6) {
       hexColor = 'FF$hexColor';

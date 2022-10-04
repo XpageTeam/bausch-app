@@ -74,6 +74,10 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
                 tiltGesturesEnabled: false,
                 rotateGesturesEnabled: false,
                 mapObjects: mapObjects,
+                logoAlignment: const MapAlignment(
+                  horizontal: HorizontalAlignment.left,
+                  vertical: VerticalAlignment.bottom,
+                ),
                 onMapCreated: onMapCreated,
               );
             },
