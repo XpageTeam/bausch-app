@@ -37,7 +37,7 @@ class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
           key: key,
           widgetModelBuilder: (context) => SelectOpticScreenWM(
             context: context,
-            initialCities: cities,
+            initialCities: cities ?? [],
             initialCity: initialCity,
             isCertificateMap: isCertificateMap,
           ),

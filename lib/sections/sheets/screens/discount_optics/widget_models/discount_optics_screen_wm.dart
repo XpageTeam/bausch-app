@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -750,4 +752,76 @@ class OpticShop extends Equatable {
     this.email,
     this.site,
   });
+}
+
+class OpticShopForCertificate extends OpticShop {
+  final List<OpticShopFeature> features;
+  const OpticShopForCertificate({
+    required super.title,
+    required super.phones,
+    required super.address,
+    required super.city,
+    required super.coords,
+    required this.features,
+  });
+
+// TODO(Nikolay): Надо правильные названия из json.
+  factory OpticShopForCertificate.fromJson(Map<String, dynamic> map) {
+    return OpticShopForCertificate(
+      title: map['title'] as String,
+      phones: (map['phones'] as List<dynamic>)
+          .map((dynamic e) => e as String)
+          .toList(),
+      address: map['address'] as String,
+      city: map['city'] as String,
+      coords: _parseCoords(map['coords'] as Map<String, dynamic>),
+      features: (map['features'] as List<dynamic>)
+          .map(
+            (dynamic e) => OpticShopFeature.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  static Point _parseCoords(Map<String, dynamic> map) {
+    return Point(
+      latitude: map['lat'] as double,
+      longitude: map['lon'] as double,
+    );
+  }
+}
+
+class OpticShopFeature {
+  final String xmlId;
+  final String title;
+  final Color? color;
+
+  const OpticShopFeature({
+    required this.xmlId,
+    required this.title,
+    required this.color,
+  });
+// TODO(Nikolay): Надо правильные названия из json.
+
+  factory OpticShopFeature.fromJson(Map<String, dynamic> map) {
+    return OpticShopFeature(
+      xmlId: map['xml_id'] as String,
+      title: map['title'] as String,
+      color: _getColorFromHex(
+        map['color'] as String,
+      ),
+    );
+  }
+  static Color? _getColorFromHex(String rawHexColor) {
+    var hexColor = rawHexColor.replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF$hexColor';
+    }
+    if (hexColor.length == 8) {
+      return Color(int.parse('0x$hexColor'));
+    }
+    return null;
+  }
 }

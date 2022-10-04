@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
+import 'package:bausch/models/city/dadata_cities_downloader.dart';
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/select_optic/certificate_filter_screen.dart';
+import 'package:bausch/sections/select_optic/certificate_optics_loader.dart';
 import 'package:bausch/sections/select_optic/widgets/certificate_filter_section/certificate_filter_section_model.dart';
 import 'package:bausch/sections/select_optic/widgets/choose_types_sheet.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
@@ -100,14 +103,16 @@ class SelectOpticScreenWM extends WidgetModel {
 
   final String? initialCity;
 
-  List<OpticCity>? initialCities;
+  List<OpticCity> cities = [];
+
+  List<OpticCity> initialCities;
   List<Filter> selectedFilters = [];
   bool isCertificateMap;
 
   SelectOpticScreenWM({
     required this.context,
     required this.isCertificateMap,
-    this.initialCities,
+    this.initialCities = const [],
     this.initialCity,
   }) : super(
           const WidgetModelDependencies(),
@@ -116,10 +121,15 @@ class SelectOpticScreenWM extends WidgetModel {
   @override
   Future<void> onLoad() async {
     // _initCurrentCity();
-    if (initialCities == null) {
+    await _loadCities();
+    if (isCertificateMap) {
+      await _loadCertificateFiltersModel();
+    }
+
+    if (initialCities.isEmpty) {
       unawaited(_loadOptics());
     } else {
-      initialCities = _sort(initialCities!);
+      initialCities = _sort(initialCities);
 
       // final userCity = Provider.of<UserWM>(
       //   context,
@@ -139,7 +149,7 @@ class SelectOpticScreenWM extends WidgetModel {
       // }
 
       if (initialCity == null) {
-        final optics = initialCities!.fold<List<Optic>>(
+        final optics = initialCities.fold<List<Optic>>(
           [],
           (previousValue, element) => previousValue
             ..addAll(
@@ -195,8 +205,7 @@ class SelectOpticScreenWM extends WidgetModel {
   }
 
   Future<void> onCityDefinition(DadataResponseDataModel dataModel) async {
-    if (initialCities != null &&
-        initialCities!.any(
+    if (initialCities.any(
           (opticCity) => dataModel.city == opticCity.title,
         ) &&
         currentCityStreamed.value.data != dataModel.city) {
@@ -264,15 +273,21 @@ class SelectOpticScreenWM extends WidgetModel {
   Future<void> _updateCity(String cityName) async {
     await currentCityStreamed.content(cityName);
 
-    final opticsByCurrentCity = await _getOpticsByCurrentCity();
-    final shopsByFilters = _getShopsByFilters(opticsByCurrentCity);
+    if (isCertificateMap) {
+      final shopsByCurrentCity = await _getCertificateShopsByCurrentCity();
 
-    await opticsByCityStreamed.accept(
-      opticsByCurrentCity,
-    );
-    await filteredOpticShopsStreamed.content(
-      shopsByFilters,
-    );
+      await filteredOpticShopsStreamed.content(shopsByCurrentCity);
+    } else {
+      final opticsByCurrentCity = await _getOpticsByCurrentCity();
+      final shopsByFilters = _getShopsByFilters(opticsByCurrentCity);
+
+      await opticsByCityStreamed.accept(
+        opticsByCurrentCity,
+      );
+      await filteredOpticShopsStreamed.content(
+        shopsByFilters,
+      );
+    }
   }
 
   void _switchPage(SelectOpticPage newPage) {
@@ -282,15 +297,13 @@ class SelectOpticScreenWM extends WidgetModel {
   }
 
   void _onOpticShopSelect(OpticShopParams params) {
-    if (initialCities != null) {
-      for (final city in initialCities!) {
-        for (final optic in city.optics) {
-          if (optic.shops.any(
-            (shop) => shop == params.selectedShop,
-          )) {
-            params.callback(optic, params.selectedShop);
-            return;
-          }
+    for (final city in initialCities) {
+      for (final optic in city.optics) {
+        if (optic.shops.any(
+          (shop) => shop == params.selectedShop,
+        )) {
+          params.callback(optic, params.selectedShop);
+          return;
         }
       }
     }
@@ -298,7 +311,7 @@ class SelectOpticScreenWM extends WidgetModel {
 
   Future<void> _filtersOnChanged(List<Filter> newSelectedFilters) async {
     selectedFilters = newSelectedFilters;
-    final optics = initialCities!.fold<List<Optic>>(
+    final optics = initialCities.fold<List<Optic>>(
       [],
       (previousValue, element) => previousValue
         ..addAll(
@@ -318,6 +331,42 @@ class SelectOpticScreenWM extends WidgetModel {
     final lensFiltersCount = selectedLensFiltersState.value.length;
     final commonFiltersCount = selectedCommonFiltersState.value.length;
     selectedFiltersCountState.accept(lensFiltersCount + commonFiltersCount);
+  }
+
+  Future<void> _loadCertificateFiltersModel() async {
+    CustomException? exception;
+    try {
+      final filtersSectionModel = await CertificateOpticsLoader.loadFilters();
+      await certificateFilterSectionModelState.accept(filtersSectionModel);
+    } on DioError catch (e) {
+      exception = CustomException(
+        title: 'При загрузке списка городов произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      exception = CustomException(
+        title: 'При обработке ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      exception = CustomException(
+        title: e.toString(),
+        ex: e,
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      exception = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
+        ex: Exception(e),
+      );
+    }
+    log(
+      'Exception',
+      error: exception,
+    );
   }
   /* Future<void> _setFirstCity() async {
     if (initialCities!.isEmpty) {
@@ -342,9 +391,9 @@ class SelectOpticScreenWM extends WidgetModel {
     final cityName = await Keys.mainNav.currentState!.push<String>(
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
-          citiesWithShops: initialCities!.map((e) => e.title).toList(),
+          citiesWithShops: initialCities.map((e) => e.title).toList(),
           withFavoriteItems:
-              initialCities!.map((e) => e.title).toList().contains('Москва')
+              initialCities.map((e) => e.title).toList().contains('Москва')
                   ? ['Москва']
                   : [],
         ),
@@ -354,6 +403,22 @@ class SelectOpticScreenWM extends WidgetModel {
     if (cityName != null && cityName != currentCityStreamed.value.data) {
       await _updateCity(cityName);
     }
+  }
+
+  Future<List<OpticShop>> _getCertificateShopsByCurrentCity() async {
+    if (cities
+        .any((element) => element.title == currentCityStreamed.value.data)) {
+      final cityId = cities
+          .firstWhere(
+            (element) => element.title == currentCityStreamed.value.data,
+          )
+          .id!;
+      debugPrint('cityId: $cityId');
+
+      /// Загрузка оптик
+      return CertificateOpticsLoader.loadByCityId(cityId);
+    }
+    return [];
   }
 
   // void _initCurrentCity() {
@@ -406,20 +471,20 @@ class SelectOpticScreenWM extends WidgetModel {
     final currentCity = currentCityStreamed.value.data?.toLowerCase();
     if (currentCity == null) return optics;
 
-    if (initialCities == null) {
+    if (initialCities.isEmpty) {
       await _loadOptics();
     }
 
-    if (initialCities!.any(_equalsCurrentCity)) {
-      optics = initialCities!.firstWhere(_equalsCurrentCity).optics;
+    if (initialCities.any(_equalsCurrentCity)) {
+      optics = initialCities.firstWhere(_equalsCurrentCity).optics;
     } else {
       final splittedCurrentCity = currentCity.split(' ');
 
       for (final piece in splittedCurrentCity) {
-        if (initialCities!.any(
+        if (initialCities.any(
           (city) => _equalsPieceOrWithComma(city, piece),
         )) {
-          optics = initialCities!
+          optics = initialCities
               .firstWhere(
                 (city) => _equalsPieceOrWithComma(city, piece),
               )
@@ -443,6 +508,58 @@ class SelectOpticScreenWM extends WidgetModel {
     return cityLower == pieceLower;
   }
 
+  Future<void> _loadCities() async {
+    CustomException? exception;
+    try {
+      cities = await _parseCityList(
+        (await CitiesDownloader().loadCities()).data as List<dynamic>,
+      );
+    } on DioError catch (e) {
+      exception = CustomException(
+        title: 'При загрузке списка городов произошла ошибка',
+        subtitle: e.message,
+        ex: e,
+      );
+    } on ResponseParseException catch (e) {
+      exception = CustomException(
+        title: 'При обработке ответа от сервера произошла ошибка',
+        subtitle: e.toString(),
+        ex: e,
+      );
+    } on SuccessFalse catch (e) {
+      exception = CustomException(
+        title: e.toString(),
+        ex: e,
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      exception = CustomException(
+        title: 'Произошла ошибка',
+        subtitle: e.toString(),
+        ex: Exception(e),
+      );
+    }
+    log(
+      'Exception',
+      error: exception,
+    );
+  }
+
+  Future<List<OpticCity>> _parseCityList(List<dynamic> rawCityList) async {
+    final cities = rawCityList
+        // ignore: avoid_annotating_with_dynamic
+        .map((dynamic e) {
+      final map = e as Map<String, dynamic>;
+
+      return OpticCity(
+        id: map['id'] as int,
+        title: map['title'] as String,
+        optics: [],
+      );
+    }).toList();
+    return cities;
+  }
+
   Future<void> _loadOptics() async {
     CustomException? ex;
 
@@ -455,7 +572,7 @@ class SelectOpticScreenWM extends WidgetModel {
       initialCities = _sort(opticCititesRepository.cities);
 
       if (initialCity == null) {
-        await currentCityStreamed.content(initialCities!.first.title);
+        await currentCityStreamed.content(initialCities.first.title);
       } else {
         await currentCityStreamed.content(initialCity!);
       }
