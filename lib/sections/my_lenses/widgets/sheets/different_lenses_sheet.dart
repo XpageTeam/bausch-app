@@ -138,7 +138,8 @@ class _DifferentLensesSheetState extends State<DifferentLensesSheet> {
                   key: const Key('R'),
                   onMonthChangeStartWithFirstDate: false,
                   initialDateTime: rightDate,
-                  minDateTime: DateTime(2021),
+                       minDateTime: DateTime(DateTime.now().year - 1),
+                  maxDateTime: DateTime.now().add(const Duration(days: 5)),
                   locale: DateTimePickerLocale.ru,
                   onCancel: () {},
                   onChange: (value, _) {
