@@ -5,9 +5,9 @@ import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class CommonFilterButton extends StatelessWidget {
-  final Filter filter;
+  final CommonFilter filter;
   final bool isSelected;
-  final ValueChanged<Filter> onTap;
+  final ValueChanged<CommonFilter> onTap;
   const CommonFilterButton({
     required this.filter,
     required this.onTap,

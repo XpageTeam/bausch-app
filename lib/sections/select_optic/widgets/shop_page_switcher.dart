@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ShopPageSwitcher extends CoreMwwmWidget<ShopPageSwitcherWM> {
+  final SelectOpticPage initialType;
   ShopPageSwitcher({
     required void Function(SelectOpticPage) callback,
-    SelectOpticPage initialType = SelectOpticPage.map,
+    this.initialType = SelectOpticPage.map,
     Key? key,
   }) : super(
           key: key,
@@ -25,24 +26,35 @@ class ShopPageSwitcher extends CoreMwwmWidget<ShopPageSwitcherWM> {
 class _ShopPageSwitcherState
     extends WidgetState<ShopPageSwitcher, ShopPageSwitcherWM> {
   @override
+  void didUpdateWidget(covariant ShopPageSwitcher oldWidget) {
+    if (oldWidget.initialType != widget.initialType) {
+      wm.buttonAction(widget.initialType);
+      super.didUpdateWidget(oldWidget);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: SelectOpticPage.values
-          .map(
-            (type) => StreamedStateBuilder<SelectOpticPage>(
-              streamedState: wm.currentTypeStreamed,
-              builder: (_, currentType) => Expanded(
-                child: OpticsToggleButton(
-                  type: type,
-                  color:
-                       currentType == type ? AppTheme.turquoiseBlue : Colors.white,
-                  onPressed: wm.buttonAction,
+    return StreamedStateBuilder<SelectOpticPage>(
+      streamedState: wm.currentTypeStreamed,
+      builder: (_, currentType) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: SelectOpticPage.values
+              .map(
+                (type) => Expanded(
+                  child: OpticsToggleButton(
+                    type: type,
+                    color: currentType == type
+                        ? AppTheme.turquoiseBlue
+                        : Colors.white,
+                    onPressed: wm.buttonAction,
+                  ),
                 ),
-              ),
-            ),
-          )
-          .toList(),
+              )
+              .toList(),
+        );
+      },
     );
   }
 }

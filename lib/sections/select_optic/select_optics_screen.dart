@@ -37,7 +37,7 @@ class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
           key: key,
           widgetModelBuilder: (context) => SelectOpticScreenWM(
             context: context,
-            initialCities: cities,
+            initialCities: cities ?? [],
             initialCity: initialCity,
             isCertificateMap: isCertificateMap,
           ),
@@ -76,8 +76,14 @@ class _SelectOpticScreenState
                   StaticData.sidePadding,
                   22,
                 ),
-                child: ShopPageSwitcher(
-                  callback: wm.switchAction,
+                child: StreamedStateBuilder<SelectOpticPage>(
+                  streamedState: wm.currentPageStreamed,
+                  builder: (_, page) {
+                    return ShopPageSwitcher(
+                      initialType: page,
+                      callback: wm.switchAction,
+                    );
+                  },
                 ),
               ),
 
@@ -163,7 +169,9 @@ class _SelectOpticScreenState
                       opticShops: opticShops,
                       isCertificateMap: widget.isCertificateMap,
                       onCityDefinitionCallback: wm.onCityDefinition,
-                      onOpticShopSelect: (selectedShop) =>
+                      initialOptic: wm.selectedOpticShop,
+                      onOpticShopSelectList: wm.shopOpticOnMap,
+                      onOpticShopSelectMap: (selectedShop) =>
                           wm.onOpticShopSelectAction(
                         OpticShopParams(
                           selectedShop,

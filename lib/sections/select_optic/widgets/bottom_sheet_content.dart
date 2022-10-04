@@ -1,5 +1,6 @@
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -195,12 +196,15 @@ class BottomSheetContentOther extends StatelessWidget {
   final String? site;
   final String? additionalInfo;
   final ScrollController controller;
+  final List<OpticShopFeature>? features;
+
   final VoidCallback? onPressed;
   const BottomSheetContentOther({
     required this.title,
     required this.btnText,
     required this.controller,
     required this.onPressed,
+    this.features,
     this.subtitle,
     this.phones,
     this.site,
@@ -320,6 +324,12 @@ class BottomSheetContentOther extends StatelessWidget {
                       ),
                     ),
 
+                  if (features != null && features!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: FeaturesSection(features: features!),
+                    ),
+
                   // Доп. информация о скидке
                   if (additionalInfo != null)
                     Flexible(
@@ -356,9 +366,9 @@ class BottomSheetContentOther extends StatelessWidget {
               ),
               child: BlueButton(
                 onPressed: onPressed,
-                children: const [
+                children: [
                   Text(
-                    'Выбрать эту сеть оптик',
+                    btnText,
                     style: AppStyles.h2Bold,
                   ),
                 ],
@@ -402,6 +412,61 @@ class BottomSheetContentOther extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FeaturesSection extends StatelessWidget {
+  final List<OpticShopFeature> features;
+  const FeaturesSection({
+    required this.features,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: features.map(_FeatureRow.new).toList(),
+    );
+  }
+}
+
+class _FeatureRow extends StatelessWidget {
+  final OpticShopFeature feature;
+  const _FeatureRow(
+    this.feature, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const circleSize = 4.0;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: circleSize,
+          width: circleSize,
+          margin: const EdgeInsets.only(
+            top: 9,
+          ),
+          decoration: BoxDecoration(
+            color: AppTheme.grey,
+            borderRadius: BorderRadius.circular(circleSize / 2),
+          ),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Flexible(
+          child: Text(
+            feature.title,
+            style: AppStyles.p1Grey,
+          ),
+        ),
+      ],
     );
   }
 }
