@@ -1,8 +1,11 @@
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
+import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
+import 'package:bausch/sections/order_registration/widgets/order_button.dart';
 import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
@@ -12,11 +15,14 @@ import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
+import 'package:bausch/widgets/buttons/white_button.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -319,8 +325,40 @@ class _ProfileSettingsScreenState
                 ),
               ),
             ),
+            WhiteButton(
+              text: 'Удалить аккаунт',
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+                vertical: 26,
+              ),
+              style: AppStyles.h2.copyWith(
+                color: const Color(
+                  0xffFF7F77,
+                ),
+              ),
+              onPressed: () async {
+                _showDeleteAccountBottomSheet(confirmCallback: (ctx) async {
+                  await wm.deleteAccount(onSuccess: () {
+                    Navigator.of(ctx).pop();
+                    _showSuccessBottomSheet(
+                      confirmCallback: (c) => Navigator.of(c).pop(),
+                    );
+                  });
+                });
+                // await wm.changeCityAction(
+                //   await Keys.mainNav.currentState!.push<String?>(
+                //     PageRouteBuilder<String>(
+                //       pageBuilder: (context, animation, secondaryAnimation) =>
+                //           CityScreen(
+                //         withFavoriteItems: const ['Москва'],
+                //       ),
+                //     ),
+                //   ),
+                // );
+              },
+            ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(top: 12, bottom: 40),
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
                 builder: (_, snapshot) {
@@ -339,6 +377,229 @@ class _ProfileSettingsScreenState
           ],
         ),
       ),
+    );
+  }
+
+  void _showDeleteAccountBottomSheet({
+    required Future<void> Function(BuildContext) confirmCallback,
+  }) {
+    final isLoadingState = StreamedState(false);
+    showFlexibleBottomSheet<void>(
+      context: Keys.mainContentNav.currentContext!,
+      minHeight: 0,
+      initHeight: 0.4,
+      maxHeight: 0.4,
+      anchors: [0, 0.4],
+      builder: (context, controller, _) {
+        return Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(
+                5,
+              ),
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: AppTheme.mystic,
+            body: Stack(
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: controller,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        SizedBox(height: 40),
+                        Text(
+                          'Удалить аккаунт',
+                          style: AppStyles.h1,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'При удалении аккаунта все данные профиля и история накопления баллов будут безвозвратно удалены.',
+                          style: AppStyles.p1Grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  child: IgnorePointer(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Container(
+                          height: 4,
+                          width: 38,
+                          decoration: BoxDecoration(
+                            color: AppTheme.mineShaft,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  StreamedStateBuilder<bool>(
+                    streamedState: isLoadingState,
+                    builder: (_, isLoading) {
+                      return BlueButtonWithText(
+                        text: isLoading ? '' : 'Подтверждаю',
+                        icon: isLoading ? const UiCircleLoader() : null,
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                isLoadingState.accept(true);
+                                await confirmCallback(context);
+                                isLoadingState.accept(false);
+                              },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  DefaultButton(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                    ),
+                    children: const [
+                      Text(
+                        'Отмена',
+                        style: AppStyles.h2Bold,
+                      ),
+                    ],
+                    onPressed: Navigator.of(context).pop,
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showSuccessBottomSheet({
+    required ValueChanged<BuildContext> confirmCallback,
+  }) {
+    showFlexibleBottomSheet<void>(
+      context: Keys.mainContentNav.currentContext!,
+      minHeight: 0,
+      initHeight: 0.3,
+      maxHeight: 0.3,
+      anchors: [0, 0.3],
+      builder: (context, controller, _) {
+        return Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(
+                5,
+              ),
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: AppTheme.mystic,
+            body: Stack(
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  controller: controller,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        SizedBox(height: 40),
+                        Text(
+                          'Заявка принята',
+                          style: AppStyles.h1,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'В течение 7 рабочих дней ваш аккаунт будет удален.',
+                          style: AppStyles.p1Grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  child: IgnorePointer(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Container(
+                          height: 4,
+                          width: 38,
+                          decoration: BoxDecoration(
+                            color: AppTheme.mineShaft,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  BlueButton(
+                    children: const [
+                      Text(
+                        'Хорошо',
+                        style: AppStyles.h2Bold,
+                      ),
+                    ],
+                    onPressed: () => confirmCallback(context),
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

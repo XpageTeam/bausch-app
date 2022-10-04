@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -39,11 +40,15 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   AppsflyerSdk? _appsflyer;
 
+  late final UserWM userWM;
+
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
 
   @override
   void onLoad() {
+    userWM = context.read<UserWM>();
+
     nameController.addListener(
       () {
         tempName = nameController.text;
@@ -63,8 +68,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     setValues();
 
     userWM.userData.bind((userData) {
@@ -161,6 +164,54 @@ class ProfileSettingsScreenWM extends WidgetModel {
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  Future<void> deleteAccount({
+    required VoidCallback onSuccess,
+  }) async {
+    final rh = RequestHandler();
+
+    CustomException? error;
+
+    try {
+      final userData = userWM.userData.value.data!;
+
+      BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+        '/faq/form/',
+        data: FormData.fromMap(<String, dynamic>{
+          'email': userData.user.email,
+          'topic': 22,
+          'question': 199,
+          'fio': userData.userName,
+          'phone': userData.user.phone,
+        }),
+      ))
+          .data!);
+      onSuccess();
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'Ошибка при обработке ответа от сервера',
+        subtitle: e.toString(),
+      );
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'Ошибка при отправке запроса',
+        subtitle: e.toString(),
+      );
+      // ignore: unused_catch_clause
+    } on SuccessFalse catch (e) {
+      error = const CustomException(
+        title: 'что-то пошло не так',
+      );
+    }
+
+    if (error != null) {
+      log('error: ${error.subtitle}');
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
     }
   }
 
