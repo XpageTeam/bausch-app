@@ -154,6 +154,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
 }
 
 class AppsflyerSingleton {
+  static final AppsflyerSingleton _singleton = AppsflyerSingleton._internal();
   static late AppsflyerSdk sdk;
 
   factory AppsflyerSingleton() {
@@ -168,6 +169,7 @@ class AppsflyerSingleton {
 
     sdk.initSdk();
 
-    return AppsflyerSingleton();
+    return _singleton;
   }
+  AppsflyerSingleton._internal();
 }
