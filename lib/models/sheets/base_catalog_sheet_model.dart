@@ -10,6 +10,9 @@ abstract class BaseCatalogSheetModel {
   //* Ссылка на иконку
   final String? icon;
 
+  //* Ссылка на вторую иконку
+  final String? secondIcon;
+
   //* Количество элементов внутри
   final int? count;
 
@@ -18,6 +21,7 @@ abstract class BaseCatalogSheetModel {
     required this.name,
     required this.type,
     this.icon,
+    this.secondIcon,
     this.count,
   });
 }

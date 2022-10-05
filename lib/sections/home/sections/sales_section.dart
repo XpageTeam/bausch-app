@@ -239,11 +239,15 @@ class _WideSaleContainerState extends State<WideSaleContainer> {
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     // color: Colors.red,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    clipBehavior: Clip.hardEdge,
                     alignment: Alignment.topRight,
                     height: 114,
                     width: 127,
                     child: Image.network(
-                      widget.item.icon ?? '',
+                      widget.item.secondIcon ?? widget.item.icon ?? '',
                     ),
                   ),
                 ),

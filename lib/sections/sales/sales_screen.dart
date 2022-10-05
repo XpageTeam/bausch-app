@@ -242,11 +242,15 @@ class __SmallContainerState extends State<_SmallContainer> {
                       style: AppStyles.p1,
                     ),
                     Container(
-                      height: 85,
+                      // height: 85,
                       width: 80,
-                      alignment: Alignment.bottomRight,
+                      // alignment: Alignment.bottomRight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      clipBehavior: Clip.hardEdge,
                       child: Image.network(
-                        widget.item.icon ?? '',
+                        widget.item.secondIcon ?? widget.item.icon ?? '',
                       ),
                     ),
                   ],
