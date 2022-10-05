@@ -9,6 +9,7 @@ import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
+import 'package:bausch/packages/flutter_cupertino_date_picker/src/date_time_formatter.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
@@ -25,24 +26,32 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
   final String? orderTitle;
   final String? address;
   final String? deliveryInfo;
+  final String? promocodeDate;
 
   const CatalogItemWidget({
     required this.model,
     this.orderTitle,
     this.address,
     this.deliveryInfo,
+    this.promocodeDate,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     debugPrint(model.picture);
+
+    final promocodeDateTime = promocodeDate != null
+        ? DateFormat('dd.MM.yyyy').parse(promocodeDate!)
+        : null;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -288,6 +297,17 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+
+            if (promocodeDateTime != null)
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'До ${DateFormat('dd MMMM yyyy', 'ru_RUS').format(
+                    promocodeDateTime,
+                  )}',
+                  style: AppStyles.p1Grey,
                 ),
               ),
             if (model is! ProductItemModel)

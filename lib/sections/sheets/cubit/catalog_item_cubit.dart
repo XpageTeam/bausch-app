@@ -1,3 +1,4 @@
+import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
@@ -78,7 +79,7 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
     } on SuccessFalse catch (e) {
       emit(
         CatalogItemFailed(
-          title: 'Ошибка при отправке запроса',
+          title: 'Ошибка при получении ответа от сервера',
           subtitle: e.toString(),
         ),
       );

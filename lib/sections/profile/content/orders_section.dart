@@ -20,7 +20,6 @@ class OrdersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
     return SliverPadding(
       padding: const EdgeInsets.symmetric(
         horizontal: StaticData.sidePadding,
@@ -61,6 +60,7 @@ class OrdersSection extends StatelessWidget {
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
+                          promocodeDate: order.promocodeDate,
                           model: ProductItemModel(
                             id: order.id,
                             name: order.title,
@@ -82,6 +82,7 @@ class OrdersSection extends StatelessWidget {
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
+                          promocodeDate: order.promocodeDate,
                           model: PartnersItemModel(
                             id: order.id,
                             name: order.title,
@@ -104,6 +105,7 @@ class OrdersSection extends StatelessWidget {
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
+                          promocodeDate: order.promocodeDate,
                           model: ProductItemModel(
                             id: order.id,
                             name: order.title,
@@ -124,6 +126,7 @@ class OrdersSection extends StatelessWidget {
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
+                          promocodeDate: order.promocodeDate,
                           model: PartnersItemModel(
                             id: order.id,
                             name: order.title,
@@ -147,6 +150,7 @@ class OrdersSection extends StatelessWidget {
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
+                          promocodeDate: order.promocodeDate,
                           model: PartnersItemModel(
                             id: order.id,
                             name: order.title,

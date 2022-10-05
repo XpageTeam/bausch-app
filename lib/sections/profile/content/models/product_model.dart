@@ -13,6 +13,7 @@ class ProductOrderModel extends BaseOrderModel {
     required String status,
     required String category,
     required this.product,
+    String? promocodeDate,
     this.deliveryText,
   }) : super(
           id: id,
@@ -21,6 +22,7 @@ class ProductOrderModel extends BaseOrderModel {
           price: price,
           status: status,
           title: title,
+          promocodeDate: promocodeDate,
         );
 
   factory ProductOrderModel.fromMap(Map<String, dynamic> map) {
@@ -35,6 +37,7 @@ class ProductOrderModel extends BaseOrderModel {
         product:
             OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
         deliveryText: map['delivery'] as String?,
+        promocodeDate: map['promocodeData'] as String?,
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

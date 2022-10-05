@@ -141,9 +141,9 @@ class _DiscountOpticsScreenState
           ),
           errorChild: const _NoDiscountsAvailable(),
           builder: (_, discountOptics) {
-            // if (discountOptics.isEmpty) {
-            //   return const _NoDiscountsAvailable();
-            // }
+            if (discountOptics.isEmpty) {
+              return const _NoDiscountsAvailable();
+            }
 
             final items = <Widget>[
               Text(
@@ -208,25 +208,7 @@ class _DiscountOpticsScreenState
                         ),
                       ),
                     ),
-                    // FocusButton(
-                    //   labelText: 'Город',
-                    //   selectedText: cityName,
-                    //   onPressed: () async {
-                    //     await wm.setOfflineCity(
-                    //       await Keys.mainNav.currentState!.push<String?>(
-                    //         PageRouteBuilder<String>(
-                    //           pageBuilder:
-                    //               (context, animation, secondaryAnimation) =>
-                    //                   CityScreen(
-                    //             withFavoriteItems: const ['Москва'],
-                    //             citiesWithShops:
-                    //                 wm.cities.map((e) => e.title).toList(),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
+                  
                   ),
                 ),
               if (wm.discountType == DiscountType.offline)
@@ -271,17 +253,17 @@ class _DiscountOpticsScreenState
                     ),
                   ),
                 ),
-              if (wm.discountType == DiscountType.offline &&
-                  discountOptics.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                  ),
-                  child: Text(
-                    'Нет доступных скидок',
-                    style: AppStyles.h1,
-                  ),
-                ),
+              // if (wm.discountType == DiscountType.offline &&
+              //     discountOptics.isEmpty)
+              //   const Padding(
+              //     padding: EdgeInsets.symmetric(
+              //       vertical: 20,
+              //     ),
+              //     child: Text(
+              //       'Нет доступных скидок',
+              //       style: AppStyles.h1,
+              //     ),
+              //   ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: StreamedStateBuilder<Optic?>(

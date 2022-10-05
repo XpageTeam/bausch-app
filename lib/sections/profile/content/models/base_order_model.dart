@@ -8,6 +8,7 @@ abstract class BaseOrderModel {
   final int price;
   final String status;
   final String category;
+  final String? promocodeDate;
   // final DateTime endDate;
 
   String get formatedDate => DateFormat('dd.MM.yyyy').format(date);
@@ -21,6 +22,7 @@ abstract class BaseOrderModel {
     required this.price,
     required this.status,
     required this.category,
+    required this.promocodeDate,
     // required this.endDate,
   });
 }
