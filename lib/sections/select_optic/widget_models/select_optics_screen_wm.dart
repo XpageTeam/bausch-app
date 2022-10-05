@@ -40,6 +40,7 @@ class SelectOpticScreenWM extends WidgetModel {
   final BuildContext context;
 
   final filteredOpticShopsStreamed = EntityStreamedState<List<OpticShop>>();
+    // ..content([]);
   final opticsByCityStreamed = StreamedState<List<Optic>>([]);
   final currentCityStreamed = EntityStreamedState<String>();
 

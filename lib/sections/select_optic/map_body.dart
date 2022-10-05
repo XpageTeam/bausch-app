@@ -25,6 +25,7 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
 
   final String selectButtonText;
+  final OpticShop? initialOptic;
 
   MapBody({
     required this.opticShops,
@@ -33,7 +34,7 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
     required this.selectButtonText,
     required this.onCityDefinitionCallback,
     required bool isCertificateMap,
-    required OpticShop? initialOptic,
+    required this.initialOptic,
     Key? key,
   }) : super(
           key: key,
@@ -51,14 +52,16 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
 }
 
 class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
-  late YandexMapController controller;
+  // late YandexMapController controller;
 
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(oldWidget.opticShops, widget.opticShops)) {
+      debugPrint('!listEquals');
       wm.updateMapObjects(widget.opticShops);
     }
+    wm.moveToInitialOptic(widget.initialOptic);
   }
 
   @override
@@ -111,6 +114,7 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   }
 
   Future<void> onMapCreated(YandexMapController yandexMapController) async {
+    debugPrint('***onMapCreated***'.toUpperCase());
     wm
       ..mapController = yandexMapController
       // ..setCenterOn(widget.opticShops)
