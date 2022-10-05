@@ -46,14 +46,11 @@ class _DiscountOpticsVerificationState extends WidgetState<
     DiscountOpticsVerification, DiscountOpticsVerificationWM> {
 
 
-  @override
-  void initState() {
-    AppsflyerSingleton.sdk.logEvent('discountOpticsOrder', <String, dynamic>{
-      'id': wm.itemModel.id,
-      'title': wm.itemModel.name,
-    });
-    super.initState();
-  }
+  // @override
+  // void initState() {
+    
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

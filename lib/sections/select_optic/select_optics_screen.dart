@@ -65,7 +65,7 @@ class _SelectOpticScreenState
             title: 'Адреса оптик',
             backgroundColor: AppTheme.mystic,
           ),
-          resizeToAvoidBottomInset: true,
+          resizeToAvoidBottomInset: false,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -100,7 +100,7 @@ class _SelectOpticScreenState
                   ),
                   child: _SelectCityButton(
                     city: currentCity,
-                    onPressed: wm.selectCity,
+                    onPressed: wm.openSelectCity,
                   ),
                 ),
               ),
@@ -175,8 +175,7 @@ class _SelectOpticScreenState
                       currentPage: currentPage,
                       opticShops: opticShops,
                       isCertificateMap: widget.isCertificateMap,
-                      onCityDefinitionCallback:
-                          (_) async {}, //wm.onCityDefinition,
+                      onCityDefinitionCallback: wm.trySetUserCity,
                       initialOptic: wm.selectedOpticShop,
                       onOpticShopSelectList: wm.showOpticOnMap,
                       onOpticShopSelectMap: wm.selectOptic,

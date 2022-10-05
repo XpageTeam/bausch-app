@@ -10,6 +10,7 @@ import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/models/program/primary_data_downloader.dart';
+import 'package:bausch/models/user/user_model/user.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
@@ -39,7 +40,9 @@ class ProgramScreenWM extends WidgetModel {
 
   final colorState = StreamedState<Color>(Colors.white);
 
-  String city = '';
+  late String city;
+
+  late final User? userData;
 
   List<OpticCity> cities = [];
 
@@ -56,6 +59,9 @@ class ProgramScreenWM extends WidgetModel {
 
   @override
   void onLoad() {
+    userData = context.read<UserWM>().userData.value.data?.user;
+
+    city = userData?.city ?? '';
     _loadData();
     _initUserData();
     super.onLoad();
@@ -153,14 +159,11 @@ class ProgramScreenWM extends WidgetModel {
   }
 
   void _initUserData() {
-    final user =
-        Provider.of<UserWM>(context, listen: false).userData.value.data?.user;
+    if (userData == null) return;
 
-    if (user == null) return;
-
-    firstNameController.text = user.name ?? '';
-    lastNameController.text = user.lastName ?? '';
-    emailController.text = user.email ?? '';
+    firstNameController.text = userData?.name ?? '';
+    lastNameController.text = userData?.lastName ?? '';
+    emailController.text = userData?.email ?? '';
   }
 
   Future<void> _loadData() async {

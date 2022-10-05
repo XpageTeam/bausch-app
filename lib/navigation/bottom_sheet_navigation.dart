@@ -168,14 +168,14 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/onlineShop':
               arguments as ItemSheetScreenArguments;
 
-              AppsflyerSingleton.sdk.logEvent('discountOpticsShow', <String, dynamic>{
+              AppsflyerSingleton.sdk
+                  .logEvent('discountOpticsShow', <String, dynamic>{
                 'id': arguments.model.id,
                 'title': arguments.model.name,
               });
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: arguments.model
-                    as PromoItemModel,
+                model: arguments.model as PromoItemModel,
                 discountType: DiscountType.onlineShop,
               );
               break;

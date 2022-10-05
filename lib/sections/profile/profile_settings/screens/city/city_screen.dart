@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
 import 'package:bausch/sections/loader/loader_screen.dart';
@@ -202,11 +204,8 @@ class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
   }
 
   Future<bool> close([String? cityName]) async {
-    FocusScope.of(context).unfocus();
-    Future<void>.delayed(
-      const Duration(milliseconds: 400),
-      () => Navigator.of(context).pop(cityName),
-    );
+    Navigator.of(context).pop(cityName);
+
     return Future(() => false);
   }
 }
