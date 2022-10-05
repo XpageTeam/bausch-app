@@ -1,6 +1,7 @@
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 
 class CertificateFilterSectionModel {
   final List<CommonFilter> commonFilters;
@@ -12,27 +13,18 @@ class CertificateFilterSectionModel {
   });
 
   factory CertificateFilterSectionModel.fromJson(Map<String, dynamic> map) {
-// TODO(Nikolay): Надо правильные названия из json.
-
-    final common = map['common'] as Map<String, dynamic>;
-
     return CertificateFilterSectionModel(
-      commonFilters: [
-        CommonFilter(
-          id: 0,
-          title: common['name'] as String,
-          xmlId: common['xml_id'] as String,
-        ),
-      ],
-      // commonFilters: (map['common'] as List<dynamic>)
-      //     .map(
-      //       (dynamic e) => CommonFilter(
-      //         id: 0,
-      //         title: map['name'] as String,
-      //         xmlId: map['xml_id'] as String,
-      //       ),
-      //     )
-      //     .toList(),
+      commonFilters: (map['common'] as List<dynamic>).map(
+        (dynamic e) {
+          final map = e as Map<String, dynamic>;
+
+          return CommonFilter(
+            id: 0,
+            title: map['name'] as String,
+            xmlId: map['xml_id'] as String,
+          );
+        },
+      ).toList(),
       lensFilters: (map['lensSelection'] as List<dynamic>).map(
         (dynamic e) {
           final map = e as Map<String, dynamic>;
