@@ -65,6 +65,7 @@ class _SelectOpticScreenState
             title: 'Адреса оптик',
             backgroundColor: AppTheme.mystic,
           ),
+          resizeToAvoidBottomInset: true,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
