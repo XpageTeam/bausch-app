@@ -37,13 +37,16 @@ class ChooseLensesWM extends WidgetModel {
   );
   final areFieldsValid = StreamedState(false);
   final isLeftEqual = StreamedState(false);
-  late final LensProductListModel lensProductList;
+
   final currentProduct = StreamedState<LensProductModel?>(null);
   final ChooseLensesRequester chooseLensesRequester = ChooseLensesRequester();
   final LensesPairModel? editLensPairModel;
   final MyLensesWM? myLensesWM;
   LensProductModel? oldProduct;
   LensProductModel? productBausch;
+  LensProductListModel lensProductList = LensProductListModel(
+    products: [],
+  );
 
   ChooseLensesWM({
     required this.context,

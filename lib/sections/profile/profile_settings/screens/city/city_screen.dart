@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/packages/alphabet_scroll_view/lib/alphabet_scroll_view.dart';
 import 'package:bausch/sections/loader/loader_screen.dart';
@@ -37,162 +39,173 @@ class CityScreen extends CoreMwwmWidget<CityScreenWM> {
 class _CityScreenState extends WidgetState<CityScreen, CityScreenWM> {
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWrapper.builder(
-      EntityStateBuilder<List<String>>(
-        streamedState: wm.citiesList,
-        loadingChild: const Scaffold(
-          appBar: DefaultAppBar(
-            title: 'Город',
-            backgroundColor: AppTheme.mystic,
+    return WillPopScope(
+      onWillPop: close,
+      child: ResponsiveWrapper.builder(
+        EntityStateBuilder<List<String>>(
+          streamedState: wm.citiesList,
+          loadingChild: const Scaffold(
+            appBar: DefaultAppBar(
+              title: 'Город',
+              backgroundColor: AppTheme.mystic,
+            ),
+            body: LoaderScreen(),
           ),
-          body: LoaderScreen(),
-        ),
-        errorBuilder: (_, e) {
-          e as CustomException;
+          errorBuilder: (_, e) {
+            e as CustomException;
 
-          return Scaffold(
-            appBar: const DefaultAppBar(
-              title: 'Город',
-              backgroundColor: AppTheme.mystic,
-            ),
-            body: ErrorPage(
-              title: e.title,
-              // subtitle: e.subtitle,
-              buttonText: 'Обновить',
-              buttonCallback: wm.citiesListReloadAction,
-            ),
-          );
-        },
-        builder: (_, citiesList) {
-          return Scaffold(
-            appBar: const DefaultAppBar(
-              title: 'Город',
-              backgroundColor: AppTheme.mystic,
-            ),
-            body: StreamedStateBuilder<bool>(
-              streamedState: wm.isSearchActive,
-              builder: (_, isSearchActive) {
-                return StreamedStateBuilder<bool>(
-                  streamedState: wm.canCompleteSearch,
-                  builder: (_, state) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        top: 30,
-                        left: StaticData.sidePadding,
-                        right: StaticData.sidePadding,
-                        bottom: state && isSearchActive ? 70 : 0,
-                      ),
-                      child: SafeArea(
-                        top: false,
-                        bottom: state && isSearchActive,
-                        child: Column(
-                          children: [
-                            NativeTextInput(
-                              labelText: 'Найти город',
-                              controller: wm.citiesFilterController,
-                            ),
-                            Flexible(
-                              child: StreamedStateBuilder<List<String>>(
-                                streamedState: wm.filteredCitiesList,
-                                builder: (_, citiesList) {
-                                  if (citiesList.isEmpty) {
-                                    return const Center(
-                                      child: Text(
-                                        'Поиск не принёс результатов :(',
-                                        style: AppStyles.h2,
-                                      ),
-                                    );
-                                  }
-
-                                  return AlphabetScrollView(
-                                    itemExtent: 50,
-                                    list: citiesList.map((city) {
-                                      return AlphaModel(city);
-                                    }).toList(),
-                                    selectedTextStyle: AppStyles.h1,
-                                    unselectedTextStyle: AppStyles.h2,
-                                    favoriteItems: widget.withFavoriteItems,
-                                    topWidget: widget.withFavoriteItems
-                                            .contains('Вся РФ')
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 20,
-                                            ),
-                                            child: Warning.warning(
-                                              'Если вы не нашли свой город в списке, вы можете выбрать «Вся РФ» – эти магазины осуществляют доставку по всей России',
-                                            ),
-                                          )
-                                        : null,
-                                    // selectedLetterTextStyle: AppStyles.p1,
-                                    // unselectedLetterTextStyle: TextStyle(
-                                    //   color: AppTheme.mineShaft,
-                                    //   fontWeight: FontWeight.w400,
-                                    //   fontSize: 12.sp,
-                                    //   height: 16 / 12,
-                                    //   fontFamily: 'Euclid Circular A',
-                                    // ),
-                                    itemBuilder: (context, i, cityName) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).pop(cityName);
-                                        },
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              cityName,
-                                              style: AppStyles.h2,
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
+            return Scaffold(
+              appBar: const DefaultAppBar(
+                title: 'Город',
+                backgroundColor: AppTheme.mystic,
               ),
-              child: StreamedStateBuilder<bool>(
+              body: ErrorPage(
+                title: e.title,
+                // subtitle: e.subtitle,
+                buttonText: 'Обновить',
+                buttonCallback: wm.citiesListReloadAction,
+              ),
+            );
+          },
+          builder: (_, citiesList) {
+            return Scaffold(
+              appBar: DefaultAppBar(
+                title: 'Город',
+                backgroundColor: AppTheme.mystic,
+                onPop: close,
+              ),
+              body: StreamedStateBuilder<bool>(
                 streamedState: wm.isSearchActive,
                 builder: (_, isSearchActive) {
                   return StreamedStateBuilder<bool>(
                     streamedState: wm.canCompleteSearch,
                     builder: (_, state) {
-                      if (state && isSearchActive) {
-                        return BlueButtonWithText(
-                          text: 'Выбрать',
-                          onPressed: wm.selectCityAction,
-                        );
-                      }
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          top: 30,
+                          left: StaticData.sidePadding,
+                          right: StaticData.sidePadding,
+                          bottom: state && isSearchActive ? 70 : 0,
+                        ),
+                        child: SafeArea(
+                          top: false,
+                          bottom: state && isSearchActive,
+                          child: Column(
+                            children: [
+                              NativeTextInput(
+                                labelText: 'Найти город',
+                                controller: wm.citiesFilterController,
+                              ),
+                              Flexible(
+                                child: StreamedStateBuilder<List<String>>(
+                                  streamedState: wm.filteredCitiesList,
+                                  builder: (_, citiesList) {
+                                    if (citiesList.isEmpty) {
+                                      return const Center(
+                                        child: Text(
+                                          'Поиск не принёс результатов :(',
+                                          style: AppStyles.h2,
+                                        ),
+                                      );
+                                    }
 
-                      return const SizedBox();
+                                    return AlphabetScrollView(
+                                      itemExtent: 50,
+                                      list: citiesList.map((city) {
+                                        return AlphaModel(city);
+                                      }).toList(),
+                                      selectedTextStyle: AppStyles.h1,
+                                      unselectedTextStyle: AppStyles.h2,
+                                      favoriteItems: widget.withFavoriteItems,
+                                      topWidget: widget.withFavoriteItems
+                                              .contains('Вся РФ')
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 20,
+                                              ),
+                                              child: Warning.warning(
+                                                'Если вы не нашли свой город в списке, вы можете выбрать «Вся РФ» – эти магазины осуществляют доставку по всей России',
+                                              ),
+                                            )
+                                          : null,
+                                      // selectedLetterTextStyle: AppStyles.p1,
+                                      // unselectedLetterTextStyle: TextStyle(
+                                      //   color: AppTheme.mineShaft,
+                                      //   fontWeight: FontWeight.w400,
+                                      //   fontSize: 12.sp,
+                                      //   height: 16 / 12,
+                                      //   fontFamily: 'Euclid Circular A',
+                                      // ),
+                                      itemBuilder: (context, i, cityName) {
+                                        return InkWell(
+                                          onTap: () {
+                                            close(cityName);
+                                          },
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                cityName,
+                                                style: AppStyles.h2,
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
                   );
                 },
               ),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-          );
-        },
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: StreamedStateBuilder<bool>(
+                  streamedState: wm.isSearchActive,
+                  builder: (_, isSearchActive) {
+                    return StreamedStateBuilder<bool>(
+                      streamedState: wm.canCompleteSearch,
+                      builder: (_, state) {
+                        if (state && isSearchActive) {
+                          return BlueButtonWithText(
+                            text: 'Выбрать',
+                            onPressed: wm.selectCityAction,
+                          );
+                        }
+
+                        return const SizedBox();
+                      },
+                    );
+                  },
+                ),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+            );
+          },
+        ),
+        defaultScale: true,
+        minWidth: 375,
       ),
-      defaultScale: true,
-      minWidth: 375,
     );
+  }
+
+  Future<bool> close([String? cityName]) async {
+    Navigator.of(context).pop(cityName);
+
+    return Future(() => false);
   }
 }

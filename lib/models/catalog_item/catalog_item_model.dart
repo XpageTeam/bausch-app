@@ -91,7 +91,7 @@ class CatalogItemModel {
       picture: json['picture'] as String,
       price: json['price'] as int,
       type: json['type'] as String,
-      isSection:  json['is_section'] as bool,
+      isSection: json['is_section'] as bool,
     );
   }
   factory CatalogItemModel.itemByTypeFromJson(

@@ -14,6 +14,7 @@ class CertificateOrderModel extends BaseOrderModel {
     required String status,
     required String category,
     required this.coupon,
+    String? promocodeDate,
   }) : super(
           id: id,
           category: category,
@@ -21,6 +22,7 @@ class CertificateOrderModel extends BaseOrderModel {
           price: price,
           status: status,
           title: title,
+          promocodeDate: promocodeDate,
         );
 
   factory CertificateOrderModel.fromMap(Map<String, dynamic> map) {
@@ -33,6 +35,7 @@ class CertificateOrderModel extends BaseOrderModel {
         status: map['status'] as String,
         title: map['title'] as String,
         coupon: Coupon.fromMap(map['coupon'] as Map<String, dynamic>),
+        promocodeDate: map['promocodeData'] as String?,
       );
     } catch (e) {
       throw ResponseParseException(e.toString());

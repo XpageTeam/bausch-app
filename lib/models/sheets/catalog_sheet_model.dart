@@ -10,11 +10,13 @@ class CatalogSheetModel extends BaseCatalogSheetModel {
     required String type,
     required String icon,
     required int count,
+    String? secondIcon,
   }) : super(
           id: id,
           name: name,
           type: type,
           icon: icon,
+          secondIcon: secondIcon,
           count: count,
         );
 
@@ -27,6 +29,7 @@ class CatalogSheetModel extends BaseCatalogSheetModel {
         icon: (map['icon'] ??
                 'https://bausch.in-progress.ru/upload/uf/aa5/heterm9de8wkk1pvr37o5rqxrymh66cd.jpg')
             as String,
+        secondIcon: map['secondIcon'] as String?,
         count: map['count'] as int,
       );
     } catch (e) {

@@ -245,7 +245,7 @@ class BottomSheetContentOther extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Text(
                         title,
-                        style: AppStyles.h2Bold,
+                        style: AppStyles.h1,
                       ),
                     ),
                   ),

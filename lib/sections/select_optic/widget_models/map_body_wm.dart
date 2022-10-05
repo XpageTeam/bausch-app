@@ -20,7 +20,6 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapBodyWM extends WidgetModel {
-  final List<OpticShop> initOpticShops;
   final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
 
   final MapObjectId clusterMapId = const MapObjectId(
@@ -65,6 +64,7 @@ class MapBodyWM extends WidgetModel {
 
   /// Поток местоположения пользователя
   StreamSubscription<Position>? userPositionStream;
+  List<OpticShop> initOpticShops;
 
   MapBodyWM({
     required this.initOpticShops,
@@ -77,17 +77,6 @@ class MapBodyWM extends WidgetModel {
 
   @override
   void onBind() {
-    // updateMapObjects.bind((shopList) async {
-    //   await _updateClusterMapObject(shopList!);
-    //   if (mapController != null) {
-    //     _setCenterOn<OpticShop>(shopList);
-    //   }
-    // });
-
-    // updateMapObjectsWhenComplete.bind((shopList) {
-    //   _updateClusterMapObject(shopList!);
-    // });
-
     moveToUserPosition.bind(
       (value) {
         _enableListenUserPosition();
@@ -95,15 +84,11 @@ class MapBodyWM extends WidgetModel {
       },
     );
 
-    // setCenterAction.bind(
-    //   (opticShops) => setCenterOn(opticShops!),
-    // );
-
     zoomInAction.bind((_) {
       mapController?.moveCamera(
         CameraUpdate.zoomIn(),
         animation: const MapAnimation(
-          duration: 0.5,
+          duration: 0.2,
         ),
       );
     });
@@ -112,7 +97,7 @@ class MapBodyWM extends WidgetModel {
       mapController?.moveCamera(
         CameraUpdate.zoomOut(),
         animation: const MapAnimation(
-          duration: 0.5,
+          duration: 0.2,
         ),
       );
     });
@@ -121,69 +106,36 @@ class MapBodyWM extends WidgetModel {
   }
 
   @override
-  Future<void> onLoad() async {
-    // await updateMapObjects(
-    //   initOpticShops,
-    //   withSetCenter: initialOptic == null,
-    // );
-    // if (initialOptic != null) {
-    //   final id = initOpticShops.indexOf(initialOptic!);
-    //   debugPrint('id: $id');
-
-    //   await _updateClusterMapObject(initOpticShops, id);
-    //   await Future<void>.delayed(
-    //     const Duration(milliseconds: 300),
-    //   );
-    //   _moveTo(initialOptic!.coords);
-    //   onPlacemarkPressed?.call(initialOptic!);
-    // }
-
-    // Пришлось обернуть в future, потому что иногда метки не отрисовывались
-    // Future<void>.delayed(
-    //   const Duration(milliseconds: 100),
-    //   () => updateMapObjects(initOpticShops),
-    // );
-    super.onLoad();
-  }
-
-  @override
   void dispose() {
-    // mapController?.dispose();
     mapController = null;
+    mapObjectsStreamed.dispose();
 
     userPositionStream?.cancel();
     super.dispose();
   }
 
   Future<void> init() async {
+    if (initOpticShops.isEmpty) return;
+
     await updateMapObjects(
       initOpticShops,
       withSetCenter: initialOptic == null,
     );
-    if (initialOptic != null) {
-      final id = initOpticShops.indexOf(initialOptic!);
+  }
+
+  Future<void> moveToInitialOptic(OpticShop? shop) async {
+    if (shop != null) {
+      final id = initOpticShops.indexOf(shop);
       debugPrint('id: $id');
 
       await _updateClusterMapObject(initOpticShops, id);
       await Future<void>.delayed(
-        const Duration(milliseconds: 300),
+        const Duration(milliseconds: 100),
       );
-      _moveTo(initialOptic!.coords);
-      onPlacemarkPressed?.call(initialOptic!);
+      _moveTo(shop.coords);
+      onPlacemarkPressed?.call(shop);
     }
   }
-
-  // Future<List<Uint8List>> _getIcons({
-  //   required List<OpticShop> shopList,
-  //   int? indexOfPressedShop,
-  // }) async {
-  //   final list = <Uint8List>[];
-  //   for (var i = 0; i < shopList.length; i++) {
-  //     list.add(await _rawPlacemarkImage());
-  //   }
-
-  //   return list;
-  // }
 
   void updateMapObjectsWhenComplete(List<OpticShop> shopList) {
     updateMapObjects(
@@ -196,12 +148,16 @@ class MapBodyWM extends WidgetModel {
     List<OpticShop> shopList, {
     bool withSetCenter = true,
   }) async {
+    initOpticShops = shopList;
     await Future<void>.delayed(
       const Duration(milliseconds: 100),
     );
     await _updateClusterMapObject(shopList);
     if (mapController != null && withSetCenter) {
-      unawaited(setCenterOn<OpticShop>(shopList));
+      await setCenterOn<OpticShop>(
+        shopList,
+        withUserPosition: false,
+      );
     }
   }
 
@@ -253,6 +209,9 @@ class MapBodyWM extends WidgetModel {
       ),
       () async => mapController?.moveCamera(
         CameraUpdate.newBounds(bounds!),
+        animation: const MapAnimation(
+          duration: 0.1,
+        ),
       ),
     );
   }
@@ -261,14 +220,10 @@ class MapBodyWM extends WidgetModel {
     List<OpticShop> shopList, [
     int? indexOfPressedShop,
   ]) async {
-    mapObjectsStreamed.value.removeWhere(
-      (obj) => obj.mapId == clusterMapId,
-    );
-
-    // final icons = await _getIcons(
-    //   shopList: shopList,
-    //   indexOfPressedShop: indexOfPressedShop,
-    // );
+    final mapObjects = mapObjectsStreamed.value.toList()
+      ..removeWhere(
+        (obj) => obj.mapId == clusterMapId,
+      );
 
     final placemarkCollection = ClusterizedPlacemarkCollection(
       mapId: clusterMapId,
@@ -305,8 +260,8 @@ class MapBodyWM extends WidgetModel {
       ),
     );
 
-    mapObjectsStreamed.value.add(placemarkCollection);
-    unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
+    mapObjects.add(placemarkCollection);
+    await mapObjectsStreamed.accept(mapObjects);
   }
 
   Future<List<PlacemarkMapObject>> _generatePlacemarks({
@@ -334,11 +289,9 @@ class MapBodyWM extends WidgetModel {
           },
           opacity: 1,
           mapId: MapObjectId(placemarkId),
-          // MapObjectId('placemark_${shopList[i].coords}'),
           point: shopList[i].coords,
           icon: PlacemarkIcon.single(
             PlacemarkIconStyle(
-              // scale: 0.75,
               anchor: const Offset(0.5, 1),
               scale: indexOfPressedShop != null
                   ? indexOfPressedShop == i
@@ -346,12 +299,6 @@ class MapBodyWM extends WidgetModel {
                       : 0.75
                   : 0.75,
               image: BitmapDescriptor.fromBytes(icon),
-              //   indexOfPressedShop != null
-              //       ? indexOfPressedShop == i
-              //           ? 'assets/icons/big-shop-marker.png'
-              //           : 'assets/icons/shop-marker.png'
-              //       : 'assets/icons/shop-marker.png',
-              // ),
             ),
           ),
         ),
@@ -524,6 +471,7 @@ class MapBodyWM extends WidgetModel {
     if (possibleCities.isEmpty || possibleCities.first.data.city == null) {
       return;
     }
+    debugPrint('possibleCities.first.data: ${possibleCities.first.data.city}');
     await onCityDefinitionCallback(possibleCities.first.data);
   }
 
@@ -594,9 +542,6 @@ class MapBodyWM extends WidgetModel {
     final whiteFillPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
-    // final suluFillPaint = Paint()
-    //   ..color = AppTheme.sulu
-    //   ..style = PaintingStyle.fill;
 
     final radius = size.height / 2;
 
@@ -659,6 +604,17 @@ class MapBodyWM extends WidgetModel {
 
     final circleSize = Size(size.height * 3 / 7, size.height * 3 / 7);
 
+    final features = isCertificateMap &&
+            shopList.isNotEmpty &&
+            shopList.first is OpticShopForCertificate
+        ? shopList
+            .map((e) => e as OpticShopForCertificate)
+            .toList()[currentPlacemarkIndex]
+            .features
+        : <OpticShopFeature>[];
+
+    final isDiscount = features.any((feature) => feature.xmlId == 'discount');
+
     _drawDiagram(
       canvas: canvas,
       size: circleSize,
@@ -668,21 +624,64 @@ class MapBodyWM extends WidgetModel {
       colors: isCertificateMap &&
               shopList.isNotEmpty &&
               shopList.first is OpticShopForCertificate
-          ? _getColorsFromFeatures(
-              shopList
-                  .map((e) => e as OpticShopForCertificate)
-                  .toList()[currentPlacemarkIndex]
-                  .features,
-            )
+          ? _getColorsFromFeatures(features)
           : [AppTheme.sulu],
     );
 
+    const discountCircleRadius = 25.0;
+
+    if (isDiscount) {
+      _drawDiscountCircle(
+        size: size,
+        canvas: canvas,
+        radius: discountCircleRadius,
+      );
+    }
+
+    final imageSize = isDiscount
+        ? Size(
+            size.width + discountCircleRadius / 2,
+            size.height + discountCircleRadius / 2,
+          )
+        : size;
+
     final image = await recorder
         .endRecording()
-        .toImage(size.width.toInt(), size.height.toInt());
+        .toImage(imageSize.width.toInt(), imageSize.height.toInt());
     final pngBytes = await image.toByteData(format: ImageByteFormat.png);
 
     return pngBytes!.buffer.asUint8List();
+  }
+
+  void _drawDiscountCircle({
+    required Size size,
+    required Canvas canvas,
+    required double radius,
+  }) {
+    canvas.drawCircle(
+      Offset(
+        size.width - radius,
+        radius,
+      ),
+      radius,
+      Paint()..color = AppTheme.sulu,
+    );
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: '%',
+        style: AppStyles.n1.copyWith(fontSize: 35),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: size.width);
+
+    final textOffset = Offset(
+      size.width - 42,
+      6,
+    );
+
+    final circleOffset = Offset(size.width / 2, radius);
+    textPainter.paint(canvas, textOffset);
   }
 
   void _drawDiagram({
@@ -737,16 +736,6 @@ class MapBodyWM extends WidgetModel {
     );
     return completer.future;
   }
-
-  // final colors = [
-  //   AppTheme.sulu,
-  //   AppTheme.orangeToric,
-  //   AppTheme.yellowMultifocal,
-  //   Colors.red,
-  //   Colors.green,
-  //   Colors.purple,
-  //   Colors.amber,
-  // ];
 
   void _drawSegment({
     required Canvas canvas,

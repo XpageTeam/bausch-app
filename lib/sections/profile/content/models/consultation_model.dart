@@ -14,6 +14,7 @@ class ConsultationOrderModel extends BaseOrderModel {
     required String status,
     required String category,
     required this.product,
+     String? promocodeDate,
   }) : super(
           id: id,
           category: category,
@@ -21,6 +22,7 @@ class ConsultationOrderModel extends BaseOrderModel {
           price: price,
           status: status,
           title: title,
+          promocodeDate: promocodeDate,
         );
 
   factory ConsultationOrderModel.fromMap(Map<String, dynamic> map) {
@@ -32,8 +34,10 @@ class ConsultationOrderModel extends BaseOrderModel {
         price: map['price'] as int,
         status: map['status'] as String,
         category: map['category'] as String,
-        product:
-            OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
+        product: OrderProductModel.fromMap(
+          map['product'] as Map<String, dynamic>,
+        ),
+        promocodeDate: map['promocodeData'] as String,
       );
     } catch (e) {
       throw ResponseParseException(e.toString());

@@ -214,15 +214,20 @@ class DiscountOpticsScreenWM extends WidgetModel {
   }
 
   Future<void> _selectOnlineCity() async {
-    final moscowString = citiesForOnlineShop
-        .toList()
-        .firstWhere((element) => element == 'Москва');
+    String? moscowString;
+    if (citiesForOnlineShop.any((element) => element == 'Москва')) {
+      moscowString =
+          citiesForOnlineShop.firstWhere((element) => element == 'Москва');
+    }
 
     final cityName = await Keys.mainNav.currentState!.push<String>(
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
           citiesWithShops: citiesForOnlineShop.toList(),
-          withFavoriteItems: ['Вся РФ', moscowString],
+          withFavoriteItems: [
+            'Вся РФ',
+            if (moscowString != null) moscowString,
+          ],
         ),
       ),
     );
