@@ -37,7 +37,7 @@ class CertificateOpticsLoader {
     );
 
     final json = res.data as Map<String, dynamic>;
-    debugPrint('json: $json');
+    // debugPrint('json: $json');
     return CertificateFilterSectionModel.fromJson(json);
   }
 }
