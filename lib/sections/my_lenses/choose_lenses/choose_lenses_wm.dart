@@ -74,7 +74,6 @@ class ChooseLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка загрузки данных',
-        success: true,
       );
       lensProductList = LensProductListModel(products: []);
     }
