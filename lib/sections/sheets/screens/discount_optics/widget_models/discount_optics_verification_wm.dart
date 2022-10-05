@@ -51,10 +51,15 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
   @override
   void onLoad() {
-    userWm = Provider.of<UserWM>(
-      context,
-      listen: false,
+    AppsflyerSingleton.sdk.logEvent(
+      'discountOpticsOrder',
+      <String, dynamic>{
+        'id': itemModel.id,
+        'title': itemModel.name,
+      },
     );
+
+    userWm = context.read<UserWM>();
     points = userWm.userData.value.data?.balance.available.toInt() ?? 0;
 
     remains = points - itemModel.price;

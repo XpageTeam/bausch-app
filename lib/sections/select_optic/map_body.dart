@@ -58,8 +58,10 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   void didUpdateWidget(covariant MapBody oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(oldWidget.opticShops, widget.opticShops)) {
-      debugPrint('!listEquals');
-      wm.updateMapObjects(widget.opticShops);
+      wm.updateMapObjects(
+        widget.opticShops,
+        // withSetCenter: false,
+      );
     }
     wm.moveToInitialOptic(widget.initialOptic);
   }
