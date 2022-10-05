@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:core';
 
 import 'package:bausch/models/add_points/product_code_model.dart';
+import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/requesters/choose_lenses_requester.dart';
 import 'package:bausch/sections/sheets/screens/add_points/bloc/add_points_code/add_points_code_bloc.dart';
 import 'package:bausch/sections/sheets/screens/add_points/final_add_points.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -14,7 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CodeSection extends StatefulWidget {
-  const CodeSection({Key? key}) : super(key: key);
+  final MyLensesWM? myLensesWM;
+  const CodeSection({required this.myLensesWM, Key? key}) : super(key: key);
 
   @override
   _CodeSectionState createState() => _CodeSectionState();
@@ -63,18 +68,32 @@ class _CodeSectionState extends State<CodeSection> {
       child: BlocProvider(
         create: (context) => addPointsCodeBloc,
         child: BlocListener<AddPointsCodeBloc, AddPointsCodeState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is AddPointsCodeFailed) {
               showDefaultNotification(title: state.title);
             }
             if (state is AddPointsCodeSendSuccess) {
-              Navigator.of(context).pushNamedAndRemoveUntil(
+              LensProductModel? productBausch;
+              for (final product
+                  in (await ChooseLensesRequester().loadLensProducts())
+                      .products) {
+                if (product.bauschProductId != null &&
+                    _value != null &&
+                    product.bauschProductId == _value!.id) {
+                  productBausch = product;
+                }
+              }
+              // TODO(pavlov): тут передаю id продукта линз если выбраны линзы
+              // ignore: use_build_context_synchronously
+              unawaited(Navigator.of(context).pushNamedAndRemoveUntil(
                 '/final_addpoints',
                 (route) => route.isCurrent,
                 arguments: FinalAddPointsArguments(
                   points: state.points.toString(),
+                  productBausch: productBausch,
+                  myLensesWM: widget.myLensesWM,
                 ),
-              );
+              ));
             }
           },
           child: BlocBuilder<AddPointsCodeBloc, AddPointsCodeState>(

@@ -4,6 +4,7 @@ import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
+import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
 import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
@@ -77,11 +78,15 @@ class CurrentDailyLensesPage extends StatelessWidget {
                   Expanded(
                     child: GreyButton(
                       text: 'Изменить',
-                      onPressed: () =>
-                          Keys.mainContentNav.currentState!.pushNamed(
+                      onPressed: () => Keys.mainContentNav.currentState!
+                          .pushNamed(
                         '/choose_lenses',
-                        arguments: [true, myLensesWM.lensesPairModel.value],
-                      ).then((value) {
+                        arguments: ChooseLensesScreenArguments(
+                          isEditing: true,
+                          lensesPairModel: myLensesWM.lensesPairModel.value,
+                        ),
+                      )
+                          .then((value) {
                         myLensesWM.loadAllData();
                       }),
                     ),

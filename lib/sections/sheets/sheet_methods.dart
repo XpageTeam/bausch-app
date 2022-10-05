@@ -1,6 +1,7 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/navigation/bottom_sheet_navigation.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,12 @@ Future<void> showSheet<T>(
   BuildContext context,
   BaseCatalogSheetModel model, [
   T? args,
+
   // Этот параметр нужен для того, чтоб
   // из секции "вам может быть интересно" можно было перейти
   // сразу в товар
   String? initialRoute,
+  MyLensesWM? myLensesWM,
 ]) {
   return showFlexibleBottomSheet<void>(
     minHeight: 0,
@@ -27,6 +30,7 @@ Future<void> showSheet<T>(
           sheetModel: model,
           args: args,
           initialRoute: initialRoute,
+          myLensesWM: myLensesWM,
         ),
       );
     },

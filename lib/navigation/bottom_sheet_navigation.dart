@@ -18,6 +18,7 @@ import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart'
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
@@ -59,11 +60,13 @@ class BottomSheetNavigation<T> extends StatelessWidget {
   // из секции "вам может быть интересно" можно было перейти
   // сразу в товар
   String? initialRoute;
+  MyLensesWM? myLensesWM;
   BottomSheetNavigation({
     required this.controller,
     required this.sheetModel,
     this.args,
     this.initialRoute,
+    this.myLensesWM,
     Key? key,
   }) : super(key: key);
 
@@ -106,6 +109,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               } else if (sheetModel.type == 'add_points') {
                 page = AddPointsScreen(
                   controller: controller,
+                  myLensesWM: myLensesWM,
                 );
               } else if (sheetModel.type == 'faq') {
                 page = TopicsScreen(
@@ -153,6 +157,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/add_points':
               page = AddPointsScreen(
                 controller: controller,
+                myLensesWM: myLensesWM,
               );
               break;
 
@@ -168,14 +173,14 @@ class BottomSheetNavigation<T> extends StatelessWidget {
             case '/onlineShop':
               arguments as ItemSheetScreenArguments;
 
-              AppsflyerSingleton.sdk.logEvent('discountOpticsShow', <String, dynamic>{
+              AppsflyerSingleton.sdk
+                  .logEvent('discountOpticsShow', <String, dynamic>{
                 'id': arguments.model.id,
                 'title': arguments.model.name,
               });
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: arguments.model
-                    as PromoItemModel,
+                model: arguments.model as PromoItemModel,
                 discountType: DiscountType.onlineShop,
               );
               break;
@@ -309,6 +314,10 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 points: (settings.arguments as FinalAddPointsArguments).points,
                 message:
                     (settings.arguments as FinalAddPointsArguments).message,
+                productBausch: (settings.arguments as FinalAddPointsArguments)
+                    .productBausch,
+                myLensesWM:
+                    (settings.arguments as FinalAddPointsArguments).myLensesWM,
               );
               break;
 

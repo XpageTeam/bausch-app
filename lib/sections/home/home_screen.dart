@@ -443,6 +443,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           name: 'Накопить баллы',
                           type: 'add_points',
                         ),
+                        null,
+                        null,
+                        wm.myLensesWM,
                       );
                     },
                   );

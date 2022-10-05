@@ -98,12 +98,17 @@ class _MainNavigationState extends State<MainNavigation>
 
               case '/choose_lenses':
                 page = ChooseLensesScreen(
-                  isEditing: (settings.arguments as List<dynamic>)[0] as bool,
+                  isEditing: (settings.arguments as ChooseLensesScreenArguments)
+                      .isEditing,
                   lensesPairModel:
-                      (settings.arguments as List<dynamic>).length > 1
-                          ? ((settings.arguments as List<dynamic>)[1]
-                              as LensesPairModel)
-                          : null,
+                      (settings.arguments as ChooseLensesScreenArguments)
+                          .lensesPairModel,
+                  productBausch:
+                      (settings.arguments as ChooseLensesScreenArguments)
+                          .productBausch,
+                  myLensesWM:
+                      (settings.arguments as ChooseLensesScreenArguments)
+                          .myLensesWM,
                 );
                 break;
 
@@ -131,7 +136,9 @@ class _MainNavigationState extends State<MainNavigation>
               //   break;
 
               case '/city':
-                page = CityScreen(withFavoriteItems: const ['Москва'],);
+                page = CityScreen(
+                  withFavoriteItems: const ['Москва'],
+                );
                 break;
 
               case '/lenses_parameters':

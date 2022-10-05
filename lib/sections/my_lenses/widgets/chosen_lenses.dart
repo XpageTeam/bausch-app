@@ -2,6 +2,7 @@ import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
 import 'package:bausch/static/static_data.dart';
@@ -154,15 +155,17 @@ class ChosenLenses extends StatelessWidget {
                                   Expanded(
                                     child: GreyButton(
                                       text: 'Изменить',
-                                      onPressed: () async => Keys
-                                          .mainContentNav.currentState!
-                                          .pushNamed(
+                                      onPressed: () async =>
+                                          Keys.mainContentNav.currentState!
+                                              .pushNamed(
                                         '/choose_lenses',
-                                        arguments: [
-                                          true,
-                                          myLensesWM.lensesPairModel.value,
-                                        ],
-                                      ).then((value) {
+                                        arguments: ChooseLensesScreenArguments(
+                                          isEditing: true,
+                                          lensesPairModel:
+                                              myLensesWM.lensesPairModel.value,
+                                        ),
+                                      )
+                                              .then((value) {
                                         myLensesWM.loadAllData();
                                       }),
                                     ),

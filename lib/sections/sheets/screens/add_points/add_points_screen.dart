@@ -1,4 +1,5 @@
 import 'package:bausch/models/add_points/add_points_model.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart';
@@ -15,8 +16,11 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* list
 class AddPointsScreen extends CoreMwwmWidget<AddPointsWM> {
   final ScrollController controller;
+  // TODO(all): не знаю как лучше пробросить эти линзы, везде передаю
+  final MyLensesWM? myLensesWM;
   AddPointsScreen({
     required this.controller,
+    required this.myLensesWM,
     Key? key,
   }) : super(
           key: key,
@@ -47,7 +51,7 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                const CodeSection(),
+                CodeSection(myLensesWM: widget.myLensesWM),
               ],
             ),
           ),

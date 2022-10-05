@@ -41,13 +41,22 @@ class ChooseLensesWM extends WidgetModel {
   final currentProduct = StreamedState<LensProductModel?>(null);
   final ChooseLensesRequester chooseLensesRequester = ChooseLensesRequester();
   final LensesPairModel? editLensPairModel;
+  final MyLensesWM? myLensesWM;
   LensProductModel? oldProduct;
+  LensProductModel? productBausch;
 
-  ChooseLensesWM({required this.context, this.editLensPairModel})
-      : super(const WidgetModelDependencies());
+  ChooseLensesWM({
+    required this.context,
+    this.editLensPairModel,
+    this.productBausch,
+    this.myLensesWM,
+  }) : super(const WidgetModelDependencies());
 
   @override
   void onBind() {
+    if (productBausch != null) {
+      currentProduct.accept(productBausch);
+    }
     loadAllData();
     if (editLensPairModel != null &&
         editLensPairModel!.left.addition == editLensPairModel!.right.addition &&
@@ -186,13 +195,14 @@ class ChooseLensesWM extends WidgetModel {
 
         Keys.mainContentNav.currentState!.pop();
       } else {
+        // TODO(pavlvo): сделать синхронизацию с главным экраном
         await chooseLensesRequester.addLensPair(
           lensesPairModel:
               LensesPairModel(left: leftPair.value, right: rightPair.value),
           productId: currentProduct.value!.id,
         );
         await Keys.mainContentNav.currentState!
-            .pushReplacementNamed('/my_lenses', arguments: [MyLensesWM()]);
+            .pushReplacementNamed('/my_lenses', arguments: [myLensesWM]);
       }
     } catch (e) {
       debugPrint('onAcceptPressed $e');

@@ -5,6 +5,7 @@ import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/lenses_indicator/lens_small_indicator.dart';
 import 'package:bausch/sections/home/widgets/lenses_indicator/lenses_small_indicator.dart';
+import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
 import 'package:bausch/static/static_data.dart';
@@ -38,8 +39,13 @@ class MyLensesContainer extends StatelessWidget {
                     Keys.mainContentNav.currentState!
                         .pushNamed('/my_lenses', arguments: [myLensesWM]);
                   } else {
-                    Keys.mainContentNav.currentState!
-                        .pushNamed('/choose_lenses', arguments: [false]);
+                    Keys.mainContentNav.currentState!.pushNamed(
+                      '/choose_lenses',
+                      arguments: ChooseLensesScreenArguments(
+                        isEditing: false,
+                        myLensesWM: myLensesWM,
+                      ),
+                    );
                   }
                 },
                 padding: const EdgeInsets.only(

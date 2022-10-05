@@ -3,6 +3,7 @@ import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/order_registration/widgets/single_picker_screen.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
@@ -17,15 +18,43 @@ import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-class ChooseLensesScreen extends CoreMwwmWidget<ChooseLensesWM> {
+class ChooseLensesScreenArguments {
   final bool isEditing;
   final LensesPairModel? lensesPairModel;
-  ChooseLensesScreen({this.isEditing = false, this.lensesPairModel, Key? key})
-      : super(
+  final LensProductModel? productBausch;
+  final MyLensesWM? myLensesWM;
+
+  ChooseLensesScreenArguments({
+    required this.isEditing,
+    this.lensesPairModel,
+    this.productBausch,
+    this.myLensesWM,
+  });
+}
+
+class ChooseLensesScreen extends CoreMwwmWidget<ChooseLensesWM>
+    implements ChooseLensesScreenArguments {
+  @override
+  final bool isEditing;
+  @override
+  final LensesPairModel? lensesPairModel;
+  @override
+  final LensProductModel? productBausch;
+  @override
+  final MyLensesWM? myLensesWM;
+  ChooseLensesScreen({
+    this.isEditing = false,
+    this.lensesPairModel,
+    this.productBausch,
+    this.myLensesWM,
+    Key? key,
+  }) : super(
           key: key,
           widgetModelBuilder: (context) => ChooseLensesWM(
             context: context,
             editLensPairModel: lensesPairModel,
+            productBausch: productBausch,
+            myLensesWM: myLensesWM,
           ),
         );
 
