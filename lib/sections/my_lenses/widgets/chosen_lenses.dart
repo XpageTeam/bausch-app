@@ -4,6 +4,7 @@ import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/widgets/sheets/different_lenses_sheet.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -181,7 +182,7 @@ class ChosenLenses extends StatelessWidget {
                                         barrierColor:
                                             Colors.black.withOpacity(0.8),
                                         builder: (context) {
-                                          return PutOnDateSheet(
+                                          return DifferentLensesSheet(
                                             onConfirmed: ({
                                               leftDate,
                                               rightDate,
@@ -190,8 +191,8 @@ class ChosenLenses extends StatelessWidget {
                                               leftDate: leftDate,
                                               rightDate: rightDate,
                                             ),
-                                            rightPut: DateTime.now(),
-                                            leftPut: DateTime.now(),
+                                            leftDate: DateTime.now(),
+                                            rightDate: DateTime.now(),
                                           );
                                         },
                                       ),

@@ -68,7 +68,10 @@ class HelpFunctions {
   }
 
   static String weekday(int day) {
-    switch (day) {
+    final modDay = day % 7;
+    switch (modDay) {
+      case 0:
+        return 'Вс';
       case 1:
         return 'Пн';
       case 2:
@@ -81,8 +84,6 @@ class HelpFunctions {
         return 'Пт';
       case 6:
         return 'Сб';
-      case 7:
-        return 'Вс';
 
       default:
         return 'Пн';

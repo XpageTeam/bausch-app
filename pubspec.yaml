@@ -5,7 +5,7 @@ description: A new Flutter project.
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.4+70
+version: 1.0.4+71
 
 environment:
   sdk: ">=2.18.2 <3.0.0"
@@ -36,11 +36,13 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_cache_manager: ^3.3.0
+  flutter_compass: ^0.7.0
   flutter_html: ^2.2.1
   flutter_keyboard_visibility: ^5.3.0
   
   flutter_localizations:
     sdk: flutter
+  flutter_native_timezone: ^2.0.0
   flutter_svg: ^0.23.0 # НЕ ОБНОВЛЯТЬ
   fwfh_text_style: ^2.22.8+1
   geolocator: ^9.0.2

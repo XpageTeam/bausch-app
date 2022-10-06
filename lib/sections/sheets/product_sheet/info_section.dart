@@ -29,6 +29,7 @@ class InfoSection extends StatelessWidget {
           bottom: 40,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Html(
               data: text,
@@ -62,8 +63,10 @@ class InfoSection extends StatelessWidget {
                     if (url != null) {
                       if (await canLaunchUrlString(url)) {
                         try {
-                          await launchUrlString(url, mode: LaunchMode.inAppWebView);
-
+                          await launchUrlString(
+                            url,
+                            mode: LaunchMode.inAppWebView,
+                          );
                           return;
                           // ignore: avoid_catches_without_on_clauses
                         } catch (e) {
