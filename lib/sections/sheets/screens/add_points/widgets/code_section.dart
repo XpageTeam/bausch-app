@@ -177,7 +177,11 @@ class _CodeSectionState extends State<CodeSection> {
                               }
                             : () {
                                 showDefaultNotification(
-                                  title: 'Введите код и выберите продукт',
+                                  title: state.code.isEmpty
+                                      ? state.product.isEmpty
+                                          ? 'Введите код и выберите продукт'
+                                          : 'Выберите продукт'
+                                      : 'Введите код',
                                 );
                               },
                   ),
