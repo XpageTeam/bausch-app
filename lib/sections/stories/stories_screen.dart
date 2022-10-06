@@ -291,10 +291,10 @@ class _StoriesScreenState extends State<StoriesScreen>
     } else {
       Navigator.of(context).pop();
     }
-    _currentIndex = 0;
-    _loadStory(
-      storyContent: widget.stories[index].content[_currentIndex],
-    );
+    // _currentIndex = 0;
+    // _loadStory(
+    //   storyContent: widget.stories[index].content[_currentIndex],
+    // );
   }
 
   void _onLongPressStart(
