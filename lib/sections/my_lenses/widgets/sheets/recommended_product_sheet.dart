@@ -1,12 +1,14 @@
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -101,15 +103,10 @@ class _RecommendedProductSheetState extends State<RecommendedProductSheet> {
               ),
               const SizedBox(height: 40),
               BlueButton(
-                onPressed: () async {
-                  if (await canLaunchUrlString(widget.product.link)) {
-                    await launchUrlString(
-                      widget.product.link,
-                      // TODO(info): для открытие ссылок в webview делаем так
-                      mode: LaunchMode.inAppWebView,
-                    );
-                  }
-                },
+                onPressed: () => openSimpleWebView(
+                  context,
+                  url: widget.product.link,
+                ),
                 children: [
                   const Text(
                     'Где купить',

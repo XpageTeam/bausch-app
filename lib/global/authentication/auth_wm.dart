@@ -151,8 +151,11 @@ class AuthWM extends WidgetModel {
             'Exception: Необходима авторизация') {
       // TODO(all): ошибка не воспринимается как кастом экзепшн
       // final error = userWM.userData.value.error as CustomException;
-      final error = userWM.userData.value.error;
-
+      CustomException? error;
+      final rawError = userWM.userData.value.error;
+      if (rawError != null && rawError is CustomException) {
+        error = rawError;
+      }
       if (context != null) {
         await Navigator.of(context!).pushAndRemoveUntil<void>(
           PageRouteBuilder(
@@ -164,7 +167,7 @@ class AuthWM extends WidgetModel {
               //   buttonText: 'Обновить',
               // );
               return ErrorPage(
-                title: error.toString(),
+                title: error?.title ?? 'Ошибка',
                 buttonCallback: checkAuthAction,
                 buttonText: 'Обновить',
               );
@@ -184,7 +187,7 @@ class AuthWM extends WidgetModel {
                 //   buttonText: 'Обновить',
                 // );
                 return ErrorPage(
-                  title: error.toString(),
+                  title: error?.title ?? 'Ошибка',
                   buttonCallback: checkAuthAction,
                   buttonText: 'Обновить',
                 );

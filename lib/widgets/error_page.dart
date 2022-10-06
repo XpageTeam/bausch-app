@@ -33,54 +33,86 @@ class ErrorPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Image.asset(
-                    'assets/icons/error-icon.png',
-                    width: 120,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                    bottom: 20,
-                  ),
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: AppTheme.mineShaft,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 24,
-                      height: 31 / 24,
-                    ),
-                  ),
-                ),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    style: AppStyles.p1Grey,
-                    textAlign: TextAlign.center,
-                  ),
-              ],
+            SimpleErrorWidget(
+              title: title,
+              subtitle: subtitle,
+              buttonText: buttonText,
+              buttonCallback: buttonCallback,
             ),
-            if (buttonText != null && buttonCallback != null)
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: StaticData.sidePadding,
-                  right: StaticData.sidePadding,
-                  bottom: 10,
-                ),
-                child: BlueButtonWithText(
-                  text: buttonText!,
-                  onPressed: buttonCallback,
-                ),
-              ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class SimpleErrorWidget extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+  final String? buttonText;
+  final VoidCallback? buttonCallback;
+
+  const SimpleErrorWidget({
+    super.key,
+    required this.title,
+    this.subtitle,
+    this.buttonText,
+    this.buttonCallback,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/icons/error-icon.png',
+                width: 120,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 30,
+                bottom: 20,
+              ),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: AppTheme.mineShaft,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 24,
+                  height: 31 / 24,
+                ),
+              ),
+            ),
+            if (subtitle != null)
+              Text(
+                subtitle!,
+                style: AppStyles.p1Grey,
+                textAlign: TextAlign.center,
+              ),
+          ],
+        ),
+        if (buttonText != null)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: StaticData.sidePadding,
+              right: StaticData.sidePadding,
+              bottom: 10,
+            ),
+            child: BlueButtonWithText(
+              text: buttonText!,
+              onPressed: buttonCallback,
+            ),
+          ),
+      ],
     );
   }
 }
