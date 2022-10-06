@@ -345,16 +345,16 @@ class _ProfileSettingsScreenState
                     );
                   });
                 });
-                // await wm.changeCityAction(
-                //   await Keys.mainNav.currentState!.push<String?>(
-                //     PageRouteBuilder<String>(
-                //       pageBuilder: (context, animation, secondaryAnimation) =>
-                //           CityScreen(
-                //         withFavoriteItems: const ['Москва'],
-                //       ),
-                //     ),
-                //   ),
-                // );
+                await wm.changeCityAction(
+                  await Keys.mainNav.currentState!.push<String?>(
+                    PageRouteBuilder<String>(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          CityScreen(
+                        withFavoriteItems: const ['Москва'],
+                      ),
+                    ),
+                  ),
+                );
               },
             ),
             Padding(
@@ -509,9 +509,9 @@ class _ProfileSettingsScreenState
     showFlexibleBottomSheet<void>(
       context: Keys.mainContentNav.currentContext!,
       minHeight: 0,
-      initHeight: 0.3,
-      maxHeight: 0.3,
-      anchors: [0, 0.3],
+      initHeight: 0.35,
+      maxHeight: 0.45,
+      anchors: [0, 0.35, 0.45],
       builder: (context, controller, _) {
         return Container(
           clipBehavior: Clip.hardEdge,
@@ -581,9 +581,9 @@ class _ProfileSettingsScreenState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // const SizedBox(
+                  //   height: 40,
+                  // ),
                   BlueButton(
                     children: const [
                       Text(
