@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
@@ -24,7 +23,6 @@ import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/text/bulleted_list.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 //Program

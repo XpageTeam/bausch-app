@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
@@ -471,9 +473,9 @@ class _ProfileSettingsScreenState
                         onPressed: isLoading
                             ? null
                             : () async {
-                                isLoadingState.accept(true);
+                                unawaited(isLoadingState.accept(true));
                                 await confirmCallback(context);
-                                isLoadingState.accept(false);
+                                unawaited(isLoadingState.accept(false));
                               },
                       );
                     },

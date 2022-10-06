@@ -1,7 +1,6 @@
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
-import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -10,7 +9,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class RecommendedProductSheet extends StatefulWidget {
   final RecommendedProductModel product;

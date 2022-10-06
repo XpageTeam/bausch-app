@@ -8,7 +8,6 @@ import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
-import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
 import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
@@ -27,13 +26,11 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/buttons/white_button_with_text.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -352,7 +349,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                               const SizedBox(
                                 height: 40,
                               ),
-                              
+
                               const WriteToSupportButton(),
 
                               const Padding(

@@ -122,7 +122,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                   snap: true,
                   builder: (context, controller) {
                     return Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       color: AppTheme.mystic,
 
                       //* Контент слайдера(заказы, уведомления)
@@ -154,7 +154,6 @@ class _BluredImage extends StatelessWidget {
   const _BluredImage({
     required this.imageOpacity,
     required this.imageHeight,
-    super.key,
   });
 
   @override
