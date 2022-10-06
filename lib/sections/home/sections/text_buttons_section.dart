@@ -42,10 +42,10 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
                 rulesCubit.loadData(RulesOrLinks.rules);
               },
             ),
-            CustomTextButton(
-              title: 'Частые вопросы',
-              onPressed: faqCubit.loadData,
-            ),
+            // CustomTextButton(
+            //   title: 'Частые вопросы',
+            //   onPressed: faqCubit.loadData,
+            // ),
             CustomTextButton(
               title: 'Библиотека ссылок',
               onPressed: () {

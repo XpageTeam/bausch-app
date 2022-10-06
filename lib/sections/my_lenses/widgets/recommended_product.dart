@@ -1,13 +1,22 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/recommended_product_sheet.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
+import 'package:bausch/widgets/error_page.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RecommendedProduct extends StatelessWidget {
   final RecommendedProductModel product;
@@ -74,14 +83,10 @@ class RecommendedProduct extends StatelessWidget {
                 child: GreyButton(
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   text: 'Где купить',
-                  onPressed: () async {
-                    if (await canLaunchUrlString(product.link)) {
-                      await launchUrlString(
-                        product.link,
-                        mode: LaunchMode.inAppWebView,
-                      );
-                    }
-                  },
+                  onPressed: () => openSimpleWebView(
+                    context,
+                    url: product.link,
+                  ),
                 ),
               ),
             ],
@@ -91,3 +96,4 @@ class RecommendedProduct extends StatelessWidget {
     );
   }
 }
+

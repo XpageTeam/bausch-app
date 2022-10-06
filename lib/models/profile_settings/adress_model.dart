@@ -34,7 +34,7 @@ class AdressModel implements MappableInterface<AdressModel> {
   String get fullAddress {
     var address = '';
 
-    if (region != null && region != '') {
+    if (region != null && region!.isNotEmpty) {
       address += '$region, ';
     }
 
@@ -46,7 +46,7 @@ class AdressModel implements MappableInterface<AdressModel> {
   String get cityAndSettlement {
     var address = '';
 
-    if (city != null && city != '') {
+    if (city != null && city!.isNotEmpty) {
       address +=
           '$city${settlement != null && settlement!.isNotEmpty ? ', ' : ''}';
     }
@@ -56,6 +56,82 @@ class AdressModel implements MappableInterface<AdressModel> {
     }
 
     return address;
+  }
+
+  String? get subAddress {
+    final sb = StringBuffer();
+    var hasBefore = false;
+
+    hasBefore = _write(
+      value: flat,
+      sb: sb,
+      predicate: (value) => value != null && value >= 0,
+      hasBefore: hasBefore,
+      valueBuilder: (value) => 'кв. $value',
+    );
+
+    hasBefore = _write(
+      value: entry,
+      sb: sb,
+      predicate: (value) => value != null && value >= 0,
+      hasBefore: hasBefore,
+      valueBuilder: (value) => 'подъезд $value',
+    );
+
+    hasBefore = _write(
+      value: floor,
+      sb: sb,
+      predicate: (value) => value != null,
+      hasBefore: hasBefore,
+      valueBuilder: (value) => 'этаж $value',
+    );
+
+    // if (flat != null && flat! >= 0) {
+    //   sb.write('кв. $flat');
+    //   hasBefore = true;
+    // } else {
+    //   hasBefore = false;
+    // }
+
+    // if (entry != null && entry! >= 0) {
+    //   if (hasBefore) {
+    //     sb.write(', ');
+    //   }
+    //   sb.write('подъезд $entry');
+    //   hasBefore = true;
+    // } else {
+    //   hasBefore = false;
+    // }
+
+    // if (floor != null) {
+    //   if (hasBefore) {
+    //     sb.write(', ');
+    //   }
+    //   sb.write('этаж $floor');
+    //   hasBefore = true;
+    // } else {
+    //   hasBefore = false;
+    // }
+    final result = sb.toString();
+    return result.isEmpty ? null : result;
+  }
+
+  bool _write({
+    required int? value,
+    required StringBuffer sb,
+    required bool Function(int? value) predicate,
+    required bool hasBefore,
+    required String Function(int value) valueBuilder,
+  }) {
+    if (predicate(value)) {
+      if (hasBefore) {
+        sb.write(', ');
+      }
+      sb.write(valueBuilder(value!));
+      return true;
+    } else {
+      return false;
+    }
   }
 
   AdressModel({
