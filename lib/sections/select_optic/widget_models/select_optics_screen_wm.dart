@@ -101,8 +101,8 @@ class SelectOpticScreenWM extends WidgetModel {
       await _loadCertificateFiltersModel();
 
       await currentCityStreamed.content(initialCity ?? '');
-      final shops = await _getCertificateShopsByCurrentCity();
-      await filteredOpticShopsStreamed.content(shops);
+      opticShopsForCertificate = await _getCertificateShopsByCurrentCity();
+      await filteredOpticShopsStreamed.content(opticShopsForCertificate);
     } else {
       await currentCityStreamed.content(initialCity ?? '');
 
@@ -172,9 +172,8 @@ class SelectOpticScreenWM extends WidgetModel {
 
     await selectedLensFiltersState.accept(filters);
 
-    filteredOpticShopsStreamed.content(
-      _filterOpticShopsForCertificate(),
-    );
+    final shops = _filterOpticShopsForCertificate();
+    filteredOpticShopsStreamed.content(shops);
   }
 
   Future<void> resetLensFilters() async {
