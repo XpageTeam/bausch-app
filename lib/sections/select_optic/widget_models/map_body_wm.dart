@@ -227,7 +227,7 @@ class MapBodyWM extends WidgetModel {
 
     final placemarkCollection = ClusterizedPlacemarkCollection(
       mapId: clusterMapId,
-      radius: 20,
+      radius: 25,
       minZoom: 12,
       onClusterAdded: (
         self,
