@@ -30,13 +30,15 @@ dependencies:
   extended_masked_text: ^2.3.1
   file_picker: ^5.0.1
   firebase_analytics: ^9.3.3
-  flutter_compass: ^0.7.0
   firebase_core: ^1.21.1
+  flutter_compass: ^0.7.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
+  flutter_cache_manager: ^3.3.0
   flutter_html: ^2.2.1
   flutter_keyboard_visibility: ^5.3.0
+  
   flutter_localizations:
     sdk: flutter
   flutter_svg: ^0.23.0 # НЕ ОБНОВЛЯТЬ
@@ -47,10 +49,13 @@ dependencies:
   intl: ^0.17.0
   iphone_has_notch: ^1.0.0
   menu_button: ^1.4.2+1
+  
   mindbox: ^1.0.2 # НЕ ОБНОВЛЯТь
   overlay_support: ^2.0.1
   package_info: ^2.0.2
   path_provider: ^2.0.11
+  pdf_viewer_plugin: ^2.0.1
+  
   percent_indicator: ^4.2.2
   pin_code_fields: ^7.4.0
   platform_device_id: ^1.0.1

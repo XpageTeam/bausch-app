@@ -11,6 +11,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -82,21 +83,10 @@ class RecommendedProduct extends StatelessWidget {
                 child: GreyButton(
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   text: 'Где купить',
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => SimpleWebViewWidget(
-                          url: product.link,
-                        ),
-                      ),
-                    );
-                    // if (await canLaunchUrlString(product.link)) {
-                    //   await launchUrlString(
-                    //     product.link,
-                    //     mode: LaunchMode.inAppWebView,
-                    //   );
-                    // }
-                  },
+                  onPressed: () => openSimpleWebView(
+                    context,
+                    url: product.link,
+                  ),
                 ),
               ),
             ],
@@ -107,121 +97,3 @@ class RecommendedProduct extends StatelessWidget {
   }
 }
 
-class SimpleWebViewWidget extends StatefulWidget {
-  final String url;
-
-  const SimpleWebViewWidget({super.key, required this.url});
-
-  @override
-  SimpleWebViewWidgetState createState() => SimpleWebViewWidgetState();
-}
-
-class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
-  final isLoadingState = StreamedState<bool>(true);
-  final isErrorState = StreamedState<bool>(false);
-
-  WebViewController? webViewController;
-  bool isFirstPage = true;
-
-  @override
-  void initState() {
-    super.initState();
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final canGoBack =
-            webViewController != null && await webViewController!.canGoBack();
-
-        if (canGoBack) {
-          unawaited(webViewController?.goBack());
-          return Future(() => false);
-        }
-
-        return Future(() => true);
-      },
-      child: ColoredBox(
-        color: Colors.white,
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.white,
-            body: StreamedStateBuilder<bool>(
-              streamedState: isErrorState,
-              builder: (_, isError) {
-                return StreamedStateBuilder<bool>(
-                  streamedState: isLoadingState,
-                  builder: (_, isLoading) {
-                    return Stack(
-                      children: [
-                        Column(
-                          children: [
-                            Expanded(
-                              child: WebView(
-                                initialUrl: widget.url,
-                                javascriptMode: JavascriptMode.unrestricted,
-                                onWebViewCreated: onWebViewCreated,
-                                onPageStarted: onPageStarted,
-                                onProgress: onProgress,
-                                onPageFinished: onPageFinished,
-                                onWebResourceError: onError,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                        if (isFirstPage && isLoading)
-                          const ColoredBox(
-                            color: AppTheme.mystic,
-                            child: Center(
-                              child: AnimatedLoader(),
-                            ),
-                          ),
-                        if (isError)
-                          Center(
-                            child: ErrorPage(
-                              title: 'Не удалось загрузить страницу',
-                              buttonText: 'Обновить',
-                              buttonCallback: webViewController?.reload,
-                            ),
-                          ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void onWebViewCreated(WebViewController controller) {
-    webViewController = controller;
-  }
-
-  void onPageStarted(String url) {
-    isErrorState.accept(false);
-    isLoadingState.accept(true);
-    isFirstPage = false;
-  }
-
-  void onPageFinished(String url) {
-    isLoadingState.accept(false);
-  }
-
-  void onProgress(int progress) {
-    debugPrint('progress: $progress');
-    if (progress > 70) {
-      isLoadingState.accept(false);
-    }
-  }
-
-  void onError(WebResourceError error) {
-    isLoadingState.accept(false);
-    isErrorState.accept(true);
-  }
-}
