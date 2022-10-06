@@ -74,11 +74,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
                     return AddressButton(
                       labelText:
                           '${state.adresses[i].cityAndSettlement}, ${state.adresses[i].street}, д ${state.adresses[i].house}',
-                      selectedText: (state.adresses[i].flat != null ||
-                              state.adresses[i].entry != null ||
-                              state.adresses[i].floor != null)
-                          ? '${state.adresses[i].flat != null ? 'Кв. ${state.adresses[i].flat}' : ''}${state.adresses[i].entry != null ? ', подъезд ${state.adresses[i].entry}' : ''}${state.adresses[i].floor != null ? ', этаж ${state.adresses[i].floor}' : ''}'
-                          : null,
+                      selectedText: state.adresses[i].subAddress,
                       onPressed: () {
                         Keys.mainContentNav.currentState!
                             .pushNamed(
