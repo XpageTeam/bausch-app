@@ -102,42 +102,11 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                       SizedBox(
                         height: wm.sizedBoxHeight,
                       ),
-                      Center(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            StreamedStateBuilder<double>(
-                              streamedState: wm.opacityStreamed,
-                              builder: (_, opacity) => Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Opacity(
-                                    opacity: 1 - opacity,
-                                    child: Image.asset(
-                                      'assets/status.png',
-                                      // width: 200,
-                                      height: wm.imageHeight,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 100,
-                              child: ClipRRect(
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 20,
-                                    sigmaY: 20,
-                                  ),
-                                  child: ColoredBox(
-                                    color:
-                                        AppTheme.turquoiseBlue.withOpacity(0.3),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                      StreamedStateBuilder<double>(
+                        streamedState: wm.opacityStreamed,
+                        builder: (_, opacity) => _BluredImage(
+                          imageHeight: wm.imageHeight,
+                          imageOpacity: opacity,
                         ),
                       ),
                     ],
@@ -152,7 +121,8 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                   initialChildSize: wm.minChildSize,
                   snap: true,
                   builder: (context, controller) {
-                    return ColoredBox(
+                    return Container(
+                      margin: EdgeInsets.only(top: 30),
                       color: AppTheme.mystic,
 
                       //* Контент слайдера(заказы, уведомления)
@@ -174,6 +144,64 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
         ),
         extendBodyBehindAppBar: true,
       ),
+    );
+  }
+}
+
+class _BluredImage extends StatelessWidget {
+  final double imageOpacity;
+  final double imageHeight;
+  const _BluredImage({
+    required this.imageOpacity,
+    required this.imageHeight,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, c) {
+        debugPrint(' c.minWidth,: ${c.maxWidth}');
+        return SizedBox(
+          width: c.maxWidth,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: c.maxWidth,
+                height: imageHeight,
+              ),
+              Opacity(
+                opacity: 1 - imageOpacity,
+                child: Image.asset(
+                  'assets/status.png',
+                  // width: 200,
+                  height: imageHeight,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SizedBox(
+                  height: imageHeight * 0.7,
+                  child: ClipRRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: 20,
+                        sigmaY: 20,
+                      ),
+                      child: ColoredBox(
+                        color: AppTheme.turquoiseBlue.withOpacity(0.3),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
