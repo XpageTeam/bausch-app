@@ -13,6 +13,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image/image.dart' as IMG;
@@ -80,6 +81,7 @@ class MapBodyWM extends WidgetModel {
     moveToUserPosition.bind(
       (value) {
         _enableListenUserPosition();
+        _listenUserDirection();
         // _updateUserPosition();
       },
     );
@@ -111,6 +113,10 @@ class MapBodyWM extends WidgetModel {
     mapObjectsStreamed.dispose();
 
     userPositionStream?.cancel();
+
+    _streamSubscriptions.forEach((element) {
+      element.cancel();
+    });
     super.dispose();
   }
 
@@ -308,6 +314,43 @@ class MapBodyWM extends WidgetModel {
     return list;
   }
 
+  final _streamSubscriptions = <StreamSubscription<dynamic>>[];
+
+  double userDirection = 0;
+
+  void _listenUserDirection() {
+    if (FlutterCompass.events == null) return;
+
+    _streamSubscriptions.add(
+      FlutterCompass.events!.listen(
+        (event) {
+          if (userPosition == null) return;
+
+          userDirection = event.heading ?? 0;
+          mapObjectsStreamed.value.add(
+            PlacemarkMapObject(
+              mapId: userMapId,
+              point: userPosition!,
+              opacity: 1,
+              direction: userDirection,
+              icon: PlacemarkIcon.single(
+                PlacemarkIconStyle(
+                  scale: 0.75,
+                  rotationType: RotationType.rotate,
+                  image: BitmapDescriptor.fromAssetImage(
+                    'assets/icons/user-marker.png',
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
+        },
+      ),
+    );
+  }
+
   Future<void> _updateUserPosition({
     bool withMoveToUser = true,
     Point? newUserPosition,
@@ -317,23 +360,25 @@ class MapBodyWM extends WidgetModel {
 
     userPosition = newUserPosition ?? await _getUserPosition();
 
-    mapObjectsStreamed.value.add(
-      PlacemarkMapObject(
-        mapId: userMapId,
-        point: userPosition!,
-        opacity: 1,
-        icon: PlacemarkIcon.single(
-          PlacemarkIconStyle(
-            scale: 0.75,
-            image: BitmapDescriptor.fromAssetImage(
-              'assets/icons/user-marker.png',
-            ),
-          ),
-        ),
-      ),
-    );
+    // mapObjectsStreamed.value.add(
+    //   PlacemarkMapObject(
+    //     mapId: userMapId,
+    //     point: userPosition!,
+    //     opacity: 1,
+    //     direction: userDirection,
+    //     icon: PlacemarkIcon.single(
+    //       PlacemarkIconStyle(
+    //         scale: 0.75,
+    //         rotationType: RotationType.rotate,
+    //         image: BitmapDescriptor.fromAssetImage(
+    //           'assets/icons/user-marker.png',
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
 
-    unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
+    // unawaited(mapObjectsStreamed.accept(mapObjectsStreamed.value));
     if (withMoveToUser) unawaited(_moveTo(userPosition!));
   }
 

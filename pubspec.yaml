@@ -30,6 +30,7 @@ dependencies:
   extended_masked_text: ^2.3.1
   file_picker: ^5.0.1
   firebase_analytics: ^9.3.3
+  flutter_compass: ^0.7.0
   firebase_core: ^1.21.1
   flutter:
     sdk: flutter
