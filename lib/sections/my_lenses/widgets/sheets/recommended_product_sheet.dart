@@ -1,6 +1,7 @@
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -102,13 +103,21 @@ class _RecommendedProductSheetState extends State<RecommendedProductSheet> {
               const SizedBox(height: 40),
               BlueButton(
                 onPressed: () async {
-                  if (await canLaunchUrlString(widget.product.link)) {
-                    await launchUrlString(
-                      widget.product.link,
-                      // TODO(info): для открытие ссылок в webview делаем так
-                      mode: LaunchMode.inAppWebView,
-                    );
-                  }
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => SimpleWebViewWidget(
+                        url: widget.product.link,
+                      ),
+                    ),
+                  );
+
+                  // if (await canLaunchUrlString(widget.product.link)) {
+                  //   await launchUrlString(
+                  //     widget.product.link,
+                  //     // TODO(info): для открытие ссылок в webview делаем так
+                  //     mode: LaunchMode.inAppWebView,
+                  //   );
+                  // }
                 },
                 children: [
                   const Text(
