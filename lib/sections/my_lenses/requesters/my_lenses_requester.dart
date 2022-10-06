@@ -9,6 +9,7 @@ import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class MyLensesRequester {
   final _rh = RequestHandler();
@@ -212,6 +213,7 @@ class MyLensesRequester {
     required DateTime? rightDate,
   }) async {
     try {
+      final currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
       if (leftDate != null) {
         // ignore: parameter_assignments
         leftDate = DateTime(
@@ -232,13 +234,12 @@ class MyLensesRequester {
           DateTime.now().minute,
         );
       }
-      // print(leftDate);
-      // print(rightDate);
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/put-on/',
         data: FormData.fromMap(<String, dynamic>{
           'left[date]': leftDate?.toString(),
           'right[date]': rightDate?.toString(),
+          'timeZone': currentTimeZone,
         }),
       );
       final response =
