@@ -1,6 +1,8 @@
 //ignore_for_file: avoid-returning-widgets
 
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
+import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
@@ -121,6 +123,8 @@ class CustomSheetScaffold extends StatelessWidget {
   Widget getScrollView(BuildContext context) {
     return CustomScrollView(
       controller: controller,
+      scrollBehavior: const AntiGlowBehavior(),
+      
       slivers: slivers
         ..add(
           SliverList(
@@ -138,7 +142,7 @@ class CustomSheetScaffold extends StatelessWidget {
             ]),
           ),
         ),
-      physics: const BouncingScrollPhysics(),
+      physics: const OnlyBottomBouncingScrollPhysics(),
     );
   }
 }

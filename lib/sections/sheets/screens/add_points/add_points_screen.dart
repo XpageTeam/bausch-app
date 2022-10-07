@@ -73,7 +73,7 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                 leading: const SizedBox(),
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    // vertical: 20,
                     horizontal: StaticData.sidePadding,
                   ),
                   child: Row(
@@ -95,69 +95,73 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
               );
             }
 
-            return SliverList(delegate: SliverChildListDelegate([]));
+            return const SliverToBoxAdapter();
           },
         ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
+        EntityStateBuilder<List<AddPointsModel>>(
+          streamedState: wm.addPointsList,
+          loadingChild: const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: AnimatedLoader(),
+            ),
           ),
-          sliver: EntityStateBuilder<List<AddPointsModel>>(
-            streamedState: wm.addPointsList,
-            loadingChild: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const Center(
-                    child: AnimatedLoader(),
-                  ),
-                ],
-              ),
-            ),
-            errorChild: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      top: 30,
-                      bottom: 20,
-                    ),
-                    child: Text(
-                      'Не удалось загрузить',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppTheme.mineShaft,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 24,
-                        height: 31 / 24,
+          errorChild: SliverFillRemaining(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: StaticData.sidePadding,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 20,
+                      ),
+                      child: Text(
+                        'Не удалось загрузить',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppTheme.mineShaft,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 24,
+                          height: 31 / 24,
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BlueButton(
-                        padding: EdgeInsets.zero,
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 16,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BlueButton(
+                          padding: EdgeInsets.zero,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 16,
+                              ),
+                              child: Text(
+                                'Обновить',
+                                style: AppStyles.h2,
+                              ),
                             ),
-                            child: Text(
-                              'Обновить',
-                              style: AppStyles.h2,
-                            ),
-                          ),
-                        ],
-                        onPressed: wm.loadInfoAction,
-                      ),
-                    ],
-                  ),
-                ],
+                          ],
+                          onPressed: wm.loadInfoAction,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            builder: (_, items) {
-              return SliverList(
+          ),
+          builder: (_, items) {
+            return SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: StaticData.sidePadding,
+              ),
+              sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (_, index) {
                     return Padding(
@@ -174,9 +178,9 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                   },
                   childCount: items.length,
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ],
     );

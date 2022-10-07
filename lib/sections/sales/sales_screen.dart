@@ -6,7 +6,9 @@ import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,7 +50,8 @@ class _SalesScreenState extends State<SalesScreen> {
             final smallContainersRowsLength =
                 ((activeList.length - 1) / 2).ceil();
             return CustomScrollView(
-              physics: const BouncingScrollPhysics(),
+              scrollBehavior: const AntiGlowBehavior(),
+              physics: const OnlyBottomBouncingScrollPhysics(),
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
@@ -99,28 +102,6 @@ class _SalesScreenState extends State<SalesScreen> {
                       ),
                     ],
                   ),
-
-                  // Wrap(
-                  //   spacing: 4,
-                  //   runSpacing: 4,
-                  //   children: List.generate(activeList.length, (index) {
-                  //     final item = activeList[index];
-                  //     if (index == 0) {
-                  //       return WideSaleContainer(
-                  //         item: item,
-                  //         width: c.maxWidth,
-                  //       );
-                  //     }
-                  //     return _SmallContainer(
-                  //       item: item,
-                  //     );
-
-                  //     // SmallContainer(
-                  //     //   model: item as CatalogSheetModel,
-                  //     //   sale: true,
-                  //     // );
-                  //   }),
-                  // ),
                 ),
                 const SliverToBoxAdapter(
                   child: SizedBox(

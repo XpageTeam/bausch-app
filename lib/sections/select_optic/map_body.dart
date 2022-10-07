@@ -8,7 +8,6 @@ import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/map_buttons.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -139,16 +138,17 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   }
 
   Future<void> _openBottomSheet(OpticShop shop) async {
-    final mediaQuery = MediaQuery.of(Keys.mainNav.currentContext!);
-    final screenHeight = mediaQuery.size.height;
-    final maxHeight =
-        (screenHeight - mediaQuery.viewPadding.top) / screenHeight;
+    // final mediaQuery = MediaQuery.of(Keys.mainNav.currentContext!);
+    // final screenHeight = mediaQuery.size.height;
+    // final maxHeight =
+    //     (screenHeight - mediaQuery.viewPadding.top) / screenHeight;
+
     await showFlexibleBottomSheet<void>(
       context: context,
       minHeight: 0,
       initHeight: 0.3,
-      maxHeight: maxHeight,
-      anchors: [0, 0.3, maxHeight],
+      maxHeight: 0.5,
+      anchors: [0, 0.3, 0.5],
       isModal: false,
       builder: (ctx, controller, _) => BottomSheetContentOther(
         controller: controller,
@@ -157,8 +157,6 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
         phones: shop.phones,
         site: shop.site,
         features: shop is OpticShopForCertificate ? shop.features : null,
-        // additionalInfo:
-        //     'Скидкой можно воспользоваться в любой из оптик сети.',
         onPressed: () {
           widget.onOpticShopSelect(shop);
           Navigator.of(context)

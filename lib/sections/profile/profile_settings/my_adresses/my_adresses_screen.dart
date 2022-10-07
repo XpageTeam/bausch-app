@@ -3,10 +3,12 @@ import 'package:bausch/sections/profile/profile_settings/screens/add_address/add
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/buttons/address_button.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:bausch/widgets/pages/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +36,7 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
         title: 'Мои адреса',
         backgroundColor: AppTheme.mystic,
       ),
+      resizeToAvoidBottomInset: false,
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(
           StaticData.sidePadding,
@@ -63,33 +66,36 @@ class _MyAdressesScreenState extends State<MyAdressesScreen> {
           builder: (context, state) {
             if (state is GetAdressesSuccess) {
               if (state.adresses.isNotEmpty) {
-                return ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding,
+                return ScrollConfiguration(
+                  behavior: const AntiGlowBehavior(),
+                  child: ListView.separated(
+                    physics: const OnlyBottomBouncingScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                    ),
+                    separatorBuilder: (_, __) => const SizedBox(height: 4),
+                    itemCount: state.adresses.length,
+                    itemBuilder: (_, i) {
+                      return AddressButton(
+                        labelText:
+                            '${state.adresses[i].cityAndSettlement}, ${state.adresses[i].street}, д ${state.adresses[i].house}',
+                        selectedText: state.adresses[i].subAddress,
+                        onPressed: () {
+                          Keys.mainContentNav.currentState!
+                              .pushNamed(
+                            '/add_details',
+                            arguments: AddDetailsArguments(
+                              adress: state.adresses[i],
+                              isFirstLaunch: false,
+                            ),
+                          )
+                              .then((v) {
+                            adressesCubit.getAdresses();
+                          });
+                        },
+                      );
+                    },
                   ),
-                  separatorBuilder: (_, __) => const SizedBox(height: 4),
-                  itemCount: state.adresses.length,
-                  itemBuilder: (_, i) {
-                    return AddressButton(
-                      labelText:
-                          '${state.adresses[i].cityAndSettlement}, ${state.adresses[i].street}, д ${state.adresses[i].house}',
-                      selectedText: state.adresses[i].subAddress,
-                      onPressed: () {
-                        Keys.mainContentNav.currentState!
-                            .pushNamed(
-                          '/add_details',
-                          arguments: AddDetailsArguments(
-                            adress: state.adresses[i],
-                            isFirstLaunch: false,
-                          ),
-                        )
-                            .then((v) {
-                          adressesCubit.getAdresses();
-                        });
-                      },
-                    );
-                  },
                 );
               } else {
                 return const Padding(

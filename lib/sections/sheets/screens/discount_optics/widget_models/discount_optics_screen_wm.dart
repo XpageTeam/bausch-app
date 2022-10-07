@@ -23,6 +23,7 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dar
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -387,29 +388,39 @@ class DiscountOpticsScreenWM extends WidgetModel {
             backgroundColor: AppTheme.mystic,
             body: Stack(
               children: [
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
+                CustomScrollView(
+                  scrollBehavior: const AntiGlowBehavior(),
+                  physics: const ClampingScrollPhysics(),
                   controller: controller,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: const [
-                        SizedBox(height: 40),
-                        Text(
-                          'Запомнить город?',
-                          style: AppStyles.h1,
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.all(8.0),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate(
+                          const [
+                            SizedBox(height: 40),
+                            Text(
+                              'Запомнить город?',
+                              style: AppStyles.h1,
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              'Настроить отображение партнеров по городу можно позже в настройках',
+                              style: AppStyles.p1Grey,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          'Настроить отображение партнеров по городу можно позже в настройках',
-                          style: AppStyles.p1Grey,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: SizedBox(
+                        height: 20,
+                      ),
+                    ),
+                  ],
                 ),
                 Positioned(
                   top: 0,
@@ -442,9 +453,9 @@ class DiscountOpticsScreenWM extends WidgetModel {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // const SizedBox(
+                  //   height: 40,
+                  // ),
                   BlueButton(
                     children: const [
                       Text(
