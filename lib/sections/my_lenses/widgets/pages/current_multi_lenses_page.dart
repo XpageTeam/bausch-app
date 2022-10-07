@@ -121,7 +121,8 @@ class CurrentMultiLensesPage extends StatelessWidget {
                                 myLensesWM.updateMultiReminders(
                               // TODO(info): везде листы так передавать
                               reminders: [...notifications],
-                              shouldPop: true,
+
+                              context: context,
                             ),
                           );
                         },

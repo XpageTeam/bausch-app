@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
@@ -9,11 +10,13 @@ import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
+import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 enum MyLensesPage { currentLenses, oldLenses }
@@ -86,6 +89,7 @@ class MyLensesWM extends WidgetModel {
         rightDate: DateTime.now(),
       );
       await myLensesRequester.activateOldLenses(pairId: pairId);
+
       await loadAllData();
     } catch (e) {
       debugPrint('activateOldLenses $e');
@@ -133,12 +137,13 @@ class MyLensesWM extends WidgetModel {
 
   Future updateMultiReminders({
     required List<String> reminders,
-    bool shouldPop = false,
+    required BuildContext context,
   }) async {
     unawaited(remindersLoading.accept(true));
-    if (shouldPop) {
-      Keys.mainContentNav.currentState!.pop();
+    if (reminders.isNotEmpty) {
+      unawaited(activateUserPushNotifications(context: context));
     }
+    Keys.mainContentNav.currentState!.pop();
     try {
       await myLensesRequester.updateMultiReminders(reminders: reminders);
       unawaited(multiRemindes.accept([...reminders]));
@@ -156,6 +161,25 @@ class MyLensesWM extends WidgetModel {
     unawaited(remindersLoading.accept(false));
   }
 
+  Future activateUserPushNotifications({
+    required BuildContext context,
+  }) async {
+    final userWM = Provider.of<UserWM>(context, listen: false);
+    final notifications = <SubscriptionModel>[];
+    for (final element in userWM.userData.value.data!.user.subscriptions) {
+      if (element.pointOfContact.toLowerCase() == 'mobilepush') {
+        notifications.add(element.copyWith(isSubscribed: true));
+      } else {
+        notifications.add(element);
+      }
+    }
+    await userWM.updateUserData(
+      userWM.userData.value.data!.user,
+      notifications: notifications,
+      showMessage: false,
+    );
+  }
+
   Future updateDailyReminders({
     required bool defaultValue,
     required bool subscribe,
@@ -166,7 +190,6 @@ class MyLensesWM extends WidgetModel {
   }) async {
     unawaited(remindersLoading.accept(true));
     if (context != null) {
-      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     }
     try {
@@ -174,10 +197,13 @@ class MyLensesWM extends WidgetModel {
         if (defaultValue) {
           await myLensesRequester.setDefaultDailyReminders();
         } else {
+          if (reminders!.isNotEmpty) {
+            await activateUserPushNotifications(context: context!);
+          }
           await myLensesRequester.updateDailyReminders(
             date: date!,
             replay: replay!,
-            reminders: reminders!,
+            reminders: reminders,
           );
         }
         await _loadDailyReminders();

@@ -195,10 +195,8 @@ class ChooseLensesWM extends WidgetModel {
             pairId: editLensPairModel!.id!,
           );
         }
-
         Keys.mainContentNav.currentState!.pop();
       } else {
-        // TODO(pavlvo): сделать синхронизацию с главным экраном
         await chooseLensesRequester.addLensPair(
           lensesPairModel:
               LensesPairModel(left: leftPair.value, right: rightPair.value),
