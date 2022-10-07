@@ -7,7 +7,6 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
-import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetContent extends StatelessWidget {

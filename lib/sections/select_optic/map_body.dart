@@ -8,7 +8,6 @@ import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/map_buttons.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

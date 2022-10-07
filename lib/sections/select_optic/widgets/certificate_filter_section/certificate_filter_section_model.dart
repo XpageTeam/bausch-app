@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/animation.dart';

@@ -50,6 +50,10 @@ class MapBodyWM extends WidgetModel {
   final zoomOutAction = VoidAction();
   final moveToUserPosition = VoidAction();
 
+  final _streamSubscriptions = <StreamSubscription<dynamic>>[];
+
+  double userDirection = 0;
+
   YandexMapController? mapController;
 
   void Function(OpticShop shop)? onPlacemarkPressed;
@@ -114,9 +118,9 @@ class MapBodyWM extends WidgetModel {
 
     userPositionStream?.cancel();
 
-    _streamSubscriptions.forEach((element) {
-      element.cancel();
-    });
+    for (final subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
     super.dispose();
   }
 
@@ -138,7 +142,7 @@ class MapBodyWM extends WidgetModel {
       await Future<void>.delayed(
         const Duration(milliseconds: 100),
       );
-      _moveTo(shop.coords);
+      unawaited(_moveTo(shop.coords));
       onPlacemarkPressed?.call(shop);
     }
   }
@@ -313,10 +317,6 @@ class MapBodyWM extends WidgetModel {
 
     return list;
   }
-
-  final _streamSubscriptions = <StreamSubscription<dynamic>>[];
-
-  double userDirection = 0;
 
   void _listenUserDirection() {
     if (FlutterCompass.events == null) return;
@@ -725,7 +725,6 @@ class MapBodyWM extends WidgetModel {
       6,
     );
 
-    final circleOffset = Offset(size.width / 2, radius);
     textPainter.paint(canvas, textOffset);
   }
 
