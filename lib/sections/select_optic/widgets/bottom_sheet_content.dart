@@ -227,7 +227,7 @@ class BottomSheetContentOther extends StatelessWidget {
           Scaffold(
             backgroundColor: Colors.white,
             body: CustomScrollView(
-              scrollBehavior: AntiGlowBehavior(),
+              scrollBehavior: const AntiGlowBehavior(),
               controller: controller,
               physics: const ClampingScrollPhysics(),
               slivers: [
@@ -298,11 +298,11 @@ class BottomSheetContentOther extends StatelessWidget {
                             ),
                           ),
 
-                        // if (features != null && features!.isNotEmpty)
-                        //   Padding(
-                        //     padding: const EdgeInsets.only(top: 20.0),
-                        //     child: FeaturesSection(features: features!),
-                        //   ),
+                        if (features != null && features!.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: FeaturesSection(features: features!),
+                          ),
 
                         // Доп. информация о скидке
                         if (additionalInfo != null)
