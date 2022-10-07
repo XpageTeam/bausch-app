@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,11 +66,21 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
   }
 
   @override
+  void dispose() {
+    isLoadingState.dispose();
+    isErrorState.dispose();
+    cacheManager.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    debugPrint('url: ${widget.url}');
     return WillPopScope(
       onWillPop: () async {
-        final canGoBack =
-            webViewController != null && await webViewController!.canGoBack();
+        final canGoBack = webViewController != null &&
+            await webViewController!.canGoBack() &&
+            !isFile;
 
         if (canGoBack) {
           unawaited(webViewController?.goBack());
@@ -78,10 +90,38 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
         return Future(() => true);
       },
       child: ColoredBox(
-        color: Colors.white,
+        color: AppTheme.mystic,
         child: SafeArea(
           child: Scaffold(
             backgroundColor: AppTheme.mystic,
+            resizeToAvoidBottomInset: false,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(54),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                    ),
+                    child: Row(
+                      children: [
+                        NormalIconButton(
+                          isAnimated: false,
+                          onPressed: Navigator.of(context).pop,
+                          icon: const Icon(
+                            Icons.chevron_left_rounded,
+                            size: 20,
+                            color: AppTheme.mineShaft,
+                          ),
+                          // backgroundColor: iconColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
             body: StreamedStateBuilder<bool>(
               streamedState: isErrorState,
               builder: (_, isError) {
@@ -109,9 +149,12 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
                                       onPageStarted: onLoadStarted,
                                       onPageFinished: onLoadFinished,
                                       onWebResourceError: onError,
+                                      // javascriptChannels: <JavascriptChannel>{
+                                      //   _onTap(context),
+                                      // },
                                     ),
                             ),
-                            if (!isFile) const SizedBox(height: 20),
+                            // if (!isFile) const SizedBox(height: 20),
                           ],
                         ),
                         if (isFirstPage && isLoading)
@@ -162,6 +205,7 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
     isFirstPage = false;
     isLoadingState.accept(false);
     debugPrint('onPageFinished');
+    // webViewController?.runJavascript('alert(\'asdasd\')');
   }
 
   void onError([WebResourceError? error]) {
@@ -180,6 +224,15 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
       onError();
     }
   }
+
+  // JavascriptChannel _onTap(BuildContext context) {
+  //   return JavascriptChannel(
+  //     name: 'Button',
+  //     onMessageReceived: (message) {
+  //       Navigator.of(context).pop();
+  //     },
+  //   );
+  // }
 }
 
 void openSimpleWebView(BuildContext context, {required String url}) {
