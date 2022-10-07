@@ -132,14 +132,21 @@ class CurrentDailyLensesPage extends StatelessWidget {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () async =>
-                                        myLensesWM.updateDailyReminders(
-                                      defaultValue: true,
-                                      date: null,
-                                      reminders: null,
-                                      replay: null,
-                                      subscribe: dailyReminders == null,
-                                    ),
+                                    onTap: () async {
+                                      await myLensesWM.updateDailyReminders(
+                                        defaultValue: true,
+                                        date: null,
+                                        reminders: null,
+                                        replay: null,
+                                        subscribe: dailyReminders == null,
+                                      );
+                                      if (dailyReminders == null) {
+                                        await myLensesWM
+                                            .activateUserPushNotifications(
+                                          context: context,
+                                        );
+                                      }
+                                    },
                                     child: Container(
                                       color: Colors.transparent,
                                       padding: const EdgeInsets.all(
@@ -148,14 +155,20 @@ class CurrentDailyLensesPage extends StatelessWidget {
                                       child: CustomCheckbox(
                                         marginNeeded: false,
                                         value: dailyReminders != null,
-                                        onChanged: (isSubscribed) {
-                                          myLensesWM.updateDailyReminders(
+                                        onChanged: (isSubscribe) async {
+                                          await myLensesWM.updateDailyReminders(
                                             defaultValue: true,
                                             date: null,
                                             reminders: null,
                                             replay: null,
-                                            subscribe: isSubscribed!,
+                                            subscribe: isSubscribe!,
                                           );
+                                          if (isSubscribe) {
+                                            await myLensesWM
+                                                .activateUserPushNotifications(
+                                              context: context,
+                                            );
+                                          }
                                         },
                                       ),
                                     ),

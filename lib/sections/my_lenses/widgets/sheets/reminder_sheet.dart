@@ -78,7 +78,13 @@ class _ReminderSheetState extends State<ReminderSheet> {
                     style: AppStyles.h1,
                   ),
                   GestureDetector(
-                    onTap: () async => widget.onSendUpdate([]),
+                    onTap: () async {
+                      if (widget.multiDayLife) {
+                        await widget.onSendUpdate([]);
+                      } else {
+                        await widget.onSendUpdate(['0']);
+                      }
+                    },
                     child: const Text(
                       'Сбросить',
                       style: AppStyles.h3,
@@ -94,33 +100,56 @@ class _ReminderSheetState extends State<ReminderSheet> {
                     top: 4,
                     bottom: 4,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Flexible(
-                        child: Text(
-                          'Нет',
-                          style: AppStyles.h2,
+                  child: widget.multiDayLife
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Flexible(
+                              child: Text(
+                                'Нет',
+                                style: AppStyles.h2,
+                              ),
+                            ),
+                            CustomCheckbox(
+                              value: boolValues[0],
+                              onChanged: (value) {
+                                setState(() {
+                                  if (value!) {
+                                    for (var i = 1;
+                                        i < boolValues.length;
+                                        i++) {
+                                      boolValues[i] = false;
+                                    }
+                                    boolValues[0] = true;
+                                  } else {
+                                    boolValues[0] = false;
+                                  }
+                                });
+                              },
+                              borderRadius: 2,
+                            ),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Flexible(
+                              child: Text(
+                                'В день покупки',
+                                style: AppStyles.h2,
+                              ),
+                            ),
+                            CustomCheckbox(
+                              value: boolValues[1],
+                              onChanged: (value) {
+                                setState(() {
+                                  boolValues[1] = value!;
+                                });
+                              },
+                              borderRadius: 2,
+                            ),
+                          ],
                         ),
-                      ),
-                      CustomCheckbox(
-                        value: boolValues[0],
-                        onChanged: (value) {
-                          setState(() {
-                            if (value!) {
-                              for (var i = 1; i < boolValues.length; i++) {
-                                boolValues[i] = false;
-                              }
-                              boolValues[0] = true;
-                            } else {
-                              boolValues[0] = false;
-                            }
-                          });
-                        },
-                        borderRadius: 2,
-                      ),
-                    ],
-                  ),
                 ),
               ),
               WhiteContainerWithRoundedCorners(
@@ -133,29 +162,30 @@ class _ReminderSheetState extends State<ReminderSheet> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            'В день ${widget.multiDayLife ? 'замены' : 'покупки'}',
-                            style: AppStyles.h2,
+                    if (widget.multiDayLife)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Flexible(
+                            child: Text(
+                              'В день замены',
+                              style: AppStyles.h2,
+                            ),
                           ),
-                        ),
-                        CustomCheckbox(
-                          value: boolValues[1],
-                          onChanged: (value) {
-                            setState(() {
-                              boolValues[1] = value!;
-                              if (value) {
-                                boolValues[0] = false;
-                              }
-                            });
-                          },
-                          borderRadius: 2,
-                        ),
-                      ],
-                    ),
+                          CustomCheckbox(
+                            value: boolValues[1],
+                            onChanged: (value) {
+                              setState(() {
+                                boolValues[1] = value!;
+                                if (value) {
+                                  boolValues[0] = false;
+                                }
+                              });
+                            },
+                            borderRadius: 2,
+                          ),
+                        ],
+                      ),
                     const SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,7 +215,6 @@ class _ReminderSheetState extends State<ReminderSheet> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 26),
-        
                 child: BlueButtonWithText(
                   text: 'Готово',
                   onPressed: () async {
@@ -194,6 +223,9 @@ class _ReminderSheetState extends State<ReminderSheet> {
                       if (boolValues[i]) {
                         result.add((i - 1).toString());
                       }
+                    }
+                    if (result.isEmpty && !widget.multiDayLife) {
+                      result.add('0');
                     }
                     await widget.onSendUpdate(result);
                   },
