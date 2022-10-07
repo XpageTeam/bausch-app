@@ -219,25 +219,31 @@ class MainScreenWM extends WidgetModel {
     try {
       await catalog.content(await _requester.loadCatalog());
     } on DioError catch (e) {
-      await catalog.error(
-        CustomException(
-          title: 'При загрузке каталога произошла ошибка',
-          subtitle: e.message,
-          ex: e,
-        ),
+      await _acceptCatalogError(
+        e,
+        title: 'При загрузке каталога произошла ошибка',
       );
     } on ResponseParseException catch (e) {
-      await catalog.error(
-        CustomException(
-          title: 'При обработке ответа от сервера прозошла ошибка',
-          subtitle: e.toString(),
-          ex: e,
-        ),
+      await _acceptCatalogError(
+        e,
+        title: 'При обработке ответа от сервера прозошла ошибка',
       );
     } on SuccessFalse catch (e) {
-      await catalog.error(
+      await _acceptCatalogError(
+        e,
+        title: 'При получении ответа от сервера произошла ошибка',
+      );
+    }
+  }
+
+  Future<void> _acceptCatalogError(
+    Exception e, {
+    required String title,
+  }) async {
+    if (catalog.value.data != null && !catalog.value.hasError) {
+      return catalog.error(
         CustomException(
-          title: e.toString(),
+          title: title,
           ex: e,
         ),
       );
@@ -262,9 +268,7 @@ class MainScreenWM extends WidgetModel {
             )
             .toList(),
       );
-    } catch (e) {
-      rethrow;
-    }
+    } catch (e) {}
   }
 
   Future<void> _loadBanners() async {

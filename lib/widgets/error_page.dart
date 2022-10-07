@@ -26,20 +26,13 @@ class ErrorPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: StaticData.sidePadding,
-          vertical: 30,
+          // vertical: 30,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(),
-            SimpleErrorWidget(
-              title: title,
-              subtitle: subtitle,
-              buttonText: buttonText,
-              buttonCallback: buttonCallback,
-            ),
-          ],
+        child: SimpleErrorWidget(
+          title: title,
+          subtitle: subtitle,
+          buttonText: buttonText,
+          buttonCallback: buttonCallback,
         ),
       ),
     );

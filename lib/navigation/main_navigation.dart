@@ -226,7 +226,7 @@ class _MainNavigationState extends State<MainNavigation>
       if (Keys.mainContentNav.currentContext != null) {
         RequestHandler.setContext(context);
         widget.authWM.context = Keys.mainContentNav.currentContext;
-        widget.authWM.checkAuthAction();
+        widget.authWM.checkAuth();
       } else {
         debugPrint('authRestart');
         Future.delayed(const Duration(milliseconds: 50), authStart);

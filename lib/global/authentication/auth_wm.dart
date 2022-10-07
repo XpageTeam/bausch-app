@@ -23,7 +23,6 @@ enum AuthStatus {
 // не понятно почему (возможно не тот код)
 class AuthWM extends WidgetModel {
   final authStatus = StreamedState<AuthStatus>(AuthStatus.unknown);
-  final checkAuthAction = VoidAction();
   final UserWM userWM;
 
   BuildContext? context;
@@ -79,9 +78,7 @@ class AuthWM extends WidgetModel {
       }
     });
 
-    checkAuthAction.bind((value) {
-      _checkUserAuth();
-    });
+   
   }
 
   /// выход
@@ -90,7 +87,7 @@ class AuthWM extends WidgetModel {
     authStatus.accept(AuthStatus.unauthenticated);
   }
 
-  Future<void> _checkUserAuth() async {
+  Future<void> checkAuth() async {
     if (userWM.userData.value.isLoading) return;
 
     await userWM.userData.loading();
@@ -168,7 +165,7 @@ class AuthWM extends WidgetModel {
               // );
               return ErrorPage(
                 title: error?.title ?? 'Ошибка',
-                buttonCallback: checkAuthAction,
+                buttonCallback: checkAuth,
                 buttonText: 'Обновить',
               );
             },
@@ -188,7 +185,7 @@ class AuthWM extends WidgetModel {
                 // );
                 return ErrorPage(
                   title: error?.title ?? 'Ошибка',
-                  buttonCallback: checkAuthAction,
+                  buttonCallback: checkAuth,
                   buttonText: 'Обновить',
                 );
               },
