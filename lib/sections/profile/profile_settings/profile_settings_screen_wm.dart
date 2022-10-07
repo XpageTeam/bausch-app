@@ -9,11 +9,11 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -132,6 +132,10 @@ class ProfileSettingsScreenWM extends WidgetModel {
     }
   }
 
+  Future<bool> reloadUserData() async {
+    return userWM.reloadUserData();
+  }
+
   void updateNotifications(List<SubscriptionModel> notifications) {
     notificationsList.clear();
     notificationsList = [...notifications];
@@ -212,6 +216,22 @@ class ProfileSettingsScreenWM extends WidgetModel {
         // subtitle: error.subtitle,
       );
     }
+  }
+
+  void changeEmail() {
+    showModalBottomSheet<num>(
+      isScrollControlled: true,
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.8),
+      builder: (context) {
+        return Wrap(children: [EmailBottomSheet()]);
+      },
+    ).then(
+      (value) async => enteredEmail.accept(
+        userWM.userData.value.data!.user.pendingEmail ??
+            userWM.userData.value.data!.user.email,
+      ),
+    );
   }
 
   Future<void> sendUserData() async {

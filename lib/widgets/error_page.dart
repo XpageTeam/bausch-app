@@ -63,10 +63,10 @@ class SimpleErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(),
+        // const SizedBox(),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -100,7 +100,7 @@ class SimpleErrorWidget extends StatelessWidget {
               ),
           ],
         ),
-        if (buttonText != null)
+        if (buttonText != null && buttonCallback != null)
           Padding(
             padding: const EdgeInsets.only(
               left: StaticData.sidePadding,

@@ -160,7 +160,6 @@ class _BluredImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, c) {
-        debugPrint(' c.minWidth,: ${c.maxWidth}');
         return SizedBox(
           width: c.maxWidth,
           child: Stack(

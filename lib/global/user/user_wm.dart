@@ -106,8 +106,8 @@ class UserWM extends WidgetModel {
     await UserWriter.removeUser();
   }
 
-  Future<void> reloadUserData() async {
-    if (!canUpdate) return;
+  Future<bool> reloadUserData() async {
+    if (!canUpdate) return false;
 
     try {
       final userRepo = await UserWriter.checkUserToken();
@@ -118,6 +118,8 @@ class UserWM extends WidgetModel {
     } catch (e) {
       debugPrint('Закгрузка пользователя: $e');
     }
+
+    return true;
   }
 
   void _changeAppLifecycleState(AppLifecycleState state) {
