@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
@@ -48,12 +49,14 @@ class FocusButton extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        labelText,
-                        style: selectedText == null ||
-                                selectedTextStyle != AppStyles.h2
-                            ? AppStyles.h2GreyBold
-                            : AppStyles.p1Grey,
+                      Flexible(
+                        child: Text(
+                          labelText,
+                          style: selectedText == null ||
+                                  selectedTextStyle != AppStyles.h2
+                              ? AppStyles.h2GreyBold
+                              : AppStyles.p1Grey,
+                        ),
                       ),
                       if (greenCheckIcon)
                         Padding(

@@ -8,6 +8,7 @@ import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -48,20 +49,14 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
             bottom: 20,
             top: 66,
           ),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                CodeSection(myLensesWM: widget.myLensesWM),
-              ],
-            ),
+          sliver: SliverToBoxAdapter(
+            child: CodeSection(myLensesWM: widget.myLensesWM),
           ),
         ),
         EntityStateBuilder<List<AddPointsModel>>(
           streamedState: wm.addPointsList,
-          loadingChild: SliverList(delegate: SliverChildListDelegate([])),
-          errorChild: const SliverToBoxAdapter(
-            child: SizedBox(),
-          ),
+          loadingChild: const SliverToBoxAdapter(),
+          errorChild: const SliverToBoxAdapter(),
           builder: (_, items) {
             if (items.isNotEmpty) {
               return SliverAppBar(
@@ -107,52 +102,12 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
             ),
           ),
           errorChild: SliverFillRemaining(
+            hasScrollBody: false,
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 20,
-                      ),
-                      child: Text(
-                        'Не удалось загрузить',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppTheme.mineShaft,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 24,
-                          height: 31 / 24,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        BlueButton(
-                          padding: EdgeInsets.zero,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                                vertical: 16,
-                              ),
-                              child: Text(
-                                'Обновить',
-                                style: AppStyles.h2,
-                              ),
-                            ),
-                          ],
-                          onPressed: wm.loadInfoAction,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              child: SimpleErrorWidget(
+                title: 'Не удалось загрузить',
+                buttonText: 'Обновить',
+                buttonCallback: wm.loadInfoAction,
               ),
             ),
           ),
@@ -162,21 +117,26 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
                 horizontal: StaticData.sidePadding,
               ),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (_, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == items.length - 1
-                            ? StaticData.sidePadding
-                            : 4,
-                      ),
-                      child: AddItem(
-                        model: items[index],
-                        wm: wm,
-                      ),
-                    );
-                  },
-                  childCount: items.length,
+                delegate: SliverChildListDelegate(
+                  [
+                    ...List.generate(
+                      items.length,
+                      (index) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: index == items.length - 1
+                                ? StaticData.sidePadding
+                                : 4,
+                          ),
+                          child: AddItem(
+                            model: items[index],
+                            wm: wm,
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
               ),
             );

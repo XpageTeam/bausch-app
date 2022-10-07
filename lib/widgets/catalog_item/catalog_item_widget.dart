@@ -303,9 +303,7 @@ class CatalogItemWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'До ${DateFormat('dd MMMM yyyy', 'ru_RUS').format(
-                    promocodeDateTime,
-                  )}',
+                  'До ${DateFormat('dd MMMM yyyy', 'ru_RUS').format(promocodeDateTime)}',
                   style: AppStyles.p1Grey,
                 ),
               ),

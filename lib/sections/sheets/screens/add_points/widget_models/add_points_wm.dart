@@ -65,7 +65,7 @@ class AddPointsWM extends WidgetModel {
         // subtitle: error.subtitle,
       );
 
-      await addPointsList.content([]);
+      await addPointsList.error(error);
     }
   }
 }

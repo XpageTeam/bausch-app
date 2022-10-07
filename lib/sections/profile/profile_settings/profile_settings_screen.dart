@@ -25,12 +25,14 @@ import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
 import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ProfileSettingsScreen extends CoreMwwmWidget<ProfileSettingsScreenWM> {
@@ -78,299 +80,315 @@ class _ProfileSettingsScreenState
         ),
         child: ScrollConfiguration(
           behavior: const AntiGlowBehavior(),
-          child: ListView(
-            physics: const OnlyBottomBouncingScrollPhysics(),
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4, top: 30),
-                child: NativeTextInput(
-                  labelText: 'Имя',
-                  controller: wm.nameController,
-                  textCapitalization: TextCapitalization.words,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: NativeTextInput(
-                  labelText: 'Фамилия',
-                  controller: wm.lastNameController,
-                  textCapitalization: TextCapitalization.words,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: EntityStateBuilder<UserRepository>(
-                  streamedState: userWM.userData,
-                  builder: (_, userData) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        alignment: Alignment.topRight,
-                        children: [
-                          StreamedStateBuilder<String?>(
-                            streamedState: wm.enteredEmail,
-                            builder: (_, email) => FocusButton(
-                              labelText: 'E-mail',
-                              selectedText: email,
-                              greenCheckIcon:
-                                  !((userData.user.isEmailConfirmed != null &&
-                                          !userData.user.isEmailConfirmed!) ||
-                                      userData.user.pendingEmail != null),
-                              waitConfirmationIcon:
-                                  (userData.user.isEmailConfirmed != null &&
-                                          !userData.user.isEmailConfirmed!) ||
-                                      userData.user.pendingEmail != null,
-                              icon: Container(),
-                              onPressed: () async {
-                                await showModalBottomSheet<num>(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  barrierColor: Colors.black.withOpacity(0.8),
-                                  builder: (context) {
-                                    return Wrap(children: [EmailBottomSheet()]);
-                                  },
-                                ).then(
-                                  (value) async => wm.enteredEmail.accept(userWM
-                                          .userData
-                                          .value
-                                          .data!
-                                          .user
-                                          .pendingEmail ??
-                                      userWM.userData.value.data!.user.email),
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                GestureDetector(
-                                  child: const DiscountInfo(
-                                    text: 'Изменить',
-                                    color: AppTheme.mystic,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+          child: PullToRefreshNotification(
+            refreshOffset: 60,
+            maxDragOffset: 80,
+            color: Colors.black,
+            onRefresh: wm.reloadUserData,
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                PullToRefreshContainer((info) {
+                  return ClipRect(
+                    child: SizedBox(
+                      height: info?.dragOffset ?? 0,
+                      child: const Center(
+                        child: AnimatedLoader(),
                       ),
-                      if ((userData.user.isEmailConfirmed != null &&
-                              !userData.user.isEmailConfirmed!) ||
-                          userData.user.pendingEmail != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Warning.warning(
-                            'Мы отправили инструкцию для  подтверждения. Проверьте почту.',
-                          ),
-                        ),
-                    ],
+                    ),
+                  );
+                }),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4, top: 30),
+                  child: NativeTextInput(
+                    labelText: 'Имя',
+                    controller: wm.nameController,
+                    textCapitalization: TextCapitalization.words,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: NativeTextInput(
-                  labelText: 'Мобильный телефон',
-                  greenCheckIcon: true,
-                  controller: wm.phoneController,
-                  inputType: TextInputType.phone,
-                  enabled: false,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: NativeTextInput(
+                    labelText: 'Фамилия',
+                    controller: wm.lastNameController,
+                    textCapitalization: TextCapitalization.words,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: StreamedStateBuilder<DateTime?>(
-                  streamedState: wm.selectedBirthDate,
-                  builder: (_, birthDate) {
-                    return FocusButton(
-                      labelText: 'Дата рождения',
-                      selectedText: birthDate != null
-                          ? DateFormat('dd.MM.yyyy').format(birthDate)
-                          : null,
-                      icon: Container(),
-                      onPressed: () {
-                        if (FocusScope.of(context).hasFocus) {
-                          FocusScope.of(context).unfocus();
-                        }
-                        DatePicker.showDatePicker(
-                          context,
-                          initialDateTime: DateTime(2004),
-                          minDateTime: DateTime(1900, 8),
-                          maxDateTime: DateTime.now(),
-                          locale: DateTimePickerLocale.ru,
-                          onCancel: () {},
-                          dateFormat: 'dd.MM.yyyy',
-                          onConfirm: (date, i) {
-                            debugPrint('onchanged');
-        
-                            wm.setBirthDate(date);
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              StreamedStateBuilder<bool>(
-                streamedState: wm.showBanner,
-                builder: (_, showing) {
-                  return showing
-                      ? const Padding(
-                          padding: EdgeInsets.only(bottom: 4),
-                          child: ProfileSettingsBanner(),
-                        )
-                      : const SizedBox();
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: StreamedStateBuilder<String?>(
-                  streamedState: wm.selectedCityName,
-                  builder: (_, cityName) {
-                    return FocusButton(
-                      labelText: 'Партнеров из какого города показывать',
-                      selectedText: cityName,
-                      onPressed: () async {
-                        await wm.changeCityAction(
-                          await Keys.mainNav.currentState!.push<String?>(
-                            PageRouteBuilder<String>(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      CityScreen(
-                                withFavoriteItems: const ['Москва'],
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: EntityStateBuilder<UserRepository>(
+                    streamedState: userWM.userData,
+                    builder: (_, userData) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            StreamedStateBuilder<String?>(
+                              streamedState: wm.enteredEmail,
+                              builder: (_, email) => FocusButton(
+                                labelText: 'E-mail',
+                                selectedText: email,
+                                greenCheckIcon:
+                                    !((userData.user.isEmailConfirmed != null &&
+                                            !userData.user.isEmailConfirmed!) ||
+                                        userData.user.pendingEmail != null),
+                                waitConfirmationIcon:
+                                    (userData.user.isEmailConfirmed != null &&
+                                            !userData.user.isEmailConfirmed!) ||
+                                        userData.user.pendingEmail != null,
+                                icon: Container(),
+                                onPressed: wm.changeEmail,
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: FocusButton(
-                  labelText: 'Мои адреса',
-                  onPressed: () {
-                    appsFlyer.logEvent('myAddressesOpened', null);
-                    Keys.mainContentNav.currentState!.pushNamed('/my_adresses');
-                  },
-                ),
-              ),
-              /*Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: FocusButton(
-                  labelText: 'Параметры контактных линз',
-                  onPressed: () {
-                    Keys.mainContentNav.currentState!
-                        .pushNamed('/lenses_parameters');
-                  },
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 40),
-                child: FocusButton(
-                  labelText: 'Привязать аккаунт',
-                ),
-              ),*/
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: FocusButton(
-                  labelText: 'Уведомления',
-                  selectedText: 'Акции, скидки, новости',
-                  selectedTextStyle: AppStyles.p1Grey,
-                  onPressed: () {
-                    Keys.mainContentNav.currentState!.push(
-                      PageRouteBuilder<String>(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            NotificationsSettingsScreen(
-                          valuesList: wm.notificationsList,
-                          onSendUpdate: (valuesList) =>
-                              wm.updateNotifications(valuesList),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  if ((userData.user.isEmailConfirmed != null &&
+                                          !userData.user.isEmailConfirmed!) ||
+                                      userData.user.pendingEmail != null)
+                                    GestureDetector(
+                                      onTap: wm.sendEmailConfirmation,
+                                      child: const DiscountInfo(
+                                        text: 'Подтвердить',
+                                        color: AppTheme.turquoiseBlue,
+                                      ),
+                                    ),
+                                  if (!((userData.user.isEmailConfirmed !=
+                                              null &&
+                                          !userData.user.isEmailConfirmed!) ||
+                                      userData.user.pendingEmail != null))
+                                    GestureDetector(
+                                      onTap: wm.changeEmail,
+                                      child: const DiscountInfo(
+                                        text: 'Изменить',
+                                        color: AppTheme.mystic,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40),
-                child: TextButton(
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      barrierColor: Colors.black.withOpacity(0.8),
-                      builder: (context) {
-                        return CustomAlertDialog(
-                          text: 'Уходите?',
-                          yesCallback: () {
-                            authWM.logout();
-                          },
-                          noCallback: () {
-                            Navigator.of(context).pop();
-                          },
-                        );
-                      },
-                    );
-                  },
-                  style: TextButton.styleFrom(
-                    surfaceTintColor: Colors.transparent,
-                  ),
-                  child: Text(
-                    'Выйти',
-                    style: AppStyles.h2.copyWith(
-                      color: AppTheme.grey,
+                        if ((userData.user.isEmailConfirmed != null &&
+                                !userData.user.isEmailConfirmed!) ||
+                            userData.user.pendingEmail != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Warning.warning(
+                              'Мы отправили инструкцию для  подтверждения. Проверьте почту.',
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              WhiteButton(
-                text: 'Удалить аккаунт',
-                padding: const EdgeInsets.symmetric(
-                  horizontal: StaticData.sidePadding,
-                  vertical: 26,
-                ),
-                style: AppStyles.h2.copyWith(
-                  color: const Color(
-                    0xffFF7F77,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: NativeTextInput(
+                    labelText: 'Мобильный телефон',
+                    greenCheckIcon: true,
+                    controller: wm.phoneController,
+                    inputType: TextInputType.phone,
+                    enabled: false,
                   ),
                 ),
-                onPressed: () async {
-                  _showDeleteAccountBottomSheet(confirmCallback: (ctx) async {
-                    await wm.deleteAccount(onSuccess: () {
-                      Navigator.of(ctx).pop();
-                      _showSuccessBottomSheet(
-                        confirmCallback: (c) => Navigator.of(c).pop(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: StreamedStateBuilder<DateTime?>(
+                    streamedState: wm.selectedBirthDate,
+                    builder: (_, birthDate) {
+                      return FocusButton(
+                        labelText: 'Дата рождения',
+                        selectedText: birthDate != null
+                            ? DateFormat('dd.MM.yyyy').format(birthDate)
+                            : null,
+                        icon: Container(),
+                        onPressed: () {
+                          if (FocusScope.of(context).hasFocus) {
+                            FocusScope.of(context).unfocus();
+                          }
+                          DatePicker.showDatePicker(
+                            context,
+                            initialDateTime: DateTime(2004),
+                            minDateTime: DateTime(1900, 8),
+                            maxDateTime: DateTime.now(),
+                            locale: DateTimePickerLocale.ru,
+                            onCancel: () {},
+                            dateFormat: 'dd.MM.yyyy',
+                            onConfirm: (date, i) {
+                              debugPrint('onchanged');
+
+                              wm.setBirthDate(date);
+                            },
+                          );
+                        },
                       );
-                    });
-                  });
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 40),
-                child: FutureBuilder<PackageInfo>(
-                  future: PackageInfo.fromPlatform(),
-                  builder: (_, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const SizedBox();
-                    }
-        
-                    return Text(
-                      'Версия приложения ${snapshot.data?.version} (${snapshot.data?.buildNumber})',
-                      style: AppStyles.p1Grey,
-                      textAlign: TextAlign.center,
-                    );
+                    },
+                  ),
+                ),
+                StreamedStateBuilder<bool>(
+                  streamedState: wm.showBanner,
+                  builder: (_, showing) {
+                    return showing
+                        ? const Padding(
+                            padding: EdgeInsets.only(bottom: 4),
+                            child: ProfileSettingsBanner(),
+                          )
+                        : const SizedBox();
                   },
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: StreamedStateBuilder<String?>(
+                    streamedState: wm.selectedCityName,
+                    builder: (_, cityName) {
+                      return FocusButton(
+                        labelText: 'Партнеров из какого города показывать',
+                        selectedText: cityName,
+                        onPressed: () async {
+                          await wm.changeCityAction(
+                            await Keys.mainNav.currentState!.push<String?>(
+                              PageRouteBuilder<String>(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        CityScreen(
+                                  withFavoriteItems: const ['Москва'],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: FocusButton(
+                    labelText: 'Мои адреса',
+                    onPressed: () {
+                      appsFlyer.logEvent('myAddressesOpened', null);
+                      Keys.mainContentNav.currentState!
+                          .pushNamed('/my_adresses');
+                    },
+                  ),
+                ),
+                /*Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: FocusButton(
+                    labelText: 'Параметры контактных линз',
+                    onPressed: () {
+                      Keys.mainContentNav.currentState!
+                          .pushNamed('/lenses_parameters');
+                    },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 40),
+                  child: FocusButton(
+                    labelText: 'Привязать аккаунт',
+                  ),
+                ),*/
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: FocusButton(
+                    labelText: 'Уведомления',
+                    selectedText: 'Акции, скидки, новости',
+                    selectedTextStyle: AppStyles.p1Grey,
+                    onPressed: () {
+                      Keys.mainContentNav.currentState!.push(
+                        PageRouteBuilder<String>(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  NotificationsSettingsScreen(
+                            valuesList: wm.notificationsList,
+                            onSendUpdate: (valuesList) =>
+                                wm.updateNotifications(valuesList),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  child: TextButton(
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        barrierColor: Colors.black.withOpacity(0.8),
+                        builder: (context) {
+                          return CustomAlertDialog(
+                            text: 'Уходите?',
+                            yesCallback: () {
+                              authWM.logout();
+                            },
+                            noCallback: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      surfaceTintColor: Colors.transparent,
+                    ),
+                    child: Text(
+                      'Выйти',
+                      style: AppStyles.h2.copyWith(
+                        color: AppTheme.grey,
+                      ),
+                    ),
+                  ),
+                ),
+                WhiteButton(
+                  text: 'Удалить аккаунт',
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
+                    vertical: 26,
+                  ),
+                  style: AppStyles.h2.copyWith(
+                    color: const Color(
+                      0xffFF7F77,
+                    ),
+                  ),
+                  onPressed: () async {
+                    _showDeleteAccountBottomSheet(confirmCallback: (ctx) async {
+                      await wm.deleteAccount(onSuccess: () {
+                        Navigator.of(ctx).pop();
+                        _showSuccessBottomSheet(
+                          confirmCallback: (c) => Navigator.of(c).pop(),
+                        );
+                      });
+                    });
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 40),
+                  child: FutureBuilder<PackageInfo>(
+                    future: PackageInfo.fromPlatform(),
+                    builder: (_, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const SizedBox();
+                      }
+
+                      return Text(
+                        'Версия приложения ${snapshot.data?.version} (${snapshot.data?.buildNumber})',
+                        style: AppStyles.p1Grey,
+                        textAlign: TextAlign.center,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

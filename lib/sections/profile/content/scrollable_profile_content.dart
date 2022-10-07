@@ -40,11 +40,14 @@ class _ScrollableProfileContentState
         errorBuilder: (context, e) {
           e as CustomException;
 
-          return ErrorPage(
-            title: e.title,
-            // subtitle: e.subtitle,
-            buttonText: 'Обновить',
-            buttonCallback: wm.allDataLoadAction,
+          return Center(
+            // color: Colors.pink,
+            child: SimpleErrorWidget(
+              title: e.title.replaceAll('-', '\u{2011}'),
+              // subtitle: e.subtitle,
+              buttonText: 'Обновить',
+              buttonCallback: wm.allDataLoadAction,
+            ),
           );
         },
         builder: (_, state) {
