@@ -137,12 +137,13 @@ class MyLensesWM extends WidgetModel {
 
   Future updateMultiReminders({
     required List<String> reminders,
-    bool shouldPop = false,
+    required BuildContext context,
   }) async {
     unawaited(remindersLoading.accept(true));
-    if (shouldPop) {
-      Keys.mainContentNav.currentState!.pop();
+    if (reminders.isNotEmpty) {
+      unawaited(activateUserPushNotifications(context: context));
     }
+    Keys.mainContentNav.currentState!.pop();
     try {
       await myLensesRequester.updateMultiReminders(reminders: reminders);
       unawaited(multiRemindes.accept([...reminders]));
@@ -189,7 +190,6 @@ class MyLensesWM extends WidgetModel {
   }) async {
     unawaited(remindersLoading.accept(true));
     if (context != null) {
-      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     }
     try {

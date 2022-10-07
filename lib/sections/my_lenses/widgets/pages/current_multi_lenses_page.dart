@@ -117,18 +117,13 @@ class CurrentMultiLensesPage extends StatelessWidget {
                         builder: (context) {
                           return ReminderSheet(
                             currentReminders: myLensesWM.multiRemindes.value,
-                            onSendUpdate: (notifications) async {
-                              await myLensesWM.updateMultiReminders(
-                                // TODO(info): везде листы так передавать
-                                reminders: [...notifications],
-                                shouldPop: true,
-                              );
-                              if (notifications.isNotEmpty) {
-                                await myLensesWM.activateUserPushNotifications(
-                                  context: context,
-                                );
-                              }
-                            },
+                            onSendUpdate: (notifications) async =>
+                                myLensesWM.updateMultiReminders(
+                              // TODO(info): везде листы так передавать
+                              reminders: [...notifications],
+
+                              context: context,
+                            ),
                           );
                         },
                       );
