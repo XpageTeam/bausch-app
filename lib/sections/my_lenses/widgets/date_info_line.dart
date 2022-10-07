@@ -83,7 +83,7 @@ class DateInfoLine extends StatelessWidget {
                     size: 18,
                   ),
                   Text(
-                    '${HelpFunctions.weekday(actualDateEnd.day)}, ${actualDateEnd.day} ${HelpFunctions.getMonthNameByNumber(actualDateEnd.month)}, ${actualDateEnd.hour < 10 ? 0 : ''}${actualDateEnd.hour}:${actualDateEnd.minute < 10 ? 0 : ''}${actualDateEnd.minute}',
+                    '${HelpFunctions.weekday(actualDateEnd)}, ${actualDateEnd.day} ${HelpFunctions.getMonthNameByNumber(actualDateEnd.month)}, ${actualDateEnd.hour < 10 ? 0 : ''}${actualDateEnd.hour}:${actualDateEnd.minute < 10 ? 0 : ''}${actualDateEnd.minute}',
                     style: AppStyles.p1,
                   ),
                   if (actualDaysLeft < 0)

@@ -60,7 +60,7 @@ class LensSmallIndicator extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  '${HelpFunctions.weekday(activeDate.dateEnd.day)}, ${activeDate.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(activeDate.dateEnd.month)}',
+                  '${HelpFunctions.weekday(activeDate.dateEnd)}, ${activeDate.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(activeDate.dateEnd.month)}',
                   style: AppStyles.n1,
                 ),
               ],
@@ -84,7 +84,7 @@ class LensSmallIndicator extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  '${HelpFunctions.weekday(activeDate.dateEnd.day)}, ${activeDate.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(activeDate.dateEnd.month)}',
+                  '${HelpFunctions.weekday(activeDate.dateEnd)}, ${activeDate.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(activeDate.dateEnd.month)}',
                   style: AppStyles.n1,
                 ),
               ],
