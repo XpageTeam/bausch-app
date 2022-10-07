@@ -39,10 +39,9 @@ class ProgramScreenWM extends WidgetModel {
   final getCertificateAction = VoidAction();
 
   final colorState = StreamedState<Color>(Colors.white);
+  late final User? userData;
 
   late String city;
-
-  late final User? userData;
 
   List<OpticCity> cities = [];
 

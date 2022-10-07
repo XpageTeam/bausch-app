@@ -6,7 +6,6 @@ import 'dart:developer';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
-import 'package:bausch/models/city/dadata_cities_downloader.dart';
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -17,7 +16,6 @@ import 'package:bausch/sections/select_optic/widgets/certificate_filter_section/
 import 'package:bausch/sections/select_optic/widgets/choose_types_sheet.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -78,6 +76,7 @@ class SelectOpticScreenWM extends WidgetModel {
 
   List<OpticCity> initialCities;
   bool isCertificateMap;
+  OpticShop? selectedOpticShop;
 
   SelectOpticScreenWM({
     required this.context,
@@ -214,8 +213,6 @@ class SelectOpticScreenWM extends WidgetModel {
       ),
     );
   }
-
-  OpticShop? selectedOpticShop;
 
   void showOpticOnMap(OpticShop shop) {
     selectedOpticShop = shop;

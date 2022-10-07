@@ -9,7 +9,6 @@ import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
-import 'package:bausch/packages/flutter_cupertino_date_picker/src/date_time_formatter.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';

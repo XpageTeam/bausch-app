@@ -2,7 +2,6 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/select_optic/widgets/certificate_filter_section/certificate_filter_section_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:flutter/foundation.dart';
 
 // /optics/city/?cityId=385030
 class CertificateOpticsLoader {

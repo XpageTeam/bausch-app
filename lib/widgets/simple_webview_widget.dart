@@ -17,7 +17,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class SimpleWebViewWidget extends StatefulWidget {
   final String url;
 
-  const SimpleWebViewWidget({super.key, required this.url});
+  const SimpleWebViewWidget({required this.url, super.key});
 
   @override
   SimpleWebViewWidgetState createState() => SimpleWebViewWidgetState();
@@ -147,6 +147,7 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
     );
   }
 
+  // ignore: use_setters_to_change_properties
   void onWebViewCreated(WebViewController controller) {
     webViewController = controller;
   }

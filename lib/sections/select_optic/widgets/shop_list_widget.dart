@@ -1,5 +1,3 @@
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
-import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_container.dart';
 import 'package:bausch/sections/select_optic/widgets/shop_container_with_button.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';

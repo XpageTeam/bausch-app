@@ -116,24 +116,6 @@ class AdressModel implements MappableInterface<AdressModel> {
     return result.isEmpty ? null : result;
   }
 
-  bool _write({
-    required int? value,
-    required StringBuffer sb,
-    required bool Function(int? value) predicate,
-    required bool hasBefore,
-    required String Function(int value) valueBuilder,
-  }) {
-    if (predicate(value)) {
-      if (hasBefore) {
-        sb.write(', ');
-      }
-      sb.write(valueBuilder(value!));
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   AdressModel({
     required this.street,
     this.id,
@@ -146,6 +128,8 @@ class AdressModel implements MappableInterface<AdressModel> {
     this.settlement,
     this.zipCode,
   });
+
+
 
   factory AdressModel.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) {
@@ -192,5 +176,23 @@ class AdressModel implements MappableInterface<AdressModel> {
       'city': city,
       'zip': zipCode,
     };
+  }
+
+    bool _write({
+    required int? value,
+    required StringBuffer sb,
+    required bool Function(int? value) predicate,
+    required bool hasBefore,
+    required String Function(int value) valueBuilder,
+  }) {
+    if (predicate(value)) {
+      if (hasBefore) {
+        sb.write(', ');
+      }
+      sb.write(valueBuilder(value!));
+      return true;
+    } else {
+      return false;
+    }
   }
 }

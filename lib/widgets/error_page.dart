@@ -53,8 +53,8 @@ class SimpleErrorWidget extends StatelessWidget {
   final VoidCallback? buttonCallback;
 
   const SimpleErrorWidget({
-    super.key,
     required this.title,
+    super.key,
     this.subtitle,
     this.buttonText,
     this.buttonCallback,

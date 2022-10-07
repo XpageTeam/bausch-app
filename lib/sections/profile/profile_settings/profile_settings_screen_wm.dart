@@ -33,14 +33,13 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final phoneController = MaskedTextController(mask: '+7 000 000 00 00');
   final changeCityAction = StreamedAction<String?>();
   final confirmEmail = VoidAction();
+  late final UserWM userWM;
   List<SubscriptionModel> notificationsList = [];
 
   String tempName = '';
   String tempLastName = '';
 
   AppsflyerSdk? _appsflyer;
-
-  late final UserWM userWM;
 
   ProfileSettingsScreenWM({required this.context})
       : super(const WidgetModelDependencies());
