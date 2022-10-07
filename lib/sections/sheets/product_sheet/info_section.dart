@@ -17,6 +17,10 @@ class InfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (text.isNotEmpty) {
+      final clearedText = text
+          .replaceAll('<p>', '')
+          .replaceAll('</p>', '')
+          .replaceAll('&nbsp;', '');
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -32,7 +36,7 @@ class InfoSection extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Html(
-              data: text,
+              data: clearedText,
               style: htmlStyles,
               customRender: htmlCustomRender,
               onLinkTap: (url, context, attributes, element) async {

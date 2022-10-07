@@ -24,6 +24,12 @@ final Map<String, Style> htmlStyles = {
     fontFamily: 'Euclid Circular A',
     lineHeight: const LineHeight(20 / 14),
   ),
+  'p:first-child': Style(
+    // ignore: avoid_redundant_argument_values, use_named_constants
+    // margin: const EdgeInsets.only(top: 0),
+    padding: EdgeInsets.zero,
+    margin: EdgeInsets.zero,
+  ),
   'ul': Style(
     padding: EdgeInsets.zero,
   ),

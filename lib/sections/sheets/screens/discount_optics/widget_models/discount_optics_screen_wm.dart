@@ -122,6 +122,19 @@ class DiscountOpticsScreenWM extends WidgetModel {
               await _filterOpticsBySelectedOfflineCity(),
             ),
           );
+
+          if (!wasDialogShowed) {
+            wasDialogShowed = true;
+            _showRememberCityDialog(
+              confirmCallback: (ctx) {
+                userWM.updateUserData(
+                  userWM.userData.value.data!.user.copyWith(city: cityName),
+                  successMessage: 'Город успешно изменён',
+                );
+                Navigator.of(ctx).pop();
+              },
+            );
+          }
         }
       },
     );

@@ -180,8 +180,8 @@ class _CodeSectionState extends State<CodeSection> {
                                   title: state.code.isEmpty
                                       ? state.product.isEmpty
                                           ? 'Введите код и выберите продукт'
-                                          : 'Выберите продукт'
-                                      : 'Введите код',
+                                          : 'Введите код'
+                                      : 'Выберите продукт',
                                 );
                               },
                   ),
