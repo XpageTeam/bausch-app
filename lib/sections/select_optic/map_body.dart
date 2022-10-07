@@ -139,16 +139,17 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
   }
 
   Future<void> _openBottomSheet(OpticShop shop) async {
-    final mediaQuery = MediaQuery.of(Keys.mainNav.currentContext!);
-    final screenHeight = mediaQuery.size.height;
-    final maxHeight =
-        (screenHeight - mediaQuery.viewPadding.top) / screenHeight;
+    // final mediaQuery = MediaQuery.of(Keys.mainNav.currentContext!);
+    // final screenHeight = mediaQuery.size.height;
+    // final maxHeight =
+    //     (screenHeight - mediaQuery.viewPadding.top) / screenHeight;
+
     await showFlexibleBottomSheet<void>(
       context: context,
       minHeight: 0,
       initHeight: 0.3,
-      maxHeight: maxHeight,
-      anchors: [0, 0.3, maxHeight],
+      maxHeight: 0.5,
+      anchors: [0, 0.3, 0.5],
       isModal: false,
       builder: (ctx, controller, _) => BottomSheetContentOther(
         controller: controller,
@@ -157,8 +158,6 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
         phones: shop.phones,
         site: shop.site,
         features: shop is OpticShopForCertificate ? shop.features : null,
-        // additionalInfo:
-        //     'Скидкой можно воспользоваться в любой из оптик сети.',
         onPressed: () {
           widget.onOpticShopSelect(shop);
           Navigator.of(context)

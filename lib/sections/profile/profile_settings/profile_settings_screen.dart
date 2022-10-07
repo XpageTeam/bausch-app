@@ -15,6 +15,7 @@ import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
@@ -345,16 +346,6 @@ class _ProfileSettingsScreenState
                     );
                   });
                 });
-                await wm.changeCityAction(
-                  await Keys.mainNav.currentState!.push<String?>(
-                    PageRouteBuilder<String>(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          CityScreen(
-                        withFavoriteItems: const ['Москва'],
-                      ),
-                    ),
-                  ),
-                );
               },
             ),
             Padding(
@@ -388,8 +379,8 @@ class _ProfileSettingsScreenState
       context: Keys.mainContentNav.currentContext!,
       minHeight: 0,
       initHeight: 0.4,
-      maxHeight: 0.4,
-      anchors: [0, 0.4],
+      maxHeight: 0.5,
+      anchors: [0, 0.4, 0.5],
       builder: (context, controller, _) {
         return Container(
           clipBehavior: Clip.hardEdge,
@@ -404,29 +395,41 @@ class _ProfileSettingsScreenState
             backgroundColor: AppTheme.mystic,
             body: Stack(
               children: [
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
+                CustomScrollView(
+                  scrollBehavior: AntiGlowBehavior(),
                   controller: controller,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: const [
-                        SizedBox(height: 40),
-                        Text(
-                          'Удалить аккаунт',
-                          style: AppStyles.h1,
+                  physics: const ClampingScrollPhysics(),
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: StaticData.sidePadding,
+                      ),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
+                            const SizedBox(height: 40),
+                            const Text(
+                              'Удалить аккаунт',
+                              style: AppStyles.h1,
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            const Text(
+                              'При удалении аккаунта все данные профиля и история накопления баллов будут безвозвратно удалены.',
+                              style: AppStyles.p1Grey,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          'При удалении аккаунта все данные профиля и история накопления баллов будут безвозвратно удалены.',
-                          style: AppStyles.p1Grey,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: SizedBox(
+                        height: 20,
+                      ),
+                    ),
+                  ],
                 ),
                 Positioned(
                   top: 0,
@@ -459,9 +462,9 @@ class _ProfileSettingsScreenState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // const SizedBox(
+                  //   height: 40,
+                  // ),
                   StreamedStateBuilder<bool>(
                     streamedState: isLoadingState,
                     builder: (_, isLoading) {
@@ -526,29 +529,41 @@ class _ProfileSettingsScreenState
             backgroundColor: AppTheme.mystic,
             body: Stack(
               children: [
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
+                CustomScrollView(
+                  scrollBehavior: AntiGlowBehavior(),
+                  physics: const ClampingScrollPhysics(),
                   controller: controller,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: const [
-                        SizedBox(height: 40),
-                        Text(
-                          'Заявка принята',
-                          style: AppStyles.h1,
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: StaticData.sidePadding,
+                      ),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate(
+                          const [
+                            SizedBox(height: 40),
+                            Text(
+                              'Заявка принята',
+                              style: AppStyles.h1,
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              'В течение 7 рабочих дней ваш аккаунт будет удален.',
+                              style: AppStyles.p1Grey,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          'В течение 7 рабочих дней ваш аккаунт будет удален.',
-                          style: AppStyles.p1Grey,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: SizedBox(
+                        height: 20,
+                      ),
+                    ),
+                  ],
                 ),
                 Positioned(
                   top: 0,

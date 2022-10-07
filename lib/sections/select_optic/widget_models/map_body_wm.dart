@@ -277,7 +277,7 @@ class MapBodyWM extends WidgetModel {
     final list = <PlacemarkMapObject>[];
 
     for (var i = 0; i < shopList.length; i++) {
-      final rnd = rng.nextInt(200);
+      final rnd = rng.nextInt(500);
       final placemarkId = 'p_${i}_${rnd}_${shopList[i].coords}';
 
       final icon = await _rawPlacemarkImage(

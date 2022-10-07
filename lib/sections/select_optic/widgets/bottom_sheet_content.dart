@@ -4,8 +4,10 @@ import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/dis
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
+import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetContent extends StatelessWidget {
@@ -225,52 +227,69 @@ class BottomSheetContentOther extends StatelessWidget {
         children: [
           Scaffold(
             backgroundColor: Colors.white,
-            body: SingleChildScrollView(
+            body: CustomScrollView(
+              scrollBehavior: AntiGlowBehavior(),
               controller: controller,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(
-                horizontal: StaticData.sidePadding,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
+              physics: const ClampingScrollPhysics(),
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: SizedBox(
                     height: 14 + 44 + 20,
                   ),
-                  // Название
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Text(
-                        title,
-                        style: AppStyles.h1,
-                      ),
-                    ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: StaticData.sidePadding,
                   ),
-
-                  // Адрес
-                  if (subtitle != null)
-                    Flexible(
-                      child: Text(
-                        subtitle!,
-                        style: AppStyles.p1,
-                      ),
-                    ),
-
-                  // Номера
-                  if (phones != null)
-                    ...phones!
-                        .map(
-                          (phone) => Flexible(
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Text(
+                            title,
+                            style: AppStyles.h1,
+                          ),
+                        ),
+                        if (subtitle != null)
+                          Text(
+                            subtitle!,
+                            style: AppStyles.p1,
+                          ),
+                        if (phones != null)
+                          ...phones!
+                              .map(
+                                (phone) => GestureDetector(
+                                  onTap: () => Utils.tryLaunchUrl(
+                                    rawUrl: phone,
+                                    isPhone: true,
+                                  ),
+                                  child: Text(
+                                    phone,
+                                    style: AppStyles.p1.copyWith(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppTheme.turquoiseBlue,
+                                      decorationThickness: 2,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        if (site != null)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
                             child: GestureDetector(
                               onTap: () => Utils.tryLaunchUrl(
-                                rawUrl: phone,
-                                isPhone: true,
+                                rawUrl: site!,
+                                onError: (ex) {
+                                  showDefaultNotification(
+                                    title: ex.title,
+                                    // subtitle: ex.subtitle,
+                                  );
+                                },
                               ),
                               child: Text(
-                                phone,
+                                site!,
                                 style: AppStyles.p1.copyWith(
                                   decoration: TextDecoration.underline,
                                   decorationColor: AppTheme.turquoiseBlue,
@@ -279,83 +298,32 @@ class BottomSheetContentOther extends StatelessWidget {
                               ),
                             ),
                           ),
-                        )
-                        .toList(),
 
-                  // if (phone.is != null)
-                  //   Flexible(
-                  //     child: GestureDetector(
-                  //       onTap: () => Utils.tryLaunchUrl(rawUrl: phone!, isPhone: true),
-                  //       child: Text(
-                  //         phone!,
-                  //         style: AppStyles.p1.copyWith(
-                  //           decoration: TextDecoration.underline,
-                  //           decorationColor: AppTheme.turquoiseBlue,
-                  //           decorationThickness: 2,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
+                        // if (features != null && features!.isNotEmpty)
+                        //   Padding(
+                        //     padding: const EdgeInsets.only(top: 20.0),
+                        //     child: FeaturesSection(features: features!),
+                        //   ),
 
-                  // Сайт
-                  if (site != null)
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: GestureDetector(
-                          onTap: () => Utils.tryLaunchUrl(
-                            rawUrl: site!,
-                            onError: (ex) {
-                              showDefaultNotification(
-                                title: ex.title,
-                                // subtitle: ex.subtitle,
-                              );
-                            },
-                          ),
-                          child: Text(
-                            site!,
+                        // Доп. информация о скидке
+                        if (additionalInfo != null)
+                          Text(
+                            additionalInfo!,
                             style: AppStyles.p1.copyWith(
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppTheme.turquoiseBlue,
-                              decorationThickness: 2,
+                              color: Colors.black,
                             ),
                           ),
-                        ),
-                      ),
+                      ],
                     ),
-
-                  if (features != null && features!.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: FeaturesSection(features: features!),
-                    ),
-
-                  // Доп. информация о скидке
-                  if (additionalInfo != null)
-                    Flexible(
-                      child: Text(
-                        additionalInfo!,
-                        style: AppStyles.p1.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 30.0),
-                  //   child: BlueButton(
-                  //     onPressed: onPressed,
-                  //     children: [
-                  //       Text(
-                  //         btnText,
-                  //         //'Хорошо',
-                  //         style: AppStyles.h2Bold,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
+                  ),
+                ),
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: SizedBox(
+                    height: 20,
+                  ),
+                ),
+              ],
             ),
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.fromLTRB(

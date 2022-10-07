@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
@@ -55,6 +56,10 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
 
     if (Platform.isAndroid) {
       WebView.platform = AndroidWebView();
+    }
+
+    if (Platform.isIOS) {
+      WebView.platform = CupertinoWebView();
     }
   }
 
@@ -177,11 +182,13 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
 }
 
 void openSimpleWebView(BuildContext context, {required String url}) {
-  Navigator.of(context).push(
-    PageRouteBuilder<void>(
-      pageBuilder: (_, __, ___) => SimpleWebViewWidget(
-        url: url,
-      ),
-    ),
+  final page = SimpleWebViewWidget(
+    url: url,
   );
+
+  final pageRoute = Platform.isIOS
+      ? CupertinoPageRoute<void>(builder: (_) => page)
+      : MaterialPageRoute<void>(builder: (_) => page);
+
+  Navigator.of(context).push(pageRoute);
 }
