@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
@@ -70,6 +71,14 @@ class ChooseLensesWM extends WidgetModel {
             editLensPairModel!.right.basicCurvature) {
       isLeftEqual.accept(true);
     }
+
+    currentProduct.bind((data) {
+      AppsflyerSingleton.sdk.logEvent('my-lenses-add', <String, dynamic>{
+        'id': data?.id,
+        'bauschProdID': data?.bauschProductId,
+        'name': data?.name,
+      });
+    });
     super.onBind();
   }
 

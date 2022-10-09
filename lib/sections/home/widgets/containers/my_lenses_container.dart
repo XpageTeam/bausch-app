@@ -1,4 +1,5 @@
 import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
@@ -40,11 +41,16 @@ class MyLensesContainer extends StatelessWidget {
                 ),
                 child: loadingInProgress
                     ? const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 24),
-                      child: Center(child: AnimatedLoader()),
-                    )
+                        padding: EdgeInsets.symmetric(vertical: 24),
+                        child: Center(child: AnimatedLoader()),
+                      )
                     : WhiteContainerWithRoundedCorners(
                         onTap: () {
+                          AppsflyerSingleton.sdk.logEvent(
+                            'my-lenses-show',
+                            null,
+                          );
+
                           if (myLensesWM.lensesPairModel.value != null) {
                             Keys.mainContentNav.currentState!.pushNamed(
                               '/my_lenses',

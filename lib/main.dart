@@ -88,37 +88,13 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
 
 class _MyAppState extends WidgetState<MyApp, AuthWM>
     with WidgetsBindingObserver {
-  Uri? _initialUri;
-  Uri? _latestUri;
-  Object? _err;
-
-  StreamSubscription? _sub;
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
   }
 
   @override
-  void dispose() {
-    _sub?.cancel();
-    super.dispose();
-  }
-
-  @override
   void initState() {
-    final _appLinks = AppLinks();
-
-    _appLinks.stringLinkStream.listen((data) {
-      debugPrint('applink: $data');
-    });
-
-    _appLinks.uriLinkStream.listen((uri) {
-      debugPrint('applink: $uri');
-    });
-
-    _handleIncomingLinks();
-
     super.initState();
   }
 
@@ -196,40 +172,6 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
         ),
       ),
     );
-  }
-
-  void _handleIncomingLinks() {
-    debugPrint('12321232');
-    if (!kIsWeb) {
-      // It will handle app links while the app is already started - be it in
-      // the foreground or in the background.
-      _sub = uriLinkStream.listen(
-        (Uri? uri) {
-          debugPrint('12321232');
-
-          if (!mounted) return;
-          debugPrint('got uri: $uri');
-          setState(() {
-            _latestUri = uri;
-            _err = null;
-          });
-        },
-        onError: (Object err) {
-          if (!mounted) return;
-          debugPrint('got err: $err');
-          setState(
-            () {
-              _latestUri = null;
-              if (err is FormatException) {
-                _err = err;
-              } else {
-                _err = null;
-              }
-            },
-          );
-        },
-      );
-    }
   }
 }
 

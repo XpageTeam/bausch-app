@@ -7,6 +7,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:bausch.in-progress.ru</string>
+		<string>bauschlomb:bausch.mobile</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
