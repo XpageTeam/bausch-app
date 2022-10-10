@@ -1,6 +1,5 @@
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
-import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widget_models/add_points_wm.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart';
 import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.dart';

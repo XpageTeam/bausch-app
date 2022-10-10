@@ -3,7 +3,6 @@ import 'package:bausch/sections/home/widgets/listeners/text_buttons_listener.dar
 import 'package:bausch/sections/rules/cubit/rules_cubit.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/buttons/text_button.dart';
-import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';

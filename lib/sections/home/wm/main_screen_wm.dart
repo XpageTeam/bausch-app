@@ -268,7 +268,9 @@ class MainScreenWM extends WidgetModel {
             )
             .toList(),
       );
-    } catch (e) {}
+    } catch (e) {
+      debugPrint('get /faq/socials/ failed');
+    }
   }
 
   Future<void> _loadBanners() async {

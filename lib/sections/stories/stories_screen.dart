@@ -8,6 +8,7 @@ import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/bottom_content.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
@@ -154,6 +155,7 @@ class _StoriesScreenState extends State<StoriesScreen>
         return true;
       },
       child: PageView.builder(
+        scrollBehavior: const AntiGlowBehavior(),
         controller: _pageController,
         dragStartBehavior: DragStartBehavior.down,
         itemCount: widget.stories.length,

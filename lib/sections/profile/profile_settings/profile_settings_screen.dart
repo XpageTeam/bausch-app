@@ -8,7 +8,6 @@ import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/order_registration/widgets/order_button.dart';
-import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
 import 'package:bausch/sections/profile/profile_settings/profile_settings_screen_wm.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/city/city_screen.dart';
 import 'package:bausch/sections/profile/profile_settings/screens/notifications_settings/notifications_settings_screen.dart';
@@ -27,7 +26,6 @@ import 'package:bausch/widgets/discount_info.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
-import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';

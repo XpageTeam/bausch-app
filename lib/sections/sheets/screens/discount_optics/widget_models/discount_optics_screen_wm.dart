@@ -108,6 +108,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
         if (optic != null) {
           unawaited(currentDiscountOptic.accept(optic));
           final cityName = optic.shops.first.city;
+          final oldCityName = currentOfflineCity.value;
+
           await currentOfflineCity.accept(cityName);
 
           unawaited(AppsflyerSingleton.sdk
@@ -123,7 +125,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
             ),
           );
 
-          if (!wasDialogShowed) {
+          if (!wasDialogShowed && oldCityName != cityName) {
             wasDialogShowed = true;
             _showRememberCityDialog(
               confirmCallback: (ctx) {
