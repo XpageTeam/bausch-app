@@ -107,17 +107,37 @@ class DiscountOpticsScreenWM extends WidgetModel {
       (optic) async {
         if (optic != null) {
           unawaited(currentDiscountOptic.accept(optic));
+
+          if (discountType == DiscountType.onlineShop) {
+            unawaited(
+              AppsflyerSingleton.sdk.logEvent(
+                'discountOpticsSetOptic',
+                <String, dynamic>{
+                  'opticID': optic.id,
+                  'opticName': optic.title,
+                  'cityName': currentOnlineCity.value,
+                },
+              ),
+            );
+
+            return;
+          }
+
           final cityName = optic.shops.first.city;
           final oldCityName = currentOfflineCity.value;
 
           await currentOfflineCity.accept(cityName);
 
-          unawaited(AppsflyerSingleton.sdk
-              .logEvent('discountOpticsSetOptic', <String, dynamic>{
-            'opticID': optic.id,
-            'opticName': optic.title,
-            'cityName': cityName,
-          }));
+          unawaited(
+            AppsflyerSingleton.sdk.logEvent(
+              'discountOpticsSetOptic',
+              <String, dynamic>{
+                'opticID': optic.id,
+                'opticName': optic.title,
+                'cityName': cityName,
+              },
+            ),
+          );
 
           unawaited(
             discountOpticsStreamed.content(
