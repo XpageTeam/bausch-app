@@ -3,6 +3,7 @@ import 'package:bausch/navigation/bottom_sheet_navigation.dart';
 import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 
@@ -24,13 +25,26 @@ Future<void> showSheet<T>(
     anchors: [0, 0.6, 0.95],
     context: context,
     builder: (context, controller, d) {
-      return SheetWidget(
-        child: BottomSheetNavigation<T>(
-          controller: controller,
-          sheetModel: model,
-          args: args,
-          initialRoute: initialRoute,
-          myLensesWM: myLensesWM,
+      return WillPopScope(
+        onWillPop: () {
+          final contentContext = Keys.bottomNav.currentContext;
+          if (contentContext == null) return Future(() => true);
+
+          final canPopContent = Navigator.of(contentContext).canPop();
+          if (canPopContent) {
+            Navigator.of(contentContext).pop();
+            return Future(() => false);
+          }
+          return Future(() => true);
+        },
+        child: SheetWidget(
+          child: BottomSheetNavigation<T>(
+            controller: controller,
+            sheetModel: model,
+            args: args,
+            initialRoute: initialRoute,
+            myLensesWM: myLensesWM,
+          ),
         ),
       );
     },

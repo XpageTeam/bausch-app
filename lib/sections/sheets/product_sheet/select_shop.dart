@@ -195,9 +195,8 @@ class _SelectShopContainer extends StatelessWidget {
           Expanded(
             flex: 10,
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 26,
-                bottom: 28.0,
+              padding: const EdgeInsets.symmetric(
+                vertical: 14,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,8 +218,8 @@ class _SelectShopContainer extends StatelessWidget {
                             );
                           },
                         ),
-                        child: Text(
-                          optic.link!.replaceFirst('https://', ''),
+                        child: const Text(
+                          'Ссылка на сайт',
                           style: AppStyles.p1Underlined,
                         ),
                       ),
