@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
@@ -180,6 +183,9 @@ class MyLensesRequester {
       );
       final response =
           BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+
+      unawaited(AppsflyerSingleton.sdk.logEvent('my-lenses-reminder', null));
+      
       return response;
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

@@ -5,13 +5,14 @@ description: A new Flutter project.
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.4+71
+version: 1.0.4+72
 
 environment:
   sdk: ">=2.18.2 <3.0.0"
 
 dependencies:
   after_layout: ^1.2.0
+  app_links: ^3.3.0
   appsflyer_sdk: ^6.8.2
   auto_size_text: ^3.0.0
   auto_size_text_pk: ^3.0.0
@@ -38,7 +39,7 @@ dependencies:
   flutter_compass: ^0.7.0
   flutter_html: ^2.2.1
   flutter_keyboard_visibility: ^5.3.0
-  
+
   flutter_localizations:
     sdk: flutter
   flutter_native_timezone: ^2.0.0
@@ -50,13 +51,13 @@ dependencies:
   intl: ^0.17.0
   iphone_has_notch: ^1.0.0
   menu_button: ^1.4.2+1
-  
+
   mindbox: ^1.0.2 # НЕ ОБНОВЛЯТь
   overlay_support: ^2.0.1
   package_info: ^2.0.2
   path_provider: ^2.0.11
   pdf_viewer_plugin: ^2.0.1
-  
+
   percent_indicator: ^4.2.2
   pin_code_fields: ^7.4.0
   platform_device_id: ^1.0.1
@@ -67,13 +68,13 @@ dependencies:
   shared_preferences: ^2.0.15
   sqlite3_flutter_libs: ^0.5.9 # НЕ УДАЛЯТЬ
   surf_mwwm: ^2.0.2
+  uni_links: ^0.5.1
   url_launcher: ^6.1.6
   vimeoplayer_trinity:
     path: lib/packages/vimeoplayer_trinity
   visibility_detector: ^0.2.0 # НЕ ОБНОВЛЯТЬ
   webview_flutter: ^2.0.4
   yandex_mapkit: ^3.1.1
-
 
 dev_dependencies:
   flutter_test:

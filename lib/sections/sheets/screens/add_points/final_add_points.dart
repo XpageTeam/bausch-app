@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -212,6 +213,14 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
                       );
                     }
                     Keys.mainContentNav.currentState!.pop();
+
+                    AppsflyerSingleton.sdk.logEvent(
+                      'my-lenses-after-buy',
+                      <String, dynamic>{
+                        'id': widget.productBausch?.id,
+                        'name': widget.productBausch?.name,
+                      },
+                    );
 
                     Keys.mainContentNav.currentState!.pushNamed(
                       '/choose_lenses',

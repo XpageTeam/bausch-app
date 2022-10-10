@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_mixin
 
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/login_wm.dart';
@@ -10,6 +13,7 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,12 +22,13 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  final app = await Firebase.initializeApp();
 
   Mindbox.instance.init(
     configuration: Configuration(
@@ -39,6 +44,18 @@ Future<void> main() async {
   AppsflyerSingleton();
 
   AndroidYandexMap.useAndroidViewSurface = false;
+
+  final _appLinks = AppLinks();
+
+  _appLinks.uriLinkStream.listen((uri) {
+    debugPrint('applink: $uri');
+  });
+
+  _appLinks.stringLinkStream.listen((data) {
+    debugPrint('applink: $data');
+  });
+
+  // AppsflyerSingleton.sdk.
 
   runApp(
     MultiProvider(
@@ -74,6 +91,11 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

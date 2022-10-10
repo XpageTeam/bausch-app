@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
@@ -211,6 +212,7 @@ class MyLensesWM extends WidgetModel {
         await myLensesRequester.deleteDailyReminders();
         unawaited(dailyReminders.accept(null));
       }
+      
       showDefaultNotification(
         title: 'Данные успешно обновлены',
         success: true,
@@ -293,6 +295,7 @@ class MyLensesWM extends WidgetModel {
   }
 
   Future putOffLensesSheet({required BuildContext context}) async {
+    unawaited(AppsflyerSingleton.sdk.logEvent('my-lenses-finish', null));
     if (rightLensDate.value == null || leftLensDate.value == null) {
       await _putOffLensesPair(left: true, right: true);
     } else {
