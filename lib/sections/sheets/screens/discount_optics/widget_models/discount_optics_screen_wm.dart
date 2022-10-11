@@ -11,7 +11,6 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -25,6 +24,7 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -409,6 +409,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
       initHeight: 0.4,
       maxHeight: 0.4,
       anchors: [0, 0.4],
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (context, controller, _) {
         return Container(
           clipBehavior: Clip.hardEdge,

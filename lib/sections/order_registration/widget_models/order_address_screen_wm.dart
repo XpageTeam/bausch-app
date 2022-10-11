@@ -6,15 +6,16 @@ import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 //import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -134,6 +135,8 @@ class OrderAddressScreenWM extends WidgetModel {
         context: context,
         initHeight: 0.9,
         maxHeight: 0.9,
+        bottomSheetColor: Colors.transparent,
+        barrierColor: Colors.black.withOpacity(0.8),
         builder: (ctx, controller, d) {
           return FinalFreePackaging(
             controller: ScrollController(),

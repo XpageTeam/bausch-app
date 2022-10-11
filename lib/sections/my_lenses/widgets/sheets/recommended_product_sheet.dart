@@ -1,5 +1,4 @@
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
-import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/order_registration/widgets/blue_button.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
@@ -12,7 +11,7 @@ import 'package:flutter/material.dart';
 
 class RecommendedProductSheet extends StatefulWidget {
   final RecommendedProductModel product;
-  final FlexibleDraggableScrollableSheetScrollController controller;
+  final ScrollController controller;
   const RecommendedProductSheet({
     required this.controller,
     required this.product,

@@ -1,5 +1,4 @@
 import 'package:bausch/help/help_functions.dart';
-import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_short_description.dart';
@@ -8,6 +7,7 @@ import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class OldLensesPage extends StatelessWidget {
@@ -45,6 +45,8 @@ class OldLensesPage extends StatelessWidget {
                     maxHeight: 0.95,
                     anchors: [0, 0.6, 0.95],
                     context: context,
+                    bottomSheetColor: Colors.transparent,
+                    barrierColor: Colors.black.withOpacity(0.8),
                     builder: (context, controller, d) {
                       return SheetWidget(
                         child: ActivateLensesSheet(

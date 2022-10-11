@@ -1,11 +1,11 @@
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
-import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/recommended_product_sheet.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/simple_webview_widget.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +23,8 @@ class RecommendedProduct extends StatelessWidget {
           maxHeight: 0.95,
           anchors: [0, 0.6, 0.95],
           context: context,
+          bottomSheetColor: Colors.transparent,
+          barrierColor: Colors.black.withOpacity(0.8),
           builder: (context, controller, d) {
             return SheetWidget(
               child: RecommendedProductSheet(
@@ -87,4 +89,3 @@ class RecommendedProduct extends StatelessWidget {
     );
   }
 }
-

@@ -5,13 +5,13 @@ import 'dart:async';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
-import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_product_sheet.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/requesters/choose_lenses_requester.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -157,6 +157,8 @@ class ChooseLensesWM extends WidgetModel {
       maxHeight: 0.95,
       anchors: [0, 0.6, 0.95],
       context: context,
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (context, controller, d) {
         return SheetWidget(
           child: ChooseProductSheet(

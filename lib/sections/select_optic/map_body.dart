@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/select_optic/widget_models/map_body_wm.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
@@ -9,6 +8,7 @@ import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/map_buttons.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -150,6 +150,8 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
       maxHeight: 0.5,
       anchors: [0, 0.3, 0.5],
       isModal: false,
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (ctx, controller, _) => BottomSheetContentOther(
         controller: controller,
         title: shop.title,
