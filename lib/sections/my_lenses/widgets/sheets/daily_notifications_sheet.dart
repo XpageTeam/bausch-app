@@ -1,5 +1,4 @@
 import 'package:bausch/help/help_functions.dart';
-import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/packages/flutter_cupertino_date_picker/flutter_cupertino_date_picker_fork.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -15,7 +14,7 @@ import 'package:flutter/material.dart';
 
 class DailyNotificationsSheet extends StatefulWidget {
   final MyLensesWM myLensesWM;
-  final FlexibleDraggableScrollableSheetScrollController controller;
+  final ScrollController controller;
   const DailyNotificationsSheet({
     required this.myLensesWM,
     required this.controller,

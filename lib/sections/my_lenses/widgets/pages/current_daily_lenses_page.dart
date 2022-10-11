@@ -1,7 +1,6 @@
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
@@ -16,6 +15,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -196,6 +196,10 @@ class CurrentDailyLensesPage extends StatelessWidget {
                                             maxHeight: 0.95,
                                             anchors: [0, 0.6, 0.95],
                                             context: context,
+                                            bottomSheetColor:
+                                                Colors.transparent,
+                                            barrierColor:
+                                                Colors.black.withOpacity(0.8),
                                             builder: (context, controller, d) {
                                               return SheetWidget(
                                                 child: DailyNotificationsSheet(

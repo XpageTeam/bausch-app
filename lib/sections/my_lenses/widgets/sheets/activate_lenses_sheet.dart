@@ -3,7 +3,6 @@ import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
-import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -23,7 +22,7 @@ class ActivateLensesSheet extends StatefulWidget {
   final LensesPairModel lensesPairModel;
   final LensProductModel lensProductModel;
   final int productIndex;
-  final FlexibleDraggableScrollableSheetScrollController controller;
+  final ScrollController controller;
 
   const ActivateLensesSheet({
     required this.controller,

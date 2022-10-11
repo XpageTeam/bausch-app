@@ -8,7 +8,6 @@ import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
@@ -21,6 +20,7 @@ import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -402,6 +402,8 @@ void callback(CatalogItemModel model, {VoidCallback? allWebinarsOpen}) {
       initHeight: 0.9,
       maxHeight: 0.95,
       anchors: [0, 0.6, 0.95],
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (context, controller, d) {
         return FinalDiscountOptics(
           discountType: DiscountType.offline,

@@ -1,10 +1,10 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/navigation/bottom_sheet_navigation.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showSheet<T>(
@@ -24,6 +24,8 @@ Future<void> showSheet<T>(
     maxHeight: 0.95,
     anchors: [0, 0.6, 0.95],
     context: context,
+    bottomSheetColor: Colors.transparent,
+    barrierColor: Colors.black.withOpacity(0.8),
     builder: (context, controller, d) {
       return WillPopScope(
         onWillPop: () {
