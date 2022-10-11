@@ -26,6 +26,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final PromoItemModel itemModel;
   final Optic discountOptic;
   final DiscountType discountType;
+  final String discountCount;
 
   final loadingState = StreamedState<bool>(false);
   final codeLoadingState = StreamedState<bool>(false);
@@ -45,6 +46,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     required this.itemModel,
     required this.discountOptic,
     required this.discountType,
+    required this.discountCount,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -144,6 +146,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
           discountOptic: discountOptic,
           discountType: discountType,
           orderDataResponse: result,
+          discountCount: discountCount,
         ),
       );
     }

@@ -52,6 +52,7 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
             context: context,
             itemModel: model,
             discountType: discountType,
+            discountCount: discountCount,
           ),
         );
 
@@ -362,10 +363,12 @@ class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final Optic discountOptic;
   final DiscountType discountType;
   final PartnerOrderResponse? orderDataResponse;
+  final String discountCount;
 
   DiscountOpticsArguments({
     required this.discountOptic,
     required this.discountType,
+    required this.discountCount,
     required CatalogItemModel model,
     required this.orderDataResponse,
   }) : super(

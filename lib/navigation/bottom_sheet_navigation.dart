@@ -212,6 +212,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     .discountType,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
+                discountCount: sheetModel.name.split(' ')[1],
               );
               break;
 
