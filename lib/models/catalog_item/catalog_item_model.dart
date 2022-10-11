@@ -37,14 +37,14 @@ class CatalogItemModel {
   String get priceToString => HelpFunctions.partitionNumber(price);
   //  HelpFunctions.partitionNumber(price);
 
-  Widget get shield {
+  Widget fetchShield({String? discountCount}) {
     if (this is WebinarItemModel) {
       return Image.asset(
         'assets/play-video.png',
         height: 28,
       );
     } else if (this is PromoItemModel) {
-      return const DiscountInfo(text: '–500 ₽');
+      return DiscountInfo(text: '–$discountCount ₽');
     } else {
       return Container();
     }

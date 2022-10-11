@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'dart:io';
-
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
@@ -167,6 +165,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
                 discountType: DiscountType.offline,
+                discountCount: sheetModel.name.split(' ')[1],
               );
               break;
 
@@ -182,6 +181,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: arguments.model as PromoItemModel,
                 discountType: DiscountType.onlineShop,
+                discountCount: sheetModel.name.split(' ')[1],
               );
               break;
 

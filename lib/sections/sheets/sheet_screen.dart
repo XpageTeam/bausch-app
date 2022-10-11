@@ -149,7 +149,10 @@ class _SheetScreenState extends State<SheetScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: widget.items[i * 2].shield,
+                            child: widget.items[i * 2].fetchShield(
+                              discountCount:
+                                  widget.sheetModel.name.split(' ')[1],
+                            ),
                           ),
                         ],
                       ),
@@ -167,7 +170,10 @@ class _SheetScreenState extends State<SheetScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(12.0),
-                              child: widget.items[i * 2 + 1].shield,
+                              child: widget.items[i * 2 + 1].fetchShield(
+                                discountCount:
+                                    widget.sheetModel.name.split(' ')[1],
+                              ),
                             ),
                           ],
                         ),

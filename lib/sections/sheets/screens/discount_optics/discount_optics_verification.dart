@@ -106,6 +106,7 @@ class _DiscountOpticsVerificationState extends WidgetState<
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // TODO(all): вставить ценник раздела вместо 500
                         const DiscountInfo(text: 'Скидка 500 ₽'),
                         const SizedBox(
                           height: 4,

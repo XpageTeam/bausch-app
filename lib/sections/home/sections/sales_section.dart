@@ -221,6 +221,7 @@ class _WideSaleContainerState extends State<WideSaleContainer> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        // TODO(all): из этого имени цеплять число для скидок
                         Text(
                           widget.item.name,
                           style: AppStyles.h2Bold,

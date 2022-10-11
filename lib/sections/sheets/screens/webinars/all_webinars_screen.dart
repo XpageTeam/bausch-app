@@ -131,7 +131,7 @@ class _AllWebinarsScreenState
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: webinars[i * 2].shield,
+                                child: webinars[i * 2].fetchShield(),
                               ),
                             ],
                           ),
@@ -152,7 +152,7 @@ class _AllWebinarsScreenState
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: webinars[i * 2 + 1].shield,
+                                  child: webinars[i * 2 + 1].fetchShield(),
                                 ),
                               ],
                             ),
