@@ -79,35 +79,29 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
           },
         ),
         slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                const Padding(
-                  padding: EdgeInsets.only(
-                    top: 26,
-                    bottom: 42,
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Написать в поддержку',
-                      style: AppStyles.h2,
-                    ),
-                  ),
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 26,
+                bottom: 42,
+              ),
+              child: Center(
+                child: Text(
+                  'Написать в поддержку',
+                  style: AppStyles.h2,
                 ),
-              ],
+              ),
             ),
           ),
 
           //* Стандартные поля
           EntityStateBuilder<List<FieldModel>>(
             streamedState: wm.defaultFieldsList,
-            loadingChild: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const Center(
-                    child: AnimatedLoader(),
-                  ),
-                ],
+            errorChild: const SliverToBoxAdapter(),
+            loadingChild: const SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: AnimatedLoader(),
               ),
             ),
             builder: (_, state) {
@@ -119,12 +113,8 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
 
           EntityStateBuilder<List<FieldModel>>(
             streamedState: wm.defaultFieldsList,
-            errorChild: const SliverToBoxAdapter(
-              child: SizedBox(),
-            ),
-            loadingChild: const SliverToBoxAdapter(
-              child: SizedBox(),
-            ),
+            errorChild: const SliverToBoxAdapter(),
+            loadingChild: const SliverToBoxAdapter(),
             builder: (_, state) {
               return SliverPadding(
                 padding: const EdgeInsets.fromLTRB(
@@ -169,63 +159,61 @@ class _FormsScreenState extends WidgetState<FormsScreen, FormScreenWM> {
           //* Дополнительные поля
           EntityStateBuilder<List<FieldModel>>(
             streamedState: wm.extraFieldsList,
-            loadingChild: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const Center(
-                    child: AnimatedLoader(),
-                  ),
-                ],
-              ),
-            ),
+            loadingChild: const SliverToBoxAdapter(),
+            errorChild: const SliverToBoxAdapter(),
             builder: (_, state) {
               return ExtraFormsSection(
                 exrtaFields: state,
               );
             },
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: StaticData.sidePadding,
-                  ),
-                  child: StreamedStateBuilder<bool>(
-                    streamedState: wm.buttonEnabledState,
-                    builder: (_, isEnabled) {
-                      return isEnabled
-                          ? StreamedStateBuilder<bool>(
-                              streamedState: wm.loadingState,
-                              builder: (_, isLoading) {
-                                return isLoading
-                                    ? const BlueButtonWithText(
-                                        text: '',
-                                        icon: UiCircleLoader(),
-                                        //onPressed: () {},
-                                      )
-                                    : BlueButtonWithText(
-                                        text: 'Отправить',
-                                        onPressed: wm.sendAction,
-                                      );
-                              },
-                            )
-                          : const BlueButtonWithText(
-                              text: 'Отправить',
-                            );
-                    },
-                  ),
+
+          EntityStateBuilder<List<FieldModel>>(
+            streamedState: wm.defaultFieldsList,
+            loadingChild: const SliverToBoxAdapter(),
+            errorChild: const SliverToBoxAdapter(),
+            builder: (_, state) {
+              return SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: StaticData.sidePadding,
+                      ),
+                      child: StreamedStateBuilder<bool>(
+                        streamedState: wm.buttonEnabledState,
+                        builder: (_, isEnabled) {
+                          return isEnabled
+                              ? StreamedStateBuilder<bool>(
+                                  streamedState: wm.loadingState,
+                                  builder: (_, isLoading) {
+                                    return isLoading
+                                        ? const BlueButtonWithText(
+                                            text: '',
+                                            icon: UiCircleLoader(),
+                                            //onPressed: () {},
+                                          )
+                                        : BlueButtonWithText(
+                                            text: 'Отправить',
+                                            onPressed: wm.sendAction,
+                                          );
+                                  },
+                                )
+                              : const BlueButtonWithText(
+                                  text: 'Отправить',
+                                );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                const SizedBox(
-                  height: 40,
-                ),
-              ],
+
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 40,
             ),
           ),
         ],

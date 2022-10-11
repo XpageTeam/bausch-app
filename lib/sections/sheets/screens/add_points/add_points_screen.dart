@@ -52,54 +52,69 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
             child: CodeSection(myLensesWM: widget.myLensesWM),
           ),
         ),
-        EntityStateBuilder<List<AddPointsModel>>(
-          streamedState: wm.addPointsList,
-          loadingChild: const SliverToBoxAdapter(),
-          errorChild: const SliverToBoxAdapter(),
-          builder: (_, items) {
-            if (items.isNotEmpty) {
-              return SliverAppBar(
-                pinned: true,
-                shadowColor: Colors.transparent,
-                backgroundColor: AppTheme.mystic,
-                collapsedHeight: 90,
-                elevation: 0,
-                leading: const SizedBox(),
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    // vertical: 20,
-                    horizontal: StaticData.sidePadding,
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/add-points.png',
-                        height: 66,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      const Text(
-                        'Добавить ещё',
-                        style: AppStyles.h1,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
+        // EntityStateBuilder<List<AddPointsModel>>(
+        //   streamedState: wm.addPointsList,
+        //   loadingBuilder:
+        //   (_, addPointsList) => addPointsList==null?    const SliverToBoxAdapter():,
 
-            return const SliverToBoxAdapter();
-          },
-        ),
+        //   errorChild: const SliverToBoxAdapter(),
+        //   builder: (_, items) {
+        //     if (items.isNotEmpty) {
+        //       return SliverAppBar(
+        //         pinned: true,
+        //         shadowColor: Colors.transparent,
+        //         backgroundColor: AppTheme.mystic,
+        //         collapsedHeight: 90,
+        //         elevation: 0,
+        //         leading: const SizedBox(),
+        //         flexibleSpace: Padding(
+        //           padding: const EdgeInsets.symmetric(
+        //             // vertical: 20,
+        //             horizontal: StaticData.sidePadding,
+        //           ),
+        //           child: Row(
+        //             children: [
+        //               Image.asset(
+        //                 'assets/add-points.png',
+        //                 height: 66,
+        //               ),
+        //               const SizedBox(
+        //                 width: 4,
+        //               ),
+        //               const Text(
+        //                 'Добавить ещё',
+        //                 style: AppStyles.h1,
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       );
+        //     }
+
+        //     return const SliverToBoxAdapter();
+        //   },
+        // ),
         EntityStateBuilder<List<AddPointsModel>>(
           streamedState: wm.addPointsList,
-          loadingChild: const SliverFillRemaining(
-            hasScrollBody: false,
-            child: Center(
-              child: AnimatedLoader(),
-            ),
-          ),
+          loadingBuilder: (_, items) {
+            
+            return items == null
+                ? const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: AnimatedLoader(),
+                    ),
+                  )
+                : SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                    ),
+                    sliver: _LoadedSliverBody(
+                      items: items,
+                      wm: wm,
+                    ),
+                  );
+          },
           errorChild: SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
@@ -115,33 +130,64 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
               padding: const EdgeInsets.symmetric(
                 horizontal: StaticData.sidePadding,
               ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    ...List.generate(
-                      items.length,
-                      (index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: index == items.length - 1
-                                ? StaticData.sidePadding
-                                : 4,
-                          ),
-                          child: AddItem(
-                            model: items[index],
-                            wm: wm,
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+              sliver: _LoadedSliverBody(
+                items: items,
+                wm: wm,
               ),
             );
           },
         ),
       ],
+    );
+  }
+}
+
+class _LoadedSliverBody extends StatelessWidget {
+  final List<AddPointsModel> items;
+  final AddPointsWM wm;
+  const _LoadedSliverBody({required this.items, required this.wm, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        [
+          Row(
+            children: [
+              Image.asset(
+                'assets/add-points.png',
+                height: 66,
+              ),
+              const SizedBox(
+                width: 4,
+              ),
+              const Text(
+                'Добавить ещё',
+                style: AppStyles.h1,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          ...List.generate(
+            items.length,
+            (index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom:
+                      index == items.length - 1 ? StaticData.sidePadding : 4,
+                ),
+                child: AddItem(
+                  model: items[index],
+                  wm: wm,
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }

@@ -406,15 +406,20 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
           initialRoute = null;
 
-          if (Platform.isIOS) {
-            return CupertinoPageRoute<void>(builder: (context) {
-              return page;
-            });
-          } else {
-            return MaterialPageRoute<void>(builder: (context) {
-              return page;
-            });
-          }
+          return PageRouteBuilder<void>(
+            pageBuilder: (_, __, ___) => page,
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          );
+          // if (Platform.isIOS) {
+          //   return CupertinoPageRoute<void>(builder: (context) {
+          //     return page;
+          //   });
+          // } else {
+          //   return MaterialPageRoute<void>(builder: (context) {
+          //     return page;
+          //   });
+          // }
         },
       ),
     );

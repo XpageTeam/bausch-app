@@ -61,7 +61,6 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
 
     FirebaseAnalytics.instance.logEvent(name: 'support_show');
 
-    
     appsflyer?.logEvent('faqOpened', null);
 
     super.initState();
@@ -142,9 +141,8 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
                   onPressed: () {
                     if (widget.topics[index].questions != null &&
                         widget.topics[index].questions!.isNotEmpty) {
-                      
                       appsflyer?.logEvent('faqCategoryOpened', null);
-                      
+
                       Navigator.of(context).pushNamed(
                         '/faq_topic',
                         arguments: TopicScreenArguments(
@@ -156,7 +154,6 @@ class _TopicsScreenState extends WidgetState<TopicsScreen, BottomSheetWM> {
                       if (widget.topics[index].answer != null &&
                           widget.topics[index].answer!.isNotEmpty &&
                           widget.topics[index].answer!.trim().isNotEmpty) {
-                        
                         appsflyer?.logEvent('faqTopicOpened', null);
 
                         Navigator.of(context).pushNamed(
