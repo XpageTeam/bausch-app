@@ -13,8 +13,12 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ScrollableProfileContent extends CoreMwwmWidget<ProfileContentWM> {
   final ScrollController controller;
-  ScrollableProfileContent({required this.controller, Key? key})
-      : super(
+  final bool? showNotifications;
+  ScrollableProfileContent({
+    required this.controller,
+    this.showNotifications = false,
+    Key? key,
+  }) : super(
           widgetModelBuilder: (_) => ProfileContentWM(),
           key: key,
         );
@@ -27,6 +31,25 @@ class ScrollableProfileContent extends CoreMwwmWidget<ProfileContentWM> {
 class _ScrollableProfileContentState
     extends WidgetState<ScrollableProfileContent, ProfileContentWM> {
   bool isOrdersEnabled = true;
+
+  @override
+  void initState() {
+    if (widget.showNotifications ?? false) {
+      // wm.activeNotifications.stream.listen((event) { });
+
+      setState(() {
+        isOrdersEnabled = false;
+      });
+
+      // wm.activeNotifications.stream.listen((notificationsCount) {
+      //   if (notificationsCount > 0){
+
+      //     widget.controller.jumpTo(0);
+      //   }
+      // });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +103,18 @@ class _ScrollableProfileContentState
                       child: StreamedStateBuilder<int>(
                         streamedState: wm.activeNotifications,
                         builder: (_, amount) {
+                          if (amount < 0) {
+                            setState(() {
+                              isOrdersEnabled = true;
+
+                              widget.controller.jumpTo(0);
+                            });
+                          }
                           return SelectWidget(
+                            initValue: widget.showNotifications != null &&
+                                    widget.showNotifications!
+                                ? 1
+                                : 0,
                             items: [
                               'Заказы ${wm.orderHistoryList.value.data!.length}',
                               'Уведомления ${amount > 1 ? amount : ''}',

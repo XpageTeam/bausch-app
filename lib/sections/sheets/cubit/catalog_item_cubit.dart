@@ -12,7 +12,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 part 'catalog_item_state.dart';
 
 class CatalogItemCubit extends Cubit<CatalogItemState> {
@@ -32,6 +31,8 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
         ))
             .data!,
       );
+
+      debugPrint(parsedData.toString());
 
       emit(
         CatalogItemSuccess(
@@ -78,8 +79,7 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
     } on SuccessFalse catch (e) {
       emit(
         CatalogItemFailed(
-          title: 'Ошибка при получении ответа от сервера',
-          subtitle: e.toString(),
+          title: e.toString(),
         ),
       );
     }

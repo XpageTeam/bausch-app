@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class SpendScores extends StatelessWidget {
   final List<BaseCatalogSheetModel> catalogList;
   List<BaseCatalogSheetModel> actualList = [];
+  
   SpendScores({
     required this.catalogList,
     Key? key,

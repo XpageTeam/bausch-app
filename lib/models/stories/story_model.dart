@@ -66,6 +66,40 @@ class StoryWM extends WidgetModel {
     super.onBind();
   }
 
+  static Future<void> showStoryScreen({
+    required BuildContext context,
+    required int id,
+    required List<StoryModel> modelsList,
+  }) async {
+    await Navigator.push<dynamic>(
+      context,
+      PageRouteBuilder<dynamic>(
+        pageBuilder: (_, __, ___) {
+          return StoriesScreen(
+            storyModel: id,
+            stories: modelsList,
+          );
+        },
+        barrierColor: Colors.black.withOpacity(0.8),
+        transitionDuration: const Duration(milliseconds: 600),
+        reverseTransitionDuration: const Duration(milliseconds: 400),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+            parent: animation,
+            curve: Curves.fastLinearToSlowEaseIn,
+          );
+          return SlideTransition(
+            position: Tween(
+              begin: const Offset(0.0, 0.6),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
   Future<void> _showStory(StoryModel? model) async {
     if (context != null && model != null) {
       storiesWM = Provider.of<StoriesWM>(context!, listen: false);
@@ -76,32 +110,10 @@ class StoryWM extends WidgetModel {
         'íd': model.id,
       }));
 
-      await Navigator.push<dynamic>(
-        context!,
-        PageRouteBuilder<dynamic>(
-          pageBuilder: (_, __, ___) {
-            return StoriesScreen(
-              storyModel: id,
-              stories: storiesWM!.stories,
-            );
-          },
-          barrierColor: Colors.black.withOpacity(0.8),
-          transitionDuration: const Duration(milliseconds: 600),
-          reverseTransitionDuration: const Duration(milliseconds: 400),
-          transitionsBuilder: (context, animation, anotherAnimation, child) {
-            animation = CurvedAnimation(
-              parent: animation,
-              curve: Curves.fastLinearToSlowEaseIn,
-            );
-            return SlideTransition(
-              position: Tween(
-                begin: const Offset(0.0, 0.6),
-                end: Offset.zero,
-              ).animate(animation),
-              child: child,
-            );
-          },
-        ),
+      await showStoryScreen(
+        context: context!,
+        id: id,
+        modelsList: storiesWM!.stories,
       );
 
       await incViewCountAction();

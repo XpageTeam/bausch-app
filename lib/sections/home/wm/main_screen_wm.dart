@@ -121,7 +121,7 @@ class MainScreenWM extends WidgetModel {
       userWM.reloadUserData(),
       // bannersWm?.loadData() ?? voidFunction(),
       _loadBanners(),
-      _loadStories(),
+      loadStories(),
       _loadCatalog(),
       _loadMyLenses(),
       _loadSocialLinks(),
@@ -149,7 +149,7 @@ class MainScreenWM extends WidgetModel {
     await allDataLoadedState.loading(allDataLoadedState.value.data);
 
     await Future.wait<void>([
-      _loadStories(),
+      loadStories(),
       _loadCatalog(),
       _loadBanners(),
       _loadMyLenses(),
@@ -164,7 +164,7 @@ class MainScreenWM extends WidgetModel {
     await allDataLoadedState.content(true);
   }
 
-  Future<void> _loadStories() async {
+  Future<void> loadStories() async {
     if (storiesList.value.isLoading) return;
 
     // await storiesList.loading(storiesList.value.data);
