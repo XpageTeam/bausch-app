@@ -49,8 +49,8 @@ class OneLensReplacementIndicator extends StatelessWidget {
                   await myLensesWM.putOnLensesPair(
                     leftDate: DateTime.now(),
                     rightDate: DateTime.now(),
-                    updateRight: true,
-                    updateLeft: true,
+                    putOffRight: sameTime || (!sameTime && !isLeft),
+                    putOffLeft: sameTime || (!sameTime && isLeft),
                   );
                 },
               ),

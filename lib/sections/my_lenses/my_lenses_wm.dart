@@ -212,7 +212,7 @@ class MyLensesWM extends WidgetModel {
         await myLensesRequester.deleteDailyReminders();
         unawaited(dailyReminders.accept(null));
       }
-      
+
       showDefaultNotification(
         title: 'Данные успешно обновлены',
         success: true,
@@ -229,14 +229,14 @@ class MyLensesWM extends WidgetModel {
   Future putOnLensesPair({
     required DateTime? leftDate,
     required DateTime? rightDate,
-    bool updateLeft = false,
-    bool updateRight = false,
+    bool putOffLeft = false,
+    bool putOffRight = false,
   }) async {
     unawaited(loadingInProgress.accept(true));
     try {
       await myLensesRequester.putOffLenses(
-        leftDate: updateLeft ? DateTime.now() : null,
-        rightDate: updateRight ? DateTime.now() : null,
+        leftDate: putOffLeft ? DateTime.now() : null,
+        rightDate: putOffRight ? DateTime.now() : null,
       );
       await myLensesRequester.putOnLensesPair(
         leftDate: leftDate,
