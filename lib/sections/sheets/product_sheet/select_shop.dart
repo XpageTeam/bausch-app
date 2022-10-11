@@ -252,7 +252,7 @@ class _SelectShopContainer extends StatelessWidget {
             value: index == selectedIndex,
             marginNeeded: false,
             borderRadius: 12,
-            onChanged: (_) {},
+            onChanged: (_) => onPressed(),
           ),
         ],
       ),

@@ -132,6 +132,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           _currentIndex = 0;
           final storyContent = widget.stories[i].content[_currentIndex];
           _onLongPressStart(storyContent);
+          // setState(() {});
         }
 
         if (notification is ScrollEndNotification) {
@@ -159,6 +160,7 @@ class _StoriesScreenState extends State<StoriesScreen>
         controller: _pageController,
         dragStartBehavior: DragStartBehavior.down,
         itemCount: widget.stories.length,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, i) {
           //* костыль, чтобы не появлялся серый экран, когда проскроллил не до конца
           final story = widget.stories[i];
@@ -168,9 +170,22 @@ class _StoriesScreenState extends State<StoriesScreen>
           return Scaffold(
             backgroundColor: Colors.black,
             body: GestureDetector(
-              onTapUp: (details) => _onTapUp(details, storyContent),
+              onTapUp: isAnimating
+                  ? null
+                  : (details) => _onTapUp(details, storyContent),
               onLongPressStart: (details) => _onLongPressStart(storyContent),
               onLongPressEnd: (details) => _onLongPressEnd(storyContent),
+              onHorizontalDragEnd: (details) {
+                final velocity = details.velocity.pixelsPerSecond.dx;
+
+                if (velocity < 0) {
+                  _moveToNextStory();
+                }
+
+                if (velocity > 0) {
+                  _moveToPreviousStory();
+                }
+              },
               child: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -228,6 +243,8 @@ class _StoriesScreenState extends State<StoriesScreen>
     );
   }
 
+  bool isAnimating = false;
+
   void _onTapUp(TapUpDetails details, StoryContentModel storyContent) {
     final screenWidth = MediaQuery.of(context).size.width;
     final dx = details.globalPosition.dx;
@@ -282,14 +299,20 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void _moveToNextStory() {
+  Future<void> _moveToNextStory() async {
     if (index < widget.stories.length - 1) {
       //index += 1;
-      _pageController.animateToPage(
+      setState(() {
+        isAnimating = true;
+      });
+      await _pageController.animateToPage(
         index + 1,
         duration: const Duration(milliseconds: 200),
         curve: Curves.linear,
       );
+      setState(() {
+        isAnimating = false;
+      });
     } else {
       Navigator.of(context).pop();
     }
