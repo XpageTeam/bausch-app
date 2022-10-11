@@ -227,10 +227,11 @@ class ProfileSettingsScreenWM extends WidgetModel {
         return Wrap(children: [EmailBottomSheet()]);
       },
     ).then(
-      (value) async => enteredEmail.accept(
-        userWM.userData.value.data!.user.pendingEmail ??
-            userWM.userData.value.data!.user.email,
-      ),
+      (value) {
+        final email = userWM.userData.value.data!.user.pendingEmail ??
+            userWM.userData.value.data!.user.email;
+        return enteredEmail.accept(email);
+      },
     );
   }
 

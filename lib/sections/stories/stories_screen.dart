@@ -9,6 +9,7 @@ import 'package:bausch/sections/stories/bottom_content.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/anti_glow_behavior.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
@@ -168,7 +169,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           final storyContent = widget.stories[i].content[_currentIndex];
 
           return Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: AppTheme.mystic,
             body: GestureDetector(
               onTapUp: isAnimating
                   ? null
@@ -220,7 +221,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           storyContent.file ?? storyContent.preview,
           fit: BoxFit.cover,
           printError: false,
-          loadStateChanged: loadStateChangedFunction,
+          loadStateChanged: _loadStateChangedFunction,
         );
       case true:
         if (_videoPlayerController.value.isInitialized) {
@@ -238,7 +239,7 @@ class _StoriesScreenState extends State<StoriesScreen>
       storyContent.preview,
       fit: BoxFit.cover,
       printError: false,
-      loadStateChanged: loadStateChangedFunction,
+      loadStateChanged: _loadStateChangedFunction,
       //color: Colors.red.withAlpha(10),
     );
   }
@@ -338,6 +339,15 @@ class _StoriesScreenState extends State<StoriesScreen>
     if (storyContent.isVideo) {
       _videoPlayerController.play();
     }
+  }
+
+  Widget? _loadStateChangedFunction(ExtendedImageState state) {
+    if (state.extendedImageLoadState == LoadState.loading) {
+      return const Center(
+        child: AnimatedLoader(),
+      );
+    }
+    return null;
   }
 
   Future<void> _loadStory({

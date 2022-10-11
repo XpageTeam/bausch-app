@@ -68,7 +68,9 @@ class UserWM extends WidgetModel {
           notifications: notifications,
         );
       }
-      await this.userData.content(await UserWriter.updateUserData(userData));
+      final newUserData = await UserWriter.updateUserData(userData);
+
+      await this.userData.content(newUserData);
 
       if (showMessage) {
         showDefaultNotification(
