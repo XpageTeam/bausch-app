@@ -3,7 +3,9 @@
 import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:app_links/app_links.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/global/deep_link/deep_link_wm.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -44,6 +46,19 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation>
     with AfterLayoutMixin<MainNavigation> {
+  late final DeepLinkWM deepLinksWM;
+
+  @override
+  void initState() {
+    deepLinksWM = DeepLinkWM(
+      context: context,
+      authWM: widget.authWM,
+    );
+
+    AppLinks().stringLinkStream.listen(deepLinksWM.onLink);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -119,7 +134,11 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               case '/profile':
-                page = ProfileScreen();
+                final args = settings.arguments as ProfileScreenArguments?;
+
+                page = ProfileScreen(
+                  showNotifications: args?.showNotifications,
+                );
                 break;
 
               case '/profile_settings':

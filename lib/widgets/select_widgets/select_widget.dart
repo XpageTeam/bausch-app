@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 class SelectWidget extends StatefulWidget {
   final List<String> items;
   final ValueChanged<int> onChanged;
+  final int initValue;
 
-  const SelectWidget({required this.items, required this.onChanged, Key? key})
-      : super(key: key);
+  const SelectWidget({
+    required this.items,
+    required this.onChanged,
+    required this.initValue,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _SelectWidgetState createState() => _SelectWidgetState();
@@ -14,6 +19,12 @@ class SelectWidget extends StatefulWidget {
 
 class _SelectWidgetState extends State<SelectWidget> {
   int value = 0;
+
+  @override
+  void initState() {
+    value = widget.initValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

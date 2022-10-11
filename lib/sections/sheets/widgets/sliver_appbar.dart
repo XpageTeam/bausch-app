@@ -74,7 +74,13 @@ class CustomSliverAppbar extends StatelessWidget {
                   NormalIconButton(
                     isAnimated: colorAnimated,
                     onPressed: () {
-                      Keys.mainContentNav.currentState!.pop();
+                      if (Keys.mainContentNav.currentState?.canPop() ?? false) {
+                        Keys.mainContentNav.currentState!.pop();
+                      } else {
+                        // Keys.bottomNav.currentState?.maybePop();
+                        Keys.mainNav.currentState?.maybePop();
+                        // Navigator.of(context).pop();
+                      }
                     },
                     icon: const Icon(
                       Icons.close_rounded,

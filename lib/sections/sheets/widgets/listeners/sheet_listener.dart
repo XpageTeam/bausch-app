@@ -21,7 +21,6 @@ class SheetListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<CatalogItemCubit, CatalogItemState>(
       listener: (context, state) {
-        debugPrint(state.toString());
         if (state is CatalogItemFailed) {
           if (Keys.mainNav.currentState!.canPop()) {
             Keys.mainNav.currentState!.pop();

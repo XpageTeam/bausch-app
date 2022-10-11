@@ -51,10 +51,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="http" />
-                <data android:scheme="https" />
+                <data android:scheme="bauschlomb" />
 
-                <data android:host="bausch.in-progress.ru" />
+                <data android:host="bausch.mobile" />
             </intent-filter>
          
         </activity>

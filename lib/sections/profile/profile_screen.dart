@@ -12,9 +12,20 @@ import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
+class ProfileScreenArguments {
+  final bool showNotifications;
+
+  const ProfileScreenArguments({
+    this.showNotifications = false,
+  });
+}
+
 class ProfileScreen extends CoreMwwmWidget<ProfileScreenWM> {
-  ProfileScreen({Key? key})
-      : super(
+  final bool? showNotifications;
+  ProfileScreen({
+    this.showNotifications = false,
+    Key? key,
+  }) : super(
           key: key,
           widgetModelBuilder: (context) => ProfileScreenWM(context: context),
         );
@@ -128,6 +139,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
                       //* Контент слайдера(заказы, уведомления)
                       child: ScrollableProfileContent(
                         controller: controller,
+                        showNotifications: widget.showNotifications,
                       ),
                     );
                   },
