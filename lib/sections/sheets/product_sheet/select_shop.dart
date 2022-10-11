@@ -62,16 +62,19 @@ class _SelectShopSectionState extends State<SelectShopSection> {
         widget.discountOptics.length,
         (i) => Padding(
           padding: const EdgeInsets.only(bottom: 4),
-          child: _SelectShopContainer(
-            index: i,
-            selectedIndex: _selectedIndex,
-            optic: widget.discountOptics[i],
-            onPressed: () {
-              setState(() {
-                _selectedIndex = i;
-              });
-              widget.onChanged(widget.discountOptics[i]);
-            },
+          child: SizedBox(
+            height: 75,
+            child: _SelectShopContainer(
+              index: i,
+              selectedIndex: _selectedIndex,
+              optic: widget.discountOptics[i],
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = i;
+                });
+                widget.onChanged(widget.discountOptics[i]);
+              },
+            ),
           ),
           // child: SizedBox(
           //   height: 74,
@@ -199,6 +202,7 @@ class _SelectShopContainer extends StatelessWidget {
                 vertical: 14,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
