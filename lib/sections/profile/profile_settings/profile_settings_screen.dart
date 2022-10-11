@@ -300,12 +300,10 @@ class _ProfileSettingsScreenState
                     onPressed: () {
                       Keys.mainContentNav.currentState!.push(
                         PageRouteBuilder<String>(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  NotificationsSettingsScreen(
+                          pageBuilder: (_, __, ___) =>
+                              NotificationsSettingsScreen(
                             valuesList: wm.notificationsList,
-                            onSendUpdate: (valuesList) =>
-                                wm.updateNotifications(valuesList),
+                            onSendUpdate: wm.updateNotifications,
                           ),
                         ),
                       );

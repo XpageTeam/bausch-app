@@ -11,9 +11,11 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class SheetWidget extends StatelessWidget {
   final Widget child;
   final bool withPoints;
+  final VoidCallback? onPop;
 
   const SheetWidget({
     required this.child,
+    this.onPop,
     this.withPoints = true,
     Key? key,
   }) : super(key: key);
@@ -29,25 +31,31 @@ class SheetWidget extends StatelessWidget {
         children: [
           //* Виджет с количеством баллов
           if (withPoints)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: EntityStateBuilder<UserRepository>(
-                  streamedState: userWm.userData,
-                  builder: (_, userData) {
-                    return PointsInfo(
-                      text: HelpFunctions.partitionNumber(
-                        userData.balance.available,
+            GestureDetector(
+              onTap: onPop,
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: EntityStateBuilder<UserRepository>(
+                        streamedState: userWm.userData,
+                        builder: (_, userData) {
+                          return PointsInfo(
+                            text: HelpFunctions.partitionNumber(
+                              userData.balance.available,
+                            ),
+                            backgoundColor: AppTheme.mystic,
+                          );
+                        },
                       ),
-                      backgoundColor: AppTheme.mystic,
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
 
           Flexible(
             child: Stack(

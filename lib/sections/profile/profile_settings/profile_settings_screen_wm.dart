@@ -143,13 +143,17 @@ class ProfileSettingsScreenWM extends WidgetModel {
     //   title: 'Данные успешно обновлены',
     //   success: true,
     // );
+
+    userWM.updateUserData(
+      userWM.userData.value.data!.user,
+      notifications: notificationsList,
+    );
+
     Keys.mainContentNav.currentState!.pop();
   }
 
   void setValues() {
     try {
-      final userWM = Provider.of<UserWM>(context, listen: false);
-
       selectedCityName.accept(userWM.userData.value.data!.user.city);
       selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
       notificationsList = [...userWM.userData.value.data!.user.subscriptions];
@@ -236,8 +240,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
   }
 
   Future<void> sendUserData() async {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     await userWM.updateUserData(
       userWM.userData.value.data!.user.copyWith(
         email: enteredEmail.value,
@@ -280,14 +282,10 @@ class ProfileSettingsScreenWM extends WidgetModel {
   }
 
   void setEmail(String? email) {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     enteredEmail.accept(email ?? userWM.userData.value.data!.user.email);
   }
 
   void setBirthDate(DateTime? birthDate) {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     debugPrint('date was changed');
 
     selectedBirthDate.accept(

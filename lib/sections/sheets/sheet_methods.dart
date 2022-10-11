@@ -18,34 +18,57 @@ Future<void> showSheet<T>(
   String? initialRoute,
   MyLensesWM? myLensesWM,
 ]) {
+  var isAlreadyPop = false;
   return showFlexibleBottomSheet<void>(
     minHeight: 0,
     initHeight: 0.95,
     maxHeight: 0.95,
     anchors: [0, 0.6, 0.95],
     context: context,
+    // isDismissible: false,
     bottomSheetColor: Colors.transparent,
     barrierColor: Colors.black.withOpacity(0.8),
+    duration: const Duration(milliseconds: 300),
     builder: (context, controller, d) {
-      return WillPopScope(
-        onWillPop: () {
-          final contentContext = Keys.bottomNav.currentContext;
-          if (contentContext == null) return Future(() => true);
+      return NotificationListener<DraggableScrollableNotification>(
+        onNotification: (notification) {
+          final offset = notification.extent;
 
-          final canPopContent = Navigator.of(contentContext).canPop();
-          if (canPopContent) {
-            Navigator.of(contentContext).pop();
-            return Future(() => false);
+          if (offset < 0.2 && !isAlreadyPop) {
+            isAlreadyPop = true;
+            Navigator.of(context).pop();
           }
-          return Future(() => true);
+
+          return true;
         },
-        child: SheetWidget(
-          child: BottomSheetNavigation<T>(
-            controller: controller,
-            sheetModel: model,
-            args: args,
-            initialRoute: initialRoute,
-            myLensesWM: myLensesWM,
+        child: WillPopScope(
+          onWillPop: () {
+            if (isAlreadyPop) return Future(() => false);
+
+            final contentContext = Keys.bottomNav.currentContext;
+            if (contentContext == null) return Future(() => true);
+
+            final canPopContent = Navigator.of(contentContext).canPop();
+            if (canPopContent) {
+              Navigator.of(contentContext).pop();
+              return Future(() => false);
+            }
+            isAlreadyPop = true;
+
+            return Future(() => true);
+          },
+          child: SheetWidget(
+            onPop: () {
+              isAlreadyPop = true;
+              Navigator.of(context).pop();
+            },
+            child: BottomSheetNavigation<T>(
+              controller: controller,
+              sheetModel: model,
+              args: args,
+              initialRoute: initialRoute,
+              myLensesWM: myLensesWM,
+            ),
           ),
         ),
       );

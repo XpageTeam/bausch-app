@@ -60,7 +60,11 @@ class MyLensesWM extends WidgetModel {
 
   Future loadAllData() async {
     unawaited(loadingInProgress.accept(true));
+    final stopwatch = Stopwatch();
+    stopwatch.start();
+
     await _loadCurrentLensesInfo();
+
     if (lensesPairModel.value != null) {
       await Future.wait<void>([
         recommendedProducts.accept(
@@ -72,6 +76,9 @@ class MyLensesWM extends WidgetModel {
         _loadLensesReminders(isDaily: currentProduct.value!.lifeTime == 1),
       ]);
     }
+
+    stopwatch.stop();
+    debugPrint('time: ${(stopwatch.elapsedMilliseconds) / 1000}');
     unawaited(loadingInProgress.accept(false));
   }
 
