@@ -51,7 +51,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="bauschlomb" />
+                <data android:scheme="bausch" />
 
                 <data android:host="bausch.mobile" />
             </intent-filter>
