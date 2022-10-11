@@ -85,7 +85,7 @@ class LensProductModel {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException('Ошибка в LensesPairModel: $e');
+      throw ResponseParseException('Ошибка в LensProductModel: $e');
     }
   }
 }

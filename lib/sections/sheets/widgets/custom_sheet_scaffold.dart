@@ -123,8 +123,8 @@ class CustomSheetScaffold extends StatelessWidget {
   Widget getScrollView(BuildContext context) {
     return CustomScrollView(
       controller: controller,
+      cacheExtent: 3500,
       scrollBehavior: const AntiGlowBehavior(),
-      
       slivers: slivers
         ..add(
           SliverList(

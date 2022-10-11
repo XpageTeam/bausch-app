@@ -19,7 +19,7 @@ class PhoneSender {
           <String, dynamic>{
             'phone': phone,
             'device_id': uuid,
-            'is_ios': Platform.isIOS,
+            'is_ios': Platform.isIOS ? 1 : 0,
           },
         ),
       ))
