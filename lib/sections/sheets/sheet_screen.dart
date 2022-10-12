@@ -16,10 +16,12 @@ import 'package:flutter/material.dart';
 class ItemSheetScreenArguments {
   final CatalogItemModel model;
   final OrderData? orderData;
+  final String? discount;
 
   ItemSheetScreenArguments({
     required this.model,
     this.orderData,
+    this.discount,
   });
 }
 
@@ -150,8 +152,9 @@ class _SheetScreenState extends State<SheetScreen> {
                           Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: widget.items[i * 2].fetchShield(
-                              discountCount:
-                                  widget.sheetModel.name.split(' ')[1],
+                              discountCount: widget.sheetModel.discount == null
+                                  ? null
+                                  : '${widget.sheetModel.discount}',
                             ),
                           ),
                         ],
@@ -164,6 +167,7 @@ class _SheetScreenState extends State<SheetScreen> {
                               onTap: () {
                                 _openItemSheet(
                                   widget.items[i * 2 + 1],
+                                  discount: widget.sheetModel.discount,
                                 );
                               },
                               allWebinarsCallback: _openAllWebinars,
@@ -172,7 +176,9 @@ class _SheetScreenState extends State<SheetScreen> {
                               padding: const EdgeInsets.all(12.0),
                               child: widget.items[i * 2 + 1].fetchShield(
                                 discountCount:
-                                    widget.sheetModel.name.split(' ')[1],
+                                    widget.sheetModel.discount == null
+                                        ? null
+                                        : '${widget.sheetModel.discount}',
                               ),
                             ),
                           ],
@@ -199,7 +205,10 @@ class _SheetScreenState extends State<SheetScreen> {
     );
   }
 
-  void _openItemSheet(CatalogItemModel model) {
+  void _openItemSheet(
+    CatalogItemModel model, {
+    String? discount,
+  }) {
     final originType = widget.sheetModel.type;
 
     var type = originType;
@@ -212,6 +221,7 @@ class _SheetScreenState extends State<SheetScreen> {
       '/$type',
       arguments: ItemSheetScreenArguments(
         model: model,
+        discount: discount,
       ),
     );
   }

@@ -165,7 +165,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
                 discountType: DiscountType.offline,
-                discountCount: sheetModel.name.split(' ')[1],
+                discount: sheetModel.discount,
               );
               break;
 
@@ -181,7 +181,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: arguments.model as PromoItemModel,
                 discountType: DiscountType.onlineShop,
-                discountCount: sheetModel.name.split(' ')[1],
+                discount: sheetModel.discount,
               );
               break;
 
@@ -212,7 +212,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                     .discountType,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
-                discountCount: sheetModel.name.split(' ')[1],
+                discountCount: sheetModel.discount,
               );
               break;
 

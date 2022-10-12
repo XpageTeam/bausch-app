@@ -16,6 +16,9 @@ abstract class BaseCatalogSheetModel {
   //* Количество элементов внутри
   final int? count;
 
+  //* скидка
+  final String? discount; 
+
   BaseCatalogSheetModel({
     required this.id,
     required this.name,
@@ -23,5 +26,6 @@ abstract class BaseCatalogSheetModel {
     this.icon,
     this.secondIcon,
     this.count,
+    required this.discount,
   });
 }

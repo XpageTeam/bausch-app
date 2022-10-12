@@ -28,11 +28,14 @@ class FreePackagingScreen extends CoreMwwmWidget<FreePackagingScreenWM>
 
   @override
   final OrderData? orderData;
+  @override
+  final String? discount;
 
   FreePackagingScreen({
     required this.controller,
     required this.model,
     this.orderData,
+    this.discount,
     Key? key,
   }) : super(
           key: key,

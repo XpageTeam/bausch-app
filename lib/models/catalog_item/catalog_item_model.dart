@@ -38,6 +38,7 @@ class CatalogItemModel {
   //  HelpFunctions.partitionNumber(price);
 
   Widget fetchShield({String? discountCount}) {
+    if (discountCount == null) return const SizedBox();
     if (this is WebinarItemModel) {
       return Image.asset(
         'assets/play-video.png',

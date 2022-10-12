@@ -12,6 +12,7 @@ class CatalogSheetWithLogosModel extends BaseCatalogSheetModel {
     required String type,
     required String icon,
     required int count,
+    String? discount,
     this.logos,
   }) : super(
           id: id,
@@ -19,10 +20,10 @@ class CatalogSheetWithLogosModel extends BaseCatalogSheetModel {
           type: type,
           icon: icon,
           count: count,
+          discount: discount,
         );
 
   factory CatalogSheetWithLogosModel.fromMap(Map<String, dynamic> map) {
-
     try {
       return CatalogSheetWithLogosModel(
         id: map['id'] as int,
@@ -37,6 +38,7 @@ class CatalogSheetWithLogosModel extends BaseCatalogSheetModel {
                 .map((dynamic logo) => logo as String)
                 .toList()
             : null,
+        discount: map['sale'] as String?,
       );
     } catch (e) {
       throw ResponseParseException('CatalogSheetWithLogosModel: $e');

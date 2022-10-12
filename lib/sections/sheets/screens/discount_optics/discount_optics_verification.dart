@@ -18,7 +18,7 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class DiscountOpticsVerification
     extends CoreMwwmWidget<DiscountOpticsVerificationWM> {
   final ScrollController controller;
-  final String discountCount;
+  final String? discountCount;
 
   DiscountOpticsVerification({
     required this.controller,
@@ -34,7 +34,7 @@ class DiscountOpticsVerification
             discountOptic: discountOptic,
             itemModel: model,
             discountType: discountType,
-            discountCount: discountCount,
+            discount: discountCount,
           ),
         );
 

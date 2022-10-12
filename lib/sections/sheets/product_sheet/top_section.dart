@@ -23,7 +23,7 @@ class TopSection extends StatelessWidget {
 
   TopSection.product({
     required CatalogItemModel model,
-    required String discount,
+    required String? discount,
     Widget? topLeftWidget,
     Key? key,
   }) : this(
@@ -170,7 +170,7 @@ class TopSection extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                           ),
                                           Text(
-                                            discount!,
+                                            '$discount ₽',
                                             style: AppStyles.h2,
                                             textAlign: TextAlign.center,
                                           ),

@@ -11,6 +11,7 @@ class CatalogSheetModel extends BaseCatalogSheetModel {
     required int count,
     String? icon,
     String? secondIcon,
+    String? discount,
   }) : super(
           id: id,
           name: name,
@@ -18,6 +19,7 @@ class CatalogSheetModel extends BaseCatalogSheetModel {
           icon: icon,
           secondIcon: secondIcon,
           count: count,
+          discount: discount,
         );
 
   factory CatalogSheetModel.fromMap(Map<String, dynamic> map) {
@@ -29,6 +31,7 @@ class CatalogSheetModel extends BaseCatalogSheetModel {
         icon: map['icon'] as String?,
         secondIcon: map['secondIcon'] as String?,
         count: map['count'] as int,
+        discount: map['sale'] as String?,
       );
     } catch (e) {
       throw ResponseParseException('CatalogSheetModel: $e');
