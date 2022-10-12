@@ -17,15 +17,15 @@ abstract class BaseCatalogSheetModel {
   final int? count;
 
   //* скидка
-  final String? discount; 
+  final String? discount;
 
   BaseCatalogSheetModel({
     required this.id,
     required this.name,
     required this.type,
+    required this.discount,
     this.icon,
     this.secondIcon,
     this.count,
-    required this.discount,
   });
 }

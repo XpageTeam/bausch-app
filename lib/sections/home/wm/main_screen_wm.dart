@@ -130,40 +130,6 @@ class MainScreenWM extends WidgetModel {
     return true;
   }
 
-  void _changeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        canUpdate = true;
-        break;
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.paused:
-      case AppLifecycleState.detached:
-        canUpdate = false;
-        break;
-    }
-  }
-
-  Future<void> _loadAllData() async {
-    if (allDataLoadedState.value.isLoading) return;
-
-    await allDataLoadedState.loading(allDataLoadedState.value.data);
-
-    await Future.wait<void>([
-      loadStories(),
-      _loadCatalog(),
-      _loadBanners(),
-      _loadMyLenses(),
-      _loadSocialLinks(),
-    ]);
-
-    if (catalog.value.error != null) {
-      await allDataLoadedState.error(catalog.value.error);
-      return;
-    }
-
-    await allDataLoadedState.content(true);
-  }
-
   Future<void> loadStories() async {
     if (storiesList.value.isLoading) return;
 
@@ -205,6 +171,40 @@ class MainScreenWM extends WidgetModel {
         // subtitle: error.subtitle,
       );
     }
+  }
+
+  void _changeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        canUpdate = true;
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        canUpdate = false;
+        break;
+    }
+  }
+
+  Future<void> _loadAllData() async {
+    if (allDataLoadedState.value.isLoading) return;
+
+    await allDataLoadedState.loading(allDataLoadedState.value.data);
+
+    await Future.wait<void>([
+      loadStories(),
+      _loadCatalog(),
+      _loadBanners(),
+      _loadMyLenses(),
+      _loadSocialLinks(),
+    ]);
+
+    if (catalog.value.error != null) {
+      await allDataLoadedState.error(catalog.value.error);
+      return;
+    }
+
+    await allDataLoadedState.content(true);
   }
 
   Future<void> _loadMyLenses() async {

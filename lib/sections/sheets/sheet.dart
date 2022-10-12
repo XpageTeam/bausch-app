@@ -33,7 +33,7 @@ class SheetWidget extends StatelessWidget {
           if (withPoints)
             GestureDetector(
               onTap: onPop,
-              child: Container(
+              child: ColoredBox(
                 color: Colors.transparent,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,

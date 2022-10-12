@@ -43,6 +43,7 @@ class _StoriesScreenState extends State<StoriesScreen>
   late Widget img;
   int pageNumTemp = 0;
   int pageNum = 0;
+  bool isAnimating = false;
   AppsflyerSdk? appsFlyer;
 
   late PageController _pageController;
@@ -243,8 +244,6 @@ class _StoriesScreenState extends State<StoriesScreen>
       //color: Colors.red.withAlpha(10),
     );
   }
-
-  bool isAnimating = false;
 
   void _onTapUp(TapUpDetails details, StoryContentModel storyContent) {
     final screenWidth = MediaQuery.of(context).size.width;

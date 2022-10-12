@@ -1,5 +1,4 @@
 //ignore_for_file: avoid-unnecessary-setstate
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
@@ -9,7 +8,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
-import 'package:bausch/widgets/select_widgets/custom_radio.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 

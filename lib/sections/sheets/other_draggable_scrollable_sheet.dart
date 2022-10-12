@@ -4,9 +4,9 @@
 
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
 class OtherDraggableScrollableController extends ChangeNotifier {
   double get size {
@@ -372,7 +372,7 @@ class _OtherDraggableScrollableSheetState
 
   String _snapSizeErrorMessage(int invalidIndex) {
     final snapSizesWithIndicator = widget.snapSizes!.asMap().keys.map(
-      (int index) {
+      (index) {
         final snapSizeString = widget.snapSizes![index].toString();
         if (index == invalidIndex) {
           return '>>> $snapSizeString <<<';
@@ -546,6 +546,7 @@ class _DraggableScrollableSheetScrollPosition
 
     _ballisticCancelCallback = ballisticController.stop;
     var lastPosition = extent.currentPixels;
+    // ignore: no_leading_underscores_for_local_identifiers
     void _tick() {
       final delta = ballisticController.value - lastPosition;
       lastPosition = ballisticController.value;
@@ -605,11 +606,12 @@ class _InheritedResetNotifier extends InheritedNotifier<_ResetNotifier> {
   ///
   /// The [child] and [notifier] properties must not be null.
   const _InheritedResetNotifier({
-    Key? key,
     required Widget child,
     required _ResetNotifier notifier,
+    Key? key,
   }) : super(key: key, child: child, notifier: notifier);
 
+  // ignore: unused_element
   bool _sendReset() => notifier!.sendReset();
 
   /// Specifies whether the [OtherDraggableScrollableSheet] should reset to its

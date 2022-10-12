@@ -12,9 +12,7 @@ import 'package:bausch/sections/order_registration/widget_models/order_registrat
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
-//import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';

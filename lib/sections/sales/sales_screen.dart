@@ -256,6 +256,7 @@ class __SmallContainerState extends State<_SmallContainer> {
     if (state.extendedImageLoadState == LoadState.failed) {
       return const SizedBox();
     }
+    return null;
   }
 }
 
