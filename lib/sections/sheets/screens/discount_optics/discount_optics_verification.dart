@@ -18,11 +18,13 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 class DiscountOpticsVerification
     extends CoreMwwmWidget<DiscountOpticsVerificationWM> {
   final ScrollController controller;
+  final String discountCount;
 
   DiscountOpticsVerification({
     required this.controller,
     required PromoItemModel model,
     required Optic discountOptic,
+    required this.discountCount,
     required DiscountType discountType,
     Key? key,
   }) : super(
@@ -32,6 +34,7 @@ class DiscountOpticsVerification
             discountOptic: discountOptic,
             itemModel: model,
             discountType: discountType,
+            discountCount: discountCount,
           ),
         );
 
@@ -43,11 +46,9 @@ class DiscountOpticsVerification
 
 class _DiscountOpticsVerificationState extends WidgetState<
     DiscountOpticsVerification, DiscountOpticsVerificationWM> {
-
-
   // @override
   // void initState() {
-    
+
   //   super.initState();
   // }
 
@@ -106,7 +107,7 @@ class _DiscountOpticsVerificationState extends WidgetState<
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const DiscountInfo(text: 'Скидка 500 ₽'),
+                        DiscountInfo(text: 'Скидка ${widget.discountCount} ₽'),
                         const SizedBox(
                           height: 4,
                         ),

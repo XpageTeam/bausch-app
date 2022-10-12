@@ -37,9 +37,12 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   @override
   final OrderData? orderData;
 
+  final String discountCount;
+
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
+    required this.discountCount,
     required DiscountType discountType,
     this.orderData,
     Key? key,
@@ -49,6 +52,7 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
             context: context,
             itemModel: model,
             discountType: discountType,
+            discountCount: discountCount,
           ),
         );
 
@@ -96,7 +100,7 @@ class _DiscountOpticsScreenState
                   topLeftWidget: CustomLineLoadingIndicator(
                     maximumScore: widget.model.price,
                   ),
-                  discount: 'Скидка 500 ₽ ',
+                  discount: '${widget.discountCount} ₽ ',
                   key: widget.key,
                 ),
                 const SizedBox(
@@ -208,7 +212,6 @@ class _DiscountOpticsScreenState
                         ),
                       ),
                     ),
-                  
                   ),
                 ),
               if (wm.discountType == DiscountType.offline)
@@ -360,10 +363,12 @@ class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final Optic discountOptic;
   final DiscountType discountType;
   final PartnerOrderResponse? orderDataResponse;
+  final String discountCount;
 
   DiscountOpticsArguments({
     required this.discountOptic,
     required this.discountType,
+    required this.discountCount,
     required CatalogItemModel model,
     required this.orderDataResponse,
   }) : super(

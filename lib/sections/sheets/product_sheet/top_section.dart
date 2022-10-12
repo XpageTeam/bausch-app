@@ -170,8 +170,7 @@ class TopSection extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                           ),
                                           Text(
-                                            (discount!.toUpperCase())
-                                                .replaceAll('СКИДКА ', ''),
+                                            discount!,
                                             style: AppStyles.h2,
                                             textAlign: TextAlign.center,
                                           ),

@@ -37,9 +37,7 @@ class _ScrollableProfileContentState
     if (widget.showNotifications ?? false) {
       // wm.activeNotifications.stream.listen((event) { });
 
-      setState(() {
-        isOrdersEnabled = false;
-      });
+      isOrdersEnabled = false;
 
       // wm.activeNotifications.stream.listen((notificationsCount) {
       //   if (notificationsCount > 0){

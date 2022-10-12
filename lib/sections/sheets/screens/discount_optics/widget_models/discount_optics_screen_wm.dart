@@ -37,6 +37,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final PromoItemModel itemModel;
 
   final DiscountType discountType;
+  final String discountCount;
 
   final discountOpticsStreamed = EntityStreamedState<List<Optic>>();
   final currentDiscountOptic = StreamedState<Optic?>(null);
@@ -71,6 +72,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     required this.context,
     required this.itemModel,
     required this.discountType,
+    required this.discountCount,
   }) : super(
           const WidgetModelDependencies(),
         );
@@ -175,6 +177,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
               discountOptic: currentDiscountOptic.value!,
               discountType: discountType,
               orderDataResponse: null,
+              discountCount: discountCount,
             ),
           );
         }
