@@ -40,16 +40,7 @@ class FinalPartners extends CoreMwwmWidget<FinalPartnersWM> {
 }
 
 class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
-  @override
-  void initState() {
-    AppsflyerSingleton.sdk
-        .logEvent('partnersItemsOrderFinished', <String, dynamic>{
-      'id': wm.itemModel.id,
-      'title': wm.itemModel.name,
-    });
-    super.initState();
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(

@@ -212,7 +212,7 @@ class MainScreenWM extends WidgetModel {
   }
 
   Future<void> _loadCatalog() async {
-    if (catalog.value.isLoading) return;
+    // if (catalog.value.isLoading) return;
 
     await catalog.loading(catalog.value.data);
 

@@ -1,9 +1,7 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/navigation/bottom_sheet_navigation.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
-import 'package:bausch/sections/sheets/other_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
-import 'package:bausch/sections/sheets/widgets/bottom_sheet_page.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
