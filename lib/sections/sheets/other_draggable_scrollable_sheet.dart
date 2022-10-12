@@ -633,6 +633,14 @@ class _InheritedResetNotifier extends InheritedNotifier<_ResetNotifier> {
 }
 
 class _SnappingSimulation extends Simulation {
+  final double position;
+  late final double velocity;
+
+  // A minimum speed to snap at. Used to ensure that the snapping animation
+  // does not play too slowly.
+  static const double minimumSpeed = 1600.0;
+
+  late final double _pixelSnapSize;
   _SnappingSimulation({
     required this.position,
     required double initialVelocity,
@@ -648,15 +656,6 @@ class _SnappingSimulation extends Simulation {
       velocity = math.max(minimumSpeed, initialVelocity);
     }
   }
-
-  final double position;
-  late final double velocity;
-
-  // A minimum speed to snap at. Used to ensure that the snapping animation
-  // does not play too slowly.
-  static const double minimumSpeed = 1600.0;
-
-  late final double _pixelSnapSize;
 
   @override
   double dx(double time) {

@@ -4,8 +4,8 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
-import 'package:bausch/widgets/pages/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

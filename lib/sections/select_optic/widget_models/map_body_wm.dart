@@ -175,7 +175,6 @@ class MapBodyWM extends WidgetModel {
     List<T> newList, {
     bool withUserPosition = true,
   }) async {
-    // TODO(Nikolay): Возможно надо будет центрироваться на позиции пользователя, если список пуст.
     if (newList.isEmpty) return;
 
     final list = newList;

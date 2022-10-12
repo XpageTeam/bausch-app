@@ -38,14 +38,6 @@ class _PartnersVerificationState
     extends WidgetState<PartnersVerification, PartnersVerificationWM> {
   Color iconColor = Colors.white;
 
-  @override
-  void initState() {
-    AppsflyerSingleton.sdk.logEvent('partnersItemsOrder', <String, dynamic>{
-      'id': wm.itemModel.id,
-      'title': wm.itemModel.name,
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

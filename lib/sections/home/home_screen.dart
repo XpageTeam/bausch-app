@@ -9,7 +9,6 @@ import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
 import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -328,16 +327,16 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           delegate: SliverChildListDelegate(
                             [
                               //* Вам может быть интересно
-                              StreamedStateBuilder<bool>(
-                                streamedState: wm.mayBeInterestingState,
-                                builder: (_, enabled) {
-                                  return enabled
-                                      ? MayBeInteresting(
-                                          text: 'Вам может быть интересно',
-                                        )
-                                      : const SizedBox();
-                                },
-                              ),
+                              // StreamedStateBuilder<bool>(
+                              //   streamedState: wm.mayBeInterestingState,
+                              //   builder: (_, enabled) {
+                              //     return enabled
+                              //         ? MayBeInteresting(
+                              //             text: 'Вам может быть интересно',
+                              //           )
+                              //         : const SizedBox();
+                              //   },
+                              // ),
                               const SizedBox(
                                 height: 20,
                               ),

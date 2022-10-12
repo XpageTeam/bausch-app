@@ -9,7 +9,6 @@ import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
