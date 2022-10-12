@@ -406,7 +406,7 @@ void callback(CatalogItemModel model, {VoidCallback? allWebinarsOpen}) {
       barrierColor: Colors.black.withOpacity(0.8),
       builder: (context, controller, d) {
         return FinalDiscountOptics(
-          discountType: DiscountType.offline,
+          section: 'offline',
           controller: ScrollController(),
           model: model as PromoItemModel,
           buttonText: 'Готово',

@@ -26,6 +26,9 @@ class WebinarScreen extends CoreMwwmWidget<WebinarScreenWM>
   @override
   String? get discount => null;
 
+  @override
+  String get section => '';
+
   WebinarScreen({
     required this.controller,
     required this.model,

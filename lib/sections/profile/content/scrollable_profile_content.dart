@@ -1,4 +1,6 @@
 import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/content/notifications_section.dart';
 import 'package:bausch/sections/profile/content/orders_section.dart';
 import 'package:bausch/sections/profile/content/wm/profile_content_wm.dart';
@@ -138,10 +140,13 @@ class _ScrollableProfileContentState
                   return SliverList(
                     delegate: SliverChildListDelegate([
                       ClipRect(
-                        child: SizedBox(
-                          height: info?.dragOffset ?? 0,
-                          child: const Center(
-                            child: AnimatedLoader(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: SizedBox(
+                            height: info?.dragOffset ?? 0,
+                            child: const Center(
+                              child: AnimatedLoader(),
+                            ),
                           ),
                         ),
                       ),
@@ -150,15 +155,97 @@ class _ScrollableProfileContentState
                 }),
                 if (isOrdersEnabled) ...[
                   //* Вкладка с заказами
-                  OrdersSection(
-                    ordersList: wm.orderHistoryList.value.data!,
+                  // if (wm.orderHistoryList.value.data == null)
+                  //   SliverFillRemaining(
+                  //     hasScrollBody: false,
+                  //     child: Center(
+                  //       child: SimpleErrorWidget(
+                  //         title: 'Ошибка',
+                  //         buttonCallback: () => wm.loadOrdersHistoryAction(),
+                  //         buttonText: 'Повторить',
+                  //       ),
+                  //     ),
+                  //   )
+                  // else
+                  //   OrdersSection(
+                  //     ordersList: wm.orderHistoryList.value.data!,
+                  //   ),
+
+                  EntityStateBuilder<List<BaseOrderModel?>>(
+                    streamedState: wm.orderHistoryList,
+                    loadingBuilder: (context, data) => data == null
+                        ? const SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: AnimatedLoader(),
+                            ),
+                          )
+                        : OrdersSection(
+                            ordersList: data,
+                          ),
+                    errorBuilder: (context, error) => SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: SimpleErrorWidget(
+                          title: 'Ошибка',
+                          buttonCallback: () => wm.loadOrdersHistoryAction(),
+                          buttonText: 'Повторить',
+                        ),
+                      ),
+                    ),
+                    builder: (_, orderHistoryList) => OrdersSection(
+                      ordersList: orderHistoryList,
+                    ),
                   ),
                 ] else ...[
                   //* Вкладка с уведомлениями (с переключателем)
-                  NotificationSection(
-                    items: wm.notificationsList.value.data!,
-                    updateCallback: (amount) =>
-                        wm.updateNotificationsAmount(amount),
+                  // if (wm.notificationsList.value.data == null)
+                  // SliverFillRemaining(
+                  //   hasScrollBody: false,
+                  //   child: Center(
+                  //     child: SimpleErrorWidget(
+                  //       title: 'Ошибка',
+                  //       buttonCallback: () => wm.loadNotificationsAction(),
+                  //       buttonText: 'Повторить',
+                  //     ),
+                  //   ),
+                  // )
+                  // else
+                  //   NotificationSection(
+                  //     items: wm.notificationsList.value.data!,
+                  //     updateCallback: (amount) =>
+                  //         wm.updateNotificationsAmount(amount),
+                  //   ),
+
+                  EntityStateBuilder<List<NotificationModel>>(
+                    streamedState: wm.notificationsList,
+                    loadingBuilder: (context, data) => data == null
+                        ? const SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: AnimatedLoader(),
+                            ),
+                          )
+                        : NotificationSection(
+                            items: data,
+                            updateCallback: (amount) =>
+                                wm.updateNotificationsAmount(amount),
+                          ),
+                    errorBuilder: (context, error) => SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: SimpleErrorWidget(
+                          title: 'Ошибка',
+                          buttonCallback: () => wm.loadNotificationsAction(),
+                          buttonText: 'Повторить',
+                        ),
+                      ),
+                    ),
+                    builder: (_, notificationsList) => NotificationSection(
+                      items: notificationsList,
+                      updateCallback: (amount) =>
+                          wm.updateNotificationsAmount(amount),
+                    ),
                   ),
                 ],
                 SliverList(

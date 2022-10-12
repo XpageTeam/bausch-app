@@ -23,7 +23,7 @@ class CustomTextButton extends StatelessWidget {
       onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 5.0,
           // horizontal: 12,
         ),
         child: RichText(

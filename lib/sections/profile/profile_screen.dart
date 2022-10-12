@@ -53,6 +53,7 @@ class _ProfileScreenState extends WidgetState<ProfileScreen, ProfileScreenWM> {
         appBar: const NewEmptyAppBar(
           scaffoldBgColor: Colors.white,
         ),
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppTheme.turquoiseBlue,
         body: SizedBox.expand(
           child: Stack(

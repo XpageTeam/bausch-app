@@ -37,6 +37,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final PromoItemModel itemModel;
 
   final DiscountType discountType;
+  final String section;
   final String? discount;
 
   final discountOpticsStreamed = EntityStreamedState<List<Optic>>();
@@ -71,9 +72,12 @@ class DiscountOpticsScreenWM extends WidgetModel {
   DiscountOpticsScreenWM({
     required this.context,
     required this.itemModel,
-    required this.discountType,
+    required this.section,
     required this.discount,
-  }) : super(
+  })  : discountType = section.contains('online')
+            ? DiscountType.onlineShop
+            : DiscountType.offline,
+        super(
           const WidgetModelDependencies(),
         );
 
@@ -175,7 +179,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
             arguments: DiscountOpticsArguments(
               model: itemModel,
               discountOptic: currentDiscountOptic.value!,
-              discountType: discountType,
+              section: section,
               orderDataResponse: null,
               discount: discount,
             ),
@@ -289,7 +293,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     try {
       final repository = OpticCititesRepository.fromDiscountOpticsRepository(
         await DiscountOpticsLoader.load(
-          discountType.asString,
+          section,
           itemModel.code,
         ),
         discountType.asString,

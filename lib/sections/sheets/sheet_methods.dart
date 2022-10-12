@@ -21,121 +21,121 @@ Future<void> showSheet<T>(
   MyLensesWM? myLensesWM,
 ]) {
   var isAlreadyPop = false;
-  final draggableScrollableController = OtherDraggableScrollableController();
+  return showFlexibleBottomSheet<void>(
+    minHeight: 0,
+    initHeight: 0.95,
+    maxHeight: 0.95,
+    anchors: [0, 0.6, 0.95],
+    context: context,
+    // isDismissible: false,
+    bottomSheetColor: Colors.transparent,
+    barrierColor: Colors.black.withOpacity(0.8),
+    duration: const Duration(milliseconds: 300),
+    builder: (context, controller, d) {
+      return NotificationListener<DraggableScrollableNotification>(
+        onNotification: (notification) {
+          final offset = notification.extent;
 
-  return Navigator.of(context).push(
-    PageRouteBuilder(
-      opaque: false,
-      reverseTransitionDuration: Duration(milliseconds: 100),
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return BottomSheetPage(
-          onPop: () {
+          if (offset < 0.2 && !isAlreadyPop) {
             isAlreadyPop = true;
             Navigator.of(context).pop();
+          }
+
+          return true;
+        },
+        child: WillPopScope(
+          onWillPop: () {
+            if (isAlreadyPop) return Future(() => false);
+
+            final contentContext = Keys.bottomNav.currentContext;
+            if (contentContext == null) return Future(() => true);
+
+            final canPopContent = Navigator.of(contentContext).canPop();
+            if (canPopContent) {
+              Navigator.of(contentContext).pop();
+              return Future(() => false);
+            }
+            isAlreadyPop = true;
+
+            return Future(() => true);
           },
-          draggableScrollableController: draggableScrollableController,
-          builder: (_, controller) =>
-              NotificationListener<DraggableScrollableNotification>(
-            onNotification: (notification) {
-              final offset = notification.extent;
-
-              if (offset < 0.05 && !isAlreadyPop) {
-                isAlreadyPop = true;
-                Navigator.of(context).pop();
-              }
-
-              return true;
+          child: SheetWidget(
+            onPop: () {
+              isAlreadyPop = true;
+              Navigator.of(context).pop();
             },
-            child: WillPopScope(
-              onWillPop: () {
-                if (isAlreadyPop) return Future(() => false);
-
-                final contentContext = Keys.bottomNav.currentContext;
-                if (contentContext == null) return Future(() => true);
-
-                final canPopContent = Navigator.of(contentContext).canPop();
-                if (canPopContent) {
-                  Navigator.of(contentContext).pop();
-                  return Future(() => false);
-                }
-                isAlreadyPop = true;
-
-                return Future(() => true);
-              },
-              child: SheetWidget(
-                onPop: () {
-                  isAlreadyPop = true;
-                  Navigator.of(context).pop();
-                },
-                child: BottomSheetNavigation<T>(
-                  controller: controller,
-                  sheetModel: model,
-                  args: args,
-                  initialRoute: initialRoute,
-                  myLensesWM: myLensesWM,
-                ),
-              ),
+            child: BottomSheetNavigation<T>(
+              controller: controller,
+              sheetModel: model,
+              args: args,
+              initialRoute: initialRoute,
+              myLensesWM: myLensesWM,
             ),
           ),
-        );
-      },
-    ),
+        ),
+      );
+    },
   );
 
-  // showFlexibleBottomSheet<void>(
-  //   minHeight: 0,
-  //   initHeight: 0.95,
-  //   maxHeight: 0.95,
-  //   anchors: [0, 0.6, 0.95],
-  //   context: context,
-  //   // isDismissible: false,
-  //   bottomSheetColor: Colors.transparent,
-  //   barrierColor: Colors.black.withOpacity(0.8),
-  //   duration: const Duration(milliseconds: 300),
-  //   builder: (context, controller, d) {
-  //   return NotificationListener<DraggableScrollableNotification>(
-  //     onNotification: (notification) {
-  //       final offset = notification.extent;
+  // final draggableScrollableController = OtherDraggableScrollableController();
 
-  //       if (offset < 0.2 && !isAlreadyPop) {
-  //         isAlreadyPop = true;
-  //         Navigator.of(context).pop();
-  //       }
-
-  //       return true;
-  //     },
-  //     child: WillPopScope(
-  //       onWillPop: () {
-  //         if (isAlreadyPop) return Future(() => false);
-
-  //         final contentContext = Keys.bottomNav.currentContext;
-  //         if (contentContext == null) return Future(() => true);
-
-  //         final canPopContent = Navigator.of(contentContext).canPop();
-  //         if (canPopContent) {
-  //           Navigator.of(contentContext).pop();
-  //           return Future(() => false);
-  //         }
-  //         isAlreadyPop = true;
-
-  //         return Future(() => true);
-  //       },
-  //       child: SheetWidget(
+  // return Navigator.of(context).push(
+  //   PageRouteBuilder(
+  //     opaque: false,
+  //     reverseTransitionDuration: Duration(milliseconds: 100),
+  //     pageBuilder: (context, animation, secondaryAnimation) {
+  //       return BottomSheetPage(
   //         onPop: () {
   //           isAlreadyPop = true;
   //           Navigator.of(context).pop();
   //         },
-  //         child: BottomSheetNavigation<T>(
-  //           controller: controller,
-  //           sheetModel: model,
-  //           args: args,
-  //           initialRoute: initialRoute,
-  //           myLensesWM: myLensesWM,
+  //         draggableScrollableController: draggableScrollableController,
+  //         builder: (_, controller) =>
+  //             NotificationListener<DraggableScrollableNotification>(
+  //           onNotification: (notification) {
+  //             final offset = notification.extent;
+
+  //             if (offset < 0.05 && !isAlreadyPop) {
+  //               isAlreadyPop = true;
+  //               Navigator.of(context).pop();
+  //             }
+
+  //             return true;
+  //           },
+  //           child: WillPopScope(
+  //             onWillPop: () {
+  //               if (isAlreadyPop) return Future(() => false);
+
+  //               final contentContext = Keys.bottomNav.currentContext;
+  //               if (contentContext == null) return Future(() => true);
+
+  //               final canPopContent = Navigator.of(contentContext).canPop();
+  //               if (canPopContent) {
+  //                 Navigator.of(contentContext).pop();
+  //                 return Future(() => false);
+  //               }
+  //               isAlreadyPop = true;
+
+  //               return Future(() => true);
+  //             },
+  //             child: SheetWidget(
+  //               onPop: () {
+  //                 isAlreadyPop = true;
+  //                 Navigator.of(context).pop();
+  //               },
+  //               child: BottomSheetNavigation<T>(
+  //                 controller: controller,
+  //                 sheetModel: model,
+  //                 args: args,
+  //                 initialRoute: initialRoute,
+  //                 myLensesWM: myLensesWM,
+  //               ),
+  //             ),
+  //           ),
   //         ),
-  //       ),
-  //     ),
-  //   );
-  // },
+  //       );
+  //     },
+  //   ),
   // );
 }
 

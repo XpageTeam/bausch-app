@@ -255,10 +255,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             // мои линзы
                             DelayedAnimatedTranslateOpacity(
                           offsetY: 60,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 40),
-                            child: MyLensesContainer(myLensesWM: wm.myLensesWM),
-                          ),
+                          child: MyLensesContainer(myLensesWM: wm.myLensesWM),
                         ),
                       ),
 
@@ -267,26 +264,30 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             //* Скидки за баллы
                             DelayedAnimatedTranslateOpacity(
                           offsetY: 70,
-                          child:
-                              EntityStateBuilder<List<BaseCatalogSheetModel>>(
-                            streamedState: wm.catalog,
-                            loadingBuilder: (_, catalogItems) {
-                              if (catalogItems != null) {
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 40.0),
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SalesWidget(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
                                 return SalesWidget(
                                   catalogList: catalogItems,
                                 );
-                              }
-                              return const SizedBox();
-                            },
-                            builder: (_, catalogItems) {
-                              return SalesWidget(
-                                catalogList: catalogItems,
-                              );
-                            },
+                              },
+                            ),
                           ),
                         ),
                       ),
 
+                      //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                       SliverPadding(
                         key: spendPointsPositionKey,
                         padding: const EdgeInsets.only(
@@ -294,31 +295,26 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           left: StaticData.sidePadding,
                           right: StaticData.sidePadding,
                         ),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
-                              //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
-                              DelayedAnimatedTranslateOpacity(
-                                offsetY: 80,
-                                child: EntityStateBuilder<
-                                    List<BaseCatalogSheetModel>>(
-                                  streamedState: wm.catalog,
-                                  loadingBuilder: (_, catalogItems) {
-                                    if (catalogItems != null) {
-                                      return SpendScores(
-                                        catalogList: catalogItems,
-                                      );
-                                    }
-                                    return const SizedBox();
-                                  },
-                                  builder: (_, catalogItems) {
-                                    return SpendScores(
-                                      catalogList: catalogItems,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
+                        sliver: SliverToBoxAdapter(
+                          child: DelayedAnimatedTranslateOpacity(
+                            offsetY: 80,
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SpendScores(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
+                                return SpendScores(
+                                  catalogList: catalogItems,
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -342,8 +338,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                       : const SizedBox();
                                 },
                               ),
-
-                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               //* Текстовые кнопки(Частые вопросы и тд)
                               const TextButtonsSection(),
                               const SizedBox(

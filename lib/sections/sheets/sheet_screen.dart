@@ -17,9 +17,12 @@ class ItemSheetScreenArguments {
   final CatalogItemModel model;
   final OrderData? orderData;
   final String? discount;
+  final String section;
+
 
   ItemSheetScreenArguments({
     required this.model,
+    this.section = '',
     this.orderData,
     this.discount,
   });
@@ -222,6 +225,7 @@ class _SheetScreenState extends State<SheetScreen> {
       arguments: ItemSheetScreenArguments(
         model: model,
         discount: discount,
+        section: originType,
       ),
     );
   }

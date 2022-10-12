@@ -25,7 +25,7 @@ class DiscountOpticsVerification
     required PromoItemModel model,
     required Optic discountOptic,
     required this.discountCount,
-    required DiscountType discountType,
+    required String section,
     Key? key,
   }) : super(
           key: key,
@@ -33,7 +33,7 @@ class DiscountOpticsVerification
             context: context,
             discountOptic: discountOptic,
             itemModel: model,
-            discountType: discountType,
+            section: section,
             discount: discountCount,
           ),
         );

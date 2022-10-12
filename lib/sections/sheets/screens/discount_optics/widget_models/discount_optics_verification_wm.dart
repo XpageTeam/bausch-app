@@ -27,6 +27,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final Optic discountOptic;
   final DiscountType discountType;
   final String? discount;
+  final String section;
 
   final loadingState = StreamedState<bool>(false);
   final codeLoadingState = StreamedState<bool>(false);
@@ -45,9 +46,12 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     required this.context,
     required this.itemModel,
     required this.discountOptic,
-    required this.discountType,
+    required this.section,
     required this.discount,
-  }) : super(
+  })  : discountType = section.contains('online')
+            ? DiscountType.onlineShop
+            : DiscountType.offline,
+        super(
           const WidgetModelDependencies(),
         );
 
@@ -87,9 +91,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
     try {
       result = await OrderDiscountSaver.save(
-        discountOptic,
-        itemModel,
-        discountType.asString,
+        optic: discountOptic,
+        model: itemModel,
+        category: section,
+        discount: discount,
       );
 
       if (discountType == DiscountType.onlineShop) {
@@ -144,7 +149,7 @@ class DiscountOpticsVerificationWM extends WidgetModel {
         arguments: DiscountOpticsArguments(
           model: itemModel,
           discountOptic: discountOptic,
-          discountType: discountType,
+          section: section,
           orderDataResponse: result,
           discount: discount,
         ),
@@ -154,11 +159,12 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 }
 
 class OrderDiscountSaver {
-  static Future<PartnerOrderResponse> save(
-    Optic optic,
-    PromoItemModel model,
-    String category,
-  ) async {
+  static Future<PartnerOrderResponse> save({
+    required Optic optic,
+    required PromoItemModel model,
+    required String category,
+    String? discount,
+  }) async {
     final rh = RequestHandler();
     final resp = await rh.put<Map<String, dynamic>>(
       '/order/discount/save/',
@@ -177,6 +183,7 @@ class OrderDiscountSaver {
           'category': category,
           'shopCode': optic.shopCode,
           'productCode': model.code,
+          if (discount != null) 'sale': discount,
         },
       ),
     );

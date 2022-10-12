@@ -138,19 +138,19 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
               break;
 
-            case '/free_product':
-              arguments as ItemSheetScreenArguments;
+            // case '/free_product':
+            //   arguments as ItemSheetScreenArguments;
 
-              AppsflyerSingleton.sdk.logEvent('freePack', <String, dynamic>{
-                'id': arguments.model.id,
-                'title': arguments.model.name,
-              });
+            //   AppsflyerSingleton.sdk.logEvent('freePack', <String, dynamic>{
+            //     'id': arguments.model.id,
+            //     'title': arguments.model.name,
+            //   });
 
-              page = FreePackagingScreen(
-                controller: controller,
-                model: arguments.model,
-              );
-              break;
+            //   page = FreePackagingScreen(
+            //     controller: controller,
+            //     model: arguments.model,
+            //   );
+            //   break;
 
             case '/add_points':
               page = AddPointsScreen(
@@ -164,7 +164,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
-                discountType: DiscountType.offline,
+                section: arguments.section,
                 discount: sheetModel.discount,
               );
               break;
@@ -180,7 +180,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               page = DiscountOpticsScreen(
                 controller: controller,
                 model: arguments.model as PromoItemModel,
-                discountType: DiscountType.onlineShop,
+                section: arguments.section,
                 discount: sheetModel.discount,
               );
               break;
@@ -208,8 +208,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (settings.arguments as DiscountOpticsArguments).model
                     as PromoItemModel,
-                discountType: (settings.arguments as DiscountOpticsArguments)
-                    .discountType,
+                section:
+                    (settings.arguments as DiscountOpticsArguments).section,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
                 discountCount: sheetModel.discount,
@@ -263,8 +263,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (settings.arguments as DiscountOpticsArguments).model
                     as PromoItemModel,
-                discountType: (settings.arguments as DiscountOpticsArguments)
-                    .discountType,
+                section:
+                    (settings.arguments as DiscountOpticsArguments).section,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
                 orderData: (settings.arguments as DiscountOpticsArguments)

@@ -40,11 +40,14 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   @override
   final String? discount;
 
+  @override
+  final String section;
+
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
     required this.discount,
-    required DiscountType discountType,
+    required this.section,
     this.orderData,
     Key? key,
   }) : super(
@@ -52,7 +55,7 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
           widgetModelBuilder: (context) => DiscountOpticsScreenWM(
             context: context,
             itemModel: model,
-            discountType: discountType,
+            section: section,
             discount: discount,
           ),
         );
@@ -362,18 +365,15 @@ class _NoDiscountsAvailable extends StatelessWidget {
 
 class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final Optic discountOptic;
-  final DiscountType discountType;
+
   final PartnerOrderResponse? orderDataResponse;
   // final String? discount;
 
   DiscountOpticsArguments({
     required this.discountOptic,
-    required this.discountType,
-    required String? discount,
-    required CatalogItemModel model,
+    required super.section,
+    required super.discount,
+    required super.model,
     required this.orderDataResponse,
-  }) : super(
-          model: model,
-          discount: discount,
-        );
+  });
 }
