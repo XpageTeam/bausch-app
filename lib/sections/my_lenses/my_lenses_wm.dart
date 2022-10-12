@@ -60,8 +60,7 @@ class MyLensesWM extends WidgetModel {
 
   Future loadAllData() async {
     unawaited(loadingInProgress.accept(true));
-    final stopwatch = Stopwatch();
-    stopwatch.start();
+    final stopwatch = Stopwatch()..start();
 
     await _loadCurrentLensesInfo();
 

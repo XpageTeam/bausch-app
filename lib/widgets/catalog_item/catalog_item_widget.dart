@@ -93,15 +93,6 @@ class CatalogItemWidget extends StatelessWidget {
                           style: AppStyles.h2Bold,
                         ),
                       ),
-
-                      // TODO(all): сюда добавить название скидочного товара
-                      //   Flexible(
-                      //   child: Text(
-                      //     model.name,
-                      //     style: AppStyles.h2Bold,
-                      //   ),
-                      // ),
-
                       //* Цена и виджет баллов
                       if (model.price > 0)
                         Container(

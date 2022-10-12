@@ -37,20 +37,6 @@ class CatalogItemModel {
   String get priceToString => HelpFunctions.partitionNumber(price);
   //  HelpFunctions.partitionNumber(price);
 
-  Widget fetchShield({String? discountCount}) {
-    if (discountCount == null) return const SizedBox();
-    if (this is WebinarItemModel) {
-      return Image.asset(
-        'assets/play-video.png',
-        height: 28,
-      );
-    } else if (this is PromoItemModel) {
-      return DiscountInfo(text: '–$discountCount ₽');
-    } else {
-      return Container();
-    }
-  }
-
   CatalogItemModel({
     required this.id,
     required this.name,
@@ -113,6 +99,20 @@ class CatalogItemModel {
         return ConsultationItemModel.fromMap(json);
       default:
         return CatalogItemModel.fromMap(json);
+    }
+  }
+
+  Widget fetchShield({String? discountCount}) {
+    if (discountCount == null) return const SizedBox();
+    if (this is WebinarItemModel) {
+      return Image.asset(
+        'assets/play-video.png',
+        height: 28,
+      );
+    } else if (this is PromoItemModel) {
+      return DiscountInfo(text: '–$discountCount ₽');
+    } else {
+      return Container();
     }
   }
 }

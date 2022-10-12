@@ -29,7 +29,7 @@ BaseCatalogSheetModel sheetModel(CatalogItemModel model) {
         id: 0,
         name: model.name,
         type: model.type!,
-        icon: model.picture!,
+        icon: model.picture,
         count: 1,
       );
   }

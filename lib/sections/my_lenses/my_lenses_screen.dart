@@ -107,52 +107,6 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
           ),
         ],
       ),
-
-      // ListView(
-      //   physics: const OnlyBottomBouncingScrollPhysics(),
-      //   padding: const EdgeInsets.symmetric(
-      //     horizontal: StaticData.sidePadding,
-      //     vertical: 30,
-      //   ),
-      //   children: [
-      //     // Переключатель (ношу /были раньше)
-      //     LensesPageSwitcher(myLensesWM: wm),
-      //     const SizedBox(height: 22),
-      //     StreamedStateBuilder<bool>(
-      //       streamedState: wm.loadingInProgress,
-      //       builder: (_, loadingInProgress) => loadingInProgress
-      //           ? ColoredBox(
-      //               color: AppTheme.mystic,
-      //               child: Padding(
-      //                 padding: EdgeInsets.only(
-      //                   top: MediaQuery.of(context).size.height / 4,
-      //                 ),
-      //                 child: const Center(
-      //                   // TODO(info): везде такой лоадер при загрузке ставить
-      //                   child: AnimatedLoader(),
-      //                 ),
-      //               ),
-      //             )
-      //           : StreamedStateBuilder<MyLensesPage>(
-      //               streamedState: wm.currentPageStreamed,
-      //               builder: (_, currentPage) =>
-      //                   StreamedStateBuilder<LensesPairModel?>(
-      //                 streamedState: wm.lensesPairModel,
-      //                 builder: (_, lensesPairModel) => lensesPairModel != null
-      //                     ? currentPage == MyLensesPage.currentLenses
-      //                         ? wm.currentProduct.value!.lifeTime == 1
-      //                             ? CurrentDailyLensesPage(myLensesWM: wm)
-      //                             : CurrentMultiLensesPage(myLensesWM: wm)
-      //                         : OldLensesPage(myLensesWM: wm)
-      //                     : BlueButtonWithText(
-      //                         text: 'Обновить',
-      //                         onPressed: () async => wm.loadAllData(),
-      //                       ),
-      //               ),
-      //             ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

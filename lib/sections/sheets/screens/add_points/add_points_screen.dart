@@ -5,7 +5,6 @@ import 'package:bausch/sections/sheets/screens/add_points/widgets/add_item.dart'
 import 'package:bausch/sections/sheets/screens/add_points/widgets/code_section.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
@@ -16,7 +15,6 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* list
 class AddPointsScreen extends CoreMwwmWidget<AddPointsWM> {
   final ScrollController controller;
-  // TODO(all): не знаю как лучше пробросить эти линзы, везде передаю
   final MyLensesWM? myLensesWM;
   AddPointsScreen({
     required this.controller,
@@ -97,7 +95,6 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
         EntityStateBuilder<List<AddPointsModel>>(
           streamedState: wm.addPointsList,
           loadingBuilder: (_, items) {
-            
             return items == null
                 ? const SliverFillRemaining(
                     hasScrollBody: false,
@@ -145,7 +142,7 @@ class _AddPointsScreenState extends WidgetState<AddPointsScreen, AddPointsWM> {
 class _LoadedSliverBody extends StatelessWidget {
   final List<AddPointsModel> items;
   final AddPointsWM wm;
-  const _LoadedSliverBody({required this.items, required this.wm, super.key});
+  const _LoadedSliverBody({required this.items, required this.wm});
 
   @override
   Widget build(BuildContext context) {

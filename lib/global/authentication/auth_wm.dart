@@ -146,8 +146,6 @@ class AuthWM extends WidgetModel {
     if (userWM.userData.value.hasError &&
         userWM.userData.value.error.toString() !=
             'Exception: Необходима авторизация') {
-      // TODO(all): ошибка не воспринимается как кастом экзепшн
-      // final error = userWM.userData.value.error as CustomException;
       CustomException? error;
       final rawError = userWM.userData.value.error;
       if (rawError != null && rawError is CustomException) {

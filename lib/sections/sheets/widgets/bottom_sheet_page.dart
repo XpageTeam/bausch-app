@@ -1,10 +1,6 @@
 import 'package:bausch/sections/sheets/other_draggable_scrollable_sheet.dart';
-import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class BottomSheetPage extends StatefulWidget {
   final OtherDraggableScrollableController? draggableScrollableController;
@@ -30,13 +26,7 @@ class _BottomSheetPageState extends State<BottomSheetPage> {
   @override
   void initState() {
     super.initState();
-    widget.draggableScrollableController?.addListener(() {
-      if (widget.draggableScrollableController!.size < 0.05 && !isClosing) {
-        setState(() {
-          isClosing = true;
-        });
-      }
-    });
+    widget.draggableScrollableController?.addListener(_dragListener);
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       widget.draggableScrollableController?.animateTo(
@@ -47,6 +37,12 @@ class _BottomSheetPageState extends State<BottomSheetPage> {
         curve: Curves.easeInOutCubic,
       );
     });
+  }
+
+  @override
+  void dispose() {
+    widget.draggableScrollableController?.removeListener(_dragListener);
+    super.dispose();
   }
 
   @override
@@ -70,10 +66,18 @@ class _BottomSheetPageState extends State<BottomSheetPage> {
           maxChildSize: 0.95,
           minChildSize: 0,
           snap: true,
-          snapSizes: [0, 0.4, 0.95],
+          snapSizes: const [0, 0.4, 0.95],
           builder: widget.builder,
         ),
       ],
     );
+  }
+
+  void _dragListener() {
+    if (widget.draggableScrollableController!.size < 0.05 && !isClosing) {
+      setState(() {
+        isClosing = true;
+      });
+    }
   }
 }
