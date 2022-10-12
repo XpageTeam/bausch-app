@@ -27,10 +27,8 @@ import 'package:bausch/sections/sheets/screens/consultation/consultation_verific
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/html/html_screen.dart';
 import 'package:bausch/sections/sheets/screens/partners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/partners/partners_screen.dart';

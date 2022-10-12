@@ -11,12 +11,14 @@ class SinglePickerScreen extends StatefulWidget {
   final String? cancelTitle;
   final VoidCallback? onCancelTap;
   final String? acceptTitle;
+  final int? startId;
   const SinglePickerScreen({
     required this.title,
     required this.variants,
     this.acceptTitle,
     this.cancelTitle,
     this.onCancelTap,
+    this.startId,
     Key? key,
   }) : super(key: key);
 
@@ -47,6 +49,12 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
   //   '+7',
   //   '+8',
   // ];
+
+  @override
+  void initState() {
+    selectedNumber = widget.startId ?? 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +111,11 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
                       ),
                     ),
                     CupertinoPicker.builder(
+                      scrollController: widget.startId != null
+                          ? FixedExtentScrollController(
+                              initialItem: widget.startId!,
+                            )
+                          : null,
                       childCount: widget.variants.length,
                       itemExtent: 40,
                       //offAxisFraction: -0.5,

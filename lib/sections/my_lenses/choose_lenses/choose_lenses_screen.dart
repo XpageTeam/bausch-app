@@ -218,6 +218,9 @@ class _ChooseLensesScreenState
                                             context: context,
                                             builder: (context) {
                                               return SinglePickerScreen(
+                                                startId: wm.detectStartId(
+                                                  currentProduct.diopters,
+                                                ),
                                                 title: 'Диоптрии',
                                                 variants:
                                                     currentProduct.diopters,
@@ -419,6 +422,9 @@ class _ChooseLensesScreenState
                                             context: context,
                                             builder: (context) {
                                               return SinglePickerScreen(
+                                                startId: wm.detectStartId(
+                                                  currentProduct.diopters,
+                                                ),
                                                 title: 'Диоптрии',
                                                 variants:
                                                     currentProduct.diopters,

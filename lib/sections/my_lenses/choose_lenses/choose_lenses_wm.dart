@@ -220,4 +220,27 @@ class ChooseLensesWM extends WidgetModel {
     }
     unawaited(areFieldsValid.accept(true));
   }
+
+  int detectStartId(List<String> list) {
+    var id = 0;
+    var count = 0;
+    final firstSign = list[0][0];
+    if (firstSign != '+' && firstSign != '-') {
+      return 0;
+    }
+    final breakSign = firstSign == '+' ? '-' : '+';
+    for (final element in list) {
+      final currentElement = element.replaceAll(' ', '');
+      if (currentElement[0] != firstSign) {
+        if (currentElement[0] == breakSign && count != 0) {
+          id = count - 1;
+        } else {
+          id = count;
+        }
+        break;
+      }
+      count++;
+    }
+    return id;
+  }
 }
