@@ -9,6 +9,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -230,9 +231,13 @@ class __SmallContainerState extends State<_SmallContainer> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       clipBehavior: Clip.hardEdge,
-                      child: Image.network(
-                        widget.item.secondIcon ?? widget.item.icon ?? '',
-                      ),
+                      child: widget.item.secondIcon == null &&
+                              widget.item.icon == null
+                          ? const SizedBox()
+                          : ExtendedImage.network(
+                              widget.item.secondIcon ?? widget.item.icon ?? '',
+                              loadStateChanged: _onChangeState,
+                            ),
                     ),
                   ],
                 ),
@@ -242,6 +247,15 @@ class __SmallContainerState extends State<_SmallContainer> {
         ),
       ),
     );
+  }
+
+  Widget? _onChangeState(ExtendedImageState state) {
+    if (state.extendedImageLoadState == LoadState.loading) {
+      return const SizedBox();
+    }
+    if (state.extendedImageLoadState == LoadState.failed) {
+      return const SizedBox();
+    }
   }
 }
 
