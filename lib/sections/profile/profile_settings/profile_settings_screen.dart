@@ -251,9 +251,7 @@ class _ProfileSettingsScreenState
                           await wm.changeCityAction(
                             await Keys.mainNav.currentState!.push<String?>(
                               PageRouteBuilder<String>(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        CityScreen(
+                                pageBuilder: (_, __, ___) => CityScreen(
                                   withFavoriteItems: const ['Москва'],
                                 ),
                               ),
@@ -264,17 +262,17 @@ class _ProfileSettingsScreenState
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: FocusButton(
-                    labelText: 'Мои адреса',
-                    onPressed: () {
-                      appsFlyer.logEvent('myAddressesOpened', null);
-                      Keys.mainContentNav.currentState!
-                          .pushNamed('/my_adresses');
-                    },
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 4),
+                //   child: FocusButton(
+                //     labelText: 'Мои адреса',
+                //     onPressed: () {
+                //       appsFlyer.logEvent('myAddressesOpened', null);
+                //       Keys.mainContentNav.currentState!
+                //           .pushNamed('/my_adresses');
+                //     },
+                //   ),
+                // ),
                 /*Padding(
                   padding: EdgeInsets.only(bottom: 4),
                   child: FocusButton(
