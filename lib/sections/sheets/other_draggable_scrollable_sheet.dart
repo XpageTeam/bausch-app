@@ -43,7 +43,9 @@ class OtherDraggableScrollableController extends ChangeNotifier {
       vsync: _attachedController!.positions.last.context.vsync,
       value: _attachedController!.extent.currentSize,
     );
-    (_attachedController!.positions.last as _DraggableScrollableSheetScrollPosition).goIdle();
+    (_attachedController!.positions.last
+            as _DraggableScrollableSheetScrollPosition)
+        .goIdle();
     // This disables any snapping until the next user interaction with the sheet.
     _attachedController!.extent.hasDragged = false;
     _attachedController!.extent.startActivity(onCanceled: () {
@@ -71,7 +73,9 @@ class OtherDraggableScrollableController extends ChangeNotifier {
     assert(size >= 0 && size <= 1);
     // Call start activity to interrupt any other playing activities.
     _attachedController!.extent.startActivity(onCanceled: () {});
-    (_attachedController!.positions.last as _DraggableScrollableSheetScrollPosition).goIdle();
+    (_attachedController!.positions.last
+            as _DraggableScrollableSheetScrollPosition)
+        .goIdle();
     _attachedController!.extent.hasDragged = false;
     _attachedController!.extent.updateSize(
       size,
@@ -365,7 +369,9 @@ class _OtherDraggableScrollableSheetState
     widget.controller?._onExtentReplaced(previousExtent);
     if (widget.snap) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        (_scrollController.positions.last as _DraggableScrollableSheetScrollPosition).goBallistic(0);
+        (_scrollController.positions.last
+                as _DraggableScrollableSheetScrollPosition)
+            .goBallistic(0);
       });
     }
   }
@@ -611,9 +617,6 @@ class _InheritedResetNotifier extends InheritedNotifier<_ResetNotifier> {
     Key? key,
   }) : super(key: key, child: child, notifier: notifier);
 
-  // ignore: unused_element
-  bool _sendReset() => notifier!.sendReset();
-
   /// Specifies whether the [OtherDraggableScrollableSheet] should reset to its
   /// initial position.
   ///
@@ -630,15 +633,18 @@ class _InheritedResetNotifier extends InheritedNotifier<_ResetNotifier> {
     inheritedNotifier.notifier!._wasCalled = false;
     return wasCalled;
   }
+
+  // ignore: unused_element
+  bool _sendReset() => notifier!.sendReset();
 }
 
 class _SnappingSimulation extends Simulation {
-  final double position;
-  late final double velocity;
-
   // A minimum speed to snap at. Used to ensure that the snapping animation
   // does not play too slowly.
   static const double minimumSpeed = 1600.0;
+
+  final double position;
+  late final double velocity;
 
   late final double _pixelSnapSize;
   _SnappingSimulation({

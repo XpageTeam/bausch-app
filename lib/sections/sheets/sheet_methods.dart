@@ -6,7 +6,6 @@ import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/sections/sheets/widgets/bottom_sheet_page.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showSheet<T>(
@@ -79,7 +78,7 @@ Future<void> showSheet<T>(
 
   final draggableScrollableController = OtherDraggableScrollableController();
 
-  animateDraggable() {
+  void animateDraggable() {
     draggableScrollableController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 300),
@@ -90,14 +89,10 @@ Future<void> showSheet<T>(
   return Navigator.of(context).push(
     PageRouteBuilder(
       opaque: false,
-      reverseTransitionDuration: Duration(milliseconds: 150),
+      reverseTransitionDuration: const Duration(milliseconds: 150),
       pageBuilder: (_, animation, secondaryAnimation) {
         return BottomSheetPage(
-          onPop: () {
-            animateDraggable();
-            // isAlreadyPop = true;
-            // Navigator.of(context).pop();
-          },
+          onPop: animateDraggable,
           draggableScrollableController: draggableScrollableController,
           builder: (_, controller) =>
               NotificationListener<DraggableScrollableNotification>(
@@ -128,11 +123,7 @@ Future<void> showSheet<T>(
                 return Future(() => false);
               },
               child: SheetWidget(
-                onPop: () {
-                  animateDraggable();
-                  // isAlreadyPop = true;
-                  // Navigator.of(context).pop();
-                },
+                onPop: animateDraggable,
                 child: BottomSheetNavigation<T>(
                   controller: controller,
                   sheetModel: model,

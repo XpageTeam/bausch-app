@@ -298,23 +298,21 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       AppsflyerSingleton.sdk
                           .logEvent('programmShowOpticsMap', null);
                       Keys.mainNav.currentState!.push<void>(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            debugPrint('city: ${wm.city}');
-                            return SelectOpticScreen(
-                              initialCity: wm.city,
-                              selectButtonText: 'Выбрать оптику',
-                              onOpticSelect: (optic, city, shop) {
-                                wm.city = city;
+                        PageRouteBuilder<void>(
+                          reverseTransitionDuration: Duration.zero,
+                          pageBuilder: (_, __, ___) => SelectOpticScreen(
+                            initialCity: wm.city,
+                            selectButtonText: 'Выбрать оптику',
+                            onOpticSelect: (optic, city, shop) {
+                              wm.city = city;
 
-                                if (shop != null) {
-                                  wm.selectOptic(optic.copyWith(shops: [shop]));
-                                } else {
-                                  wm.selectOptic(optic);
-                                }
-                              },
-                            );
-                          },
+                              if (shop != null) {
+                                wm.selectOptic(optic.copyWith(shops: [shop]));
+                              } else {
+                                wm.selectOptic(optic);
+                              }
+                            },
+                          ),
                         ),
                       );
                     },

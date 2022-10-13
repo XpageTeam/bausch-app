@@ -1,4 +1,3 @@
-import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/screens/partners/widget_models/partners_verification_wm.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';

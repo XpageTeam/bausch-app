@@ -1,6 +1,5 @@
 import 'package:bausch/sections/sheets/other_draggable_scrollable_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 class BottomSheetPage extends StatefulWidget {
   final OtherDraggableScrollableController? draggableScrollableController;
