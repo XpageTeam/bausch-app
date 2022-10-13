@@ -16,7 +16,7 @@ class ZoomButtons extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        color: AppTheme.turquoiseBlue,
+        color: AppTheme.turquoiseBlue.withOpacity(0.9),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -26,7 +26,8 @@ class ZoomButtons extends StatelessWidget {
               Icons.add,
               color: AppTheme.mineShaft,
             ),
-            backgroundColor: AppTheme.turquoiseBlue,
+            backgroundColor:
+                Colors.transparent, // AppTheme.turquoiseBlue.withOpacity(0.5),
             onPressed: zoomIn,
           ),
           NormalIconButton(
@@ -34,7 +35,8 @@ class ZoomButtons extends StatelessWidget {
               Icons.remove,
               color: AppTheme.mineShaft,
             ),
-            backgroundColor: AppTheme.turquoiseBlue,
+            backgroundColor:
+                Colors.transparent, // AppTheme.turquoiseBlue.withOpacity(0.5),
             onPressed: zoomOut,
           ),
         ],

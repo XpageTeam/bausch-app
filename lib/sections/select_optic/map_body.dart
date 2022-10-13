@@ -149,9 +149,9 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
       initHeight: 0.3,
       maxHeight: 0.5,
       anchors: [0, 0.3, 0.5],
-      isModal: false,
+      isModal: true,
       bottomSheetColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.8),
+      barrierColor: Colors.transparent,
       builder: (ctx, controller, _) => BottomSheetContentOther(
         controller: controller,
         title: shop.title,
