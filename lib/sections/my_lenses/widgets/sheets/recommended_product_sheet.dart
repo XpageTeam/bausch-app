@@ -6,6 +6,7 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -116,25 +117,18 @@ class _RecommendedProductSheetState extends State<RecommendedProductSheet> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Center(
-                  child: Text(
-                    StaticData.contraindications,
-                    style: TextStyle(
-                      fontSize: 14,
-                      height: 16 / 14,
-                      fontWeight: FontWeight.normal,
-                      color: AppTheme.grey,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+          
             ]),
           ),
         ),
       ],
+          bottomNavBar: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          BottomInfoBlock(),
+        ],
+      ),
     );
   }
 }

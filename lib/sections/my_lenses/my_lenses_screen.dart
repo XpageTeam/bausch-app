@@ -7,6 +7,7 @@ import 'package:bausch/sections/my_lenses/widgets/pages/old_lenses_page.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/anti_glow_behavior.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/default_appbar.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
@@ -102,27 +103,18 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
                           ),
                   ),
                 ),
-                const SliverPadding(
-                padding: EdgeInsets.only(bottom: 20),
-                sliver: SliverToBoxAdapter(
-                  child: Center(
-                    child: Text(
-                      StaticData.contraindications,
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 16 / 14,
-                        fontWeight: FontWeight.normal,
-                        color: AppTheme.grey,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ),
+            
               ],
             ),
           ),
              
+        ],
+      ),
+          bottomNavigationBar: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          BottomInfoBlock(),
         ],
       ),
     );

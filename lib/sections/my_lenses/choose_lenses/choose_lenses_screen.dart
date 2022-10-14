@@ -9,6 +9,7 @@ import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/focus_button.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
@@ -581,25 +582,17 @@ class _ChooseLensesScreenState
                           : null,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Center(
-                      child: Text(
-                        StaticData.contraindications,
-                        style: TextStyle(
-                          fontSize: 14,
-                          height: 16 / 14,
-                          fontWeight: FontWeight.normal,
-                          color: AppTheme.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
                 ],
               ),
           ],
         ),
+      ),
+      bottomNavigationBar: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          BottomInfoBlock(),
+        ],
       ),
     );
   }
