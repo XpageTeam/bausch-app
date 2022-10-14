@@ -11,6 +11,7 @@ import 'package:bausch/sections/my_lenses/widgets/lenses_history.dart';
 import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
@@ -185,6 +186,21 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                       ),
                     ),
                   ),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: Center(
+                    child: Text(
+                      StaticData.contraindications,
+                      style: TextStyle(
+                        fontSize: 14,
+                        height: 16 / 14,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.grey,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               ]),
             ),
           ),

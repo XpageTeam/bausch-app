@@ -77,9 +77,11 @@ class _ChooseLensesScreenState
         streamedState: wm.currentProduct,
         builder: (_, currentProduct) => ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: StaticData.sidePadding,
-            vertical: 30,
+          padding: const EdgeInsets.only(
+            left: StaticData.sidePadding,
+            right: StaticData.sidePadding,
+            top: 30,
+            bottom: 20,
           ),
           children: [
             if (currentProduct == null)
@@ -577,6 +579,21 @@ class _ChooseLensesScreenState
                               }
                             }
                           : null,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Center(
+                      child: Text(
+                        StaticData.contraindications,
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 16 / 14,
+                          fontWeight: FontWeight.normal,
+                          color: AppTheme.grey,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ],

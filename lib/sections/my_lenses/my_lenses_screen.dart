@@ -96,15 +96,33 @@ class _MyLensesScreenState extends WidgetState<MyLensesScreen, MyLensesWM> {
                                               ),
                                   ),
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 20),
                               ],
                             ),
                           ),
                   ),
                 ),
+                const SliverPadding(
+                padding: EdgeInsets.only(bottom: 20),
+                sliver: SliverToBoxAdapter(
+                  child: Center(
+                    child: Text(
+                      StaticData.contraindications,
+                      style: TextStyle(
+                        fontSize: 14,
+                        height: 16 / 14,
+                        fontWeight: FontWeight.normal,
+                        color: AppTheme.grey,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
               ],
             ),
           ),
+             
         ],
       ),
     );

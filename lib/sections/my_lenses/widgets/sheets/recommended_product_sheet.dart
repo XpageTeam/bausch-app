@@ -116,23 +116,20 @@ class _RecommendedProductSheetState extends State<RecommendedProductSheet> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Center(
-                child: Text(
-                  'Имеются противопоказания, необходимо проконсультироваться со специалистом',
-                  style: TextStyle(
-                    fontSize: 14,
-                    height: 16 / 14,
-                    fontWeight: FontWeight.normal,
-                    color: AppTheme.grey,
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Center(
+                  child: Text(
+                    StaticData.contraindications,
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 16 / 14,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.grey,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(
-                height: 8,
               ),
             ]),
           ),
