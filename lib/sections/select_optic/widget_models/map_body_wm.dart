@@ -270,6 +270,7 @@ class MapBodyWM extends WidgetModel {
     );
 
     mapObjects.add(placemarkCollection);
+
     await mapObjectsStreamed.accept(mapObjects);
   }
 
@@ -449,14 +450,14 @@ class MapBodyWM extends WidgetModel {
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // onError
-      onGetUserPositionError?.call(
-        const CustomException(
-          title: 'Невозможно определить местоположение',
-        ),
-      );
-    }
+    // if (!serviceEnabled) {
+    //   // onError
+    //   onGetUserPositionError?.call(
+    //     const CustomException(
+    //       title: 'Невозможно определить местоположение',
+    //     ),
+    //   );
+    // }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {

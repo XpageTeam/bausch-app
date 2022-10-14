@@ -240,8 +240,9 @@ class _DiscountOpticsScreenState
                         ),
                       ),
                       onPressed: () => Keys.mainNav.currentState!.push<void>(
-                        MaterialPageRoute(
-                          builder: (context) => StreamedStateBuilder<String?>(
+                        PageRouteBuilder<void>(
+                          reverseTransitionDuration: Duration.zero,
+                          pageBuilder: (_, __, ___) => StreamedStateBuilder<String?>(
                             streamedState: wm.currentOfflineCity,
                             builder: (_, currentOfflineCity) {
                               return SelectOpticScreen(

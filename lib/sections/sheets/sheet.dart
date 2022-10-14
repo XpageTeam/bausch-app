@@ -26,7 +26,6 @@ class SheetWidget extends StatelessWidget {
 
     return Material(
       color: Colors.transparent,
-      //resizeToAvoidBottomInset: false,
       child: Column(
         children: [
           //* Виджет с количеством баллов

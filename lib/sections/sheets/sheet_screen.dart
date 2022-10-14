@@ -19,7 +19,6 @@ class ItemSheetScreenArguments {
   final String? discount;
   final String section;
 
-
   ItemSheetScreenArguments({
     required this.model,
     this.section = '',
@@ -98,7 +97,7 @@ class _SheetScreenState extends State<SheetScreen> {
           SliverAppBar(
             pinned: true,
             elevation: 0,
-            toolbarHeight: widget.sheetModel.icon != null ? 100 : 65,
+            toolbarHeight: 70, //widget.sheetModel.icon != null ? 100 : 65,
             backgroundColor: AppTheme.mystic,
             flexibleSpace: Container(
               color: AppTheme.mystic,

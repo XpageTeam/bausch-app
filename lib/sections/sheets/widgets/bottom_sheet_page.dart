@@ -1,6 +1,5 @@
 import 'package:bausch/sections/sheets/other_draggable_scrollable_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 class BottomSheetPage extends StatefulWidget {
   final OtherDraggableScrollableController? draggableScrollableController;
@@ -28,15 +27,15 @@ class _BottomSheetPageState extends State<BottomSheetPage> {
     super.initState();
     widget.draggableScrollableController?.addListener(_dragListener);
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      widget.draggableScrollableController?.animateTo(
-        0.95,
-        duration: const Duration(
-          milliseconds: 200,
-        ),
-        curve: Curves.easeInOutCubic,
-      );
-    });
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   widget.draggableScrollableController?.animateTo(
+    //     0.95,
+    //     duration: const Duration(
+    //       milliseconds: 200,
+    //     ),
+    //     curve: Curves.easeInOutCubic,
+    //   );
+    // });
   }
 
   @override
@@ -62,7 +61,7 @@ class _BottomSheetPageState extends State<BottomSheetPage> {
         ),
         OtherDraggableScrollableSheet(
           controller: widget.draggableScrollableController,
-          initialChildSize: 0.05,
+          initialChildSize: isClosing ? 0.1 : 0.95,
           maxChildSize: 0.95,
           minChildSize: 0,
           snap: true,
