@@ -75,6 +75,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                           await showModalBottomSheet<num>(
                             isScrollControlled: true,
                             context: context,
+                            backgroundColor: Colors.transparent,
                             barrierColor: Colors.black.withOpacity(0.8),
                             builder: (context) {
                               if (sameTime) {

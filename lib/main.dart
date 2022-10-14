@@ -36,6 +36,8 @@ Future<void> main() async {
     ),
   );
 
+
+
   final analytics = FirebaseAnalytics.instance;
 
   AppsflyerSingleton();
@@ -73,8 +75,6 @@ class MyApp extends CoreMwwmWidget<AuthWM> {
 
 class _MyAppState extends WidgetState<MyApp, AuthWM>
     with WidgetsBindingObserver {
-
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
@@ -82,8 +82,6 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
 
   @override
   void initState() {
-    
-
     super.initState();
   }
 
