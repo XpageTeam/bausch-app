@@ -6,6 +6,8 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
@@ -127,7 +129,7 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
                 return StreamedStateBuilder<bool>(
                   streamedState: isLoadingState,
                   builder: (_, isLoading) {
-                    debugPrint('isFile: $isFile isLoading: $isLoading');
+                    // debugPrint('isFile: $isFile isLoading: $isLoading');
                     return Stack(
                       alignment: Alignment.topCenter,
                       children: [
@@ -148,6 +150,17 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
                                       onPageStarted: onLoadStarted,
                                       onPageFinished: onLoadFinished,
                                       onWebResourceError: onError,
+
+                                      javascriptChannels: {
+                                        JavascriptChannel(
+                                          name: 'testFunc',
+                                          onMessageReceived: (msg) {
+                                            debugPrint(
+                                              'msg: ${msg.message}',
+                                            );
+                                          },
+                                        ),
+                                      },
                                       // javascriptChannels: <JavascriptChannel>{
                                       //   _onTap(context),
                                       // },
@@ -195,7 +208,7 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
   }
 
   void onLoadStarted([String? url]) {
-    debugPrint('onPageStarted: $url');
+    // debugPrint('onPageStarted: $url');
     isErrorState.accept(false);
     isLoadingState.accept(true);
   }
@@ -203,7 +216,24 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
   void onLoadFinished([String? url]) {
     isFirstPage = false;
     isLoadingState.accept(false);
-    debugPrint('onPageFinished');
+    // debugPrint('onPageFinished');
+
+    // webViewController?.runJavascript('''
+    // var h2s =document.getElementsByTagName('h2');
+    // var c = 0;
+    // h2s[0].onclick = function() {
+    //   if(c >= 3){
+    //     testFunc.postMessage("back");
+    //   }else{
+    //     testFunc.postMessage("go");
+    //   }
+    //   c++;
+    //   return false;
+    // }
+    // ''');
+    // webViewController?.runJavascript('testFunc.postMessage("HELLO");');
+    // webViewController
+    //     ?.runJavascript('var h2s =document.getElementsByTagName("h2")');
     // webViewController?.runJavascript('alert(\'asdasd\')');
   }
 

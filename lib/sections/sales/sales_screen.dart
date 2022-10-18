@@ -46,75 +46,105 @@ class _SalesScreenState extends State<SalesScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-        child: LayoutBuilder(
-          builder: (_, c) {
-            final smallContainersRowsLength =
-                ((activeList.length - 1) / 2).ceil();
-            return CustomScrollView(
-              scrollBehavior: const AntiGlowBehavior(),
-              physics: const OnlyBottomBouncingScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 30,
-                      bottom: 20,
-                    ),
-                    child: _FilterSection(
-                      activeIndex: activeFilterId,
-                      onTap: (newFilterId) => setState(() {
-                        activeFilterId = newFilterId;
-                        activeList = newFilterId == 0
-                            ? widget.salesList
-                            : widget.salesList
-                                .where(
-                                  (element) => element.type.contains(
-                                    newFilterId == 1 ? 'offline' : 'online',
-                                  ),
-                                )
-                                .toList();
-                      }),
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      WideSaleContainer(
-                        item: activeList.first,
-                        width: c.maxWidth,
-                      ),
-                      ...List.generate(
-                        smallContainersRowsLength,
-                        (i) {
-                          final leftIndex = 1 + i * 2;
-                          final rightIndex = 1 + i * 2 + 1;
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: _SmallContainerRow(
-                              items: [
-                                activeList[leftIndex],
-                                if (rightIndex < activeList.length)
-                                  activeList[rightIndex],
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 40,
-                  ),
-                ),
-              ],
-            );
+        child: GestureDetector(
+          onHorizontalDragEnd: (details) {
+            // final velocity = details.velocity.pixelsPerSecond.dx;
+
+            // if (velocity < 0 && activeFilterId < 2) {
+            //   setCurrentSection(++activeFilterId);
+            // }
+
+            // if (velocity > 0 && activeFilterId > 0) {
+            //   setCurrentSection(--activeFilterId);
+            // }
           },
+          child: LayoutBuilder(
+            builder: (_, c) {
+              final smallContainersRowsLength =
+                  ((activeList.length - 1) / 2).ceil();
+              return CustomScrollView(
+                scrollBehavior: const AntiGlowBehavior(),
+                physics: const OnlyBottomBouncingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 30,
+                        bottom: 20,
+                      ),
+                      child: _FilterSection(
+                        activeIndex: activeFilterId,
+                        onTap: setCurrentSection,
+
+                        // setState(() {
+                        //   activeFilterId = newFilterId;
+                        //   activeList = newFilterId == 0
+                        //       ? widget.salesList
+                        //       : widget.salesList
+                        //           .where(
+                        //             (element) => element.type.contains(
+                        //               newFilterId == 1 ? 'offline' : 'online',
+                        //             ),
+                        //           )
+                        //           .toList();
+                        // }),
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        WideSaleContainer(
+                          item: activeList.first,
+                          width: c.maxWidth,
+                        ),
+                        ...List.generate(
+                          smallContainersRowsLength,
+                          (i) {
+                            final leftIndex = 1 + i * 2;
+                            final rightIndex = 1 + i * 2 + 1;
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: _SmallContainerRow(
+                                items: [
+                                  activeList[leftIndex],
+                                  if (rightIndex < activeList.length)
+                                    activeList[rightIndex],
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 40,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
+  }
+
+  void setCurrentSection(int section) {
+    setState(() {
+      activeFilterId = section;
+      activeList = activeFilterId == 0
+          ? widget.salesList
+          : widget.salesList
+              .where(
+                (element) => element.type.contains(
+                  activeFilterId == 1 ? 'offline' : 'online',
+                ),
+              )
+              .toList();
+    });
   }
 }
 

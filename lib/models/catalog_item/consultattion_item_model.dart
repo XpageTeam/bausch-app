@@ -29,6 +29,7 @@ class ConsultationItemModel extends CatalogItemModel {
           picture: picture,
           price: price,
           type: type,
+          disclaimer: '',
         );
 
   factory ConsultationItemModel.fromMap(Map<String, dynamic> map) {

@@ -221,6 +221,8 @@ class SelectOpticScreenWM extends WidgetModel {
   }
 
   void selectOptic(OpticShop selectedShop) {
+    debugPrint('selectedShop: ${selectedShop.runtimeType}');
+
     if (isCertificateMap) {
       for (final city in allOpticCities) {
         for (final optic in city.optics) {

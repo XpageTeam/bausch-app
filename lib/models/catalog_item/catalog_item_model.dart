@@ -34,6 +34,8 @@ class CatalogItemModel {
   //* Для "вам может быть интересно"
   final bool? isSection;
 
+  final String disclaimer;
+
   String get priceToString => HelpFunctions.partitionNumber(price);
   //  HelpFunctions.partitionNumber(price);
 
@@ -44,6 +46,7 @@ class CatalogItemModel {
     required this.detailText,
     required this.picture,
     required this.price,
+    required this.disclaimer,
     this.type,
     this.isSection,
   });
@@ -61,6 +64,7 @@ class CatalogItemModel {
         detailText: map['detail_text'] as String,
         picture: map['picture'] as String,
         price: map['price'] as int,
+        disclaimer: map['disclaimer'] as String? ?? '',
       );
     } catch (e) {
       throw ResponseParseException('CatalogItemModel: $e');
@@ -79,6 +83,7 @@ class CatalogItemModel {
       price: json['price'] as int,
       type: json['type'] as String,
       isSection: json['is_section'] as bool,
+      disclaimer: json['disclaimer'] as String? ?? '',
     );
   }
   factory CatalogItemModel.itemByTypeFromJson(

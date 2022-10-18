@@ -30,6 +30,7 @@ class WebinarItemModel extends CatalogItemModel {
           picture: picture,
           price: price,
           type: type,
+           disclaimer: '',
         );
 
   factory WebinarItemModel.fromMap(Map<String, dynamic> map) {

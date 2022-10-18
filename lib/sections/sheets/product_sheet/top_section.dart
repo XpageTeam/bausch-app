@@ -196,6 +196,14 @@ class TopSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
+              if (model.disclaimer.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    model.disclaimer,
+                    style: AppStyles.p1Grey,
+                  ),
+                ),
               const SizedBox(
                 height: 30,
               ),

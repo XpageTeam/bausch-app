@@ -28,6 +28,7 @@ class PromoItemModel extends CatalogItemModel {
           picture: picture,
           price: price,
           type: type,
+          disclaimer: '',
         );
 
   factory PromoItemModel.fromMap(Map<String, dynamic> map) {

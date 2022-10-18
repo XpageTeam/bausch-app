@@ -17,6 +17,7 @@ import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/profile/content/discount_info_sheet_body.dart';
 import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
@@ -124,6 +125,11 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                   controller: controller,
                   question: supportArgs.question,
                   topic: supportArgs.topic,
+                );
+              } else if (sheetModel.type == 'discount_info') {
+                page = DiscountInfoSheetBody(
+                  controller: controller,
+                  args: args as DiscountInfoSheetBodyArgs,
                 );
               } else {
                 page = SheetScreen(

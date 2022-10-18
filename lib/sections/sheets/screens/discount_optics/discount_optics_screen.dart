@@ -242,14 +242,15 @@ class _DiscountOpticsScreenState
                       onPressed: () => Keys.mainNav.currentState!.push<void>(
                         PageRouteBuilder<void>(
                           reverseTransitionDuration: Duration.zero,
-                          pageBuilder: (_, __, ___) => StreamedStateBuilder<String?>(
+                          pageBuilder: (_, __, ___) =>
+                              StreamedStateBuilder<String?>(
                             streamedState: wm.currentOfflineCity,
                             builder: (_, currentOfflineCity) {
                               return SelectOpticScreen(
                                 cities: wm.cities,
                                 isCertificateMap: false,
                                 initialCity: currentOfflineCity,
-                                onOpticSelect: (optic, _, __) {
+                                onOpticSelect: (optic, _, opticShop) {
                                   wm.setCurrentOptic(optic);
                                 },
                               );

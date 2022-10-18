@@ -1,10 +1,15 @@
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/certificate_model.dart';
+import 'package:intl/intl.dart';
 
 class OfflineOrderModel extends BaseOrderModel {
   final Coupon coupon;
   final OrderProductModel product;
+
+  DateTime? get promocodeDateTime => promocodeDate != null
+      ? DateFormat('dd.MM.yyyy').parse(promocodeDate!)
+      : null;
 
   const OfflineOrderModel({
     required int id,

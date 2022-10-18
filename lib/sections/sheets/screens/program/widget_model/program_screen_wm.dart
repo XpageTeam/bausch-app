@@ -88,6 +88,16 @@ class ProgramScreenWM extends WidgetModel {
     CustomException? ex;
 
     ProgramSaverResponse? response;
+
+    /// Это поле попросили дополнительно отсылать. Зачем? хз
+    final promoOptic = currentOpticStreamed.value!.shops.isNotEmpty
+        ? (currentOpticStreamed.value?.shops.first as OpticShopForCertificate)
+                .features
+                .any((element) => element.xmlId == 'discount')
+            ? 1
+            : 0
+        : 0;
+
     try {
       response = await ProgramSertificatSaver.save(
         name: firstNameController.text,
@@ -101,6 +111,7 @@ class ProgramScreenWM extends WidgetModel {
             (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
                 ? currentOpticStreamed.value!.shops.first.phones.first
                 : '',
+        promoOptic: promoOptic,
       );
 
       unawaited(
@@ -237,6 +248,7 @@ class ProgramSertificatSaver {
     required String opticManager,
     required String opticPhone,
     required String opticEmail,
+    required int promoOptic,
     String? whatDoYouUse,
   }) async {
     final rh = RequestHandler();
@@ -252,6 +264,7 @@ class ProgramSertificatSaver {
           'opticPhone': opticPhone,
           'opticEmail': opticEmail,
           'opticManager': opticManager,
+          'promoOptic': promoOptic,
         }),
       ))
           .data!,
