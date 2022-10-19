@@ -197,11 +197,16 @@ class TopSection extends StatelessWidget {
                 ),
               ),
               if (model.disclaimer.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    model.disclaimer,
-                    style: AppStyles.p1Grey,
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      model.disclaimer,
+                      textAlign: TextAlign.center,
+                      style: AppStyles.p1Grey.copyWith(
+                        fontSize: 13,
+                      ),
+                    ),
                   ),
                 ),
               const SizedBox(
