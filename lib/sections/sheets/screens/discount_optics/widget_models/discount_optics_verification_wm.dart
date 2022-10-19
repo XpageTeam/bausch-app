@@ -180,7 +180,7 @@ class OrderDiscountSaver {
           // 'cylinder':,
           // 'axis':,
 
-          'shopId': optic.shops.first.id,
+          'shopId': optic.id,
           'productName': model.name,
           if (optic.link != null) 'link': optic.link,
           'shopName': optic.title,
