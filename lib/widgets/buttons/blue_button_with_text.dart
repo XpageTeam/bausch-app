@@ -6,15 +6,19 @@ class BlueButtonWithText extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final Widget? icon;
+  final Color? color;
+
   const BlueButtonWithText({
     required this.text,
     this.onPressed,
     this.icon,
+    this.color,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
     return SizedBox(
       height: 60,
       //width: MediaQuery.of(context).size.width - StaticData.sidePadding * 2,
