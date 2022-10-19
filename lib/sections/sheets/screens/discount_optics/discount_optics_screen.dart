@@ -251,7 +251,11 @@ class _DiscountOpticsScreenState
                                 isCertificateMap: false,
                                 initialCity: currentOfflineCity,
                                 onOpticSelect: (optic, _, opticShop) {
-                                  wm.setCurrentOptic(optic);
+                                  wm.setCurrentOptic(
+                                    optic.copyWith(
+                                      shops: [opticShop!],
+                                    ),
+                                  );
                                 },
                               );
                             },

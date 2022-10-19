@@ -13,6 +13,7 @@ import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/select_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -123,31 +124,67 @@ class _CodeSectionState extends State<CodeSection> {
                     onPressed: () {
                       showCupertinoModalPopup<void>(
                         context: context,
-                        builder: (context) => CupertinoActionSheet(
-                          title: const Text(
-                            'Продукт',
-                            style: AppStyles.p1,
-                          ),
-                          actions: List.generate(
-                            state.models.length,
-                            (i) {
-                              return CupertinoActionSheetAction(
-                                onPressed: () {
-                                  setState(() {
-                                    _value = state.models[i];
-                                  });
-                                  addPointsCodeBloc.add(
-                                    AddPointsCodeUpdateProduct(
-                                      product: state.models[i].code.toString(),
-                                      productName: state.models[i].title,
-                                    ),
-                                  );
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  state.models[i].title,
-                                  style: AppStyles.h2,
+                        builder: (context) => BlocProvider.value(
+                          value: addPointsCodeBloc,
+                          child: BlocBuilder<AddPointsCodeBloc,
+                              AddPointsCodeState>(
+                            builder: (context, state) {
+                              return CupertinoActionSheet(
+                                title: const Text(
+                                  'Продукт',
+                                  style: AppStyles.p1,
                                 ),
+                                actions: state is AddPointsCodeLoading
+                                    ? [
+                                        const Center(
+                                          child: Padding(
+                                            padding: EdgeInsets.all(16.0),
+                                            child: AnimatedLoader(),
+                                          ),
+                                        ),
+                                      ]
+                                    : state is AddPointsCodeFailed
+                                        ? [
+                                            Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
+                                                child: BlueButtonWithText(
+                                                  text: 'Повторить',
+                                                  onPressed: () =>
+                                                      addPointsCodeBloc.add(
+                                                    AddPointsCodeGet(),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ]
+                                        : List.generate(
+                                            state.models.length,
+                                            (i) {
+                                              return CupertinoActionSheetAction(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _value = state.models[i];
+                                                  });
+                                                  addPointsCodeBloc.add(
+                                                    AddPointsCodeUpdateProduct(
+                                                      product: state
+                                                          .models[i].code
+                                                          .toString(),
+                                                      productName:
+                                                          state.models[i].title,
+                                                    ),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  state.models[i].title,
+                                                  style: AppStyles.h2,
+                                                ),
+                                              );
+                                            },
+                                          ),
                               );
                             },
                           ),
@@ -155,6 +192,80 @@ class _CodeSectionState extends State<CodeSection> {
                       );
                     },
                   ),
+                  // Stack(
+                  //   children: [
+                  //     SelectButton(
+                  //       value: _value != null ? _value!.title : 'Продукт',
+                  //       color: AppTheme.mystic,
+                  //       onPressed: () {
+                  //         showCupertinoModalPopup<void>(
+                  //           context: context,
+                  //           builder: (context) => CupertinoActionSheet(
+                  //             title: const Text(
+                  //               'Продукт',
+                  //               style: AppStyles.p1,
+                  //             ),
+                  //             actions: List.generate(
+                  //               state.models.length,
+                  //               (i) {
+                  //                 return CupertinoActionSheetAction(
+                  //                   onPressed: () {
+                  //                     setState(() {
+                  //                       _value = state.models[i];
+                  //                     });
+                  //                     addPointsCodeBloc.add(
+                  //                       AddPointsCodeUpdateProduct(
+                  //                         product:
+                  //                             state.models[i].code.toString(),
+                  //                         productName: state.models[i].title,
+                  //                       ),
+                  //                     );
+                  //                     Navigator.of(context).pop();
+                  //                   },
+                  //                   child: Text(
+                  //                     state.models[i].title,
+                  //                     style: AppStyles.h2,
+                  //                   ),
+                  //                 );
+                  //               },
+                  //             ),
+                  //           ),
+                  //         );
+                  //       },
+                  //     ),
+                  //     if (state is! AddPointsCodeGetSuccess)
+                  //       Positioned.fill(
+                  //         child: Container(
+                  //           decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(5),
+                  //             color: Colors.grey.withOpacity(0.2),
+                  //           ),
+                  //           child: Center(
+                  //             child: state is AddPointsCodeLoading
+                  //                 ? const AnimatedLoader()
+                  //                 : state is AddPointsCodeFailed
+                  //                     ? GestureDetector(
+                  //                         onTap: () => addPointsCodeBloc
+                  //                             .add(AddPointsCodeGet()),
+                  //                         child: Container(
+                  //                           padding: const EdgeInsets.all(12),
+                  //                           decoration: BoxDecoration(
+                  //                             borderRadius:
+                  //                                 BorderRadius.circular(5),
+                  //                             color: AppTheme.turquoiseBlue,
+                  //                           ),
+                  //                           child: const Text(
+                  //                             'Повторить',
+                  //                             style: AppStyles.h2,
+                  //                           ),
+                  //                         ),
+                  //                       )
+                  //                     : const SizedBox(),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 4,
                   ),

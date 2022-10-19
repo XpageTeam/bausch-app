@@ -11,7 +11,6 @@ import 'package:bausch/sections/my_lenses/widgets/lenses_history.dart';
 import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
@@ -219,6 +218,7 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
   }
 }
 
+// ignore:avoid-returning-widgets
 Widget? onLoadStateChanged(ExtendedImageState state) {
   final loadState = state.extendedImageLoadState;
   if (loadState == LoadState.failed || loadState == LoadState.loading) {

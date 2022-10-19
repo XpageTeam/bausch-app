@@ -5,7 +5,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class DifferentLensesSheet extends StatefulWidget {
   final void Function({DateTime? leftDate, DateTime? rightDate}) onConfirmed;

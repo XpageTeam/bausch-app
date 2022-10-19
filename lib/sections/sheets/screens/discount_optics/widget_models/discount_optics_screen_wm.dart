@@ -647,6 +647,7 @@ class OpticCititesRepository {
             hasThisDiscount = true;
             opticShops.add(
               OpticShop(
+                id: disountOpticShop.id,
                 address: disountOpticShop.address,
                 coords: disountOpticShop.coord,
                 phones: disountOpticShop.phone,
@@ -725,6 +726,7 @@ class OpticCititesRepository {
     required String cityName,
   }) {
     return OpticShop(
+      id: shop.id,
       title: shop.name,
       phones: shop.phones,
       address: shop.address,
@@ -789,6 +791,7 @@ class Optic {
 }
 
 class OpticShop extends Equatable {
+  final int id;
   final String title;
   final List<String> phones;
   final String address;
@@ -803,6 +806,7 @@ class OpticShop extends Equatable {
   List<Object?> get props => [title, phones, address, city];
 
   const OpticShop({
+    required this.id,
     required this.title,
     required this.phones,
     required this.address,
@@ -818,6 +822,7 @@ class OpticShopForCertificate extends OpticShop {
   final List<OpticShopFeature> features;
   final String url;
   const OpticShopForCertificate({
+    required super.id,
     required super.title,
     required super.phones,
     required super.address,
@@ -829,6 +834,7 @@ class OpticShopForCertificate extends OpticShop {
 
   factory OpticShopForCertificate.fromJson(Map<String, dynamic> map) {
     return OpticShopForCertificate(
+      id: map['id'] as int? ?? 0,
       title: map['name'] as String,
       phones: (map['phones'] as List<dynamic>)
           .map((dynamic e) => e as String)

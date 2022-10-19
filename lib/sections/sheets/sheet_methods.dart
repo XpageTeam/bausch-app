@@ -98,7 +98,6 @@ Future<void> showSheet<T>(
               NotificationListener<DraggableScrollableNotification>(
             onNotification: (notification) {
               final offset = notification.extent;
-              debugPrint('offset: $offset');
               if (offset < 0.05 && !isAlreadyPop) {
                 isAlreadyPop = true;
                 Navigator.of(context).pop();

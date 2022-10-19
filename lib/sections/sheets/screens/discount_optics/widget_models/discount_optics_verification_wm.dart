@@ -179,6 +179,8 @@ class OrderDiscountSaver {
           // 'color':,
           // 'cylinder':,
           // 'axis':,
+
+          'shopId': optic.shops.first.id,
           'productName': model.name,
           if (optic.link != null) 'link': optic.link,
           'shopName': optic.title,

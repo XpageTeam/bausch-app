@@ -6,8 +6,6 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/buttons/normal_icon_button.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';

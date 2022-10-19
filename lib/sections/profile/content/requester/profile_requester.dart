@@ -12,7 +12,6 @@ import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 class ProfileRequester {
   final _rh = RequestHandler();

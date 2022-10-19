@@ -146,9 +146,9 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
     await showFlexibleBottomSheet<void>(
       context: context,
       minHeight: 0,
-      initHeight: 0.3,
-      maxHeight: 0.5,
-      anchors: [0, 0.3, 0.5],
+      initHeight: 0.4,
+      maxHeight: 0.6,
+      anchors: [0, 0.4, 0.6],
       bottomSheetColor: Colors.transparent,
       barrierColor: Colors.transparent,
       builder: (ctx, controller, _) => BottomSheetContentOther(
