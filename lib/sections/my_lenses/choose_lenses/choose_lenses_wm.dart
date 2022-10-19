@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
@@ -39,6 +40,8 @@ class ChooseLensesWM extends WidgetModel {
   final isLeftEqual = StreamedState(false);
 
   final currentProduct = StreamedState<LensProductModel?>(null);
+  final allDataEntityState = EntityStreamedState<bool>();
+
   final ChooseLensesRequester chooseLensesRequester = ChooseLensesRequester();
   final LensesPairModel? editLensPairModel;
   final MyLensesWM? myLensesWM;
@@ -82,6 +85,7 @@ class ChooseLensesWM extends WidgetModel {
   }
 
   Future loadAllData() async {
+    unawaited(allDataEntityState.loading());
     try {
       lensProductList = await chooseLensesRequester.loadLensProducts();
       if (editLensPairModel != null) {
@@ -91,9 +95,17 @@ class ChooseLensesWM extends WidgetModel {
         await rightPair.accept(editLensPairModel!.right);
         await areFieldsValid.accept(true);
       }
+      unawaited(allDataEntityState.content(true));
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка загрузки данных',
+      );
+      unawaited(
+        allDataEntityState.error(
+          const CustomException(
+            title: 'Произошла ошибка загрузки данных',
+          ),
+        ),
       );
       lensProductList = LensProductListModel(products: []);
     }

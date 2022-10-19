@@ -134,7 +134,7 @@ class _LensesHistoryState extends State<LensesHistory> {
                           horizontal: StaticData.sidePadding,
                         ),
                         child: Text(
-                          'Покажем когда вы надели и сняли линзы',
+                          'Покажем, когда вы надели и сняли линзы',
                           style: AppStyles.p1Grey,
                           textAlign: TextAlign.center,
                         ),

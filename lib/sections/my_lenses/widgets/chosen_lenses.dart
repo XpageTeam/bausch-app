@@ -62,6 +62,7 @@ class ChosenLenses extends StatelessWidget {
                         currentProduct.image,
                         height: 100,
                         width: 100,
+                        errorBuilder: (_, __, ___) => const SizedBox(),
                       ),
                     ],
                   )

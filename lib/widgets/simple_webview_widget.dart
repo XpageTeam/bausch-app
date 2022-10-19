@@ -177,18 +177,16 @@ class SimpleWebViewWidgetState extends State<SimpleWebViewWidget> {
                             ),
                           ),
                         if (isError)
-                          Center(
-                            child: SimpleErrorWidget(
-                              title: 'Не удалось загрузить страницу',
-                              buttonText: 'Обновить',
-                              buttonCallback: () {
-                                if (isFile) {
-                                  _loadPdfFile();
-                                } else {
-                                  webViewController?.reload();
-                                }
-                              },
-                            ),
+                          ErrorPage(
+                            title: 'Не удалось загрузить страницу',
+                            buttonText: 'Обновить',
+                            buttonCallback: () {
+                              if (isFile) {
+                                _loadPdfFile();
+                              } else {
+                                webViewController?.reload();
+                              }
+                            },
                           ),
                       ],
                     );

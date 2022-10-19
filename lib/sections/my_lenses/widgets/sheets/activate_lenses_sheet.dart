@@ -16,6 +16,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -106,10 +107,11 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                                 ],
                               ),
                             ),
-                            Image.network(
+                            ExtendedImage.network(
                               widget.lensProductModel.image,
                               height: 100,
                               width: 100,
+                              loadStateChanged: onLoadStateChanged,
                             ),
                           ],
                         ),
@@ -215,4 +217,12 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
       isUpdating = false;
     });
   }
+}
+
+Widget? onLoadStateChanged(ExtendedImageState state) {
+  final loadState = state.extendedImageLoadState;
+  if (loadState == LoadState.failed || loadState == LoadState.loading) {
+    return const SizedBox();
+  }
+  return null;
 }

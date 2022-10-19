@@ -127,6 +127,7 @@ class OldLensesPage extends StatelessWidget {
                                 .productHistoryList.value[index].product!.image,
                             height: 100,
                             width: 100,
+                            errorBuilder: (_, __, ___) => const SizedBox(),
                           ),
                         ],
                       ),

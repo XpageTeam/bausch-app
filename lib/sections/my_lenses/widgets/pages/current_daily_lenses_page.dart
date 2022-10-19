@@ -7,6 +7,7 @@ import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dar
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_description.dart';
 import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
+import 'package:bausch/sections/my_lenses/widgets/sheets/activate_lenses_sheet.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/daily_notifications_sheet.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/sections/sheets/widgets/warning_widget.dart';
@@ -16,6 +17,7 @@ import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -63,10 +65,11 @@ class CurrentDailyLensesPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Image.network(
+                  ExtendedImage.network(
                     myLensesWM.currentProduct.value!.image,
                     height: 100,
                     width: 100,
+                    loadStateChanged: onLoadStateChanged,
                   ),
                 ],
               ),

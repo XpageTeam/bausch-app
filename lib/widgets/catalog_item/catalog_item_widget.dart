@@ -9,6 +9,7 @@ import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
+import 'package:bausch/sections/profile/content/models/certificate_model.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
@@ -18,6 +19,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
+import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:extended_image/extended_image.dart';
@@ -32,6 +34,7 @@ class CatalogItemWidget extends StatelessWidget {
   final String? address;
   final String? deliveryInfo;
   final String? promocodeDate;
+  final String? link;
 
   const CatalogItemWidget({
     required this.model,
@@ -39,6 +42,7 @@ class CatalogItemWidget extends StatelessWidget {
     this.address,
     this.deliveryInfo,
     this.promocodeDate,
+    this.link,
     Key? key,
   }) : super(key: key);
 
@@ -297,6 +301,7 @@ class CatalogItemWidget extends StatelessWidget {
                   style: AppStyles.p1Grey,
                 ),
               ),
+
             if (model is! ProductItemModel)
               Container(
                 margin: const EdgeInsets.only(top: 30),
@@ -318,6 +323,40 @@ class CatalogItemWidget extends StatelessWidget {
                       ),
                     );
                   },
+                ),
+              ),
+            if (link != null && link!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () => openSimpleWebView(
+                      context,
+                      url: link!,
+                    ),
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/icons/map-marker.png',
+                            height: 16,
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            'Контакты для записи в оптику',
+                            style: AppStyles.p1.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
           ],

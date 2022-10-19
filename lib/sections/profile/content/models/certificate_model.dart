@@ -5,6 +5,7 @@ import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 
 class CertificateOrderModel extends BaseOrderModel {
   final Coupon coupon;
+  final String? link;
 
   CertificateOrderModel({
     required int id,
@@ -14,6 +15,7 @@ class CertificateOrderModel extends BaseOrderModel {
     required String status,
     required String category,
     required this.coupon,
+    required this.link,
     String? promocodeDate,
   }) : super(
           id: id,
@@ -36,6 +38,7 @@ class CertificateOrderModel extends BaseOrderModel {
         title: map['title'] as String,
         coupon: Coupon.fromMap(map['coupon'] as Map<String, dynamic>),
         promocodeDate: map['promocodeData'] as String?,
+        link: map['link'] as String?,
       );
     } catch (e) {
       throw ResponseParseException(e.toString());

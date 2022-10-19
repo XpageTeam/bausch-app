@@ -88,6 +88,7 @@ class OrdersSection extends StatelessWidget {
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
                           promocodeDate: order.promocodeDate,
+                          link: order.link,
                           model: PartnersItemModel(
                             id: order.id,
                             name: order.title,
@@ -154,25 +155,25 @@ class OrdersSection extends StatelessWidget {
                       order as OfflineOrderModel;
 
                       return GestureDetector(
-                        onTap: () {
-                          showSheet<DiscountInfoSheetBodyArgs>(
-                            context,
-                            SimpleSheetModel(
-                              name: 'discount_info',
-                              type: 'discount_info',
-                            ),
-                            DiscountInfoSheetBodyArgs(
-                              title: order.title,
-                              code: order.coupon.code,
-                              date: DateFormat('dd MMM yyyy', 'ru_RUS').format(
-                                order.promocodeDateTime!,
-                              ),
-                              type: order.category,
-                              // link: order.
-                            ),
-                          );
-                          // debugPrint('statement');
-                        },
+                        // onTap: () {
+                        //   showSheet<DiscountInfoSheetBodyArgs>(
+                        //     context,
+                        //     SimpleSheetModel(
+                        //       name: 'discount_info',
+                        //       type: 'discount_info',
+                        //     ),
+                        //     DiscountInfoSheetBodyArgs(
+                        //       title: order.title,
+                        //       code: order.coupon.code,
+                        //       date: DateFormat('dd MMM yyyy', 'ru_RUS').format(
+                        //         order.promocodeDateTime!,
+                        //       ),
+                        //       type: order.category,
+                        //       // link: order.
+                        //     ),
+                        //   );
+                        //   // debugPrint('statement');
+                        // },
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 4),
                           child: CatalogItemWidget(
