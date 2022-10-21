@@ -336,6 +336,7 @@ class MapBodyWM extends WidgetModel {
               icon: PlacemarkIcon.single(
                 PlacemarkIconStyle(
                   scale: 0.75,
+                  anchor: const Offset(0.5, 56 / 104),
                   rotationType: RotationType.rotate,
                   image: BitmapDescriptor.fromAssetImage(
                     'assets/icons/user-marker.png',
