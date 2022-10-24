@@ -1,6 +1,8 @@
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
+import 'package:bausch/models/sheets/simple_sheet_model.dart';
+import 'package:bausch/sections/profile/content/discount_info_sheet_body.dart';
 import 'package:bausch/sections/profile/content/models/base_order_model.dart';
 import 'package:bausch/sections/profile/content/models/certificate_model.dart';
 import 'package:bausch/sections/profile/content/models/consultation_model.dart';
@@ -8,10 +10,12 @@ import 'package:bausch/sections/profile/content/models/offline_order_model.dart'
 import 'package:bausch/sections/profile/content/models/partner_model.dart';
 import 'package:bausch/sections/profile/content/models/product_model.dart';
 import 'package:bausch/sections/profile/content/models/webinar_model.dart';
+import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class OrdersSection extends StatelessWidget {
   final List<BaseOrderModel?> ordersList;
@@ -151,25 +155,26 @@ class OrdersSection extends StatelessWidget {
                       order as OfflineOrderModel;
 
                       return GestureDetector(
-                        // onTap: () {
-                        //   showSheet<DiscountInfoSheetBodyArgs>(
-                        //     context,
-                        //     SimpleSheetModel(
-                        //       name: 'discount_info',
-                        //       type: 'discount_info',
-                        //     ),
-                        //     DiscountInfoSheetBodyArgs(
-                        //       title: order.title,
-                        //       code: order.coupon.code,
-                        //       date: DateFormat('dd MMM yyyy', 'ru_RUS').format(
-                        //         order.promocodeDateTime!,
-                        //       ),
-                        //       type: order.category,
-                        //       // link: order.
-                        //     ),
-                        //   );
-                        //   // debugPrint('statement');
-                        // },
+                        onTap: () {
+                          showSheet<DiscountInfoSheetBodyArgs>(
+                            context,
+                            SimpleSheetModel(
+                              name: 'discount_info',
+                              type: 'discount_info',
+                            ),
+                            DiscountInfoSheetBodyArgs(
+                              title: order.title,
+                              code: order.coupon.code,
+                              date: DateFormat('dd MMM yyyy', 'ru_RUS').format(
+                                order.promocodeDateTime!,
+                              ),
+                              type: order.category,
+                              productId: order.product.id,
+                              link: '', //order.link,
+                            ),
+                          );
+                          // debugPrint('statement');
+                        },
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 4),
                           child: CatalogItemWidget(

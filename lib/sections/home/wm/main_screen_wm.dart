@@ -131,15 +131,15 @@ class MainScreenWM extends WidgetModel {
   }
 
   Future<void> loadStories() async {
-    if (storiesList.value.isLoading) return;
+    // if (storiesList.value.isLoading) return;
 
-    // await storiesList.loading(storiesList.value.data);
+    storiesList.loading(storiesList.value.data);
 
     CustomException? error;
 
     try {
       final result = await _requester.loadStories();
-      await storiesList.content([]);
+      // await storiesList.content([]);
       await storiesList.content(result);
     } on DioError catch (e) {
       error = CustomException(
@@ -166,6 +166,7 @@ class MainScreenWM extends WidgetModel {
     }
 
     if (error != null) {
+      storiesList.content([]);
       showDefaultNotification(
         title: error.title,
         // subtitle: error.subtitle,
