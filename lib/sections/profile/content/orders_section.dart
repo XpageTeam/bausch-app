@@ -264,15 +264,15 @@ class OrdersSection extends StatelessWidget {
                                           children: [
                                             Image.asset(
                                               isOffline
-                                                  ? 'assets/icons/basket.png'
-                                                  : 'assets/icons/website.png',
+                                                  ? 'assets/icons/website.png'
+                                                  : 'assets/icons/basket.png',
                                               height: 16,
                                             ),
                                             const SizedBox(width: 4),
                                             Text(
                                               isOffline
-                                                  ? 'В интернет магазин'
-                                                  : 'На сайт оптики',
+                                                  ? 'На сайт оптики'
+                                                  : 'В интернет магазин',
                                               style: AppStyles.p1.copyWith(
                                                 decoration:
                                                     TextDecoration.underline,
