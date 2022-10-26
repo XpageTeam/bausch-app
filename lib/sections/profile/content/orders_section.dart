@@ -248,7 +248,8 @@ class OrdersSection extends StatelessWidget {
                           margin: const EdgeInsets.only(bottom: 4),
                           child: CatalogItemWidget(
                             promocodeDate: order.promocodeDate,
-                            bottomWidget: order.link != null
+                            bottomWidget: order.link != null &&
+                                    order.link!.isNotEmpty
                                 ? Align(
                                     alignment: Alignment.centerLeft,
                                     child: GestureDetector(
