@@ -25,6 +25,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
@@ -99,15 +100,18 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       Navigator.of(context).push<void>(
-                      //         PageRouteBuilder(
-                      //           pageBuilder: (_, __, ___) =>
-                      //               const SimpleWebViewWidget(
-                      //             url:
-                      //                 'https://realadmin.ru/coding/onclick-js.html',
-                      //           ),
-                      //         ),
+                      //       showDefaultNotification(
+                      //         title: 'title asda sd asdasdasd asd as d'.toUpperCase(),
                       //       );
+                      //       // Navigator.of(context).push<void>(
+                      //       //   PageRouteBuilder(
+                      //       //     pageBuilder: (_, __, ___) =>
+                      //       //         const SimpleWebViewWidget(
+                      //       //       url:
+                      //       //           'https://realadmin.ru/coding/onclick-js.html',
+                      //       //     ),
+                      //       //   ),
+                      //       // );
                       //     },
                       //     child: const Text('test firebase'),
                       //   ),
