@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 class OfflineOrderModel extends BaseOrderModel {
   final Coupon coupon;
   final OrderProductModel product;
+  final String? link;
 
   DateTime? get promocodeDateTime => promocodeDate != null
       ? DateFormat('dd.MM.yyyy').parse(promocodeDate!)
@@ -20,6 +21,7 @@ class OfflineOrderModel extends BaseOrderModel {
     required String category,
     required this.product,
     required this.coupon,
+    required this.link,
     String? promocodeDate,
   }) : super(
           id: id,
@@ -44,6 +46,7 @@ class OfflineOrderModel extends BaseOrderModel {
             OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
         coupon: Coupon.fromMap(map['coupon'] as Map<String, dynamic>),
         promocodeDate: map['promocodeData'] as String?,
+        link: map['link'] as String?,
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

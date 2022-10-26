@@ -1,3 +1,5 @@
+import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
@@ -14,6 +16,8 @@ import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item_widget.dart';
+import 'package:bausch/widgets/default_notification.dart';
+import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -33,8 +37,9 @@ class OrdersSection extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (_, index) {
                   final order = ordersList[index];
+                  final category = order?.category;
 
-                  switch (order?.category) {
+                  switch (category) {
                     case 'webinar':
                       order as WebinarOrderModel;
 
@@ -88,7 +93,57 @@ class OrdersSection extends StatelessWidget {
                         margin: const EdgeInsets.only(bottom: 4),
                         child: CatalogItemWidget(
                           promocodeDate: order.promocodeDate,
-                          link: order.link,
+                          bottomWidget: order.address != null ||
+                                  order.phone != null
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 12.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (order.address != null)
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/icons/map-marker.png',
+                                              height: 16,
+                                            ),
+                                            const SizedBox(
+                                              width: 6,
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                order.address!,
+                                                style: AppStyles.p1,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      if (order.phone != null)
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: order.address != null
+                                                ? 10.0
+                                                : 0,
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: () => Utils.launchUrl(
+                                              rawUrl: order.phone!,
+                                              isPhone: true,
+                                            ),
+                                            child: Text(
+                                              order.phone!,
+                                              style: AppStyles.p1.copyWith(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                )
+                              : null,
                           model: PartnersItemModel(
                             id: order.id,
                             name: order.title,
@@ -154,31 +209,81 @@ class OrdersSection extends StatelessWidget {
                     case 'discount':
                       order as OfflineOrderModel;
 
+                      final isOffline = category == 'offline';
                       return GestureDetector(
                         onTap: () {
-                          showSheet<DiscountInfoSheetBodyArgs>(
-                            context,
-                            SimpleSheetModel(
-                              name: 'discount_info',
-                              type: 'discount_info',
-                            ),
-                            DiscountInfoSheetBodyArgs(
-                              title: order.title,
-                              code: order.coupon.code,
-                              date: DateFormat('dd MMM yyyy', 'ru_RUS').format(
-                                order.promocodeDateTime!,
-                              ),
-                              type: order.category,
-                              productId: order.product.id,
-                              link: '', //order.link,
-                            ),
+                          ProductModelDetailLoader.load(
+                            order.product.id,
+                            before: () => showLoader(context),
+                            onSuccess: (product) {
+                              Keys.mainNav.currentState!.pop();
+                              showSheet<DiscountInfoSheetBodyArgs>(
+                                context,
+                                SimpleSheetModel(
+                                  name: 'discount_info',
+                                  type: 'discount_info',
+                                ),
+                                DiscountInfoSheetBodyArgs(
+                                  title: order.title,
+                                  code: order.coupon.code,
+                                  date: DateFormat('dd MMM yyyy', 'ru_RUS')
+                                      .format(
+                                    order.promocodeDateTime!,
+                                  ),
+                                  type: order.category,
+                                  productModelDetail: product,
+                                  link: order.link,
+                                ),
+                              );
+                            },
+                            onError: () {
+                              Keys.mainNav.currentState!.pop();
+                              showDefaultNotification(
+                                title: 'Не удалось загрузить продукт',
+                              );
+                            },
                           );
-                          // debugPrint('statement');
                         },
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 4),
                           child: CatalogItemWidget(
                             promocodeDate: order.promocodeDate,
+                            bottomWidget: order.link != null
+                                ? Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: GestureDetector(
+                                      onTap: () => openSimpleWebView(
+                                        context,
+                                        url: order.link!,
+                                      ),
+                                      child: Container(
+                                        margin: const EdgeInsets.only(top: 16),
+                                        color: Colors.transparent,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Image.asset(
+                                              isOffline
+                                                  ? 'assets/icons/basket.png'
+                                                  : 'assets/icons/website.png',
+                                              height: 16,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              isOffline
+                                                  ? 'В интернет магазин'
+                                                  : 'На сайт оптики',
+                                              style: AppStyles.p1.copyWith(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : null,
                             model: PartnersItemModel(
                               id: order.id,
                               name: order.title,

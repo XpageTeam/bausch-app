@@ -34,6 +34,7 @@ class CatalogItemWidget extends StatelessWidget {
   final String? deliveryInfo;
   final String? promocodeDate;
   final String? link;
+  final Widget? bottomWidget;
 
   const CatalogItemWidget({
     required this.model,
@@ -42,6 +43,7 @@ class CatalogItemWidget extends StatelessWidget {
     this.deliveryInfo,
     this.promocodeDate,
     this.link,
+    this.bottomWidget,
     Key? key,
   }) : super(key: key);
 
@@ -324,41 +326,42 @@ class CatalogItemWidget extends StatelessWidget {
                   },
                 ),
               ),
-            if (link != null && link!.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    onTap: () => openSimpleWebView(
-                      context,
-                      url: link!,
-                    ),
-                    // ignore: use_colored_box
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/icons/map-marker.png',
-                            height: 16,
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            'Контакты для записи в оптику',
-                            style: AppStyles.p1.copyWith(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            if (bottomWidget != null) bottomWidget!,
+            // if (link != null && link!.isNotEmpty)
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: 16.0),
+            //     child: Align(
+            //       alignment: Alignment.centerLeft,
+            //       child: GestureDetector(
+            //         onTap: () => openSimpleWebView(
+            //           context,
+            //           url: link!,
+            //         ),
+            //         // ignore: use_colored_box
+            //         child: Container(
+            //           color: Colors.transparent,
+            //           child: Row(
+            //             mainAxisSize: MainAxisSize.min,
+            //             children: [
+            //               Image.asset(
+            //                 'assets/icons/map-marker.png',
+            //                 height: 16,
+            //               ),
+            //               const SizedBox(
+            //                 width: 6,
+            //               ),
+            //               Text(
+            //                 'Контакты для записи в оптику',
+            //                 style: AppStyles.p1.copyWith(
+            //                   decoration: TextDecoration.underline,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),

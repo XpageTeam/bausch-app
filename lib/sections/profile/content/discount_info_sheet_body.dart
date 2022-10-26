@@ -29,14 +29,16 @@ class DiscountInfoSheetBodyArgs {
   final String? code;
   final String date;
   final String type;
-  final int productId;
+  final _ProductModelDetail productModelDetail;
+  // final int productId;
   final String? link;
 
   DiscountInfoSheetBodyArgs({
     required this.title,
     required this.date,
     required this.type,
-    required this.productId,
+    // required this.productId,
+    required this.productModelDetail,
     this.code,
     this.link,
   });
@@ -57,12 +59,12 @@ class DiscountInfoSheetBody extends StatefulWidget {
 }
 
 class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
-  final productModelEntity = EntityStreamedState<_ProductModel>()..loading();
+  final productModelEntity = EntityStreamedState<_ProductModelDetail>()
+    ..loading();
 
   @override
   void initState() {
     super.initState();
-    _loadProduct(widget.args.productId);
   }
 
   @override
@@ -105,39 +107,29 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40.0),
-                  child: EntityStateBuilder<_ProductModel>(
-                    streamedState: productModelEntity,
-                    // loadingChild: const AnimatedLoader(),
-                    errorBuilder: (context, e) => SimpleErrorWidget(
-                      title: 'Не удалось загрузить продукт',
-                      buttonText: 'Повторить',
-                      buttonCallback: () => _loadProduct(widget.args.productId),
+                  child: WhiteContainerWithRoundedCorners(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: StaticData.sidePadding,
+                      vertical: 20,
                     ),
-                    builder: (context, data) =>
-                        WhiteContainerWithRoundedCorners(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: StaticData.sidePadding,
-                        vertical: 20,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              data.title,
-                              style: AppStyles.h2,
-                            ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            widget.args.productModelDetail.title,
+                            style: AppStyles.h2,
                           ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          ExtendedImage.network(
-                            data.image,
-                            loadStateChanged: onLoadStateChanged,
-                            width: 100,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        ExtendedImage.network(
+                          widget.args.productModelDetail.image,
+                          loadStateChanged: onLoadStateChanged,
+                          width: 100,
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -153,34 +145,36 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                StaticData.sidePadding,
-                20,
-                StaticData.sidePadding,
-                8,
+            if (widget.args.link != null && widget.args.link!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  StaticData.sidePadding,
+                  20,
+                  StaticData.sidePadding,
+                  8,
+                ),
+                child: BlueButton(
+                  onPressed: () {
+                    openSimpleWebView(
+                      Keys.mainNav.currentContext!,
+                      url: widget.args.link!,
+                    );
+                  },
+                  children: [
+                    Text(
+                      widget.args.type == 'offline'
+                          ? 'Перейти на сайт оптики'
+                          : 'Перейти в интернет-магазин',
+                      style: AppStyles.h2,
+                    ),
+                    const SizedBox(width: 9),
+                    Image.asset(
+                      'assets/icons/link.png',
+                      height: 15,
+                    ),
+                  ],
+                ),
               ),
-              child: BlueButton(
-                onPressed: () {
-                  if (widget.args.link != null) {
-                    openSimpleWebView(context, url: widget.args.link!);
-                  }
-                },
-                children: [
-                  Text(
-                    widget.args.type == 'offline'
-                        ? 'Перейти на сайт оптики'
-                        : 'Перейти в интернет-магазин',
-                    style: AppStyles.h2,
-                  ),
-                  const SizedBox(width: 9),
-                  Image.asset(
-                    'assets/icons/link.png',
-                    height: 15,
-                  ),
-                ],
-              ),
-            ),
             const ColoredBox(
               color: AppTheme.mystic,
               child: BottomInfoBlock(
@@ -192,9 +186,16 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
       ),
     );
   }
+}
 
-  Future<void> _loadProduct(int productId) async {
-    unawaited(productModelEntity.loading());
+class ProductModelDetailLoader {
+  static Future<void> load(
+    int productId, {
+    required VoidCallback before,
+    required ValueChanged<_ProductModelDetail> onSuccess,
+    required VoidCallback onError,
+  }) async {
+    before();
     var hasError = false;
     try {
       final parsedData = BaseResponseRepository.fromMap(
@@ -204,10 +205,10 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
             .data!,
       );
 
-      final product = _ProductModel.fromJson(
+      final product = _ProductModelDetail.fromJson(
         parsedData.data as Map<String, dynamic>,
       );
-      unawaited(productModelEntity.content(product));
+      onSuccess(product);
     } on DioError catch (e) {
       hasError = true;
     } on ResponseParseException catch (e) {
@@ -216,24 +217,24 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
       hasError = true;
     }
     if (hasError) {
-      unawaited(productModelEntity.error());
+      onError();
     }
   }
 }
 
-class _ProductModel {
+class _ProductModelDetail {
   final int id;
   final String title;
   final String image;
 
-  _ProductModel({
+  _ProductModelDetail({
     required this.id,
     required this.title,
     required this.image,
   });
 
-  factory _ProductModel.fromJson(Map<String, dynamic> map) {
-    return _ProductModel(
+  factory _ProductModelDetail.fromJson(Map<String, dynamic> map) {
+    return _ProductModelDetail(
       id: map['id'] as int,
       title: map['name'] as String,
       image: map['picture'] as String,
