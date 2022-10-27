@@ -117,7 +117,7 @@ class _ScrollableProfileContentState
                                 : 0,
                             items: [
                               'Заказы ${wm.orderHistoryList.value.data!.length}',
-                              'Уведомления ${amount > 1 ? amount : ''}',
+                              'Уведомления ${amount > 0 ? amount : ''}',
                             ],
                             onChanged: (i) {
                               setState(() {
