@@ -151,7 +151,7 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
                   StaticData.sidePadding,
                   20,
                   StaticData.sidePadding,
-                  8,
+                  0,
                 ),
                 child: BlueButton(
                   onPressed: () {
@@ -178,7 +178,7 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
             const ColoredBox(
               color: AppTheme.mystic,
               child: BottomInfoBlock(
-                topPadding: 0,
+                topPadding: 8,
               ),
             ),
           ],
