@@ -145,8 +145,11 @@ void showLoader(BuildContext context) {
     barrierDismissible: false,
     barrierColor: Colors.black.withOpacity(0.8),
     builder: (context) {
-      return const Center(
-        child: AnimatedLoader(),
+      return WillPopScope(
+        onWillPop: () => Future(() => false),
+        child: const Center(
+          child: AnimatedLoader(),
+        ),
       );
     },
   );
