@@ -216,25 +216,38 @@ class OrdersSection extends StatelessWidget {
                             order.product.id,
                             before: () => showLoader(context),
                             onSuccess: (product) {
-                              Keys.mainNav.currentState!.pop();
-                              showSheet<DiscountInfoSheetBodyArgs>(
-                                context,
-                                SimpleSheetModel(
-                                  name: 'discount_info',
-                                  type: 'discount_info',
-                                ),
-                                DiscountInfoSheetBodyArgs(
-                                  title: order.title,
-                                  code: order.coupon.code,
-                                  date: DateFormat('dd MMM yyyy', 'ru_RUS')
-                                      .format(
-                                    order.promocodeDateTime!,
-                                  ),
-                                  type: order.category,
-                                  productModelDetail: product,
-                                  link: order.link,
-                                ),
+                              bool? hasLoadingRoute;
+                              Navigator.of(Keys.mainNav.currentContext!)
+                                  .popUntil(
+                                (route) {
+                                  debugPrint(
+                                    'route.settings.name: ${route.settings.name}',
+                                  );
+                                  hasLoadingRoute ??=
+                                      route.settings.name == 'LoadingRoute';
+                                  return route.settings.name != 'LoadingRoute';
+                                },
                               );
+                              if (hasLoadingRoute!) {
+                                showSheet<DiscountInfoSheetBodyArgs>(
+                                  context,
+                                  SimpleSheetModel(
+                                    name: 'discount_info',
+                                    type: 'discount_info',
+                                  ),
+                                  DiscountInfoSheetBodyArgs(
+                                    title: order.title,
+                                    code: order.coupon.code,
+                                    date: DateFormat('dd MMM yyyy', 'ru_RUS')
+                                        .format(
+                                      order.promocodeDateTime!,
+                                    ),
+                                    type: order.category,
+                                    productModelDetail: product,
+                                    link: order.link,
+                                  ),
+                                );
+                              }
                             },
                             onError: () {
                               Keys.mainNav.currentState!.pop();

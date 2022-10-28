@@ -102,7 +102,7 @@ class _DiscountInfoSheetBodyState extends State<DiscountInfoSheetBody> {
                     ),
                   ),
                 Text(
-                  'Истечёт ${widget.args.date} года. Промокод хранится в личном кабинете.  ${widget.args.type == 'offline' ? 'Покажите его продавцу при покупке на кассе' : 'Введи его при оформлении товара в интернет-магазине'}',
+                  'Истечёт ${widget.args.date} года. Промокод хранится в личном кабинете.  ${widget.args.type == 'offline' ? 'Покажите его продавцу при покупке на кассе' : 'Введите его при оформлении товара в интернет-магазине'}',
                   style: AppStyles.p1,
                 ),
                 Padding(

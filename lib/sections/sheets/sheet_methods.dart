@@ -144,9 +144,10 @@ void showLoader(BuildContext context) {
     context: context,
     barrierDismissible: false,
     barrierColor: Colors.black.withOpacity(0.8),
+    routeSettings: const RouteSettings(name: 'LoadingRoute'),
     builder: (context) {
       return WillPopScope(
-        onWillPop: () => Future(() => false),
+        onWillPop: () => Future(() => true),
         child: const Center(
           child: AnimatedLoader(),
         ),
