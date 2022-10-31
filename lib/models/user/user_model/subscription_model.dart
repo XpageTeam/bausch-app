@@ -29,4 +29,16 @@ class SubscriptionModel {
         'topic': topic,
         'isSubscribed': isSubscribed,
       };
+
+  SubscriptionModel copyWith({
+    String? pointOfContact,
+    String? topic,
+    bool? isSubscribed,
+  }) {
+    return SubscriptionModel(
+      pointOfContact: pointOfContact ?? this.pointOfContact,
+      topic: topic ?? this.topic,
+      isSubscribed: isSubscribed ?? this.isSubscribed,
+    );
+  }
 }

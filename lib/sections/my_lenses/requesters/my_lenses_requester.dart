@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
@@ -9,6 +12,7 @@ import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class MyLensesRequester {
   final _rh = RequestHandler();
@@ -28,7 +32,7 @@ class MyLensesRequester {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException('Ошибка в loadLensesPair: $e');
+      throw ResponseParseException('Ошибка в loadChosenLensesInfo: $e');
     }
   }
 
@@ -179,6 +183,9 @@ class MyLensesRequester {
       );
       final response =
           BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+
+      unawaited(AppsflyerSingleton.sdk.logEvent('my-lenses-reminder', null));
+      
       return response;
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
@@ -212,6 +219,7 @@ class MyLensesRequester {
     required DateTime? rightDate,
   }) async {
     try {
+      final currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
       if (leftDate != null) {
         // ignore: parameter_assignments
         leftDate = DateTime(
@@ -232,17 +240,12 @@ class MyLensesRequester {
           DateTime.now().minute,
         );
       }
-      // TODO(pavlov): разобраться с отправкой дат
-      // приходят данные -3 часа после отправки
-      // print(leftDate);
-      // print(rightDate);
       final result = await _rh.post<Map<String, dynamic>>(
         '/lenses/put-on/',
         data: FormData.fromMap(<String, dynamic>{
-          // 'left[date]': leftDate?.toIso8601String(),
-          // 'right[date]': rightDate?.toIso8601String(),
           'left[date]': leftDate?.toString(),
           'right[date]': rightDate?.toString(),
+          'timeZone': currentTimeZone,
         }),
       );
       final response =
@@ -254,8 +257,73 @@ class MyLensesRequester {
     }
   }
 
+  // обновляем пару линз
+  Future<BaseResponseRepository> updateLensesPair({
+    required DateTime? leftDate,
+    required DateTime? rightDate,
+  }) async {
+    try {
+      if (leftDate != null) {
+        // ignore: parameter_assignments
+        leftDate = DateTime(
+          leftDate.year,
+          leftDate.month,
+          leftDate.day,
+          DateTime.now().hour,
+          DateTime.now().minute,
+        );
+      }
+      if (rightDate != null) {
+        // ignore: parameter_assignments
+        rightDate = DateTime(
+          rightDate.year,
+          rightDate.month,
+          rightDate.day,
+          DateTime.now().hour,
+          DateTime.now().minute,
+        );
+      }
+
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/put-on/change/',
+        data: FormData.fromMap(<String, dynamic>{
+          'left[date]': leftDate?.toString(),
+          'right[date]': rightDate?.toString(),
+        }),
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в updateLensesPair: $e');
+    }
+  }
+
+  // обновляем пару линз
+  Future<BaseResponseRepository> putOffLenses({
+    required DateTime? leftDate,
+    required DateTime? rightDate,
+  }) async {
+    try {
+      final result = await _rh.post<Map<String, dynamic>>(
+        '/lenses/take-off/',
+        data: FormData.fromMap(<String, dynamic>{
+          'left': leftDate,
+          'right': rightDate,
+        }),
+      );
+      final response =
+          BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
+      return response;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      throw ResponseParseException('Ошибка в putOffLenses: $e');
+    }
+  }
+
   // обновление расписания уведомлений
-  Future<BaseResponseRepository> updateReminders({
+  Future<BaseResponseRepository> updateMultiReminders({
     required List<String> reminders,
   }) async {
     try {

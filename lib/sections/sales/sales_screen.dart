@@ -6,7 +6,10 @@ import 'package:bausch/sections/sheets/widgets/listeners/sheet_listener.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/default_appbar.dart';
+import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,96 +46,105 @@ class _SalesScreenState extends State<SalesScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: StaticData.sidePadding),
-        child: LayoutBuilder(
-          builder: (_, c) {
-            final smallContainersRowsLength =
-                ((activeList.length - 1) / 2).ceil();
-            return CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 30,
-                      bottom: 20,
-                    ),
-                    child: _FilterSection(
-                      activeIndex: activeFilterId,
-                      onTap: (newFilterId) => setState(() {
-                        activeFilterId = newFilterId;
-                        activeList = newFilterId == 0
-                            ? widget.salesList
-                            : widget.salesList
-                                .where(
-                                  (element) => element.type.contains(
-                                    newFilterId == 1 ? 'offline' : 'online',
-                                  ),
-                                )
-                                .toList();
-                      }),
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      WideSaleContainer(
-                        item: activeList.first,
-                        width: c.maxWidth,
-                      ),
-                      ...List.generate(
-                        smallContainersRowsLength,
-                        (i) {
-                          final leftIndex = 1 + i * 2;
-                          final rightIndex = 1 + i * 2 + 1;
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: _SmallContainerRow(
-                              items: [
-                                activeList[leftIndex],
-                                if (rightIndex < activeList.length)
-                                  activeList[rightIndex],
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+        child: GestureDetector(
+          onHorizontalDragEnd: (details) {
+            // final velocity = details.velocity.pixelsPerSecond.dx;
 
-                  // Wrap(
-                  //   spacing: 4,
-                  //   runSpacing: 4,
-                  //   children: List.generate(activeList.length, (index) {
-                  //     final item = activeList[index];
-                  //     if (index == 0) {
-                  //       return WideSaleContainer(
-                  //         item: item,
-                  //         width: c.maxWidth,
-                  //       );
-                  //     }
-                  //     return _SmallContainer(
-                  //       item: item,
-                  //     );
+            // if (velocity < 0 && activeFilterId < 2) {
+            //   setCurrentSection(++activeFilterId);
+            // }
 
-                  //     // SmallContainer(
-                  //     //   model: item as CatalogSheetModel,
-                  //     //   sale: true,
-                  //     // );
-                  //   }),
-                  // ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 40,
-                  ),
-                ),
-              ],
-            );
+            // if (velocity > 0 && activeFilterId > 0) {
+            //   setCurrentSection(--activeFilterId);
+            // }
           },
+          child: LayoutBuilder(
+            builder: (_, c) {
+              final smallContainersRowsLength =
+                  ((activeList.length - 1) / 2).ceil();
+              return CustomScrollView(
+                scrollBehavior: const AntiGlowBehavior(),
+                physics: const OnlyBottomBouncingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 30,
+                        bottom: 20,
+                      ),
+                      child: _FilterSection(
+                        activeIndex: activeFilterId,
+                        onTap: setCurrentSection,
+
+                        // setState(() {
+                        //   activeFilterId = newFilterId;
+                        //   activeList = newFilterId == 0
+                        //       ? widget.salesList
+                        //       : widget.salesList
+                        //           .where(
+                        //             (element) => element.type.contains(
+                        //               newFilterId == 1 ? 'offline' : 'online',
+                        //             ),
+                        //           )
+                        //           .toList();
+                        // }),
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        WideSaleContainer(
+                          item: activeList.first,
+                          width: c.maxWidth,
+                        ),
+                        ...List.generate(
+                          smallContainersRowsLength,
+                          (i) {
+                            final leftIndex = 1 + i * 2;
+                            final rightIndex = 1 + i * 2 + 1;
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: _SmallContainerRow(
+                                items: [
+                                  activeList[leftIndex],
+                                  if (rightIndex < activeList.length)
+                                    activeList[rightIndex],
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 40,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
+  }
+
+  void setCurrentSection(int section) {
+    setState(() {
+      activeFilterId = section;
+      activeList = activeFilterId == 0
+          ? widget.salesList
+          : widget.salesList
+              .where(
+                (element) => element.type.contains(
+                  activeFilterId == 1 ? 'offline' : 'online',
+                ),
+              )
+              .toList();
+    });
   }
 }
 
@@ -242,12 +254,20 @@ class __SmallContainerState extends State<_SmallContainer> {
                       style: AppStyles.p1,
                     ),
                     Container(
-                      height: 85,
+                      // height: 85,
                       width: 80,
-                      alignment: Alignment.bottomRight,
-                      child: Image.network(
-                        widget.item.icon ?? '',
+                      // alignment: Alignment.bottomRight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
                       ),
+                      clipBehavior: Clip.hardEdge,
+                      child: widget.item.secondIcon == null &&
+                              widget.item.icon == null
+                          ? const SizedBox()
+                          : ExtendedImage.network(
+                              widget.item.secondIcon ?? widget.item.icon ?? '',
+                              loadStateChanged: _onChangeState,
+                            ),
                     ),
                   ],
                 ),
@@ -257,6 +277,16 @@ class __SmallContainerState extends State<_SmallContainer> {
         ),
       ),
     );
+  }
+
+  Widget? _onChangeState(ExtendedImageState state) {
+    if (state.extendedImageLoadState == LoadState.loading) {
+      return const SizedBox();
+    }
+    if (state.extendedImageLoadState == LoadState.failed) {
+      return const SizedBox();
+    }
+    return null;
   }
 }
 

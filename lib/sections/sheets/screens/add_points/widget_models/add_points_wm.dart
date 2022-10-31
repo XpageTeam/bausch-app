@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class AddPointsWM extends WidgetModel {
-  final addPointsList = EntityStreamedState<List<AddPointsModel>>()
-    ..content([]);
+  final addPointsList = EntityStreamedState<List<AddPointsModel>>()..loading();
 
   final loadInfoAction = VoidAction();
 
@@ -35,7 +34,7 @@ class AddPointsWM extends WidgetModel {
   /// Загружает дополнительные способы добавления баллов
   ///! не использовать [addPointsList].error
   Future<void> _loadInfo() async {
-    if (addPointsList.value.isLoading) return;
+    // if (addPointsList.value.isLoading) return;
 
     await addPointsList.loading(addPointsList.value.data);
 
@@ -62,10 +61,10 @@ class AddPointsWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
 
-      await addPointsList.content([]);
+      await addPointsList.error(error);
     }
   }
 }

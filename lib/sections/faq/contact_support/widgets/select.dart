@@ -56,7 +56,6 @@ class _SelectState extends State<Select> {
             textColor: value == null ? AppTheme.grey : AppTheme.mineShaft,
             color: Colors.white,
             onPressed: () {
-              debugPrint('statement');
               showCupertinoModalPopup<void>(
                 context: context,
                 builder: (context) => CupertinoActionSheet(

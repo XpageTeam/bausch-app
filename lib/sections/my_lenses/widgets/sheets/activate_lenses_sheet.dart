@@ -3,7 +3,6 @@ import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
-import 'package:bausch/packages/bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
@@ -13,8 +12,10 @@ import 'package:bausch/sections/my_lenses/widgets/recommended_product.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -23,7 +24,7 @@ class ActivateLensesSheet extends StatefulWidget {
   final LensesPairModel lensesPairModel;
   final LensProductModel lensProductModel;
   final int productIndex;
-  final FlexibleDraggableScrollableSheetScrollController controller;
+  final ScrollController controller;
 
   const ActivateLensesSheet({
     required this.controller,
@@ -90,7 +91,7 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                                   ),
                                   Text(
                                     widget.lensProductModel.lifeTime > 1
-                                        ? 'Плановой замены \nДо${widget.lensProductModel.lifeTime} суток'
+                                        ? 'Плановой замены \nДо ${widget.lensProductModel.lifeTime} суток'
                                         : 'Однодневные',
                                     style: AppStyles.p1,
                                   ),
@@ -105,10 +106,11 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
                                 ],
                               ),
                             ),
-                            Image.network(
+                            ExtendedImage.network(
                               widget.lensProductModel.image,
                               height: 100,
                               width: 100,
+                              loadStateChanged: onLoadStateChanged,
                             ),
                           ],
                         ),
@@ -190,6 +192,13 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
             ),
           ),
       ],
+      bottomNavBar: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          BottomInfoBlock(),
+        ],
+      ),
     );
   }
 
@@ -207,4 +216,13 @@ class _ActivateLensesSheetState extends State<ActivateLensesSheet> {
       isUpdating = false;
     });
   }
+}
+
+// ignore:avoid-returning-widgets
+Widget? onLoadStateChanged(ExtendedImageState state) {
+  final loadState = state.extendedImageLoadState;
+  if (loadState == LoadState.failed || loadState == LoadState.loading) {
+    return const SizedBox();
+  }
+  return null;
 }

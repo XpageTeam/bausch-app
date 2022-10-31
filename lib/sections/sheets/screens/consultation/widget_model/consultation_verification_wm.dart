@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
@@ -64,6 +65,8 @@ class ConsultationVerificationWM extends WidgetModel {
         itemModel,
         'consultation',
       );
+
+      unawaited(AppsflyerSingleton.sdk.logEvent('onlineConsultationOrderFinished', null));
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;

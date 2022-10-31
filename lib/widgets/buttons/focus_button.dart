@@ -48,10 +48,11 @@ class FocusButton extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: Text(
                           labelText,
-                          style: selectedText == null || selectedTextStyle != AppStyles.h2
+                          style: selectedText == null ||
+                                  selectedTextStyle != AppStyles.h2
                               ? AppStyles.h2GreyBold
                               : AppStyles.p1Grey,
                         ),

@@ -23,6 +23,7 @@ class WebinarOrderModel extends BaseOrderModel {
           price: price,
           status: status,
           category: category,
+          promocodeDate: null,
         );
 
   factory WebinarOrderModel.fromMap(Map<String, dynamic> map) {

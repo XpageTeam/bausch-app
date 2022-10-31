@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
@@ -8,11 +9,11 @@ import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
+import 'package:bausch/sections/profile/profile_settings/email_bottom_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -32,6 +33,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
   final phoneController = MaskedTextController(mask: '+7 000 000 00 00');
   final changeCityAction = StreamedAction<String?>();
   final confirmEmail = VoidAction();
+  late final UserWM userWM;
   List<SubscriptionModel> notificationsList = [];
 
   String tempName = '';
@@ -44,6 +46,8 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   @override
   void onLoad() {
+    userWM = context.read<UserWM>();
+
     nameController.addListener(
       () {
         tempName = nameController.text;
@@ -63,8 +67,6 @@ class ProfileSettingsScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     setValues();
 
     userWM.userData.bind((userData) {
@@ -120,7 +122,7 @@ class ProfileSettingsScreenWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       showDefaultNotification(
@@ -130,6 +132,10 @@ class ProfileSettingsScreenWM extends WidgetModel {
     }
   }
 
+  Future<bool> reloadUserData() async {
+    return userWM.reloadUserData();
+  }
+
   void updateNotifications(List<SubscriptionModel> notifications) {
     notificationsList.clear();
     notificationsList = [...notifications];
@@ -137,13 +143,17 @@ class ProfileSettingsScreenWM extends WidgetModel {
     //   title: 'Данные успешно обновлены',
     //   success: true,
     // );
+
+    userWM.updateUserData(
+      userWM.userData.value.data!.user,
+      notifications: notificationsList,
+    );
+
     Keys.mainContentNav.currentState!.pop();
   }
 
   void setValues() {
     try {
-      final userWM = Provider.of<UserWM>(context, listen: false);
-
       selectedCityName.accept(userWM.userData.value.data!.user.city);
       selectedBirthDate.accept(userWM.userData.value.data!.user.birthDate);
       notificationsList = [...userWM.userData.value.data!.user.subscriptions];
@@ -164,9 +174,72 @@ class ProfileSettingsScreenWM extends WidgetModel {
     }
   }
 
-  Future<void> sendUserData() async {
-    final userWM = Provider.of<UserWM>(context, listen: false);
+  Future<void> deleteAccount({
+    required VoidCallback onSuccess,
+  }) async {
+    final rh = RequestHandler();
 
+    CustomException? error;
+
+    try {
+      final userData = userWM.userData.value.data!;
+
+      BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
+        '/faq/form/',
+        data: FormData.fromMap(<String, dynamic>{
+          'email': userData.user.email,
+          'topic': 22,
+          'question': 199,
+          'fio': userData.userName,
+          'phone': userData.user.phone,
+        }),
+      ))
+          .data!);
+      onSuccess();
+    } on ResponseParseException catch (e) {
+      error = CustomException(
+        title: 'Ошибка при обработке ответа от сервера',
+        subtitle: e.toString(),
+      );
+    } on DioError catch (e) {
+      error = CustomException(
+        title: 'Ошибка при отправке запроса',
+        subtitle: e.toString(),
+      );
+      // ignore: unused_catch_clause
+    } on SuccessFalse catch (e) {
+      error = const CustomException(
+        title: 'что-то пошло не так',
+      );
+    }
+
+    if (error != null) {
+      log('error: ${error.subtitle}');
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
+    }
+  }
+
+  void changeEmail() {
+    showModalBottomSheet<num>(
+      isScrollControlled: true,
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.8),
+      builder: (context) {
+        return Wrap(children: [EmailBottomSheet()]);
+      },
+    ).then(
+      (value) {
+        final email = userWM.userData.value.data!.user.pendingEmail ??
+            userWM.userData.value.data!.user.email;
+        return enteredEmail.accept(email);
+      },
+    );
+  }
+
+  Future<void> sendUserData() async {
     await userWM.updateUserData(
       userWM.userData.value.data!.user.copyWith(
         email: enteredEmail.value,
@@ -209,14 +282,10 @@ class ProfileSettingsScreenWM extends WidgetModel {
   }
 
   void setEmail(String? email) {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     enteredEmail.accept(email ?? userWM.userData.value.data!.user.email);
   }
 
   void setBirthDate(DateTime? birthDate) {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     debugPrint('date was changed');
 
     selectedBirthDate.accept(

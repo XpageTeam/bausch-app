@@ -8,13 +8,13 @@ import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/models/profile_settings/lens_parameters_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/profile/profile_settings/lens_parameters/bloc/lens_bloc.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
 import 'package:bausch/sections/sheets/screens/free_packaging/final_free_packaging.dart';
 import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 //import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -219,7 +219,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
 
       unawaited(FirebaseAnalytics.instance.logEvent(
         name: 'free_packaging',
-        parameters: <String, dynamic> {
+        parameters: <String, dynamic>{
           'product_title': productItemModel.name,
           'product_id': productItemModel.id,
         },
@@ -259,6 +259,8 @@ class OrderRegistrationScreenWM extends WidgetModel {
         context: context,
         initHeight: 0.9,
         maxHeight: 0.9,
+        bottomSheetColor: Colors.transparent,
+        barrierColor: Colors.black.withOpacity(0.8),
         builder: (ctx, controller, d) {
           return FinalFreePackaging(
             controller: ScrollController(),
@@ -280,7 +282,7 @@ class OrderRegistrationScreenWM extends WidgetModel {
   void _showTopError(CustomException ex) {
     showDefaultNotification(
       title: ex.title,
-      subtitle: ex.subtitle,
+      // subtitle: ex.subtitle,
     );
   }
 }

@@ -2,16 +2,13 @@
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/help/utils.dart';
 import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
-import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
 import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
 import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
@@ -19,9 +16,8 @@ import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
 import 'package:bausch/sections/home/widgets/containers/my_lenses_container.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/home/widgets/write_to_support_button.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/sections/sheets/screens/program/final_program_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -29,18 +25,15 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/buttons/white_button_with_text.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 ///! место для костылей
 OffersSectionWM? bannersWm;
@@ -87,7 +80,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
 
             return ErrorPage(
               title: e.title,
-              subtitle: e.subtitle,
+              // subtitle: e.subtitle,
               buttonText: 'Обновить',
               buttonCallback: wm.loadAllDataAction,
             );
@@ -107,13 +100,18 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       FirebaseAnalytics.instance.logEvent(
-                      //         name: 'partner_order',
-                      //         parameters: <String, dynamic>{
-                      //           'partner_name_parameter': 'Test name 2',
-                      //           // 'partner_name_parameter': 'Test name',
-                      //         },
+                      //       showDefaultNotification(
+                      //         title: 'title asda sd asdasdasd asd as d'.toUpperCase(),
                       //       );
+                      //       // Navigator.of(context).push<void>(
+                      //       //   PageRouteBuilder(
+                      //       //     pageBuilder: (_, __, ___) =>
+                      //       //         const SimpleWebViewWidget(
+                      //       //       url:
+                      //       //           'https://realadmin.ru/coding/onclick-js.html',
+                      //       //     ),
+                      //       //   ),
+                      //       // );
                       //     },
                       //     child: const Text('test firebase'),
                       //   ),
@@ -262,10 +260,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             // мои линзы
                             DelayedAnimatedTranslateOpacity(
                           offsetY: 60,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 40),
-                            child: MyLensesContainer(myLensesWM: wm.myLensesWM),
-                          ),
+                          child: MyLensesContainer(myLensesWM: wm.myLensesWM),
                         ),
                       ),
 
@@ -274,26 +269,30 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                             //* Скидки за баллы
                             DelayedAnimatedTranslateOpacity(
                           offsetY: 70,
-                          child:
-                              EntityStateBuilder<List<BaseCatalogSheetModel>>(
-                            streamedState: wm.catalog,
-                            loadingBuilder: (_, catalogItems) {
-                              if (catalogItems != null) {
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 40.0),
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SalesWidget(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
                                 return SalesWidget(
                                   catalogList: catalogItems,
                                 );
-                              }
-                              return const SizedBox();
-                            },
-                            builder: (_, catalogItems) {
-                              return SalesWidget(
-                                catalogList: catalogItems,
-                              );
-                            },
+                              },
+                            ),
                           ),
                         ),
                       ),
 
+                      //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
                       SliverPadding(
                         key: spendPointsPositionKey,
                         padding: const EdgeInsets.only(
@@ -301,31 +300,26 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           left: StaticData.sidePadding,
                           right: StaticData.sidePadding,
                         ),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
-                              //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
-                              DelayedAnimatedTranslateOpacity(
-                                offsetY: 80,
-                                child: EntityStateBuilder<
-                                    List<BaseCatalogSheetModel>>(
-                                  streamedState: wm.catalog,
-                                  loadingBuilder: (_, catalogItems) {
-                                    if (catalogItems != null) {
-                                      return SpendScores(
-                                        catalogList: catalogItems,
-                                      );
-                                    }
-                                    return const SizedBox();
-                                  },
-                                  builder: (_, catalogItems) {
-                                    return SpendScores(
-                                      catalogList: catalogItems,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
+                        sliver: SliverToBoxAdapter(
+                          child: DelayedAnimatedTranslateOpacity(
+                            offsetY: 80,
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SpendScores(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
+                                return SpendScores(
+                                  catalogList: catalogItems,
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -339,44 +333,26 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           delegate: SliverChildListDelegate(
                             [
                               //* Вам может быть интересно
-                              StreamedStateBuilder<bool>(
-                                streamedState: wm.mayBeInterestingState,
-                                builder: (_, enabled) {
-                                  return enabled
-                                      ? MayBeInteresting(
-                                          text: 'Вам может быть интересно',
-                                        )
-                                      : const SizedBox();
-                                },
+                              // StreamedStateBuilder<bool>(
+                              //   streamedState: wm.mayBeInterestingState,
+                              //   builder: (_, enabled) {
+                              //     return enabled
+                              //         ? MayBeInteresting(
+                              //             text: 'Вам может быть интересно',
+                              //           )
+                              //         : const SizedBox();
+                              //   },
+                              // ),
+                              const SizedBox(
+                                height: 20,
                               ),
-
                               //* Текстовые кнопки(Частые вопросы и тд)
-                              const SizedBox(height: 40),
                               const TextButtonsSection(),
                               const SizedBox(
                                 height: 40,
                               ),
-                              WhiteButtonWithText(
-                                text: 'Написать в поддержку',
-                                onPressed: () {
-                                  FirebaseAnalytics.instance.logEvent(
-                                    name: 'support_button_click',
-                                  );
-                                  // Navigator.of(context).pushNamed(
-                                  //   '/support',
-                                  //   arguments: ContactSupportScreenArguments(),
-                                  // );
 
-                                  showSheet<ContactSupportScreenArguments>(
-                                    context,
-                                    SimpleSheetModel(
-                                      name: 'Обратиться в поддержку',
-                                      type: 'support',
-                                    ),
-                                    ContactSupportScreenArguments(),
-                                  );
-                                },
-                              ),
+                              const WriteToSupportButton(),
 
                               const Padding(
                                 padding: EdgeInsets.only(top: 20, bottom: 14),
@@ -448,6 +424,9 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           name: 'Накопить баллы',
                           type: 'add_points',
                         ),
+                        null,
+                        null,
+                        wm.myLensesWM,
                       );
                     },
                   );

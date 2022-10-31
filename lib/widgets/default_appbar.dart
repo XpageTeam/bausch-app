@@ -13,12 +13,15 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
   final Color backgroundColor;
   final int titleFlex;
 
+  final VoidCallback? onPop;
+
   @override
   Size get preferredSize => const Size(double.infinity, 48);
 
   const DefaultAppBar({
     required this.title,
     this.topRightWidget,
+    this.onPop,
     this.backIcon = Icons.chevron_left_rounded,
     this.backgroundColor = AppTheme.turquoiseBlue,
     this.titleFlex = 5,
@@ -44,9 +47,10 @@ class DefaultAppBar extends StatelessWidget with PreferredSizeWidget {
                         ? Align(
                             alignment: Alignment.centerLeft,
                             child: NormalIconButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              }, //Navigator.of(context).pop,
+                              onPressed: onPop ??
+                                  () {
+                                    Navigator.of(context).pop();
+                                  }, //Navigator.of(context).pop,
                               icon: Icon(
                                 backIcon,
                                 size: 20,

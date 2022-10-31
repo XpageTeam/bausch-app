@@ -1,13 +1,18 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
+import 'dart:async';
+
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
-import 'package:bausch/packages/bottom_sheet/src/flexible_bottom_sheet_route.dart';
 import 'package:bausch/sections/my_lenses/choose_lenses/choose_product_sheet.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
 import 'package:bausch/sections/my_lenses/requesters/choose_lenses_requester.dart';
-import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -33,18 +38,31 @@ class ChooseLensesWM extends WidgetModel {
   );
   final areFieldsValid = StreamedState(false);
   final isLeftEqual = StreamedState(false);
-  late final LensProductListModel lensProductList;
-  final currentProduct = StreamedState<LensProductModel?>(null);
-  final ChooseLensesRequester chooseLensesRequester = ChooseLensesRequester();
-  final MyLensesRequester myLensesRequester = MyLensesRequester();
-  final LensesPairModel? editLensPairModel;
-  LensProductModel? oldProduct;
 
-  ChooseLensesWM({required this.context, this.editLensPairModel})
-      : super(const WidgetModelDependencies());
+  final currentProduct = StreamedState<LensProductModel?>(null);
+  final allDataEntityState = EntityStreamedState<bool>();
+
+  final ChooseLensesRequester chooseLensesRequester = ChooseLensesRequester();
+  final LensesPairModel? editLensPairModel;
+  final MyLensesWM? myLensesWM;
+  LensProductModel? oldProduct;
+  LensProductModel? productBausch;
+  LensProductListModel lensProductList = LensProductListModel(
+    products: [],
+  );
+
+  ChooseLensesWM({
+    required this.context,
+    this.editLensPairModel,
+    this.productBausch,
+    this.myLensesWM,
+  }) : super(const WidgetModelDependencies());
 
   @override
   void onBind() {
+    if (productBausch != null) {
+      currentProduct.accept(productBausch);
+    }
     loadAllData();
     if (editLensPairModel != null &&
         editLensPairModel!.left.addition == editLensPairModel!.right.addition &&
@@ -55,10 +73,19 @@ class ChooseLensesWM extends WidgetModel {
             editLensPairModel!.right.basicCurvature) {
       isLeftEqual.accept(true);
     }
+
+    currentProduct.bind((data) {
+      AppsflyerSingleton.sdk.logEvent('my-lenses-add', <String, dynamic>{
+        'id': data?.id,
+        'bauschProdID': data?.bauschProductId,
+        'name': data?.name,
+      });
+    });
     super.onBind();
   }
 
   Future loadAllData() async {
+    unawaited(allDataEntityState.loading());
     try {
       lensProductList = await chooseLensesRequester.loadLensProducts();
       if (editLensPairModel != null) {
@@ -68,8 +95,18 @@ class ChooseLensesWM extends WidgetModel {
         await rightPair.accept(editLensPairModel!.right);
         await areFieldsValid.accept(true);
       }
-      // ignore: avoid_catches_without_on_clauses
+      unawaited(allDataEntityState.content(true));
     } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка загрузки данных',
+      );
+      unawaited(
+        allDataEntityState.error(
+          const CustomException(
+            title: 'Произошла ошибка загрузки данных',
+          ),
+        ),
+      );
       lensProductList = LensProductListModel(products: []);
     }
   }
@@ -131,6 +168,8 @@ class ChooseLensesWM extends WidgetModel {
       maxHeight: 0.95,
       anchors: [0, 0.6, 0.95],
       context: context,
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (context, controller, d) {
         return SheetWidget(
           child: ChooseProductSheet(
@@ -161,31 +200,59 @@ class ChooseLensesWM extends WidgetModel {
   }
 
   Future onAcceptPressed({required bool isEditing}) async {
-    if (isEditing) {
-      if (oldProduct?.id != currentProduct.value!.id) {
+    unawaited(areFieldsValid.accept(false));
+    try {
+      if (isEditing) {
+        if (oldProduct?.id != currentProduct.value!.id) {
+          await chooseLensesRequester.addLensPair(
+            lensesPairModel:
+                LensesPairModel(left: leftPair.value, right: rightPair.value),
+            productId: currentProduct.value!.id,
+          );
+        } else {
+          await chooseLensesRequester.updateLensPair(
+            lensesPairModel:
+                LensesPairModel(left: leftPair.value, right: rightPair.value),
+            productId: currentProduct.value!.id,
+            pairId: editLensPairModel!.id!,
+          );
+        }
+        Keys.mainContentNav.currentState!.pop();
+      } else {
         await chooseLensesRequester.addLensPair(
           lensesPairModel:
               LensesPairModel(left: leftPair.value, right: rightPair.value),
           productId: currentProduct.value!.id,
         );
-      } else {
-        await chooseLensesRequester.updateLensPair(
-          lensesPairModel:
-              LensesPairModel(left: leftPair.value, right: rightPair.value),
-          productId: currentProduct.value!.id,
-          pairId: editLensPairModel!.id!,
-        );
+        await Keys.mainContentNav.currentState!
+            .pushReplacementNamed('/my_lenses', arguments: [myLensesWM]);
       }
-
-      Keys.mainContentNav.currentState!.pop();
-    } else {
-      await chooseLensesRequester.addLensPair(
-        lensesPairModel:
-            LensesPairModel(left: leftPair.value, right: rightPair.value),
-        productId: currentProduct.value!.id,
-      );
-      await Keys.mainContentNav.currentState!
-          .pushReplacementNamed('/my_lenses', arguments: [MyLensesWM()]);
+    } catch (e) {
+      debugPrint('onAcceptPressed $e');
     }
+    unawaited(areFieldsValid.accept(true));
+  }
+
+  int detectStartId(List<String> list) {
+    var id = 0;
+    var count = 0;
+    final firstSign = list[0][0];
+    if (firstSign != '+' && firstSign != '-') {
+      return 0;
+    }
+    final breakSign = firstSign == '+' ? '-' : '+';
+    for (final element in list) {
+      final currentElement = element.replaceAll(' ', '');
+      if (currentElement[0] != firstSign) {
+        if (currentElement[0] == breakSign && count != 0) {
+          id = count - 1;
+        } else {
+          id = count;
+        }
+        break;
+      }
+      count++;
+    }
+    return id;
   }
 }

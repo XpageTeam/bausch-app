@@ -14,6 +14,7 @@ import 'package:bausch/sections/my_lenses/widgets/two_lens_replacement_indicator
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -33,7 +34,7 @@ class CurrentMultiLensesPage extends StatelessWidget {
             streamedState: myLensesWM.rightLensDate,
             builder: (_, rightLensDate) =>
                 leftLensDate != null && rightLensDate != null
-                    // TODO(info): сравниваем по дате окончания
+                    // сравниваем по дате окончания
                     ? leftLensDate.dateEnd != rightLensDate.dateEnd
                         ? TwoLensReplacementIndicator(myLensesWM: myLensesWM)
                         : OneLensReplacementIndicator(
@@ -53,73 +54,81 @@ class CurrentMultiLensesPage extends StatelessWidget {
         ChosenLenses(myLensesWM: myLensesWM),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
-          child: WhiteContainerWithRoundedCorners(
-            padding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: StaticData.sidePadding,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Expanded(
-                  flex: 2,
-                  child: Text(
-                    'Напомнить о замене',
-                    style: AppStyles.h2,
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: StreamedStateBuilder<List<String>>(
-                          streamedState: myLensesWM.remindersShowWidget,
-                          builder: (_, object) => Text(
-                            object[0] != ''
-                                ? object[0]
-                                : '${object[1]} ${int.parse(object[1]) > 4 ? 'дат' : 'даты'}',
+          child: StreamedStateBuilder<bool>(
+            streamedState: myLensesWM.remindersLoading,
+            builder: (_, remindersLoading) => remindersLoading
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Center(child: AnimatedLoader()),
+                  )
+                : WhiteContainerWithRoundedCorners(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: StaticData.sidePadding,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Напомнить о замене',
                             style: AppStyles.h2,
-                            softWrap: false,
-                            overflow: TextOverflow.fade,
-                            maxLines: 1,
-                            textAlign: TextAlign.right,
                           ),
                         ),
-                      ),
-                      const Expanded(
-                        child: Icon(
-                          Icons.chevron_right_sharp,
-                          size: 20,
-                          color: AppTheme.mineShaft,
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: StreamedStateBuilder<List<String>>(
+                                  streamedState: myLensesWM.remindersShowWidget,
+                                  builder: (_, object) => Text(
+                                    object[0] != ''
+                                        ? object[0]
+                                        : '${object[1]} ${int.parse(object[1]) > 4 ? 'дат' : 'даты'}',
+                                    style: AppStyles.h2,
+                                    softWrap: false,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                              ),
+                              const Expanded(
+                                child: Icon(
+                                  Icons.chevron_right_sharp,
+                                  size: 20,
+                                  color: AppTheme.mineShaft,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            onTap: () async {
-              await showModalBottomSheet<num>(
-                isScrollControlled: true,
-                context: context,
-                barrierColor: Colors.black.withOpacity(0.8),
-                backgroundColor: Colors.transparent,
-                builder: (context) {
-                  return ReminderSheet(
-                    currentReminders: myLensesWM.multiRemindes.value,
-                    onSendUpdate: (notifications) async =>
-                        myLensesWM.updateMultiReminders(
-                      // TODO(info): везде листы так передавать
-                      reminders: [...notifications],
-                      shouldPop: true,
+                      ],
                     ),
-                  );
-                },
-              );
-            },
+                    onTap: () async {
+                      await showModalBottomSheet<num>(
+                        isScrollControlled: true,
+                        context: context,
+                        barrierColor: Colors.black.withOpacity(0.8),
+                        builder: (context) {
+                          return ReminderSheet(
+                            currentReminders: myLensesWM.multiRemindes.value,
+                            onSendUpdate: (notifications) async =>
+                                myLensesWM.updateMultiReminders(
+                              // TODO(info): везде листы так передавать
+                              reminders: [...notifications],
+
+                              context: context,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
           ),
         ),
         WhiteContainerWithRoundedCorners(

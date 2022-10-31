@@ -1,10 +1,10 @@
-import 'dart:async';
 import 'package:bausch/exceptions/response_parse_exception.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 @immutable
 class LoginText {
@@ -109,14 +109,10 @@ class LoginText {
         ),
         text: linkText,
         recognizer: TapGestureRecognizer()
-          ..onTap = () async {
-            if (await canLaunchUrlString(link)) {
-              unawaited(launchUrlString(
-                link,
-                mode: LaunchMode.inAppWebView,
-              ));
-            }
-          },
+          ..onTap = () => openSimpleWebView(
+                Keys.mainNav.currentContext!,
+                url: link,
+              ),
       ),
     ];
   }

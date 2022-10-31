@@ -1,3 +1,4 @@
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
@@ -14,10 +15,13 @@ class CatalogItem extends StatelessWidget {
   final CatalogItemModel model;
   final VoidCallback? onTap;
   final void Function(WebinarItemModel webinar)? allWebinarsCallback;
+  final int? dicount;
+
   const CatalogItem({
     required this.model,
     this.allWebinarsCallback,
     this.onTap,
+    this.dicount,
     Key? key,
   }) : super(key: key);
 
@@ -108,10 +112,20 @@ class CatalogItem extends StatelessWidget {
                         price: (model as WebinarItemModel).canWatch
                             ? 'Просмотр'
                             : model.price.toString(),
-                        onPressed: () => onWebinarClick(
-                          context,
-                          model as WebinarItemModel,
-                        ),
+                        onPressed: () {
+                          AppsflyerSingleton.sdk.logEvent(
+                            'webinarShow',
+                            <String, dynamic>{
+                              'id': model.id,
+                              'name': model.name,
+                            },
+                          );
+
+                          onWebinarClick(
+                            context,
+                            model as WebinarItemModel,
+                          );
+                        },
                       )
                     : model is PartnersItemModel &&
                             (model as PartnersItemModel).isBought
@@ -138,6 +152,11 @@ class CatalogItem extends StatelessWidget {
 
   void onWebinarClick(BuildContext context, WebinarItemModel model) {
     if (model.canWatch) {
+      AppsflyerSingleton.sdk.logEvent('webinarWatch', <String, dynamic>{
+        'id': model.id,
+        'name': model.name,
+      });
+
       if (model.videoIds.length > 1) {
         allWebinarsCallback?.call(model);
       } else {

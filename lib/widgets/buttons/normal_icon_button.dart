@@ -6,55 +6,49 @@ class NormalIconButton extends StatelessWidget {
   final Color backgroundColor;
   final VoidCallback? onPressed;
   final bool isAnimated;
+  final EdgeInsets? padding;
+
   const NormalIconButton({
     required this.icon,
     this.isAnimated = true,
     this.backgroundColor = Colors.white,
+    this.padding,
     this.onPressed,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return isAnimated
-        ? AnimatedContainer(
-            height: 44,
-            width: 44,
-            duration: const Duration(
-              milliseconds: 300,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: padding,
+        color: Colors.transparent,
+        alignment: Alignment.topRight,
+        child: AnimatedContainer(
+          height: 44,
+          width: 44,
+          duration: isAnimated
+              ? const Duration(
+                  milliseconds: 300,
+                )
+              : Duration.zero,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: backgroundColor,
+          ),
+          clipBehavior: Clip.hardEdge,
+          child: Material(
+            child: InkWell(
+              splashColor: AppTheme.turquoiseBlue,
+              highlightColor: Colors.transparent,
+              onTap: onPressed,
+              child: icon,
             ),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: backgroundColor,
-            ),
-            child: Material(
-              clipBehavior: Clip.hardEdge,
-              shape: const CircleBorder(),
-              child: InkWell(
-                splashColor: AppTheme.turquoiseBlue,
-                onTap: onPressed,
-                child: icon,
-              ),
-              color: Colors.transparent,
-            ),
-          )
-        : Container(
-            height: 44,
-            width: 44,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: backgroundColor,
-            ),
-            child: Material(
-              clipBehavior: Clip.hardEdge,
-              shape: const CircleBorder(),
-              child: InkWell(
-                splashColor: AppTheme.turquoiseBlue,
-                onTap: onPressed,
-                child: icon,
-              ),
-              color: Colors.transparent,
-            ),
-          );
+            color: Colors.transparent,
+          ),
+        ),
+      ),
+    );
   }
 }

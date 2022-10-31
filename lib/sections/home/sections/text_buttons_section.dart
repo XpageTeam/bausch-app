@@ -42,10 +42,10 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
                 rulesCubit.loadData(RulesOrLinks.rules);
               },
             ),
-            CustomTextButton(
-              title: 'Частые вопросы',
-              onPressed: faqCubit.loadData,
-            ),
+            // CustomTextButton(
+            //   title: 'Частые вопросы',
+            //   onPressed: faqCubit.loadData,
+            // ),
             CustomTextButton(
               title: 'Библиотека ссылок',
               onPressed: () {
@@ -55,10 +55,14 @@ class _TextButtonsSectionState extends State<TextButtonsSection> {
             CustomTextButton(
               title: 'Обработка персональных\nданных',
               onPressed: () async {
+                // openSimpleWebView(
+                //   context,
+                //   url: StaticData.privacyPolicyLink,
+                // );
                 if (await canLaunchUrlString(StaticData.privacyPolicyLink)) {
                   await launchUrlString(
                     StaticData.privacyPolicyLink,
-                    // TODO(info): pdf открывать так
+                    // TODO(info): везде pdf открывать так
                     mode: LaunchMode.externalApplication,
                   );
                 }

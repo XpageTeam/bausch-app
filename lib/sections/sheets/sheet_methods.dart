@@ -1,7 +1,10 @@
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/navigation/bottom_sheet_navigation.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/sheets/other_draggable_scrollable_sheet.dart';
 import 'package:bausch/sections/sheets/sheet.dart';
+import 'package:bausch/sections/sheets/widgets/bottom_sheet_page.dart';
+import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:flutter/material.dart';
 
@@ -9,27 +12,130 @@ Future<void> showSheet<T>(
   BuildContext context,
   BaseCatalogSheetModel model, [
   T? args,
+
   // Этот параметр нужен для того, чтоб
   // из секции "вам может быть интересно" можно было перейти
   // сразу в товар
   String? initialRoute,
+  MyLensesWM? myLensesWM,
 ]) {
-  return showFlexibleBottomSheet<void>(
-    minHeight: 0,
-    initHeight: 0.95,
-    maxHeight: 0.95,
-    anchors: [0, 0.6, 0.95],
-    context: context,
-    builder: (context, controller, d) {
-      return SheetWidget(
-        child: BottomSheetNavigation<T>(
-          controller: controller,
-          sheetModel: model,
-          args: args,
-          initialRoute: initialRoute,
-        ),
-      );
-    },
+  var isAlreadyPop = false;
+  // return showFlexibleBottomSheet<void>(
+  //   minHeight: 0,
+  //   initHeight: 0.95,
+  //   maxHeight: 0.95,
+  //   anchors: [0, 0.6, 0.95],
+  //   context: context,
+  //   // isDismissible: false,
+  //   bottomSheetColor: Colors.transparent,
+  //   barrierColor: Colors.black.withOpacity(0.8),
+  //   duration: const Duration(milliseconds: 300),
+  //   builder: (context, controller, d) {
+  //     return NotificationListener<DraggableScrollableNotification>(
+  //       onNotification: (notification) {
+  //         final offset = notification.extent;
+
+  //         if (offset < 0.2 && !isAlreadyPop) {
+  //           isAlreadyPop = true;
+  //           Navigator.of(context).pop();
+  //         }
+
+  //         return true;
+  //       },
+  //       child: WillPopScope(
+  //         onWillPop: () {
+  //           if (isAlreadyPop) return Future(() => false);
+
+  //           final contentContext = Keys.bottomNav.currentContext;
+  //           if (contentContext == null) return Future(() => true);
+
+  //           final canPopContent = Navigator.of(contentContext).canPop();
+  //           if (canPopContent) {
+  //             Navigator.of(contentContext).pop();
+  //             return Future(() => false);
+  //           }
+  //           isAlreadyPop = true;
+
+  //           return Future(() => true);
+  //         },
+  //         child: SheetWidget(
+  //           onPop: () {
+  //             isAlreadyPop = true;
+  //             Navigator.of(context).pop();
+  //           },
+  //           child: BottomSheetNavigation<T>(
+  //             controller: controller,
+  //             sheetModel: model,
+  //             args: args,
+  //             initialRoute: initialRoute,
+  //             myLensesWM: myLensesWM,
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   },
+  // );
+
+  final draggableScrollableController = OtherDraggableScrollableController();
+
+  void animateDraggable() {
+    draggableScrollableController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOutCirc,
+    );
+  }
+
+  return Navigator.of(context).push(
+    PageRouteBuilder(
+      opaque: false,
+      reverseTransitionDuration: const Duration(milliseconds: 150),
+      pageBuilder: (_, animation, secondaryAnimation) {
+        return BottomSheetPage(
+          onPop: animateDraggable,
+          draggableScrollableController: draggableScrollableController,
+          builder: (_, controller) =>
+              NotificationListener<DraggableScrollableNotification>(
+            onNotification: (notification) {
+              final offset = notification.extent;
+              if (offset < 0.05 && !isAlreadyPop) {
+                isAlreadyPop = true;
+                Navigator.of(context).pop();
+              }
+
+              return false;
+            },
+            child: WillPopScope(
+              onWillPop: () {
+                if (isAlreadyPop) return Future(() => false);
+
+                final contentContext = Keys.bottomNav.currentContext;
+                if (contentContext == null) return Future(() => true);
+
+                final canPopContent = Navigator.of(contentContext).canPop();
+                if (canPopContent) {
+                  Navigator.of(contentContext).pop();
+                  return Future(() => false);
+                }
+                // isAlreadyPop = true;
+                animateDraggable();
+                return Future(() => false);
+              },
+              child: SheetWidget(
+                onPop: animateDraggable,
+                child: BottomSheetNavigation<T>(
+                  controller: controller,
+                  sheetModel: model,
+                  args: args,
+                  initialRoute: initialRoute,
+                  myLensesWM: myLensesWM,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ),
   );
 }
 
@@ -38,9 +144,13 @@ void showLoader(BuildContext context) {
     context: context,
     barrierDismissible: false,
     barrierColor: Colors.black.withOpacity(0.8),
+    routeSettings: const RouteSettings(name: 'LoadingRoute'),
     builder: (context) {
-      return const Center(
-        child: AnimatedLoader(),
+      return WillPopScope(
+        onWillPop: () => Future(() => true),
+        child: const Center(
+          child: AnimatedLoader(),
+        ),
       );
     },
   );

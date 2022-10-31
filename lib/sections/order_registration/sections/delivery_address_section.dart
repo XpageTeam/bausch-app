@@ -1,3 +1,4 @@
+import 'package:bausch/main.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/address_select_screen.dart';
 import 'package:bausch/sections/order_registration/widget_models/order_registration_screen_wm.dart';
@@ -121,7 +122,10 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
           ),
 
           OrderButton(
-            onPressed: wm.addAddressAction,
+            onPressed: (){
+              AppsflyerSingleton.sdk.logEvent('freePackAddressAdd', null);
+              wm.addAddressAction();
+            },
             title: const Text(
               'Добавить новый адрес',
               style: AppStyles.h2Bold,

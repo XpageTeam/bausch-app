@@ -15,6 +15,7 @@ class ProductItemModel extends CatalogItemModel
     required String detailText,
     required String? picture,
     required int price,
+    required String disclaimer,
     this.specifications,
   }) : super(
           id: id,
@@ -23,6 +24,7 @@ class ProductItemModel extends CatalogItemModel
           detailText: detailText,
           picture: picture,
           price: price,
+          disclaimer: disclaimer,
         );
 
   factory ProductItemModel.fromMap(Map<String, dynamic> map) {
@@ -58,6 +60,7 @@ class ProductItemModel extends CatalogItemModel
                 map['specifications'] as Map<String, dynamic>,
               )
             : null,
+        disclaimer: map['disclaimer'] as String? ?? '',
       );
     } catch (e) {
       throw ResponseParseException('ProductItemModel: $e');

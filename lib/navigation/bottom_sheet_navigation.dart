@@ -1,8 +1,7 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'dart:io';
-
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
@@ -17,6 +16,8 @@ import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart'
 import 'package:bausch/sections/faq/question_screen.dart';
 import 'package:bausch/sections/faq/topic_screen.dart';
 import 'package:bausch/sections/faq/topics_screen.dart';
+import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/profile/content/discount_info_sheet_body.dart';
 import 'package:bausch/sections/rules/rules_screen.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_details.dart';
 import 'package:bausch/sections/sheets/screens/add_points/add_points_screen.dart';
@@ -27,10 +28,8 @@ import 'package:bausch/sections/sheets/screens/consultation/consultation_verific
 import 'package:bausch/sections/sheets/screens/consultation/final_consultation.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_screen.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/discount_optics_verification.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/sections/sheets/screens/free_packaging/free_packaging_screen.dart';
 import 'package:bausch/sections/sheets/screens/html/html_screen.dart';
 import 'package:bausch/sections/sheets/screens/partners/final_partners.dart';
 import 'package:bausch/sections/sheets/screens/partners/partners_screen.dart';
@@ -58,11 +57,13 @@ class BottomSheetNavigation<T> extends StatelessWidget {
   // из секции "вам может быть интересно" можно было перейти
   // сразу в товар
   String? initialRoute;
+  MyLensesWM? myLensesWM;
   BottomSheetNavigation({
     required this.controller,
     required this.sheetModel,
     this.args,
     this.initialRoute,
+    this.myLensesWM,
     Key? key,
   }) : super(key: key);
 
@@ -105,6 +106,7 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               } else if (sheetModel.type == 'add_points') {
                 page = AddPointsScreen(
                   controller: controller,
+                  myLensesWM: myLensesWM,
                 );
               } else if (sheetModel.type == 'faq') {
                 page = TopicsScreen(
@@ -124,6 +126,11 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                   question: supportArgs.question,
                   topic: supportArgs.topic,
                 );
+              } else if (sheetModel.type == 'discount_info') {
+                page = DiscountInfoSheetBody(
+                  controller: controller,
+                  args: args as DiscountInfoSheetBodyArgs,
+                );
               } else {
                 page = SheetScreen(
                   sheetModel: sheetModel,
@@ -135,16 +142,24 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
               break;
 
-            case '/free_product':
-              page = FreePackagingScreen(
-                controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model,
-              );
-              break;
+            // case '/free_product':
+            //   arguments as ItemSheetScreenArguments;
+
+            //   AppsflyerSingleton.sdk.logEvent('freePack', <String, dynamic>{
+            //     'id': arguments.model.id,
+            //     'title': arguments.model.name,
+            //   });
+
+            //   page = FreePackagingScreen(
+            //     controller: controller,
+            //     model: arguments.model,
+            //   );
+            //   break;
 
             case '/add_points':
               page = AddPointsScreen(
                 controller: controller,
+                myLensesWM: myLensesWM,
               );
               break;
 
@@ -153,20 +168,29 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (arguments as ItemSheetScreenArguments).model
                     as PromoItemModel,
-                discountType: DiscountType.offline,
+                section: arguments.section,
+                discount: sheetModel.discount,
               );
               break;
 
             case '/onlineShop':
+              arguments as ItemSheetScreenArguments;
+
+              AppsflyerSingleton.sdk
+                  .logEvent('discountOpticsShow', <String, dynamic>{
+                'id': arguments.model.id,
+                'title': arguments.model.name,
+              });
               page = DiscountOpticsScreen(
                 controller: controller,
-                model: (arguments as ItemSheetScreenArguments).model
-                    as PromoItemModel,
-                discountType: DiscountType.onlineShop,
+                model: arguments.model as PromoItemModel,
+                section: arguments.section,
+                discount: sheetModel.discount,
               );
               break;
 
             case '/promo_code_immediately':
+              // AppsflyerSingleton.sdk.logEvent('discountOpticsShow', null);
               page = PartnersScreen(
                 controller: controller,
                 model: (arguments as ItemSheetScreenArguments).model
@@ -188,10 +212,11 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (settings.arguments as DiscountOpticsArguments).model
                     as PromoItemModel,
-                discountType: (settings.arguments as DiscountOpticsArguments)
-                    .discountType,
+                section:
+                    (settings.arguments as DiscountOpticsArguments).section,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
+                discountCount: sheetModel.discount,
               );
               break;
 
@@ -242,8 +267,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 controller: controller,
                 model: (settings.arguments as DiscountOpticsArguments).model
                     as PromoItemModel,
-                discountType: (settings.arguments as DiscountOpticsArguments)
-                    .discountType,
+                section:
+                    (settings.arguments as DiscountOpticsArguments).section,
                 discountOptic: (settings.arguments as DiscountOpticsArguments)
                     .discountOptic,
                 orderData: (settings.arguments as DiscountOpticsArguments)
@@ -252,6 +277,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
               break;
 
             case '/online_consultation':
+              AppsflyerSingleton.sdk.logEvent('onlineConsultationShow', null);
+
               page = ConsultationScreen(
                 controller: controller,
                 model:
@@ -292,6 +319,10 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 points: (settings.arguments as FinalAddPointsArguments).points,
                 message:
                     (settings.arguments as FinalAddPointsArguments).message,
+                productBausch: (settings.arguments as FinalAddPointsArguments)
+                    .productBausch,
+                myLensesWM:
+                    (settings.arguments as FinalAddPointsArguments).myLensesWM,
               );
               break;
 
@@ -380,15 +411,20 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
           initialRoute = null;
 
-          if (Platform.isIOS) {
-            return CupertinoPageRoute<void>(builder: (context) {
-              return page;
-            });
-          } else {
-            return MaterialPageRoute<void>(builder: (context) {
-              return page;
-            });
-          }
+          return PageRouteBuilder<void>(
+            pageBuilder: (_, __, ___) => page,
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          );
+          // if (Platform.isIOS) {
+          //   return CupertinoPageRoute<void>(builder: (context) {
+          //     return page;
+          //   });
+          // } else {
+          //   return MaterialPageRoute<void>(builder: (context) {
+          //     return page;
+          //   });
+          // }
         },
       ),
     );

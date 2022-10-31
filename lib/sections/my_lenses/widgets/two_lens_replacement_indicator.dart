@@ -1,8 +1,8 @@
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/widgets/date_info_line.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_indicator_status.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/different_lenses_sheet.dart';
-import 'package:bausch/sections/my_lenses/widgets/start_end_date_line.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
@@ -42,9 +42,10 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       daysBeforeReplacement:
                           myLensesWM.leftLensDate.value!.daysLeft,
                       title: false,
-                      onTap: () async => myLensesWM.updateLensesDates(
+                      onUpdateTap: () async => myLensesWM.putOnLensesPair(
                         leftDate: DateTime.now(),
-                        rightDate: myLensesWM.rightLensDate.value!.dateStart,
+                        rightDate: null,
+                        putOffLeft: true,
                       ),
                     ),
                   ),
@@ -54,26 +55,27 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                       daysBeforeReplacement:
                           myLensesWM.rightLensDate.value!.daysLeft,
                       title: false,
-                      onTap: () async => myLensesWM.updateLensesDates(
-                        leftDate: myLensesWM.leftLensDate.value!.dateStart,
+                      onUpdateTap: () async => myLensesWM.putOnLensesPair(
+                        leftDate: null,
                         rightDate: DateTime.now(),
+                        putOffRight: true,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            StartEndDateLine(myLensesWM: myLensesWM),
+            DateInfoLine(myLensesWM: myLensesWM),
             const SizedBox(height: 13),
-            StartEndDateLine(myLensesWM: myLensesWM, isLeft: false),
+            DateInfoLine(myLensesWM: myLensesWM, isLeft: false),
             Padding(
               padding: const EdgeInsets.only(
                 top: 20,
               ),
               child: Row(
                 children: [
-                  if (myLensesWM.leftLensDate.value!.daysLeft > 0 ||
-                      myLensesWM.rightLensDate.value!.daysLeft > 0)
+                  if (myLensesWM.leftLensDate.value!.daysLeft >= 0 ||
+                      myLensesWM.rightLensDate.value!.daysLeft >= 0)
                     Expanded(
                       child: GreyButton(
                         text: 'Редактировать',
@@ -86,7 +88,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                             builder: (context) {
                               return DifferentLensesSheet(
                                 onConfirmed: ({leftDate, rightDate}) {
-                                  myLensesWM.updateLensesDates(
+                                  myLensesWM.updateLensesPair(
                                     leftDate: leftDate,
                                     rightDate: rightDate,
                                   );
@@ -108,7 +110,7 @@ class TwoLensReplacementIndicator extends StatelessWidget {
                     child: BlueButtonWithText(
                       text: 'Завершить',
                       onPressed: () async =>
-                          myLensesWM.putOffLenses(context: context),
+                          myLensesWM.putOffLensesSheet(context: context),
                     ),
                   ),
                 ],

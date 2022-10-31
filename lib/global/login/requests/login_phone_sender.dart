@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bausch/global/login/models/auth_response_model.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
@@ -17,6 +19,7 @@ class PhoneSender {
           <String, dynamic>{
             'phone': phone,
             'device_id': uuid,
+            'is_ios': Platform.isIOS ? 1 : 0,
           },
         ),
       ))

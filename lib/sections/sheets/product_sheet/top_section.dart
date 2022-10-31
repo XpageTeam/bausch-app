@@ -23,7 +23,7 @@ class TopSection extends StatelessWidget {
 
   TopSection.product({
     required CatalogItemModel model,
-    required String discount,
+    required String? discount,
     Widget? topLeftWidget,
     Key? key,
   }) : this(
@@ -136,7 +136,6 @@ class TopSection extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      // TODO(all): чекнуть норм ли виджет скидки
                       if (discount != null)
                         Align(
                           alignment: Alignment.bottomRight,
@@ -171,8 +170,7 @@ class TopSection extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                           ),
                                           Text(
-                                            (discount!.toUpperCase())
-                                                .replaceAll('СКИДКА ', ''),
+                                            '$discount ₽',
                                             style: AppStyles.h2,
                                             textAlign: TextAlign.center,
                                           ),
@@ -198,6 +196,19 @@ class TopSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
+              if (model.disclaimer.isNotEmpty)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      model.disclaimer,
+                      textAlign: TextAlign.center,
+                      style: AppStyles.p1Grey.copyWith(
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
               const SizedBox(
                 height: 30,
               ),

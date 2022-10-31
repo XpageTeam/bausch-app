@@ -159,7 +159,10 @@ class MayBeInterestingWM extends WidgetModel {
             name: 'Title',
             type: section,
           ),
-          ItemSheetScreenArguments(model: model),
+          ItemSheetScreenArguments(
+            model: model,
+            section: section,
+          ),
           '/$section',
         );
       }

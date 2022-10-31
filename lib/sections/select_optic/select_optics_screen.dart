@@ -22,24 +22,24 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* Program
 //* list
 class SelectOpticScreen extends CoreMwwmWidget<SelectOpticScreenWM> {
-  final void Function(Optic optic, String city, OpticShop? shop) onOpticSelect;
   final String selectButtonText;
   final bool isCertificateMap;
 
   SelectOpticScreen({
-    required this.onOpticSelect,
     this.selectButtonText = 'Выбрать эту сеть оптик',
     this.isCertificateMap = true,
     List<OpticCity>? cities,
     String? initialCity,
+    void Function(Optic optic, String city, OpticShop? shop)? onOpticSelect,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (context) => SelectOpticScreenWM(
             context: context,
-            initialCities: cities,
+            initialCities: cities ?? [],
             initialCity: initialCity,
             isCertificateMap: isCertificateMap,
+            onOpticSelect: onOpticSelect,
           ),
         );
 
@@ -65,6 +65,7 @@ class _SelectOpticScreenState
             title: 'Адреса оптик',
             backgroundColor: AppTheme.mystic,
           ),
+          resizeToAvoidBottomInset: false,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -76,8 +77,14 @@ class _SelectOpticScreenState
                   StaticData.sidePadding,
                   22,
                 ),
-                child: ShopPageSwitcher(
-                  callback: wm.switchAction,
+                child: StreamedStateBuilder<SelectOpticPage>(
+                  streamedState: wm.currentPageStreamed,
+                  builder: (_, page) {
+                    return ShopPageSwitcher(
+                      initialType: page,
+                      callback: wm.switchPage,
+                    );
+                  },
                 ),
               ),
 
@@ -93,7 +100,7 @@ class _SelectOpticScreenState
                   ),
                   child: _SelectCityButton(
                     city: currentCity,
-                    onPressed: wm.selectCityAction,
+                    onPressed: wm.openSelectCity,
                   ),
                 ),
               ),
@@ -122,17 +129,23 @@ class _SelectOpticScreenState
                     final filters = Filter.getFiltersFromOpticList(
                       optics,
                     );
-                    debugPrint('optics: ${optics.length}');
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                        // left: StaticData.sidePadding,
-                        // right: StaticData.sidePadding,
-                        bottom: 20.0,
-                      ),
-                      child: ShopFilterWidget(
-                        filters: filters,
-                        callback: wm.filtersOnChanged,
-                      ),
+                    // debugPrint('optics: ${optics.length}');
+                    return StreamedStateBuilder<List<Filter>>(
+                      streamedState: wm.selectedFiltersState,
+                      builder: (_, selectedFilters) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            // left: StaticData.sidePadding,
+                            // right: StaticData.sidePadding,
+                            bottom: 20.0,
+                          ),
+                          child: ShopFilterWidget(
+                            filters: filters,
+                            selectedFilters: selectedFilters,
+                            onTap: wm.onFilterTap,
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
@@ -152,7 +165,7 @@ class _SelectOpticScreenState
                       //debugPrint(ex.subtitle);
                       showDefaultNotification(
                         title: ex.title,
-                        subtitle: ex.subtitle,
+                        // subtitle: ex.subtitle,
                       );
 
                       return const SizedBox();
@@ -162,18 +175,22 @@ class _SelectOpticScreenState
                       currentPage: currentPage,
                       opticShops: opticShops,
                       isCertificateMap: widget.isCertificateMap,
-                      onCityDefinitionCallback: wm.onCityDefinition,
-                      onOpticShopSelect: (selectedShop) =>
-                          wm.onOpticShopSelectAction(
-                        OpticShopParams(
-                          selectedShop,
-                          (optic, shop) => widget.onOpticSelect(
-                            optic,
-                            wm.currentCityStreamed.value.data ?? '',
-                            shop,
-                          ),
-                        ),
-                      ),
+                      onCityDefinitionCallback: wm.trySetUserCity,
+                      initialOptic: wm.selectedOpticShop,
+                      onOpticShopSelectList: wm.showOpticOnMap,
+                      onOpticShopSelectMap: wm.selectOptic,
+
+                      //  (selectedShop) =>
+                      //     wm.onOpticShopSelectAction(
+                      //   OpticShopParams(
+                      //     selectedShop,
+                      //     (optic, shop) => widget.onOpticSelect(
+                      //       optic,
+                      //       wm.currentCityStreamed.value.data ?? '',
+                      //       shop,
+                      //     ),
+                      //   ),
+                      // ),
                       // whenCompleteModalBottomSheet: (mapBodyWm) {
                       //   wm.setFirstCity();
 

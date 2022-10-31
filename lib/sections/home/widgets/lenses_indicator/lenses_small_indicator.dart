@@ -26,7 +26,8 @@ class LensesSmallIndicator extends StatelessWidget {
               animation: true,
               animationDuration: 2000,
               lineWidth: 10,
-              percent: myLensesWM.rightLensDate.value!.daysLeft < 0 ||
+              percent: myLensesWM.rightLensDate.value!.dateEnd
+                          .isBefore(DateTime.now()) ||
                       myLensesWM.rightLensDate.value!.daysLeft >=
                           myLensesWM.currentProduct.value!.lifeTime
                   ? 1
@@ -48,7 +49,8 @@ class LensesSmallIndicator extends StatelessWidget {
                       animation: true,
                       animationDuration: 2000,
                       lineWidth: 9,
-                      percent: myLensesWM.leftLensDate.value!.daysLeft < 0 ||
+                      percent: myLensesWM.leftLensDate.value!.dateEnd
+                                  .isBefore(DateTime.now()) ||
                               myLensesWM.leftLensDate.value!.daysLeft >=
                                   myLensesWM.currentProduct.value!.lifeTime
                           ? 1
@@ -87,7 +89,7 @@ class LensesSmallIndicator extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                '${HelpFunctions.weekday(myLensesWM.leftLensDate.value!.dateEnd.day)}, ${myLensesWM.leftLensDate.value!.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(myLensesWM.leftLensDate.value!.dateEnd.month)}',
+                '${HelpFunctions.weekday(myLensesWM.leftLensDate.value!.dateEnd)}, ${myLensesWM.leftLensDate.value!.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(myLensesWM.leftLensDate.value!.dateEnd.month)}',
                 style: AppStyles.n1,
               ),
             ],
@@ -114,7 +116,7 @@ class LensesSmallIndicator extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                '${HelpFunctions.weekday(myLensesWM.rightLensDate.value!.dateEnd.day)}, ${myLensesWM.rightLensDate.value!.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(myLensesWM.rightLensDate.value!.dateEnd.month)}',
+                '${HelpFunctions.weekday(myLensesWM.rightLensDate.value!.dateEnd)}, ${myLensesWM.rightLensDate.value!.dateEnd.day} ${HelpFunctions.getMonthNameByNumber(myLensesWM.rightLensDate.value!.dateEnd.month)}',
                 style: AppStyles.n1,
               ),
             ],

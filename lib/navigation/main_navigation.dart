@@ -3,9 +3,10 @@
 import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
+import 'package:app_links/app_links.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/global/deep_link/deep_link_wm.dart';
 import 'package:bausch/help/utils.dart';
-import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/auth/loading/loading_screen.dart';
@@ -29,6 +30,7 @@ import 'package:bausch/sections/sales/sales_screen.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mindbox/mindbox.dart';
 
 //* Навигатор для страниц приложения
 class MainNavigation extends StatefulWidget {
@@ -45,6 +47,21 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation>
     with AfterLayoutMixin<MainNavigation> {
+  late final DeepLinkWM deepLinksWM;
+
+  @override
+  void initState() {
+    deepLinksWM = DeepLinkWM(
+      context: context,
+      authWM: widget.authWM,
+    );
+
+    AppLinks().stringLinkStream.listen(deepLinksWM.onLink);
+    Mindbox.instance.onPushClickReceived(deepLinksWM.onLink);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -98,12 +115,17 @@ class _MainNavigationState extends State<MainNavigation>
 
               case '/choose_lenses':
                 page = ChooseLensesScreen(
-                  isEditing: (settings.arguments as List<dynamic>)[0] as bool,
+                  isEditing: (settings.arguments as ChooseLensesScreenArguments)
+                      .isEditing,
                   lensesPairModel:
-                      (settings.arguments as List<dynamic>).length > 1
-                          ? ((settings.arguments as List<dynamic>)[1]
-                              as LensesPairModel)
-                          : null,
+                      (settings.arguments as ChooseLensesScreenArguments)
+                          .lensesPairModel,
+                  productBausch:
+                      (settings.arguments as ChooseLensesScreenArguments)
+                          .productBausch,
+                  myLensesWM:
+                      (settings.arguments as ChooseLensesScreenArguments)
+                          .myLensesWM,
                 );
                 break;
 
@@ -115,7 +137,11 @@ class _MainNavigationState extends State<MainNavigation>
                 break;
 
               case '/profile':
-                page = ProfileScreen();
+                final args = settings.arguments as ProfileScreenArguments?;
+
+                page = ProfileScreen(
+                  showNotifications: args?.showNotifications,
+                );
                 break;
 
               case '/profile_settings':
@@ -131,7 +157,9 @@ class _MainNavigationState extends State<MainNavigation>
               //   break;
 
               case '/city':
-                page = CityScreen(withFavoriteItems: const ['Москва'],);
+                page = CityScreen(
+                  withFavoriteItems: const ['Москва'],
+                );
                 break;
 
               case '/lenses_parameters':
@@ -220,7 +248,7 @@ class _MainNavigationState extends State<MainNavigation>
       if (Keys.mainContentNav.currentContext != null) {
         RequestHandler.setContext(context);
         widget.authWM.context = Keys.mainContentNav.currentContext;
-        widget.authWM.checkAuthAction();
+        widget.authWM.checkAuth();
       } else {
         debugPrint('authRestart');
         Future.delayed(const Duration(milliseconds: 50), authStart);

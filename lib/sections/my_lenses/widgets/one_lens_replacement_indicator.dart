@@ -1,10 +1,10 @@
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/widgets/date_info_line.dart';
 import 'package:bausch/sections/my_lenses/widgets/lens_indicator_status.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/different_lenses_sheet.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
-import 'package:bausch/sections/my_lenses/widgets/start_end_date_line.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
@@ -45,15 +45,17 @@ class OneLensReplacementIndicator extends StatelessWidget {
                 isLeft: isLeft,
                 lifeTime: myLensesWM.currentProduct.value!.lifeTime,
                 daysBeforeReplacement: activeLensDate.daysLeft,
-                onTap: () async {
-                  await myLensesWM.updateLensesDates(
+                onUpdateTap: () async {
+                  await myLensesWM.putOnLensesPair(
                     leftDate: DateTime.now(),
                     rightDate: DateTime.now(),
+                    putOffRight: sameTime || (!sameTime && !isLeft),
+                    putOffLeft: sameTime || (!sameTime && isLeft),
                   );
                 },
               ),
             ),
-            StartEndDateLine(
+            DateInfoLine(
               myLensesWM: myLensesWM,
               isLeft: isLeft,
               hasIcon: !sameTime,
@@ -64,7 +66,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  if (activeLensDate.daysLeft > 0)
+                  if (activeLensDate.daysLeft >= 0)
                     Expanded(
                       child: GreyButton(
                         text: 'Редактировать',
@@ -73,12 +75,13 @@ class OneLensReplacementIndicator extends StatelessWidget {
                           await showModalBottomSheet<num>(
                             isScrollControlled: true,
                             context: context,
+                            backgroundColor: Colors.transparent,
                             barrierColor: Colors.black.withOpacity(0.8),
                             builder: (context) {
                               if (sameTime) {
                                 return DifferentLensesSheet(
                                   onConfirmed: ({leftDate, rightDate}) {
-                                    myLensesWM.updateLensesDates(
+                                    myLensesWM.updateLensesPair(
                                       leftDate: leftDate,
                                       rightDate: rightDate,
                                     );
@@ -95,7 +98,7 @@ class OneLensReplacementIndicator extends StatelessWidget {
                                   rightPut:
                                       myLensesWM.rightLensDate.value?.dateStart,
                                   onConfirmed: ({leftDate, rightDate}) {
-                                    myLensesWM.updateLensesDates(
+                                    myLensesWM.updateLensesPair(
                                       leftDate: leftDate,
                                       rightDate: rightDate,
                                     );
@@ -110,11 +113,11 @@ class OneLensReplacementIndicator extends StatelessWidget {
                   const SizedBox(width: 3),
                   Expanded(
                     child: BlueButtonWithText(
-                      text: activeLensDate.daysLeft > 0
+                      text: activeLensDate.daysLeft >= 0
                           ? 'Завершить'
                           : 'Завершить ношение',
                       onPressed: () async =>
-                          myLensesWM.putOffLenses(context: context),
+                          myLensesWM.putOffLensesSheet(context: context),
                     ),
                   ),
                 ],

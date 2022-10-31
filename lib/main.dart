@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_mixin
 
+import 'dart:async';
+
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/login_wm.dart';
@@ -33,6 +35,8 @@ Future<void> main() async {
       subscribeCustomerIfCreated: true,
     ),
   );
+
+
 
   final analytics = FirebaseAnalytics.instance;
 
@@ -74,6 +78,11 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -154,20 +163,21 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
 }
 
 class AppsflyerSingleton {
+  static final AppsflyerSingleton _singleton = AppsflyerSingleton._internal();
   static late AppsflyerSdk sdk;
 
-  static AppsflyerSingleton? _instance;
-
   factory AppsflyerSingleton() {
-    return _instance ??= AppsflyerSingleton._init();
-  }
-
-  AppsflyerSingleton._init() {
     sdk = AppsflyerSdk(
       AppsFlyerOptions(
-        afDevKey: 'sadf',
-        showDebug: true,
+        afDevKey: 'tKZasDXefUEpQwds8CTvM3',
+        appId: '1624464666',
+        disableAdvertisingIdentifier: true,
       ),
     );
+
+    sdk.initSdk();
+
+    return _singleton;
   }
+  AppsflyerSingleton._internal();
 }

@@ -181,12 +181,12 @@ class LoginWM extends WidgetModel {
     _checkBtnActive();
   }
 
-  void _checkAuth() {
+  Future<void> checkAuth() async {
     final authWM = Provider.of<AuthWM>(context, listen: false);
 
     debugPrint(authWM.toString());
 
-    authWM.checkAuthAction();
+    await authWM.checkAuth();
   }
 
   void _checkBtnActive() {
@@ -260,7 +260,9 @@ class LoginWM extends WidgetModel {
         await UserWriter.writeToken(res.xApiToken);
 
         if (!isMobilePhoneConfirmed) {
-          unawaited(FirebaseAnalytics.instance.logEvent(name: 'registrationByPhone'));
+          unawaited(
+            FirebaseAnalytics.instance.logEvent(name: 'registrationByPhone'),
+          );
           unawaited(appsFlyer?.logEvent('registrationByPhone', null));
           unawaited(appsFlyer?.logEvent('registrationSuccess', null));
         } else {
@@ -273,7 +275,7 @@ class LoginWM extends WidgetModel {
 
         unawaited(appsFlyer?.logEvent('smsCodeTrue', null));
 
-        _checkAuth();
+        await checkAuth();
       } on DioError catch (e) {
         error = CustomException(
           title: 'При отправке запроса произошла ошибка',

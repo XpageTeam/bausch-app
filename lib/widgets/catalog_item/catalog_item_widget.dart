@@ -8,9 +8,7 @@ import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/faq/question_model.dart';
 import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/sections/faq/contact_support/contact_support_screen.dart';
-import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/final_discount_optics.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
@@ -20,29 +18,43 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
+import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class CatalogItemWidget extends StatelessWidget {
   final CatalogItemModel model;
   final String? orderTitle;
   final String? address;
   final String? deliveryInfo;
+  final String? promocodeDate;
+  final String? link;
+  final Widget? bottomWidget;
 
   const CatalogItemWidget({
     required this.model,
     this.orderTitle,
     this.address,
     this.deliveryInfo,
+    this.promocodeDate,
+    this.link,
+    this.bottomWidget,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     debugPrint(model.picture);
+
+    final promocodeDateTime = promocodeDate != null
+        ? DateFormat('dd.MM.yyyy').parse(promocodeDate!)
+        : null;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -85,15 +97,6 @@ class CatalogItemWidget extends StatelessWidget {
                           style: AppStyles.h2Bold,
                         ),
                       ),
-
-                      // TODO(all): сюда добавить название скидочного товара
-                      //   Flexible(
-                      //   child: Text(
-                      //     model.name,
-                      //     style: AppStyles.h2Bold,
-                      //   ),
-                      // ),
-
                       //* Цена и виджет баллов
                       if (model.price > 0)
                         Container(
@@ -290,6 +293,16 @@ class CatalogItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
+
+            if (promocodeDateTime != null)
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'До ${DateFormat('dd MMMM yyyy', 'ru_RUS').format(promocodeDateTime)}',
+                  style: AppStyles.p1Grey,
+                ),
+              ),
+
             if (model is! ProductItemModel)
               Container(
                 margin: const EdgeInsets.only(top: 30),
@@ -313,6 +326,42 @@ class CatalogItemWidget extends StatelessWidget {
                   },
                 ),
               ),
+            if (bottomWidget != null) bottomWidget!,
+            // if (link != null && link!.isNotEmpty)
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: 16.0),
+            //     child: Align(
+            //       alignment: Alignment.centerLeft,
+            //       child: GestureDetector(
+            //         onTap: () => openSimpleWebView(
+            //           context,
+            //           url: link!,
+            //         ),
+            //         // ignore: use_colored_box
+            //         child: Container(
+            //           color: Colors.transparent,
+            //           child: Row(
+            //             mainAxisSize: MainAxisSize.min,
+            //             children: [
+            //               Image.asset(
+            //                 'assets/icons/map-marker.png',
+            //                 height: 16,
+            //               ),
+            //               const SizedBox(
+            //                 width: 6,
+            //               ),
+            //               Text(
+            //                 'Контакты для записи в оптику',
+            //                 style: AppStyles.p1.copyWith(
+            //                   decoration: TextDecoration.underline,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),
@@ -385,9 +434,11 @@ void callback(CatalogItemModel model, {VoidCallback? allWebinarsOpen}) {
       initHeight: 0.9,
       maxHeight: 0.95,
       anchors: [0, 0.6, 0.95],
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (context, controller, d) {
         return FinalDiscountOptics(
-          discountType: DiscountType.offline,
+          section: 'offline',
           controller: ScrollController(),
           model: model as PromoItemModel,
           buttonText: 'Готово',

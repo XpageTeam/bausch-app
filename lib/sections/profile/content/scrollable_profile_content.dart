@@ -1,5 +1,6 @@
 import 'package:bausch/exceptions/custom_exception.dart';
-import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/sections/profile/content/models/base_order_model.dart';
+import 'package:bausch/sections/profile/content/models/notification_model.dart';
 import 'package:bausch/sections/profile/content/notifications_section.dart';
 import 'package:bausch/sections/profile/content/orders_section.dart';
 import 'package:bausch/sections/profile/content/wm/profile_content_wm.dart';
@@ -14,8 +15,12 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ScrollableProfileContent extends CoreMwwmWidget<ProfileContentWM> {
   final ScrollController controller;
-  ScrollableProfileContent({required this.controller, Key? key})
-      : super(
+  final bool? showNotifications;
+  ScrollableProfileContent({
+    required this.controller,
+    this.showNotifications = false,
+    Key? key,
+  }) : super(
           widgetModelBuilder: (_) => ProfileContentWM(),
           key: key,
         );
@@ -30,6 +35,23 @@ class _ScrollableProfileContentState
   bool isOrdersEnabled = true;
 
   @override
+  void initState() {
+    if (widget.showNotifications ?? false) {
+      // wm.activeNotifications.stream.listen((event) { });
+
+      isOrdersEnabled = false;
+
+      // wm.activeNotifications.stream.listen((notificationsCount) {
+      //   if (notificationsCount > 0){
+
+      //     widget.controller.jumpTo(0);
+      //   }
+      // });
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ColoredBox(
       color: AppTheme.mystic,
@@ -41,11 +63,14 @@ class _ScrollableProfileContentState
         errorBuilder: (context, e) {
           e as CustomException;
 
-          return ErrorPage(
-            title: e.title,
-            subtitle: e.subtitle,
-            buttonText: 'Обновить',
-            buttonCallback: wm.allDataLoadAction,
+          return Center(
+            // color: Colors.pink,
+            child: SimpleErrorWidget(
+              title: e.title.replaceAll('-', '\u{2011}'),
+              // subtitle: e.subtitle,
+              buttonText: 'Обновить',
+              buttonCallback: wm.allDataLoadAction,
+            ),
           );
         },
         builder: (_, state) {
@@ -78,10 +103,21 @@ class _ScrollableProfileContentState
                       child: StreamedStateBuilder<int>(
                         streamedState: wm.activeNotifications,
                         builder: (_, amount) {
+                          if (amount < 0) {
+                            setState(() {
+                              isOrdersEnabled = true;
+
+                              widget.controller.jumpTo(0);
+                            });
+                          }
                           return SelectWidget(
+                            initValue: widget.showNotifications != null &&
+                                    widget.showNotifications!
+                                ? 1
+                                : 0,
                             items: [
                               'Заказы ${wm.orderHistoryList.value.data!.length}',
-                              'Уведомления ${amount > 1 ? amount : ''}',
+                              'Уведомления ${amount > 0 ? amount : ''}',
                             ],
                             onChanged: (i) {
                               setState(() {
@@ -104,10 +140,13 @@ class _ScrollableProfileContentState
                   return SliverList(
                     delegate: SliverChildListDelegate([
                       ClipRect(
-                        child: SizedBox(
-                          height: info?.dragOffset ?? 0,
-                          child: const Center(
-                            child: AnimatedLoader(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: SizedBox(
+                            height: info?.dragOffset ?? 0,
+                            child: const Center(
+                              child: AnimatedLoader(),
+                            ),
                           ),
                         ),
                       ),
@@ -116,15 +155,97 @@ class _ScrollableProfileContentState
                 }),
                 if (isOrdersEnabled) ...[
                   //* Вкладка с заказами
-                  OrdersSection(
-                    ordersList: wm.orderHistoryList.value.data!,
+                  // if (wm.orderHistoryList.value.data == null)
+                  //   SliverFillRemaining(
+                  //     hasScrollBody: false,
+                  //     child: Center(
+                  //       child: SimpleErrorWidget(
+                  //         title: 'Ошибка',
+                  //         buttonCallback: () => wm.loadOrdersHistoryAction(),
+                  //         buttonText: 'Повторить',
+                  //       ),
+                  //     ),
+                  //   )
+                  // else
+                  //   OrdersSection(
+                  //     ordersList: wm.orderHistoryList.value.data!,
+                  //   ),
+
+                  EntityStateBuilder<List<BaseOrderModel?>>(
+                    streamedState: wm.orderHistoryList,
+                    loadingBuilder: (context, data) => data == null
+                        ? const SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: AnimatedLoader(),
+                            ),
+                          )
+                        : OrdersSection(
+                            ordersList: data,
+                          ),
+                    errorBuilder: (context, error) => SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: SimpleErrorWidget(
+                          title: 'Ошибка',
+                          buttonCallback: () => wm.loadOrdersHistoryAction(),
+                          buttonText: 'Повторить',
+                        ),
+                      ),
+                    ),
+                    builder: (_, orderHistoryList) => OrdersSection(
+                      ordersList: orderHistoryList,
+                    ),
                   ),
                 ] else ...[
                   //* Вкладка с уведомлениями (с переключателем)
-                  NotificationSection(
-                    items: wm.notificationsList.value.data!,
-                    updateCallback: (amount) =>
-                        wm.updateNotificationsAmount(amount),
+                  // if (wm.notificationsList.value.data == null)
+                  // SliverFillRemaining(
+                  //   hasScrollBody: false,
+                  //   child: Center(
+                  //     child: SimpleErrorWidget(
+                  //       title: 'Ошибка',
+                  //       buttonCallback: () => wm.loadNotificationsAction(),
+                  //       buttonText: 'Повторить',
+                  //     ),
+                  //   ),
+                  // )
+                  // else
+                  //   NotificationSection(
+                  //     items: wm.notificationsList.value.data!,
+                  //     updateCallback: (amount) =>
+                  //         wm.updateNotificationsAmount(amount),
+                  //   ),
+
+                  EntityStateBuilder<List<NotificationModel>>(
+                    streamedState: wm.notificationsList,
+                    loadingBuilder: (context, data) => data == null
+                        ? const SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: AnimatedLoader(),
+                            ),
+                          )
+                        : NotificationSection(
+                            items: data,
+                            updateCallback: (amount) =>
+                                wm.updateNotificationsAmount(amount),
+                          ),
+                    errorBuilder: (context, error) => SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: SimpleErrorWidget(
+                          title: 'Ошибка',
+                          buttonCallback: () => wm.loadNotificationsAction(),
+                          buttonText: 'Повторить',
+                        ),
+                      ),
+                    ),
+                    builder: (_, notificationsList) => NotificationSection(
+                      items: notificationsList,
+                      updateCallback: (amount) =>
+                          wm.updateNotificationsAmount(amount),
+                    ),
                   ),
                 ],
                 SliverList(

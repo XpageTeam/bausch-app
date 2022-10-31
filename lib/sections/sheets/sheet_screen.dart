@@ -16,10 +16,14 @@ import 'package:flutter/material.dart';
 class ItemSheetScreenArguments {
   final CatalogItemModel model;
   final OrderData? orderData;
+  final String? discount;
+  final String section;
 
   ItemSheetScreenArguments({
     required this.model,
+    this.section = '',
     this.orderData,
+    this.discount,
   });
 }
 
@@ -93,7 +97,7 @@ class _SheetScreenState extends State<SheetScreen> {
           SliverAppBar(
             pinned: true,
             elevation: 0,
-            toolbarHeight: 100,
+            toolbarHeight: 70, //widget.sheetModel.icon != null ? 100 : 65,
             backgroundColor: AppTheme.mystic,
             flexibleSpace: Container(
               color: AppTheme.mystic,
@@ -105,13 +109,15 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
               child: Row(
                 children: [
-                  Image.network(
-                    widget.sheetModel.icon!,
-                    height: 60,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  if (widget.sheetModel.icon != null)
+                    Image.network(
+                      widget.sheetModel.icon!,
+                      height: 60,
+                    ),
+                  if (widget.sheetModel.icon != null)
+                    const SizedBox(
+                      width: 10,
+                    ),
                   Flexible(
                     child: Text(
                       widget.sheetModel.name,
@@ -147,7 +153,11 @@ class _SheetScreenState extends State<SheetScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: widget.items[i * 2].shield,
+                            child: widget.items[i * 2].fetchShield(
+                              discountCount: widget.sheetModel.discount == null
+                                  ? null
+                                  : '${widget.sheetModel.discount}',
+                            ),
                           ),
                         ],
                       ),
@@ -159,13 +169,19 @@ class _SheetScreenState extends State<SheetScreen> {
                               onTap: () {
                                 _openItemSheet(
                                   widget.items[i * 2 + 1],
+                                  discount: widget.sheetModel.discount,
                                 );
                               },
                               allWebinarsCallback: _openAllWebinars,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(12.0),
-                              child: widget.items[i * 2 + 1].shield,
+                              child: widget.items[i * 2 + 1].fetchShield(
+                                discountCount:
+                                    widget.sheetModel.discount == null
+                                        ? null
+                                        : '${widget.sheetModel.discount}',
+                              ),
                             ),
                           ],
                         ),
@@ -191,7 +207,10 @@ class _SheetScreenState extends State<SheetScreen> {
     );
   }
 
-  void _openItemSheet(CatalogItemModel model) {
+  void _openItemSheet(
+    CatalogItemModel model, {
+    String? discount,
+  }) {
     final originType = widget.sheetModel.type;
 
     var type = originType;
@@ -204,6 +223,8 @@ class _SheetScreenState extends State<SheetScreen> {
       '/$type',
       arguments: ItemSheetScreenArguments(
         model: model,
+        discount: discount,
+        section: originType,
       ),
     );
   }

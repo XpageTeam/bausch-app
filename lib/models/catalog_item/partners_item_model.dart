@@ -31,6 +31,7 @@ class PartnersItemModel extends CatalogItemModel {
           picture: picture,
           price: price,
           type: type,
+          disclaimer: '',
         );
 
   factory PartnersItemModel.fromMap(Map<String, dynamic> map) {
@@ -66,7 +67,6 @@ class PartnersItemModel extends CatalogItemModel {
         link: map['partner_link'] as String?,
         endDate: map['promo_code_end_date'] as String?,
         isBought: map['isBought'] as bool? ?? false,
-
       );
     } catch (e) {
       throw ResponseParseException('PartnersItemModel: $e');

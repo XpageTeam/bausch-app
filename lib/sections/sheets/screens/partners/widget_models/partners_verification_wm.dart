@@ -6,6 +6,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
@@ -47,6 +48,12 @@ class PartnersVerificationWM extends WidgetModel {
       context,
       listen: false,
     );
+
+    AppsflyerSingleton.sdk.logEvent('partnersItemsOrder', <String, dynamic>{
+      'id': itemModel.id,
+      'title': itemModel.name,
+    });
+
     final points = userWm.userData.value.data?.balance.available.toInt() ?? 0;
     remains = points - itemModel.price;
     super.onLoad();

@@ -17,6 +17,10 @@ class InfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (text.isNotEmpty) {
+      final clearedText = text
+          .replaceAll('<p>', '')
+          .replaceAll('</p>', '')
+          .replaceAll('&nbsp;', '');
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -29,9 +33,10 @@ class InfoSection extends StatelessWidget {
           bottom: 40,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Html(
-              data: text,
+              data: clearedText,
               style: htmlStyles,
               customRender: htmlCustomRender,
               onLinkTap: (url, context, attributes, element) async {
@@ -62,8 +67,10 @@ class InfoSection extends StatelessWidget {
                     if (url != null) {
                       if (await canLaunchUrlString(url)) {
                         try {
-                          await launchUrlString(url, mode: LaunchMode.inAppWebView);
-
+                          await launchUrlString(
+                            url,
+                            mode: LaunchMode.inAppWebView,
+                          );
                           return;
                           // ignore: avoid_catches_without_on_clauses
                         } catch (e) {

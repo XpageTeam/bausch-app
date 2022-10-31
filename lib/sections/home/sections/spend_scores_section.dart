@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 class SpendScores extends StatelessWidget {
   final List<BaseCatalogSheetModel> catalogList;
   List<BaseCatalogSheetModel> actualList = [];
+  
   SpendScores({
     required this.catalogList,
     Key? key,
   }) : super(key: key) {
-    // TODO(info): обрабатываем все кроме скидок за баллы
+    // обрабатываем все кроме скидок за баллы
     for (final element in catalogList) {
       if (!element.type.contains('offline') &&
           !element.type.contains('online')) {

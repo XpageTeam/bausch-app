@@ -15,7 +15,7 @@ class LensListener extends StatelessWidget {
         if (state is LensFailed) {
           showDefaultNotification(
             title: state.title,
-            subtitle: state.subtitle,
+            // subtitle: state.subtitle,
           );
         }
 

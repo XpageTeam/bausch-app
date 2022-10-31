@@ -8,5 +8,6 @@ class SimpleSheetModel extends BaseCatalogSheetModel {
           name: name,
           type: type,
           id: 1,
+          discount: null,
         );
 }

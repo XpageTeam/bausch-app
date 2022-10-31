@@ -4,6 +4,7 @@ import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
@@ -25,6 +26,8 @@ class DiscountOpticsVerificationWM extends WidgetModel {
   final PromoItemModel itemModel;
   final Optic discountOptic;
   final DiscountType discountType;
+  final String? discount;
+  final String section;
 
   final loadingState = StreamedState<bool>(false);
   final codeLoadingState = StreamedState<bool>(false);
@@ -43,17 +46,26 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     required this.context,
     required this.itemModel,
     required this.discountOptic,
-    required this.discountType,
-  }) : super(
+    required this.section,
+    required this.discount,
+  })  : discountType = section.contains('online')
+            ? DiscountType.onlineShop
+            : DiscountType.offline,
+        super(
           const WidgetModelDependencies(),
         );
 
   @override
   void onLoad() {
-    userWm = Provider.of<UserWM>(
-      context,
-      listen: false,
+    AppsflyerSingleton.sdk.logEvent(
+      'discountOpticsOrder',
+      <String, dynamic>{
+        'id': itemModel.id,
+        'title': itemModel.name,
+      },
     );
+
+    userWm = context.read<UserWM>();
     points = userWm.userData.value.data?.balance.available.toInt() ?? 0;
 
     remains = points - itemModel.price;
@@ -79,9 +91,10 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 
     try {
       result = await OrderDiscountSaver.save(
-        discountOptic,
-        itemModel,
-        discountType.asString,
+        optic: discountOptic,
+        model: itemModel,
+        category: section,
+        discount: discount,
       );
 
       if (discountType == DiscountType.onlineShop) {
@@ -122,14 +135,23 @@ class DiscountOpticsVerificationWM extends WidgetModel {
     if (error != null) {
       showTopError(error);
     } else {
+      unawaited(AppsflyerSingleton.sdk.logEvent(
+        'discountOpticsOrderFinished',
+        <String, dynamic>{
+          'id': itemModel.id,
+          'title': itemModel.name,
+        },
+      ));
+
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_discount_optics',
         (route) => route.isCurrent,
         arguments: DiscountOpticsArguments(
           model: itemModel,
           discountOptic: discountOptic,
-          discountType: discountType,
+          section: section,
           orderDataResponse: result,
+          discount: discount,
         ),
       );
     }
@@ -137,11 +159,12 @@ class DiscountOpticsVerificationWM extends WidgetModel {
 }
 
 class OrderDiscountSaver {
-  static Future<PartnerOrderResponse> save(
-    Optic optic,
-    PromoItemModel model,
-    String category,
-  ) async {
+  static Future<PartnerOrderResponse> save({
+    required Optic optic,
+    required PromoItemModel model,
+    required String category,
+    String? discount,
+  }) async {
     final rh = RequestHandler();
     final resp = await rh.put<Map<String, dynamic>>(
       '/order/discount/save/',
@@ -156,10 +179,15 @@ class OrderDiscountSaver {
           // 'color':,
           // 'cylinder':,
           // 'axis':,
+
+          'shopId': optic.id,
+          'productName': model.name,
+          if (optic.link != null) 'link': optic.link,
           'shopName': optic.title,
           'category': category,
           'shopCode': optic.shopCode,
           'productCode': model.code,
+          if (discount != null) 'sale': discount,
         },
       ),
     );

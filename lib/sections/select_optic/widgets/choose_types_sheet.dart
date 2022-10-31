@@ -1,14 +1,13 @@
+import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/shop/filter_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
-import 'package:bausch/sections/select_optic/select_optics_screen.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
+import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/blue_button_with_text.dart';
-import 'package:bausch/widgets/select_widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class ChooseTypesSheet extends StatelessWidget {
@@ -92,10 +91,25 @@ class ChooseTypesSheet extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 26),
-                child: BlueButtonWithText(
-                  text: 'Показать 2 варианта',
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                child: EntityStateBuilder<List<OpticShop>>(
+                  streamedState: wm.filteredOpticShopsStreamed,
+                  builder: (_, filteredOptics) {
+                    final count = filteredOptics.length;
+                    return BlueButtonWithText(
+                      text: count == 0
+                          ? 'Нет оптик'
+                          : 'Показать $count ${HelpFunctions.wordByCount(
+                              count,
+                              [
+                                'вариантов',
+                                'вариант',
+                                'варианта',
+                              ],
+                            )}',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    );
                   },
                 ),
               ),
@@ -123,6 +137,7 @@ class LensFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      // ignore: use_colored_box
       child: Container(
         color: Colors.transparent,
         child: Row(

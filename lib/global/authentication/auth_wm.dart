@@ -23,11 +23,6 @@ enum AuthStatus {
 // не понятно почему (возможно не тот код)
 class AuthWM extends WidgetModel {
   final authStatus = StreamedState<AuthStatus>(AuthStatus.unknown);
-
-  // final user = EntityStreamedState<UserRepository>();
-
-  final checkAuthAction = VoidAction();
-
   final UserWM userWM;
 
   BuildContext? context;
@@ -83,9 +78,7 @@ class AuthWM extends WidgetModel {
       }
     });
 
-    checkAuthAction.bind((value) {
-      _checkUserAuth();
-    });
+   
   }
 
   /// выход
@@ -94,17 +87,16 @@ class AuthWM extends WidgetModel {
     authStatus.accept(AuthStatus.unauthenticated);
   }
 
-  Future<void> _checkUserAuth() async {
+  Future<void> checkAuth() async {
     if (userWM.userData.value.isLoading) return;
 
     await userWM.userData.loading();
 
     try {
- 
       final user = await UserWriter.checkUserToken();
 
       if (user == null) {
-         await authStatus.accept(AuthStatus.unauthenticated);
+        await authStatus.accept(AuthStatus.unauthenticated);
         // TODO(all): обдумать поведение этой ситуации
         await userWM.userData.error(Exception('Необходима авторизация'));
         if (Platform.isIOS) {
@@ -152,11 +144,13 @@ class AuthWM extends WidgetModel {
     }
 
     if (userWM.userData.value.hasError &&
-        userWM.userData.value.error.toString() != 'Exception: Необходима авторизация') {
-      // TODO(all): ошибка не воспринимается как кастом экзепшн
-      // final error = userWM.userData.value.error as CustomException;
-      final error = userWM.userData.value.error;
-
+        userWM.userData.value.error.toString() !=
+            'Exception: Необходима авторизация') {
+      CustomException? error;
+      final rawError = userWM.userData.value.error;
+      if (rawError != null && rawError is CustomException) {
+        error = rawError;
+      }
       if (context != null) {
         await Navigator.of(context!).pushAndRemoveUntil<void>(
           PageRouteBuilder(
@@ -168,8 +162,8 @@ class AuthWM extends WidgetModel {
               //   buttonText: 'Обновить',
               // );
               return ErrorPage(
-                title: error.toString(),
-                buttonCallback: checkAuthAction,
+                title: error?.title ?? 'Ошибка',
+                buttonCallback: checkAuth,
                 buttonText: 'Обновить',
               );
             },
@@ -181,15 +175,15 @@ class AuthWM extends WidgetModel {
           await Navigator.of(context!).pushAndRemoveUntil<void>(
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) {
-                 // return ErrorPage(
+                // return ErrorPage(
                 //   title: error.title,
                 //   subtitle: error.subtitle,
                 //   buttonCallback: checkAuthAction,
                 //   buttonText: 'Обновить',
                 // );
                 return ErrorPage(
-                  title: error.toString(),
-                  buttonCallback: checkAuthAction,
+                  title: error?.title ?? 'Ошибка',
+                  buttonCallback: checkAuth,
                   buttonText: 'Обновить',
                 );
               },

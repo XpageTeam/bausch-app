@@ -192,7 +192,7 @@ class AddPointsDetailsWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       await Utils.tryLaunchUrl(
@@ -200,7 +200,7 @@ class AddPointsDetailsWM extends WidgetModel {
         onError: (ex) {
           showDefaultNotification(
             title: ex.title,
-            subtitle: ex.subtitle,
+            // subtitle: ex.subtitle,
           );
         },
       );
@@ -277,7 +277,7 @@ class AddPointsDetailsWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       // await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(

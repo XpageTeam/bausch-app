@@ -36,6 +36,8 @@ class PartnersVerification extends CoreMwwmWidget<PartnersVerificationWM> {
 class _PartnersVerificationState
     extends WidgetState<PartnersVerification, PartnersVerificationWM> {
   Color iconColor = Colors.white;
+
+
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(

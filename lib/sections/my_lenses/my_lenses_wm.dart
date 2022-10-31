@@ -2,17 +2,22 @@
 
 import 'dart:async';
 
+import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_model.dart';
 import 'package:bausch/models/my_lenses/lenses_worn_history_list_model.dart';
 import 'package:bausch/models/my_lenses/recommended_products_list_modul.dart';
 import 'package:bausch/models/my_lenses/reminders_buy_model.dart';
+import 'package:bausch/models/user/user_model/subscription_model.dart';
 import 'package:bausch/sections/my_lenses/requesters/my_lenses_requester.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_end_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 enum MyLensesPage { currentLenses, oldLenses }
@@ -40,7 +45,7 @@ class MyLensesWM extends WidgetModel {
   final MyLensesRequester myLensesRequester = MyLensesRequester();
   final recommendedProducts = StreamedState<List<RecommendedProductModel>>([]);
   final loadingInProgress = StreamedState(false);
-  final dailyRemindersLoading = StreamedState(false);
+  final remindersLoading = StreamedState(false);
 
   MyLensesWM() : super(const WidgetModelDependencies());
 
@@ -55,7 +60,10 @@ class MyLensesWM extends WidgetModel {
 
   Future loadAllData() async {
     unawaited(loadingInProgress.accept(true));
+    final stopwatch = Stopwatch()..start();
+
     await _loadCurrentLensesInfo();
+
     if (lensesPairModel.value != null) {
       await Future.wait<void>([
         recommendedProducts.accept(
@@ -67,6 +75,9 @@ class MyLensesWM extends WidgetModel {
         _loadLensesReminders(isDaily: currentProduct.value!.lifeTime == 1),
       ]);
     }
+
+    stopwatch.stop();
+    debugPrint('time: ${(stopwatch.elapsedMilliseconds) / 1000}');
     unawaited(loadingInProgress.accept(false));
   }
 
@@ -78,21 +89,21 @@ class MyLensesWM extends WidgetModel {
     if (context != null) {
       Navigator.of(context).pop();
     }
+    unawaited(switchAction(MyLensesPage.currentLenses));
     try {
-      await myLensesRequester.putOnLensesPair(
-        leftDate: null,
-        rightDate: null,
+      await myLensesRequester.putOffLenses(
+        leftDate: DateTime.now(),
+        rightDate: DateTime.now(),
       );
       await myLensesRequester.activateOldLenses(pairId: pairId);
+
       await loadAllData();
-      unawaited(switchAction(MyLensesPage.currentLenses));
     } catch (e) {
       debugPrint('activateOldLenses $e');
     }
     unawaited(loadingInProgress.accept(false));
   }
 
-  // TODO(ask): сколько строк будет приходить при showAll == false ?
   Future loadWornHistory({
     required bool showAll,
     required bool isOld,
@@ -133,10 +144,15 @@ class MyLensesWM extends WidgetModel {
 
   Future updateMultiReminders({
     required List<String> reminders,
-    bool shouldPop = false,
+    required BuildContext context,
   }) async {
+    unawaited(remindersLoading.accept(true));
+    if (reminders.isNotEmpty) {
+      unawaited(activateUserPushNotifications(context: context));
+    }
+    Keys.mainContentNav.currentState!.pop();
     try {
-      await myLensesRequester.updateReminders(reminders: reminders);
+      await myLensesRequester.updateMultiReminders(reminders: reminders);
       unawaited(multiRemindes.accept([...reminders]));
       _setMultiRemindersStatus(reminders: reminders);
       showDefaultNotification(
@@ -146,13 +162,29 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
       debugPrint(e.toString());
     }
-    if (shouldPop) {
-      Keys.mainContentNav.currentState!.pop();
+    unawaited(remindersLoading.accept(false));
+  }
+
+  Future activateUserPushNotifications({
+    required BuildContext context,
+  }) async {
+    final userWM = Provider.of<UserWM>(context, listen: false);
+    final notifications = <SubscriptionModel>[];
+    for (final element in userWM.userData.value.data!.user.subscriptions) {
+      if (element.pointOfContact.toLowerCase() == 'mobilepush') {
+        notifications.add(element.copyWith(isSubscribed: true));
+      } else {
+        notifications.add(element);
+      }
     }
+    await userWM.updateUserData(
+      userWM.userData.value.data!.user,
+      notifications: notifications,
+      showMessage: false,
+    );
   }
 
   Future updateDailyReminders({
@@ -163,17 +195,22 @@ class MyLensesWM extends WidgetModel {
     required List<String>? reminders,
     BuildContext? context,
   }) async {
-    unawaited(dailyRemindersLoading.accept(true));
+    unawaited(remindersLoading.accept(true));
+    if (context != null) {
+      Navigator.of(context).pop();
+    }
     try {
       if (subscribe) {
         if (defaultValue) {
           await myLensesRequester.setDefaultDailyReminders();
         } else {
-          // TODO(ask): попросить равиля упоминания 1 базовое засунуть в этот запрос
+          if (reminders!.isNotEmpty) {
+            await activateUserPushNotifications(context: context!);
+          }
           await myLensesRequester.updateDailyReminders(
             date: date!,
             replay: replay!,
-            reminders: reminders!,
+            reminders: reminders,
           );
         }
         await _loadDailyReminders();
@@ -181,6 +218,7 @@ class MyLensesWM extends WidgetModel {
         await myLensesRequester.deleteDailyReminders();
         unawaited(dailyReminders.accept(null));
       }
+
       showDefaultNotification(
         title: 'Данные успешно обновлены',
         success: true,
@@ -188,23 +226,24 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
       debugPrint('updateDailyReminders $e');
     }
-    unawaited(dailyRemindersLoading.accept(false));
-    if (context != null) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-    }
+    unawaited(remindersLoading.accept(false));
   }
 
-  Future updateLensesDates({
+  Future putOnLensesPair({
     required DateTime? leftDate,
     required DateTime? rightDate,
+    bool putOffLeft = false,
+    bool putOffRight = false,
   }) async {
     unawaited(loadingInProgress.accept(true));
     try {
+      await myLensesRequester.putOffLenses(
+        leftDate: putOffLeft ? DateTime.now() : null,
+        rightDate: putOffRight ? DateTime.now() : null,
+      );
       await myLensesRequester.putOnLensesPair(
         leftDate: leftDate,
         rightDate: rightDate,
@@ -220,16 +259,51 @@ class MyLensesWM extends WidgetModel {
     } catch (e) {
       showDefaultNotification(
         title: 'Произошла ошибка обновления',
-        success: true,
       );
-      debugPrint('updateLensesDates $e');
+      debugPrint('putOnLensesPair $e');
     }
     unawaited(loadingInProgress.accept(false));
   }
 
-  Future putOffLenses({required BuildContext context}) async {
+  Future updateLensesPair({
+    required DateTime? leftDate,
+    required DateTime? rightDate,
+  }) async {
+    unawaited(loadingInProgress.accept(true));
+    var leftChanged = false;
+    var rightChanged = false;
+    if (leftDate != null) {
+      leftChanged = !leftLensDate.value!.dateStart.isSameDate(leftDate);
+    }
+    if (rightDate != null) {
+      rightChanged = !rightLensDate.value!.dateStart.isSameDate(rightDate);
+    }
+    try {
+      await myLensesRequester.updateLensesPair(
+        leftDate: leftChanged ? leftDate : null,
+        rightDate: rightChanged ? rightDate : null,
+      );
+      await Future.wait<void>([
+        _loadLensesDates(),
+        loadWornHistory(showAll: false, isOld: false),
+      ]);
+      showDefaultNotification(
+        title: 'Данные успешно обновлены',
+        success: true,
+      );
+    } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка обновления',
+      );
+      debugPrint('updateLensesPair $e');
+    }
+    unawaited(loadingInProgress.accept(false));
+  }
+
+  Future putOffLensesSheet({required BuildContext context}) async {
+    unawaited(AppsflyerSingleton.sdk.logEvent('my-lenses-finish', null));
     if (rightLensDate.value == null || leftLensDate.value == null) {
-      await updateLensesDates(leftDate: null, rightDate: null);
+      await _putOffLensesPair(left: true, right: true);
     } else {
       await showModalBottomSheet<void>(
         isScrollControlled: true,
@@ -239,29 +313,44 @@ class MyLensesWM extends WidgetModel {
           return PutOnEndSheet(
             onLeftConfirmed: () async {
               Navigator.of(context).pop();
-              await updateLensesDates(
-                leftDate: null,
-                rightDate: rightLensDate.value!.dateStart,
-              );
+              await _putOffLensesPair(left: true, right: false);
             },
             onRightConfirmed: () async {
               Navigator.of(context).pop();
-              await updateLensesDates(
-                leftDate: leftLensDate.value!.dateStart,
-                rightDate: null,
-              );
+              await _putOffLensesPair(left: false, right: true);
             },
             onBothConfirmed: () async {
               Navigator.of(context).pop();
-              await updateLensesDates(
-                leftDate: null,
-                rightDate: null,
-              );
+              await _putOffLensesPair(left: true, right: true);
             },
           );
         },
       );
     }
+  }
+
+  Future _putOffLensesPair({required bool left, required bool right}) async {
+    unawaited(loadingInProgress.accept(true));
+    try {
+      await myLensesRequester.putOffLenses(
+        leftDate: left ? DateTime.now() : null,
+        rightDate: right ? DateTime.now() : null,
+      );
+      await Future.wait<void>([
+        _loadLensesDates(),
+        loadWornHistory(showAll: false, isOld: false),
+      ]);
+      showDefaultNotification(
+        title: 'Данные успешно обновлены',
+        success: true,
+      );
+    } catch (e) {
+      showDefaultNotification(
+        title: 'Произошла ошибка обновления',
+      );
+      debugPrint('putOffLensesPair $e');
+    }
+    unawaited(loadingInProgress.accept(false));
   }
 
   Future _loadCurrentLensesInfo() async {
@@ -305,28 +394,14 @@ class MyLensesWM extends WidgetModel {
   Future _loadDailyReminders() async {
     await dailyReminders
         .accept(await myLensesRequester.loadLensesRemindersBuy());
-    if (dailyReminders.value != null &&
-        dailyReminders.value!.reminders.length == 1) {
+    if (dailyReminders.value!.reminders.isEmpty) {
+      unawaited(remindersShowWidget.accept(['Нет', '1']));
+    } else if (dailyReminders.value!.reminders.length == 1) {
       switch (dailyReminders.value!.reminders[0]) {
         case '0':
           unawaited(remindersShowWidget.accept(['В день покупки', '1']));
           break;
         case '1':
-          unawaited(remindersShowWidget.accept(['За 1 день', '1']));
-          break;
-        case '2':
-          unawaited(remindersShowWidget.accept(['За 2 дня', '1']));
-          break;
-        case '3':
-          unawaited(remindersShowWidget.accept(['За 3 дня', '1']));
-          break;
-        case '4':
-          unawaited(remindersShowWidget.accept(['За 4 дня', '1']));
-          break;
-        case '5':
-          unawaited(remindersShowWidget.accept(['За 5 дней', '1']));
-          break;
-        case '7':
           unawaited(remindersShowWidget.accept(['За неделю', '1']));
           break;
       }
@@ -355,21 +430,6 @@ class MyLensesWM extends WidgetModel {
           remindersShowWidget.accept(['В день замены', '1']);
           break;
         case '1':
-          remindersShowWidget.accept(['За 1 день', '1']);
-          break;
-        case '2':
-          remindersShowWidget.accept(['За 2 дня', '1']);
-          break;
-        case '3':
-          remindersShowWidget.accept(['За 3 дня', '1']);
-          break;
-        case '4':
-          remindersShowWidget.accept(['За 4 дня', '1']);
-          break;
-        case '5':
-          remindersShowWidget.accept(['За 5 дней', '1']);
-          break;
-        case '7':
           remindersShowWidget.accept(['За неделю', '1']);
           break;
       }

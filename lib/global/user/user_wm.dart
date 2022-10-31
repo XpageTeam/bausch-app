@@ -68,7 +68,9 @@ class UserWM extends WidgetModel {
           notifications: notifications,
         );
       }
-      await this.userData.content(await UserWriter.updateUserData(userData));
+      final newUserData = await UserWriter.updateUserData(userData);
+
+      await this.userData.content(newUserData);
 
       if (showMessage) {
         showDefaultNotification(
@@ -106,8 +108,8 @@ class UserWM extends WidgetModel {
     await UserWriter.removeUser();
   }
 
-  Future<void> reloadUserData() async {
-    if (!canUpdate) return;
+  Future<bool> reloadUserData() async {
+    if (!canUpdate) return false;
 
     try {
       final userRepo = await UserWriter.checkUserToken();
@@ -118,6 +120,8 @@ class UserWM extends WidgetModel {
     } catch (e) {
       debugPrint('Закгрузка пользователя: $e');
     }
+
+    return true;
   }
 
   void _changeAppLifecycleState(AppLifecycleState state) {

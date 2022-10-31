@@ -1,4 +1,3 @@
-import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
@@ -37,10 +36,17 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
   @override
   final OrderData? orderData;
 
+  @override
+  final String? discount;
+
+  @override
+  final String section;
+
   DiscountOpticsScreen({
     required this.controller,
     required this.model,
-    required DiscountType discountType,
+    required this.discount,
+    required this.section,
     this.orderData,
     Key? key,
   }) : super(
@@ -48,7 +54,8 @@ class DiscountOpticsScreen extends CoreMwwmWidget<DiscountOpticsScreenWM>
           widgetModelBuilder: (context) => DiscountOpticsScreenWM(
             context: context,
             itemModel: model,
-            discountType: discountType,
+            section: section,
+            discount: discount,
           ),
         );
 
@@ -96,7 +103,7 @@ class _DiscountOpticsScreenState
                   topLeftWidget: CustomLineLoadingIndicator(
                     maximumScore: widget.model.price,
                   ),
-                  discount: 'Скидка 500 ₽ ',
+                  discount: widget.discount,
                   key: widget.key,
                 ),
                 const SizedBox(
@@ -141,9 +148,9 @@ class _DiscountOpticsScreenState
           ),
           errorChild: const _NoDiscountsAvailable(),
           builder: (_, discountOptics) {
-            // if (discountOptics.isEmpty) {
-            //   return const _NoDiscountsAvailable();
-            // }
+            if (discountOptics.isEmpty) {
+              return const _NoDiscountsAvailable();
+            }
 
             final items = <Widget>[
               Text(
@@ -208,25 +215,6 @@ class _DiscountOpticsScreenState
                         ),
                       ),
                     ),
-                    // FocusButton(
-                    //   labelText: 'Город',
-                    //   selectedText: cityName,
-                    //   onPressed: () async {
-                    //     await wm.setOfflineCity(
-                    //       await Keys.mainNav.currentState!.push<String?>(
-                    //         PageRouteBuilder<String>(
-                    //           pageBuilder:
-                    //               (context, animation, secondaryAnimation) =>
-                    //                   CityScreen(
-                    //             withFavoriteItems: const ['Москва'],
-                    //             citiesWithShops:
-                    //                 wm.cities.map((e) => e.title).toList(),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
                   ),
                 ),
               if (wm.discountType == DiscountType.offline)
@@ -252,16 +240,22 @@ class _DiscountOpticsScreenState
                         ),
                       ),
                       onPressed: () => Keys.mainNav.currentState!.push<void>(
-                        MaterialPageRoute(
-                          builder: (context) => StreamedStateBuilder<String?>(
+                        PageRouteBuilder<void>(
+                          reverseTransitionDuration: Duration.zero,
+                          pageBuilder: (_, __, ___) =>
+                              StreamedStateBuilder<String?>(
                             streamedState: wm.currentOfflineCity,
                             builder: (_, currentOfflineCity) {
                               return SelectOpticScreen(
                                 cities: wm.cities,
                                 isCertificateMap: false,
                                 initialCity: currentOfflineCity,
-                                onOpticSelect: (optic, _, __) {
-                                  wm.setCurrentOptic(optic);
+                                onOpticSelect: (optic, _, opticShop) {
+                                  wm.setCurrentOptic(
+                                    optic.copyWith(
+                                      shops: [opticShop!],
+                                    ),
+                                  );
                                 },
                               );
                             },
@@ -271,17 +265,17 @@ class _DiscountOpticsScreenState
                     ),
                   ),
                 ),
-              if (wm.discountType == DiscountType.offline &&
-                  discountOptics.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                  ),
-                  child: Text(
-                    'Нет доступных скидок',
-                    style: AppStyles.h1,
-                  ),
-                ),
+              // if (wm.discountType == DiscountType.offline &&
+              //     discountOptics.isEmpty)
+              //   const Padding(
+              //     padding: EdgeInsets.symmetric(
+              //       vertical: 20,
+              //     ),
+              //     child: Text(
+              //       'Нет доступных скидок',
+              //       style: AppStyles.h1,
+              //     ),
+              //   ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: StreamedStateBuilder<Optic?>(
@@ -376,15 +370,15 @@ class _NoDiscountsAvailable extends StatelessWidget {
 
 class DiscountOpticsArguments extends ItemSheetScreenArguments {
   final Optic discountOptic;
-  final DiscountType discountType;
+
   final PartnerOrderResponse? orderDataResponse;
+  // final String? discount;
 
   DiscountOpticsArguments({
     required this.discountOptic,
-    required this.discountType,
-    required CatalogItemModel model,
+    required super.section,
+    required super.discount,
+    required super.model,
     required this.orderDataResponse,
-  }) : super(
-          model: model,
-        );
+  });
 }

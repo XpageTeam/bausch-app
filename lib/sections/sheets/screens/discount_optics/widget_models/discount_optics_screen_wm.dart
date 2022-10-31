@@ -1,14 +1,16 @@
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'dart:async';
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/models/discount_optic/discount_optic.dart';
 import 'package:bausch/models/shop/shop_model.dart';
-import 'package:bausch/packages/bottom_sheet/bottom_sheet.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/discount_optics/discount_optics_repository.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
@@ -20,7 +22,9 @@ import 'package:bausch/sections/sheets/screens/discount_optics/discount_type.dar
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
 import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +37,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
   final PromoItemModel itemModel;
 
   final DiscountType discountType;
+  final String section;
+  final String? discount;
 
   final discountOpticsStreamed = EntityStreamedState<List<Optic>>();
   final currentDiscountOptic = StreamedState<Optic?>(null);
@@ -54,18 +60,24 @@ class DiscountOpticsScreenWM extends WidgetModel {
   late final String howToUseText;
   late final UserWM userWM;
 
+  /// Для того, чтобы можно было единожды показать юзеру диалог (пока этот класс не пересоздался, естественно)
+  bool wasDialogShowed = false;
+
   List<Optic> allOptics = [];
   Set<String> citiesForOnlineShop = {};
 
   late int difference;
   bool get isEnough => difference <= 0;
-  bool wasDialogShowed = false;
 
   DiscountOpticsScreenWM({
     required this.context,
     required this.itemModel,
-    required this.discountType,
-  }) : super(
+    required this.section,
+    required this.discount,
+  })  : discountType = section.contains('online')
+            ? DiscountType.onlineShop
+            : DiscountType.offline,
+        super(
           const WidgetModelDependencies(),
         );
 
@@ -88,18 +100,69 @@ class DiscountOpticsScreenWM extends WidgetModel {
 
   @override
   void onBind() {
+    discountOpticsStreamed.bind((_) {
+      if (!discountOpticsStreamed.value.hasError &&
+          !discountOpticsStreamed.value.isLoading &&
+          discountType == DiscountType.offline &&
+          discountOpticsStreamed.value.data!.isEmpty) {
+        AppsflyerSingleton.sdk.logEvent('discountOpticsEmpty', null);
+      }
+    });
+
     setCurrentOptic.bind(
       (optic) async {
         if (optic != null) {
           unawaited(currentDiscountOptic.accept(optic));
+
+          if (discountType == DiscountType.onlineShop) {
+            unawaited(
+              AppsflyerSingleton.sdk.logEvent(
+                'discountOpticsSetOptic',
+                <String, dynamic>{
+                  'opticID': optic.id,
+                  'opticName': optic.title,
+                  'cityName': currentOnlineCity.value,
+                },
+              ),
+            );
+
+            return;
+          }
+
           final cityName = optic.shops.first.city;
+          final oldCityName = currentOfflineCity.value;
+
           await currentOfflineCity.accept(cityName);
+
+          unawaited(
+            AppsflyerSingleton.sdk.logEvent(
+              'discountOpticsSetOptic',
+              <String, dynamic>{
+                'opticID': optic.id,
+                'opticName': optic.title,
+                'cityName': cityName,
+              },
+            ),
+          );
 
           unawaited(
             discountOpticsStreamed.content(
               await _filterOpticsBySelectedOfflineCity(),
             ),
           );
+
+          if (!wasDialogShowed && oldCityName != cityName) {
+            wasDialogShowed = true;
+            _showRememberCityDialog(
+              confirmCallback: (ctx) {
+                userWM.updateUserData(
+                  userWM.userData.value.data!.user.copyWith(city: cityName),
+                  successMessage: 'Город успешно изменён',
+                );
+                Navigator.of(ctx).pop();
+              },
+            );
+          }
         }
       },
     );
@@ -116,8 +179,9 @@ class DiscountOpticsScreenWM extends WidgetModel {
             arguments: DiscountOpticsArguments(
               model: itemModel,
               discountOptic: currentDiscountOptic.value!,
-              discountType: discountType,
+              section: section,
               orderDataResponse: null,
+              discount: discount,
             ),
           );
         }
@@ -143,10 +207,9 @@ class DiscountOpticsScreenWM extends WidgetModel {
       );
 
       if (!wasDialogShowed) {
+        wasDialogShowed = true;
         _showRememberCityDialog(
           confirmCallback: (ctx) {
-            wasDialogShowed = true;
-
             userWM.updateUserData(
               userWM.userData.value.data!.user.copyWith(city: cityName),
               successMessage: 'Город успешно изменён',
@@ -194,16 +257,20 @@ class DiscountOpticsScreenWM extends WidgetModel {
   }
 
   Future<void> _selectOnlineCity() async {
-    final moscowString = citiesForOnlineShop
-        .toList()
-        .firstWhere((element) => element == 'Москва');
+    String? moscowString;
+    if (citiesForOnlineShop.any((element) => element == 'Москва')) {
+      moscowString =
+          citiesForOnlineShop.firstWhere((element) => element == 'Москва');
+    }
 
     final cityName = await Keys.mainNav.currentState!.push<String>(
       PageRouteBuilder<String>(
         pageBuilder: (context, animation, secondaryAnimation) => CityScreen(
           citiesWithShops: citiesForOnlineShop.toList(),
-          // TODO(all): тут нужно чекнуть когда москвы нет в листе
-          withFavoriteItems: ['Вся РФ', moscowString],
+          withFavoriteItems: [
+            'Вся РФ',
+            if (moscowString != null) moscowString,
+          ],
         ),
       ),
     );
@@ -226,7 +293,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
     try {
       final repository = OpticCititesRepository.fromDiscountOpticsRepository(
         await DiscountOpticsLoader.load(
-          discountType.asString,
+          section,
           itemModel.code,
         ),
         discountType.asString,
@@ -349,6 +416,8 @@ class DiscountOpticsScreenWM extends WidgetModel {
       initHeight: 0.4,
       maxHeight: 0.4,
       anchors: [0, 0.4],
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.black.withOpacity(0.8),
       builder: (context, controller, _) {
         return Container(
           clipBehavior: Clip.hardEdge,
@@ -363,29 +432,39 @@ class DiscountOpticsScreenWM extends WidgetModel {
             backgroundColor: AppTheme.mystic,
             body: Stack(
               children: [
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
+                CustomScrollView(
+                  scrollBehavior: const AntiGlowBehavior(),
+                  physics: const ClampingScrollPhysics(),
                   controller: controller,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: const [
-                        SizedBox(height: 40),
-                        Text(
-                          'Запомнить город?',
-                          style: AppStyles.h1,
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.all(8.0),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate(
+                          const [
+                            SizedBox(height: 40),
+                            Text(
+                              'Запомнить город?',
+                              style: AppStyles.h1,
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              'Настроить отображение партнеров по городу можно позже в настройках',
+                              style: AppStyles.p1Grey,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          'Настроить отображение партнеров по городу можно позже в настройках',
-                          style: AppStyles.p1Grey,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: SizedBox(
+                        height: 20,
+                      ),
+                    ),
+                  ],
                 ),
                 Positioned(
                   top: 0,
@@ -418,9 +497,9 @@ class DiscountOpticsScreenWM extends WidgetModel {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // const SizedBox(
+                  //   height: 40,
+                  // ),
                   BlueButton(
                     children: const [
                       Text(
@@ -568,6 +647,7 @@ class OpticCititesRepository {
             hasThisDiscount = true;
             opticShops.add(
               OpticShop(
+                id: disountOpticShop.id,
                 address: disountOpticShop.address,
                 coords: disountOpticShop.coord,
                 phones: disountOpticShop.phone,
@@ -600,7 +680,7 @@ class OpticCititesRepository {
         ),
       );
 
-      debugPrint('cityNames: ${cityNames}');
+      // debugPrint('cityNames: ${cityNames}');
     }
 
     return OpticCititesRepository(cities);
@@ -646,6 +726,7 @@ class OpticCititesRepository {
     required String cityName,
   }) {
     return OpticShop(
+      id: shop.id,
       title: shop.name,
       phones: shop.phones,
       address: shop.address,
@@ -710,6 +791,7 @@ class Optic {
 }
 
 class OpticShop extends Equatable {
+  final int id;
   final String title;
   final List<String> phones;
   final String address;
@@ -724,6 +806,7 @@ class OpticShop extends Equatable {
   List<Object?> get props => [title, phones, address, city];
 
   const OpticShop({
+    required this.id,
     required this.title,
     required this.phones,
     required this.address,
@@ -733,4 +816,91 @@ class OpticShop extends Equatable {
     this.email,
     this.site,
   });
+}
+
+class OpticShopForCertificate extends OpticShop {
+  final List<OpticShopFeature> features;
+  final String url;
+  const OpticShopForCertificate({
+    required super.id,
+    required super.title,
+    required super.phones,
+    required super.address,
+    required super.city,
+    required super.coords,
+    required this.features,
+    required this.url,
+  });
+
+  factory OpticShopForCertificate.fromJson(Map<String, dynamic> map) {
+    return OpticShopForCertificate(
+      id: map['id'] as int? ?? 0,
+      title: map['name'] as String,
+      phones: (map['phones'] as List<dynamic>)
+          .map((dynamic e) => e as String)
+          .toList(),
+      address: map['address'] as String,
+      city: _parseCity(map['city'] as Map<String, dynamic>),
+      coords: _parseCoords(map['coord'] as Map<String, dynamic>),
+      url: map['url'] as String? ?? '',
+      features: (map['features'] as List<dynamic>)
+          .map(
+            (dynamic e) => OpticShopFeature.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  static String _parseCity(Map<String, dynamic> map) {
+    // return OpticCity(
+    //   id: map['id'] as int,
+    //   title: map['name'] as String,
+    //   optics: [],
+    // );
+    return map['name'] as String;
+  }
+
+  static Point _parseCoords(Map<String, dynamic> map) {
+    return Point(
+      latitude: double.parse(map['lat'] as String),
+      longitude: double.parse(map['lng'] as String),
+    );
+  }
+}
+
+class OpticShopFeature {
+  final String xmlId;
+  final String title;
+  final Color? color;
+
+  const OpticShopFeature({
+    required this.xmlId,
+    required this.title,
+    required this.color,
+  });
+
+  factory OpticShopFeature.fromJson(Map<String, dynamic> map) {
+    return OpticShopFeature(
+      xmlId: map['xml_id'] as String,
+      title: map['name'] as String,
+      color: _getColorFromHex(
+        map['color'] as String?,
+      ),
+    );
+  }
+
+  static Color? _getColorFromHex(String? rawHexColor) {
+    if (rawHexColor == null) return null;
+
+    var hexColor = rawHexColor.replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF$hexColor';
+    }
+    if (hexColor.length == 8) {
+      return Color(int.parse('0x$hexColor'));
+    }
+    return null;
+  }
 }

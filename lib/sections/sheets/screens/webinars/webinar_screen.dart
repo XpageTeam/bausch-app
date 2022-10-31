@@ -23,6 +23,12 @@ class WebinarScreen extends CoreMwwmWidget<WebinarScreenWM>
   @override
   final OrderData? orderData;
 
+  @override
+  String? get discount => null;
+
+  @override
+  String get section => '';
+
   WebinarScreen({
     required this.controller,
     required this.model,
@@ -76,9 +82,9 @@ class _WebinarsScreenState extends WidgetState<WebinarScreen, WebinarScreenWM> {
             delegate: SliverChildListDelegate(
               [
                 TopSection.webinar(
-                  model:widget.model,
-                  key:widget.key,
-                 topLeftWidget: wm.difference > 0
+                  model: widget.model,
+                  key: widget.key,
+                  topLeftWidget: wm.difference > 0
                       ? CustomLineLoadingIndicator(
                           maximumScore: widget.model.price,
                         )

@@ -24,53 +24,7 @@ class _CodeScreenState extends State<CodeScreen> {
         title: '',
         backgroundColor: Colors.transparent,
       ),
-      body: CodeForm(
-        wm: loginWM,
-      ),
-      // floatingActionButton: StreamedStateBuilder<int>(
-      //   streamedState: loginWM.smsResendSeconds,
-      //   builder: (_, data) {
-      //     if (data > 0) {
-      //       return Container(
-      //         padding: const EdgeInsets.only(
-      //           bottom: 20,
-      //           //left: StaticData.sidePadding,
-      //           right: StaticData.sidePadding,
-      //         ),
-      //         width: MediaQuery.of(context).size.width,
-      //         //Повторная отправка через ${getTimerBySeconds(data)}',
-      //         child: RichText(
-      //           //textAlign: TextAlign.left,
-      //           text: TextSpan(
-      //             style: AppStyles.p1,
-      //             children: [
-      //               const TextSpan(
-      //                 text: 'Повторная отправка через',
-      //               ),
-      //               TextSpan(
-      //                 text: ' ${getTimerBySeconds(data)}',
-      //                 style: AppStyles.p1.copyWith(
-      //                   fontWeight: FontWeight.bold,
-      //                 ),
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       );
-      //     } else {
-      //       return TextButton(
-      //         child: const Text(
-      //           'Отправить новый код',
-      //           style: AppStyles.h2,
-      //         ),
-      //         style: TextButton.styleFrom(
-      //           padding: EdgeInsets.zero,
-      //         ),
-      //         onPressed: loginWM.resendSMSAction,
-      //       );
-      //     }
-      //   },
-      // ),
+      body: CodeForm(wm: loginWM),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
     );
   }

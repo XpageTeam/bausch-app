@@ -4,6 +4,8 @@
 
 import 'package:bausch/packages/alphabet_scroll_view/lib/src/meta.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
+import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 
@@ -147,9 +149,9 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
       }
     }
 
-    for (final i in widget.list) {
-      debugPrint(i.key);
-    }
+    // for (final i in widget.list) {
+    //   debugPrint(i.key);
+    // }
 
     _list = widget.list;
 
@@ -271,7 +273,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     );
     positionNotifer.value = offset;
 
-    debugPrint('$index');
+    // debugPrint('$index');
   }
 
   void onVerticalDrag(Offset offset) {
@@ -303,46 +305,49 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         //     );
         //   },
         // ),
-        ListView.separated(
-          controller: listController,
-          itemCount: _list.length + 1,
-          physics: const BouncingScrollPhysics(),
-          separatorBuilder: (_, x) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                widget.topWidget != null && x == 0
-                    ? widget.topWidget!
-                    : const SizedBox(),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: widget.itemExtent),
-                  child: widget.itemBuilder(_, x, _list[x].key),
-                ),
-              ],
-            );
-          },
-          itemBuilder: (context, i) {
-            for (final element in _filteredAlphabets) {
-              if (firstIndexPosition[element.toLowerCase()] != null &&
-                  i == firstIndexPosition[element.toLowerCase()]!) {
-                return Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 20, top: i == 0 ? 30 : 10),
-                    child: CircleAvatar(
-                      child: Text(
-                        element.toUpperCase(),
-                        style: AppStyles.h2,
-                      ),
-                      radius: 22,
-                      backgroundColor: Colors.white,
-                    ),
+        ScrollConfiguration(
+          behavior: const AntiGlowBehavior(),
+          child: ListView.separated(
+            controller: listController,
+            itemCount: _list.length + 1,
+            physics: const OnlyBottomBouncingScrollPhysics(),
+            separatorBuilder: (_, x) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widget.topWidget != null && x == 0
+                      ? widget.topWidget!
+                      : const SizedBox(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: widget.itemExtent),
+                    child: widget.itemBuilder(_, x, _list[x].key),
                   ),
-                );
+                ],
+              );
+            },
+            itemBuilder: (context, i) {
+              for (final element in _filteredAlphabets) {
+                if (firstIndexPosition[element.toLowerCase()] != null &&
+                    i == firstIndexPosition[element.toLowerCase()]!) {
+                  return Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 20, top: i == 0 ? 30 : 10),
+                      child: CircleAvatar(
+                        child: Text(
+                          element.toUpperCase(),
+                          style: AppStyles.h2,
+                        ),
+                        radius: 22,
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  );
+                }
               }
-            }
-            return Container();
-          },
+              return Container();
+            },
+          ),
         ),
         // Align(
         //   alignment: widget.alignment == LetterAlignment.left

@@ -12,6 +12,7 @@ import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
+import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
 import 'package:bausch/widgets/catalog_item/catalog_item.dart';
 import 'package:bausch/widgets/default_notification.dart';
@@ -55,9 +56,22 @@ class _AllWebinarsScreenState
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       controller: widget.controller,
-      appBar: CustomSliverAppbar(
-        padding: const EdgeInsets.all(18),
-        icon: Container(height: 1),
+      onScrolled: (offset) {
+        if (offset > 60) {
+          wm.colorState.accept(AppTheme.turquoiseBlue);
+        } else {
+          wm.colorState.accept(Colors.white);
+        }
+      },
+      appBar: StreamedStateBuilder<Color>(
+        streamedState: wm.colorState,
+        builder: (_, color) {
+          return CustomSliverAppbar(
+            padding: const EdgeInsets.all(18),
+            iconColor: color,
+            icon: Container(height: 1),
+          );
+        },
       ),
       slivers: [
         SliverPadding(
@@ -131,7 +145,7 @@ class _AllWebinarsScreenState
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: webinars[i * 2].shield,
+                                child: webinars[i * 2].fetchShield(),
                               ),
                             ],
                           ),
@@ -152,7 +166,7 @@ class _AllWebinarsScreenState
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: webinars[i * 2 + 1].shield,
+                                  child: webinars[i * 2 + 1].fetchShield(),
                                 ),
                               ],
                             ),
@@ -182,6 +196,8 @@ class AllWebinarsScreenWM extends WidgetModel {
   late final CatalogItemModel catalogModel = arguments.model;
 
   final webinarsStreamed = EntityStreamedState<List<WebinarItemModel>>();
+
+  final colorState = StreamedState<Color>(Colors.white);
 
   AllWebinarsScreenWM(this.arguments)
       : super(
@@ -225,7 +241,7 @@ class AllWebinarsScreenWM extends WidgetModel {
     if (ex != null) {
       showDefaultNotification(
         title: ex.title,
-        subtitle: ex.subtitle,
+        // subtitle: ex.subtitle,
       );
     }
   }

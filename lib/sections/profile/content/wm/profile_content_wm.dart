@@ -56,7 +56,7 @@ class ProfileContentWM extends WidgetModel {
   }
 
   Future<void> _loadAllData() async {
-    if (allDataLoadingState.value.isLoading) return;
+    // if (allDataLoadingState.value.isLoading) return;
 
     unawaited(allDataLoadingState.loading());
 
@@ -79,7 +79,7 @@ class ProfileContentWM extends WidgetModel {
   }
 
   Future<void> _loadNotifications() async {
-    if (notificationsList.value.isLoading) return;
+    // if (notificationsList.value.isLoading) return;
 
     unawaited(notificationsList.loading(notificationsList.value.data));
 
@@ -103,7 +103,7 @@ class ProfileContentWM extends WidgetModel {
           unreadCount++;
         }
       });
-      updateNotificationsAmount(unreadCount);
+      unawaited(updateNotificationsAmount(unreadCount));
     } on DioError catch (e) {
       await notificationsList.error(CustomException(
         title: 'При загрузке уведомлений произошла ошибка',

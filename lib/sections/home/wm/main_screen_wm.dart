@@ -121,7 +121,7 @@ class MainScreenWM extends WidgetModel {
       userWM.reloadUserData(),
       // bannersWm?.loadData() ?? voidFunction(),
       _loadBanners(),
-      _loadStories(),
+      loadStories(),
       _loadCatalog(),
       _loadMyLenses(),
       _loadSocialLinks(),
@@ -130,50 +130,16 @@ class MainScreenWM extends WidgetModel {
     return true;
   }
 
-  void _changeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        canUpdate = true;
-        break;
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.paused:
-      case AppLifecycleState.detached:
-        canUpdate = false;
-        break;
-    }
-  }
+  Future<void> loadStories() async {
+    // if (storiesList.value.isLoading) return;
 
-  Future<void> _loadAllData() async {
-    if (allDataLoadedState.value.isLoading) return;
-
-    await allDataLoadedState.loading(allDataLoadedState.value.data);
-
-    await Future.wait<void>([
-      _loadStories(),
-      _loadCatalog(),
-      _loadBanners(),
-      _loadMyLenses(),
-      _loadSocialLinks(),
-    ]);
-
-    if (catalog.value.error != null) {
-      await allDataLoadedState.error(catalog.value.error);
-      return;
-    }
-
-    await allDataLoadedState.content(true);
-  }
-
-  Future<void> _loadStories() async {
-    if (storiesList.value.isLoading) return;
-
-    // await storiesList.loading(storiesList.value.data);
+    storiesList.loading(storiesList.value.data);
 
     CustomException? error;
 
     try {
       final result = await _requester.loadStories();
-      await storiesList.content([]);
+      // await storiesList.content([]);
       await storiesList.content(result);
     } on DioError catch (e) {
       error = CustomException(
@@ -200,8 +166,46 @@ class MainScreenWM extends WidgetModel {
     }
 
     if (error != null) {
-      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+      storiesList.content([]);
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
     }
+  }
+
+  void _changeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        canUpdate = true;
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        canUpdate = false;
+        break;
+    }
+  }
+
+  Future<void> _loadAllData() async {
+    if (allDataLoadedState.value.isLoading) return;
+
+    await allDataLoadedState.loading(allDataLoadedState.value.data);
+
+    await Future.wait<void>([
+      loadStories(),
+      _loadCatalog(),
+      _loadBanners(),
+      _loadMyLenses(),
+      _loadSocialLinks(),
+    ]);
+
+    if (catalog.value.error != null) {
+      await allDataLoadedState.error(catalog.value.error);
+      return;
+    }
+
+    await allDataLoadedState.content(true);
   }
 
   Future<void> _loadMyLenses() async {
@@ -209,32 +213,38 @@ class MainScreenWM extends WidgetModel {
   }
 
   Future<void> _loadCatalog() async {
-    if (catalog.value.isLoading) return;
+    // if (catalog.value.isLoading) return;
 
     await catalog.loading(catalog.value.data);
 
     try {
       await catalog.content(await _requester.loadCatalog());
     } on DioError catch (e) {
-      await catalog.error(
-        CustomException(
-          title: 'При загрузке каталога произошла ошибка',
-          subtitle: e.message,
-          ex: e,
-        ),
+      await _acceptCatalogError(
+        e,
+        title: 'При загрузке каталога произошла ошибка',
       );
     } on ResponseParseException catch (e) {
-      await catalog.error(
-        CustomException(
-          title: 'При обработке ответа от сервера прозошла ошибка',
-          subtitle: e.toString(),
-          ex: e,
-        ),
+      await _acceptCatalogError(
+        e,
+        title: 'При обработке ответа от сервера прозошла ошибка',
       );
     } on SuccessFalse catch (e) {
-      await catalog.error(
+      await _acceptCatalogError(
+        e,
+        title: 'При получении ответа от сервера произошла ошибка',
+      );
+    }
+  }
+
+  Future<void> _acceptCatalogError(
+    Exception e, {
+    required String title,
+  }) async {
+    if (catalog.value.data != null && !catalog.value.hasError) {
+      return catalog.error(
         CustomException(
-          title: e.toString(),
+          title: title,
           ex: e,
         ),
       );
@@ -260,7 +270,7 @@ class MainScreenWM extends WidgetModel {
             .toList(),
       );
     } catch (e) {
-      rethrow;
+      debugPrint('get /faq/socials/ failed');
     }
   }
 
@@ -303,7 +313,10 @@ class MainScreenWM extends WidgetModel {
     }
 
     if (error != null) {
-      showDefaultNotification(title: error.title, subtitle: error.subtitle);
+      showDefaultNotification(
+        title: error.title,
+        // subtitle: error.subtitle,
+      );
 
       await banners.content(
         banners.value.data ??

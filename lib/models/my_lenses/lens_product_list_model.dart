@@ -27,6 +27,8 @@ class LensProductModel {
 // Базовая кривизна - BC
 
   final int id;
+  // это поле используется в разделе добавления баллов
+  final int? bauschProductId;
   final int lifeTime;
   final String count;
   final String image;
@@ -48,12 +50,14 @@ class LensProductModel {
     required this.axis,
     required this.basicCurvature,
     required this.addition,
+    this.bauschProductId,
   });
 
   factory LensProductModel.fromMap(Map<String, dynamic> map) {
     try {
       return LensProductModel(
         id: map['id'] as int,
+        bauschProductId: map['productId'] as int?,
         lifeTime: map['lifeTime'] as int,
         image: map['image'] as String,
         name: map['name'] as String,
@@ -81,7 +85,7 @@ class LensProductModel {
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      throw ResponseParseException('Ошибка в LensesPairModel: $e');
+      throw ResponseParseException('Ошибка в LensProductModel: $e');
     }
   }
 }

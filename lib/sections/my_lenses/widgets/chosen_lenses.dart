@@ -2,7 +2,9 @@ import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
 import 'package:bausch/models/my_lenses/lenses_pair_dates_model.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
+import 'package:bausch/sections/my_lenses/choose_lenses/choose_lenses_screen.dart';
 import 'package:bausch/sections/my_lenses/my_lenses_wm.dart';
+import 'package:bausch/sections/my_lenses/widgets/sheets/different_lenses_sheet.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/put_on_date_sheet.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/styles.dart';
@@ -60,6 +62,7 @@ class ChosenLenses extends StatelessWidget {
                         currentProduct.image,
                         height: 100,
                         width: 100,
+                        errorBuilder: (_, __, ___) => const SizedBox(),
                       ),
                     ],
                   )
@@ -92,9 +95,8 @@ class ChosenLenses extends StatelessWidget {
                                     builder: (context) {
                                       return PutOnDateSheet(
                                         onConfirmed: ({leftDate, rightDate}) =>
-                                            myLensesWM.updateLensesDates(
-                                          leftDate: myLensesWM
-                                              .leftLensDate.value!.dateStart,
+                                            myLensesWM.putOnLensesPair(
+                                          leftDate: null,
                                           rightDate: rightDate,
                                         ),
                                         rightPut: DateTime.now(),
@@ -132,12 +134,9 @@ class ChosenLenses extends StatelessWidget {
                                               leftDate,
                                               rightDate,
                                             }) =>
-                                                myLensesWM.updateLensesDates(
+                                                myLensesWM.putOnLensesPair(
                                               leftDate: leftDate,
-                                              rightDate: myLensesWM
-                                                  .rightLensDate
-                                                  .value!
-                                                  .dateStart,
+                                              rightDate: null,
                                             ),
                                             leftPut: DateTime.now(),
                                             rightPut: null,
@@ -158,15 +157,17 @@ class ChosenLenses extends StatelessWidget {
                                   Expanded(
                                     child: GreyButton(
                                       text: 'Изменить',
-                                      onPressed: () async => Keys
-                                          .mainContentNav.currentState!
-                                          .pushNamed(
+                                      onPressed: () async =>
+                                          Keys.mainContentNav.currentState!
+                                              .pushNamed(
                                         '/choose_lenses',
-                                        arguments: [
-                                          true,
-                                          myLensesWM.lensesPairModel.value,
-                                        ],
-                                      ).then((value) {
+                                        arguments: ChooseLensesScreenArguments(
+                                          isEditing: true,
+                                          lensesPairModel:
+                                              myLensesWM.lensesPairModel.value,
+                                        ),
+                                      )
+                                              .then((value) {
                                         myLensesWM.loadAllData();
                                       }),
                                     ),
@@ -182,17 +183,17 @@ class ChosenLenses extends StatelessWidget {
                                         barrierColor:
                                             Colors.black.withOpacity(0.8),
                                         builder: (context) {
-                                          return PutOnDateSheet(
+                                          return DifferentLensesSheet(
                                             onConfirmed: ({
                                               leftDate,
                                               rightDate,
                                             }) =>
-                                                myLensesWM.updateLensesDates(
+                                                myLensesWM.putOnLensesPair(
                                               leftDate: leftDate,
                                               rightDate: rightDate,
                                             ),
-                                            rightPut: DateTime.now(),
-                                            leftPut: DateTime.now(),
+                                            leftDate: DateTime.now(),
+                                            rightDate: DateTime.now(),
                                           );
                                         },
                                       ),
