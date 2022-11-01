@@ -13,34 +13,39 @@ class ZoomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: AppTheme.turquoiseBlue.withOpacity(0.9),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          NormalIconButton(
-            icon: const Icon(
-              Icons.add,
-              color: AppTheme.mineShaft,
-            ),
-            backgroundColor:
-                Colors.transparent, // AppTheme.turquoiseBlue.withOpacity(0.5),
-            onPressed: zoomIn,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: AppTheme.turquoiseBlue.withOpacity(0.9),
           ),
-          NormalIconButton(
-            icon: const Icon(
-              Icons.remove,
-              color: AppTheme.mineShaft,
-            ),
-            backgroundColor:
-                Colors.transparent, // AppTheme.turquoiseBlue.withOpacity(0.5),
-            onPressed: zoomOut,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              NormalIconButton(
+                icon: const Icon(
+                  Icons.add,
+                  color: AppTheme.mineShaft,
+                ),
+                backgroundColor:
+                    Colors.transparent, // AppTheme.turquoiseBlue.withOpacity(0.5),
+                onPressed: zoomIn,
+              ),
+              NormalIconButton(
+                icon: const Icon(
+                  Icons.remove,
+                  color: AppTheme.mineShaft,
+                ),
+                backgroundColor:
+                    Colors.transparent, // AppTheme.turquoiseBlue.withOpacity(0.5),
+                onPressed: zoomOut,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
