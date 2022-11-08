@@ -23,6 +23,8 @@ class NormalIconButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: padding,
+        height: 44 + (padding?.bottom ?? 0) + (padding?.top ?? 0),
+        width: 44 + (padding?.left ?? 0) + (padding?.right ?? 0),
         color: Colors.transparent,
         alignment: Alignment.topRight,
         child: AnimatedContainer(

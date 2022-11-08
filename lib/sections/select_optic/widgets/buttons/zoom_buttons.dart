@@ -20,11 +20,13 @@ class ZoomButtons extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           NormalIconButton(
             icon: const Icon(
               Icons.add,
               color: AppTheme.mineShaft,
+              size: 20,
             ),
             backgroundColor:
                 Colors.transparent, // AppTheme.turquoiseBlue.withOpacity(0.5),
@@ -33,6 +35,7 @@ class ZoomButtons extends StatelessWidget {
           NormalIconButton(
             icon: const Icon(
               Icons.remove,
+              size: 20,
               color: AppTheme.mineShaft,
             ),
             backgroundColor:
