@@ -2,6 +2,9 @@
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/global/deep_link/deep_link_wm.dart';
+import 'package:bausch/global/deep_link/initial_push_intent_keeper.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
@@ -25,13 +28,14 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
-import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -58,6 +62,29 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.changeAppLifecycleStateAction(state);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    /// Суть логики с пушами:
+    /// 1. Есть два обработчика нажатия по пушу
+    /// 2. Первый обработчик используется тогда, когда приложение закрыто. Он обрабатывание нажатие по пушу, который пришел, когда приложение закрыто. Там происходит установка link в InitialPushIntentKeeper
+    /// 3. Второй обработчик используется тогда, когда приложение открыто (это такое поведение, используется только последний обработчик). Он обрабатывает нажатие по пушу, который пришел во время работы приложения.
+    ///
+    /// Конкретно здесь проверяется - есть ли начальная Link
+    /// и после этого проиходит открытие этой ссылки
+    if (InitialPushIntentKeeper.link != null) {
+      final deepLinksWM = DeepLinkWM(
+        context: context,
+        authWM: context.read<AuthWM>(),
+      );
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        deepLinksWM.onLink(InitialPushIntentKeeper.link!);
+        InitialPushIntentKeeper.link = null;
+      });
+    }
   }
 
   @override

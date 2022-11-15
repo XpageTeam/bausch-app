@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/global/deep_link/deep_link_wm.dart';
+import 'package:bausch/global/deep_link/initial_push_intent_keeper.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/navigation/app_router.dart';
@@ -36,8 +38,6 @@ Future<void> main() async {
     ),
   );
 
-
-
   final analytics = FirebaseAnalytics.instance;
 
   AppsflyerSingleton();
@@ -58,6 +58,11 @@ Future<void> main() async {
       child: MyApp(),
     ),
   );
+}
+
+@pragma('vm:entry-point')
+void onInitialPushClick(String link) {
+  InitialPushIntentKeeper.link = link;
 }
 
 class MyApp extends CoreMwwmWidget<AuthWM> {
@@ -82,6 +87,8 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
 
   @override
   void initState() {
+    Mindbox.instance.onPushClickReceived(onInitialPushClick);
+
     super.initState();
   }
 

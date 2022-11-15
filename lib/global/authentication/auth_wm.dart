@@ -77,8 +77,6 @@ class AuthWM extends WidgetModel {
         );
       }
     });
-
-   
   }
 
   /// выход

@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
-import 'package:bausch/models/catalog_item/promo_item_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/my_lenses/widgets/sheets/activate_lenses_sheet.dart';
@@ -16,8 +14,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/bottom_info_block.dart';
-import 'package:bausch/widgets/error_page.dart';
-import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_image/extended_image.dart';
@@ -209,11 +205,11 @@ class ProductModelDetailLoader {
         parsedData.data as Map<String, dynamic>,
       );
       onSuccess(product);
-    } on DioError catch (e) {
+    } on DioError catch (_) {
       hasError = true;
-    } on ResponseParseException catch (e) {
+    } on ResponseParseException catch (_) {
       hasError = true;
-    } on SuccessFalse catch (e) {
+    } on SuccessFalse catch (_) {
       hasError = true;
     }
     if (hasError) {

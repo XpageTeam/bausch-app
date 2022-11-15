@@ -151,7 +151,8 @@ class _CodeSectionState extends State<CodeSection> {
                                               Center(
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
-                                                      16.0),
+                                                    16.0,
+                                                  ),
                                                   child: BlueButtonWithText(
                                                     text: 'Повторить',
                                                     onPressed: () =>
