@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>56559090121-l1lve1stfhj5jqpgkqe37bbp95rib9sv.apps.googleusercontent.com</string>
+	<string>56559090121-o1ngi3oeb9t8ot8idj47frsb89h8e2jf.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.56559090121-l1lve1stfhj5jqpgkqe37bbp95rib9sv</string>
+	<string>com.googleusercontent.apps.56559090121-o1ngi3oeb9t8ot8idj47frsb89h8e2jf</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBO5tMdFnN1aQpWDmZ71XjESF0kuGjLt3k</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>mobile.bausch</string>
+	<string>bausch.mobile</string>
 	<key>PROJECT_ID</key>
 	<string>bausch-lomb-87d53</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:56559090121:ios:18e4d53305b65a1e8c9018</string>
+	<string>1:56559090121:ios:0c6979c451f6b5738c9018</string>
 </dict>
 </plist>

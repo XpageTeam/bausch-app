@@ -2,6 +2,7 @@ import UIKit
 import Flutter
 import YandexMapsMobile
 import mindbox_ios
+import FirebaseCore
 
 @UIApplicationMain
 @objc class AppDelegate: MindboxFlutterAppDelegate {
@@ -12,6 +13,8 @@ import mindbox_ios
 
     YMKMapKit.setLocale("ru_RU")
     YMKMapKit.setApiKey("7d7c37af-b634-485a-8642-40caa8f296b8") // API_KEY
+      
+    FirebaseApp.configure()
     
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

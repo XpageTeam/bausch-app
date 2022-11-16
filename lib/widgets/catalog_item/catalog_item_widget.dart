@@ -18,7 +18,6 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/grey_button.dart';
 import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/point_widget.dart';
-import 'package:bausch/widgets/simple_webview_widget.dart';
 import 'package:bausch/widgets/webinar_popup/webinar_popup.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:extended_image/extended_image.dart';

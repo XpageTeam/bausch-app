@@ -447,10 +447,9 @@ class MapBodyWM extends WidgetModel {
   }
 
   Future<void> _enableListenUserPosition() async {
-    bool serviceEnabled;
     LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     // if (!serviceEnabled) {
     //   // onError
     //   onGetUserPositionError?.call(
