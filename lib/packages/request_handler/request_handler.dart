@@ -465,8 +465,9 @@ class RequestHandler {
     return Dio(
       BaseOptions(
         baseUrl: StaticData.apiUrl,
-        connectTimeout: 20000,
-        receiveTimeout: 40000,
+        sendTimeout: 10000,
+        connectTimeout: 10000,
+        receiveTimeout: 50000,
       ),
     );
   }

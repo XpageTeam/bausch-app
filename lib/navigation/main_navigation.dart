@@ -58,7 +58,6 @@ class _MainNavigationState extends State<MainNavigation>
 
     AppLinks().stringLinkStream.listen(deepLinksWM.onLink);
     Mindbox.instance.onPushClickReceived(deepLinksWM.onLink);
-
     super.initState();
   }
 
