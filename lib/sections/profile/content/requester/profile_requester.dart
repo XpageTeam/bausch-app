@@ -30,18 +30,27 @@ class ProfileRequester {
             item as Map<String, dynamic>;
 
             // debugPrint('item: $item');
-            switch (item['category']) {
+            var category = item['category'] as String?;
+            if (category != null) {
+              category = category.contains('online') &&
+                      category != 'online_consultation'
+                  ? 'discount'
+                  : category;
+            }
+
+            switch (category) {
               case 'webinar':
                 return WebinarOrderModel.fromMap(item);
-
-              case 'product':
-                return ProductOrderModel.fromMap(item);
 
               case 'certificate':
                 return CertificateOrderModel.fromMap(item);
 
               case 'online_consultation':
                 return ConsultationOrderModel.fromMap(item);
+
+              case 'product':
+              case 'online':
+                return ProductOrderModel.fromMap(item);
 
               case 'partner':
                 return PartnerOrderModel.fromMap(item);

@@ -37,7 +37,13 @@ class OrdersSection extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (_, index) {
                   final order = ordersList[index];
-                  final category = order?.category;
+                  var category = order?.category;
+                  if (category != null) {
+                    category = category.contains('online') &&
+                            category != 'online_consultation'
+                        ? 'discount'
+                        : category;
+                  }
 
                   switch (category) {
                     case 'webinar':
@@ -237,7 +243,7 @@ class OrdersSection extends StatelessWidget {
                                   ),
                                   DiscountInfoSheetBodyArgs(
                                     title: order.title,
-                                    code: order.coupon.code,
+                                    code: order.coupon?.code,
                                     date: DateFormat('dd MMM yyyy', 'ru_RUS')
                                         .format(
                                       order.promocodeDateTime!,
@@ -305,8 +311,8 @@ class OrdersSection extends StatelessWidget {
                               detailText: '',
                               picture: order.product.imageLink,
                               price: order.price,
-                              poolPromoCode: order.coupon.code,
-                              staticPromoCode: order.coupon.code,
+                              poolPromoCode: order.coupon?.code,
+                              staticPromoCode: order.coupon?.code,
                             ),
                             deliveryInfo: order.status,
                             orderTitle:

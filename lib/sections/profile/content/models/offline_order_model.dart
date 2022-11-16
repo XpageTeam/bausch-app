@@ -4,7 +4,7 @@ import 'package:bausch/sections/profile/content/models/certificate_model.dart';
 import 'package:intl/intl.dart';
 
 class OfflineOrderModel extends BaseOrderModel {
-  final Coupon coupon;
+  final Coupon? coupon;
   final OrderProductModel product;
   final String? link;
 
@@ -35,6 +35,8 @@ class OfflineOrderModel extends BaseOrderModel {
 
   factory OfflineOrderModel.fromMap(Map<String, dynamic> map) {
     try {
+      final coupon = map['coupon'] as Map<String, dynamic>?;
+
       return OfflineOrderModel(
         id: map['id'] as int,
         title: map['title'] as String,
@@ -44,7 +46,7 @@ class OfflineOrderModel extends BaseOrderModel {
         category: map['category'] as String,
         product:
             OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
-        coupon: Coupon.fromMap(map['coupon'] as Map<String, dynamic>),
+        coupon: coupon != null ? Coupon.fromMap(coupon) : null,
         promocodeDate: map['promocodeData'] as String?,
         link: map['link'] as String?,
       );

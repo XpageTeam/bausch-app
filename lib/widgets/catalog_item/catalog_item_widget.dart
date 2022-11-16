@@ -303,7 +303,9 @@ class CatalogItemWidget extends StatelessWidget {
                 ),
               ),
 
-            if (model is! ProductItemModel)
+            if (model is WebinarItemModel ||
+                (model is PartnersItemModel &&
+                    (model as PartnersItemModel).poolPromoCode != null))
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 child: GreyButton(
