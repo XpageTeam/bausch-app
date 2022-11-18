@@ -1,6 +1,9 @@
 PODS:
   - app_links (0.0.1):
     - Flutter
+  - appmetrica_plugin (1.1.0):
+    - Flutter
+    - YandexMobileMetrica (~> 4.4)
   - appsflyer_sdk (6.8.0):
     - AppsFlyerFramework (= 6.8.0)
     - Flutter
@@ -216,9 +219,18 @@ PODS:
     - Flutter
     - YandexMapsMobile (= 4.2.2-full)
   - YandexMapsMobile (4.2.2-full)
+  - YandexMobileMetrica (4.4.0):
+    - YandexMobileMetrica/Static (= 4.4.0)
+  - YandexMobileMetrica/Static (4.4.0):
+    - YandexMobileMetrica/Static/Core (= 4.4.0)
+    - YandexMobileMetrica/Static/Crashes (= 4.4.0)
+  - YandexMobileMetrica/Static/Core (4.4.0)
+  - YandexMobileMetrica/Static/Crashes (4.4.0):
+    - YandexMobileMetrica/Static/Core
 
 DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
+  - appmetrica_plugin (from `.symlinks/plugins/appmetrica_plugin/ios`)
   - appsflyer_sdk (from `.symlinks/plugins/appsflyer_sdk/ios`)
   - better_player (from `.symlinks/plugins/better_player/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
@@ -272,10 +284,13 @@ SPEC REPOS:
     - sqlite3
     - SwiftyGif
     - YandexMapsMobile
+    - YandexMobileMetrica
 
 EXTERNAL SOURCES:
   app_links:
     :path: ".symlinks/plugins/app_links/ios"
+  appmetrica_plugin:
+    :path: ".symlinks/plugins/appmetrica_plugin/ios"
   appsflyer_sdk:
     :path: ".symlinks/plugins/appsflyer_sdk/ios"
   better_player:
@@ -329,6 +344,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_links: ab4ba54d10a13d45825336bc9707b5eadee81191
+  appmetrica_plugin: 4a29f127f4608f66aada648f02e1cb0054ba3f74
   appsflyer_sdk: 6d03341418c1acf261fdfde2eb27fdeaf04fa2c2
   AppsFlyerFramework: a8de532f81b1d3c1dfc451f0ecded91ebb6a0e47
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
@@ -378,6 +394,7 @@ SPEC CHECKSUMS:
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
   yandex_mapkit: 3431f8997d36bc0df753407ef282565c09163766
   YandexMapsMobile: 1fd5f86bc368ad6ba528b199f9477e4a26796567
+  YandexMobileMetrica: baf7cea47cb87fc9af963c4f747ce8dd7df3d7c0
 
 PODFILE CHECKSUM: 8cf4a377b8dc12afda9f09881369db17c1e1151f
 
