@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:email_validator/email_validator.dart';
@@ -73,6 +74,7 @@ class EmailSheetWM extends WidgetModel {
     await isLoading.accept(false);
 
     unawaited(appsFlyer.logEvent('emailChanged', null));
+    unawaited(AppMetrica.reportEvent('emailChanged'));
   }
 
   void _validateForm() {

@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
@@ -181,6 +182,12 @@ class BottomSheetNavigation<T> extends StatelessWidget {
                 'id': arguments.model.id,
                 'title': arguments.model.name,
               });
+
+              AppMetrica.reportEventWithMap('discountOpticsShow', <String, Object>{
+                'id': arguments.model.id,
+                'title': arguments.model.name,
+              });
+
               page = DiscountOpticsScreen(
                 controller: controller,
                 model: arguments.model as PromoItemModel,
@@ -278,6 +285,8 @@ class BottomSheetNavigation<T> extends StatelessWidget {
 
             case '/online_consultation':
               AppsflyerSingleton.sdk.logEvent('onlineConsultationShow', null);
+
+              AppMetrica.reportEventWithMap('onlineConsultationShow', null);
 
               page = ConsultationScreen(
                 controller: controller,

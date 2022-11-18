@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/add_points/quiz/quiz_content_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
@@ -50,6 +51,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
   @override
   void initState() {
     AppsflyerSingleton.sdk.logEvent('pointsQuiz', null);
+    AppMetrica.reportEventWithMap('pointsQuiz', null);
     super.initState();
   }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
@@ -185,7 +186,11 @@ class MyLensesRequester {
           BaseResponseRepository.fromMap(result.data as Map<String, dynamic>);
 
       unawaited(AppsflyerSingleton.sdk.logEvent('my-lenses-reminder', null));
-      
+
+      unawaited(
+        AppMetrica.reportEventWithMap('my-lenses-reminder', null),
+      );
+
       return response;
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
@@ -75,6 +76,13 @@ class _SheetScreenState extends State<SheetScreen> {
       'type': widget.sheetModel.type,
       'name': widget.sheetModel.name,
     });
+
+    AppMetrica.reportEventWithMap('catalogOpened', <String, Object>{
+      'id': widget.sheetModel.id,
+      'type': widget.sheetModel.type,
+      'name': widget.sheetModel.name,
+    });
+
     super.initState();
   }
 

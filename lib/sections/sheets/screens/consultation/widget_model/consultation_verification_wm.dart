@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -67,6 +68,7 @@ class ConsultationVerificationWM extends WidgetModel {
       );
 
       unawaited(AppsflyerSingleton.sdk.logEvent('onlineConsultationOrderFinished', null));
+      unawaited(AppMetrica.reportEventWithMap('onlineConsultationOrderFinished', null));
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;

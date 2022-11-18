@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
@@ -219,6 +220,16 @@ class _FinalAddPointsScreenState extends State<FinalAddPointsScreen> {
                       <String, dynamic>{
                         'id': widget.productBausch?.id,
                         'name': widget.productBausch?.name,
+                      },
+                    );
+
+                    AppMetrica.reportEventWithMap(
+                      'my-lenses-after-buy',
+                      <String, Object>{
+                        if (widget.productBausch?.id != null)
+                          'id': widget.productBausch!.id,
+                        if (widget.productBausch?.name != null)
+                          'name': widget.productBausch!.name,
                       },
                     );
 

@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -50,6 +51,11 @@ class PartnersVerificationWM extends WidgetModel {
     );
 
     AppsflyerSingleton.sdk.logEvent('partnersItemsOrder', <String, dynamic>{
+      'id': itemModel.id,
+      'title': itemModel.name,
+    });
+
+    AppMetrica.reportEventWithMap('partnersItemsOrder', <String, Object>{
       'id': itemModel.id,
       'title': itemModel.name,
     });

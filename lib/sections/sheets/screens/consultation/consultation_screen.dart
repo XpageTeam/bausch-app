@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/main.dart';
@@ -176,6 +177,7 @@ class _ConsultationScreenState
         onPressed: () {
           if (isPointsEnough){
             AppsflyerSingleton.sdk.logEvent('onlineConsultationOrder', null);
+            AppMetrica.reportEventWithMap('discountOpticsShow', null);
           }
 
           isPointsEnough

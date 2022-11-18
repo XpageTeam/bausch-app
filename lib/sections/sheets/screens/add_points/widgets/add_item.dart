@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
@@ -29,10 +30,18 @@ class AddItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        unawaited(AppsflyerSingleton.sdk.logEvent('pointsAction', <String, dynamic>{
-          'id': model.id,
-          'title': model.previewModel.title,
-        }));
+        unawaited(
+          AppsflyerSingleton.sdk.logEvent('pointsAction', <String, dynamic>{
+            'id': model.id,
+            'title': model.previewModel.title,
+          }),
+        );
+        unawaited(
+          AppMetrica.reportEventWithMap('pointsAction', <String, Object>{
+            'id': model.id,
+            'title': model.previewModel.title,
+          }),
+        );
 
         if (model.type == 'quiz') {
           await Navigator.of(context).pushNamed(

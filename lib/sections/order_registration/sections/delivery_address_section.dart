@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/order_registration/address_select_screen.dart';
@@ -124,6 +125,7 @@ class _DeliveryAddressSectionState extends State<DeliveryAddressSection> {
           OrderButton(
             onPressed: (){
               AppsflyerSingleton.sdk.logEvent('freePackAddressAdd', null);
+              AppMetrica.reportEventWithMap('freePackAddressAdd', null);
               wm.addAddressAction();
             },
             title: const Text(

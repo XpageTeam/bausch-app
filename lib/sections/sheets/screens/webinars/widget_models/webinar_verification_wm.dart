@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -73,6 +74,13 @@ class WebinarVerificationWM extends WidgetModel {
         'name': itemModel.name,
       },
     ));
+
+    unawaited(
+      AppMetrica.reportEventWithMap('webinarOrder', <String, Object>{
+        'name': itemModel.name,
+      }),
+    );
+
     try {
       // ignore: unused_local_variable
       final repository = await OrderWebinarSaver.save(
@@ -92,6 +100,12 @@ class WebinarVerificationWM extends WidgetModel {
           'name': itemModel.name,
         },
       ));
+
+      unawaited(
+        AppMetrica.reportEventWithMap('webinarOrderFinished', <String, Object>{
+          'name': itemModel.name,
+        }),
+      );
 
       //videoId = repository.videoIds.first;
 

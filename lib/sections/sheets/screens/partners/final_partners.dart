@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
@@ -40,7 +41,6 @@ class FinalPartners extends CoreMwwmWidget<FinalPartnersWM> {
 }
 
 class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
- 
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
@@ -131,6 +131,16 @@ class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
                           'id': wm.itemModel.id,
                           'title': wm.itemModel.name,
                           'link': widget.model.link,
+                        },
+                      );
+
+                      AppMetrica.reportEventWithMap(
+                        'partnersItemsOrderLink',
+                        <String, Object>{
+                          'id': wm.itemModel.id,
+                          'title': wm.itemModel.name,
+                          if (widget.model.link != null)
+                            'link': widget.model.link!,
                         },
                       );
                     }

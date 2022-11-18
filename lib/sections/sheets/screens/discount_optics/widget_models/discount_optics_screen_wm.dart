@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -106,6 +107,7 @@ class DiscountOpticsScreenWM extends WidgetModel {
           discountType == DiscountType.offline &&
           discountOpticsStreamed.value.data!.isEmpty) {
         AppsflyerSingleton.sdk.logEvent('discountOpticsEmpty', null);
+        AppMetrica.reportEventWithMap('discountOpticsEmpty', null);
       }
     });
 
@@ -126,6 +128,18 @@ class DiscountOpticsScreenWM extends WidgetModel {
               ),
             );
 
+            unawaited(
+              AppMetrica.reportEventWithMap(
+                'discountOpticsSetOptic',
+                <String, Object>{
+                  'opticID': optic.id,
+                  'opticName': optic.title,
+                  if (currentOnlineCity.value != null)
+                    'cityName': currentOnlineCity.value!,
+                },
+              ),
+            );
+
             return;
           }
 
@@ -138,6 +152,17 @@ class DiscountOpticsScreenWM extends WidgetModel {
             AppsflyerSingleton.sdk.logEvent(
               'discountOpticsSetOptic',
               <String, dynamic>{
+                'opticID': optic.id,
+                'opticName': optic.title,
+                'cityName': cityName,
+              },
+            ),
+          );
+
+          unawaited(
+            AppMetrica.reportEventWithMap(
+              'discountOpticsSetOptic',
+              <String, Object>{
                 'opticID': optic.id,
                 'opticName': optic.title,
                 'cityName': cityName,

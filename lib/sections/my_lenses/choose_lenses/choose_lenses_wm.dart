@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
@@ -80,6 +81,13 @@ class ChooseLensesWM extends WidgetModel {
         'bauschProdID': data?.bauschProductId,
         'name': data?.name,
       });
+
+      AppMetrica.reportEventWithMap('my-lenses-add', data != null ?<String, Object>{
+        'id': data.id,
+        if (data.bauschProductId != null)
+          'bauschProdID': data.bauschProductId!,
+        'name': data.name,
+      } : null);
     });
     super.onBind();
   }

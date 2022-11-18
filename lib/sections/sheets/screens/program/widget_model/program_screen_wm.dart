@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -75,6 +76,14 @@ class ProgramScreenWM extends WidgetModel {
         'title': optic?.title,
         'shopCode': optic?.shopCode,
       });
+
+      unawaited(
+        AppMetrica.reportEventWithMap('programmOpticSelected', <String, Object>{
+          if (optic?.id != null) 'id': optic!.id,
+          if (optic?.title != null) 'title': optic!.title,
+          if (optic?.shopCode != null) 'shopCode': optic!.shopCode!,
+        }),
+      );
 
       currentOpticStreamed.accept(optic);
     });

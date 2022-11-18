@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 import 'package:bausch/sections/profile/profile_settings/my_adresses/cubit/adresses_cubit.dart';
@@ -252,6 +253,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                     );
 
                                     appsFlyer.logEvent('addressRemoved', null);
+                                    AppMetrica.reportEvent('addressRemoved');
                                   },
                                   noCallback: () {
                                     Navigator.of(context).pop();
@@ -260,6 +262,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                                       'addressRemoveCancel',
                                       null,
                                     );
+                                    AppMetrica.reportEvent('addressRemoveCancel');
                                   },
                                 );
                               },

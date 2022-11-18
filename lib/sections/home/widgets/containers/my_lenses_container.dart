@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/my_lenses/lens_product_list_model.dart';
@@ -47,6 +48,11 @@ class MyLensesContainer extends StatelessWidget {
                     : WhiteContainerWithRoundedCorners(
                         onTap: () {
                           AppsflyerSingleton.sdk.logEvent(
+                            'my-lenses-show',
+                            null,
+                          );
+
+                          AppMetrica.reportEventWithMap(
                             'my-lenses-show',
                             null,
                           );

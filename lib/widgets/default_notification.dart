@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/static/static_data.dart';
@@ -155,6 +156,10 @@ class _DefaultNotification extends StatelessWidget {
       appsFlyer.logEvent('showErrorMesssage', <String, dynamic>{
         'title': title,
         if (subtitle != null) 'subtitle': subtitle,
+      });
+      AppMetrica.reportEventWithMap('showErrorMesssage', <String, Object>{
+        'title': title,
+        if (subtitle != null) 'subtitle': subtitle!,
       });
     }
 

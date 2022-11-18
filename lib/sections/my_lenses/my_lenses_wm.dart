@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/help/help_functions.dart';
 import 'package:bausch/main.dart';
@@ -302,6 +303,9 @@ class MyLensesWM extends WidgetModel {
 
   Future putOffLensesSheet({required BuildContext context}) async {
     unawaited(AppsflyerSingleton.sdk.logEvent('my-lenses-finish', null));
+
+    unawaited(AppMetrica.reportEventWithMap('my-lenses-finish', null));
+
     if (rightLensDate.value == null || leftLensDate.value == null) {
       await _putOffLensesPair(left: true, right: true);
     } else {

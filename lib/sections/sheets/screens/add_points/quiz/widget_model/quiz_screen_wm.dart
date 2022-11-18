@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -88,9 +89,11 @@ class QuizScreenWM extends WidgetModel {
 
       if (currentPage == quizModel.content.length - 1) {
         AppsflyerSingleton.sdk.logEvent('pointsQuizFinish', null);
+        AppMetrica.reportEventWithMap('pointsQuizFinish', null);
         _finishQuiz();
       } else {
         AppsflyerSingleton.sdk.logEvent('pointsQuizNext', null);
+        AppMetrica.reportEventWithMap('pointsQuizNext', null);
         _moveToNexPage();
       }
     });
@@ -99,6 +102,7 @@ class QuizScreenWM extends WidgetModel {
       final currentSelectType = quizModel.content[currentPage].type;
 
       AppsflyerSingleton.sdk.logEvent('pointsQuizAnswerChanged', null);
+      AppMetrica.reportEventWithMap('pointsQuizAnswerChanged', null);
 
       if (currentSelectType == 'radio') {
         selectedIndexes.accept([index!]);

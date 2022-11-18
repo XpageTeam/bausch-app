@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/sections/select_optic/map_body.dart';
@@ -48,6 +49,7 @@ class SelectOpticScreenBody extends StatelessWidget {
             mapBodyWm.isModalBottomSheetOpen.accept(true);
 
             AppsflyerSingleton.sdk.logEvent('programmOpticsEmpty', null);
+            AppMetrica.reportEventWithMap('programmOpticsEmpty', null);
 
             showModalBottomSheet<dynamic>(
               barrierColor: Colors.transparent,

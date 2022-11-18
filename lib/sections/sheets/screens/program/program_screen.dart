@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/main.dart';
@@ -56,6 +57,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   @override
   void initState() {
     AppsflyerSingleton.sdk.logEvent('programmScreen', null);
+    AppMetrica.reportEventWithMap('programmScreen', null);
 
     super.initState();
   }
@@ -157,6 +159,7 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       onTap: () {
                         AppsflyerSingleton.sdk
                             .logEvent('programmShowItem', null);
+                        AppMetrica.reportEventWithMap('programmShowItem', null);
                       },
                       child: SimpleSlider<Product>(
                         items: primaryData.products,
@@ -297,6 +300,9 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                     onPressed: () {
                       AppsflyerSingleton.sdk
                           .logEvent('programmShowOpticsMap', null);
+                      
+                      AppMetrica.reportEventWithMap('programmShowOpticsMap', null);
+
                       Keys.mainNav.currentState!.push<void>(
                         PageRouteBuilder<void>(
                           reverseTransitionDuration: Duration.zero,

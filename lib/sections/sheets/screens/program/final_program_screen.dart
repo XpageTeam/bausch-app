@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/help/utils.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
@@ -23,6 +24,7 @@ class FinalProgramScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key) {
     AppsflyerSingleton.sdk.logEvent('programmCertificateCreated', null);
+    AppMetrica.reportEventWithMap('programmCertificateCreated', null);
   }
 
   @override

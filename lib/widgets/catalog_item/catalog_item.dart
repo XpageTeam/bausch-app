@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
@@ -121,6 +122,14 @@ class CatalogItem extends StatelessWidget {
                             },
                           );
 
+                          AppMetrica.reportEventWithMap(
+                            'webinarShow',
+                            <String, Object>{
+                              'id': model.id,
+                              'name': model.name,
+                            },
+                          );
+
                           onWebinarClick(
                             context,
                             model as WebinarItemModel,
@@ -153,6 +162,11 @@ class CatalogItem extends StatelessWidget {
   void onWebinarClick(BuildContext context, WebinarItemModel model) {
     if (model.canWatch) {
       AppsflyerSingleton.sdk.logEvent('webinarWatch', <String, dynamic>{
+        'id': model.id,
+        'name': model.name,
+      });
+
+      AppMetrica.reportEventWithMap('webinarWatch', <String, Object>{
         'id': model.id,
         'name': model.name,
       });

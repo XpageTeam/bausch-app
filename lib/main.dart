@@ -2,9 +2,9 @@
 
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
-import 'package:bausch/global/deep_link/deep_link_wm.dart';
 import 'package:bausch/global/deep_link/initial_push_intent_keeper.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
@@ -28,6 +28,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+  await AppMetrica.activate(
+    const AppMetricaConfig('17f7ec58-8616-4364-91cc-95a024044d2b'),
+  );
 
   Mindbox.instance.init(
     configuration: Configuration(

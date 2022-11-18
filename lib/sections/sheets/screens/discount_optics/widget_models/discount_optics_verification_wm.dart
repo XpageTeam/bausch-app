@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -64,6 +65,11 @@ class DiscountOpticsVerificationWM extends WidgetModel {
         'title': itemModel.name,
       },
     );
+
+    AppMetrica.reportEventWithMap('discountOpticsOrder', <String, Object>{
+      'id': itemModel.id,
+      'title': itemModel.name,
+    });
 
     userWm = context.read<UserWM>();
     points = userWm.userData.value.data?.balance.available.toInt() ?? 0;
@@ -142,6 +148,13 @@ class DiscountOpticsVerificationWM extends WidgetModel {
           'title': itemModel.name,
         },
       ));
+
+      unawaited(
+        AppMetrica.reportEventWithMap('discountOpticsOrderFinished', <String, Object>{
+          'id': itemModel.id,
+          'title': itemModel.name,
+        }),
+      );
 
       await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
         '/final_discount_optics',

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/main.dart';
@@ -122,6 +123,7 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
 
     try {
       unawaited(AppsflyerSingleton.sdk.logEvent('pointsCodeSended', null));
+      unawaited(AppMetrica.reportEventWithMap('pointsCodeSended', null));
 
       final parsedData = BaseResponseRepository.fromMap(
         (await rh.post<Map<String, dynamic>>(
@@ -147,6 +149,7 @@ class AddPointsCodeBloc extends Bloc<AddPointsCodeEvent, AddPointsCodeState> {
       );
 
       unawaited(AppsflyerSingleton.sdk.logEvent('pointsAdded', null));
+      unawaited(AppMetrica.reportEventWithMap('pointsAdded', null));
 
       return AddPointsCodeSendSuccess(
         models: state.models,
