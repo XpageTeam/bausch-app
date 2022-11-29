@@ -203,6 +203,7 @@ class LoginWM extends WidgetModel {
 
     Mindbox.instance.getDeviceUUID((uuid) async {
       try {
+        debugPrint('phoneController.text: ${phoneController.text}');
         await authRequestResult.content(
           await PhoneSender.send(phoneController.text, uuid),
         );

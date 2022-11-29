@@ -300,8 +300,11 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                     onPressed: () {
                       AppsflyerSingleton.sdk
                           .logEvent('programmShowOpticsMap', null);
-                      
-                      AppMetrica.reportEventWithMap('programmShowOpticsMap', null);
+
+                      AppMetrica.reportEventWithMap(
+                        'programmShowOpticsMap',
+                        null,
+                      );
 
                       Keys.mainNav.currentState!.push<void>(
                         PageRouteBuilder<void>(
@@ -313,7 +316,19 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                               wm.city = city;
 
                               if (shop != null) {
-                                wm.selectOptic(optic.copyWith(shops: [shop]));
+                                if (shop is OpticShopForCertificate) {
+                                  wm.selectOptic(
+                                    optic.copyWith(
+                                      shops: [
+                                        changeOpticShop(optic, shop),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  wm.selectOptic(optic.copyWith(
+                                    shops: [shop],
+                                  ));
+                                }
                               } else {
                                 wm.selectOptic(optic);
                               }
@@ -344,6 +359,26 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
           ),
         );
       },
+    );
+  }
+
+  OpticShopForCertificate changeOpticShop(
+      Optic optic, OpticShopForCertificate shop,) {
+    String? email;
+    String? manager;
+    if (optic.shops.any(
+      (element) => element.id == shop.id,
+    )) {
+      final shopFromOptic = optic.shops.firstWhere(
+        (element) => element.id == shop.id,
+      );
+      email = shopFromOptic.email;
+      manager = shopFromOptic.manager;
+    }
+
+    return shop.copyWith(
+      manager: manager,
+      email: email,
     );
   }
 }

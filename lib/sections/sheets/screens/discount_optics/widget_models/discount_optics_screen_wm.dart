@@ -855,7 +855,24 @@ class OpticShopForCertificate extends OpticShop {
     required super.coords,
     required this.features,
     required this.url,
+    super.manager,
+    super.email,
   });
+
+  OpticShopForCertificate copyWith({String? manager, String? email}) {
+    return OpticShopForCertificate(
+      id: id,
+      title: title,
+      phones: phones,
+      address: address,
+      city: city,
+      coords: coords,
+      manager: manager ?? this.manager,
+      email: email ?? this.email,
+      features: features,
+      url: url,
+    );
+  }
 
   factory OpticShopForCertificate.fromJson(Map<String, dynamic> map) {
     return OpticShopForCertificate(
