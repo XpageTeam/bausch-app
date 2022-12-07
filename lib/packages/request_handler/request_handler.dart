@@ -8,6 +8,7 @@ import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
@@ -17,6 +18,14 @@ import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart' as pp;
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:provider/provider.dart';
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (cert, host, port) => true;
+  }
+}
 
 class RequestHandler {
   static BuildContext? globalContext;
@@ -34,6 +43,13 @@ class RequestHandler {
 
   RequestHandler._init() {
     _dio = _createDio();
+
+    //* Избегаем проверки сертификата. На старых андроидах была ошибка
+    (_dio!.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback = (cert, host, port) => true;
+      return client;
+    };
   }
 
   factory RequestHandler.setContext(BuildContext context) {
