@@ -20,6 +20,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddPointsDetailsWM extends WidgetModel {
   final BuildContext context;
@@ -197,6 +198,7 @@ class AddPointsDetailsWM extends WidgetModel {
     } else {
       await Utils.tryLaunchUrl(
         rawUrl: url ?? '',
+        mode: LaunchMode.externalApplication,
         onError: (ex) {
           showDefaultNotification(
             title: ex.title,
