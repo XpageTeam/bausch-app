@@ -2,17 +2,20 @@
 
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/models/program/primary_data_downloader.dart';
+import 'package:bausch/models/user/user_model/user.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +40,11 @@ class ProgramScreenWM extends WidgetModel {
   final getCertificateAction = VoidAction();
 
   final colorState = StreamedState<Color>(Colors.white);
+  late final User? userData;
 
-  String city = '';
+  late String city;
+
+  List<OpticCity> cities = [];
 
   String get fullAddress {
     final optic = currentOpticStreamed.value;
@@ -53,6 +59,9 @@ class ProgramScreenWM extends WidgetModel {
 
   @override
   void onLoad() {
+    userData = context.read<UserWM>().userData.value.data?.user;
+
+    city = userData?.city ?? '';
     _loadData();
     _initUserData();
     super.onLoad();
@@ -60,7 +69,24 @@ class ProgramScreenWM extends WidgetModel {
 
   @override
   void onBind() {
-    selectOptic.bind(currentOpticStreamed.accept);
+    selectOptic.bind((optic) {
+      AppsflyerSingleton.sdk
+          .logEvent('programmOpticSelected', <String, dynamic>{
+        'id': optic?.id,
+        'title': optic?.title,
+        'shopCode': optic?.shopCode,
+      });
+
+      unawaited(
+        AppMetrica.reportEventWithMap('programmOpticSelected', <String, Object>{
+          if (optic?.id != null) 'id': optic!.id,
+          if (optic?.title != null) 'title': optic!.title,
+          if (optic?.shopCode != null) 'shopCode': optic!.shopCode!,
+        }),
+      );
+
+      currentOpticStreamed.accept(optic);
+    });
     getCertificateAction.bind((_) => _getCertificate());
 
     super.onBind();
@@ -71,6 +97,16 @@ class ProgramScreenWM extends WidgetModel {
     CustomException? ex;
 
     ProgramSaverResponse? response;
+
+    /// Это поле попросили дополнительно отсылать. Зачем? хз
+    final promoOptic = currentOpticStreamed.value!.shops.isNotEmpty
+        ? (currentOpticStreamed.value?.shops.first as OpticShopForCertificate)
+                .features
+                .any((element) => element.xmlId == 'discount')
+            ? 1
+            : 0
+        : 0;
+
     try {
       response = await ProgramSertificatSaver.save(
         name: firstNameController.text,
@@ -84,6 +120,7 @@ class ProgramScreenWM extends WidgetModel {
             (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
                 ? currentOpticStreamed.value!.shops.first.phones.first
                 : '',
+        promoOptic: promoOptic,
       );
 
       unawaited(
@@ -92,13 +129,19 @@ class ProgramScreenWM extends WidgetModel {
           parameters: <String, dynamic>{
             'whatDoYouUse': whatDoYouUse.value,
             'name': firstNameController.text,
-            'opticName': currentOpticStreamed.value?.shops.first.title ?? 'null',
-            'opticAddress': '$city, ${currentOpticStreamed.value!.shops.first.address}',
-            'opticPhone': (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ?? false
-                ? currentOpticStreamed.value!.shops.first.phones.first
-                : '',
-            'opticEmail': currentOpticStreamed.value?.shops.first.email ?? 'null',
-            'opticManager': currentOpticStreamed.value?.shops.first.manager ?? 'null',
+            'opticName':
+                currentOpticStreamed.value?.shops.first.title ?? 'null',
+            'opticAddress':
+                '$city, ${currentOpticStreamed.value!.shops.first.address}',
+            'opticPhone':
+                (currentOpticStreamed.value?.shops.first.phones.isNotEmpty) ??
+                        false
+                    ? currentOpticStreamed.value!.shops.first.phones.first
+                    : '',
+            'opticEmail':
+                currentOpticStreamed.value?.shops.first.email ?? 'null',
+            'opticManager':
+                currentOpticStreamed.value?.shops.first.manager ?? 'null',
           },
         ),
       );
@@ -135,14 +178,11 @@ class ProgramScreenWM extends WidgetModel {
   }
 
   void _initUserData() {
-    final user =
-        Provider.of<UserWM>(context, listen: false).userData.value.data?.user;
+    if (userData == null) return;
 
-    if (user == null) return;
-
-    firstNameController.text = user.name ?? '';
-    lastNameController.text = user.lastName ?? '';
-    emailController.text = user.email ?? '';
+    firstNameController.text = userData?.name ?? '';
+    lastNameController.text = userData?.lastName ?? '';
+    emailController.text = userData?.email ?? '';
   }
 
   Future<void> _loadData() async {
@@ -217,6 +257,7 @@ class ProgramSertificatSaver {
     required String opticManager,
     required String opticPhone,
     required String opticEmail,
+    required int promoOptic,
     String? whatDoYouUse,
   }) async {
     final rh = RequestHandler();
@@ -232,6 +273,7 @@ class ProgramSertificatSaver {
           'opticPhone': opticPhone,
           'opticEmail': opticEmail,
           'opticManager': opticManager,
+          'promoOptic': promoOptic,
         }),
       ))
           .data!,

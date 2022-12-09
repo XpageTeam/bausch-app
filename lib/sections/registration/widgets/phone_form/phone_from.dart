@@ -28,7 +28,7 @@ class PhoneForm extends StatelessWidget {
           inputType: TextInputType.phone,
           textStyle: AppStyles.h1,
           autofocus: true,
-          inputFormatters: wm.phoneInputFormaters,
+          inputFormatters: wm.phoneController.inputFormatters,
         ),
         const SizedBox(height: 4),
         StreamedStateBuilder<bool>(

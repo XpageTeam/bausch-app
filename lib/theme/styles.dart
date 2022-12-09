@@ -2,6 +2,15 @@ import 'package:bausch/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppStyles {
+
+  static const h0 = TextStyle(
+    color: AppTheme.mineShaft,
+    fontWeight: FontWeight.w500,
+    fontSize: 85,
+    height: 80 / 85,
+    fontFamily: 'Euclid Circular A',
+  );
+
   static const h1 = TextStyle(
     color: AppTheme.mineShaft,
     fontWeight: FontWeight.w500,

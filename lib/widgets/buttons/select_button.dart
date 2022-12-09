@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 class SelectButton extends StatelessWidget {
   final String value;
   final Color color;
+  final Color? textColor;
+
   final String? labeltext;
   final VoidCallback? onPressed;
   const SelectButton({
     required this.value,
     required this.color,
+    this.textColor,
     this.onPressed,
     this.labeltext,
     Key? key,
@@ -18,7 +21,7 @@ class SelectButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: color,
@@ -47,8 +50,8 @@ class SelectButton extends StatelessWidget {
                       child: Text(
                         value,
                         style: labeltext == null
-                            ? AppStyles.h2GreyBold
-                            : AppStyles.h2,
+                            ? AppStyles.h2GreyBold.copyWith(color: textColor)
+                            : AppStyles.h2.copyWith(color: textColor),
                       ),
                     ),
                   ],

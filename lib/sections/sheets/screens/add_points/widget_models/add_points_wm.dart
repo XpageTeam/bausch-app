@@ -3,13 +3,13 @@ import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/models/add_points/add_points_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/requester/add_points_requester.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class AddPointsWM extends WidgetModel {
-  final addPointsList = EntityStreamedState<List<AddPointsModel>>()..content([]);
+  final addPointsList = EntityStreamedState<List<AddPointsModel>>()..loading();
 
   final loadInfoAction = VoidAction();
 
@@ -34,7 +34,7 @@ class AddPointsWM extends WidgetModel {
   /// Загружает дополнительные способы добавления баллов
   ///! не использовать [addPointsList].error
   Future<void> _loadInfo() async {
-    if (addPointsList.value.isLoading) return;
+    // if (addPointsList.value.isLoading) return;
 
     await addPointsList.loading(addPointsList.value.data);
 
@@ -61,10 +61,10 @@ class AddPointsWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
 
-      await addPointsList.content([]);
+      await addPointsList.error(error);
     }
   }
 }

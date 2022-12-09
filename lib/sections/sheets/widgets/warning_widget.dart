@@ -17,7 +17,7 @@ class Warning extends StatelessWidget {
 
   static Warning warning([String? text]) {
     return Warning(
-      view: Container(
+      view: DecoratedBox(
         decoration: BoxDecoration(
           color: AppTheme.sulu,
           borderRadius: BorderRadius.circular(5),
@@ -54,7 +54,7 @@ class Warning extends StatelessWidget {
     String? description,
   }) {
     return Warning(
-      view: Container(
+      view: DecoratedBox(
         decoration: BoxDecoration(
           color: AppTheme.sulu,
           borderRadius: BorderRadius.circular(5),

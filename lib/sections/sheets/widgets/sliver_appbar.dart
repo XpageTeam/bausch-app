@@ -40,6 +40,7 @@ class CustomSliverAppbar extends StatelessWidget {
                   icon ??
                       NormalIconButton(
                         isAnimated: colorAnimated,
+                        padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -53,6 +54,7 @@ class CustomSliverAppbar extends StatelessWidget {
                       ),
                   NormalIconButton(
                     isAnimated: colorAnimated,
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 10),
                     onPressed: () {
                       icon != null
                           ? Navigator.of(context).pop()
@@ -72,9 +74,16 @@ class CustomSliverAppbar extends StatelessWidget {
                 children: [
                   Container(),
                   NormalIconButton(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
                     isAnimated: colorAnimated,
                     onPressed: () {
-                      Keys.mainContentNav.currentState!.pop();
+                      if (Keys.mainContentNav.currentState?.canPop() ?? false) {
+                        Keys.mainContentNav.currentState!.pop();
+                      } else {
+                        // Keys.bottomNav.currentState?.maybePop();
+                        Keys.mainNav.currentState?.maybePop();
+                        // Navigator.of(context).pop();
+                      }
                     },
                     icon: const Icon(
                       Icons.close_rounded,

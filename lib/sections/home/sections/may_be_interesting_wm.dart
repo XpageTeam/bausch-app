@@ -12,7 +12,7 @@ import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -159,7 +159,10 @@ class MayBeInterestingWM extends WidgetModel {
             name: 'Title',
             type: section,
           ),
-          ItemSheetScreenArguments(model: model),
+          ItemSheetScreenArguments(
+            model: model,
+            section: section,
+          ),
           '/$section',
         );
       }

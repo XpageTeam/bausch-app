@@ -8,9 +8,17 @@ import 'package:flutter/material.dart';
 class SinglePickerScreen extends StatefulWidget {
   final String title;
   final List<String> variants;
+  final String? cancelTitle;
+  final VoidCallback? onCancelTap;
+  final String? acceptTitle;
+  final int? startId;
   const SinglePickerScreen({
     required this.title,
     required this.variants,
+    this.acceptTitle,
+    this.cancelTitle,
+    this.onCancelTap,
+    this.startId,
     Key? key,
   }) : super(key: key);
 
@@ -43,6 +51,12 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
   // ];
 
   @override
+  void initState() {
+    selectedNumber = widget.startId ?? 0;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
@@ -67,12 +81,22 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  widget.title,
-                  style: AppStyles.h1,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.title,
+                    style: AppStyles.h1,
+                  ),
+                  if (widget.cancelTitle != null)
+                    GestureDetector(
+                      onTap: widget.onCancelTap,
+                      child: Text(
+                        widget.cancelTitle!,
+                        style: AppStyles.h3,
+                      ),
+                    ),
+                ],
               ),
               Flexible(
                 child: Stack(
@@ -87,6 +111,11 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
                       ),
                     ),
                     CupertinoPicker.builder(
+                      scrollController: widget.startId != null
+                          ? FixedExtentScrollController(
+                              initialItem: widget.startId!,
+                            )
+                          : null,
                       childCount: widget.variants.length,
                       itemExtent: 40,
                       //offAxisFraction: -0.5,
@@ -119,7 +148,7 @@ class _SinglePickerScreenState extends State<SinglePickerScreen> {
                   bottom: 26,
                 ),
                 child: BlueButtonWithText(
-                  text: 'Добавить',
+                  text: widget.acceptTitle ?? 'Добавить',
                   onPressed: () {
                     Navigator.of(context).pop(widget.variants[selectedNumber]);
                   },

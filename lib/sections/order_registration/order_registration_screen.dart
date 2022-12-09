@@ -1,3 +1,5 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/product_item_model.dart';
 import 'package:bausch/models/profile_settings/adress_model.dart';
 
@@ -52,6 +54,21 @@ class _OrderRegistrationScreenState
   void dispose() {
     wm.lensBloc.close();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    AppsflyerSingleton.sdk.logEvent('freePackOrder', <String, dynamic>{
+      'id': widget.model.id,
+      'title': widget.model.name,
+    });
+
+    AppMetrica.reportEventWithMap('discountOpticsShow', <String, Object>{
+      'id': widget.model.id,
+      'title': widget.model.name,
+    });
+
+    super.initState();
   }
 
   @override
@@ -114,6 +131,22 @@ class _OrderRegistrationScreenState
                               'Потратить ${wm.productItemModel.priceToString} б',
                           onPressed: areFilled && adress != null
                               ? () {
+                                  AppsflyerSingleton.sdk.logEvent(
+                                    'freePackOrder',
+                                    <String, dynamic>{
+                                      'id': widget.model.id,
+                                      'title': widget.model.name,
+                                    },
+                                  );
+
+                                  AppMetrica.reportEventWithMap(
+                                    'freePackOrder',
+                                    <String, Object>{
+                                      'id': widget.model.id,
+                                      'title': widget.model.name,
+                                    },
+                                  );
+
                                   wm.makeOrderAction();
                                 }
                               : null,

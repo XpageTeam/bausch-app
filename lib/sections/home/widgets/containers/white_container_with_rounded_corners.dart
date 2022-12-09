@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class WhiteContainerWithRoundedCorners extends StatelessWidget {
   final Widget child;
   final VoidCallback? onTap;
-  final double? heigth;
+  final double? height;
   final double? width;
   final EdgeInsets? padding;
   final Color color;
   const WhiteContainerWithRoundedCorners({
     required this.child,
-    this.heigth,
+    this.height,
     this.width,
     this.onTap,
     this.padding,
@@ -22,7 +22,7 @@ class WhiteContainerWithRoundedCorners extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: heigth,
+        height: height,
         width: width,
         padding: padding,
         decoration: BoxDecoration(

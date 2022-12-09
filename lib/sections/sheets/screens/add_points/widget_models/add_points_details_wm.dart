@@ -12,7 +12,7 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/dialogs/alert_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -20,6 +20,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddPointsDetailsWM extends WidgetModel {
   final BuildContext context;
@@ -192,15 +193,16 @@ class AddPointsDetailsWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       await Utils.tryLaunchUrl(
         rawUrl: url ?? '',
+        mode: LaunchMode.externalApplication,
         onError: (ex) {
           showDefaultNotification(
             title: ex.title,
-            subtitle: ex.subtitle,
+            // subtitle: ex.subtitle,
           );
         },
       );
@@ -211,7 +213,6 @@ class AddPointsDetailsWM extends WidgetModel {
     unawaited(loadingState.accept(true));
 
     CustomException? error;
-    String? message;
 
     try {
       final result = await FilePicker.platform.pickFiles(
@@ -234,13 +235,11 @@ class AddPointsDetailsWM extends WidgetModel {
         return;
       }
 
-      final response = await AddPointsSaver.save(
+      await AddPointsSaver.save(
         link,
         reviewLink,
         file,
       );
-
-      message = response.message;
 
       if (addPointsModel.type == 'review_social') {
         unawaited(
@@ -280,7 +279,7 @@ class AddPointsDetailsWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       // await Keys.bottomNav.currentState!.pushNamedAndRemoveUntil(
@@ -309,23 +308,23 @@ class AddPointsSaver {
   ) async {
     final rh = RequestHandler();
 
-    var _reviewLink = reviewLink;
+    var updatedReviewLink = reviewLink;
 
     //* Убираю https
     if (reviewLink.startsWith('https://')) {
-      _reviewLink = reviewLink.replaceAll('https://', '');
+      updatedReviewLink = reviewLink.replaceAll('https://', '');
     } else if (reviewLink.startsWith('http://')) {
-      _reviewLink = reviewLink.replaceAll('http://', '');
+      updatedReviewLink = reviewLink.replaceAll('http://', '');
     }
 
-    debugPrint(_reviewLink);
+    debugPrint(updatedReviewLink);
 
     final resp = await rh.post<Map<String, dynamic>>(
       link,
       data: FormData.fromMap(
         <String, dynamic>{
           'reviewScreenshot': await MultipartFile.fromFile(file.path),
-          'link': _reviewLink,
+          'link': updatedReviewLink,
         },
       ),
     );

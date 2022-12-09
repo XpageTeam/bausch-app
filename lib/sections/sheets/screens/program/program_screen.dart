@@ -1,4 +1,7 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bausch/exceptions/custom_exception.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/program/primary_data.dart';
 import 'package:bausch/sections/home/widgets/containers/white_container_with_rounded_corners.dart';
 import 'package:bausch/sections/home/widgets/simple_slider/simple_slider.dart';
@@ -14,6 +17,7 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/custom_radio_button.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
 import 'package:bausch/widgets/buttons/white_button.dart';
+import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/inputs/native_text_input.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/loader/ui_loader.dart';
@@ -51,20 +55,38 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
   }
 
   @override
+  void initState() {
+    AppsflyerSingleton.sdk.logEvent('programmScreen', null);
+    AppMetrica.reportEventWithMap('programmScreen', null);
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return EntityStateBuilder<PrimaryData>(
       streamedState: wm.primaryDataStreamed,
-      loadingChild: Container(
-        decoration: const BoxDecoration(
+      loadingChild: const DecoratedBox(
+        decoration: BoxDecoration(
           color: AppTheme.mystic,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(5),
           ),
         ),
-        child: const Center(
+        child: Center(
           child: AnimatedLoader(),
         ),
       ),
+      errorBuilder: (context, e) {
+        e as CustomException;
+
+        return ErrorPage(
+          title: e.title,
+          // subtitle: e.subtitle,
+          buttonText: 'Обновить',
+          buttonCallback: wm.onLoad,
+        );
+      },
       builder: (context, primaryData) {
         return CustomSheetScaffold(
           controller: widget.controller,
@@ -133,15 +155,22 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                 sliver: SliverToBoxAdapter(
                   child: _InfoBlock(
                     headerText: 'В программе участвуют',
-                    content: SimpleSlider<Product>(
-                      items: primaryData.products,
-                      builder: (context, product) => _ProductItem(
-                        product: product,
+                    content: GestureDetector(
+                      onTap: () {
+                        AppsflyerSingleton.sdk
+                            .logEvent('programmShowItem', null);
+                        AppMetrica.reportEventWithMap('programmShowItem', null);
+                      },
+                      child: SimpleSlider<Product>(
+                        items: primaryData.products,
+                        builder: (context, product) => _ProductItem(
+                          product: product,
+                        ),
+                        // indicatorBuilder: (context, isActive) => Indicator(
+                        //   isActive: isActive,
+                        //   animationDuration: const Duration(milliseconds: 300),
+                        // ),
                       ),
-                      // indicatorBuilder: (context, isActive) => Indicator(
-                      //   isActive: isActive,
-                      //   animationDuration: const Duration(milliseconds: 300),
-                      // ),
                     ),
                   ),
                 ),
@@ -269,15 +298,37 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
                       ),
                     ),
                     onPressed: () {
+                      AppsflyerSingleton.sdk
+                          .logEvent('programmShowOpticsMap', null);
+
+                      AppMetrica.reportEventWithMap(
+                        'programmShowOpticsMap',
+                        null,
+                      );
+
                       Keys.mainNav.currentState!.push<void>(
-                        MaterialPageRoute(
-                          builder: (context) => SelectOpticScreen(
+                        PageRouteBuilder<void>(
+                          reverseTransitionDuration: Duration.zero,
+                          pageBuilder: (_, __, ___) => SelectOpticScreen(
+                            initialCity: wm.city,
                             selectButtonText: 'Выбрать оптику',
                             onOpticSelect: (optic, city, shop) {
                               wm.city = city;
 
                               if (shop != null) {
-                                wm.selectOptic(optic.copyWith(shops: [shop]));
+                                if (shop is OpticShopForCertificate) {
+                                  wm.selectOptic(
+                                    optic.copyWith(
+                                      shops: [
+                                        changeOpticShop(optic, shop),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  wm.selectOptic(optic.copyWith(
+                                    shops: [shop],
+                                  ));
+                                }
                               } else {
                                 wm.selectOptic(optic);
                               }
@@ -308,6 +359,26 @@ class _ProgramScreenState extends WidgetState<ProgramScreen, ProgramScreenWM> {
           ),
         );
       },
+    );
+  }
+
+  OpticShopForCertificate changeOpticShop(
+      Optic optic, OpticShopForCertificate shop,) {
+    String? email;
+    String? manager;
+    if (optic.shops.any(
+      (element) => element.id == shop.id,
+    )) {
+      final shopFromOptic = optic.shops.firstWhere(
+        (element) => element.id == shop.id,
+      );
+      email = shopFromOptic.email;
+      manager = shopFromOptic.manager;
+    }
+
+    return shop.copyWith(
+      manager: manager,
+      email: email,
     );
   }
 }

@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_annotating_with_dynamic, unused_import, avoid_catches_without_on_clauses
 
+import 'dart:async';
+
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/models/mappable_object.dart';
@@ -29,6 +32,8 @@ class StoryWM extends WidgetModel {
   UserWM? userWM;
 
   StoriesWM? storiesWM;
+
+  AppsflyerSdk? _appsFlyer;
 
   StoryWM({
     required this.id,
@@ -61,36 +66,54 @@ class StoryWM extends WidgetModel {
     super.onBind();
   }
 
+  static Future<void> showStoryScreen({
+    required BuildContext context,
+    required int id,
+    required List<StoryModel> modelsList,
+  }) async {
+    await Navigator.push<dynamic>(
+      context,
+      PageRouteBuilder<dynamic>(
+        pageBuilder: (_, __, ___) {
+          return StoriesScreen(
+            storyModel: id,
+            stories: modelsList,
+          );
+        },
+        barrierColor: Colors.black.withOpacity(0.8),
+        transitionDuration: const Duration(milliseconds: 600),
+        reverseTransitionDuration: const Duration(milliseconds: 400),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+            parent: animation,
+            curve: Curves.fastLinearToSlowEaseIn,
+          );
+          return SlideTransition(
+            position: Tween(
+              begin: const Offset(0.0, 0.6),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
   Future<void> _showStory(StoryModel? model) async {
     if (context != null && model != null) {
       storiesWM = Provider.of<StoriesWM>(context!, listen: false);
 
-      await Navigator.push<dynamic>(
-        context!,
-        PageRouteBuilder<dynamic>(
-          pageBuilder: (_, __, ___) {
-            return StoriesScreen(
-              storyModel: id,
-              stories: storiesWM!.stories,
-            );
-          },
-          barrierColor: Colors.black.withOpacity(0.8),
-          transitionDuration: const Duration(milliseconds: 600),
-          reverseTransitionDuration: const Duration(milliseconds: 400),
-          transitionsBuilder: (context, animation, anotherAnimation, child) {
-            animation = CurvedAnimation(
-              parent: animation,
-              curve: Curves.fastLinearToSlowEaseIn,
-            );
-            return SlideTransition(
-              position: Tween(
-                begin: const Offset(0.0, 0.6),
-                end: Offset.zero,
-              ).animate(animation),
-              child: child,
-            );
-          },
-        ),
+      _appsFlyer = Provider.of<AppsflyerSdk>(context!, listen: false);
+
+      unawaited(_appsFlyer?.logEvent('stories', <String, dynamic>{
+        'íd': model.id,
+      }));
+
+      await showStoryScreen(
+        context: context!,
+        id: id,
+        modelsList: storiesWM!.stories,
       );
 
       await incViewCountAction();

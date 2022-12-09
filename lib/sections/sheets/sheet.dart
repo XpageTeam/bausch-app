@@ -10,9 +10,13 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 //* Виждет-контейнер для страниц, которые открываются в bottomSheet
 class SheetWidget extends StatelessWidget {
   final Widget child;
+  final bool withPoints;
+  final VoidCallback? onPop;
 
   const SheetWidget({
     required this.child,
+    this.onPop,
+    this.withPoints = true,
     Key? key,
   }) : super(key: key);
 
@@ -22,29 +26,35 @@ class SheetWidget extends StatelessWidget {
 
     return Material(
       color: Colors.transparent,
-      //resizeToAvoidBottomInset: false,
       child: Column(
         children: [
           //* Виджет с количеством баллов
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: EntityStateBuilder<UserRepository>(
-                  streamedState: userWm.userData,
-                  builder: (_, userData) {
-                    return PointsInfo(
-                      text: HelpFunctions.partitionNumber(
-                        userData.balance.available,
+          if (withPoints)
+            GestureDetector(
+              onTap: onPop,
+              child: ColoredBox(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: EntityStateBuilder<UserRepository>(
+                        streamedState: userWm.userData,
+                        builder: (_, userData) {
+                          return PointsInfo(
+                            text: HelpFunctions.partitionNumber(
+                              userData.balance.available,
+                            ),
+                            backgoundColor: AppTheme.mystic,
+                          );
+                        },
                       ),
-                      backgoundColor: AppTheme.mystic,
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
 
           Flexible(
             child: Stack(

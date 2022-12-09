@@ -25,7 +25,7 @@ class CurrentLocationButton extends StatelessWidget {
       //   color: AppTheme.mineShaft,
       // ),
       onPressed: onPressed,
-      backgroundColor: AppTheme.turquoiseBlue,
+      backgroundColor: AppTheme.turquoiseBlue.withOpacity(0.9),
     );
   }
 }

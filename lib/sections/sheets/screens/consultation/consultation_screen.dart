@@ -1,5 +1,7 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/help/help_functions.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/sections/sheets/product_sheet/info_section.dart';
 import 'package:bausch/sections/sheets/product_sheet/top_section.dart';
@@ -11,9 +13,9 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
+import 'package:bausch/widgets/custom_line_loading.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
-import 'package:bausch/widgets/points_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -108,11 +110,11 @@ class _ConsultationScreenState
             delegate: SliverChildListDelegate(
               [
                 TopSection.consultation(
-                  widget.model,
-                  wm.difference > 0
-                      ? PointsInfo(
-                          text: 'Не хватает ${wm.difference}',
-                        )
+                 model: widget.model,
+                  topLeftWidget: wm.difference > 0
+                      ? CustomLineLoadingIndicator(
+                    maximumScore: widget.model.price,
+                  )
                       : Row(
                           children: [
                             if (model.length != null)
@@ -138,7 +140,7 @@ class _ConsultationScreenState
                               ),
                           ],
                         ),
-                  widget.key,
+                  key: widget.key,
                 ),
                 const SizedBox(
                   height: 4,
@@ -173,6 +175,11 @@ class _ConsultationScreenState
                 color: AppTheme.mineShaft,
               ),
         onPressed: () {
+          if (isPointsEnough){
+            AppsflyerSingleton.sdk.logEvent('onlineConsultationOrder', null);
+            AppMetrica.reportEventWithMap('discountOpticsShow', null);
+          }
+
           isPointsEnough
               ? Navigator.of(context).pushNamed(
                   '/verification_consultation',

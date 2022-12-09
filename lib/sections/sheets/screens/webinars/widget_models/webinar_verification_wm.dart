@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/baseResponse/base_response.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
@@ -11,7 +13,7 @@ import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +68,18 @@ class WebinarVerificationWM extends WidgetModel {
 
     CustomException? error;
     //String? videoId;
+    unawaited(AppsflyerSingleton.sdk.logEvent(
+      'webinarOrder',
+      <String, dynamic>{
+        'name': itemModel.name,
+      },
+    ));
+
+    unawaited(
+      AppMetrica.reportEventWithMap('webinarOrder', <String, Object>{
+        'name': itemModel.name,
+      }),
+    );
 
     try {
       // ignore: unused_local_variable
@@ -75,10 +89,23 @@ class WebinarVerificationWM extends WidgetModel {
 
       unawaited(FirebaseAnalytics.instance.logEvent(
         name: 'webinar_order',
-        parameters: <String, dynamic> {
+        parameters: <String, dynamic>{
           'name': itemModel.name,
         },
       ));
+
+      unawaited(AppsflyerSingleton.sdk.logEvent(
+        'webinarOrderFinished',
+        <String, dynamic>{
+          'name': itemModel.name,
+        },
+      ));
+
+      unawaited(
+        AppMetrica.reportEventWithMap('webinarOrderFinished', <String, Object>{
+          'name': itemModel.name,
+        }),
+      );
 
       //videoId = repository.videoIds.first;
 

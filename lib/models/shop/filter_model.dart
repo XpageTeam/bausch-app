@@ -2,17 +2,25 @@ import 'package:bausch/models/shop/shop_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
-class Filter extends Equatable {
+abstract class AbstractFilter extends Equatable {
   final int id;
   final String title;
 
   @override
   List<Object?> get props => [id, title];
 
-  const Filter({
+  const AbstractFilter({
     required this.id,
     required this.title,
+  });
+}
+
+class Filter extends AbstractFilter {
+  const Filter({
+    required super.id,
+    required super.title,
   });
 
   static List<Filter> getFiltersFromShopList(List<ShopModel> shops) {
@@ -98,4 +106,33 @@ class Filter extends Equatable {
 
     return filtersMap.values.toList();
   }
+}
+
+class AbstractCertificateFilter extends AbstractFilter {
+  final String xmlId;
+  const AbstractCertificateFilter({
+    required super.id,
+    required super.title,
+    required this.xmlId,
+  });
+}
+
+class LensFilter extends AbstractCertificateFilter {
+  final String? subtitle;
+  final Color color;
+  const LensFilter({
+    required super.id,
+    required super.title,
+    required super.xmlId,
+    required this.color,
+    this.subtitle,
+  });
+}
+
+class CommonFilter extends AbstractCertificateFilter {
+  const CommonFilter({
+    required super.id,
+    required super.title,
+    required super.xmlId,
+  });
 }

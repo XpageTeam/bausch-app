@@ -4,8 +4,8 @@ import 'package:bausch/global/login/models/login_text.dart';
 import 'package:bausch/sections/registration/widgets/phone_form/phone_from.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
+import 'package:bausch/widgets/error_page.dart';
 import 'package:bausch/widgets/loader/animated_loader.dart';
-import 'package:bausch/widgets/pages/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -23,6 +23,12 @@ class RegScreenBody extends CoreMwwmWidget<LoginWM> {
 }
 
 class _RegScreenBody extends WidgetState<RegScreenBody, LoginWM> {
+  @override
+  void initState() {
+    super.initState();
+    wm.checkBtnActive();
+  }
+
   @override
   Widget build(BuildContext context) {
     return EntityStateBuilder<LoginText>(

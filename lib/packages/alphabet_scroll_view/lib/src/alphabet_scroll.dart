@@ -4,6 +4,8 @@
 
 import 'package:bausch/packages/alphabet_scroll_view/lib/src/meta.dart';
 import 'package:bausch/theme/styles.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
+import 'package:bausch/widgets/only_bottom_bouncing_scroll_physics.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 
@@ -131,25 +133,25 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     widget.list
         .sort((x, y) => x.key.toLowerCase().compareTo(y.key.toLowerCase()));
 
-    final _tempList = [...widget.list];
+    final tempList = [...widget.list];
 
-    final _favList = <AlphaModel>[];
+    final favList = <AlphaModel>[];
 
     if (widget.favoriteItems.isNotEmpty) {
-      for (final item in _tempList) {
+      for (final item in tempList) {
         for (final fav in widget.favoriteItems) {
           if (fav.toLowerCase() == item.key.toLowerCase()) {
             //debugPrint(item.key.toLowerCase());
-            _favList.add(item);
+            favList.add(item);
             widget.list.remove(item);
           }
         }
       }
     }
 
-    for (final i in widget.list) {
-      debugPrint(i.key);
-    }
+    // for (final i in widget.list) {
+    //   debugPrint(i.key);
+    // }
 
     _list = widget.list;
 
@@ -182,7 +184,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
       _filteredAlphabets = alphabets;
     }
 
-    _list.insertAll(0, _favList);
+    _list.insertAll(0, favList);
 
     calculateFirstIndex();
 
@@ -271,7 +273,7 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
     );
     positionNotifer.value = offset;
 
-    debugPrint('$index');
+    // debugPrint('$index');
   }
 
   void onVerticalDrag(Offset offset) {
@@ -303,46 +305,49 @@ class _AlphabetScrollViewState extends State<AlphabetScrollView> {
         //     );
         //   },
         // ),
-        ListView.separated(
-          controller: listController,
-          itemCount: _list.length + 1,
-          physics: const BouncingScrollPhysics(),
-          separatorBuilder: (_, x) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                widget.topWidget != null && x == 0
-                    ? widget.topWidget!
-                    : const SizedBox(),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: widget.itemExtent),
-                  child: widget.itemBuilder(_, x, _list[x].key),
-                ),
-              ],
-            );
-          },
-          itemBuilder: (context, i) {
-            for (final element in _filteredAlphabets) {
-              if (firstIndexPosition[element.toLowerCase()] != null &&
-                  i == firstIndexPosition[element.toLowerCase()]!) {
-                return Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 20, top: i == 0 ? 30 : 10),
-                    child: CircleAvatar(
-                      child: Text(
-                        element.toUpperCase(),
-                        style: AppStyles.h2,
-                      ),
-                      radius: 22,
-                      backgroundColor: Colors.white,
-                    ),
+        ScrollConfiguration(
+          behavior: const AntiGlowBehavior(),
+          child: ListView.separated(
+            controller: listController,
+            itemCount: _list.length + 1,
+            physics: const OnlyBottomBouncingScrollPhysics(),
+            separatorBuilder: (_, x) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widget.topWidget != null && x == 0
+                      ? widget.topWidget!
+                      : const SizedBox(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: widget.itemExtent),
+                    child: widget.itemBuilder(_, x, _list[x].key),
                   ),
-                );
+                ],
+              );
+            },
+            itemBuilder: (context, i) {
+              for (final element in _filteredAlphabets) {
+                if (firstIndexPosition[element.toLowerCase()] != null &&
+                    i == firstIndexPosition[element.toLowerCase()]!) {
+                  return Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 20, top: i == 0 ? 30 : 10),
+                      child: CircleAvatar(
+                        child: Text(
+                          element.toUpperCase(),
+                          style: AppStyles.h2,
+                        ),
+                        radius: 22,
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  );
+                }
               }
-            }
-            return Container();
-          },
+              return Container();
+            },
+          ),
         ),
         // Align(
         //   alignment: widget.alignment == LetterAlignment.left

@@ -2,16 +2,23 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FocusButton extends StatelessWidget {
   final String labelText;
   final String? selectedText;
+  final TextStyle selectedTextStyle;
   final Widget? icon;
+  final bool greenCheckIcon;
+  final bool waitConfirmationIcon;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   const FocusButton({
     required this.labelText,
+    this.selectedTextStyle = AppStyles.h2,
     this.selectedText,
+    this.greenCheckIcon = false,
+    this.waitConfirmationIcon = false,
     this.icon,
     this.onPressed,
     this.backgroundColor = Colors.white,
@@ -38,18 +45,45 @@ class FocusButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    labelText,
-                    style: selectedText == null
-                        ? AppStyles.h2GreyBold
-                        : AppStyles.p1Grey,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          labelText,
+                          style: selectedText == null ||
+                                  selectedTextStyle != AppStyles.h2
+                              ? AppStyles.h2GreyBold
+                              : AppStyles.p1Grey,
+                        ),
+                      ),
+                      if (greenCheckIcon)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: SvgPicture.asset(
+                            'assets/choose.svg',
+                            height: 14,
+                            width: 14,
+                          ),
+                        ),
+                      if (waitConfirmationIcon)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Image.asset(
+                            'assets/icons/time.png',
+                            height: 14,
+                            width: 14,
+                            color: AppTheme.grey,
+                          ),
+                        ),
+                    ],
                   ),
                   if (selectedText != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
                         selectedText!,
-                        style: AppStyles.h2,
+                        style: selectedTextStyle,
                       ),
                     ),
                 ],

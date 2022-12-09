@@ -1,16 +1,18 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/user/user_wm.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/sheets/screens/partners/widget_models/partners_verification_wm.dart';
 import 'package:bausch/sections/sheets/sheet_screen.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +66,9 @@ class ConsultationVerificationWM extends WidgetModel {
         itemModel,
         'consultation',
       );
+
+      unawaited(AppsflyerSingleton.sdk.logEvent('onlineConsultationOrderFinished', null));
+      unawaited(AppMetrica.reportEventWithMap('onlineConsultationOrderFinished', null));
 
       final userRepository = await UserWriter.checkUserToken();
       if (userRepository == null) return;

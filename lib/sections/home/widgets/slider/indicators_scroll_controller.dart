@@ -77,13 +77,9 @@ class _IndicatorScrollPosition extends ScrollPositionWithSingleContext {
 
   double viewportDim;
 
-  int get page {
-    final _page = double.parse(
-      (pixels / viewportDim).toStringAsFixed(5),
-    ).round();
-
-    return _page;
-  }
+  int get page => double.parse(
+        (pixels / viewportDim).toStringAsFixed(5),
+      ).round();
 
   _IndicatorScrollPosition({
     required ScrollPhysics physics,
@@ -101,12 +97,12 @@ class _IndicatorScrollPosition extends ScrollPositionWithSingleContext {
 
   @override
   double setPixels(double newPixels) {
-    var _newPixels = newPixels;
+    var updatedPixels = newPixels;
 
     // Движение вправо
     // ..[......]
-    if (newPixels > oldPixels && _newPixels > triggerOffset) {
-      _newPixels =
+    if (newPixels > oldPixels && updatedPixels > triggerOffset) {
+      updatedPixels =
           ((newPixels - triggerOffset) % (maxScrollExtent - triggerOffset) +
                   triggerOffset) %
               maxScrollExtent;
@@ -114,12 +110,12 @@ class _IndicatorScrollPosition extends ScrollPositionWithSingleContext {
 
     // Движение влево
     // [......]..
-    if (newPixels < oldPixels && _newPixels < maxScrollExtent - triggerOffset) {
-      _newPixels = newPixels % (maxScrollExtent - triggerOffset);
+    if (newPixels < oldPixels && updatedPixels < maxScrollExtent - triggerOffset) {
+      updatedPixels = newPixels % (maxScrollExtent - triggerOffset);
     }
 
     oldPixels = newPixels;
 
-    return super.setPixels(_newPixels);
+    return super.setPixels(updatedPixels);
   }
 }

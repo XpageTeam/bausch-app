@@ -12,9 +12,9 @@ import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
 import 'package:bausch/theme/styles.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -32,18 +32,23 @@ class FinalDiscountOptics extends CoreMwwmWidget<FinalDiscountWM> {
   FinalDiscountOptics({
     required this.controller,
     required this.model,
-    required this.discountType,
+    required String section,
     this.orderData,
     this.discountOptic,
     this.buttonText,
     this.text,
     Key? key,
-  }) : super(
+  })  : discountType = section.contains('online')
+            ? DiscountType.onlineShop
+            : DiscountType.offline,
+        super(
           key: key,
           widgetModelBuilder: (context) => FinalDiscountWM(
             context: context,
             discountOptic: discountOptic,
-            discountType: discountType,
+            discountType: section.contains('online')
+                ? DiscountType.onlineShop
+                : DiscountType.offline,
             itemModel: model,
             orderId: orderData?.orderID,
           ),
@@ -90,7 +95,8 @@ class _FinalDiscountOpticsState
                 EntityStateBuilder<String>(
                   streamedState: wm.promocodeState,
                   errorChild: ContainerWithPromocode(
-                    promocode: 'Промокод будет доступен в истории заказов через несколько минут',
+                    promocode:
+                        'Промокод будет доступен в истории заказов через несколько минут',
                     withIcon: false,
                     onPressed: () {},
                   ),
@@ -139,7 +145,7 @@ class _FinalDiscountOpticsState
                         onError: (ex) {
                           showDefaultNotification(
                             title: ex.title,
-                            subtitle: ex.subtitle,
+                            // subtitle: ex.subtitle,
                           );
                         },
                       );

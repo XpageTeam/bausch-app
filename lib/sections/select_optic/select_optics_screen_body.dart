@@ -1,3 +1,5 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/sections/select_optic/map_body.dart';
 import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
@@ -10,83 +12,102 @@ import 'package:flutter/material.dart';
 class SelectOpticScreenBody extends StatelessWidget {
   final SelectOpticPage currentPage;
   final List<OpticShop> opticShops;
-  final void Function(OpticShop selectedShop) onOpticShopSelect;
-  final Future<void> Function(DadataResponseDataModel)  onCityDefinitionCallback;
+  final void Function(OpticShop selectedShop) onOpticShopSelectMap;
+  final void Function(OpticShop selectedShop) onOpticShopSelectList;
+  final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
+
+  final OpticShop? initialOptic;
 
   final String selectButtonText;
+  final bool isCertificateMap;
 
   const SelectOpticScreenBody({
     required this.currentPage,
     required this.opticShops,
-    required this.onOpticShopSelect,
+    required this.onOpticShopSelectMap,
+    required this.onOpticShopSelectList,
     required this.selectButtonText,
     required this.onCityDefinitionCallback,
+    required this.isCertificateMap,
+    required this.initialOptic,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return currentPage == SelectOpticPage.list
-        ? ShopListWidget(
-            containerType: ShopContainerWithButton,
-            shopList: opticShops,
-            onOpticShopSelect: onOpticShopSelect,
-          )
-        : MapBody(
-            selectButtonText: selectButtonText,
-            opticShops: opticShops,
-            onOpticShopSelect: onOpticShopSelect,
-            onCityDefinitionCallback: onCityDefinitionCallback,
-            shopsEmptyCallback: (mapBodyWm) {
-              mapBodyWm.isModalBottomSheetOpen.accept(true);
+    return IndexedStack(
+      index: currentPage == SelectOpticPage.map ? 0 : 1,
+      children: [
+        MapBody(
+          initialOptic: initialOptic,
+          selectButtonText: selectButtonText,
+          opticShops: opticShops,
+          onOpticShopSelect: onOpticShopSelectMap,
+          onCityDefinitionCallback: onCityDefinitionCallback,
+          isCertificateMap: isCertificateMap,
+          shopsEmptyCallback: (mapBodyWm) {
+            mapBodyWm.isModalBottomSheetOpen.accept(true);
 
-              showModalBottomSheet<dynamic>(
-                barrierColor: Colors.transparent,
-                context: context,
-                builder: (context) => BottomSheetContent(
-                  title: 'Поблизости нет оптик',
-                  subtitle:
-                      'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
-                  btnText: 'Хорошо',
-                  onPressed: Navigator.of(context).pop,
-                ),
-              );
-              // .whenComplete(
-              //   () => whenCompleteModalBottomSheet(mapBodyWm),
-              // );
-            },
-          );
-    // return IndexedStack(
-    //   index: currentPage == SelectOpticPage.list ? 0 : 1,
-    //   children: [
-    //     ShopListWidget(
-    //       containerType: ShopContainerWithButton,
-    //       shopList: opticShops,
-    //       onOpticShopSelect: onOpticShopSelect,
-    //     ),
-    //     MapBody(
-    //       opticShops: opticShops,
-    //       onOpticShopSelect: onOpticShopSelect,
-    //       shopsEmptyCallback: (mapBodyWm) {
-    //         mapBodyWm.isModalBottomSheetOpen.accept(true);
+            AppsflyerSingleton.sdk.logEvent('programmOpticsEmpty', null);
+            AppMetrica.reportEventWithMap('programmOpticsEmpty', null);
 
-    //         showModalBottomSheet<dynamic>(
-    //           barrierColor: Colors.transparent,
-    //           context: context,
-    //           builder: (context) => BottomSheetContent(
-    //             title: 'Поблизости нет оптик',
-    //             subtitle:
-    //                 'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
-    //             btnText: 'Хорошо',
-    //             onPressed: Navigator.of(context).pop,
-    //           ),
-    //         ).whenComplete(
-    //           () => whenCompleteModalBottomSheet(mapBodyWm),
-    //         );
-    //       },
-    //     ),
-    //   ],
-    // );
+            showModalBottomSheet<dynamic>(
+              barrierColor: Colors.transparent,
+              context: context,
+              builder: (context) => BottomSheetContent(
+                title: 'Поблизости нет оптик',
+                subtitle:
+                    'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+                btnText: 'Хорошо',
+                onPressed: Navigator.of(context).pop,
+              ),
+            );
+            // .whenComplete(
+            //   () => whenCompleteModalBottomSheet(mapBodyWm),
+            // );
+          },
+        ),
+        ShopListWidget(
+          containerType: ShopContainerWithButton,
+          shopList: opticShops,
+          onOpticShopSelect: onOpticShopSelectList,
+        ),
+      ],
+    );
+    // currentPage == SelectOpticPage.list
+    //     ? ShopListWidget(
+    //         containerType: ShopContainerWithButton,
+    //         shopList: opticShops,
+    //         onOpticShopSelect: onOpticShopSelectList,
+    //       )
+    //     : MapBody(
+    //         initialOptic: initialOptic,
+    //         selectButtonText: selectButtonText,
+    //         opticShops: opticShops,
+    //         onOpticShopSelect: onOpticShopSelectMap,
+    //         onCityDefinitionCallback: onCityDefinitionCallback,
+    //         isCertificateMap: isCertificateMap,
+    //         shopsEmptyCallback: (mapBodyWm) {
+    //           mapBodyWm.isModalBottomSheetOpen.accept(true);
+
+    //           AppsflyerSingleton.sdk.logEvent('programmOpticsEmpty', null);
+
+    //           showModalBottomSheet<dynamic>(
+    //             barrierColor: Colors.transparent,
+    //             context: context,
+    //             builder: (context) => BottomSheetContent(
+    //               title: 'Поблизости нет оптик',
+    //               subtitle:
+    //                   'К сожалению, в вашем городе нет подходящих оптик, но вы можете выбрать другой город.',
+    //               btnText: 'Хорошо',
+    //               onPressed: Navigator.of(context).pop,
+    //             ),
+    //           );
+    //           // .whenComplete(
+    //           //   () => whenCompleteModalBottomSheet(mapBodyWm),
+    //           // );
+    //         },
+    //       );
   }
 }
 // import 'package:bausch/models/shop/filter_model.dart';

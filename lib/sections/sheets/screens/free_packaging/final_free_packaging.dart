@@ -1,3 +1,5 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
@@ -13,12 +15,23 @@ class FinalFreePackaging extends StatelessWidget {
   final ScrollController controller;
   final CatalogItemModel model;
   final VoidCallback? onPressed;
-  const FinalFreePackaging({
+
+  FinalFreePackaging({
     required this.controller,
     required this.model,
     this.onPressed,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    AppsflyerSingleton.sdk.logEvent('freePackFinished', <String, dynamic>{
+      'id': model.id,
+      'name': model.name,
+    });
+
+    AppMetrica.reportEventWithMap('freePackFinished', <String, Object>{
+      'id': model.id,
+      'name': model.name,
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

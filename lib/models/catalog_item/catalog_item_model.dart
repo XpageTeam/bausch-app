@@ -34,21 +34,10 @@ class CatalogItemModel {
   //* Для "вам может быть интересно"
   final bool? isSection;
 
+  final String disclaimer;
+
   String get priceToString => HelpFunctions.partitionNumber(price);
   //  HelpFunctions.partitionNumber(price);
-
-  Widget get shield {
-    if (this is WebinarItemModel) {
-      return Image.asset(
-        'assets/play-video.png',
-        height: 28,
-      );
-    } else if (this is PromoItemModel) {
-      return const DiscountInfo(text: '–500 ₽');
-    } else {
-      return Container();
-    }
-  }
 
   CatalogItemModel({
     required this.id,
@@ -57,6 +46,7 @@ class CatalogItemModel {
     required this.detailText,
     required this.picture,
     required this.price,
+    required this.disclaimer,
     this.type,
     this.isSection,
   });
@@ -74,6 +64,7 @@ class CatalogItemModel {
         detailText: map['detail_text'] as String,
         picture: map['picture'] as String,
         price: map['price'] as int,
+        disclaimer: map['disclaimer'] as String? ?? '',
       );
     } catch (e) {
       throw ResponseParseException('CatalogItemModel: $e');
@@ -91,7 +82,8 @@ class CatalogItemModel {
       picture: json['picture'] as String,
       price: json['price'] as int,
       type: json['type'] as String,
-      isSection:  json['is_section'] as bool,
+      isSection: json['is_section'] as bool,
+      disclaimer: json['disclaimer'] as String? ?? '',
     );
   }
   factory CatalogItemModel.itemByTypeFromJson(
@@ -112,6 +104,20 @@ class CatalogItemModel {
         return ConsultationItemModel.fromMap(json);
       default:
         return CatalogItemModel.fromMap(json);
+    }
+  }
+
+  Widget fetchShield({String? discountCount}) {
+    if (discountCount == null) return const SizedBox();
+    if (this is WebinarItemModel) {
+      return Image.asset(
+        'assets/play-video.png',
+        height: 28,
+      );
+    } else if (this is PromoItemModel) {
+      return DiscountInfo(text: '–$discountCount ₽');
+    } else {
+      return Container();
     }
   }
 }

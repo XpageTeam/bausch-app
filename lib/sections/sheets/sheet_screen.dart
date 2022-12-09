@@ -1,10 +1,11 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/catalog_item_model.dart';
 import 'package:bausch/models/catalog_item/webinar_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
-import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -16,10 +17,14 @@ import 'package:flutter/material.dart';
 class ItemSheetScreenArguments {
   final CatalogItemModel model;
   final OrderData? orderData;
+  final String? discount;
+  final String section;
 
   ItemSheetScreenArguments({
     required this.model,
+    this.section = '',
     this.orderData,
+    this.discount,
   });
 }
 
@@ -66,6 +71,18 @@ class _SheetScreenState extends State<SheetScreen> {
 
   @override
   void initState() {
+    AppsflyerSingleton.sdk.logEvent('catalogOpened', <String, dynamic>{
+      'id': widget.sheetModel.id,
+      'type': widget.sheetModel.type,
+      'name': widget.sheetModel.name,
+    });
+
+    AppMetrica.reportEventWithMap('catalogOpened', <String, Object>{
+      'id': widget.sheetModel.id,
+      'type': widget.sheetModel.type,
+      'name': widget.sheetModel.name,
+    });
+
     super.initState();
   }
 
@@ -88,7 +105,7 @@ class _SheetScreenState extends State<SheetScreen> {
           SliverAppBar(
             pinned: true,
             elevation: 0,
-            toolbarHeight: 100,
+            toolbarHeight: 70, //widget.sheetModel.icon != null ? 100 : 65,
             backgroundColor: AppTheme.mystic,
             flexibleSpace: Container(
               color: AppTheme.mystic,
@@ -100,13 +117,15 @@ class _SheetScreenState extends State<SheetScreen> {
               ),
               child: Row(
                 children: [
-                  Image.asset(
-                    setTheImg(widget.sheetModel.type),
-                    height: 60,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  if (widget.sheetModel.icon != null)
+                    Image.network(
+                      widget.sheetModel.icon!,
+                      height: 60,
+                    ),
+                  if (widget.sheetModel.icon != null)
+                    const SizedBox(
+                      width: 10,
+                    ),
                   Flexible(
                     child: Text(
                       widget.sheetModel.name,
@@ -134,18 +153,19 @@ class _SheetScreenState extends State<SheetScreen> {
                           CatalogItem(
                             model: widget.items[i * 2],
                             onTap: () {
-                              Navigator.of(context).pushNamed(
-                                '/${widget.sheetModel.type}',
-                                arguments: ItemSheetScreenArguments(
-                                  model: widget.items[i * 2],
-                                ),
+                              _openItemSheet(
+                                widget.items[i * 2],
                               );
                             },
                             allWebinarsCallback: _openAllWebinars,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: widget.items[i * 2].shield,
+                            child: widget.items[i * 2].fetchShield(
+                              discountCount: widget.sheetModel.discount == null
+                                  ? null
+                                  : '${widget.sheetModel.discount}',
+                            ),
                           ),
                         ],
                       ),
@@ -155,18 +175,21 @@ class _SheetScreenState extends State<SheetScreen> {
                             CatalogItem(
                               model: widget.items[i * 2 + 1],
                               onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  '/${widget.sheetModel.type}',
-                                  arguments: ItemSheetScreenArguments(
-                                    model: widget.items[i * 2 + 1],
-                                  ),
+                                _openItemSheet(
+                                  widget.items[i * 2 + 1],
+                                  discount: widget.sheetModel.discount,
                                 );
                               },
                               allWebinarsCallback: _openAllWebinars,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(12.0),
-                              child: widget.items[i * 2 + 1].shield,
+                              child: widget.items[i * 2 + 1].fetchShield(
+                                discountCount:
+                                    widget.sheetModel.discount == null
+                                        ? null
+                                        : '${widget.sheetModel.discount}',
+                              ),
                             ),
                           ],
                         ),
@@ -186,8 +209,30 @@ class _SheetScreenState extends State<SheetScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.sheetModel.type != 'promo_code_immediately')
-            const InfoBlock(),
+            const BottomInfoBlock(),
         ],
+      ),
+    );
+  }
+
+  void _openItemSheet(
+    CatalogItemModel model, {
+    String? discount,
+  }) {
+    final originType = widget.sheetModel.type;
+
+    var type = originType;
+
+    if (type.contains('online') || type.contains('offline')) {
+      type = type.contains('online') ? 'onlineShop' : 'offline';
+    }
+
+    Navigator.of(context).pushNamed(
+      '/$type',
+      arguments: ItemSheetScreenArguments(
+        model: model,
+        discount: discount,
+        section: originType,
       ),
     );
   }

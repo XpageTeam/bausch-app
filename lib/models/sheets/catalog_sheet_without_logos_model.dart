@@ -10,16 +10,17 @@ class CatalogSheetWithoutLogosModel extends BaseCatalogSheetModel {
     required String type,
     required String icon,
     required int count,
+    String? discount,
   }) : super(
           id: id,
           name: name,
           type: type,
           icon: icon,
           count: count,
+          discount: discount,
         );
 
   factory CatalogSheetWithoutLogosModel.fromMap(Map<String, dynamic> map) {
-
     try {
       return CatalogSheetWithoutLogosModel(
         id: map['id'] as int,
@@ -29,7 +30,8 @@ class CatalogSheetWithoutLogosModel extends BaseCatalogSheetModel {
                 'https://bausch.in-progress.ru/upload/uf/aa5/heterm9de8wkk1pvr37o5rqxrymh66cd.jpg')
             as String,
         count: map['count'] as int,
-      );      
+        discount: map['sale'] as String?,
+      );
     } catch (e) {
       throw ResponseParseException('CatalogSheetWithoutLogosModel: $e');
     }

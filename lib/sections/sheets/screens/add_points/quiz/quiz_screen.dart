@@ -1,3 +1,5 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/add_points/quiz/quiz_content_model.dart';
 import 'package:bausch/models/add_points/quiz/quiz_model.dart';
 import 'package:bausch/sections/sheets/screens/add_points/quiz/widget_model/quiz_screen_wm.dart';
@@ -45,6 +47,14 @@ class QuizScreen extends CoreMwwmWidget<QuizScreenWM>
 }
 
 class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
+
+  @override
+  void initState() {
+    AppsflyerSingleton.sdk.logEvent('pointsQuiz', null);
+    AppMetrica.reportEventWithMap('pointsQuiz', null);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
@@ -78,7 +88,7 @@ class _QuizScreenState extends WidgetState<QuizScreen, QuizScreenWM> {
             delegate: SliverChildListDelegate(
               [
                 //* Верхний контейнер
-                Container(
+                DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.white,

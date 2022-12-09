@@ -62,7 +62,7 @@ class _ItemsRowState<T> extends State<ItemsRow<T>> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       scrollController.addListener(() {
         setState(() {
           final currentPageRound = currentPage.round();

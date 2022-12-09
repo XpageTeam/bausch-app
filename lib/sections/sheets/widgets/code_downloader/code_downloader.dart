@@ -25,10 +25,10 @@ class CodeDownloader {
 
   //* Получаю промокод по id заказа
   static Future<void> loadData(int id) async {
-    final _rh = RequestHandler();
+    final rh = RequestHandler();
     try {
       _parsedData = BaseResponseRepository.fromMap(
-        (await _rh.get<Map<String, dynamic>>(
+        (await rh.get<Map<String, dynamic>>(
           '/order/$id/promocode/',
         ))
             .data!,

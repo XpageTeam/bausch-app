@@ -7,23 +7,22 @@ import 'package:bausch/sections/home/widgets/offer_widget.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
-  final bool showLoader;
   final EdgeInsets? margin;
   final MainScreenWM? mainScreenWM;
-
+  final bool canPress;
   OffersSection({
     required OfferType type,
     OffersRepository? repo,
     this.mainScreenWM,
-    this.showLoader = true,
     this.margin,
+    this.canPress = true,
     int? goodID,
     Key? key,
   }) : super(
@@ -44,8 +43,9 @@ class OffersSection extends CoreMwwmWidget<OffersSectionWM> {
 }
 
 class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
-    with WidgetsBindingObserver {
-      
+    with
+        // ignore: prefer_mixin
+        WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.changeAppLifecycleStateAction(state);
@@ -76,7 +76,9 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
                       child: OfferWidget(
                         offer: offer,
                         onClose: () => wm.removeOfferAction(offer),
-                        onPressed: () => showTargetBottomSheet(offer),
+                        onPressed: widget.canPress
+                            ? () => showTargetBottomSheet(offer)
+                            : null,
                       ),
                     ),
                   )
@@ -104,7 +106,9 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
                     child: OfferWidget(
                       offer: offer,
                       onClose: () => wm.removeOfferAction(offer),
-                      onPressed: () => showTargetBottomSheet(offer),
+                      onPressed: widget.canPress
+                          ? () => showTargetBottomSheet(offer)
+                          : null,
                     ),
                   ),
                 )
@@ -149,7 +153,7 @@ class _OffersSectionState extends WidgetState<OffersSection, OffersSectionWM>
       case 'add_points':
         await showSheet<void>(
           context,
-          SimpleSheetModel(name: 'Добавить баллы', type: 'add_points'),
+          SimpleSheetModel(name: 'Накопить баллы', type: 'add_points'),
         );
         break;
     }

@@ -1,13 +1,15 @@
 import 'dart:async';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/sections/sheets/widgets/code_downloader/code_downloader.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -33,6 +35,17 @@ class FinalPartnersWM extends WidgetModel {
 
   @override
   void onLoad() {
+    AppsflyerSingleton.sdk
+        .logEvent('partnersItemsOrderFinished', <String, dynamic>{
+      'id': itemModel.id,
+      'title': itemModel.name,
+    });
+
+    AppMetrica.reportEventWithMap('partnersItemsOrderFinished', <String, Object>{
+      'id': itemModel.id,
+      'title': itemModel.name,
+    });
+
     _getPromocode();
 
     super.onLoad();
@@ -55,7 +68,7 @@ class FinalPartnersWM extends WidgetModel {
         onError: (ex) {
           showDefaultNotification(
             title: ex.title,
-            subtitle: ex.subtitle,
+            // subtitle: ex.subtitle,
           );
         },
       );

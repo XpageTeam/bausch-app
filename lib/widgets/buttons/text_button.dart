@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 
 class CustomTextButton extends StatelessWidget {
   final String title;
+  final TextStyle? titleStyle;
   final VoidCallback? onPressed;
+  final double? arrowSize;
   const CustomTextButton({
     required this.title,
+    this.titleStyle,
+    this.arrowSize,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -19,7 +23,7 @@ class CustomTextButton extends StatelessWidget {
       onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 5.0,
           // horizontal: 12,
         ),
         child: RichText(
@@ -27,15 +31,15 @@ class CustomTextButton extends StatelessWidget {
             children: [
               TextSpan(
                 text: title,
-                style: AppStyles.h1,
+                style: titleStyle ?? AppStyles.h1,
               ),
               WidgetSpan(
                 child: Container(
                   margin: const EdgeInsets.only(left: 4),
-                  child: const Icon(
+                  child: Icon(
                     Icons.arrow_forward_ios_sharp,
                     color: AppTheme.mineShaft,
-                    size: 16,
+                    size: arrowSize ?? 16,
                   ),
                 ),
               ),

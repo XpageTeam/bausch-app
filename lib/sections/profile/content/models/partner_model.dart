@@ -15,6 +15,7 @@ class PartnerOrderModel extends BaseOrderModel {
     required String category,
     required this.product,
     required this.coupon,
+    String? promocodeDate,
   }) : super(
           id: id,
           category: category,
@@ -22,6 +23,7 @@ class PartnerOrderModel extends BaseOrderModel {
           price: price,
           status: status,
           title: title,
+          promocodeDate: promocodeDate,
         );
 
   factory PartnerOrderModel.fromMap(Map<String, dynamic> map) {
@@ -36,6 +38,7 @@ class PartnerOrderModel extends BaseOrderModel {
         product:
             OrderProductModel.fromMap(map['product'] as Map<String, dynamic>),
         coupon: Coupon.fromMap(map['coupon'] as Map<String, dynamic>),
+        promocodeDate: map['promocodeData'] as String?,
       );
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {

@@ -12,8 +12,6 @@ import 'package:bausch/static/static_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
-
 part 'catalog_item_state.dart';
 
 class CatalogItemCubit extends Cubit<CatalogItemState> {
@@ -34,6 +32,8 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
             .data!,
       );
 
+      debugPrint(parsedData.toString());
+
       emit(
         CatalogItemSuccess(
           items: (parsedData.data as List<dynamic>).map(
@@ -49,8 +49,11 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
                 return PartnersItemModel.fromMap(
                   item as Map<String, dynamic>,
                 );
+                // офлайн и онлайн добавил для скидок
               } else if ((section == StaticData.types['discount_optics']) ||
-                  (section == StaticData.types['discount_online'])) {
+                  (section == StaticData.types['discount_online']) ||
+                  section.contains('online') ||
+                  section.contains('offline')) {
                 return PromoItemModel.fromMap(item as Map<String, dynamic>);
               } else {
                 return ProductItemModel.fromMap(item as Map<String, dynamic>);
@@ -76,8 +79,7 @@ class CatalogItemCubit extends Cubit<CatalogItemState> {
     } on SuccessFalse catch (e) {
       emit(
         CatalogItemFailed(
-          title: 'Ошибка при отправке запроса',
-          subtitle: e.toString(),
+          title: e.toString(),
         ),
       );
     }

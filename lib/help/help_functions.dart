@@ -1,7 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HelpFunctions {
+  static String getMonthNameByNumber(
+    int month, {
+    bool parent = true,
+    bool fullLength = false,
+  }) {
+    if (fullLength) {
+      switch (month) {
+        case 2:
+          return parent ? 'февраля' : 'февраль';
+        case 3:
+          return parent ? 'марта' : 'март';
+        case 4:
+          return parent ? 'апреля' : 'апрель';
+        case 5:
+          return parent ? 'мая' : 'май';
+        case 6:
+          return parent ? 'июня' : 'июнь';
+        case 7:
+          return parent ? 'июля' : 'июль';
+        case 8:
+          return parent ? 'августа' : 'август';
+        case 9:
+          return parent ? 'сентября' : 'сентябрь';
+        case 10:
+          return parent ? 'октября' : 'октябрь';
+        case 11:
+          return parent ? 'ноября' : 'ноябрь';
+        case 12:
+          return parent ? 'декабря' : 'декабрь';
+
+        case 1:
+        default:
+          return parent ? 'января' : 'январь';
+      }
+    } else {
+      switch (month) {
+        case 2:
+          return 'февр.';
+        case 3:
+          return parent ? 'марта' : 'март';
+        case 4:
+          return 'апр.';
+        case 5:
+          return parent ? 'мая' : 'май';
+        case 6:
+          return parent ? 'июня' : 'июнь';
+        case 7:
+          return parent ? 'июля' : 'июль';
+        case 8:
+          return 'авг.';
+        case 9:
+          return 'сент.';
+        case 10:
+          return 'окт.';
+        case 11:
+          return 'нояб.';
+        case 12:
+          return 'дек.';
+
+        case 1:
+        default:
+          return 'янв.';
+      }
+    }
+  }
+
+  static String weekday(DateTime date) {
+    switch (date.weekday) {
+      case 7:
+        return 'Вс';
+      case 1:
+        return 'Пн';
+      case 2:
+        return 'Вт';
+      case 3:
+        return 'Ср';
+      case 4:
+        return 'Чт';
+      case 5:
+        return 'Пт';
+      case 6:
+        return 'Сб';
+
+      default:
+        return 'Пн';
+    }
+  }
+
+  static String pairs(int pairs) {
+    final stringPairs = pairs.toString();
+    final stringLength = stringPairs.length;
+    if (pairs > 5 && pairs < 21) {
+      return '$pairs пар';
+    } else if (stringPairs[stringLength - 1] == '2' ||
+        stringPairs[stringLength - 1] == '3' ||
+        stringPairs[stringLength - 1] == '4') {
+      return '$pairs пары';
+    } else if (stringPairs[stringLength - 1] == '1') {
+      return '$pairs пара';
+    } else {
+      return '$pairs пар';
+    }
+  }
+
   static String wordByCount(int count, List<String> words) {
     final countStr = '0${count.toString()}';
     debugPrint(countStr);
@@ -14,11 +117,6 @@ class HelpFunctions {
     }
 
     return prefix;
-  }
-
-  static Future<void> launchURL(String _url) async {
-    // ignore: only_throw_errors
-    if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
   static String partitionNumber(num number) {
@@ -49,7 +147,7 @@ class HelpFunctions {
   ) {
     final lineTexts = <String>[];
     final textSpan = TextSpan(text: text, style: textStyle);
-    final _textPainter = TextPainter(
+    final textPainter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
     )..layout(
@@ -61,7 +159,7 @@ class HelpFunctions {
       extentOffset: textSpan.text!.length,
     );
 
-    final boxes = _textPainter.getBoxesForSelection(selection);
+    final boxes = textPainter.getBoxesForSelection(selection);
 
     var start = 0;
     int end;
@@ -69,7 +167,7 @@ class HelpFunctions {
     final reg = RegExp('[^А-Яа-яA-Za-z0-9().,;?]');
 
     for (final box in boxes) {
-      end = _textPainter
+      end = textPainter
           .getPositionForOffset(
             Offset(
               box.left,
@@ -97,4 +195,16 @@ class HelpFunctions {
 
 extension NumberPartition on int {
   String get formatString => HelpFunctions.partitionNumber(this);
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+  }
+}
+
+extension DateOnlyCompare on DateTime {
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
 }

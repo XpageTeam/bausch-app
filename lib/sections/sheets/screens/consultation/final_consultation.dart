@@ -1,4 +1,6 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
 import 'package:bausch/sections/sheets/screens/consultation/widget_model/final_consultation_wm.dart';
@@ -121,6 +123,9 @@ class _FinalConsultationState
                       Utils.tryLaunchUrl(
                         rawUrl: widget.model.partnerLink!,
                       );
+
+                      AppsflyerSingleton.sdk.logEvent('onlineConsultationLink', null);
+                      AppMetrica.reportEventWithMap('onlineConsultationLink', null);
                     }
                   }
                 : () {

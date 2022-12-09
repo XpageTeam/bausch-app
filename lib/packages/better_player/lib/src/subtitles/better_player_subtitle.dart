@@ -15,6 +15,7 @@ class BetterPlayerSubtitle {
     this.start,
     this.end,
     this.texts,
+    // ignore: unused_element
     this.type,
   });
 

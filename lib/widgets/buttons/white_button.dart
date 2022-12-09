@@ -22,7 +22,7 @@ class WhiteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
           color: Colors.white,
@@ -36,18 +36,7 @@ class WhiteButton extends StatelessWidget {
               Flexible(
                 child: Row(
                   children: [
-                    icon ??
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.pin_drop,
-                              color: AppTheme.mineShaft,
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                          ],
-                        ),
+                    if (icon != null) icon!,
                     Flexible(
                       child: Text(
                         text,

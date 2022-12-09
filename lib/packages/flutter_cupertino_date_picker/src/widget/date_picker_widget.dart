@@ -31,6 +31,7 @@ class DatePickerWidget extends StatefulWidget {
     this.onCancel,
     this.onChange,
     this.onConfirm,
+    this.popWidget = true,
   }) : super(key: key) {
     final minTime = minDateTime ?? DateTime.parse(DATE_PICKER_MIN_DATETIME);
     final maxTime = maxDateTime ?? DateTime.parse(DATE_PICKER_MAX_DATETIME);
@@ -41,7 +42,7 @@ class DatePickerWidget extends StatefulWidget {
   final String? dateFormat;
   final DateTimePickerLocale locale;
   final DateTimePickerTheme pickerTheme;
-
+  final bool popWidget;
   final DateVoidCallback? onCancel;
   final DateValueCallback? onChange, onConfirm;
   // ignore: member-ordering-extended
@@ -144,7 +145,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     if (widget.onCancel != null) {
       widget.onCancel!();
     }
-    Navigator.pop(context);
+    if (widget.popWidget) {
+      Navigator.pop(context);
+    }
   }
 
   /// pressed confirm widget
@@ -153,7 +156,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       final dateTime = DateTime(_currYear, _currMonth, _currDay);
       widget.onConfirm!(dateTime, _calcSelectIndexList());
     }
-    Navigator.pop(context);
+    if (widget.popWidget) {
+      Navigator.pop(context);
+    }
   }
 
   /// notify selected date changed
@@ -224,7 +229,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return Expanded(
       child: SafeArea(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(8, 8, 8, 32),
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
           height: widget.pickerTheme.pickerHeight,
           decoration: BoxDecoration(color: widget.pickerTheme.backgroundColor),
           child: CupertinoPicker.builder(

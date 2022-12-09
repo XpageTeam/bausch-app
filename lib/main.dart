@@ -1,6 +1,11 @@
 // ignore_for_file: prefer_mixin
 
+import 'dart:async';
+
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/global/deep_link/initial_push_intent_keeper.dart';
 import 'package:bausch/global/login/login_wm.dart';
 import 'package:bausch/global/user/user_wm.dart';
 import 'package:bausch/navigation/app_router.dart';
@@ -17,22 +22,30 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-Future<void> main() async {  
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-
-  final config = Configuration(
-    domain: 'api.mindbox.ru',
-    endpointIos: 'valeant-ios',
-    endpointAndroid: 'valeant-android',
-    subscribeCustomerIfCreated: true,
+  await AppMetrica.activate(
+    const AppMetricaConfig('17f7ec58-8616-4364-91cc-95a024044d2b'),
   );
 
-  Mindbox.instance.init(configuration: config);
+  Mindbox.instance.init(
+    configuration: Configuration(
+      domain: 'api.mindbox.ru',
+      endpointIos: 'valeant-ios',
+      endpointAndroid: 'valeant-android',
+      subscribeCustomerIfCreated: true,
+    ),
+  );
 
   final analytics = FirebaseAnalytics.instance;
+
+  AppsflyerSingleton();
+
+  AndroidYandexMap.useAndroidViewSurface = false;
 
   runApp(
     MultiProvider(
@@ -41,10 +54,18 @@ Future<void> main() async {
         Provider<FirebaseAnalyticsObserver>.value(
           value: FirebaseAnalyticsObserver(analytics: analytics),
         ),
+        Provider<AppsflyerSdk>.value(
+          value: AppsflyerSingleton.sdk,
+        ),
       ],
       child: MyApp(),
     ),
   );
+}
+
+@pragma('vm:entry-point')
+void onInitialPushClick(String link) {
+  InitialPushIntentKeeper.link = link;
 }
 
 class MyApp extends CoreMwwmWidget<AuthWM> {
@@ -65,6 +86,13 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     wm.userWM.changeAppLifecycleStateAction(state);
+  }
+
+  @override
+  void initState() {
+    Mindbox.instance.onPushClickReceived(onInitialPushClick);
+
+    super.initState();
   }
 
   @override
@@ -130,6 +158,7 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
                     authWM: wm,
                   ),
                 ),
+                defaultScale: true,
                 minWidth: 375,
                 mediaQueryData: MediaQuery.of(context).copyWith(
                   textScaleFactor: 1.0,
@@ -141,4 +170,24 @@ class _MyAppState extends WidgetState<MyApp, AuthWM>
       ),
     );
   }
+}
+
+class AppsflyerSingleton {
+  static final AppsflyerSingleton _singleton = AppsflyerSingleton._internal();
+  static late AppsflyerSdk sdk;
+
+  factory AppsflyerSingleton() {
+    sdk = AppsflyerSdk(
+      AppsFlyerOptions(
+        afDevKey: 'tKZasDXefUEpQwds8CTvM3',
+        appId: '1624464666',
+        disableAdvertisingIdentifier: true,
+      ),
+    );
+
+    sdk.initSdk();
+
+    return _singleton;
+  }
+  AppsflyerSingleton._internal();
 }

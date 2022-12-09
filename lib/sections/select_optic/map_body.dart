@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:bausch/models/dadata/dadata_response_data_model.dart';
 import 'package:bausch/repositories/shops/shops_repository.dart';
 import 'package:bausch/sections/select_optic/widget_models/map_body_wm.dart';
+import 'package:bausch/sections/select_optic/widget_models/select_optics_screen_wm.dart';
 import 'package:bausch/sections/select_optic/widgets/bottom_sheet_content.dart';
 import 'package:bausch/sections/select_optic/widgets/map_buttons.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -16,9 +21,10 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
   final void Function(MapBodyWM wm) shopsEmptyCallback;
   final void Function(OpticShop shop) onOpticShopSelect;
 
-  final Future<void> Function(DadataResponseDataModel)  onCityDefinitionCallback;
+  final Future<void> Function(DadataResponseDataModel) onCityDefinitionCallback;
 
   final String selectButtonText;
+  final OpticShop? initialOptic;
 
   MapBody({
     required this.opticShops,
@@ -26,12 +32,16 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
     required this.onOpticShopSelect,
     required this.selectButtonText,
     required this.onCityDefinitionCallback,
+    required bool isCertificateMap,
+    required this.initialOptic,
     Key? key,
   }) : super(
           key: key,
           widgetModelBuilder: (_) => MapBodyWM(
+            initialOptic: initialOptic,
             initOpticShops: opticShops,
             onCityDefinitionCallback: onCityDefinitionCallback,
+            isCertificateMap: isCertificateMap,
           ),
         );
 
@@ -41,16 +51,18 @@ class MapBody extends CoreMwwmWidget<MapBodyWM> {
 }
 
 class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
-  late YandexMapController controller;
+  // late YandexMapController controller;
 
   @override
   void didUpdateWidget(covariant MapBody oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     if (!listEquals(oldWidget.opticShops, widget.opticShops)) {
-      wm.updateMapObjects(widget.opticShops);
-      wm.setCenterAction(widget.opticShops);
+      wm.updateMapObjects(
+        widget.opticShops,
+        // withSetCenter: false,
+      );
     }
+    wm.moveToInitialOptic(widget.initialOptic);
   }
 
   @override
@@ -66,51 +78,15 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
             streamedState: wm.mapObjectsStreamed,
             builder: (context, mapObjects) {
               return YandexMap(
-                // liteModeEnabled: true,
-                // mode2DEnabled: true,
+                mode2DEnabled: true,
+                tiltGesturesEnabled: false,
+                rotateGesturesEnabled: false,
                 mapObjects: mapObjects,
-                onMapCreated: (yandexMapController) {
-                  wm
-                    ..mapController = yandexMapController
-                    ..setCenterAction(widget.opticShops)
-                    ..onGetUserPositionError = (exception) {
-                      showDefaultNotification(title: exception.title);
-                    }
-                    ..onPlacemarkPressed = (shop) async {
-                      if (wm.isModalBottomSheetOpen.value) return;
-                      await wm.isModalBottomSheetOpen.accept(true);
-
-                      await showModalBottomSheet<void>(
-                        context: context,
-                        barrierColor: Colors.transparent,
-                        builder: (ctx) => BottomSheetContent(
-                          title: shop.title,
-                          subtitle: shop.address,
-                          phones: shop.phones,
-                          site: shop.site,
-                          // additionalInfo:
-                          //     'Скидкой можно воспользоваться в любой из оптик сети.',
-                          onPressed: () {
-                            widget.onOpticShopSelect(shop);
-                            Navigator.of(context)
-                              ..pop()
-                              ..pop();
-                          },
-                          btnText: widget.selectButtonText,
-                        ),
-                      ).whenComplete(
-                        () {
-                          wm
-                            ..isModalBottomSheetOpen.accept(false)
-                            ..updateMapObjectsWhenComplete(widget.opticShops);
-                        },
-                      );
-                    };
-
-                  // if (widget.opticShops.isEmpty) {
-                  //   widget.shopsEmptyCallback(wm);
-                  // }
-                },
+                logoAlignment: const MapAlignment(
+                  horizontal: HorizontalAlignment.left,
+                  vertical: VerticalAlignment.bottom,
+                ),
+                onMapCreated: onMapCreated,
               );
             },
           ),
@@ -138,8 +114,66 @@ class _ClusterizedMapBodyState extends WidgetState<MapBody, MapBodyWM> {
     );
   }
 
+  Future<void> onMapCreated(YandexMapController yandexMapController) async {
+    debugPrint('***onMapCreated***'.toUpperCase());
+    wm
+      ..mapController = yandexMapController
+      // ..setCenterOn(widget.opticShops)
+      ..onGetUserPositionError = (exception) {
+        showDefaultNotification(title: exception.title);
+      }
+      ..onPlacemarkPressed = (shop) async {
+        if (wm.isModalBottomSheetOpen.value) return;
+        await wm.isModalBottomSheetOpen.accept(true);
+
+        unawaited(_openBottomSheet(shop));
+      };
+
+    unawaited(wm.init());
+  }
+
   List<CityModel>? sort(List<CityModel> cities) {
     if (cities.isEmpty) return null;
     return cities..sort((a, b) => a.name.compareTo(b.name));
+  }
+
+  Future<void> _openBottomSheet(OpticShop shop) async {
+    // final mediaQuery = MediaQuery.of(Keys.mainNav.currentContext!);
+    // final screenHeight = mediaQuery.size.height;
+    // final maxHeight =
+    //     (screenHeight - mediaQuery.viewPadding.top) / screenHeight;
+
+    await showFlexibleBottomSheet<void>(
+      context: context,
+      minHeight: 0,
+      initHeight: 0.4,
+      maxHeight: 0.6,
+      anchors: [0, 0.4, 0.6],
+      bottomSheetColor: Colors.transparent,
+      barrierColor: Colors.transparent,
+      builder: (ctx, controller, _) => BottomSheetContentOther(
+        controller: controller,
+        title: shop.title,
+        subtitle: shop.address,
+        phones: shop.phones,
+        site: shop.site,
+        features: shop is OpticShopForCertificate ? shop.features : null,
+        onPressed: () {
+          widget.onOpticShopSelect(shop);
+          Navigator.of(context)
+            ..pop()
+            ..pop();
+        },
+        btnText: 'Выбрать эту сеть оптик',
+      ),
+    ).whenComplete(
+      () {
+        context.read<SelectOpticScreenWM>().selectedOpticShop = null;
+
+        wm
+          ..isModalBottomSheetOpen.accept(false)
+          ..updateMapObjectsWhenComplete(widget.opticShops);
+      },
+    );
   }
 }

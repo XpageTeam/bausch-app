@@ -2,15 +2,19 @@
 
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/models/stories/story_content_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/sections/stories/bottom_content.dart';
 import 'package:bausch/sections/stories/stories_bottom_button.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/widgets/anti_glow_behavior.dart';
+import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 //тут ничего почти не менял,добавил методы _onLongPressStart , _onLongPressEnd
@@ -37,6 +41,11 @@ class _StoriesScreenState extends State<StoriesScreen>
   late int index;
 
   late Widget img;
+  int pageNumTemp = 0;
+  int pageNum = 0;
+  bool isAnimating = false;
+  AppsflyerSdk? appsFlyer;
+
   late PageController _pageController;
   late AnimationController _animController;
   late VideoPlayerController _videoPlayerController;
@@ -44,14 +53,14 @@ class _StoriesScreenState extends State<StoriesScreen>
 
   //bool isContentLoaded = false;
 
-  int pageNum = 0;
   int _currentIndexTemp = 0;
-  int pageNumTemp = 0;
 
   @override
   void initState() {
     index =
         widget.stories.indexWhere((element) => element.id == widget.storyModel);
+
+    appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
 
     _currentIndex = 0;
     _pageController = PageController(initialPage: index);
@@ -125,6 +134,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           _currentIndex = 0;
           final storyContent = widget.stories[i].content[_currentIndex];
           _onLongPressStart(storyContent);
+          // setState(() {});
         }
 
         if (notification is ScrollEndNotification) {
@@ -148,9 +158,11 @@ class _StoriesScreenState extends State<StoriesScreen>
         return true;
       },
       child: PageView.builder(
+        scrollBehavior: const AntiGlowBehavior(),
         controller: _pageController,
         dragStartBehavior: DragStartBehavior.down,
         itemCount: widget.stories.length,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, i) {
           //* костыль, чтобы не появлялся серый экран, когда проскроллил не до конца
           final story = widget.stories[i];
@@ -158,11 +170,24 @@ class _StoriesScreenState extends State<StoriesScreen>
           final storyContent = widget.stories[i].content[_currentIndex];
 
           return Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: AppTheme.mystic,
             body: GestureDetector(
-              onTapUp: (details) => _onTapUp(details, storyContent),
+              onTapUp: isAnimating
+                  ? null
+                  : (details) => _onTapUp(details, storyContent),
               onLongPressStart: (details) => _onLongPressStart(storyContent),
               onLongPressEnd: (details) => _onLongPressEnd(storyContent),
+              onHorizontalDragEnd: (details) {
+                final velocity = details.velocity.pixelsPerSecond.dx;
+
+                if (velocity < 0) {
+                  _moveToNextStory();
+                }
+
+                if (velocity > 0) {
+                  _moveToPreviousStory();
+                }
+              },
               child: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -197,7 +222,7 @@ class _StoriesScreenState extends State<StoriesScreen>
           storyContent.file ?? storyContent.preview,
           fit: BoxFit.cover,
           printError: false,
-          loadStateChanged: loadStateChangedFunction,
+          loadStateChanged: _loadStateChangedFunction,
         );
       case true:
         if (_videoPlayerController.value.isInitialized) {
@@ -215,7 +240,7 @@ class _StoriesScreenState extends State<StoriesScreen>
       storyContent.preview,
       fit: BoxFit.cover,
       printError: false,
-      loadStateChanged: loadStateChangedFunction,
+      loadStateChanged: _loadStateChangedFunction,
       //color: Colors.red.withAlpha(10),
     );
   }
@@ -223,6 +248,8 @@ class _StoriesScreenState extends State<StoriesScreen>
   void _onTapUp(TapUpDetails details, StoryContentModel storyContent) {
     final screenWidth = MediaQuery.of(context).size.width;
     final dx = details.globalPosition.dx;
+
+    appsFlyer?.logEvent('storiesClick', <String, dynamic>{});
 
     if (dx < screenWidth / 3) {
       setState(
@@ -272,21 +299,27 @@ class _StoriesScreenState extends State<StoriesScreen>
     }
   }
 
-  void _moveToNextStory() {
+  Future<void> _moveToNextStory() async {
     if (index < widget.stories.length - 1) {
       //index += 1;
-      _pageController.animateToPage(
+      setState(() {
+        isAnimating = true;
+      });
+      await _pageController.animateToPage(
         index + 1,
         duration: const Duration(milliseconds: 200),
         curve: Curves.linear,
       );
+      setState(() {
+        isAnimating = false;
+      });
     } else {
       Navigator.of(context).pop();
     }
-    _currentIndex = 0;
-    _loadStory(
-      storyContent: widget.stories[index].content[_currentIndex],
-    );
+    // _currentIndex = 0;
+    // _loadStory(
+    //   storyContent: widget.stories[index].content[_currentIndex],
+    // );
   }
 
   void _onLongPressStart(
@@ -305,6 +338,15 @@ class _StoriesScreenState extends State<StoriesScreen>
     if (storyContent.isVideo) {
       _videoPlayerController.play();
     }
+  }
+
+  Widget? _loadStateChangedFunction(ExtendedImageState state) {
+    if (state.extendedImageLoadState == LoadState.loading) {
+      return const Center(
+        child: AnimatedLoader(),
+      );
+    }
+    return null;
   }
 
   Future<void> _loadStory({

@@ -1,4 +1,6 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/sections/sheets/screens/discount_optics/widget_models/discount_optics_screen_wm.dart';
 import 'package:bausch/sections/sheets/screens/program/widget_model/program_screen_wm.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
@@ -15,12 +17,15 @@ class FinalProgramScreen extends StatelessWidget {
   final Optic optic;
   final ProgramSaverResponse response;
 
-  const FinalProgramScreen({
+  FinalProgramScreen({
     required this.controller,
     required this.optic,
     required this.response,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    AppsflyerSingleton.sdk.logEvent('programmCertificateCreated', null);
+    AppMetrica.reportEventWithMap('programmCertificateCreated', null);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +71,7 @@ class FinalProgramScreen extends StatelessWidget {
                     style: AppStyles.h1,
                   ),
                 ),
-                _OpticInfoWidget(
+                OpticInfoWidget(
                   optic: optic,
                 ),
               ],
@@ -79,9 +84,9 @@ class FinalProgramScreen extends StatelessWidget {
   }
 }
 
-class _OpticInfoWidget extends StatelessWidget {
+class OpticInfoWidget extends StatelessWidget {
   final Optic optic;
-  const _OpticInfoWidget({
+  const OpticInfoWidget({
     required this.optic,
     Key? key,
   }) : super(key: key);
@@ -109,18 +114,16 @@ class _OpticInfoWidget extends StatelessWidget {
         ),
         ...optic.shops.first.phones.map(
           (phone) => Flexible(
-            child: GestureDetector(
+            child: SelectableText(
+              phone,
               onTap: () => Utils.tryLaunchUrl(
                 rawUrl: phone,
                 isPhone: true,
               ),
-              child: Text(
-                phone,
-                style: AppStyles.p1.copyWith(
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppTheme.turquoiseBlue,
-                  decorationThickness: 2,
-                ),
+              style: AppStyles.p1.copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: AppTheme.turquoiseBlue,
+                decorationThickness: 2,
               ),
             ),
           ),

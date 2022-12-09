@@ -16,6 +16,7 @@ class PromoItemModel extends CatalogItemModel {
     required String detailText,
     required String? picture,
     required int price,
+    required String disclaimer,
     required this.code,
     this.availability,
     this.isBought,
@@ -28,6 +29,7 @@ class PromoItemModel extends CatalogItemModel {
           picture: picture,
           price: price,
           type: type,
+          disclaimer: disclaimer,
         );
 
   factory PromoItemModel.fromMap(Map<String, dynamic> map) {
@@ -61,6 +63,7 @@ class PromoItemModel extends CatalogItemModel {
         code: (map['code'] as String?) ?? (map['mb_code'] as int).toString(),
         availability: (map['availability'] as bool?) ?? false,
         isBought: (map['isBought'] as bool?) ?? false,
+        disclaimer: (map['disclaimer'] as String?) ?? '',
       );
     } catch (e) {
       throw ResponseParseException('PromoItemModel: $e');

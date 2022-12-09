@@ -49,7 +49,7 @@ class _TopicQuestionSelectState extends State<TopicQuestionSelect> {
                   state: formScreenWM.selectedTopic,
                   model: FieldModel(
                     id: 0,
-                    name: 'Категория',
+                    name: 'Тема',
                     type: 'select',
                     xmlId: 'topic',
                     values: state,
@@ -65,7 +65,7 @@ class _TopicQuestionSelectState extends State<TopicQuestionSelect> {
                         state: formScreenWM.selectedQuestion,
                         model: FieldModel(
                           id: 0,
-                          name: 'Вопрос',
+                          name: 'Подтема',
                           type: 'select',
                           xmlId: 'question',
                           values: state,

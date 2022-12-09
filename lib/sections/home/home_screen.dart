@@ -1,22 +1,30 @@
-// ignore_for_file: prefer_mixin
+// ignore_for_file: prefer_mixin, prefer_final_locals
 
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
+import 'package:bausch/global/deep_link/deep_link_wm.dart';
+import 'package:bausch/global/deep_link/initial_push_intent_keeper.dart';
+import 'package:bausch/main.dart';
+import 'package:bausch/models/faq/social_model.dart';
 import 'package:bausch/models/sheets/base_catalog_sheet_model.dart';
 import 'package:bausch/models/sheets/simple_sheet_model.dart';
 import 'package:bausch/models/stories/story_model.dart';
 import 'package:bausch/repositories/offers/offers_repository.dart';
 import 'package:bausch/repositories/user/user_repository.dart';
-import 'package:bausch/sections/home/sections/may_be_interesting_section.dart';
+import 'package:bausch/sections/faq/social_buttons/social_buttons.dart';
 import 'package:bausch/sections/home/sections/profile_status_section.dart';
+import 'package:bausch/sections/home/sections/sales_section.dart';
 import 'package:bausch/sections/home/sections/scores_section.dart';
 import 'package:bausch/sections/home/sections/spend_scores_section.dart';
 import 'package:bausch/sections/home/sections/text_buttons_section.dart';
+import 'package:bausch/sections/home/widgets/containers/my_lenses_container.dart';
 import 'package:bausch/sections/home/widgets/stories/stories_slider.dart';
+import 'package:bausch/sections/home/widgets/write_to_support_button.dart';
 import 'package:bausch/sections/home/wm/main_screen_wm.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
+import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/animated_translate_opacity.dart';
 import 'package:bausch/widgets/appbar/empty_appbar.dart';
 import 'package:bausch/widgets/buttons/floatingactionbutton.dart';
@@ -25,8 +33,9 @@ import 'package:bausch/widgets/loader/animated_loader.dart';
 import 'package:bausch/widgets/offers/offer_type.dart';
 import 'package:bausch/widgets/offers/offers_section.dart';
 import 'package:bausch/widgets/offers/offers_section_wm.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -58,6 +67,24 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
   @override
   void initState() {
     super.initState();
+
+    /// Суть логики с пушами:
+    /// 1. Есть два обработчика нажатия по пушу
+    /// 2. Первый обработчик используется тогда, когда приложение закрыто. Он обрабатывание нажатие по пушу, который пришел, когда приложение закрыто. Там происходит установка link в InitialPushIntentKeeper
+    /// 3. Второй обработчик используется тогда, когда приложение открыто (это такое поведение, используется только последний обработчик). Он обрабатывает нажатие по пушу, который пришел во время работы приложения.
+    ///
+    /// Конкретно здесь проверяется - есть ли начальная Link
+    /// и после этого проиходит открытие этой ссылки
+    if (InitialPushIntentKeeper.link != null) {
+      final deepLinksWM = DeepLinkWM(
+        context: context,
+        authWM: context.read<AuthWM>(),
+      );
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        deepLinksWM.onLink(InitialPushIntentKeeper.link!);
+        InitialPushIntentKeeper.link = null;
+      });
+    }
   }
 
   @override
@@ -80,7 +107,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
 
             return ErrorPage(
               title: e.title,
-              subtitle: e.subtitle,
+              // subtitle: e.subtitle,
               buttonText: 'Обновить',
               buttonCallback: wm.loadAllDataAction,
             );
@@ -100,13 +127,18 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       // SliverToBoxAdapter(
                       //   child: TextButton(
                       //     onPressed: () {
-                      //       FirebaseAnalytics.instance.logEvent(
-                      //         name: 'partner_order',
-                      //         parameters: <String, dynamic>{
-                      //           'partner_name_parameter': 'Test name 2',
-                      //           // 'partner_name_parameter': 'Test name',
-                      //         },
+                      //       showDefaultNotification(
+                      //         title: 'title asda sd asdasdasd asd as d'.toUpperCase(),
                       //       );
+                      //       // Navigator.of(context).push<void>(
+                      //       //   PageRouteBuilder(
+                      //       //     pageBuilder: (_, __, ___) =>
+                      //       //         const SimpleWebViewWidget(
+                      //       //       url:
+                      //       //           'https://realadmin.ru/coding/onclick-js.html',
+                      //       //     ),
+                      //       //   ),
+                      //       // );
                       //     },
                       //     child: const Text('test firebase'),
                       //   ),
@@ -161,9 +193,6 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                       return const DelayedAnimatedTranslateOpacity(
                                         offsetY: 30,
                                         child: ScoresSection(
-                                          loadingAnimationDuration: Duration(
-                                            milliseconds: 2500,
-                                          ),
                                           delay: Duration(
                                             milliseconds: 1000,
                                           ),
@@ -218,6 +247,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                                     return OffersSection(
                                       repo: repo,
                                       mainScreenWM: wm,
+                                      canPress: false,
                                       margin: const EdgeInsets.only(
                                         bottom: 20,
                                         left: StaticData.sidePadding,
@@ -251,41 +281,76 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           ],
                         ),
                       ),
-                      SliverPadding(
-                        key: spendPointsPositionKey,
-                        padding: const EdgeInsets.only(
-                          left: StaticData.sidePadding,
-                          right: StaticData.sidePadding,
-                        ),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
-                              //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
-                              DelayedAnimatedTranslateOpacity(
-                                offsetY: 60,
-                                child: EntityStateBuilder<
-                                    List<BaseCatalogSheetModel>>(
-                                  streamedState: wm.catalog,
-                                  loadingBuilder: (_, catalogItems) {
-                                    if (catalogItems != null) {
-                                      return SpendScores(
-                                        catalogList: catalogItems,
-                                      );
-                                    }
 
-                                    return const SizedBox();
-                                  },
-                                  builder: (_, catalogItems) {
-                                    return SpendScores(
-                                      catalogList: catalogItems,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
+                      SliverToBoxAdapter(
+                        child:
+                            // мои линзы
+                            DelayedAnimatedTranslateOpacity(
+                          offsetY: 60,
+                          child: MyLensesContainer(myLensesWM: wm.myLensesWM),
+                        ),
+                      ),
+
+                      SliverToBoxAdapter(
+                        child:
+                            //* Скидки за баллы
+                            DelayedAnimatedTranslateOpacity(
+                          offsetY: 70,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 40.0),
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SalesWidget(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
+                                return SalesWidget(
+                                  catalogList: catalogItems,
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
+
+                      //* Потратить баллы, тут кнопки для вывода bottomSheet'ов
+                      SliverPadding(
+                        key: spendPointsPositionKey,
+                        padding: const EdgeInsets.only(
+                          top: 40,
+                          left: StaticData.sidePadding,
+                          right: StaticData.sidePadding,
+                        ),
+                        sliver: SliverToBoxAdapter(
+                          child: DelayedAnimatedTranslateOpacity(
+                            offsetY: 80,
+                            child:
+                                EntityStateBuilder<List<BaseCatalogSheetModel>>(
+                              streamedState: wm.catalog,
+                              loadingBuilder: (_, catalogItems) {
+                                if (catalogItems != null) {
+                                  return SpendScores(
+                                    catalogList: catalogItems,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                              builder: (_, catalogItems) {
+                                return SpendScores(
+                                  catalogList: catalogItems,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+
                       SliverPadding(
                         padding: const EdgeInsets.only(
                           left: StaticData.sidePadding,
@@ -295,22 +360,58 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                           delegate: SliverChildListDelegate(
                             [
                               //* Вам может быть интересно
-                              StreamedStateBuilder<bool>(
-                                streamedState: wm.mayBeInterestingState,
-                                builder: (_, enabled) {
-                                  return enabled
-                                      ? MayBeInteresting(
-                                          text: 'Вам может быть интересно',
-                                        )
-                                      : const SizedBox();
-                                },
+                              // StreamedStateBuilder<bool>(
+                              //   streamedState: wm.mayBeInterestingState,
+                              //   builder: (_, enabled) {
+                              //     return enabled
+                              //         ? MayBeInteresting(
+                              //             text: 'Вам может быть интересно',
+                              //           )
+                              //         : const SizedBox();
+                              //   },
+                              // ),
+                              const SizedBox(
+                                height: 20,
                               ),
-
                               //* Текстовые кнопки(Частые вопросы и тд)
-                              const SizedBox(height: 40),
                               const TextButtonsSection(),
                               const SizedBox(
-                                height: 100,
+                                height: 40,
+                              ),
+
+                              const WriteToSupportButton(),
+
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 14),
+                                child: Text(
+                                  'Вы можете найти нас здесь',
+                                  style: AppStyles.p1,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+
+                              StreamedStateBuilder<List<SocialModel>>(
+                                streamedState: wm.socialLinksState,
+                                builder: (_, socialLinks) => socialLinks.isEmpty
+                                    ? const SizedBox()
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                          socialLinks.length,
+                                          (index) => Padding(
+                                            padding: EdgeInsets.only(
+                                              left: index != 0 ? 30.0 : 0,
+                                            ),
+                                            child: SocialButton(
+                                              model: socialLinks[index],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                              const SizedBox(
+                                height: 40,
                               ),
                               Image.asset('assets/logo.png'),
                               SizedBox(
@@ -338,7 +439,7 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                 builder: (ctx, constraints) {
                   bottomHeigth = constraints.minHeight + 10;
                   return CustomFloatingActionButton(
-                    text: 'Добавить баллы',
+                    text: 'Накопить баллы',
                     icon: const Icon(
                       Icons.add,
                       color: AppTheme.mineShaft,
@@ -347,9 +448,12 @@ class _HomeScreenState extends WidgetState<HomeScreen, MainScreenWM>
                       showSheet<void>(
                         context,
                         SimpleSheetModel(
-                          name: 'Добавить баллы',
+                          name: 'Накопить баллы',
                           type: 'add_points',
                         ),
+                        null,
+                        null,
+                        wm.myLensesWM,
                       );
                     },
                   );

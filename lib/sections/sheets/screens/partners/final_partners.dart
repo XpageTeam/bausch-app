@@ -1,4 +1,6 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:bausch/help/utils.dart';
+import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/partners_item_model.dart';
 import 'package:bausch/models/orders_data/partner_order_response.dart';
 import 'package:bausch/sections/sheets/screens/partners/widget_models/final_partners_wm.dart';
@@ -81,7 +83,8 @@ class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
                   EntityStateBuilder<String>(
                     streamedState: wm.promocodeState,
                     errorChild: ContainerWithPromocode(
-                      promocode: 'Промокод будет доступен в истории заказов через несколько минут',
+                      promocode:
+                          'Промокод будет доступен в истории заказов через несколько минут',
                       withIcon: false,
                       onPressed: () {},
                     ),
@@ -121,6 +124,25 @@ class _FinalPartnersState extends WidgetState<FinalPartners, FinalPartnersWM> {
               onPressed: widget.model.link != null
                   ? () {
                       wm.copyAndLaunch();
+
+                      AppsflyerSingleton.sdk.logEvent(
+                        'partnersItemsOrderLink',
+                        <String, dynamic>{
+                          'id': wm.itemModel.id,
+                          'title': wm.itemModel.name,
+                          'link': widget.model.link,
+                        },
+                      );
+
+                      AppMetrica.reportEventWithMap(
+                        'partnersItemsOrderLink',
+                        <String, Object>{
+                          'id': wm.itemModel.id,
+                          'title': wm.itemModel.name,
+                          if (widget.model.link != null)
+                            'link': widget.model.link!,
+                        },
+                      );
                     }
                   : () {
                       wm.buttonAction();

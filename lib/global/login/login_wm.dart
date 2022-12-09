@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
 import 'package:bausch/global/authentication/auth_wm.dart';
 import 'package:bausch/global/login/models/auth_response_model.dart';
 import 'package:bausch/global/login/models/login_text.dart';
+import 'package:bausch/global/login/phone_editing_controller.dart';
 import 'package:bausch/global/login/requests/login_code_sender.dart';
 import 'package:bausch/global/login/requests/login_phone_sender.dart';
 import 'package:bausch/global/login/requests/login_text_downloader.dart';
@@ -13,12 +15,10 @@ import 'package:bausch/repositories/user/user_writer.dart';
 import 'package:bausch/sections/registration/code_screen.dart';
 import 'package:bausch/sections/sheets/sheet_methods.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
-import 'package:easy_mask/easy_mask.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mindbox/mindbox.dart';
 import 'package:provider/provider.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -34,13 +34,15 @@ class LoginWM extends WidgetModel {
   final smsResendSeconds = StreamedState<int>(0);
   final smsSendAction = VoidAction();
 
-  final phoneController = TextEditingController()..text = '+7 ';
+  final phoneController = PhoneEditingController()..text = '+7 ';
 
-  final phoneInputFormaters = <TextInputFormatter>[
-    TextInputMask(
-      mask: r'\+7 999 999 99 99',
-    ),
-  ];
+  // final phoneInputFormaters = <TextInputFormatter>[
+  //   TextInputMask(
+  //     mask: r'\+7 999 999 99 99',
+  //   ),
+  // ];
+
+  final focusNode = FocusNode();
 
   final codeController = TextEditingController();
 
@@ -60,40 +62,42 @@ class LoginWM extends WidgetModel {
 
   Timer? smsTimer;
 
+  AppsflyerSdk? appsFlyer;
+
   LoginWM({
     required WidgetModelDependencies baseDependencies,
     required this.context,
   }) : super(baseDependencies) {
     _loadText();
     debugPrint('loginConstructor');
-
-    var prevPhoneValue = '';
     var canUnfocus = false;
+
+    appsFlyer = Provider.of<AppsflyerSdk>(context, listen: false);
 
     phoneController.addListener(() {
       debugPrint('number: ${phoneController.text}');
-      if ((phoneController.text == '+7 97' ||
-              phoneController.text == '+7 98' ||
-              phoneController.text == '+7 99') &&
-          (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
-        phoneController
-          ..text = '+7 9'
-          ..selection = TextSelection.fromPosition(
-            TextPosition(offset: phoneController.text.length),
-          );
-      }
+      // if ((phoneController.text == '+7 97' ||
+      //         phoneController.text == '+7 98' ||
+      //         phoneController.text == '+7 99') &&
+      //     (prevPhoneValue == '+7 ' || prevPhoneValue == '')) {
+      //   phoneController
+      //     ..text = '+7 9'
+      //     ..selection = TextSelection.fromPosition(
+      //       TextPosition(offset: phoneController.text.length),
+      //     );
+      // }
 
-      if (phoneController.text == '') {
-        phoneController
-          ..text = '+7 '
-          ..selection = TextSelection.fromPosition(
-            TextPosition(offset: phoneController.text.length),
-          );
-      }
+      // if (phoneController.text == '') {
+      //   phoneController
+      //     ..text = '+7 '
+      //     ..selection = TextSelection.fromPosition(
+      //       TextPosition(offset: phoneController.text.length),
+      //     );
+      // }
 
-      prevPhoneValue = phoneController.text;
+      // prevPhoneValue = phoneController.text;
 
-      if (phoneController.text.length >= 16 && canUnfocus) {
+      if (phoneController.text.length >= 18 && canUnfocus) {
         final currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {
@@ -173,17 +177,20 @@ class LoginWM extends WidgetModel {
       _resendSMS();
     });
   }
+  void checkBtnActive() {
+    _checkBtnActive();
+  }
 
-  void _checkAuth() {
+  Future<void> checkAuth() async {
     final authWM = Provider.of<AuthWM>(context, listen: false);
 
     debugPrint(authWM.toString());
 
-    authWM.checkAuthAction();
+    await authWM.checkAuth();
   }
 
   void _checkBtnActive() {
-    if (phoneController.text.length == 16 && policyAccepted.value) {
+    if (phoneController.text.length == 18 && policyAccepted.value) {
       sendPhoneBtnActive.accept(true);
     } else {
       sendPhoneBtnActive.accept(false);
@@ -196,9 +203,12 @@ class LoginWM extends WidgetModel {
 
     Mindbox.instance.getDeviceUUID((uuid) async {
       try {
+        debugPrint('phoneController.text: ${phoneController.text}');
         await authRequestResult.content(
           await PhoneSender.send(phoneController.text, uuid),
         );
+
+        unawaited(appsFlyer?.logEvent('smsSendedToUser', null));
 
         await smsSendCounter.accept(smsSendCounter.value + 1);
       } on DioError catch (e) {
@@ -240,27 +250,33 @@ class LoginWM extends WidgetModel {
       CustomException? error;
 
       try {
+        final isMobilePhoneConfirmed =
+            authRequestResult.value.data?.isMobilePhoneConfirmed ?? false;
         final res = await CodeSender.send(
           code: codeController.text,
-          isMobilePhoneConfirmed:
-              authRequestResult.value.data?.isMobilePhoneConfirmed ?? false,
+          isMobilePhoneConfirmed: isMobilePhoneConfirmed,
           uuid: uuid,
         );
 
         await UserWriter.writeToken(res.xApiToken);
 
-        if (authRequestResult.value.data?.isMobilePhoneConfirmed == false) {
+        if (!isMobilePhoneConfirmed) {
           unawaited(
-            FirebaseAnalytics.instance.logEvent(name: 'registration'),
+            FirebaseAnalytics.instance.logEvent(name: 'registrationByPhone'),
           );
+          unawaited(appsFlyer?.logEvent('registrationByPhone', null));
+          unawaited(appsFlyer?.logEvent('registrationSuccess', null));
+        } else {
+          unawaited(FirebaseAnalytics.instance.logEvent(name: 'authByPhone'));
+          unawaited(appsFlyer?.logEvent('authByPhone', null));
         }
 
         //* Очистка полей после отправки кода
         // phoneController.text = '';
 
-        debugPrint(codeController.text);
+        unawaited(appsFlyer?.logEvent('smsCodeTrue', null));
 
-        _checkAuth();
+        await checkAuth();
       } on DioError catch (e) {
         error = CustomException(
           title: 'При отправке запроса произошла ошибка',
@@ -278,6 +294,8 @@ class LoginWM extends WidgetModel {
           title: e.toString(),
           ex: e,
         );
+
+        unawaited(appsFlyer?.logEvent('smsCodeFalse', null));
       }
 
       if (error != null) {

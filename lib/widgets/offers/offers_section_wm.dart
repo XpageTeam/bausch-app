@@ -24,6 +24,7 @@ class OffersSectionWM extends WidgetModel {
 
   final BuildContext context;
   final OffersRepository? loadedRepository;
+  late final userWM = Provider.of<UserWM>(context, listen: false);
 
   late SharedPreferences preferences;
 
@@ -141,7 +142,7 @@ class OffersSectionWM extends WidgetModel {
     }
   }
 
-  void _changeAppLifecycleState(AppLifecycleState state){
+  void _changeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
         canUpdate = true;
@@ -167,8 +168,6 @@ class OffersSectionWM extends WidgetModel {
   }
 
   Future<List<String>> _readRemovedOffersIds() async {
-    final userWM = Provider.of<UserWM>(context, listen: false);
-
     return preferences.getStringList(
           'type[${type.asString}]user[${userWM.userData.value.data?.user.id}]${StaticData.removedOffersKey}',
         ) ??

@@ -22,53 +22,60 @@ class ProfileStatus extends StatelessWidget {
             await Keys.mainContentNav.currentState!.pushNamed('/profile');
             await bannersWm?.loadDataAction();
           },
-          child: Row(
-            children: [
-              // * вроде нужно было это убрать по новому макету
-              // const CircleAvatar(
-              //   radius: 21,
-              //   backgroundColor: AppTheme.turquoiseBlue,
-              // ),
-              // const SizedBox(
-              //   width: 6,
-              // ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    //crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        userData.userName,
-                        style: AppStyles.h1,
+          child: LayoutBuilder(builder: (_, c) {
+            return Row(
+              children: [
+                // * вроде нужно было это убрать по новому макету
+                // const CircleAvatar(
+                //   radius: 21,
+                //   backgroundColor: AppTheme.turquoiseBlue,
+                // ),
+                // const SizedBox(
+                //   width: 6,
+                // ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: c.maxWidth,
+                      child: Row(
+                        //crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              userData.userName,
+                              style: AppStyles.h1,
+                            ),
+                          ),
+                          // const CircleAvatar(
+                          //   radius: 5,
+                          //   backgroundColor: AppTheme.turquoiseBlue,
+                          // ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: CircleAvatar(
+                              radius: 5,
+                              backgroundColor: AppTheme.turquoiseBlue,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 18,
+                          ),
+                        ],
                       ),
-                      // const CircleAvatar(
-                      //   radius: 5,
-                      //   backgroundColor: AppTheme.turquoiseBlue,
-                      // ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: CircleAvatar(
-                          radius: 5,
-                          backgroundColor: AppTheme.turquoiseBlue,
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
-                      ),
-                    ],
-                  ),
-                  //! статус пользователя пока не выводим
-                  // Text(
-                  //   'Классный друг',
-                  //   style: AppStyles.p1,
-                  // ),
-                ],
-              ),
-            ],
-          ),
+                    ),
+                    //! статус пользователя пока не выводим
+                    // Text(
+                    //   'Классный друг',
+                    //   style: AppStyles.p1,
+                    // ),
+                  ],
+                ),
+              ],
+            );
+          }),
         );
       },
     );

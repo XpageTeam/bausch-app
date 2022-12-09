@@ -1,7 +1,6 @@
-// ignore_for_file: unnecessary_statements
-
 import 'dart:async';
 
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:bausch/exceptions/custom_exception.dart';
 import 'package:bausch/exceptions/response_parse_exception.dart';
 import 'package:bausch/exceptions/success_false.dart';
@@ -14,7 +13,7 @@ import 'package:bausch/models/faq/topic_model.dart';
 import 'package:bausch/packages/request_handler/request_handler.dart';
 import 'package:bausch/sections/faq/contact_support/downloader/forms_content_downloader.dart';
 import 'package:bausch/static/static_data.dart';
-import 'package:bausch/widgets/123/default_notification.dart';
+import 'package:bausch/widgets/default_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:file_picker/file_picker.dart';
@@ -79,6 +78,8 @@ class FormScreenWM extends WidgetModel {
 
   final _downloader = FormsContentDownloader();
 
+  AppsflyerSdk? _appsflyer;
+
   FormScreenWM({
     required this.context,
     this.question,
@@ -91,8 +92,12 @@ class FormScreenWM extends WidgetModel {
 
     userWM = Provider.of<UserWM>(context, listen: false);
 
+    _appsflyer = Provider.of<AppsflyerSdk>(context, listen: false);
+
     _loadDefaultFields();
     _loadCategoryList();
+
+    _appsflyer?.logEvent('supportFormOpened', null);
 
     if (topic != null) {
       selectedTopic.accept(
@@ -194,6 +199,10 @@ class FormScreenWM extends WidgetModel {
         );
       }
 
+      if (filesMap.isNotEmpty){
+        unawaited(_appsflyer?.logEvent('fileAttached', null));
+      }
+
       BaseResponseRepository.fromMap((await rh.post<Map<String, dynamic>>(
         '/faq/form/',
         data: FormData.fromMap(
@@ -215,6 +224,8 @@ class FormScreenWM extends WidgetModel {
       unawaited(
         FirebaseAnalytics.instance.logEvent(name: 'support_form_sended'),
       );
+
+      unawaited(_appsflyer?.logEvent('supportFormSended', null));
     } on DioError catch (e) {
       error = CustomException(
         title: 'При отправке запроса произошла ошибка',
@@ -239,7 +250,7 @@ class FormScreenWM extends WidgetModel {
     if (error != null) {
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     } else {
       //* Чтобы не открывался пустой роут
@@ -290,7 +301,7 @@ class FormScreenWM extends WidgetModel {
       //Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
@@ -333,7 +344,7 @@ class FormScreenWM extends WidgetModel {
       //Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
@@ -372,7 +383,7 @@ class FormScreenWM extends WidgetModel {
       //Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
@@ -411,7 +422,7 @@ class FormScreenWM extends WidgetModel {
       Navigator.of(context).pop();
       showDefaultNotification(
         title: error.title,
-        subtitle: error.subtitle,
+        // subtitle: error.subtitle,
       );
     }
   }
