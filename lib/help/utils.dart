@@ -25,12 +25,14 @@ class Utils {
     required String rawUrl,
     bool isPhone = false,
     void Function(CustomException ex)? onError,
+    LaunchMode? mode,
   }) async {
     final uriString = '${isPhone ? 'tel:' : ''}$rawUrl';
 
     if (await canLaunchUrlString(uriString)) {
       await launchUrlString(
         uriString,
+        mode: mode ?? LaunchMode.platformDefault,
       );
     } else {
       onError?.call(
