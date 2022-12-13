@@ -5,9 +5,12 @@ abstract class OrderData {
 
   final String? subtitle;
 
+  final String? promoCode;
+
   const OrderData({
     required this.orderID,
     this.title,
     this.subtitle,
+    required this.promoCode,
   });
 }

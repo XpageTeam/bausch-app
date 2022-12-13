@@ -3,10 +3,8 @@ import 'package:bausch/help/utils.dart';
 import 'package:bausch/main.dart';
 import 'package:bausch/models/catalog_item/consultattion_item_model.dart';
 import 'package:bausch/models/orders_data/order_data.dart';
-import 'package:bausch/sections/sheets/screens/consultation/widget_model/final_consultation_wm.dart';
 import 'package:bausch/sections/sheets/widgets/container_with_promocode.dart';
 import 'package:bausch/sections/sheets/widgets/custom_sheet_scaffold.dart';
-import 'package:bausch/sections/sheets/widgets/loading_code_container.dart';
 import 'package:bausch/sections/sheets/widgets/sliver_appbar.dart';
 import 'package:bausch/static/static_data.dart';
 import 'package:bausch/theme/app_theme.dart';
@@ -14,39 +12,26 @@ import 'package:bausch/theme/styles.dart';
 import 'package:bausch/widgets/buttons/bottom_button.dart';
 import 'package:bausch/widgets/catalog_item/big_catalog_item.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_mwwm/surf_mwwm.dart';
 
-class FinalConsultation extends CoreMwwmWidget<FinalConsultationWM> {
+class FinalConsultation extends StatelessWidget {
   final ScrollController controller;
   final ConsultationItemModel model;
   final OrderData orderData;
 
-  FinalConsultation({
+  const FinalConsultation({
     required this.controller,
     required this.model,
     required this.orderData,
     Key? key,
   }) : super(
           key: key,
-          widgetModelBuilder: (context) => FinalConsultationWM(
-            context: context,
-            itemModel: model,
-            orderId: orderData.orderID,
-          ),
         );
 
-  @override
-  WidgetState<CoreMwwmWidget<FinalConsultationWM>, FinalConsultationWM>
-      createWidgetState() => _FinalConsultationState();
-}
-
-class _FinalConsultationState
-    extends WidgetState<FinalConsultation, FinalConsultationWM> {
   @override
   Widget build(BuildContext context) {
     return CustomSheetScaffold(
       backgroundColor: AppTheme.sulu,
-      controller: widget.controller,
+      controller: controller,
       appBar: CustomSliverAppbar(
         padding: const EdgeInsets.all(18),
         icon: Container(
@@ -61,11 +46,11 @@ class _FinalConsultationState
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                if (widget.orderData.title != null)
+                if (orderData.title != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 78),
                     child: Text(
-                      widget.orderData.title!,
+                      orderData.title!,
                       style: AppStyles.h1,
                     ),
                   ),
@@ -73,66 +58,48 @@ class _FinalConsultationState
                   padding: const EdgeInsets.only(
                     top: 40,
                   ),
-                  child: EntityStateBuilder<String>(
-                    streamedState: wm.promocodeState,
-                    errorChild: ContainerWithPromocode(
-                      promocode:
-                          'Промокод будет доступен в истории заказов через несколько минут',
-                      withIcon: false,
-                      onPressed: () {},
-                    ),
-                    loadingChild: const LoadingCodeContainer(
-                      text: 'Генерируем ваш промокод...',
-                    ),
-                    builder: (_, state) {
-                      return ContainerWithPromocode(
-                        promocode: state,
-                      );
-                    },
+                  child: ContainerWithPromocode(
+                    promocode: orderData.promoCode ??
+                        'Промокод будет доступен в истории заказов через несколько минут',
                   ),
                 ),
-                if (widget.orderData.subtitle != null)
+                if (orderData.subtitle != null)
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 12,
                       bottom: 40,
                     ),
                     child: Text(
-                      widget.orderData.subtitle!,
+                      orderData.subtitle!,
                       style: AppStyles.p1,
                     ),
                   ),
-                BigCatalogItem(model: widget.model),
+                BigCatalogItem(model: model),
               ],
             ),
           ),
         ),
       ],
-      bottomNavBar: StreamedStateBuilder<bool>(
-        streamedState: wm.enabledState,
-        builder: (_, enabled) {
-          return BottomButtonWithRoundedCorners(
-            text: enabled ? 'Скопировать код и перейти на сайт' : 'На главную',
-            onPressed: enabled
-                ? () {
-                    if (widget.model.partnerLink != null) {
-                      Utils.copyStringToClipboard(
-                        wm.promocodeState.value.data!,
-                      );
+      bottomNavBar: BottomButtonWithRoundedCorners(
+        text: model.partnerLink != null && orderData.promoCode != null
+            ? 'Скопировать код и перейти на сайт'
+            : 'На главную',
+        onPressed: model.partnerLink != null && orderData.promoCode != null
+            ? () {
+                Utils.copyStringToClipboard(
+                  orderData.promoCode!,
+                );
 
-                      Utils.tryLaunchUrl(
-                        rawUrl: widget.model.partnerLink!,
-                      );
+                Utils.tryLaunchUrl(
+                  rawUrl: model.partnerLink!,
+                );
 
-                      AppsflyerSingleton.sdk.logEvent('onlineConsultationLink', null);
-                      AppMetrica.reportEventWithMap('onlineConsultationLink', null);
-                    }
-                  }
-                : () {
-                    wm.buttonAction();
-                  },
-          );
-        },
+                AppsflyerSingleton.sdk.logEvent('onlineConsultationLink', null);
+                AppMetrica.reportEventWithMap('onlineConsultationLink', null);
+              }
+            : () {
+                Keys.mainContentNav.currentState!.pop();
+              },
       ),
     );
   }
